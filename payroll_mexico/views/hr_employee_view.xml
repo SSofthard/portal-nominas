@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+		
+		<menuitem
+            id="menu_job_position_configuration"
+            name="Job position"
+            action="hr.action_hr_job"
+            parent="hr.menu_human_resources_configuration"
+            groups="hr.group_hr_manager"
+            sequence="100"/>
+        
+        <record id="hr_job_inherit" model="ir.ui.view">
+            <field name="name">hr.job.inherit.view</field>
+            <field name="model">hr.job</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" placeholder="Code"/>
+                </xpath>
+            </field>
+        </record>
+            
+        <record model="ir.ui.view" id="hr_employee_inherit_form">
+            <field name="name">hr_employee_inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="enrollment" placeholder="Enrollment"/>
+                </xpath> 
+                <xpath expr="//field[@name='passport_id']" position="after">
+                    <field name="title"/>
+                    <field name="rfc"/>
+                    <field name="curp"/>
+                </xpath> 
+                <xpath expr="//field[@name='address_home_id']" position="after">
+                    <field name="personal_email"/>
+                    <field name="personal_movile_phone"/>
+                    <field name="personal_phone"/>
+                </xpath>
+                <xpath expr="//group[@name='work_permit']" position="after">
+                   <group string="Medical data">
+                        <field name="blood_type"/>
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='personal_information']" position="after">
+                    <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
+                        <group col="4">
+                            <field name="social_security_number" />
+                            <field name="salary" />
+                            <field name="payment_period_id" />
+                        </group>
+                    </page>
+                    <page name="bank_information" string="Bank Information" groups="hr.group_hr_user">
+                        <field name="bank_account_ids">
+                            <form>
+                                <group col="4">
+                                    <field name="bank_id" />
+                                    <field name="beneficiary" />
+                                    <field name="bank_account" />
+                                    <field name="predetermined" />
+                                    <field name="status" />
+                                </group>
+                            </form>
+                            <tree>
+                                <field name="bank_id" />
+                                <field name="beneficiary" />
+                                <field name="bank_account" />
+                                <field name="predetermined" />
+                                <field name="status" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_res_bank_inherit_form">
+            <field name="name">res_bank_inherit</field>
+            <field name="model">res.bank</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="business_name"/>
+                    <field name="code"/>
+                </xpath> 
+            </field>
+        </record>
+    </data>
+</odoo>
