@@ -9,10 +9,11 @@
     'author': '',
     'license': '',
     'website': "",
-    'depends': ['base', 'hr'],
+    'depends': ['base', 'hr','hr_contract'],
     'data': [
         'security/ir.model.access.csv',
         'views/employee_document_view.xml',
+        'data/data.xml',
     ],
     'installable': True,
     'auto_install': False,

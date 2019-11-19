@@ -55,18 +55,23 @@ class HrEmployeeDocument(models.Model):
                 if exp_date < date.today():
                     raise Warning('Your Document Is Expired.')
 
-    name = fields.Char(string='Document Number', required=True, copy=False, help='You can give your'
-                                                                                 'Document number.')
+    type_id = fields.Many2one('hr.employee.document.type', string='Document type', required=True, copy=False, help='Select the type of document')
     description = fields.Text(string='Description', copy=False)
     expiry_date = fields.Date(string='Expiry Date', copy=False)
     employee_ref = fields.Many2one('hr.employee', invisible=1, copy=False)
+    contract_id = fields.Many2one('hr.contract', copy=False)
     doc_attachment_id = fields.Many2many('ir.attachment', 'doc_attach_rel', 'doc_id', 'attach_id3', string="Attachment",
                                          help='You can attach the copy of your document', copy=False)
     issue_date = fields.Char(string='Issue Date', default=fields.datetime.now(), copy=False)
     active = fields.Boolean(default=True)
 
+class HrEmployeeDocumentType(models.Model):
+    _name = 'hr.employee.document.type'
+    
+    name = fields.Char(string='Name', required=True, copy=False, help='You can give your type document.')
 
-class HrEmployee(models.Model):
+
+class Employee(models.Model):
     _inherit = 'hr.employee'
 
     @api.multi
@@ -93,6 +98,37 @@ class HrEmployee(models.Model):
                         </p>'''),
             'limit': 80,
             'context': "{'default_employee_ref': '%s'}" % self.id
+        }
+
+    document_count = fields.Integer(compute='_document_count', string='# Documents')
+    
+class Contract(models.Model):
+    _inherit = 'hr.contract'
+
+    @api.multi
+    def _document_count(self):
+        for each in self:
+            document_ids = self.env['hr.employee.document'].sudo().search([('employee_ref', '=', each.employee_id.id),('contract_id', '=', each.id)])
+            each.document_count = len(document_ids)
+
+    @api.multi
+    def document_view(self):
+        self.ensure_one()
+        domain = [
+            ('employee_ref', '=', self.employee_id.id),('contract_id', '=', self.id)]
+        return {
+            'name': _('Documents'),
+            'domain': domain,
+            'res_model': 'hr.employee.document',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                           Click to Create for New Documents
+                        </p>'''),
+            'limit': 80,
+            'context': "{'default_employee_ref': '%s','default_contract_id': '%s'}" % (self.employee_id.id,self.id)
         }
 
     document_count = fields.Integer(compute='_document_count', string='# Documents')

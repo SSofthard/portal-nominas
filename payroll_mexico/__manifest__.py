@@ -10,6 +10,7 @@
     "depends": ['base','hr_attendance','hr_payroll','resource','hr_holidays','hr'],
     "data": [
         'views/hr_employee_view.xml',
+        'views/hr_contract.xml',
         'data/data.xml',
         'data/res.bank.csv',
         'security/ir.model.access.csv'

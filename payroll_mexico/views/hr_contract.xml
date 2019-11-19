@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="hr_contract_inherit" model="ir.ui.view">
+            <field name="name">hr.contract.inherit.view</field>
+            <field name="model">hr.contract</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" placeholder="Code"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="placeholder">Name Contract</attribute>
+                </xpath>
+                <xpath expr="//group[@name='main_info']" position="after">
+					<group string="Other perceptions">
+						<field name="productivity_bonus"/>
+						<field name="attendance_bonus"/>
+						<field name="punctuality_bonus"/>
+						<field name="social_security"/>
+					</group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -38,6 +38,7 @@ class Employee(models.Model):
     salary = fields.Float("Salary", copy=False)
     payment_period_id = fields.Many2one('hr.payment.period', "Payment period")
     bank_account_ids = fields.One2many('bank.account.employee','employee_id', "Bank account", required=True)
+    group_id = fields.Many2one('hr.group', "Group", required=True)
     
     @api.onchange('social_security_number')
     def _check_social_security_number_length(self):
@@ -60,7 +61,7 @@ class paymentPeriod(models.Model):
 class bankDetailsEmployee(models.Model):
     _name = "bank.account.employee"
     
-    employee_id = fields.Many2one('hr.employee', "Bank", required=True)
+    employee_id = fields.Many2one('hr.employee', "Employee", required=True)
     bank_id = fields.Many2one('res.bank', "Bank", required=True)
     beneficiary = fields.Char("Beneficiary", copy=False, required=True)
     bank_account = fields.Char("Bank account", copy=False, required=True)
@@ -79,6 +80,12 @@ class resBank(models.Model):
     
     business_name = fields.Char("Business name", copy=False, required=False)
     code = fields.Char("Code", copy=False, required=False)
+
+class hrGroup(models.Model):
+    _name = "hr.group"
     
+    name = fields.Char("Name", copy=False, required=True)
+    implant_id = fields.Many2one('hr.employee', "Implant", required=True)
+    account_executive_id = fields.Many2one('hr.employee', "Account Executive", required=True)
 
 

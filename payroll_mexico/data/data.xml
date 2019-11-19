@@ -14,5 +14,36 @@
         <record id="hr_payment_period_monthly" model="hr.payment.period">
             <field name="name">Mensual</field>
         </record>
+        
+<!--
+        type contract
+-->
+   
+    <delete model="hr.contract.type" id="hr_contract.hr_contract_type_emp" />
+    <delete model="hr.contract.type" id="hr_contract.hr_contract_type_wrkr" />
+    <delete model="hr.contract.type" id="hr_contract.hr_contract_type_sub" />
+    
+    <record id="hr_contract_type_1" model="hr.contract.type">
+        <field name="name">Tiempo indeterminado</field>
+        <field name="sequence">5</field>
+    </record>
+    <record id="hr_contract_type_2" model="hr.contract.type">
+        <field name="name">Tiempo determinado sin antigüedad</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="hr_contract_type_3" model="hr.contract.type">
+        <field name="name">Tiempo determinado con antigüedad</field>
+        <field name="sequence">15</field>
+    </record>
+    <record id="hr_contract_type_4" model="hr.contract.type">
+        <field name="name">Por Proyecto</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="hr_contract_type_5" model="hr.contract.type">
+        <field name="name">Contratación de Prestación de Servicios independientes</field>
+        <field name="sequence">25</field>
+    </record>
+
+        
    </data>
 </odoo>
