@@ -17,5 +17,35 @@ class Contract(models.Model):
     
     def print_contract(self):
         report=self.type_id.report_id
-        return report.report_action(self, data={})
+        employee=self.employee_id
+        mr_patron={
+                'male':_('Mr'),
+                'female':_('Mrs'),
+                }
+        mr_employee={
+                'male':'EL SEÑOR',
+                'female':'LA SEÑORA',
+                }
+        data={
+            'type':self.type_id.name.upper(),
+            'company':"por bucar",
+            'company_addres':"por bucar",
+            'patron':"por bucar",
+            'mr_patron':"por buscar",
+            'mr_employee':mr_employee[employee.gender],
+            'employee':employee.name.upper(),
+            'job_position':employee.job_id.name or " ",
+            'nationality':employee.country_id.name,
+            'old':"por buscar",
+            'gender':employee.gender,
+            'marital':employee.marital,
+            'employee_crup':"por buscar",
+            'patron_rfc':"por buscar",
+            'employee_nss':"por buscar",
+            'employee_dress':"por buscar",
+            'job_dress':"por buscar",
+            'date_first_contract':"por buscar",
+            'date_contract':"por buscar",
+            }
+        return report.report_action(self.ids, data=data)
 

@@ -12,8 +12,9 @@
         <template id="contract_with_seniority" name="Contract With Seniority" >
             <t t-call="web.html_container">
                 <t t-call="payroll_mexico.internal_layout">
+
                     <p align="justify">
-                        CONTRATO INDIVIDUAL DE TRABAJO POR TIEMPO INDETERMINADO (Tipo de contrato), QUE CELEBRAN POR UNA PARTE, CENTRAL BLACK CORPORATIVA IMPULSO S.A. DE C.V. (Nombre de la empresa – Razón social), REPRESENTADA POR EL SR. ANTONIO AGUIRRE SIERRA (Nombre de representante de la Empresa), A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, EL SEÑOR AGUILAR CASTILLO GUADALUPE (Nombre del empleado), A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, MISMOS QUE SE SUJETAN AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
+                        CONTRATO INDIVIDUAL DE TRABAJO POR <t t-esc="type"></t>, QUE CELEBRAN POR UNA PARTE, <t t-esc="company"></t>, REPRESENTADA POR <t t-esc="mr_patron"/>. <t t-esc="patron"></t>, A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, <t t-esc="mr_employee" /> <t t-esc="employee"></t>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, MISMOS QUE SE SUJETAN AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
                     </p>
                     
                     <p align="center"><b>DECLARACIONES</b></p>
@@ -29,7 +30,7 @@
                             <td valign="top"><b>A)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Ser una Sociedad Anónima, legalmente constituida conforme a las Leyes de la  República Mexicana, con domicilio en CALLE ENRIQUE IBSEN 40 PISO 3, INT L-A COL. POLANCO CHAPULTEPEC, MIGUEL HIDALGO CD DE MEXICO, C.P. 11560 (Domicilio de la empresa).
+                                    Ser una Sociedad Anónima, legalmente constituida conforme a las Leyes de la  República Mexicana, con domicilio en <t t-esc="company_addres" />.
                                 </p>
                             </td>
                           </tr>
@@ -47,7 +48,7 @@
                             <td valign="top"><b>C)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                        Que tiene la necesidad de contratar los servicios de una persona apta en el desarrollo de sus actividades para el puesto de AUXILIAR DE ANESTESIA (Puesto del Empleado) durante la vigencia del presente contrato.                                
+                                        Que tiene la necesidad de contratar los servicios de una persona apta en el desarrollo de sus actividades para el puesto de <t t-esc="job_position" /> durante la vigencia del presente contrato.
                                 </p>
                             </td>
                           </tr>
@@ -61,7 +62,7 @@
                             <td valign="top"><b>A)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Llamarse como ha quedado escrito al inicio del presente contrato, ser de nacionalidad MEXICANA, contar con 33 años de edad, ser de sexo FEMENINO, estado civil SOLTERO, tener como Clave Única de Registro de Población la número GUQC820828MDFZJR08 (CURP del Empleado), con Registro Federal de Contribuyentes número  GUQC820828IV5 (RFC del Empleado), número de afiliación 02168266258 (NSS del Empleado) ante el Instituto Mexicano del Seguro Social y con domicilio en  AV INFONAVIT MZ  G LT 11 EDF E DEP 102, COL. UNIDAD NIÑOS HEROES INF SUR; CUAUTITLAN IZCALLI ;MEXICO CP. (Domicilio del Empleado), manifestando expresamente que en caso de que efectúe algún cambio de domicilio al señalado en el presente contrato, se compromete a dar aviso del nuevo domicilio por escrito a “EL PATRON”, en un término máximo de cinco días contados a partir de la fecha del cambio, en la inteligencia de que de no hacerlo así, se reconocerá el último domicilio proporcionado como el autorizado para todos los efectos legales a que haya lugar, independientemente del que aparezca en el presente contrato de trabajo.
+                                    Llamarse como ha quedado escrito al inicio del presente contrato, ser de nacionalidad <t t-esc="nationality" />, contar con <t t-esc="old" /> años de edad, ser de sexo <t t-esc="gerder" />, estado civil <t t-esc="marital" />, tener como Clave Única de Registro de Población la número <t t-esc="employee_crup" />, con Registro Federal de Contribuyentes número <t t-esc="patron_rfc" />, número de afiliación <t t-esc="employee_nss" /> ante el Instituto Mexicano del Seguro Social y con domicilio en  <t t-esc="employee_dress" />, manifestando expresamente que en caso de que efectúe algún cambio de domicilio al señalado en el presente contrato, se compromete a dar aviso del nuevo domicilio por escrito a “EL PATRON”, en un término máximo de cinco días contados a partir de la fecha del cambio, en la inteligencia de que de no hacerlo así, se reconocerá el último domicilio proporcionado como el autorizado para todos los efectos legales a que haya lugar, independientemente del que aparezca en el presente contrato de trabajo.
                                 </p>
                             </td>
                           </tr>
@@ -129,13 +130,13 @@
                         </p>   
                         <p align="center"><b>CLAUSULAS</b></p> 
                         <p align="justify">
-                            <b>PRIMERA.</b>  “EL PATRON” derivado de los contratos de servicios profesionales que tenga con sus clientes contrata los servicios de “EL TRABAJADOR”, para que los preste en el domicilio ubicado en HOSPITAL GENERAL "JOSE VICENTE VILLADA" (Centro de trabajo donde desempeña sus actividades laborales el empleado), o en el domicilio que se asigne conforme a las necesidades operativas y de servicio de “EL PATRÓN” con sus clientes los cuales se relacionan líneas abajo, conservando las condiciones de trabajo y sus prestaciones establecidas en el presente contrato, en este caso “EL PATRÓN” comunicará con anticipación la remoción del lugar de prestación de servicios indicándole el nuevo asignado.                        
+                            <b>PRIMERA.</b>  “EL PATRON” derivado de los contratos de servicios profesionales que tenga con sus clientes contrata los servicios de “EL TRABAJADOR”, para que los preste en el domicilio ubicado en <t t-esc="job_dress" />, o en el domicilio que se asigne conforme a las necesidades operativas y de servicio de “EL PATRÓN” con sus clientes los cuales se relacionan líneas abajo, conservando las condiciones de trabajo y sus prestaciones establecidas en el presente contrato, en este caso “EL PATRÓN” comunicará con anticipación la remoción del lugar de prestación de servicios indicándole el nuevo asignado.                        
                         </p>   
                         <p align="justify">
                             Por lo que “EL EMPLEADO” manifiesta expresamente su conformidad y su disponibilidad para prestar servicios en el lugar que sea señalado por “EL PATRON”, lo anterior sin perjuicio de que gozará de los beneficios establecidos en los artículos 28 fracción I y 30 de la Ley Federal del Trabajo, en caso de que el  domicilio en el que prestará servicios en forma permanente se encuentre a mas de 100 kilómetros de la residencia habitual de “EL TRABAJADOR”.
                         </p>   
                         <p align="justify">
-                            <b>SEGUNDA.</b> “EL TRABAJADOR” manifiesta, que tiene los conocimientos y experiencia necesarias para desempeñar el puesto y se obliga a prestar sus servicios personales en el empleo de AUXILIAR DE ANESTESIA (Puesto del empleado), los que en forma enunciativa y no limitativa aparecen detallados en el Anexo “A” que forma parte integrante del presente contrato, obligándose a desempeñar todas las labores anexas o conexas con la obligación principal.
+                            <b>SEGUNDA.</b> “EL TRABAJADOR” manifiesta, que tiene los conocimientos y experiencia necesarias para desempeñar el puesto y se obliga a prestar sus servicios personales en el empleo de <t t-esc="job_position"></t>, los que en forma enunciativa y no limitativa aparecen detallados en el Anexo “A” que forma parte integrante del presente contrato, obligándose a desempeñar todas las labores anexas o conexas con la obligación principal.
                         </p>   
                         <p align="justify">
                             Igualmente, “EL TRABAJADOR” se obliga a conducirse con respeto, honorabilidad, dignidad, probidad y tener un buen trato con los trabajadores o empleados al servicio de “EL PATRON”, sin que exista en su actuar discriminación por origen étnico o racial, género, edad, discapacidad, condición social, condiciones de salud, religión, condición migratoria, opiniones, preferencias sexuales o estado civil, teniendo por lo tanto estrictamente prohibido, el acosar, hostigar, discriminar o realizar cualquier acto en contra de los trabajadores de “EL PATRON”, que pudieren vulnerar  sus derechos humanos.
@@ -270,17 +271,17 @@
                             “EL TRABAJADOR” está de acuerdo en que en el caso de incumplir esta obligación, su conducta encuadra en el supuesto a que se refiere la fracción II del artículo 47 de la Ley Federal del Trabajo, sin menoscabo de quedar sujeto a la responsabilidad civil por los daños y perjuicios que le causare a “EL PATRON” y a las sanciones penales correspondientes.
                         </p>
                         <p align="justify">
-                            <b>VIGÉSIMA SEGUNDA.</b> Independientemente de la fecha en que se suscribe el presente contrato, “EL PATRON” le reconoce expresamente a “EL TRABAJADOR” una antigüedad a partir del día 01 del mes de MARZO de 2011 (Fecha de inicio del contrato anterior para el manejo de antiguedad).
+                            <b>VIGÉSIMA SEGUNDA.</b> Independientemente de la fecha en que se suscribe el presente contrato, “EL PATRON” le reconoce expresamente a “EL TRABAJADOR” una antigüedad a partir del <t t-esc="date_first_contract" />.
                         </p>
                         <p align="justify">
-                            <b>VIGÉSIMA TERCERA.</b>Las partes están conformes en que para lo no previsto en el presente contrato, se estará a las disposiciones de la Ley Federal del Trabajo y las reglamentaciones aplicables. Enteradas las partes del Contenido del presente contrato y de las obligaciones que contraen, lo firman por duplicado y por su recibo a los 16 días del mes de Junio de dos mil dieciséis (Fecha de inicio de contrato actual). 
+                            <b>VIGÉSIMA TERCERA.</b>Las partes están conformes en que para lo no previsto en el presente contrato, se estará a las disposiciones de la Ley Federal del Trabajo y las reglamentaciones aplicables. Enteradas las partes del Contenido del presente contrato y de las obligaciones que contraen, lo firman por duplicado y por su recibo a los <t t-esc="date_contract" />. 
                         </p>
                         <table class="egt mt64" align="center">
                               <tr>
 
                                 <td  style="border:1px solid black;" width="500px" height="200px" >
                                     
-                                    <table>
+                                    <table align="center">
                                           <tr>
                                             <td >
                                                 <div  align="center">“EL PATRÓN”</div>
@@ -293,7 +294,8 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    C. ANTONIO AGUIRRE SIERRA (Nombre del representante legal) CENTRAL BLACK CORPORATIVA IMPULSO, S.A. DE C.V. (Nombre de la Empresa)
+                                                    <div t-esc="patron" />
+                                                    <div t-esc="company" /> 
                                                 </div>
                                             </td>
                                           </tr>
@@ -315,7 +317,7 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    C. AGUILAR CASTILLO GUADALUPE (Nombre del Empleado)
+                                                    <div t-esc="employee" />
                                                 </div>
                                             </td>
                                           </tr>
