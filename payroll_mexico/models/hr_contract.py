@@ -17,6 +17,9 @@ class Contract(models.Model):
     
     def print_contract(self):
         report=self.type_id.report_id
+        if not report:
+            msg="The type of contract does not have an assigned report"
+            raise  UserError(_(msg))
         employee=self.employee_id
         mr_patron={
                 'male':_('Mr'),
@@ -26,6 +29,14 @@ class Contract(models.Model):
                 'male':'EL SEÑOR',
                 'female':'LA SEÑORA',
                 }
+        domain=[
+                ('employee_id','=',employee.id),
+                ('state','in',['cloese'])
+                ]
+        date_start=self.date_start
+        record=self.search_read(domain,['date_start'],limit=1,order="id asc")
+        if record:
+            date_start=record[0]['date_start']
         data={
             'type':self.type_id.name.upper(),
             'company_name':"por bucar",
@@ -39,13 +50,13 @@ class Contract(models.Model):
             'old':"por buscar",
             'gender':employee.gender,
             'marital':employee.marital,
-            'employee_crup':"por buscar",
-            'patron_rfc':"por buscar",
-            'employee_nss':"por buscar",
-            'employee_dress':"por buscar",
+            'employee_curp':employee.curp,
+            'patron_rfc':employee.rfc,
+            'employee_nss':employee.social_security_number,
+            'employee_dress':employee.address_home_id.contact_address,
             'job_dress':"por buscar",
-            'date_first_contract':"por buscar",
-            'date_contract':"por buscar",
+            'date_first_contract':date_start.strftime('día %d del mes de %B de %Y'),
+            'date_contract':self.date_start.strftime('%d dias del mes de %B de %Y')
             }
         return report.report_action(self.ids, data=data)
 
