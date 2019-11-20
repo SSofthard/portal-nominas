@@ -14,7 +14,7 @@
                 <t t-call="payroll_mexico.internal_layout">
 
                     <p align="justify">
-                        CONTRATO INDIVIDUAL DE TRABAJO POR <t t-esc="type"></t>, QUE CELEBRAN POR UNA PARTE, <t t-esc="company"></t>, REPRESENTADA POR <t t-esc="mr_patron"/>. <t t-esc="patron"></t>, A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, <t t-esc="mr_employee" /> <t t-esc="employee"></t>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, MISMOS QUE SE SUJETAN AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
+                        CONTRATO INDIVIDUAL DE TRABAJO POR <t t-esc="type"></t>, QUE CELEBRAN POR UNA PARTE, <t t-esc="company_name"></t>, REPRESENTADA POR <t t-esc="mr_patron"/>. <t t-esc="patron"></t>, A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, <t t-esc="mr_employee" /> <t t-esc="employee"></t>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, MISMOS QUE SE SUJETAN AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
                     </p>
                     
                     <p align="center"><b>DECLARACIONES</b></p>
@@ -295,7 +295,7 @@
                                             <td >
                                                 <div  align="center">
                                                     <div t-esc="patron" />
-                                                    <div t-esc="company" /> 
+                                                    <div t-esc="company_name" /> 
                                                 </div>
                                             </td>
                                           </tr>

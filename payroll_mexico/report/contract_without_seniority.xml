@@ -9,7 +9,7 @@
           name="payroll_mexico.contract_without_seniority" 
          /> 
         
-        <template id="contract_without_seniority" >
+        <template id="contract_without_seniority" name="Contract Without Seniority">
             <t t-call="web.html_container">
                 <t t-call="web.internal_layout">
                     <h1>HOLA MUNDO contract_with_seniority</h1>

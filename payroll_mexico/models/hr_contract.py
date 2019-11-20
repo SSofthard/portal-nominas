@@ -28,7 +28,7 @@ class Contract(models.Model):
                 }
         data={
             'type':self.type_id.name.upper(),
-            'company':"por bucar",
+            'company_name':"por bucar",
             'company_addres':"por bucar",
             'patron':"por bucar",
             'mr_patron':"por buscar",
