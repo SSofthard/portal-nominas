@@ -43,7 +43,17 @@
         <field name="name">Contratación de Prestación de Servicios independientes</field>
         <field name="sequence">25</field>
     </record>
-
+    
+<!--
+    Relationship
+-->
+    
+    <record id="hr_relationship_1" model="hr.relationship">
+        <field name="name">Conyugue</field>
+    </record>
+    <record id="hr_relationship_2" model="hr.relationship">
+        <field name="name">Hijo</field>
+    </record>
         
    </data>
 </odoo>

@@ -2,3 +2,6 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_hr_payment_period_user,Payment period,model_hr_payment_period,hr.group_hr_user,1,1,1,1
 access_bank_account_employee_user,Bank account employee,model_bank_account_employee,hr.group_hr_user,1,1,1,1
 access_hr_group_user,Group,model_hr_group,hr.group_hr_user,1,1,1,1
+access_hr_family_burden_user,Family,model_hr_family_burden,hr.group_hr_user,1,1,1,1
+access_hr_relationship_user,Relationship,model_hr_relationship,hr.group_hr_user,1,1,1,1
+access_hr_infonavit_credit_line_user,INFONAVIT Credit Line,model_hr_infonavit_credit_line,hr.group_hr_user,1,1,1,1

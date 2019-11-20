@@ -31,6 +31,9 @@
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="enrollment" placeholder="Enrollment"/>
                 </xpath> 
+                <xpath expr="//field[@name='birthday']" position="after">
+                    <field name="age"/>
+                </xpath> 
                 <xpath expr="//field[@name='passport_id']" position="after">
                     <field name="title"/>
                     <field name="rfc"/>
@@ -51,7 +54,7 @@
                 </xpath>
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
-                        <group col="4">
+                        <group  col="4" string="IMSS">
                             <field name="social_security_number" />
                             <field name="salary" />
                             <field name="payment_period_id" />
@@ -63,17 +66,60 @@
                                 <group col="4">
                                     <field name="bank_id" />
                                     <field name="beneficiary" />
+                                    <field name="reference" />
                                     <field name="bank_account" />
                                     <field name="predetermined" />
-                                    <field name="status" />
                                 </group>
                             </form>
                             <tree>
                                 <field name="bank_id" />
+                                <field name="reference" />
                                 <field name="beneficiary" />
                                 <field name="bank_account" />
                                 <field name="predetermined" />
-                                <field name="status" />
+                                <field name="state" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="family" string="Family" groups="hr.group_hr_user">
+                        <field name="family_ids">
+                            <form>
+                                <group col="4">
+                                    <field name="name" />
+                                    <field name="birthday" />
+                                    <field name="age" />
+                                    <field name="relationship_id" />
+                                </group>
+                            </form>
+                            <tree editable="botton">
+                                <field name="name" />
+                                <field name="birthday" />
+                                <field name="age" />
+                                <field name="relationship_id" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="infonavit" string="INFONAVIT Credit" groups="hr.group_hr_user">
+                        <field name="infonavit_ids">
+                            <form>
+                                <header>
+                                   <button name="action_active" states="draft" string="Activate" class="oe_highlight" type="object" groups="hr.group_hr_manager"/>
+                                   <button name="action_close" states="active" string="To close" class="oe_highlight" type="object" groups="hr.group_hr_manager"/>
+                                    <field name="state" widget="statusbar" statusbar_visible="draft,active,close"/>
+                                </header>
+                                <group col="4">
+                                    <field name="infonavit_credit_number" />
+                                    <field name="credit_data" />
+                                    <field name="date" />
+                                    <field name="type" />
+                                </group>
+                            </form>
+                            <tree>
+                                <field name="infonavit_credit_number" />
+                                <field name="credit_data" />
+                                <field name="date" />
+                                <field name="type" />
+                                <field name="state" />
                             </tree>
                         </field>
                     </page>
@@ -89,6 +135,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="business_name"/>
+                    <field name="clabe"/>
                     <field name="code"/>
                 </xpath> 
             </field>
