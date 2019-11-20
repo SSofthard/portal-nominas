@@ -19,9 +19,11 @@
         type contract
 -->
    
+<!--
     <delete model="hr.contract.type" id="hr_contract.hr_contract_type_emp" />
     <delete model="hr.contract.type" id="hr_contract.hr_contract_type_wrkr" />
     <delete model="hr.contract.type" id="hr_contract.hr_contract_type_sub" />
+-->
     
     <record id="hr_contract_type_1" model="hr.contract.type">
         <field name="name">Tiempo indeterminado</field>

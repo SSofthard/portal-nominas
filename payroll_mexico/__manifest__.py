@@ -11,9 +11,15 @@
     "data": [
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
+        'views/hr_contract_type.xml',
         'data/data.xml',
         'data/res.bank.csv',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
+        #Reports
+        'report/internal_layout.xml',
+        'report/contract_without_seniority.xml',
+        'report/contract_with_seniority.xml',
+        'report/independent_services_provision_agreement.xml'
     ],
     "active": True,
     "installable": True,

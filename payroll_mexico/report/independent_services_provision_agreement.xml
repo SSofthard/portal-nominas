@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     
+        <report id="report_independent_services_pa" 
+          string="Independent Services Provision Agreement" 
+          model="hr.contract" 
+          report_type="qweb-html" 
+          name="payroll_mexico.independent_services_pa" 
+         /> 
+        
+        <template id="independent_services_pa" >
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <h1>HOLA MUNDO independent_services_pa</h1>
+                </t>
+            </t>
+        </template>
+        
+    </data>
+</odoo>
