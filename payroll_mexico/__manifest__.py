@@ -13,7 +13,7 @@
         'views/hr_contract.xml',
         'data/data.xml',
         'data/res.bank.csv',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
     ],
     "active": True,
     "installable": True,

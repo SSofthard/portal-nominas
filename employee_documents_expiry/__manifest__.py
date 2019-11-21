@@ -14,6 +14,7 @@
         'security/ir.model.access.csv',
         'views/employee_document_view.xml',
         'data/data.xml',
+        'assets.xml',
     ],
     'installable': True,
     'auto_install': False,
