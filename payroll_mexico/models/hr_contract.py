@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
@@ -18,6 +19,10 @@ class Contract(models.Model):
     def print_contract(self):
         report=self.type_id.report_id
         employee=self.employee_id
+        empl_birthday="Sin Fecha"
+        if employee.birthday:
+            format = ("%d/%m/%Y")
+            empl_birthday = employee.birthday.strftime(format)
         mr_patron={
                 'male':_('Mr'),
                 'female':_('Mrs'),
@@ -39,13 +44,16 @@ class Contract(models.Model):
             'old':"por buscar",
             'gender':employee.gender,
             'marital':employee.marital,
-            'employee_crup':"por buscar",
-            'patron_rfc':"por buscar",
+            'employee_crup':employee.curp,
+            'patron_rfc':employee.rfc,
             'employee_nss':"por buscar",
             'employee_dress':"por buscar",
             'job_dress':"por buscar",
             'date_first_contract':"por buscar",
             'date_contract':"por buscar",
+            'originative':"por buscar",
+            'employee_birthday':empl_birthday,
+            'employee_address_home':"Por buscar",
             }
         return report.report_action(self.ids, data=data)
 
