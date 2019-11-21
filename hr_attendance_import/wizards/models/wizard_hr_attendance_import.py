@@ -7,9 +7,7 @@ import io
 import pytz
 import xlwt
 
-from io import StringIO
 from datetime import datetime
-
 from odoo import api, fields, models, _
 from dateutil.parser import parse
 from odoo.tools import pycompat
@@ -172,7 +170,6 @@ class WizardExportAttendance(models.TransientModel):
     
     name = fields.Char("Name", default='Attendance-' + str(fields.Date.today()))
     carrier_xlsx_document = fields.Binary("Download", )
-    # ~ carrier_xlsx_document_name = fields.Char("Download", )
     state = fields.Selection([
         ('draft', 'Draft'),
         ('successful', 'Successful'),
@@ -192,9 +189,10 @@ class WizardExportAttendance(models.TransientModel):
              'larg': 15,
              'col': {}},
         ]
-        file_name = 'temp'
-        workbook = xlsxwriter.Workbook(file_name, {'in_memory': True})
-        sheet = workbook.add_worksheet('Attendance')
+        file_data = 'file.xlsx'
+        # ~ file_data = io.StringIO('file.xlsx')
+        workbook = xlsxwriter.Workbook(file_data)
+        sheet = workbook.add_worksheet(self.name)
         bold = workbook.add_format({'bold': True})
         row = 0
         col = 0
@@ -215,7 +213,7 @@ class WizardExportAttendance(models.TransientModel):
                          })
         sheet.set_row(0, 15, bold)
         workbook.close()
-        with open(file_name, "rb") as file:
+        with open(file_data, "rb") as file:
             file_base64 = base64.b64encode(file.read())
         self.name = str(self.name) + '.xlsx'
         self.write({'carrier_xlsx_document': file_base64, })
