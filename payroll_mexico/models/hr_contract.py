@@ -45,7 +45,7 @@ class Contract(models.Model):
             date_start=record[0]['date_start']
         data={
             'type':self.type_id.name.upper(),
-            'company_name':"por bucar",
+            'company_name':company.business_name,
             'company_addres':company.partner_id.contact_address,
             'company_rfc':company.rfc,
             'company_public': "por buscar",
@@ -62,17 +62,18 @@ class Contract(models.Model):
             'employee':employee.name.upper(),
             'job_position':employee.job_id.name or " ",
             'nationality':employee.country_id.name,
-            'old':"por buscar",
+            'old':employee.age,
             'gender':employee.gender,
             'marital':employee.marital,
             'originative':employee.address_home_id.city,
             'employee_birthday':empl_birthday,
             'employee_address_home':"Por buscar",
             'employee_curp':employee.curp,
+            'employee_salary':self.wage,
             'patron_rfc':employee.rfc,
             'employee_nss':employee.social_security_number,
             'employee_dress':employee.address_home_id.contact_address,
-            'job_dress':"por buscar",
+            'job_dress':employee.address_id.contact_address,
             'date_first_contract':date_start.strftime('día %d del mes de %B de %Y'),
             'date_contract':self.date_start.strftime('%d dias del mes de %B de %Y')
             }
