@@ -138,7 +138,7 @@ class companyPowerAttorney(models.Model):
     state = fields.Selection([
         ('valid', 'Valid'),
         ('timed_out', 'Timed out'),
-        ('revoked', 'Revoked'),],default="valid")
+        ('revoked', 'Revoked'),], "Status",default="valid")
     
     @api.multi
     def action_revoked(self):

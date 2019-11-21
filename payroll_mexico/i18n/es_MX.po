@@ -1,0 +1,1089 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* payroll_mexico
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e-201905\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-21 09:26+0000\n"
+"PO-Revision-Date: 2019-11-21 09:26+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__document_count
+msgid "# Documents"
+msgstr "Documentos"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__cer
+msgid ".cer"
+msgstr ".cer"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__key
+msgid ".key"
+msgstr ".key"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_company.py:172
+#, python-format
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                           Click to Create for New Documents\n"
+"                        </p>"
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                           Pulse para crear nuevos documentos\n"
+"                        </p>"
+
+#. module: payroll_mexico
+#: sql_constraint:res.company.fiel.csd:0
+msgid "A default record for the type of certificate already exists.!"
+msgstr "Ya existe un registro predeterminado para el tipo de certificado."
+
+#. module: payroll_mexico
+#: selection:hr.employee,blood_type:0
+msgid "AB+"
+msgstr "AB+"
+
+#. module: payroll_mexico
+#: selection:hr.employee,blood_type:0
+msgid "AB-"
+msgstr "AB-"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__account_executive_id
+msgid "Account Executive"
+msgstr "Ejecutivo de cuentas"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__account_holder
+msgid "Account holder"
+msgstr "Titular de la cuenta"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction
+msgid "Action Needed"
+msgstr "Acción Necesaria"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Activate"
+msgstr "Activar"
+
+#. module: payroll_mexico
+#: selection:bank.account.company,state:0
+#: selection:bank.account.employee,state:0
+#: selection:hr.infonavit.credit.line,state:0
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+msgid "Active"
+msgstr "Activo"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_state
+msgid "Activity State"
+msgstr "Estado de la actividad"
+
+#. module: payroll_mexico
+#: model:ir.ui.menu,name:payroll_mexico.menu_address
+msgid "Address"
+msgstr "Dirección"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__age
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__age
+msgid "Age"
+msgstr "Edad"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:181
+#, python-format
+msgid "An active INFONAVIT credit already exists for the employee."
+msgstr "Ya existe un crédito de INFONAVIT activo para el empleado"
+
+#. module: payroll_mexico
+#: sql_constraint:hr.employee:0
+msgid "An employee with this CURP already exists.!"
+msgstr "Ya existe un empleado con este CURP"
+
+#. module: payroll_mexico
+#: sql_constraint:hr.employee:0
+msgid "An employee with this ID already exists.!"
+msgstr "Ya existe un empleado con esta identificación"
+
+#. module: payroll_mexico
+#: sql_constraint:hr.employee:0
+msgid "An employee with this RFC already exists.!"
+msgstr "Ya existe un empleado con este RFC"
+
+#. module: payroll_mexico
+#: sql_constraint:hr.employee:0
+msgid "An employee with this passport already exists.!"
+msgstr "Ya existe un empleado con este pasaporte"
+
+#. module: payroll_mexico
+#: sql_constraint:hr.employee:0
+msgid "An employee with this social security number already exists.!"
+msgstr "Ya existe un empleado con este número de seguro social"
+
+#. module: payroll_mexico
+#: sql_constraint:res.company:0
+msgid "And there is a company with this code.!"
+msgstr "Existo un registro de compañía con este código"
+
+#. module: payroll_mexico
+#: selection:hr.company.line,scheme:0
+msgid "Assimilated"
+msgstr "Asimilado"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+msgid "Attach Document"
+msgstr "Documento adjunto"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_attachment_count
+msgid "Attachment Count"
+msgstr "Conteo de archivos adjuntos"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__attendance_bonus
+msgid "Attendance bonus"
+msgstr "Bono de asistencia"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_bank
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__bank_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__bank_id
+msgid "Bank"
+msgstr "Banco"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Bank Information"
+msgstr "Información bancaria"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__bank_account
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__bank_account
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__bank_account_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__bank_account_ids
+msgid "Bank account"
+msgstr "Cuenta de banco"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__beneficiary
+msgid "Beneficiary"
+msgstr "Beneficiario"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__birthday
+msgid "Birthday"
+msgstr "Cumpleaños"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__blood_type
+msgid "Blood type"
+msgstr "Tipo de sangre"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__book
+msgid "Book"
+msgstr "Libro"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__branch_offices_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__partner_id
+msgid "Branch Offices"
+msgstr "Sucursales"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__branch_offices
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__branch_offices
+msgid "Branch Offices?"
+msgstr "Sucursales?"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__business_name
+msgid "Business Name"
+msgstr "Razón Social"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__business_name
+msgid "Business name"
+msgstr "Razón Social"
+
+#. module: payroll_mexico
+#: selection:res.company.fiel.csd,type:0
+msgid "CSD"
+msgstr "CSD"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__curp
+msgid "CURP"
+msgstr "CURP"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__clabe
+msgid "Clabe"
+msgstr "Clabe"
+
+#. module: payroll_mexico
+#: selection:hr.infonavit.credit.line,state:0
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__code
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_job__code
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__code
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__code
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_job_inherit
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+msgid "Code"
+msgstr "Código"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_company
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__company_ids
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__company_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__company_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__company_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__company_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__company_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__company_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+msgid "Company Information"
+msgstr "Información de la empresa"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__constitution_date
+msgid "Constitution Date"
+msgstr "Constitution Date"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: payroll_mexico
+#: model:ir.ui.menu,name:payroll_mexico.menu_country_configuration
+msgid "Countries"
+msgstr "Paises"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_country
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__country_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__country_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__country_id
+msgid "Country"
+msgstr "País"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__credit_data
+msgid "Detailed credit data"
+msgstr "Datos crediticios detallados"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_company.py:165
+#, python-format
+msgid "Documents Power Attorney"
+msgstr "Documentos de poder notariado"
+
+#. module: payroll_mexico
+#: selection:hr.infonavit.credit.line,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__effective_date
+msgid "Effective date"
+msgstr "Fecha efectiva"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__electronic_signature
+msgid "Electronic Signature"
+msgstr "Firma electrónica"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_employee
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__employee_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__employee_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__employee_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__employee_id
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_contract
+msgid "Employee Contract"
+msgstr "Contrato de empleado"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__employer_register_ids
+msgid "Employer Register"
+msgstr "Registro Patronal"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__employer_registry
+msgid "Employer Registry"
+msgstr "Registro patronal"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__enrollment
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Enrollment"
+msgstr "Matrícula"
+
+#. module: payroll_mexico
+#: selection:res.company.fiel.csd,type:0
+msgid "FIEL"
+msgstr "FIEL"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__fiel_csd_ids
+msgid "FIEL & CSD"
+msgstr "FIEL & CSD"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__family_ids
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Family"
+msgstr "Familia"
+
+#. module: payroll_mexico
+#: selection:hr.employee,gender:0
+msgid "Female"
+msgstr "Femenino"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Seguidores (Canales)"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Empresas)"
+
+#. module: payroll_mexico
+#: selection:hr.company.line,scheme:0
+msgid "Free"
+msgstr "Libre"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__gender
+msgid "Gender"
+msgstr "Genero"
+
+#. module: payroll_mexico
+#: model:ir.actions.act_window,name:payroll_mexico.action_hr_group
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__group_id
+#: model:ir.ui.menu,name:payroll_mexico.menu_group_configuration
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_group_form
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_group_tree
+msgid "Group"
+msgstr "Grupo"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__id
+msgid "ID"
+msgstr "ID"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "IMSS"
+msgstr "IMSS"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "INFONAVIT"
+msgstr "INFONAVIT"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__infonavit_credit_number
+msgid "INFONAVIT Credit Number"
+msgstr "Número de crédito INFONAVIT"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__infonavit_ids
+msgid "INFONAVIT credit"
+msgstr "Crédito INFONAVIT"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_unread
+msgid "If checked new messages require your attention."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__implant_id
+msgid "Implant"
+msgstr "Implant"
+
+#. module: payroll_mexico
+#: selection:bank.account.company,state:0
+#: selection:bank.account.employee,state:0
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+msgid "Inactive"
+msgstr "Inactivo"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__public_deed_number
+msgid "Instrument or public deed number."
+msgstr "Instrumento o número de escritura pública"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_is_follower
+msgid "Is Follower"
+msgstr "Es un seguidor"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_job
+msgid "Job Position"
+msgstr "Puesto de trabajo"
+
+#. module: payroll_mexico
+#: model:ir.ui.menu,name:payroll_mexico.menu_job_position_configuration
+msgid "Job position"
+msgstr "Puesto de trabajo"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__legal_representative_id
+msgid "Legal Representative"
+msgstr "Representante legal"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__legal_representative
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__legal_representative
+msgid "Legal Representative?"
+msgstr "Representante legal?"
+
+#. module: payroll_mexico
+#: model_terms:ir.actions.act_window,help:payroll_mexico.action_hr_group
+msgid "Let's create a Group."
+msgstr "Vamos a crear un grupo"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Adjuntos principales"
+
+#. module: payroll_mexico
+#: selection:hr.employee,gender:0
+msgid "Male"
+msgstr "Masculino"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Medical data"
+msgstr "Datos médicos"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Envío de Mensaje"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: payroll_mexico
+#: selection:hr.infonavit.credit.line,type:0
+msgid "Minimum wage days"
+msgstr "Días de salario mínimo"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__name
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_country__nationality
+msgid "Name"
+msgstr "Nombre"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
+msgid "Name Contract"
+msgstr "Nombre del contrato"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Siguiente plazo de actividad"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumen de la siguiente actividad"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_type_id
+msgid "Next Activity Type"
+msgstr "Siguiente tipo de actividad"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+msgid "Notarial Data"
+msgstr "Información de notaria"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__notary_public_number
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__notary_public_number
+msgid "Notary Public Number"
+msgstr "Número de notario público"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__notary_public
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__notary_public
+msgid "Notary Public?"
+msgstr "Notario público?"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de acciones"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_has_error_counter
+msgid "Number of error"
+msgstr "Número de error"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensajes que requieren una acción"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de envío"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensajes no leidos"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
+msgid "Other perceptions"
+msgstr "Otras percepciones"
+
+#. module: payroll_mexico
+#: selection:company.power.attorney,activity_state:0
+msgid "Overdue"
+msgstr "Atrasado"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__partner_id
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__partner_company
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__partner_company
+msgid "Partner Company?"
+msgstr "Socio de compañía?"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__partner_ids
+msgid "Partners"
+msgstr "Socios"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__payment_period_id
+msgid "Payment period"
+msgstr "Periodo de pago"
+
+#. module: payroll_mexico
+#: selection:hr.infonavit.credit.line,type:0
+msgid "Percentage"
+msgstr "Porcentaje"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__personal_email
+msgid "Personal Email"
+msgstr "Email personal"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__personal_movile_phone
+msgid "Personal movile phone"
+msgstr "Teléfono móvil personal"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__personal_phone
+msgid "Personal phone"
+msgstr "Teléfono personal"
+
+#. module: payroll_mexico
+#: selection:company.power.attorney,activity_state:0
+msgid "Planned"
+msgstr "Planificado"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__power_attorney_ids
+msgid "Power Attorney"
+msgstr "Poder notariado"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__predetermined
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__predetermined
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__predetermined
+msgid "Predetermined"
+msgstr "Predeterminado"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__productivity_bonus
+msgid "Productivity bonus"
+msgstr "Bonus de productividad"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__public_notary
+msgid "Public Notary"
+msgstr "Notario público"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__public_notary_address_id
+msgid "Public Notary Address"
+msgstr "Dirección de notario público"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__public_notary_holder_id
+msgid "Public Notary Holder"
+msgstr "Notario Público Titular"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__public_notary
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__public_notary
+msgid "Public Notary?"
+msgstr "Notario público?"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__punctuality_bonus
+msgid "Punctuality Bonds"
+msgstr "Bonos de puntualidad"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__rfc
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__rfc
+msgid "RFC"
+msgstr "RFC"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:87
+#, python-format
+msgid "RFC length is incorrect"
+msgstr "La longitud de RFC es incorrecta"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "RH Information"
+msgstr "Información de HR"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__reference
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__reference
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__relationship_id
+msgid "Relationship"
+msgstr "Relación"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__representative_id
+msgid "Representative"
+msgstr "Representante"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_user_id
+msgid "Responsible User"
+msgstr "Usuario responsable"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+msgid "Revoke"
+msgstr "Revocar"
+
+#. module: payroll_mexico
+#: selection:company.power.attorney,state:0
+#: selection:res.company.fiel.csd,state:0
+#: selection:res.employer.register,state:0
+msgid "Revoked"
+msgstr "Revocado"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__salary
+msgid "Salary"
+msgstr "Salario"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__scheme
+msgid "Scheme"
+msgstr "Esquema"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__social_security_number
+msgid "Social Security Number"
+msgstr "Número de seguridad social"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__social_security
+msgid "Social security"
+msgstr "Seguridad Social"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__state
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__state
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__state
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__state
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__state
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__state
+msgid "State"
+msgstr "Estado"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__activity_state
+msgid "Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr "Estado basado en actividades\n"
+"Vencida: la fecha tope ya ha pasado\n"
+"Hoy: La fecha tope es hoy\n"
+"Planificada: futuras actividades."
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:81
+#, python-format
+msgid "The length of the social security number is incorrect"
+msgstr "La longitud del número de seguro social es incorrecta"
+
+#. module: payroll_mexico
+#: sql_constraint:bank.account.company:0
+msgid "There is already a default account number for this company.!"
+msgstr "Ya existe un número de cuenta predeterminado para esta empresa."
+
+#. module: payroll_mexico
+#: sql_constraint:bank.account.employee:0
+msgid "There is already a default account number for this employee.!"
+msgstr "Ya hay un número de cuenta predeterminado para este empleado"
+
+#. module: payroll_mexico
+#: sql_constraint:hr.employee:0
+msgid "There is already an employee with this registration.!"
+msgstr "There is already an employee with this registration"
+
+#. module: payroll_mexico
+#: selection:company.power.attorney,state:0
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+#: selection:res.company.fiel.csd,state:0
+#: selection:res.employer.register,state:0
+msgid "Timed out"
+msgstr "Timed out"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__title
+msgid "Title"
+msgstr "Título"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "To close"
+msgstr "Cerrar"
+
+#. module: payroll_mexico
+#: selection:company.power.attorney,activity_state:0
+msgid "Today"
+msgstr "Hoy"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__track
+msgid "Track"
+msgstr "Pista"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__type
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__type_id
+msgid "Type Contract"
+msgstr "Tipo de contrato"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread
+msgid "Unread Messages"
+msgstr "Mensajes por leer"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Contador de mensajes sin leer"
+
+#. module: payroll_mexico
+#: selection:company.power.attorney,state:0
+#: selection:res.company.fiel.csd,state:0
+#: selection:res.employer.register,state:0
+msgid "Valid"
+msgstr "Válido"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__validity_signature
+msgid "Validity of Signature"
+msgstr "Validez de la firma"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__wage
+msgid "Wage"
+msgstr "Salario"
+
+#. module: payroll_mexico
+#: selection:hr.company.line,scheme:0
+msgid "Wages and salaries"
+msgstr "Sueldos y salarios"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__write_number
+msgid "Write Number"
+msgstr "Escribir número"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_bank_account_company
+msgid "bank.account.company"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_bank_account_employee
+msgid "bank.account.employee"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_company_power_attorney
+msgid "company.power.attorney"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_company_line
+msgid "hr.company.line"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_family_burden
+msgid "hr.family.burden"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_group
+msgid "hr.group"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_infonavit_credit_line
+msgid "hr.infonavit.credit.line"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_payment_period
+msgid "hr.payment.period"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_relationship
+msgid "hr.relationship"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_company_branch_offices
+msgid "res.company.branch.offices"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_company_fiel_csd
+msgid "res.company.fiel.csd"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_company_partner
+msgid "res.company.partner"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_employer_register
+msgid "res.employer.register"
+msgstr ""
+

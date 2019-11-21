@@ -29,7 +29,7 @@ class irAttachment(models.Model):
     _inherit = 'ir.attachment'
     
     employee_id = fields.Many2one('hr.employee', invisible=True)
-    contract_id = fields.Many2one('res.contract', invisible=True)
+    contract_id = fields.Many2one('hr.contract', invisible=True)
     company_document_id = fields.Many2one('res.company', "Company",  invisible=True)
     type_id = fields.Many2one('hr.employee.document.type', string='Document type', required=False, copy=False, help='Select the type of document')
     expiry_date = fields.Date(string='Expiry Date', copy=False)

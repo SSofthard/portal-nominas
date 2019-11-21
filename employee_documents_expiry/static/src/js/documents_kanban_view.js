@@ -11,6 +11,8 @@ DocumentsKanbanView.include({
         // add the fields used in the DocumentsInspector to the list of fields to fetch
         var inspectorFields = [
             'employee_id',
+            'contract_id',
+            'company_document_id',
             'description',
             'expiry_date'
         ];
