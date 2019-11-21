@@ -25,6 +25,45 @@ from odoo import models, fields, api, _
 from odoo.exceptions import Warning
 
 
+class irAttachment(models.Model):
+    _inherit = 'ir.attachment'
+    
+    employee_id = fields.Many2one('hr.employee', invisible=1, copy=True)
+    type_id = fields.Many2one('hr.employee.document.type', string='Document type', required=True, copy=False, help='Select the type of document')
+    expiry_date = fields.Date(string='Expiry Date', copy=False)
+    issue_date = fields.Char(string='Issue Date', default=fields.datetime.now(), copy=False)
+    description = fields.Text(string='Description', copy=False)
+    expired = fields.Boolean(string='Expired', copy=False, readonly=True)
+    
+    def mail_reminder(self):
+        now = datetime.now() + timedelta(days=1)
+        date_now = now.date()
+        match = self.search([('expiry_date','<=',date_now)])
+        for i in match:
+            if i.expiry_date:
+                exp_date = fields.Date.from_string(i.expiry_date) - timedelta(days=7)
+                if date_now >= exp_date and i.employee_id:
+                    i.expired = True
+                    mail_content = "  Hello  " + i.employee_id.name + ",<br>Your Document " + i.name + " is going to expire on " + \
+                                   str(i.expiry_date) + ". Please renew it before expiry date"
+                    main_content = {
+                        'subject': _('Document-%s Expired On %s') % (i.name, i.expiry_date),
+                        'author_id': self.env.user.partner_id.id,
+                        'body_html': mail_content,
+                        'email_to': i.employee_id.work_email,
+                    }
+                    self.env['mail.mail'].create(main_content).send()
+
+    @api.constrains('expiry_date')
+    def check_expr_date(self):
+        for each in self:
+            if each.expiry_date:
+                exp_date = fields.Date.from_string(each.expiry_date)
+                if exp_date < date.today():
+                    raise Warning('Your Document Is Expired.')
+                else:
+                    each.expired =False
+
 class Employee(models.Model):
     _inherit = 'hr.employee'
 
@@ -88,42 +127,6 @@ class Contract(models.Model):
     document_count = fields.Integer(compute='_document_count', string='# Documents')
 
 
-class irAttachment(models.Model):
-    _inherit = 'ir.attachment'
-    
-    employee_id = fields.Many2one('hr.employee', invisible=1, copy=True)
-    type_id = fields.Many2one('hr.employee.document.type', string='Document type', required=True, copy=False, help='Select the type of document')
-    expiry_date = fields.Date(string='Expiry Date', copy=False)
-    issue_date = fields.Char(string='Issue Date', default=fields.datetime.now(), copy=False)
-    description = fields.Text(string='Description', copy=False)
-    expired = fields.Boolean(string='Expired', copy=False, readonly=True)
-    
-    def mail_reminder(self):
-        now = datetime.now() + timedelta(days=1)
-        date_now = now.date()
-        match = self.search([('expiry_date','<=',date_now)])
-        for i in match:
-            if i.expiry_date:
-                exp_date = fields.Date.from_string(i.expiry_date) - timedelta(days=7)
-                if date_now >= exp_date and i.employee_id:
-                    i.expired = True
-                    mail_content = "  Hello  " + i.employee_id.name + ",<br>Your Document " + i.name + " is going to expire on " + \
-                                   str(i.expiry_date) + ". Please renew it before expiry date"
-                    main_content = {
-                        'subject': _('Document-%s Expired On %s') % (i.name, i.expiry_date),
-                        'author_id': self.env.user.partner_id.id,
-                        'body_html': mail_content,
-                        'email_to': i.employee_id.work_email,
-                    }
-                    self.env['mail.mail'].create(main_content).send()
-
-    @api.constrains('expiry_date')
-    def check_expr_date(self):
-        for each in self:
-            if each.expiry_date:
-                exp_date = fields.Date.from_string(each.expiry_date)
-                if exp_date < date.today():
-                    raise Warning('Your Document Is Expired.')
 
 class HrEmployeeDocumentType(models.Model):
     _name = 'hr.employee.document.type'

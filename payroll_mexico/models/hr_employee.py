@@ -64,6 +64,15 @@ class Employee(models.Model):
     age = fields.Integer("Age", compute='calculate_age_compute')
     infonavit_ids = fields.One2many('hr.infonavit.credit.line','employee_id', "INFONAVIT credit")
     
+    _sql_constraints = [
+        ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
+        ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
+        ('passport_uniq', 'unique (passport_id)', "An employee with this passport already exists.!"),
+        ('rfc_uniq', 'unique (rfc)', "An employee with this RFC already exists.!"),
+        ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
+        ('social_security_number_unique', 'unique (social_security_number)', "An employee with this social security number already exists.!"),
+    ]
+    
     @api.onchange('social_security_number')
     def _check_social_security_number_length(self):
         if self.social_security_number:
@@ -73,7 +82,7 @@ class Employee(models.Model):
     @api.onchange('rfc')
     def _check_rfc_length(self):
         if self.rfc:
-            if len(self.rfc) != 12 or len(self.rfc) != 13:
+            if len(self.rfc) not in [12,13]:
                 raise UserError(_('RFC length is incorrect'))
 
     
