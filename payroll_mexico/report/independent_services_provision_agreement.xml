@@ -101,17 +101,18 @@
                             <td>
                                 <p align="justify" style="margin-left:20px;">
                                     Su representada es una Sociedad Mexicana legalmente constituida, lo cual consta 
-                                    mediante Escritura Pública No. 44,720 (Escritura pública de la empresa) de fecha 
-                                    28 de Febrero de 2014 (Fecha de constitución de la Empresa), otorgada, 
-                                    por la Lic. Isabel J.V. Rojas de Icaza (Representante de la Notaria Publica), 
-                                    Titular de la Notaría Pública número 27 (Numero de notaria donde se constituyo la Empresa) 
-                                    con circunscripción en la Ciudad de México, e inscrita en el Registro Público de la misma Ciudad.
+                                    mediante Escritura Pública No. <t t-esc="write_number_notary" /> de fecha 
+                                    <strong><t t-esc="constitution_date_notary" /></strong>, otorgada, 
+                                    por <t t-esc="repres_public_title_notary" /> <t t-esc="representative_public_notary" />, 
+                                    Titular de la <t t-esc="public_notary" /> número <t t-esc="number_public_notary" /> 
+                                    con circunscripción en <t t-esc="city_public_notary" />, e inscrita en el Registro 
+                                    Público de la misma Ciudad.
                                 </p>
                                 <p align="justify" style="margin-left:20px;">
-                                    Encontrarse representada por el señora Marlene Nallely Zuñiga Padilla (Representante legal de la empresa), 
-                                    quien acredita su personalidad en términos del Libro 658 (Dato de la escritura publica), instrumento 
-                                    33,513 (Numero de escritura pública), pasada ante la fe del Notario Público No.162 (Numero de notaria publica) 
-                                    del Distrito Federal a cargo del Lic. Alfonso Gómez Portugal Aguirre.
+                                    Encontrarse representada por <t t-esc="patron"></t>, 
+                                    quien acredita su personalidad en términos del Libro 658 (Dato de la escritura publica Por buscar), instrumento 
+                                    33,513 (Numero de escritura pública Por buscar), pasada ante la fe del Notario Público No.162 (Numero de notaria publica Por buscar) 
+                                    del Distrito Federal a cargo del Lic. Alfonso Gómez Portugal Aguirre (preguntar donde buscar).
                                 </p>
                             </td>
                           </tr>
@@ -119,9 +120,8 @@
                             <td valign="top"><b>B)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Su domicilio Fiscal es el ubicado en CALLE DURANGO 245 PISO 9 INT 905 DESPACHO 1, 
-                                    COL. ROMA NORTE ALCADIA CUAHUTEMOC, CIUDAD DE MEXICO CP. 06700 y con 
-                                    Registro Federal de Contribuyentes Nº BOR140228SK7.
+                                    Su domicilio Fiscal es el ubicado en <strong><t t-esc="company_addres" /></strong> y con 
+                                    Registro Federal de Contribuyentes Nº <strong><t t-esc="company_rfc" /></strong>.
                                 </p>
                             </td>
                           </tr>
@@ -146,7 +146,7 @@
                             se obliga a prestar a <strong>“EL CLIENTE”</strong> servicios en
                         </p> 
                         <p align="justify">
-                            HAY UN VACIO
+                            HAY UN VACIO FALTA INFORMACION
                         </p> 
                         <p align="justify">
                             <strong>“EL PRESTADOR”</strong> podrá a su libre albedrío desempeñar sus actividades profesionales o 
@@ -337,8 +337,16 @@
                             relativa del presente instrumento.
                         </p>
                         <p align="justify">
+                            <b>DÉCIMA:</b> En caso de controversia en cuanto a la interpretación, cumplimiento o 
+                            ejecución de este contrato, las partes acuerdan expresamente en someterse a la jurisdicción 
+                            y competencia de los Tribunales de <strong><t t-esc="city_public_notary" /></strong>, 
+                            renunciando a cualquier otro fuero que pudiera corresponderle a razón 
+                            del domicilio en el presente o en el futuro. 
+                        </p>
+                        <p align="justify">
                             <b>LEIDO QUE FUE EL PRESENTE CONTRATO Y enteradas LAS PARTES DE SU CONTENIDO, 
-                            ALCANCE Y VALOR LEGAL, lo firman POR DUPLICADO en LA CIUDAD DE MÉXICO, 
+                            ALCANCE Y VALOR LEGAL, lo firman POR DUPLICADO en 
+                            <strong><t t-esc="city_public_notary" /></strong>, 
                             A los <strong><t t-esc="date_contract" /></strong> </b>  
                         </p>
                         <p align="center"><b></b></p>
@@ -574,8 +582,7 @@
                     <p align="justify">
                         <strong><t t-esc="mr_patron"/></strong> 
                         con domicilio en 
-                        CALLE DURANGO 245 PISO 9 INT 905 DESPACHO 1, COL. ROMA NORTE ALCADIA CUAHUTEMOC, 
-                        CIUDAD DE MEXICO CP. 06700, 
+                        <strong><t t-esc="company_addres"/></strong>, 
                         es responsable de recabar sus datos personales, del uso que se le dé a los mismos y de su protección.
                     </p>
                     <p align="justify">
@@ -654,7 +661,7 @@
                     </p>
                     <p align="justify">
                         Las entidades que integran a <strong><t t-esc="mr_patron"/></strong> con domicilio en 
-                        CALLE DURANGO 245 PISO 9 INT 905 DESPACHO 1, COL. ROMA NORTE ALCADIA CUAHUTEMOC, CIUDAD DE MEXICO CP. 06700, 
+                        <strong><t t-esc="company_addres"/></strong>, 
                         informan que tanto los datos personales, como los datos personales sensibles referidos 
                         en los documentos requisitados con motivo de la celebración del contrato que une a las partes, 
                         mantendrán el tratamiento adecuado para fines de identificación, operación, administración, 

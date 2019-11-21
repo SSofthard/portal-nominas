@@ -22,6 +22,7 @@ class Contract(models.Model):
             msg="The type of contract does not have an assigned report"
             raise  UserError(_(msg))
         employee=self.employee_id
+        company=self.company_id
         empl_birthday="Sin Fecha"
         if employee.birthday:
             format = ("%d/%m/%Y")
@@ -45,14 +46,18 @@ class Contract(models.Model):
         data={
             'type':self.type_id.name.upper(),
             'company_name':"por bucar",
-            'company_addres':"por bucar",
+            'company_addres':company.partner_id.contact_address,
+            'company_rfc':company.rfc,
             'company_public': "por buscar",
-            'public_notary':"por buscar",
-            'representative_public_notary':"por buscar",
-            'number_public_notary':"por buscar",
-            'city_public_notary':"por buscar",
-            'patron':"por bucar",
-            'mr_patron':"por buscar",
+            'public_notary':company.public_notary_address_id.name,
+            'repres_public_title_notary':company.public_notary_holder_id.title.shortcut,
+            'representative_public_notary':company.public_notary_holder_id.name,
+            'number_public_notary':company.public_notary_address_id.notary_public_number,
+            'write_number_notary':company.write_number,
+            'constitution_date_notary':company.constitution_date.strftime('%d de %B de %Y'),
+            'city_public_notary':company.public_notary_address_id.state_id.name,
+            'patron':company.legal_representative_id.name,
+            'mr_patron':company.name,
             'mr_employee':mr_employee[employee.gender],
             'employee':employee.name.upper(),
             'job_position':employee.job_id.name or " ",
@@ -60,7 +65,7 @@ class Contract(models.Model):
             'old':"por buscar",
             'gender':employee.gender,
             'marital':employee.marital,
-            'originative':"por buscar",
+            'originative':employee.address_home_id.city,
             'employee_birthday':empl_birthday,
             'employee_address_home':"Por buscar",
             'employee_curp':employee.curp,
