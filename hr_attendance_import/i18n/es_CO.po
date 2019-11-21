@@ -1,0 +1,141 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_attendance_import
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-30 01:20+0000\n"
+"PO-Revision-Date: 2018-12-29 21:21-0400\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_CO\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#. module: hr_attendance_import
+#: model:ir.ui.view,arch_db:hr_attendance_import.wizard_wizard_import_attendance_xls
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls_create_date
+msgid "Created on"
+msgstr "Creado"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls_display_name
+msgid "Display Name"
+msgstr "Nombre Público"
+
+#. module: hr_attendance_import
+#: selection:wizard.import.attendance.xls,state:0
+msgid "Draft"
+msgstr "Draft"
+
+#. module: hr_attendance_import
+#: selection:wizard.import.attendance.xls,state:0
+msgid "Error"
+msgstr "Error"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls_error_message
+msgid "Error Message"
+msgstr "Mensaje de error"
+
+#. module: hr_attendance_import
+#: model:ir.ui.view,arch_db:hr_attendance_import.wizard_wizard_import_attendance_xls
+msgid "Error during load file"
+msgstr "Error durante la carga del archivo"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls_file_xls
+msgid "File XLS/XLSX"
+msgstr "Archivo XLS/XLSX"
+
+#. module: hr_attendance_import
+#: model:ir.ui.view,arch_db:hr_attendance_import.wizard_wizard_import_attendance_xls
+msgid "Generate"
+msgstr "Generar"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls_id
+msgid "ID"
+msgstr "ID"
+
+#. module: hr_attendance_import
+#. openerp-web
+#: code:addons/hr_attendance_import/static/src/js/tree_view_buttons.js:22
+#, python-format
+msgid "Import Attendances"
+msgstr "Importar Asistencias"
+
+#. module: hr_attendance_import
+#: model:ir.actions.act_window,name:hr_attendance_import.action_wizard_import_attendance_xls
+msgid "Import CSV/XLS/XLSX"
+msgstr "Import CSV/XLS/XLSX"
+
+#. module: hr_attendance_import
+#. openerp-web
+#: code:addons/hr_attendance_import/static/src/xml/tree_view_buttons.xml:8
+#: model:ir.ui.view,arch_db:hr_attendance_import.wizard_wizard_import_attendance_xls
+#, python-format
+msgid "Import XLS/XLSX"
+msgstr "Importar  XLS/XLSX"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls___last_update
+msgid "Last Modified on"
+msgstr "Última Modificación el"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls_write_uid
+msgid "Last Updated by"
+msgstr "Actualizado por"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls_write_date
+msgid "Last Updated on"
+msgstr "Actualizado"
+
+#. module: hr_attendance_import
+#: model:ir.model.fields,field_description:hr_attendance_import.field_wizard_import_attendance_xls_state
+msgid "State"
+msgstr "Estado"
+
+#. module: hr_attendance_import
+#: selection:wizard.import.attendance.xls,state:0
+msgid "Successful"
+msgstr "Successful"
+
+#. module: hr_attendance_import
+#: code:addons/hr_attendance_import/wizards/models/wizard_hr_attendance_import.py:40
+#, python-format
+msgid "The number of columns indicated in xls is greater thanthe columns allowed, the format must be:Employee, check in, check Out"
+msgstr "The number of columns indicated in xls is greater thanthe columns allowed, the format must be:Employee, check in, check Out"
+
+#. module: hr_attendance_import
+#: code:addons/hr_attendance_import/wizards/models/wizard_hr_attendance_import.py:46
+#, python-format
+msgid "The number of columns indicated in xls is less thanthe columns allowed, the minimum allowed is 3"
+msgstr "The number of columns indicated in xls is less thanthe columns allowed, the minimum allowed is 3"
+
+#. module: hr_attendance_import
+#: code:addons/hr_attendance_import/wizards/models/wizard_hr_attendance_import.py:35
+#, python-format
+msgid "Unable to load xls file: requires Python module xlrd"
+msgstr "Unable to load xls file: requires Python module xlrd"
+
+#. module: hr_attendance_import
+#: model:ir.model,name:hr_attendance_import.model_wizard_import_attendance_xls
+msgid "wizard.import.attendance.xls"
+msgstr "wizard.import.attendance.xls"

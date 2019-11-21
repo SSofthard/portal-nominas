@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="view_company_form_inherit" model="ir.ui.view">
+            <field name="name">company.form.inherit.view</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <page position="after">
+                     <page string="Company Information" groups="base.group_erp_manager">
+                            <group>
+                                <group>
+                                    <field name="business_name"/>
+                                    <field name="rfc"/>
+                                </group>
+                                <group string="Notarial Data">
+                                    <field name="legal_representative_id" context="{'default_legal_representative': True}" domain="[('legal_representative','=',True)]"/>
+                                    <field name="write_number"/>
+                                    <field name="constitution_date"/>
+                                    <field name="public_notary_holder_id" context="{'default_notary_public': True}" domain="[('notary_public','=',True)]"/>
+                                    <field name="public_notary_address_id" context="{'default_public_notary': True, 'default_is_company':True}" domain="[('public_notary','=',True)]"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="employer_register_ids" context="{'default_company_id': active_id}">
+                                    <form>
+                                        <header>
+                                            <button name="action_timed_out" states="valid" string="Timed out" class="oe_highlight" type="object"/>
+                                            <button name="action_revoked" states="valid" string="Revoke" class="oe_highlight" type="object"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="valid,timed_out,revoked"/>
+                                        </header>
+                                        <group col="4">
+                                            <field name="employer_registry"/>
+                                            <field name="electronic_signature" widget="many2many_binary" class="oe_inline"/>
+                                            <field name="validity_signature"/>
+                                            <field name="company_id" invisible="1"/>
+                                        </group>
+                                    </form>
+                                    <tree>
+                                        <field name="employer_registry"/>
+                                        <field name="validity_signature"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                                <field name="partner_ids">
+                                    <tree editable="botton">
+                                        <field name="partner_id" context="{'default_partner_company': True}" domain="[('partner_company','=',True)]"/>
+                                    </tree>
+                                </field>
+                                <field name="branch_offices_ids">
+                                    <tree editable="botton">
+                                        <field name="partner_id" context="{'default_branch_offices': True,'default_is_company':True}" domain="[('branch_offices','=',True)]"/>
+                                    </tree>
+                                </field>
+                                <field name="bank_account_ids">
+                                    <form>
+                                        <header>
+                                            <button name="action_active" states="inactive" string="Active" class="oe_highlight" type="object"/>
+                                            <button name="action_inactive" states="active" string="Inactive" class="oe_highlight" type="object"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="active,inactive"/>
+                                        </header>
+                                        <group col="4">
+                                            <field name="bank_id"/>
+                                            <field name="account_holder"/>
+                                            <field name="bank_account"/>
+                                            <field name="reference"/>
+                                            <field name="predetermined"/>
+                                        </group>
+                                    </form>
+                                    <tree>
+                                        <field name="bank_id"/>
+                                        <field name="account_holder"/>
+                                        <field name="bank_account"/>
+                                        <field name="reference"/>
+                                        <field name="predetermined"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                                <field name="power_attorney_ids" context="{'default_company_id': active_id}">
+                                    <form>
+                                        <header>
+                                            <button name="action_timed_out" states="valid" string="Timed out" class="oe_highlight" type="object"/>
+                                            <button name="action_revoked" states="valid" string="Revoke" class="oe_highlight" type="object"/>
+                                            <widget name="attach_document"  string="Attach Document" action="message_post" highlight="1" context="{'default_company_document_id': company_id.id}" attrs="{'invisible': [('id','=',False)]}"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="valid,timed_out,revoked"/>
+                                        </header>
+                                        <div class="oe_button_box" name="button_box">
+                                            <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+                                                <field string="Documents" name="document_count" widget="statinfo"/>
+                                            </button>
+                                        </div>
+                                        <group col="4">
+                                            <field name="representative_id" context="{'default_legal_representative': True}" domain="[('legal_representative','=',True)]"/>
+                                            <field name="book"/>
+                                            <field name="public_deed_number"/>
+                                            <field name="public_notary" context="{'default_public_notary': True, 'default_is_company':True}" domain="[('public_notary','=',True)]"/>
+                                        </group>
+                                        <field name="company_id" invisible="1"/>
+                                    </form>
+                                    <tree>
+                                        <field name="representative_id"/>
+                                        <field name="book"/>
+                                        <field name="public_deed_number"/>
+                                        <field name="public_notary"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                                <field name="fiel_csd_ids">
+                                    <form>
+                                        <header>
+                                            <button name="action_timed_out" states="valid" string="Timed out" class="oe_highlight" type="object"/>
+                                            <button name="action_revoked" states="valid" string="Revoke" class="oe_highlight" type="object"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="valid,timed_out,revoked"/>
+                                        </header>
+                                        <group col="4">
+                                            <field name="type"/>
+                                            <field name="track"/>
+                                            <field name="effective_date"/>
+                                            <field name="predetermined"/>
+                                            <field name="cer" widget="many2many_binary" class="oe_inline"/>
+                                            <field name="key" widget="many2many_binary" class="oe_inline"/>
+                                        </group>
+                                    </form>
+                                    <tree>
+                                        <field name="type"/>
+                                        <field name="track"/>
+                                        <field name="effective_date"/>
+                                        <field name="predetermined"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                </page>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" placeholder="Code"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_partner_filter_form_inherit" model="ir.ui.view">
+            <field name="name">partner.form.inherit.view</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="legal_representative" invisible="1"/>
+                    <field name="public_notary" invisible="1"/>
+                    <field name="notary_public" invisible="1"/>
+                    <field name="partner_company" invisible="1"/>
+                    <field name="branch_offices" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='function']" position="before">
+                    <field name="notary_public_number" attrs="{'invisible': [('public_notary','=', False)],'required': [('public_notary','=', True)],}"/>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|','|',('public_notary','=', True),('notary_public','=', True),('branch_offices','=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

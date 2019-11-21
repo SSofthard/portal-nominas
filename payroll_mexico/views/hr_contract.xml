@@ -19,6 +19,9 @@
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="code" placeholder="Code"/>
                 </xpath>
+                <xpath expr="//field[@name='type_id']" position="after">
+                    <field name="company_id" required="True" options='{"no_open": True, "no_create": True}'/>
+                </xpath>
                 <xpath expr="//field[@name='name']" position="attributes">
                     <attribute name="placeholder">Name Contract</attribute>
                 </xpath>
