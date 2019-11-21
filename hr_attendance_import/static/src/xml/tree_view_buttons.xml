@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+  <t t-extend="ListView.buttons">
+    <t t-jquery="button.o_list_button_discard" t-operation="after">
+          <t t-if = "widget.modelName == 'hr.attendance'">
+            <button name="open_wizard_xls"
+            class="btn btn-sm btn-default oe_highlight or_tree_view_button"
+            type="button" model="hr.attendance">Import XLS/XLSX</button>
+          </t>
+    </t>
+    <t t-jquery="button.o_list_button_discard" t-operation="after">
+          <t t-if = "widget.modelName == 'hr.attendance'">
+            <button name="download_xls"
+            class="btn btn-sm btn-default oe_highlight oerp_tree_view_button"
+            type="button" model="hr.attendance">Download XLS/XLSX</button>
+          </t>
+    </t>
+  </t>
+</templates>
