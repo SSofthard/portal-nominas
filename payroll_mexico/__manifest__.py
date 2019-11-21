@@ -11,6 +11,7 @@
     "data": [
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
+        'views/res_company_view.xml',
         'data/data.xml',
         'data/res.bank.csv',
         'security/ir.model.access.csv'

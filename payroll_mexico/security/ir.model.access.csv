@@ -5,3 +5,16 @@ access_hr_group_user,Group,model_hr_group,hr.group_hr_user,1,1,1,1
 access_hr_family_burden_user,Family,model_hr_family_burden,hr.group_hr_user,1,1,1,1
 access_hr_relationship_user,Relationship,model_hr_relationship,hr.group_hr_user,1,1,1,1
 access_hr_infonavit_credit_line_user,INFONAVIT Credit Line,model_hr_infonavit_credit_line,hr.group_hr_user,1,1,1,1
+access_res_employer_register_manager,Employer register,model_res_employer_register,base.group_erp_manager,1,1,1,1
+access_res_employer_register_user,Employer register,model_res_employer_register,,1,0,0,0
+access_res_company_partner_manager,Company partner,model_res_company_partner,base.group_erp_manager,1,1,1,1
+access_res_company_partner_user,Company partner,model_res_company_partner,,1,0,0,0
+access_res_company_branch_offices_manager,Company branch offices,model_res_company_branch_offices,base.group_erp_manager,1,1,1,1
+access_res_company_branch_offices_user,Company branch offices,model_res_company_branch_offices,,1,0,0,0
+access_bank_account_company_manager,Bank account company,model_bank_account_company,base.group_erp_manager,1,1,1,1
+access_bank_account_company_user,Bank account company,model_bank_account_company,,1,0,0,0
+access_company_power_attorney_manager,Company power attorney,model_company_power_attorney,base.group_erp_manager,1,1,1,1
+access_company_power_attorney_user,Company power attorney,model_company_power_attorney,,1,0,0,0
+access_res_company_fiel_csd_manager,Company FIELD & CSD,model_res_company_fiel_csd,base.group_erp_manager,1,1,1,1
+access_res_company_fiel_csd_user,Company FIELD & CSD,model_res_company_fiel_csd,,0,0,0,0
+access_hr_company_line_user,Company line employee,model_hr_company_line,hr.group_hr_user,1,1,1,1

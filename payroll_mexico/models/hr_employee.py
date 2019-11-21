@@ -63,6 +63,7 @@ class Employee(models.Model):
     family_ids = fields.One2many('hr.family.burden','employee_id', "Family")
     age = fields.Integer("Age", compute='calculate_age_compute')
     infonavit_ids = fields.One2many('hr.infonavit.credit.line','employee_id', "INFONAVIT credit")
+    company_ids = fields.One2many('hr.company.line','employee_id', "Companies")
     
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -94,7 +95,7 @@ class paymentPeriod(models.Model):
 class bankDetailsEmployee(models.Model):
     _name = "bank.account.employee"
     
-    employee_id = fields.Many2one('hr.employee', "Employee", required=True)
+    employee_id = fields.Many2one('hr.employee', "Employee", required=False)
     bank_id = fields.Many2one('res.bank', "Bank", required=True)
     beneficiary = fields.Char("Beneficiary", copy=False, required=True)
     bank_account = fields.Char("Bank account", copy=False, required=True)
@@ -108,6 +109,16 @@ class bankDetailsEmployee(models.Model):
     _sql_constraints = [
         ('predetermined_uniq', 'unique (employee_id,predetermined)', "There is already a default account number for this employee.!"),
     ]
+    
+    @api.multi
+    def action_active(self):
+        for account in self:
+            account.state = 'active'
+            
+    @api.multi
+    def action_inactive(self):
+        for account in self:
+            account.state = 'inactive'
 
 class resBank(models.Model):
     _inherit = "res.bank"
@@ -132,7 +143,7 @@ class hrFamilyBurden(models.Model):
             if family.birthday:
                 family.age = calculate_age(family.birthday)
     
-    employee_id = fields.Many2one('hr.employee', "Employee", required=True)
+    employee_id = fields.Many2one('hr.employee', "Employee", required=False)
     name = fields.Char("Name", copy=False, required=True)
     birthday = fields.Date("Birthday", required=True)
     age = fields.Integer("Age", compute='calculate_age_compute')
@@ -146,7 +157,7 @@ class hrRelationship(models.Model):
 class hrInfonavitCreditLine(models.Model):
     _name = "hr.infonavit.credit.line"
     
-    employee_id = fields.Many2one('hr.employee', "Employee", required=True)
+    employee_id = fields.Many2one('hr.employee', "Employee", required=False)
     infonavit_credit_number = fields.Char("INFONAVIT Credit Number", copy=False, required=True)
     credit_data = fields.Char("Detailed credit data", copy=False, required=False)
     date = fields.Date("Date", required=True)
@@ -173,3 +184,20 @@ class hrInfonavitCreditLine(models.Model):
     def action_close(self):
         for credit in self:
             credit.state = 'closed'
+            
+class hrCompanyLIne(models.Model):
+    _name = "hr.company.line"
+    
+    employee_id = fields.Many2one('hr.employee', "Employee", required=False)
+    company_id = fields.Many2one('res.company', "Company", required=True)
+    wage = fields.Float("Wage", copy=False, required=True)
+    scheme = fields.Selection([
+        ('wage', 'Wages and salaries'),
+        ('assimilated', 'Assimilated'),
+        ('free', 'Free'),
+    ], string="Scheme",default="wage")
+
+class Country(models.Model):
+    _inherit = "res.country"
+    
+    nationality = fields.Char("Name", copy=False, required=False)

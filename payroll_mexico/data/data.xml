@@ -54,6 +54,6 @@
     <record id="hr_relationship_2" model="hr.relationship">
         <field name="name">Hijo</field>
     </record>
-        
+    
    </data>
 </odoo>
