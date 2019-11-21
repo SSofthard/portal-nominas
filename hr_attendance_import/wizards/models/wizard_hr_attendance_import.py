@@ -6,6 +6,7 @@ import pandas as pd
 import io
 import pytz
 import xlwt
+import os
 
 from datetime import datetime
 from odoo import api, fields, models, _
@@ -189,7 +190,9 @@ class WizardExportAttendance(models.TransientModel):
              'larg': 15,
              'col': {}},
         ]
-        file_data = 'file.xlsx'
+        if not os.path.exists('/tmp/file.xlsx'):
+            with open('/tmp/file.xlsx', 'w'): pass
+        file_data = '/tmp/file.xlsx'
         # ~ file_data = io.StringIO('file.xlsx')
         workbook = xlsxwriter.Workbook(file_data)
         sheet = workbook.add_worksheet(self.name)
@@ -210,7 +213,7 @@ class WizardExportAttendance(models.TransientModel):
                         {'total_row': 1,
                          'columns': table,
                          'style': 'Table Style Light 9',
-                         })
+                        })
         sheet.set_row(0, 15, bold)
         workbook.close()
         with open(file_data, "rb") as file:
