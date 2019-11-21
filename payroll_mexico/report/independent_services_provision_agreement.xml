@@ -22,6 +22,7 @@
                       A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <strong>“EL CLIENTE”</strong>.
                       POR LO QUE AMBAS PARTES SE SUJETAN AL TENOR DE LAS SIGUIENTES
                     </p>
+                    <br></br>
                     <p align="center"><b>DECLARACIONES</b></p>
                     <table class="egt">
                           <tr>
@@ -40,7 +41,7 @@
                                     <strong><t t-esc="originative" /></strong>, con fecha de nacimiento 
                                     el día <strong><t t-esc="employee_birthday" /></strong>, 
                                     con domicilio ubicado en 
-                                    <strong><t t-esc="employee_address_home" /></strong>
+                                    <strong><t t-esc="employee_dress" /></strong>
                                     mismo que señala para todos los fines legales derivados o que se deriven en de este contrato.
                                 </p>
                             </td>
@@ -50,7 +51,7 @@
                             <td valign="top"><b>B)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                        Contar con Clave Única de Registro de Población <strong><t t-esc="employee_crup" /></strong>.
+                                        Contar con Clave Única de Registro de Población <strong><t t-esc="employee_curp" /></strong>.
                                 </p>
                             </td>
                           </tr>
@@ -309,7 +310,7 @@
                         </table>
                         <p align="justify">
                             <b>SÉPTIMA:</b> La vigencia del presente contrato será por tiempo indeterminado el cual 
-                            comenzará a surtir efectos a partir del día 1 OCTUBRE 2019 (Fecha de inicio del Contrato) 
+                            comenzará a surtir efectos a partir del <strong><t t-esc="date_contract" /></strong> 
                             y terminará con simple notificación por escrito, con 30 (treinta) días de anticipación 
                             sin necesidad de resolución judicial, con el propósito de que durante ese lapso haya 
                             posibilidad de concluir los trabajos pendientes y de que, en todo caso, <strong>“EL CLIENTE”</strong> 
@@ -338,7 +339,7 @@
                         <p align="justify">
                             <b>LEIDO QUE FUE EL PRESENTE CONTRATO Y enteradas LAS PARTES DE SU CONTENIDO, 
                             ALCANCE Y VALOR LEGAL, lo firman POR DUPLICADO en LA CIUDAD DE MÉXICO, 
-                            A los 1 DÍAS DEL MES DE OCTUBRE DEL AÑO 2019. (fecha de inicio de contrato) </b>  
+                            A los <strong><t t-esc="date_contract" /></strong> </b>  
                         </p>
                         <p align="center"><b></b></p>
                         <p align="center"><b>LAS PARTES</b></p>
@@ -396,6 +397,7 @@
                             </table>
                 </page>
                 <page>
+                    <br></br>
                     <br></br>
                     <br></br>
                     <br></br>
