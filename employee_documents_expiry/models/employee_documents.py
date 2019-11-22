@@ -28,8 +28,10 @@ from odoo.exceptions import Warning
 class irAttachment(models.Model):
     _inherit = 'ir.attachment'
     
-    employee_id = fields.Many2one('hr.employee', invisible=1, copy=True)
-    type_id = fields.Many2one('hr.employee.document.type', string='Document type', required=True, copy=False, help='Select the type of document')
+    employee_id = fields.Many2one('hr.employee', invisible=True)
+    contract_id = fields.Many2one('hr.contract', invisible=True)
+    company_document_id = fields.Many2one('res.company', "Company",  invisible=True)
+    type_id = fields.Many2one('hr.employee.document.type', string='Document type', required=False, copy=False, help='Select the type of document')
     expiry_date = fields.Date(string='Expiry Date', copy=False)
     issue_date = fields.Char(string='Issue Date', default=fields.datetime.now(), copy=False)
     description = fields.Text(string='Description', copy=False)
@@ -101,34 +103,67 @@ class Contract(models.Model):
     @api.multi
     def _document_count(self):
         for each in self:
-            document_ids = self.env['hr.employee.document'].sudo().search([('employee_ref', '=', each.employee_id.id),('contract_id', '=', each.id)])
+            document_ids = self.env['ir.attachment'].sudo().search([('contract_id', '=', each.id)])
             each.document_count = len(document_ids)
 
     @api.multi
     def document_view(self):
         self.ensure_one()
         domain = [
-            ('employee_ref', '=', self.employee_id.id),('contract_id', '=', self.id)]
+            ('contract_id', '=', self.id)]
         return {
-            'name': _('Documents'),
+            'name': _('Contract Documents'),
             'domain': domain,
-            'res_model': 'hr.employee.document',
+            'res_model': 'ir.attachment',
             'type': 'ir.actions.act_window',
             'view_id': False,
-            'view_mode': 'tree,form',
+            'view_mode': 'kanban,tree,form',
             'view_type': 'form',
             'help': _('''<p class="oe_view_nocontent_create">
                            Click to Create for New Documents
                         </p>'''),
             'limit': 80,
-            'context': "{'default_employee_ref': '%s','default_contract_id': '%s'}" % (self.employee_id.id,self.id)
+            'context': "{'default_employee_id': '%s','default_contract_id': '%s'}" % (self.employee_id.id,self.id)
         }
 
     document_count = fields.Integer(compute='_document_count', string='# Documents')
 
+class Company(models.Model):
+    _inherit = 'res.company'
+
+    @api.multi
+    def _document_count(self):
+        for each in self:
+            document_ids = self.env['ir.attachment'].sudo().search([('company_document_id', '=', each.id)])
+            each.document_count = len(document_ids)
+
+    @api.multi
+    def document_view(self):
+        self.ensure_one()
+        domain = [
+            ('company_document_id', '=', self.id)]
+        return {
+            'name': _('Documents Company'),
+            'domain': domain,
+            'res_model': 'ir.attachment',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'kanban,tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                           Click to Create for New Documents
+                        </p>'''),
+            'limit': 80,
+            'context': "{'default_company_document_id': '%s'}" % self.id
+        }
+
+    document_count = fields.Integer(compute='_document_count', string='# Documents')
 
 
 class HrEmployeeDocumentType(models.Model):
     _name = 'hr.employee.document.type'
     
     name = fields.Char(string='Name', required=True, copy=False, help='You can give your type document.')
+
+
+    

@@ -52,6 +52,9 @@
                         <field name="blood_type"/>
                     </group>
                 </xpath>
+                <xpath expr="//field[@name='company_id']" position="attributes">
+					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
+				</xpath>
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
                         <group  col="4" string="IMSS">
@@ -63,6 +66,11 @@
                     <page name="bank_information" string="Bank Information" groups="hr.group_hr_user">
                         <field name="bank_account_ids">
                             <form>
+								<header>
+									<button name="action_active" states="inactive" string="Active" class="oe_highlight" type="object"/>
+									<button name="action_inactive" states="active" string="Inactive" class="oe_highlight" type="object"/>
+									<field name="state" widget="statusbar" statusbar_visible="active,inactive"/>
+								</header>
                                 <group col="4">
                                     <field name="bank_id" />
                                     <field name="beneficiary" />
@@ -99,7 +107,7 @@
                             </tree>
                         </field>
                     </page>
-                    <page name="infonavit" string="INFONAVIT Credit" groups="hr.group_hr_user">
+                    <page name="infonavit" string="INFONAVIT" groups="hr.group_hr_user">
                         <field name="infonavit_ids">
                             <form>
                                 <header>
@@ -123,7 +131,28 @@
                             </tree>
                         </field>
                     </page>
+                    <page name="companies" string="Companies" groups="hr.group_hr_user">
+                        <field name="company_ids">
+                            <tree editable="botton">
+                                <field name="company_id" options='{"no_open": True, "no_create": True}'/>
+                                <field name="wage" />
+                                <field name="scheme" />
+                            </tree>
+                        </field>
+                    </page>
                 </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="hr_hr_employee_view_form2_inherit_form">
+            <field name="name">hr_employee_inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bank_account_id']" position="attributes">
+					<attribute name="invisible">True</attribute>
+                </xpath>
+
             </field>
         </record>
         
@@ -182,5 +211,30 @@
             parent="hr.menu_human_resources_configuration"
             groups="hr.group_hr_manager"
             sequence="110"/>
+            
+<!--
+            view country
+-->
+          
+          <record model="ir.ui.view" id="view_res_country_inherit_form">
+            <field name="name">res_country_inherit</field>
+            <field name="model">res.country</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="base.view_country_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="nationality"/>
+                </xpath> 
+            </field>
+		  </record>
+		  
+		  <menuitem id="menu_address" name="Address" parent="base.menu_custom" sequence="60"/>
+		  <menuitem
+            id="menu_country_configuration"
+            name="Countries"
+            action="base.action_country"
+            parent="menu_address"
+            sequence="10"/>
+          
     </data>
 </odoo>

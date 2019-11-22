@@ -11,6 +11,8 @@ DocumentsInspector.include({
         var options = {mode: 'edit'};
         if (this.records.length === 1) {
             this._renderField('employee_id', options);
+            this._renderField('contract_id', options);
+            this._renderField('company_document_id', options);
             this._renderField('description', options);
             this._renderField('expiry_date', options);
         }
