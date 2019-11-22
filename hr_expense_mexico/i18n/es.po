@@ -1,0 +1,277 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* hr_expense_mexico
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e-201905\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-22 16:52+0000\n"
+"PO-Revision-Date: 2019-11-22 16:52+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "<strong>Expenses items</strong>"
+msgstr "<strong>Gastos</strong>"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.wizard_add_tags_documents
+msgid "ADD"
+msgstr "Guardar"
+
+#. module: hr_expense_mexico
+#: model:ir.actions.act_window,name:hr_expense_mexico.action_wizard_add_tag_document
+msgid "Add tag to document"
+msgstr "Agregar etiqueta al documento"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.amount_approve_expense_sheet_wizard
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.wizard_add_tags_documents
+msgid "Add tags and folder"
+msgstr "Agregar etiquetas y directorios"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_expense_sheet_amount_approve_wizard__amount_approve
+msgid "Amount Approve"
+msgstr "Monto autorizado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__amount_approved
+msgid "Amount Approved"
+msgstr "Monto autorizado"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.amount_approve_expense_sheet_wizard
+msgid "Approve amount"
+msgstr "Monto autorizado"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,state:0
+#: selection:hr.expense.sheet,state:0
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "CODE"
+msgstr "CODIGO"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.amount_approve_expense_sheet_wizard
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.wizard_add_tags_documents
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,state:0
+msgid "Checked"
+msgstr "Comprobado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__classification_id
+msgid "Classification"
+msgstr "Clasificación"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
+msgid "Code"
+msgstr "Código"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__completed
+msgid "Completed"
+msgstr "Completado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_expense_sheet_amount_approve_wizard__create_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__create_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_expense_sheet_amount_approve_wizard__create_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__create_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__date_checking
+msgid "Date Checking"
+msgstr "Fecha de comprobación"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__date_invoice
+msgid "Date invoice"
+msgstr "Fecha de Factura"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__date_request
+msgid "Date request"
+msgstr "Fecha de solicitud"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.sheet,state:0
+msgid "Denied"
+msgstr "Denegado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_expense_sheet_amount_approve_wizard__display_name
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__display_name
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.sheet,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_expense
+msgid "Expense"
+msgstr "Gasto"
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_expense_sheet
+msgid "Expense Report"
+msgstr "Informe de Gastos"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_sheet__state
+msgid "Expense Report State"
+msgstr "Estado del Informe de Gastos"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__facet_id
+msgid "Facet"
+msgstr "Faceta"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__folio
+msgid "Folio"
+msgstr "Folio"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_expense_sheet_amount_approve_wizard__id
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__id
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__id
+msgid "ID"
+msgstr "ID"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_expense_sheet_amount_approve_wizard____last_update
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification____last_update
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_expense_sheet_amount_approve_wizard__write_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__write_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_expense_sheet_amount_approve_wizard__write_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__write_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Mark to paid"
+msgstr "Marcar como pagado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,state:0
+#: selection:hr.expense.sheet,state:0
+msgid "Paid"
+msgstr "Pagado"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,state:0
+msgid "Pending Checking"
+msgstr "Pendiente de comprobacións"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.sheet,state:0
+msgid "Posted"
+msgstr "Publicado"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,state:0
+#: selection:hr.expense.sheet,state:0
+msgid "Refused"
+msgstr "Rechazada"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__state
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__state
+msgid "Status"
+msgstr "Estado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense__state
+msgid "Status of the expense."
+msgstr "Estado del gasto"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,state:0
+#: selection:hr.expense.sheet,state:0
+msgid "Submitted"
+msgstr "Enviado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__tag_ids
+msgid "Tag"
+msgstr "Etiqueta"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,state:0
+msgid "To Submit"
+msgstr "A enviar"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__validate_document
+msgid "Validate Documents"
+msgstr "Documentos Validados"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "e.g. Trip to NY"
+msgstr "Ej. Viaje a Nueva York"
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_expense_sheet_amount_approve_wizard
+msgid "expense.sheet.amount.approve.wizard"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_expense_classification
+msgid "hr.expense.classification"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_wizard_attachment_tag
+msgid "wizard.attachment.tag"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "{'readonly':[('state','!=','draft')]}"
+msgstr ""
