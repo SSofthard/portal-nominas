@@ -14,4 +14,5 @@
 
 from . import hr_employee
 from . import hr_contract
+from . import hr_contract_type
 from . import hr_company
