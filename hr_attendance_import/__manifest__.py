@@ -17,8 +17,8 @@
     """,
     'depends': ['hr_attendance'],
     'data': [
+        'wizard/wizard_hr_attendance_import.xml',
         'views/assets.xml',
-        'wizards/views/wizard_hr_attendance_import.xml'
     ],
     'qweb': [
         'static/src/xml/tree_view_buttons.xml'
