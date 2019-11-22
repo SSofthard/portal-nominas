@@ -9,7 +9,7 @@
     'author': '',
     'license': '',
     'website': "",
-    'depends': ['base', 'hr','hr_contract'],
+    'depends': ['base', 'hr','hr_contract','documents','mail'],
     'data': [
         'security/ir.model.access.csv',
         'views/employee_document_view.xml',

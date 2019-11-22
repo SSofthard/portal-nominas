@@ -150,15 +150,14 @@ class WizardImportAttendance(models.TransientModel):
         datafile = base64.b64decode(self.file_xls)
         input_file = io.BytesIO(datafile)
         xml_obj = pd.read_excel(input_file)
-        grouped_by_code = xml_obj.groupby(["Enrollment", "Check In", "Check Out"])
+        xml_obj.columns = ['Employee', 'Check In', 'Check Out']
+        grouped_by_code = xml_obj.groupby(["Employee", "Check In", "Check Out"])
         for code, group in grouped_by_code:
-            employee = self.env['hr.employee'].search([('enrollment', '=', group['Enrollment'].values[0].strip())])
+            employee = self.env['hr.employee'].search([('enrollment', '=', group['Employee'].values[0].strip())])
             check_in = group['Check In'].values[0]
             check_out = group['Check Out'].values[0]
             result += [[
                 employee.name,
-                # ~ self.convert_utc_timestamp(pd.to_datetime(check_in).strftime(DEFAULT_SERVER_DATETIME_FORMAT)),
-                # ~ self.convert_utc_timestamp(pd.to_datetime(check_out).strftime(DEFAULT_SERVER_DATETIME_FORMAT))
                 pd.to_datetime(check_in).strftime(DEFAULT_SERVER_DATETIME_FORMAT),
                 pd.to_datetime(check_out).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
             ]]
@@ -180,20 +179,19 @@ class WizardExportAttendance(models.TransientModel):
     @api.multi
     def generate_excel(self):
         head = [
-            {'name': 'Enrollment',
+            {'name': 'Employee',
              'larg': 50,
              'col': {}},
             {'name': 'Check In',
-             'larg': 15,
+             'larg': 20,
              'col': {}},
             {'name': 'Check Out',
-             'larg': 15,
+             'larg': 20,
              'col': {}},
         ]
         if not os.path.exists('/tmp/file.xlsx'):
             with open('/tmp/file.xlsx', 'w'): pass
         file_data = '/tmp/file.xlsx'
-        # ~ file_data = io.StringIO('file.xlsx')
         workbook = xlsxwriter.Workbook(file_data)
         sheet = workbook.add_worksheet(self.name)
         bold = workbook.add_format({'bold': True})
@@ -209,6 +207,9 @@ class WizardExportAttendance(models.TransientModel):
             col['header'] = h['name']
             col.update(h['col'])
             table.append(col)
+        sheet.write_comment('A1', 'This is a Employee Code, Example: \nEMP-0001')
+        sheet.write_comment('B1', 'This is Date and time of entry, Example format: \nDD/MM/AAAA HH:MM:SS or \nAAAA-MM-DD HH:MM:SS')
+        sheet.write_comment('C1', 'This is Date and time of departure, Example format: \nDD/MM/AAAA HH:MM:SS or \nAAAA-MM-DD HH:MM:SS')
         sheet.add_table(start_row - 1, 0, row + 1, len(head) - 1,
                         {'total_row': 1,
                          'columns': table,
