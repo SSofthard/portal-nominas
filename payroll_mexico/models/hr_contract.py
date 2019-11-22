@@ -15,6 +15,22 @@ class Contract(models.Model):
     attendance_bonus = fields.Float('Attendance bonus', required=False)
     punctuality_bonus = fields.Float('Punctuality Bonds', required=False)
     social_security = fields.Float('Social security', required=False)
+    company_id = fields.Many2one('res.company', default = ['employee_id','=', False])
+    
+    @api.onchange('employee_id')
+    def onchange_search_company_id(self):
+        domain={}
+        vals=[]
+        value={}
+        for company in self.employee_id.company_ids:
+            vals.append(company.company_id.id)
+        if vals:
+            domain={'company_id': [('id','in', vals)]}
+        else:
+            domain={'company_id': [('id','in', vals)]}
+            value['company_id']=False
+        return {'value': value, 'domain': domain}
+    
     
     def print_contract(self):
         report=self.type_id.report_id
