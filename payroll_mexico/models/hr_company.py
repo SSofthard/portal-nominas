@@ -69,8 +69,8 @@ class companyFielCsd(models.Model):
         ('csd', 'CSD'),],default="Type", required=True)
     track = fields.Char("Track", copy=False, required=True)
     effective_date = fields.Date("Effective date", required=True, copy=False)
-    cer = fields.Many2many('ir.attachment', string=".cer", required=True)
-    key = fields.Many2many('ir.attachment', string=".key", required=True)
+    cer = fields.Many2many('ir.attachment','cer_attachment_rel','cer_id','attachment_id', string=".cer", required=True)
+    key = fields.Many2many('ir.attachment', 'key_attachment_rel','key_id','attachment_id', string=".key", required=True)
     state = fields.Selection([
         ('valid', 'Valid'),
         ('timed_out', 'Timed out'),
@@ -83,13 +83,16 @@ class companyFielCsd(models.Model):
     
     @api.multi
     def action_revoked(self):
-        for power in self:
-            power.state = 'revoked'
+        for fc in self:
+            fc.state = 'revoked'
+            fc.predetermined = False
+            
             
     @api.multi
     def action_timed_out(self):
-        for power in self:
-            power.state = 'timed_out'
+        for fc in self:
+            fc.state = 'timed_out'
+            fc.predetermined = False
     
 class branchOffices(models.Model):
 
@@ -125,30 +128,50 @@ class bankDetailsCompany(models.Model):
     def action_inactive(self):
         for account in self:
             account.state = 'inactive'
+            account.predetermined = False
     
 class companyPowerAttorney(models.Model):
     _name = "company.power.attorney"
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _rec_name = "representative_id"
     
     company_id = fields.Many2one('res.company', "Company", required=True)
     representative_id = fields.Many2one('res.partner', "Representative", required=True, copy=False)
     book = fields.Integer("Book", copy=False, required=True)
     public_deed_number = fields.Char("Instrument or public deed number.", copy=False, required=True)
     public_notary  = fields.Many2one('res.partner', "Public Notary", required=True, copy=False)
+    predetermined = fields.Boolean("Predetermined", copy=False, required=False)
     state = fields.Selection([
         ('valid', 'Valid'),
         ('timed_out', 'Timed out'),
         ('revoked', 'Revoked'),], "Status",default="valid")
     
+    _sql_constraints = [
+        ('predetermined_uniq', 'unique (company_id,predetermined)', "There is already a default ower attorney for this company.!"),
+    ]
+    
+    def _get_name(self):
+        return "%s ‒ %s" % (self.representative_id.name, self.public_deed_number)
+
+    @api.multi
+    def name_get(self):
+        res = []
+        for power in self:
+            name = power._get_name()
+            res.append((power.id, name))
+        return res
+    
     @api.multi
     def action_revoked(self):
         for power in self:
             power.state = 'revoked'
+            power.predetermined = False
             
     @api.multi
     def action_timed_out(self):
         for power in self:
             power.state = 'timed_out'
+            power.predetermined = False
     
     @api.multi
     def _document_count(self):
@@ -184,8 +207,34 @@ class Partner(models.Model):
     
     legal_representative = fields.Boolean(string='Legal Representative?', copy=False)
     public_notary = fields.Boolean(string='Public Notary?', copy=False)
-    notary_public_number = fields.Integer("Notary Public Number", copy=False, required=True)
+    notary_public_number = fields.Integer("Notary Public Number", copy=False)
     notary_public = fields.Boolean(string='Notary Public?', copy=False)
     partner_company = fields.Boolean(string='Partner Company?', copy=False)
     branch_offices = fields.Boolean(string='Branch Offices?', copy=False)
     country_id=fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
+    
+    @api.multi
+    def _display_address(self, without_company=False):
+
+        '''
+        The purpose of this function is to build and return an address formatted accordingly to the
+        standards of the country where it belongs.
+
+        :param address: browse record of the res.partner to format
+        :returns: the address formatted in a display that fit its country habits (or the default ones
+            if not country is specified)
+        :rtype: string
+        '''
+        # get the information that will be injected into the display format
+        # get the address format
+        address_format = self._get_address_format()
+        args = {
+            'state_code': self.state_id.code or '',
+            'state_name': self.state_id.name or '',
+            'country_code': self.country_id.code or '',
+            'country_name': self._get_country_name(),
+            'company_name': self.commercial_company_name or '',
+        }
+        for field in self._address_fields():
+            args[field] = getattr(self, field) or ''
+        return address_format % args

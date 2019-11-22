@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+		<report id="report_contract_type_template" 
+			  string="Type Contract Report" 
+			  model="hr.contract" 
+			  report_type="qweb-html" 
+			  name="payroll_mexico.contract_type_template" 
+			 /> 
+        <template id="contract_type_template">
+            <t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-set="lang" t-value="user.lang"/>
+					<t t-call="{{o.type_id.report_id.report_name}}"/>
+				</t>
+            </t>
+        </template>
 
-<template id="internal_layout">
+	<template id="internal_layout_contract">
         <t t-if="not o" t-set="o" t-value="doc"/>
-
         <t t-if="not company">
             <!-- Multicompany -->
             <t t-if="company_id">
@@ -17,12 +30,11 @@
                 <t t-set="company" t-value="res_company"/>
             </t>
         </t>
-
         <div class="header">
             <div class="row">
 
                 <div class="col-12 text-center">
-                    <img src="/payroll_mexico/static/images/central_black.jpg" width="300" height="150"></img>
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
                 </div>
 
             </div>
@@ -44,7 +56,7 @@
             </div>
         </div>
     </template>
-<template id="internal_layout_sin_header">
+	<template id="internal_layout_sin_header">
         <t t-if="not o" t-set="o" t-value="doc"/>
 
         <t t-if="not company">

@@ -94,7 +94,8 @@
                                             <field name="representative_id" context="{'default_legal_representative': True}" domain="[('legal_representative','=',True)]"/>
                                             <field name="book"/>
                                             <field name="public_deed_number"/>
-                                            <field name="public_notary" context="{'default_public_notary': True, 'default_is_company':True}" domain="[('public_notary','=',True)]"/>
+                                            <field name="public_notary" context="{'default_public_notary': True}" domain="[('public_notary','=',True)]"/>
+                                            <field name="predetermined"/>
                                         </group>
                                         <field name="company_id" invisible="1"/>
                                     </form>
@@ -115,7 +116,7 @@
                                         </header>
                                         <group col="4">
                                             <field name="type"/>
-                                            <field name="track"/>
+                                            <field name="track" password="True"/>
                                             <field name="effective_date"/>
                                             <field name="predetermined"/>
                                             <field name="cer" widget="many2many_binary" class="oe_inline"/>
@@ -124,7 +125,7 @@
                                     </form>
                                     <tree>
                                         <field name="type"/>
-                                        <field name="track"/>
+                                        <field name="track" password="True"/>
                                         <field name="effective_date"/>
                                         <field name="predetermined"/>
                                         <field name="state"/>

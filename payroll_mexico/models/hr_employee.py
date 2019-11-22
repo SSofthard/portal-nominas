@@ -200,4 +200,4 @@ class hrCompanyLIne(models.Model):
 class Country(models.Model):
     _inherit = "res.country"
     
-    nationality = fields.Char("Name", copy=False, required=False)
+    nationality = fields.Char("Nationality", copy=False, required=False)

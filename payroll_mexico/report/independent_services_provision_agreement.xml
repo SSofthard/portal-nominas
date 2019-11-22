@@ -11,14 +11,14 @@
         
         <template id="independent_services_pa" name="Independent Services Provision Agreement">
             <t t-call="web.html_container">
-                <t t-call="payroll_mexico.internal_layout_sin_header">
+                <t t-call="payroll_mexico.internal_layout_contract">
                 <page>
                     <p align="justify">
-                      <strong>CONTRATO DE PRESTACIÓN DE SERVICIOS INDEPENDIENTES</strong> 
-                      QUE CELEBRAN, POR UNA PARTE EL <strong><t t-esc="employee"></t></strong>, 
+                      <b>CONTRATO DE PRESTACIÓN DE SERVICIOS INDEPENDIENTES</b> 
+                      QUE CELEBRAN, POR UNA PARTE EL <strong><t t-esc="o.employee_id.name.upper()"/></strong>, 
                       A QUIEN EN LO SUCESIVO SE DENOMINARA <strong>“EL PRESTADOR”</strong>, 
-                      Y POR LA OTRA  LA SOCIEDAD DENOMINADA <strong><t t-esc="mr_patron"/></strong>
-                      REPRESENTADA EN ESTE ACTO POR EL <strong><t t-esc="patron"></t></strong>
+                      Y POR LA OTRA  LA SOCIEDAD DENOMINADA <strong><t t-esc="o.company_id.business_name.upper()"/></strong>
+                      REPRESENTADA EN ESTE ACTO POR EL (LA) <strong><t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/></strong>
                       A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <strong>“EL CLIENTE”</strong>.
                       POR LO QUE AMBAS PARTES SE SUJETAN AL TENOR DE LAS SIGUIENTES
                     </p>

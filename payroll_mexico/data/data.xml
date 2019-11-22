@@ -25,24 +25,39 @@
     <delete model="hr.contract.type" id="hr_contract.hr_contract_type_sub" />
 -->
     
-    <record id="hr_contract_type_1" model="hr.contract.type">
-        <field name="name">Tiempo indeterminado</field>
+    <record id="hr_contract_type_indeterminate_with_seniority" model="hr.contract.type">
+        <field name="name">Tiempo Indeterminado</field>
+        <field name="type">with_seniority</field>
+        <field name="report_id" ref="payroll_mexico.report_indeterminate_contract_with_seniority2"/>
         <field name="sequence">5</field>
     </record>
-    <record id="hr_contract_type_2" model="hr.contract.type">
-        <field name="name">Tiempo determinado sin antigüedad</field>
+    <record id="hr_contract_type_indeterminate_without_seniority" model="hr.contract.type">
+        <field name="name">Tiempo Indeterminado</field>
+        <field name="type">without_seniority</field>
+        <field name="report_id" ref="payroll_mexico.report_contract_without_seniority"/>
+        <field name="sequence">5</field>
+    </record>
+    <record id="hr_contract_type_determinate_with_seniority" model="hr.contract.type">
+        <field name="name">Tiempo Determinado</field>
+        <field name="type">with_seniority</field>
+        <field name="report_id" ref="payroll_mexico.report_determinate_contract_with_seniority"/>
         <field name="sequence">10</field>
     </record>
-    <record id="hr_contract_type_3" model="hr.contract.type">
-        <field name="name">Tiempo determinado con antigüedad</field>
+    <record id="hr_contract_type_determinate_without_seniority" model="hr.contract.type">
+        <field name="name">Tiempo Determinado</field>
+         <field name="type">without_seniority</field>
+         <field name="report_id" ref="payroll_mexico.report_contract_without_seniority"/>
         <field name="sequence">15</field>
     </record>
-    <record id="hr_contract_type_4" model="hr.contract.type">
+    <record id="hr_contract_type_proyect" model="hr.contract.type">
         <field name="name">Por Proyecto</field>
+        <field name="type">na</field>
         <field name="sequence">20</field>
     </record>
-    <record id="hr_contract_type_5" model="hr.contract.type">
-        <field name="name">Contratación de Prestación de Servicios independientes</field>
+    <record id="hr_contract_type_services_pa" model="hr.contract.type">
+        <field name="name">Prestación de Servicios Independientes</field>
+        <field name="type">na</field>
+        <field name="report_id" ref="payroll_mexico.report_contract_without_seniority"/>
         <field name="sequence">25</field>
     </record>
     

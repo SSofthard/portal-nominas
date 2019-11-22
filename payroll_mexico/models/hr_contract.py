@@ -5,17 +5,33 @@ from datetime import datetime
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
+from .tool_convert_numbers_letters import numero_to_letras
+
 class Contract(models.Model):
 
     _inherit = 'hr.contract'
 
-    code = fields.Char('Code', default="HOLA",required=True)
+    code = fields.Char('Code',required=True)
     type_id = fields.Many2one(string="Type Contract")
+    type_contract = fields.Selection(string="Type", related="type_id.type", invisible=True)
     productivity_bonus = fields.Float('Productivity bonus', required=False)
     attendance_bonus = fields.Float('Attendance bonus', required=False)
     punctuality_bonus = fields.Float('Punctuality Bonds', required=False)
     social_security = fields.Float('Social security', required=False)
     company_id = fields.Many2one('res.company', default = ['employee_id','=', False])
+    previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
+    power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
+    
+    @api.onchange('company_id')
+    def onchange_default_power_attorney(self):
+        for contract in self:
+            power = self.env['company.power.attorney'].search([('company_id','=',contract.company_id.id),('state','in',['valid']),('predetermined','=',True)])
+            if power:
+                contract.power_attorney_id = power.id
+            else:
+                power = self.env['company.power.attorney'].search([('company_id','=',contract.company_id.id),('state','in',['valid'])], limit=1)
+                if power:
+                    contract.power_attorney_id = power.id 
     
     @api.onchange('employee_id')
     def onchange_search_company_id(self):
@@ -33,65 +49,20 @@ class Contract(models.Model):
     
     
     def print_contract(self):
-        report=self.type_id.report_id
-        if not report:
-            msg="The type of contract does not have an assigned report"
-            raise  UserError(_(msg))
-        employee=self.employee_id
-        company=self.company_id
-        empl_birthday="Sin Fecha"
-        if employee.birthday:
-            format = ("%d/%m/%Y")
-            empl_birthday = employee.birthday.strftime(format)
-        mr_patron={
-                'male':_('Mr'),
-                'female':_('Mrs'),
-                }
-        mr_employee={
-                'male':'EL SEÑOR',
-                'female':'LA SEÑORA',
-                }
-        domain=[
-                ('employee_id','=',employee.id),
-                ('state','in',['cloese'])
-                ]
-        date_start=self.date_start
-        record=self.search_read(domain,['date_start'],limit=1,order="id asc")
-        if record:
-            date_start=record[0]['date_start']
+        contract_dic = {}
+        for contract in self:
+            report=self.type_id.report_id
+            if not report:
+                msg="The type of contract does not have an assigned report"
+                raise  UserError(_(msg))
+            date = self.date_start
+            previous_contract_date = ''
+            if self.type_id.type == 'with_seniority':
+                previous_contract_date = self.previous_contract_date.strftime('%d')+' del mes de '+self.previous_contract_date.strftime('%B').upper()+' de '+self.previous_contract_date.strftime('%Y')
+            
+            contract_dic[contract.id]=[date.strftime('%d')+' días del mes de '+date.strftime('%B').upper()+' de '+numero_to_letras(int(date.strftime('%Y'))).lower(),previous_contract_date]
         data={
-            'type':self.type_id.name.upper(),
-            'company_name':company.business_name,
-            'company_addres':company.partner_id.contact_address,
-            'company_rfc':company.rfc,
-            'company_public': "por buscar",
-            'public_notary':company.public_notary_address_id.name,
-            'repres_public_title_notary':company.public_notary_holder_id.title.shortcut,
-            'representative_public_notary':company.public_notary_holder_id.name,
-            'number_public_notary':company.public_notary_address_id.notary_public_number,
-            'write_number_notary':company.write_number,
-            'constitution_date_notary':company.constitution_date.strftime('%d de %B de %Y'),
-            'city_public_notary':company.public_notary_address_id.state_id.name,
-            'patron':company.legal_representative_id.name,
-            'mr_patron':company.name,
-            'mr_employee':mr_employee[employee.gender],
-            'employee':employee.name.upper(),
-            'job_position':employee.job_id.name or " ",
-            'nationality':employee.country_id.name,
-            'old':employee.age,
-            'gender':employee.gender,
-            'marital':employee.marital,
-            'originative':employee.address_home_id.city,
-            'employee_birthday':empl_birthday,
-            'employee_address_home':"Por buscar",
-            'employee_curp':employee.curp,
-            'employee_salary':self.wage,
-            'patron_rfc':employee.rfc,
-            'employee_nss':employee.social_security_number,
-            'employee_dress':employee.address_home_id.contact_address,
-            'job_dress':employee.address_id.contact_address,
-            'date_first_contract':date_start.strftime('día %d del mes de %B de %Y'),
-            'date_contract':self.date_start.strftime('%d dias del mes de %B de %Y')
+            'contract_data':contract_dic
             }
-        return report.report_action(self.ids, data=data)
+        return self.env.ref('payroll_mexico.report_contract_type_template').report_action(self,data)
 

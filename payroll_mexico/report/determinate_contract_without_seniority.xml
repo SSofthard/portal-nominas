@@ -2,23 +2,22 @@
 <odoo>
     <data>
      
-        <report id="report_contract_without_seniority" 
-          string="Contract Without Seniority" 
+        <report id="report_determinate_contract_without_seniority" 
+          string="Determinate Contract Without Seniority" 
           model="hr.contract" 
           report_type="qweb-html" 
-          name="payroll_mexico.contract_without_seniority" 
+          name="payroll_mexico.determinate_contract_without_seniority" 
          /> 
         
-        <template id="contract_without_seniority" name="Contract Without Seniority">
+        <template id="determinate_contract_without_seniority" name="Determinate Contract Without Seniority">
             <t t-call="web.html_container">
-                <t t-call="payroll_mexico.internal_layout">
-					
+                <t t-call="payroll_mexico.internal_layout_contract">
+					<t t-set="o" t-value="o.with_context(lang=lang)" />
                    <p align="justify">
-                        CONTRATO INDIVIDUAL DE TRABAJO POR <t t-esc="type"></t>, QUE CELEBRAN POR UNA PARTE, <t t-esc="company_name"></t>, REPRESENTADA POR <t t-esc="mr_patron"/>. <t t-esc="patron"></t>, 
-                        A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, <t t-esc="mr_employee" /> <t t-esc="employee"></t>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, 
+                        CONTRATO INDIVIDUAL DE TRABAJO POR <t t-esc="o.type_id.name.upper()"/>, QUE CELEBRAN POR UNA PARTE, <t t-esc="o.company_id.business_name.upper()"/>, REPRESENTADA POR EL (LA) <t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/>, 
+                        A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, EL (LA) <t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.name.upper()"/>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, 
                         MISMOS QUE SE SUJETAN AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
                     </p>
-                    
                     <p align="center"><b>DECLARACIONES</b></p>
                     
                     
@@ -32,8 +31,8 @@
                             <td valign="top"><b>A)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Su representada es una Sociedad Mexicana legalmente constituida, lo cual consta mediante Escritura Pública No. <t t-esc="number_public_notary"></t>  de <t t-esc="constitution_date_notary"></t>, 
-                                    otorgada, por <t t-esc="representative_public_notary"></t>, Titular de la Notaría Pública número <t t-esc="number_public_notary"></t> con circunscripción en la Ciudad de México, 
+                                    Su representada es una Sociedad Mexicana legalmente constituida, lo cual consta mediante Escritura Pública No. <t t-esc="o.company_id.write_number"/>  de fecha <t t-esc="o.company_id.constitution_date.strftime('%d de %B de %Y')"/>, 
+                                    otorgada, por el (la) <t t-esc="o.company_id.public_notary_holder_id.title.shortcut"/> <t t-esc="o.company_id.public_notary_holder_id.name"/>, Titular de la Notaría Pública número <t t-esc="o.company_id.public_notary_address_id.notary_public_number"/> con circunscripción en la <t t-esc="o.company_id.public_notary_address_id.city"/>, 
                                     e inscrita en el Registro Público de la misma Ciudad.
                                 </p>
                             </td>
@@ -43,9 +42,9 @@
                             <td valign="top"><b>B)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                  Encontrarse representada por <t t-esc="public_notary"></t>, quien acredita su personalidad en términos de la Escritura Pública
-                                  No. <t t-esc="write_number_notary"></t> pasada ante la fe del Notario Público No. <t t-esc="number_public_notary"></t> del Estado <t t-esc="city_public_notary"></t> 
-                                  a cargo del <t t-esc="public_notary"></t>.                            
+                                  Encontrarse representada por el (la) <t t-esc="o.power_attorney_id.representative_id.title.shortcut"/> <t t-esc="o.power_attorney_id.representative_id.name"/>, quien acredita su personalidad en términos de la Escritura Pública
+                                  No. <t t-esc="o.power_attorney_id.public_deed_number"/> pasada ante la fe del Notario Público No. <t t-esc="o.power_attorney_id.public_notary.notary_public_number"/> del Estado <t t-esc="o.power_attorney_id.public_notary.state_id.name"/> 
+                                  a cargo del (la) <t t-esc="o.power_attorney_id.public_notary.title.shortcut"/> <t t-esc="o.power_attorney_id.public_notary.name"/>.                            
                                 </p>
                             </td>
                           </tr>
@@ -54,7 +53,7 @@
                             <td valign="top"><b>C)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                        Que tiene la necesidad de contratar los servicios de una persona apta en el desarrollo de sus actividades para el puesto de <t t-esc="job_position" /> 
+                                        Que tiene la necesidad de contratar los servicios de una persona apta en el desarrollo de sus actividades para el puesto de <t t-esc="o.job_id.name.upper()"/>
                                         durante la vigencia del presente contrato.
                                 </p>
                             </td>
@@ -68,10 +67,12 @@
                             <td valign="top"><b>A)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Llamarse como ha quedado escrito al inicio del presente contrato, ser de nacionalidad <t t-esc="nationality" />, contar con <t t-esc="old" /> años de edad, 
-                                    ser de sexo <t t-esc="gender" /> , estado civil <t t-esc="marital" />, tener como Clave Única de Registro de Población la número<t t-esc="employee_curp" />, 
-                                    con Registro Federal de Contribuyentes número  <t t-esc="patron_rfc" /> , número de afiliación <t t-esc="employee_nss" /> ante el Instituto Mexicano del Seguro Social
-                                    y con domicilio en <t t-esc="employee_dress" /> manifestando expresamente que en caso de que efectúe algún cambio de domicilio al señalado en el presente contrato, se 
+                                    Llamarse como ha quedado escrito al inicio del presente contrato, ser de nacionalidad <t t-esc="o.employee_id.country_id.nationality.upper()"/>, contar con <t t-esc="o.employee_id.age"/> años de edad, 
+                                    ser de sexo <spam class="m-0" t-if="o.employee_id.gender == 'male'">MASCULINO,</spam> <spam class="m-0" t-if="o.employee_id.gender == 'famale'">FEMENINO,</spam> estado civil 
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'single'">SOLTERO (A),</spam><spam class="m-0" t-if="o.employee_id.marital == 'married'">CASADO (A),</spam><spam class="m-0" t-if="o.employee_id.marital == 'cohabitant'">COHABITANTE LEGAL,</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'widower'">VIUDO (A),</spam><spam class="m-0" t-if="o.employee_id.marital == 'divorced'">DIVORCIADO (A),</spam> tener como Clave Única de Registro de Población la número <t t-esc="o.employee_id.curp.upper()"/>, 
+                                    con Registro Federal de Contribuyentes número  <t t-esc="o.employee_id.rfc.upper()"/>, número de afiliación <t t-esc="o.employee_id.social_security_number"/> ante el Instituto Mexicano del Seguro Social
+                                    y con domicilio en <t t-esc="o.employee_id.address_home_id.contact_address.upper()"/>, manifestando expresamente que en caso de que efectúe algún cambio de domicilio al señalado en el presente contrato, se 
                                     compromete a dar aviso del nuevo domicilio por escrito a “EL PATRON”, en un término máximo de cinco días contados a partir de la fecha del cambio, en la inteligencia
                                     de que de no hacerlo así, se reconocerá el último domicilio proporcionado como el autorizado para todos los efectos legales a que haya lugar, independientemente del 
                                     que aparezca en el presente contrato de trabajo.
@@ -82,7 +83,7 @@
                             <td valign="top"><b>B)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                   Tener la capacidad y experiencia necesarias, para prestar sus servicios en el puesto de <t t-esc="job_position" /> y no contar a la presente fecha con antecedentes 
+                                   Tener la capacidad y experiencia necesarias, para prestar sus servicios en el puesto de <t t-esc="o.job_id.name.upper()"/> y no contar a la presente fecha con antecedentes 
                                    penales, comprometiéndose a realizar todas y cada una de las labores anexas o conexas a la obligación principal, en el lugar o lugares a donde lo comisione “EL PATRON”.
                                 </p>
                             </td>
@@ -160,7 +161,7 @@
                         </p>   
                         <p align="justify">
                             <b>SEGUNDA.</b> “EL TRABAJADOR” manifiesta, que tiene los conocimientos y experiencia necesarias para desempeñar el puesto y se obliga a prestar sus servicios personales en el 
-                            empleo de <t t-esc="job_position"></t>, los que en forma enunciativa y no limitativa aparecen detallados en el Anexo “A” que forma parte integrante del presente contrato, obligándose
+                            empleo de <t t-esc="o.job_id.name.upper()"/>, los que en forma enunciativa y no limitativa aparecen detallados en el Anexo “A” que forma parte integrante del presente contrato, obligándose
                             a desempeñar todas las labores anexas o conexas con la obligación principal.
                         </p>   
                         <p align="justify">
@@ -211,7 +212,7 @@
                             tiempo extra laborado, la falta de presentación de esa orden sólo es imputable al “EL TRABAJADOR”.
                         </p>
                         <p align="justify">
-                            <b>NOVENA.</b> Como compensación por sus servicios, “EL PATRON” pagará a “EL TRABAJADOR” un Sueldo Mensual de <t t-esc="employee_salary" /> que le será cubierto por (semana o quincena)  
+                            <b>NOVENA.</b> Como compensación por sus servicios, “EL PATRON” pagará a “EL TRABAJADOR” un Sueldo Mensual de <span t-esc="o.wage" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> que le será cubierto por (semana o quincena)  
                             vencida, mediante el sistema de depósito bancario, en la cuenta que “EL TRABAJADOR” determine para tal efecto, forma de pago que desde ahora acepta y/o cualesquiera de las que la Ley Federal 
                             del Trabajo establece, siendo el comprobante de depósito el recibo del salario y de las prestaciones a las que tiene derecho “EL TRABAJADOR” hasta dicha fecha, quedando incluido en la 
                             cantidad señalada, el salario correspondiente a los días de descanso semanal y a los días festivos obligatorios, menos los descuentos que por Ley correspondan.
@@ -385,7 +386,7 @@
 						 <b>VIGÉSIMA SEGUNDA.</b> Las partes están conformes en que para lo no previsto en el presente contrato, se estará a las disposiciones de la Ley Federal del Trabajo y las reglamentaciones aplicables.
                         </p>
                         <p align="justify">
-							Enteradas las partes del Contenido del presente contrato y de las obligaciones que contraen, lo firman por duplicado y por su recibo a los <b><t t-esc="date_first_contract" /></b>.
+							Enteradas las partes del Contenido del presente contrato y de las obligaciones que contraen, lo firman por duplicado y por su recibo a los <b><t t-esc="date_contract" /></b>.
                         </p>
                         <table class="egt mt64" align="center">
                               <tr>
@@ -395,7 +396,7 @@
                                     <table align="center">
                                           <tr>
                                             <td >
-                                                <div  align="center">“EL PATRÓN”</div>
+                                                <strong><div align="center">“EL PATRÓN”</div></strong>
                                             </td>
                                           </tr>
                                           <tr>
@@ -405,8 +406,8 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    <div t-esc="patron" />
-                                                    <div t-esc="company_name" /> 
+                                                    <strong><div><t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/> </div></strong>
+                                                    <strong><div t-esc="o.company_id.business_name.upper()" /> </strong>
                                                 </div>
                                             </td>
                                           </tr>
@@ -418,7 +419,7 @@
                                    <table align="center">
                                           <tr>
                                             <td >
-                                                <div  align="center" style="margin-top=-90px" >“EL TRABAJADOR"</div>
+                                                <strong><div  align="center" style="margin-top=-90px" >“EL TRABAJADOR"</div></strong>
                                             </td>
                                           </tr>
                                           <tr>
@@ -428,15 +429,13 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    <div t-esc="employee" />
+													<strong><div><t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.name.upper()"/></div></strong>
                                                 </div>
                                             </td>
                                           </tr>
                                     </table>
                                     </td>
-
                               </tr>
-
 						</table>
                 </t>
             </t>

@@ -9,18 +9,20 @@
     'summary': "Module that adapts Mexico's own characteristics of the human resources process.",
     "depends": ['base','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry'],
     "data": [
-        'data/data.xml',
-        'data/res.bank.csv',
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
         'views/hr_contract_type.xml',
         'views/res_company_view.xml',
         'security/ir.model.access.csv',
         #Reports
-        'report/internal_layout.xml',
-        'report/contract_without_seniority.xml',
-        'report/contract_with_seniority.xml',
-        'report/independent_services_provision_agreement.xml'
+        'report/base_layout.xml',
+        'report/indeterminate_contract_without_seniority.xml',
+        'report/determinate_contract_without_seniority.xml',
+        'report/indeterminate_contract_with_seniority.xml',
+        'report/determinate_contract_with_seniority.xml',
+        'report/independent_services_provision_agreement.xml',
+        'data/data.xml',
+        'data/res.bank.csv',
         
     ],
     "active": True,

@@ -52,6 +52,9 @@
                         <field name="blood_type"/>
                     </group>
                 </xpath>
+                <xpath expr="//field[@name='company_id']" position="attributes">
+					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
+				</xpath>
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
                         <group  col="4" string="IMSS">
@@ -138,6 +141,18 @@
                         </field>
                     </page>
                 </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="hr_hr_employee_view_form2_inherit_form">
+            <field name="name">hr_employee_inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bank_account_id']" position="attributes">
+					<attribute name="invisible">True</attribute>
+                </xpath>
+
             </field>
         </record>
         

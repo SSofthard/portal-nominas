@@ -2,19 +2,20 @@
 <odoo>
     <data>
      
-        <report id="report_contract_with_seniority" 
-          string="Contract With Seniority" 
+        <report id="report_determinate_contract_with_seniority" 
+          string="Determinate Contract With Seniority" 
           model="hr.contract" 
           report_type="qweb-html" 
-          name="payroll_mexico.contract_with_seniority" 
+          name="payroll_mexico.indeterminate_contract_with_seniority" 
          /> 
         
-        <template id="contract_with_seniority" name="Contract With Seniority" >
+        <template id="determinate_contract_with_seniority" name="Determinate Contract With Seniority" >
             <t t-call="web.html_container">
-                <t t-call="payroll_mexico.internal_layout">
-
+                <t t-call="payroll_mexico.internal_layout_contract">
+                    <t t-set="o" t-value="o.with_context(lang=lang)" />
                     <p align="justify">
-                        CONTRATO INDIVIDUAL DE TRABAJO POR <t t-esc="type"></t>, QUE CELEBRAN POR UNA PARTE, <t t-esc="company_name"></t>, REPRESENTADA POR <t t-esc="mr_patron"/>. <t t-esc="patron"></t>, A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, <t t-esc="mr_employee" /> <t t-esc="employee"></t>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, MISMOS QUE SE SUJETAN AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
+                        CONTRATO INDIVIDUAL DE TRABAJO POR <t t-esc="o.type_id.name.upper()"/>, QUE CELEBRAN POR UNA PARTE, <t t-esc="o.company_id.business_name.upper()"/>, REPRESENTADA POR POR EL (LA) <t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/>, 
+                        A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, EL (LA) <t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.name.upper()"/>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, MISMOS QUE SE SUJETAN AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
                     </p>
                     
                     <p align="center"><b>DECLARACIONES</b></p>
@@ -30,7 +31,7 @@
                             <td valign="top"><b>A)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Ser una Sociedad Anónima, legalmente constituida conforme a las Leyes de la  República Mexicana, con domicilio en <t t-esc="company_addres" />.
+                                    Ser una Sociedad Anónima, legalmente constituida conforme a las Leyes de la  República Mexicana, con domicilio en <t t-esc="o.company_id.partner_id.contact_address.upper()"/>.
                                 </p>
                             </td>
                           </tr>
@@ -39,7 +40,10 @@
                             <td valign="top"><b>B)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                        Encontrarse representada por el señor Antonio Aguirre Sierra, quien acredita su personalidad en términos de la Escritura Pública No. 53,365 pasada ante la fe del Notario Público No. 23 del Estado de México a cargo del C. Lic. Flor Alejandra Kiwan Altamirano.                                
+                                        Encontrarse representada por el (la) <t t-esc="o.power_attorney_id.representative_id.title.shortcut"/> <t t-esc="o.power_attorney_id.representative_id.name"/>, 
+                                        quien acredita su personalidad en términos de la Escritura Pública No. <t t-esc="o.power_attorney_id.public_deed_number"/> pasada ante la fe del 
+                                        Notario Público No. <t t-esc="o.power_attorney_id.public_notary.notary_public_number"/> del Estado de <t t-esc="o.power_attorney_id.public_notary.state_id.name"/>
+                                         a cargo del (la) <t t-esc="o.power_attorney_id.public_notary.title.shortcut"/> <t t-esc="o.power_attorney_id.public_notary.name"/>.                                
                                 </p>
                             </td>
                           </tr>
@@ -48,7 +52,7 @@
                             <td valign="top"><b>C)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                        Que tiene la necesidad de contratar los servicios de una persona apta en el desarrollo de sus actividades para el puesto de <t t-esc="job_position" /> durante la vigencia del presente contrato.
+                                        Que tiene la necesidad de contratar los servicios de una persona apta en el desarrollo de sus actividades para el puesto de <t t-esc="o.job_id.name.upper()"/> durante la vigencia del presente contrato.
                                 </p>
                             </td>
                           </tr>
@@ -62,7 +66,15 @@
                             <td valign="top"><b>A)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Llamarse como ha quedado escrito al inicio del presente contrato, ser de nacionalidad <t t-esc="nationality" />, contar con <t t-esc="old" /> años de edad, ser de sexo <t t-esc="gerder" />, estado civil <t t-esc="marital" />, tener como Clave Única de Registro de Población la número <t t-esc="employee_curp" />, con Registro Federal de Contribuyentes número <t t-esc="patron_rfc" />, número de afiliación <t t-esc="employee_nss" /> ante el Instituto Mexicano del Seguro Social y con domicilio en  <t t-esc="employee_dress"  />, manifestando expresamente que en caso de que efectúe algún cambio de domicilio al señalado en el presente contrato, se compromete a dar aviso del nuevo domicilio por escrito a “EL PATRON”, en un término máximo de cinco días contados a partir de la fecha del cambio, en la inteligencia de que de no hacerlo así, se reconocerá el último domicilio proporcionado como el autorizado para todos los efectos legales a que haya lugar, independientemente del que aparezca en el presente contrato de trabajo.
+                                    Llamarse como ha quedado escrito al inicio del presente contrato, ser de nacionalidad <t t-esc="o.employee_id.country_id.nationality.upper()"/>, contar con <t t-esc="o.employee_id.age"/> años de edad, 
+                                    ser de sexo <spam class="m-0" t-if="o.employee_id.gender == 'male'">MASCULINO,</spam> <spam class="m-0" t-if="o.employee_id.gender == 'famale'">FEMENINO,</spam> estado civil 
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'single'">SOLTERO (A),</spam><spam class="m-0" t-if="o.employee_id.marital == 'married'">CASADO (A),</spam><spam class="m-0" t-if="o.employee_id.marital == 'cohabitant'">COHABITANTE LEGAL,</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'widower'">VIUDO (A),</spam><spam class="m-0" t-if="o.employee_id.marital == 'divorced'">DIVORCIADO (A),</spam> tener como Clave Única de Registro de Población la número <t t-esc="o.employee_id.curp.upper()"/>, 
+                                    con Registro Federal de Contribuyentes número  <t t-esc="o.employee_id.rfc.upper()"/>, número de afiliación <t t-esc="o.employee_id.social_security_number"/> ante el Instituto Mexicano del Seguro Social
+                                    y con domicilio en <t t-esc="o.employee_id.address_home_id.contact_address.upper()"/>, manifestando expresamente que en caso de que efectúe algún cambio de domicilio al señalado en el presente contrato, se 
+                                    compromete a dar aviso del nuevo domicilio por escrito a “EL PATRON”, en un término máximo de cinco días contados a partir de la fecha del cambio, en la inteligencia
+                                    de que de no hacerlo así, se reconocerá el último domicilio proporcionado como el autorizado para todos los efectos legales a que haya lugar, independientemente del 
+                                    que aparezca en el presente contrato de trabajo.
                                 </p>
                             </td>
                           </tr>
@@ -70,7 +82,8 @@
                             <td valign="top"><b>B)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Tener la capacidad y experiencia necesarias, para prestar sus servicios en el puesto de SUPERVISORA y no contar a la presente fecha con antecedentes penales, comprometiéndose a realizar todas y cada una de las labores anexas o conexas a la obligación principal, en el lugar o lugares a donde lo comisione “EL PATRON”.
+                                    Tener la capacidad y experiencia necesarias, para prestar sus servicios en el puesto de <t t-esc="o.job_id.name.upper()"/> y no contar a la presente fecha con antecedentes penales, 
+                                    comprometiéndose a realizar todas y cada una de las labores anexas o conexas a la obligación principal, en el lugar o lugares a donde lo comisione “EL PATRON”.
                                 </p>
                             </td>
                           </tr>
@@ -130,13 +143,18 @@
                         </p>   
                         <p align="center"><b>CLAUSULAS</b></p> 
                         <p align="justify">
-                            <b>PRIMERA.</b>  “EL PATRON” derivado de los contratos de servicios profesionales que tenga con sus clientes contrata los servicios de “EL TRABAJADOR”, para que los preste en el domicilio ubicado en <t t-esc="job_dress" />, o en el domicilio que se asigne conforme a las necesidades operativas y de servicio de “EL PATRÓN” con sus clientes los cuales se relacionan líneas abajo, conservando las condiciones de trabajo y sus prestaciones establecidas en el presente contrato, en este caso “EL PATRÓN” comunicará con anticipación la remoción del lugar de prestación de servicios indicándole el nuevo asignado.                        
+                            <b>PRIMERA.</b>  “EL PATRON” derivado de los contratos de servicios profesionales que tenga con sus clientes contrata los servicios de “EL TRABAJADOR”, para que los preste en el domicilio 
+                            ubicado en <t t-esc="o.employee_id.address_id.contact_address.upper()"/>, o en el domicilio que se asigne conforme a las necesidades operativas y de servicio de “EL PATRÓN” con sus clientes los cuales se relacionan líneas abajo, 
+                            conservando las condiciones de trabajo y sus prestaciones establecidas en el presente contrato, en este caso “EL PATRÓN” comunicará con anticipación la remoción del lugar de prestación de 
+                            servicios indicándole el nuevo asignado.                        
                         </p>   
                         <p align="justify">
                             Por lo que “EL EMPLEADO” manifiesta expresamente su conformidad y su disponibilidad para prestar servicios en el lugar que sea señalado por “EL PATRON”, lo anterior sin perjuicio de que gozará de los beneficios establecidos en los artículos 28 fracción I y 30 de la Ley Federal del Trabajo, en caso de que el  domicilio en el que prestará servicios en forma permanente se encuentre a mas de 100 kilómetros de la residencia habitual de “EL TRABAJADOR”.
                         </p>   
                         <p align="justify">
-                            <b>SEGUNDA.</b> “EL TRABAJADOR” manifiesta, que tiene los conocimientos y experiencia necesarias para desempeñar el puesto y se obliga a prestar sus servicios personales en el empleo de <t t-esc="job_position"></t>, los que en forma enunciativa y no limitativa aparecen detallados en el Anexo “A” que forma parte integrante del presente contrato, obligándose a desempeñar todas las labores anexas o conexas con la obligación principal.
+                            <b>SEGUNDA.</b> “EL TRABAJADOR” manifiesta, que tiene los conocimientos y experiencia necesarias para desempeñar el puesto y se obliga a prestar sus servicios personales en el empleo de 
+                            <t t-esc="o.job_id.name.upper()"/>, los que en forma enunciativa y no limitativa aparecen detallados en el Anexo “A” que forma parte integrante del presente contrato, obligándose a desempeñar 
+                            todas las labores anexas o conexas con la obligación principal.
                         </p>   
                         <p align="justify">
                             Igualmente, “EL TRABAJADOR” se obliga a conducirse con respeto, honorabilidad, dignidad, probidad y tener un buen trato con los trabajadores o empleados al servicio de “EL PATRON”, sin que exista en su actuar discriminación por origen étnico o racial, género, edad, discapacidad, condición social, condiciones de salud, religión, condición migratoria, opiniones, preferencias sexuales o estado civil, teniendo por lo tanto estrictamente prohibido, el acosar, hostigar, discriminar o realizar cualquier acto en contra de los trabajadores de “EL PATRON”, que pudieren vulnerar  sus derechos humanos.
@@ -274,10 +292,12 @@
                             “EL TRABAJADOR” está de acuerdo en que en el caso de incumplir esta obligación, su conducta encuadra en el supuesto a que se refiere la fracción II del artículo 47 de la Ley Federal del Trabajo, sin menoscabo de quedar sujeto a la responsabilidad civil por los daños y perjuicios que le causare a “EL PATRON” y a las sanciones penales correspondientes.
                         </p>
                         <p align="justify">
-                            <b>VIGÉSIMA SEGUNDA.</b> Independientemente de la fecha en que se suscribe el presente contrato, “EL PATRON” le reconoce expresamente a “EL TRABAJADOR” una antigüedad a partir del <t t-esc="date_first_contract" />.
+                            <b>VIGÉSIMA SEGUNDA.</b> Independientemente de la fecha en que se suscribe el presente contrato, “EL PATRON” le reconoce expresamente a “EL TRABAJADOR” una antigüedad a partir del día
+                            <t t-esc="contract_data[str(o.id)][1]" />.
                         </p>
                         <p align="justify">
-                            <b>VIGÉSIMA TERCERA.</b>Las partes están conformes en que para lo no previsto en el presente contrato, se estará a las disposiciones de la Ley Federal del Trabajo y las reglamentaciones aplicables. Enteradas las partes del Contenido del presente contrato y de las obligaciones que contraen, lo firman por duplicado y por su recibo a los <t t-esc="date_contract" />. 
+                            <b>VIGÉSIMA TERCERA.</b>Las partes están conformes en que para lo no previsto en el presente contrato, se estará a las disposiciones de la Ley Federal del Trabajo y las reglamentaciones 
+                            aplicables. Enteradas las partes del Contenido del presente contrato y de las obligaciones que contraen, lo firman por duplicado y por su recibo a los <t t-esc="contract_data[str(o.id)][0]" />. 
                         </p>
                         <table class="egt mt64" align="center">
                               <tr>
@@ -287,7 +307,7 @@
                                     <table align="center">
                                           <tr>
                                             <td >
-                                                <div  align="center">“EL PATRÓN”</div>
+                                                <strong><div align="center">“EL PATRÓN”</div></strong>
                                             </td>
                                           </tr>
                                           <tr>
@@ -297,8 +317,8 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    <div t-esc="patron" />
-                                                    <div t-esc="company_name" /> 
+                                                    <strong><div><t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/> </div></strong>
+                                                    <strong><div t-esc="o.company_id.business_name.upper()" /> </strong>
                                                 </div>
                                             </td>
                                           </tr>
@@ -310,7 +330,7 @@
                                    <table align="center">
                                           <tr>
                                             <td >
-                                                <div  align="center" style="margin-top=-90px" >“EL TRABAJADOR</div>
+                                                <strong><div  align="center" style="margin-top=-90px" >“EL TRABAJADOR"</div></strong>
                                             </td>
                                           </tr>
                                           <tr>
@@ -320,16 +340,14 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    <div t-esc="employee" />
+													<strong><div><t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.name.upper()"/></div></strong>
                                                 </div>
                                             </td>
                                           </tr>
                                     </table>
                                     </td>
-
                               </tr>
-
-                            </table>
+						</table>
                 </t>
             </t>
         </template>
