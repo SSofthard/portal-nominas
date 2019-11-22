@@ -7,7 +7,7 @@
     "website" : "",
     "description": "Module that adapts Mexico's own characteristics of the human resources process.",
     'summary': "Module that adapts Mexico's own characteristics of the human resources process.",
-    "depends": ['base','hr_attendance','hr_payroll','resource','hr_holidays','hr'],
+    "depends": ['base','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry'],
     "data": [
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
