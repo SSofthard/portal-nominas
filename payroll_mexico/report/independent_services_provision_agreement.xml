@@ -15,9 +15,9 @@
                 <page>
                     <p align="justify">
                       <b>CONTRATO DE PRESTACIÓN DE SERVICIOS INDEPENDIENTES</b> 
-                      QUE CELEBRAN, POR UNA PARTE EL <strong><t t-esc="o.employee_id.name.upper()"/></strong>, 
+                      QUE CELEBRAN, POR UNA PARTE EL (LA) <t t-esc="o.employee_id.title.shortcut.upper()"/><strong> <t t-esc="o.employee_id.name.upper()"/></strong>, 
                       A QUIEN EN LO SUCESIVO SE DENOMINARA <strong>“EL PRESTADOR”</strong>, 
-                      Y POR LA OTRA  LA SOCIEDAD DENOMINADA <strong><t t-esc="o.company_id.business_name.upper()"/></strong>
+                      Y POR LA OTRA  LA SOCIEDAD DENOMINADA <strong>"<t t-esc="o.company_id.business_name.upper()"/>"</strong>
                       REPRESENTADA EN ESTE ACTO POR EL (LA) <strong><t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/></strong>
                       A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <strong>“EL CLIENTE”</strong>.
                       POR LO QUE AMBAS PARTES SE SUJETAN AL TENOR DE LAS SIGUIENTES
@@ -45,7 +45,7 @@
                                     <spam class="m-0" t-if="o.employee_id.marital == 'divorced'">DIVORCIADO (A),</spam></strong> 
                                     de nacionalidad <strong><spam class="m-0" t-if="o.employee_id.country_id.nationality">
                                         <t t-esc="o.employee_id.country_id.nationality.upper()"/></spam></strong>, 
-                                    originario de <strong><t t-esc="originative" />duda duda duda</strong>, 
+                                    originario de <strong> <t t-esc="o.employee_id.address_home_id.state_id.name.upper()"/></strong>, 
                                     con fecha de nacimiento el día 
                                     <strong><t t-esc="contract_data[str(o.id)][2]" /></strong>, 
                                     con domicilio ubicado en 
@@ -125,9 +125,9 @@
                                     <t t-esc="o.power_attorney_id.book"/>, 
                                     instrumento <t t-esc="o.power_attorney_id.public_deed_number"/>, 
                                     pasada ante la fe del Notario Público 
-                                    No.162 (DUDADUDADUDADUDA) 
-                                    del Distrito Federal a cargo del 
-                                    Lic. Alfonso Gómez Portugal Aguirre (DUDA).
+                                    No.<t t-esc="o.power_attorney_id.public_notary.notary_public_number"/>, 
+                                    del Distrito Federal a cargo del (la) 
+                                    <t t-esc="o.power_attorney_id.public_notary.title.shortcut"/> <t t-esc="o.power_attorney_id.public_notary.name"/>.
                                 </p>
                             </td>
                           </tr>
@@ -160,10 +160,7 @@
                         <p align="center"><b>CLAUSULAS</b></p> 
                         <p align="justify">
                             <b>PRIMERA:</b>  Por medio del presente contrato, <strong>“EL PRESTADOR”</strong> 
-                            se obliga a prestar a <strong>“EL CLIENTE”</strong> servicios en
-                        </p> 
-                        <p align="justify">
-                            HAY UN VACIO FALTA INFORMACION
+                            se obliga a prestar a <strong>“EL CLIENTE”</strong> servicios en <t t-esc="o.job_id.name.upper()" />
                         </p> 
                         <p align="justify">
                             <strong>“EL PRESTADOR”</strong> podrá a su libre albedrío desempeñar sus actividades profesionales o 

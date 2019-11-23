@@ -57,7 +57,7 @@
     <record id="hr_contract_type_services_pa" model="hr.contract.type">
         <field name="name">Prestación de Servicios Independientes</field>
         <field name="type">na</field>
-        <field name="report_id" ref="payroll_mexico.report_contract_without_seniority"/>
+        <field name="report_id" ref="payroll_mexico.report_independent_services_pa"/>
         <field name="sequence">25</field>
     </record>
     
