@@ -1,0 +1,177 @@
+<odoo>
+	<data>
+
+<!--
+		<menuitem id="loan_root" name="Loans" sequence="9" />
+-->
+
+		<menuitem id="menu_setting_loan" name="Loan Configuration" parent="hr.menu_human_resources_configuration" groups="hr.group_hr_user"/>
+
+<!--
+		Loan type
+-->
+
+		<record id="view_hr_loan_type_form" model="ir.ui.view">
+			<field name="name">hr.loan.type.form</field>
+			<field name="model">hr.loan.type</field>
+			<field name="arch" type="xml">
+				<form string="Loan Type">
+					<sheet>
+						<div class="oe_title">
+							<label for="name" class="oe_edit_only" />
+							<h1>
+								<field name="name" />
+							</h1>
+							<label for="code" class="oe_edit_only" />
+							<h2>
+								<field name="code" colspan="2" />
+							</h2>
+						</div>
+						<group>
+							<group>
+								<field name="interest" on_change="onchange_interest_payable(interest)" />
+								<field name="interest_type" attrs="{'invisible':[('interest', '=', False)],'required':[('interest', '=', True)]}" />
+								<field name="rate" attrs="{'invisible':[('interest', '=', False)]}" />
+							</group>
+							<group>
+								<field name="payment_method" />
+								<field name="disburse_method" />
+								<field name="company_id" widget="selection" groups="base.group_multi_company" />
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="view_hr_loan_type_tree" model="ir.ui.view">
+			<field name="name">hr.loan.type.tree</field>
+			<field name="model">hr.loan.type</field>
+			<field name="arch" type="xml">
+				<tree string="Loan Type">
+					<field name="name" />
+					<field name="interest" />
+					<field name="interest_type" />
+					<field name="rate" />
+					<field name="payment_method" />
+					<field name="disburse_method" />
+					<field name="company_id" groups="base.group_multi_company"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="view_hr_loan_type_filter" model="ir.ui.view">
+			<field name="name">hr.loan.type.list.select</field>
+			<field name="model">hr.loan.type</field>
+			<field name="arch" type="xml">
+				<search string="Search Loan Type">
+					<filter name="flat_interest" icon="terp-check" string="Flat Interest" domain="[('interest_type','=','flat')]" help="Loan Type with Flat Interest mode" />
+					<filter name="reducing_interest" icon="terp-check" string="Reducing Interest" domain="[('interest_type','=','reducing')]" help="Loan Type with Reducing Interest mode" />
+					<separator orientation="vertical" />
+					<field name="name" />
+					<field name="rate" filter_domain="[('name','ilike',self)]" string="% Rate" />
+					<separator orientation="vertical" />
+					<field name="interest" />
+					<field name="company_id" widget="selection" groups="base.group_multi_company"/>
+					<group expand="0" string="Group By...">
+						<filter name="interest_type" string="Interest Mode" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'interest_type'}" />
+						<filter name="interest" string="Interest Payable" icon="terp-check" domain="[]" context="{'group_by':'interest'}" />
+						<filter string="Company" name="company_id" groups="base.group_multi_company" icon="terp-go-home" context="{'group_by':'company_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_hr_loan_type" model="ir.actions.act_window">
+			<field name="name">Loan Types</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.loan.type</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_hr_loan_type_filter" />
+		</record>
+
+		<menuitem id="loan_type" name="Loan Types" action="action_hr_loan_type" parent="menu_setting_loan" sequence="10"/>
+
+
+
+<!--
+		Policy view 
+-->
+
+		<record id="view_hr_loan_policy_form" model="ir.ui.view">
+			<field name="name">hr.loanpolicy.form</field>
+			<field name="model">hr.loan.policy</field>
+			<field name="arch" type="xml">
+				<form string="Loan Policies">
+					<sheet>
+						<div class="oe_title">
+							<label for="name" class="oe_edit_only" />
+							<h1>
+								<field name="name" />
+							</h1>
+							<label for="code" class="oe_edit_only" />
+							<h2>
+								<field name="code" />
+							</h2>
+						</div>
+						<group>
+							<group>
+								<field name="type" />
+                                <field name="value" />
+							</group>
+							<group>
+								<field name="company_id" groups="base.group_multi_company"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="view_hr_policy_tree" model="ir.ui.view">
+			<field name="name">hr.loan.policy.tree</field>
+			<field name="model">hr.loan.policy</field>
+			<field name="arch" type="xml">
+				<tree string="Loan policies">
+					<field name="name" />
+					<field name="code" />
+					<field name="type" />
+					<field name="value" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="view_hr_loan_policy_filter" model="ir.ui.view">
+			<field name="name">hr.loan.policy.filter</field>
+			<field name="model">hr.loan.policy</field>
+			<field name="arch" type="xml">
+				<search string="Search Loan Policies">
+					<group>
+						<field name="name" filter_domain="[('name','ilike',self)]" />
+						<field name="code" />
+						<field name="company_id" widget="selection" groups="base.group_multi_company"/>
+					</group>
+					<newline />
+					<group expand="0" string="Group By...">
+						<filter name="type" string="Type" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'type'}" />
+						<filter name="company_id" string="Company" icon="terp-go-home" domain="[]" context="{'group_by':'company_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_hr_loan_policy" model="ir.actions.act_window">
+			<field name="name">Loan Policies</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.loan.policy</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_hr_loan_policy_filter" />
+		</record>
+
+		<menuitem id="loan_policies" name="Loan Policies" action="action_hr_loan_policy" parent="menu_setting_loan" sequence="20"/>
+
+
+	</data>
+</odoo>

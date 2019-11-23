@@ -1,0 +1,113 @@
+id,code,name,business_name
+catalogos_banco1,002,BANAMEX,"Banco Nacional de México, S.A., Institución de Banca Múltiple, Grupo
+Financiero Banamex"
+catalogos_banco2,006,BANCOMEXT,"Banco Nacional de Comercio Exterior, Sociedad Nacional de Crédito,
+Institución de Banca de Desarrollo"
+catalogos_banco3,009,BANOBRAS,"Banco Nacional de Obras y Servicios Públicos, Sociedad Nacional de
+Crédito, Institución de Banca de Desarrollo"
+catalogos_banco4,012,BBVA BANCOMER,"BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA
+Bancomer"
+catalogos_banco5,014,SANTANDER,"Banco Santander (México), S.A., Institución de Banca Múltiple, Grupo
+Financiero Santander"
+catalogos_banco6,019,BANJERCITO,"Banco Nacional del Ejército, Fuerza Aérea y Armada, Sociedad Nacional de
+Crédito, Institución de Banca de Desarrollo"
+catalogos_banco7,021,HSBC,"HSBC México, S.A., institución De Banca Múltiple, Grupo Financiero HSBC"
+catalogos_banco8,030,BAJIO,"Banco del Bajío, S.A., Institución de Banca Múltiple"
+catalogos_banco9,032,IXE,"IXE Banco, S.A., Institución de Banca Múltiple, IXE Grupo Financiero"
+catalogos_banco10,036,INBURSA,"Banco Inbursa, S.A., Institución de Banca Múltiple, Grupo Financiero Inbursa"
+catalogos_banco11,037,INTERACCIONES,"Banco Interacciones, S.A., Institución de Banca Múltiple"
+catalogos_banco12,042,MIFEL,"Banca Mifel, S.A., Institución de Banca Múltiple, Grupo Financiero Mifel"
+catalogos_banco13,044,SCOTIABANK,"Scotiabank Inverlat, S.A."
+catalogos_banco14,058,BANREGIO,"Banco Regional de Monterrey, S.A., Institución de Banca Múltiple, Banregio
+Grupo Financiero"
+catalogos_banco15,059,INVEX,"Banco Invex, S.A., Institución de Banca Múltiple, Invex Grupo Financiero"
+catalogos_banco16,060,BANSI,"Bansi, S.A., Institución de Banca Múltiple"
+catalogos_banco17,062,AFIRME,"Banca Afirme, S.A., Institución de Banca Múltiple"
+catalogos_banco18,072,BANORTE,"Banco Mercantil del Norte, S.A., Institución de Banca Múltiple, Grupo
+Financiero Banorte"
+catalogos_banco19,102,THE ROYAL BANK,"The Royal Bank of Scotland México, S.A., Institución de Banca Múltiple"
+catalogos_banco20,103,AMERICAN EXPRESS,"American Express Bank (México), S.A., Institución de Banca Múltiple"
+catalogos_banco21,106,BAMSA,"Bank of America México, S.A., Institución de Banca Múltiple, Grupo
+Financiero Bank of America"
+catalogos_banco22,108,TOKYO,"Bank of Tokyo-Mitsubishi UFJ (México), S.A."
+catalogos_banco23,110,JP MORGAN,"Banco J.P. Morgan, S.A., Institución de Banca Múltiple, J.P. Morgan Grupo
+Financiero"
+catalogos_banco24,112,BMONEX,"Banco Monex, S.A., Institución de Banca Múltiple"
+catalogos_banco25,113,VE POR MAS,"Banco Ve Por Mas, S.A. Institución de Banca Múltiple"
+catalogos_banco26,116,ING,"ING Bank (México), S.A., Institución de Banca Múltiple, ING Grupo
+Financiero"
+catalogos_banco27,124,DEUTSCHE,"Deutsche Bank México, S.A., Institución de Banca Múltiple"
+catalogos_banco28,126,CREDIT SUISSE,"Banco Credit Suisse (México), S.A. Institución de Banca Múltiple, Grupo
+Financiero Credit Suisse (México)"
+catalogos_banco29,127,AZTECA,"Banco Azteca, S.A. Institución de Banca Múltiple."
+catalogos_banco30,128,AUTOFIN,"Banco Autofin México, S.A. Institución de Banca Múltiple"
+catalogos_banco31,129,BARCLAYS,"Barclays Bank México, S.A., Institución de Banca Múltiple, Grupo Financiero
+Barclays México"
+catalogos_banco32,130,COMPARTAMOS,"Banco Compartamos, S.A., Institución de Banca Múltiple"
+catalogos_banco33,131,BANCO FAMSA,"Banco Ahorro Famsa, S.A., Institución de Banca Múltiple"
+catalogos_banco34,132,BMULTIVA,"Banco Multiva, S.A., Institución de Banca Múltiple, Multivalores Grupo
+Financiero"
+catalogos_banco35,133,ACTINVER,"Banco Actinver, S.A. Institución de Banca Múltiple, Grupo Financiero Actinver"
+catalogos_banco36,134,WAL-MART,"Banco Wal-Mart de México Adelante, S.A., Institución de Banca Múltiple"
+catalogos_banco37,135,NAFIN,"Nacional Financiera, Sociedad Nacional de Crédito, Institución de Banca de
+Desarrollo"
+catalogos_banco38,136,INTERBANCO,"Inter Banco, S.A. Institución de Banca Múltiple"
+catalogos_banco39,137,BANCOPPEL,"BanCoppel, S.A., Institución de Banca Múltiple"
+catalogos_banco40,138,ABC CAPITAL,"ABC Capital, S.A., Institución de Banca Múltiple"
+catalogos_banco41,139,UBS BANK,"UBS Bank México, S.A., Institución de Banca Múltiple, UBS Grupo Financiero"
+catalogos_banco42,140,CONSUBANCO,"Consubanco, S.A. Institución de Banca Múltiple"
+catalogos_banco43,141,VOLKSWAGEN,"Volkswagen Bank, S.A., Institución de Banca Múltiple"
+catalogos_banco44,143,CIBANCO,"CIBanco, S.A."
+catalogos_banco45,145,BBASE,"Banco Base, S.A., Institución de Banca Múltiple"
+catalogos_banco46,166,BANSEFI,"Banco del Ahorro Nacional y Servicios Financieros, Sociedad Nacional de
+Crédito, Institución de Banca de Desarrollo"
+catalogos_banco47,168,"HIPOTECARIA
+FEDERAL","Sociedad Hipotecaria Federal, Sociedad Nacional de Crédito, Institución de
+Banca de Desarrollo"
+catalogos_banco48,600,MONEXCB,"Monex Casa de Bolsa, S.A. de C.V. Monex Grupo Financiero"
+catalogos_banco49,601,GBM,"GBM Grupo Bursátil Mexicano, S.A. de C.V. Casa de Bolsa"
+catalogos_banco50,602,MASARI,"Masari Casa de Bolsa, S.A."
+catalogos_banco51,605,VALUE,"Value, S.A. de C.V. Casa de Bolsa"
+catalogos_banco52,606,ESTRUCTURADORES,"Estructuradores del Mercado de Valores Casa de Bolsa, S.A. de C.V."
+catalogos_banco53,607,TIBER,"Casa de Cambio Tiber, S.A. de C.V."
+catalogos_banco54,608,VECTOR,"Vector Casa de Bolsa, S.A. de C.V."
+catalogos_banco55,610,B&B,"B y B, Casa de Cambio, S.A. de C.V."
+catalogos_banco56,614,ACCIVAL,"Acciones y Valores Banamex, S.A. de C.V., Casa de Bolsa"
+catalogos_banco57,615,MERRILL LYNCH,"Merrill Lynch México, S.A. de C.V. Casa de Bolsa"
+catalogos_banco58,616,FINAMEX,"Casa de Bolsa Finamex, S.A. de C.V."
+catalogos_banco59,617,VALMEX,"Valores Mexicanos Casa de Bolsa, S.A. de C.V."
+catalogos_banco60,618,UNICA,"Unica Casa de Cambio, S.A. de C.V."
+catalogos_banco61,619,MAPFRE,"MAPFRE Tepeyac, S.A."
+catalogos_banco62,620,PROFUTURO,"Profuturo G.N.P., S.A. de C.V., Afore"
+catalogos_banco63,621,CB ACTINVER,"Actinver Casa de Bolsa, S.A. de C.V."
+catalogos_banco64,622,OACTIN,"OPERADORA ACTINVER, S.A. DE C.V."
+catalogos_banco65,623,SKANDIA,"Skandia Vida, S.A. de C.V."
+catalogos_banco66,626,CBDEUTSCHE,"Deutsche Securities, S.A. de C.V. CASA DE BOLSA"
+catalogos_banco67,627,ZURICH,"Zurich Compañía de Seguros, S.A."
+catalogos_banco68,628,ZURICHVI,"Zurich Vida, Compañía de Seguros, S.A."
+catalogos_banco69,629,SU CASITA,"Hipotecaria Su Casita, S.A. de C.V. SOFOM ENR"
+catalogos_banco70,630,CB INTERCAM,"Intercam Casa de Bolsa, S.A. de C.V."
+catalogos_banco71,631,CI BOLSA,"CI Casa de Bolsa, S.A. de C.V."
+catalogos_banco72,632,BULLTICK CB,"Bulltick Casa de Bolsa, S.A., de C.V."
+catalogos_banco73,633,STERLING,"Sterling Casa de Cambio, S.A. de C.V."
+catalogos_banco74,634,FINCOMUN,"Fincomún, Servicios Financieros Comunitarios, S.A. de C.V."
+catalogos_banco75,636,HDI SEGUROS,"HDI Seguros, S.A. de C.V."
+catalogos_banco76,637,ORDER,"Order Express Casa de Cambio, S.A. de C.V"
+catalogos_banco77,638,AKALA,"Akala, S.A. de C.V., Sociedad Financiera Popular"
+catalogos_banco78,640,CB JPMORGAN,"J.P. Morgan Casa de Bolsa, S.A. de C.V. J.P. Morgan Grupo Financiero"
+catalogos_banco79,642,REFORMA,"Operadora de Recursos Reforma, S.A. de C.V., S.F.P."
+catalogos_banco80,646,STP,"Sistema de Transferencias y Pagos STP, S.A. de C.V.SOFOM ENR"
+catalogos_banco81,647,TELECOMM,Telecomunicaciones de México
+catalogos_banco82,648,EVERCORE,"Evercore Casa de Bolsa, S.A. de C.V."
+catalogos_banco83,649,SKANDIA,"Skandia Operadora de Fondos, S.A. de C.V."
+catalogos_banco84,651,SEGMTY,"Seguros Monterrey New York Life, S.A de C.V"
+catalogos_banco85,652,ASEA,"Solución Asea, S.A. de C.V., Sociedad Financiera Popular"
+catalogos_banco86,653,KUSPIT,"Kuspit Casa de Bolsa, S.A. de C.V."
+catalogos_banco87,655,SOFIEXPRESS,"J.P. SOFIEXPRESS, S.A. de C.V., S.F.P."
+catalogos_banco88,656,UNAGRA,"UNAGRA, S.A. de C.V., S.F.P."
+catalogos_banco89,659,"OPCIONES EMPRESARIALES
+DEL NOROESTE","OPCIONES EMPRESARIALES DEL NORESTE, S.A. DE C.V., S.F.P."
+catalogos_banco90,901,CLS,Cls Bank International
+catalogos_banco91,902,INDEVAL,"SD. Indeval, S.A. de C.V."
+catalogos_banco92,670,LIBERTAD,"Libertad Servicios Financieros, S.A. De C.V."
+catalogos_banco93,999,N/A,
