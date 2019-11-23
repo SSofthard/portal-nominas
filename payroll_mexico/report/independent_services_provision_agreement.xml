@@ -35,13 +35,21 @@
                             <td valign="top"><b>A)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Es persona física, con edad legal para contratar, del sexo <strong><t t-esc="gender" /></strong>, 
-                                    Estado Civil <strong><t t-esc="marital" /></strong> de nacionalidad 
-                                    <strong><t t-esc="nationality" /></strong>, originario de 
-                                    <strong><t t-esc="originative" /></strong>, con fecha de nacimiento 
-                                    el día <strong><t t-esc="employee_birthday" /></strong>, 
+                                    Es persona física, con edad legal para contratar, del sexo 
+                                    <strong><spam class="m-0" t-if="o.employee_id.gender == 'male'">MASCULINO,</spam> 
+                                    <spam class="m-0" t-if="o.employee_id.gender == 'famale'">FEMENINO,</spam></strong> 
+                                    Estado Civil <strong><spam class="m-0" t-if="o.employee_id.marital == 'single'">SOLTERO (A),</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'married'">CASADO (A),</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'cohabitant'">COHABITANTE LEGAL,</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'widower'">VIUDO (A),</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'divorced'">DIVORCIADO (A),</spam></strong> 
+                                    de nacionalidad <strong><spam class="m-0" t-if="o.employee_id.country_id.nationality">
+                                        <t t-esc="o.employee_id.country_id.nationality.upper()"/></spam></strong>, 
+                                    originario de <strong><t t-esc="originative" />duda duda duda</strong>, 
+                                    con fecha de nacimiento el día 
+                                    <strong><t t-esc="contract_data[str(o.id)][2]" /></strong>, 
                                     con domicilio ubicado en 
-                                    <strong><t t-esc="employee_dress" /></strong>
+                                    <strong><t t-esc="o.employee_id.address_home_id.contact_address.upper()"/></strong>
                                     mismo que señala para todos los fines legales derivados o que se deriven en de este contrato.
                                 </p>
                             </td>
@@ -51,7 +59,7 @@
                             <td valign="top"><b>B)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                        Contar con Clave Única de Registro de Población <strong><t t-esc="employee_curp" /></strong>.
+                                        Contar con Clave Única de Registro de Población <strong><t t-esc="o.employee_id.curp"/></strong>.
                                 </p>
                             </td>
                           </tr>
@@ -60,7 +68,7 @@
                             <td valign="top"><b>C)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                        Estar inscrito en el Registro Federal de Contribuyentes con la Clave N° <strong><t t-esc="patron_rfc" /></strong>.
+                                        Estar inscrito en el Registro Federal de Contribuyentes con la Clave N° <strong><t t-esc="o.employee_id.rfc" /></strong>.
                                         Que en su carácter de prestador de servicios establecido lleva su contabilidad en los términos 
                                         que aplican las Leyes Hacendarias y será el único responsable ante el Fisco por la falta de 
                                         cumplimiento de las obligaciones tributarias a que está sujeto, en su carácter de Contribuyente 
@@ -101,18 +109,25 @@
                             <td>
                                 <p align="justify" style="margin-left:20px;">
                                     Su representada es una Sociedad Mexicana legalmente constituida, lo cual consta 
-                                    mediante Escritura Pública No. <t t-esc="write_number_notary" /> de fecha 
-                                    <strong><t t-esc="constitution_date_notary" /></strong>, otorgada, 
-                                    por <t t-esc="repres_public_title_notary" /> <t t-esc="representative_public_notary" />, 
-                                    Titular de la <t t-esc="public_notary" /> número <t t-esc="number_public_notary" /> 
-                                    con circunscripción en <t t-esc="city_public_notary" />, e inscrita en el Registro 
-                                    Público de la misma Ciudad.
+                                    mediante Escritura Pública No. <t t-esc="o.company_id.write_number" /> de fecha 
+                                    <strong><t t-esc="contract_data[str(o.id)][3]" /></strong>, otorgada, 
+                                    por el(la) <t t-esc="o.company_id.public_notary_holder_id.title.shortcut" /> 
+                                    <t t-esc="o.company_id.public_notary_holder_id.name" />, 
+                                    Titular de la <t t-esc="o.company_id.public_notary_address_id.name" /> 
+                                    número <t t-esc="o.company_id.public_notary_address_id.notary_public_number" /> 
+                                    con circunscripción en la <t t-esc="o.company_id.public_notary_address_id.state_id.name" />, 
+                                    e inscrita en el Registro Público de la misma Ciudad.
                                 </p>
                                 <p align="justify" style="margin-left:20px;">
-                                    Encontrarse representada por <t t-esc="patron"></t>, 
-                                    quien acredita su personalidad en términos del Libro 658 (Dato de la escritura publica Por buscar), instrumento 
-                                    33,513 (Numero de escritura pública Por buscar), pasada ante la fe del Notario Público No.162 (Numero de notaria publica Por buscar) 
-                                    del Distrito Federal a cargo del Lic. Alfonso Gómez Portugal Aguirre (preguntar donde buscar).
+                                    Encontrarse representada por el(la) Sr(a).
+                                    <t t-esc="o.company_id.legal_representative_id.name"/>
+                                    quien acredita su personalidad en términos del Libro 
+                                    <t t-esc="o.power_attorney_id.book"/>, 
+                                    instrumento <t t-esc="o.power_attorney_id.public_deed_number"/>, 
+                                    pasada ante la fe del Notario Público 
+                                    No.162 (DUDADUDADUDADUDA) 
+                                    del Distrito Federal a cargo del 
+                                    Lic. Alfonso Gómez Portugal Aguirre (DUDA).
                                 </p>
                             </td>
                           </tr>
@@ -120,8 +135,10 @@
                             <td valign="top"><b>B)</b></td>
                             <td>
                                 <p align="justify" style="margin-left:20px;">
-                                    Su domicilio Fiscal es el ubicado en <strong><t t-esc="company_addres" /></strong> y con 
-                                    Registro Federal de Contribuyentes Nº <strong><t t-esc="company_rfc" /></strong>.
+                                    Su domicilio Fiscal es el ubicado en 
+                                    <strong><t t-esc="o.company_id.partner_id.contact_address.upper()" /></strong> 
+                                    y con Registro Federal de Contribuyentes Nº 
+                                    <strong><t t-esc="o.company_id.rfc" /></strong>.
                                 </p>
                             </td>
                           </tr>
@@ -310,7 +327,7 @@
                         </table>
                         <p align="justify">
                             <b>SÉPTIMA:</b> La vigencia del presente contrato será por tiempo indeterminado el cual 
-                            comenzará a surtir efectos a partir del <strong><t t-esc="date_contract" /></strong> 
+                            comenzará a surtir efectos a partir del <strong><t t-esc="contract_data[str(o.id)][4]" /></strong> 
                             y terminará con simple notificación por escrito, con 30 (treinta) días de anticipación 
                             sin necesidad de resolución judicial, con el propósito de que durante ese lapso haya 
                             posibilidad de concluir los trabajos pendientes y de que, en todo caso, <strong>“EL CLIENTE”</strong> 
@@ -339,15 +356,14 @@
                         <p align="justify">
                             <b>DÉCIMA:</b> En caso de controversia en cuanto a la interpretación, cumplimiento o 
                             ejecución de este contrato, las partes acuerdan expresamente en someterse a la jurisdicción 
-                            y competencia de los Tribunales de <strong><t t-esc="city_public_notary" /></strong>, 
+                            y competencia de los Tribunales de <strong>Ciudad de MÉXICO</strong>, 
                             renunciando a cualquier otro fuero que pudiera corresponderle a razón 
                             del domicilio en el presente o en el futuro. 
                         </p>
                         <p align="justify">
-                            <b>LEIDO QUE FUE EL PRESENTE CONTRATO Y enteradas LAS PARTES DE SU CONTENIDO, 
-                            ALCANCE Y VALOR LEGAL, lo firman POR DUPLICADO en 
-                            <strong><t t-esc="city_public_notary" /></strong>, 
-                            A los <strong><t t-esc="date_contract" /></strong> </b>  
+                            <b>LEIDO QUE FUE EL PRESENTE CONTRATO Y ENTERADAS LAS PARTES DE SU CONTENIDO, 
+                            ALCANCE Y VALOR LEGAL, LO FIRMAN POR DUPLICADO EN LA CIUDAD DE MÉXICO,  
+                            A LOS <strong><t t-esc="contract_data[str(o.id)][5].upper()" /></strong> </b>  
                         </p>
                         <p align="center"><b></b></p>
                         <p align="center"><b>LAS PARTES</b></p>
@@ -360,7 +376,7 @@
                                     <table align="center">
                                           <tr>
                                             <td >
-                                                <strong><div>“EL CLIENTE”</div></strong>
+                                                <strong><div align="center" style="margin-top=-90px">“EL CLIENTE”</div></strong>
                                             </td>
                                           </tr>
                                           <tr>
@@ -370,8 +386,10 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    <div t-esc="mr_patron" />
-                                                    representada por el C. <div t-esc="patron" /> 
+                                                    <strong><div t-esc="o.company_id.business_name.upper()"/>
+                                                    representada por el(la) 
+                                                    <div t-esc="o.company_id.legal_representative_id.title.shortcut.upper()" />
+                                                    <div t-esc="o.company_id.legal_representative_id.name.upper()" /> </strong>
                                                 </div>
                                             </td>
                                           </tr>
@@ -383,7 +401,7 @@
                                    <table align="center">
                                           <tr>
                                             <td >
-                                                <div  align="center" style="margin-top=-90px" >“EL PRESTADOR"</div>
+                                                <strong><div  align="center" style="margin-top=-90px" >“EL PRESTADOR"</div></strong>
                                             </td>
                                           </tr>
                                           <tr>
@@ -393,7 +411,7 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    <div t-esc="employee" />
+                                                    <strong><div t-esc="o.employee_id.name.upper()" /></strong>
                                                 </div>
                                             </td>
                                           </tr>
@@ -505,7 +523,7 @@
                                     <table align="center">
                                           <tr>
                                             <td >
-                                                <strong><div>“EL CLIENTE”</div></strong>
+                                                <strong><div align="center" style="margin-top=-90px">“EL CLIENTE”</div></strong>
                                             </td>
                                           </tr>
                                           <tr>
@@ -515,8 +533,10 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    <div t-esc="mr_patron" />
-                                                    representada por el C. <div t-esc="patron" /> 
+                                                    <strong><div t-esc="o.company_id.business_name.upper()"/>
+                                                    representada por el(la) 
+                                                    <div t-esc="o.company_id.legal_representative_id.title.shortcut.upper()" />
+                                                    <div t-esc="o.company_id.legal_representative_id.name.upper()" /> </strong>
                                                 </div>
                                             </td>
                                           </tr>
@@ -528,7 +548,7 @@
                                    <table align="center">
                                           <tr>
                                             <td >
-                                                <div  align="center" style="margin-top=-90px" >“EL PRESTADOR"</div>
+                                                <strong><div  align="center" style="margin-top=-90px" >“EL PRESTADOR"</div></strong>
                                             </td>
                                           </tr>
                                           <tr>
@@ -538,7 +558,7 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    <div t-esc="employee" />
+                                                    <strong><div t-esc="o.employee_id.name.upper()" /></strong>
                                                 </div>
                                             </td>
                                           </tr>
@@ -580,9 +600,9 @@
                     <br></br>
                     <p style="color:#0000FF" align="center"><b>AVISO DE PRIVACIDAD</b></p>
                     <p align="justify">
-                        <strong><t t-esc="mr_patron"/></strong> 
+                        <strong><t t-esc="o.company_id.business_name.upper()"/></strong> 
                         con domicilio en 
-                        <strong><t t-esc="company_addres"/></strong>, 
+                        <strong><t t-esc="o.company_id.partner_id.contact_address.upper()" /></strong>, 
                         es responsable de recabar sus datos personales, del uso que se le dé a los mismos y de su protección.
                     </p>
                     <p align="justify">
@@ -642,7 +662,8 @@
                           
                         </table>
                     <p align="justify">
-                        <strong><t t-esc="mr_patron"/></strong> manifiesta que cuenta con las medidas de seguridad suficientes 
+                        <strong><t t-esc="o.company_id.business_name.upper()"/></strong> 
+                        manifiesta que cuenta con las medidas de seguridad suficientes 
                         para la protección, confidencialidad y aseguramiento de los Datos Personales del Titular, 
                         a efectos de restringir el acceso a los mismos a personas no autorizadas así como el tratamiento 
                         de los Datos Personales en contravención a lo estipulado en el presente Aviso de Privacidad.
@@ -660,50 +681,50 @@
                         nuevos requerimientos para la prestación u ofrecimiento de nuestros servicios.
                     </p>
                     <p align="justify">
-                        Las entidades que integran a <strong><t t-esc="mr_patron"/></strong> con domicilio en 
-                        <strong><t t-esc="company_addres"/></strong>, 
+                        Las entidades que integran a <strong><t t-esc="o.company_id.business_name.upper()"/></strong> con domicilio en 
+                        <strong><t t-esc="o.company_id.partner_id.contact_address.upper()"/></strong>, 
                         informan que tanto los datos personales, como los datos personales sensibles referidos 
                         en los documentos requisitados con motivo de la celebración del contrato que une a las partes, 
                         mantendrán el tratamiento adecuado para fines de identificación, operación, administración, 
                         comercialización y otros fines análogos, pudiéndose transferir entre las entidades que conforman a 
-                        <strong><t t-esc="mr_patron"/></strong> sus filiales y subsidiarias,  así como a los terceros y/o proveedores 
+                        <strong><t t-esc="o.company_id.business_name.upper()"/></strong> sus filiales y subsidiarias,  así como a los terceros y/o proveedores 
                         nacionales o extranjeros que brindan servicios a dichas entidades.
                     </p>
                     <p align="justify">
                         En este acto <strong>EL PRESTADOR</strong> manifiesta su consentimiento para que 
-                        <strong><t t-esc="mr_patron"/></strong> utilice los datos personales y los datos personales sensibles de 
-                        <strong><t t-esc="employee"></t></strong> para todos los fines inherentes a la relación 
+                        <strong><t t-esc="o.company_id.business_name.upper()"/></strong> utilice los datos personales y los datos personales sensibles de 
+                        <strong><t t-esc="o.employee_id.name.upper()"></t></strong> para todos los fines inherentes a la relación 
                         jurídica que celebran bajo este contrato.
                     </p>
                     <p align="justify">
                         <strong>EL PRESTADOR</strong> tiene derecho al acceso, rectificación, modificación, cancelación, 
                         oposición, divulgación y limitación del uso de los datos personales, así como la 
                         revocación del consentimiento respectivo, podrá efectuarse por escrito en cualquier 
-                        sucursal de las entidades de <strong><t t-esc="mr_patron"/></strong> las entidades que integran a dicha 
+                        sucursal de las entidades de <strong><t t-esc="o.company_id.business_name.upper()"/></strong> las entidades que integran a dicha 
                         sociedad podrán efectuar cambios al aviso de privacidad de datos personales en cualquier 
-                        momento y se notificará por escrito. A los <strong><t t-esc="mr_patron"/></strong>.
+                        momento y se notificará por escrito. A los <strong><t t-esc="o.company_id.business_name.upper()"/></strong>.
                     </p>
                     <table class="egt mt64" align="center">
                         <tr>
                             <td style="border:1px solid black;" width="300px" height="100px" >
                                 <table align="center">
-                                    <tr>
-                                        <td>
-                                            <strong><div>“EL PRESTADOR”</div></strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td height="30px">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div  align="center">
-                                                <div t-esc="employee" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
+                                          <tr>
+                                            <td >
+                                                <strong><div  align="center" style="margin-top=-90px" >“EL PRESTADOR"</div></strong>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td height="110px">
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td >
+                                                <div  align="center">
+                                                    <strong><div t-esc="o.employee_id.name.upper()" /></strong>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                    </table>
                             </td>
                         </tr>
                     </table>
