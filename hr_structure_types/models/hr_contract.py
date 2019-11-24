@@ -8,5 +8,7 @@ class HrContract(models.Model):
     structure_type_id = fields.Many2one(
                                         'hr.structure.types',
                                         string="Structure Types")
+    
+    
      
 

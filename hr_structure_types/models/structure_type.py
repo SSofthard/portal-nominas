@@ -16,7 +16,7 @@ class StructureTypes(models.Model):
                             string = "Company",
                             default=lambda self: self.env['res.company']._company_default_get(),
                             required=True)
-    structure_id=fields.One2many(
+    structure_ids=fields.One2many(
                                 'hr.payroll.structure',
                                 'structure_type_id',
                                 string="Structure")

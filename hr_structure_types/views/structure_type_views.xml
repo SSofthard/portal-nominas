@@ -21,7 +21,7 @@
                             options="{'no_create': True}"/>
                     
                 </group>
-                <field name="structure_id" readonly="True" />
+                <field name="structure_ids" readonly="True" />
             </sheet>
         </form>
       </field>

@@ -20,7 +20,9 @@
         'views/structure_type_views.xml',
         'views/hr_contract.xml',
         'views/hr_payroll_structure.xml',
-        'wizard/hr_payroll_payslips_by_employees.xml'
+        'views/hr_payslip.xml',
+        'wizard/hr_payroll_payslips_by_employees.xml',
+        
     ],
     'demo': [
         'demo/demo.xml',
