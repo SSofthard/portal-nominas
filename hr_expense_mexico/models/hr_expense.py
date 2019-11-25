@@ -80,6 +80,7 @@ class ExpensesSheets(models.Model):
     def compute_amount(self):
         return self._compute_amount()
 
+    @api.one
     @api.depends('expense_line_ids.state')
     def _compute_amount(self):
         '''
@@ -87,7 +88,7 @@ class ExpensesSheets(models.Model):
         :return:
         '''
         self.total_amount = sum(map(lambda x: x.total_amount, self.expense_line_ids.filtered(lambda x: x.state == 'approved')))
-        self.amount_difference = self.amount_approved - self.total_amount
+        self.amount_difference = self.amount_delivered - self.total_amount
         if self.amount_difference > 0:
             self.operation_result = 'return'
         elif self.amount_difference < 0:
@@ -102,7 +103,7 @@ class ExpensesSheets(models.Model):
 
         :return:
         '''
-        self.amount_approved = amount_approve
+        self.amount_delivered = amount_approve
         return super(ExpensesSheets,self).approve_expense_sheets()
 
     @api.multi
@@ -138,7 +139,7 @@ class ExpensesSheets(models.Model):
     folio = fields.Char(string='Folio', default='/', readonly=True)
     date_request = fields.Datetime(string='Date request')
     state = fields.Selection(selection_add=[('open','Open'),('closed','Closed'),('cancel', 'Canceled')], track_visibility=True)
-    amount_approved = fields.Monetary('Amount Approved')
+    amount_delivered = fields.Monetary('Amount Delivered')
     amount_difference = fields.Monetary(compute='_compute_amount')
     operation_result = fields.Selection([ ('reconciled', 'Reconciled Amount'),('refund', 'Refund'), ('return', 'Return')],compute='_compute_amount')
 

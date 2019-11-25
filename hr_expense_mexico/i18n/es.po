@@ -45,17 +45,17 @@ msgstr "Agregar etiquetas y directorios"
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_expense_sheet_amount_approve_wizard__amount_approve
 msgid "Amount Approve"
-msgstr "Monto autorizado"
+msgstr "Monto entregado"
 
 #. module: hr_expense_mexico
-#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__amount_approved
-msgid "Amount Approved"
-msgstr "Monto autorizado"
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__amount_delivered
+msgid "Amount Delivered"
+msgstr "Monto entregado"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__amount_difference
 msgid "Amount Difference"
-msgstr ""
+msgstr "Diferencia"
 
 #. module: hr_expense_mexico
 #: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
