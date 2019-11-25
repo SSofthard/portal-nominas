@@ -10,6 +10,7 @@
     "depends": ['base','hr','hr_payroll'],
     "data": [
         'views/hr_loan_employeee.xml',
+        'data/data.xml',
         'security/ir.model.access.csv',
     ],
     "active": True,
