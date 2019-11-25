@@ -60,7 +60,12 @@ class Contract(models.Model):
             if self.type_id.type == 'with_seniority':
                 previous_contract_date = self.previous_contract_date.strftime('%d')+' del mes de '+self.previous_contract_date.strftime('%B').upper()+' de '+self.previous_contract_date.strftime('%Y')
             
-            contract_dic[contract.id]=[date.strftime('%d')+' días del mes de '+date.strftime('%B').upper()+' de '+numero_to_letras(int(date.strftime('%Y'))).lower(),previous_contract_date]
+            contract_dic[contract.id]=[date.strftime('%d')+' días del mes de '+date.strftime('%B').upper()+' de '+numero_to_letras(int(date.strftime('%Y'))).lower(),
+            previous_contract_date,contract.employee_id.birthday.strftime('%d/%m/%Y'),
+            contract.company_id.constitution_date.strftime('%d')+' de '+contract.company_id.constitution_date.strftime('%B').upper()+' de '+contract.company_id.constitution_date.strftime('%Y'),
+            date.strftime('%d')+' de '+date.strftime('%B').upper()+' '+date.strftime('%Y'),
+            date.strftime('%d')+' días del mes de '+date.strftime('%B').upper()+' de '+date.strftime('%Y'),
+            ]
         data={
             'contract_data':contract_dic
             }

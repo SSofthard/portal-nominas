@@ -8,11 +8,14 @@ import pytz
 import xlwt
 import os
 
+from xlrd import open_workbook
 from datetime import datetime
+
 from odoo import api, fields, models, _
 from dateutil.parser import parse
 from odoo.tools import pycompat
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.exceptions import UserError, ValidationError
 
 
 try:
@@ -38,7 +41,35 @@ class WizardImportAttendance(models.TransientModel):
         ('error', 'Error'),
     ], default="draft")
     error_message = fields.Text(readonly=True)
+    
+    @api.onchange('file_xls')
+    def onchange_file_xls(self):
+        if self.file_xls:
+            self.read_document()
 
+    @api.multi
+    def read_document(self):
+        datafile = base64.b64decode(self.file_xls)
+        input_file = io.BytesIO(datafile)
+        xml_obj = pd.read_excel(input_file)
+        xml_obj.columns = ['Employee', 'Check In', 'Check Out']
+        grouped_by_code = xml_obj.groupby(["Employee", "Check In", "Check Out"])
+        print (grouped_by_code)
+        for code, group in grouped_by_code:
+            self.check_employee(group['Employee'].values[0])
+
+    @api.multi
+    def check_employee(self, value):
+        employee = self.env['hr.employee']
+        if not value:
+            raise UserError('The enrollment field is empty, complete all the fields in the file.' % str(value))
+        else:
+            employee_id = employee.search([('enrollment', '=', value),('active', '=', 'active')]).id
+            if not employee_id:
+                raise UserError('No results found for enrollment %s.' % (str(value)))
+            else:
+                return employee_id
+    
     def validate_length_columns(self, field):
         if not xlrd:
             raise ValueError(
@@ -146,14 +177,13 @@ class WizardImportAttendance(models.TransientModel):
 
     def get_tuple_data_xls(self):
         result = []
-        groups = {}
         datafile = base64.b64decode(self.file_xls)
         input_file = io.BytesIO(datafile)
         xml_obj = pd.read_excel(input_file)
         xml_obj.columns = ['Employee', 'Check In', 'Check Out']
         grouped_by_code = xml_obj.groupby(["Employee", "Check In", "Check Out"])
         for code, group in grouped_by_code:
-            employee = self.env['hr.employee'].search([('enrollment', '=', group['Employee'].values[0].strip())])
+            employee = self.env['hr.employee'].search([('enrollment', '=', group['Employee'].values[0])])
             check_in = group['Check In'].values[0]
             check_out = group['Check Out'].values[0]
             result += [[
@@ -168,8 +198,8 @@ class WizardExportAttendance(models.TransientModel):
     _name = "wizard.export.attendance.xls"
     _description = 'Export Attendance Layout'
     
-    name = fields.Char("Name", default='Attendance-' + str(fields.Date.today()))
-    carrier_xlsx_document = fields.Binary("Download", )
+    name = fields.Char("Name", default='Layout-' + str(fields.Date.today()))
+    carrier_xlsx_document = fields.Binary("Layout", )
     state = fields.Selection([
         ('draft', 'Draft'),
         ('successful', 'Successful'),
