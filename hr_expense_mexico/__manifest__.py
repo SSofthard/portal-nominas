@@ -13,6 +13,7 @@
         'wizards/amount_approve_expense_sheet.xml',
         'wizards/wizard_add_tag_documents.xml',
         'wizards/refused_expense_wizard.xml',
+        'wizards/hr_expense_sheet_register_payment.xml',
         'data/ir_sequence_data.xml',
         'views/hr_expenses.xml',
         # 'security/ir.model.access.csv'
