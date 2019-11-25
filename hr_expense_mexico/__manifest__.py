@@ -7,7 +7,7 @@
     "website" : "",
     "description": "Module that adapts Mexico's own characteristics of the expenses process.",
     'summary': "Module that adapts Mexico's own characteristics of the human resources process.",
-    "depends": ['base','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry'],
+    "depends": ['base','hr_expense','employee_documents_expiry'],
     "data": [
         'security/ir.model.access.csv',
         'wizards/amount_approve_expense_sheet.xml',
