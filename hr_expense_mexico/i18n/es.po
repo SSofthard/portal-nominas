@@ -331,7 +331,7 @@ msgstr "Tipo de pago"
 #. module: hr_expense_mexico
 #: selection:hr.expense,state:0
 msgid "Pending Checking"
-msgstr "Pendiente de comprobacións"
+msgstr "Pendiente de comprobación"
 
 #. module: hr_expense_mexico
 #: selection:hr.expense.sheet,state:0
