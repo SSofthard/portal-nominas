@@ -19,17 +19,36 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='product_id']" position="before">
-                    <field name="classification_id" placeholder="Code"/>
+                <xpath expr="//button[@name='action_submit_expenses']" position="replace">
+
                 </xpath>
-                <xpath expr="//field[@name='reference']" position="after">
-<!--                    <field name="date_invoice" placeholder="Code"/>-->
+                <xpath expr="//header" position="inside">
+                    <button name="approve_expense" type="object" string="Approve" states="pending_checking"/>
+                    <button name="refuset_expense" type="object" string="Refuset" states="pending_checking"/>
+                    <button name="pass_to_pending_checking" type="object" string="Check Again" states="approved,refused"/>
+                </xpath>
+                <xpath expr="//group/group" position="replace">
+                    <group>
+                        <field name="classification" placeholder="Classification"/>
+                        <field name="other_classification" attrs="{'invisible':[('classification','!=','other')],'required':[('classification','=','other')]}" placeholder="Type classification description"/>
+                        <field name="document_type"/>
+                        <field name="subtotal_amount" attrs="{'invisible':[('document_type','=','remission')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <field name="amount_tax"  attrs="{'invisible':[('document_type','=','remission')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <field name="total_amount" widget='monetary' readonly="False" options="{'currency_field': 'currency_id'}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//group/group[last()]" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='reference']" position="replace">
+                    <field name="reference" string="Folio" placeholder="Folio"/>
                     <field name="date_invoice" placeholder="Code"/>
-                    <field name="date_checking" placeholder="Code"/>
-                    <field name="validate_document" placeholder="Code"/>
+                    <field name="date_checking" readonly="True"/>
                 </xpath>
                 <xpath expr="//field[@name='state']" position="replace">
-                    <field name="state" widget="statusbar" statusbar_visible="draft,reported,approved,done,pending_checking,refused,checked"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending_checking,approved,refused"/>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="pending_checking,approved,refused"/>
                 </xpath>
             </field>
         </record>
@@ -41,8 +60,8 @@
             <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[hasclass('oe_title')]" position="replace">
-                     <div class="oe_title">
-                           <label for="folio" class="oe_edit_only"/>
+                    <div class="oe_title">
+                        <label for="folio" class="oe_edit_only"/>
                         <h1>
                             <field name="folio" placeholder="CODE"/>
                         </h1>
@@ -53,35 +72,59 @@
                     </div>
                 </xpath>
                 <xpath expr="//group" position="inside">
-                     <group>
-                            <field name="date_request" modifiers="{'readonly':[('state','!=','draft')]}"/>
-                        </group>
+                    <group>
+                        <field name="date_request" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    </group>
                 </xpath>
                 <xpath expr="//field[@name='expense_line_ids']" position="attributes">
-                    <attributes name="modifiers">{'readonly':[('state','!=','draft')]}</attributes>
+                    <attributes name="attrs">{'readonly':[('state','=','closed')]}</attributes>
                 </xpath>
-                <xpath expr="//field[@name='state']" position="replace">
-                      <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve,done,cancel,denied"/>
+                <xpath expr="//field[@name='payment_mode']" position="replace">
+                    <field name="payment_mode" invisible="0"/>
+                </xpath>
+                <xpath expr="//field[@name='expense_line_ids']/tree/field[@name='total_amount']" position="before">
+                    <field name="state"/>
+                </xpath>
+                <xpath expr="//header" position="replace">
+                    <header>
+                     <button name="open_expense_sheets" states="draft" string="Confirm" type="object" groups="hr_expense.group_hr_expense_user" class="oe_highlight o_expense_sheet_approve"/>
+                    <button name="close_expense_sheets" states="open" string="Close" type="object" groups="hr_expense.group_hr_expense_user" class="oe_highlight o_expense_sheet_approve"/>
+                    <button name="reset_expense_sheets" string="Reset to Draft" type="object" attrs="{'invisible': ['|', ('can_reset', '=', False), ('state', 'not in', ['submit', 'cancel'])]}"/>
+                    <button name="%(hr_expense.hr_expense_refuse_wizard_action)d" states="open" context="{'hr_expense_refuse_model':'hr.expense.sheet'}" string="Refuse" type="action" groups="hr_expense.group_hr_expense_user" />
+                    <button name="%(hr_expense.hr_expense_sheet_register_payment_wizard_action)d" type="action" string="Register Payment" class="oe_highlight o_expense_sheet_pay" attrs="{'invisible': [('state', '!=', 'closed')]}" context="{'default_amount': amount_difference, 'partner_id': address_id, }" groups="account.group_account_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,closed,cancel"/>
+                    </header>
                 </xpath>
                 <xpath expr="//button[@name='action_get_attachment_view']" position="before">
-                       <button name="%(hr_expense.action_unsubmitted_expense)d"
+                    <button name="%(hr_expense.action_unsubmitted_expense)d"
                             class="oe_stat_button"
                             icon="fa-dollar"
                             type="action"
-                            context="{'search_default_sheet_id':id}">
-                           <strong>Expenses items</strong>
-                        </button>
+                            context="{'search_default_sheet_id':id,'default_employee_id':employee_id}">
+                        <strong>Expenses items</strong>
+                    </button>
                 </xpath>
-                <xpath expr="//button[@name='action_sheet_move_create']" position="replace">
-                        <button name="payment_expense_sheets" states="approve" string="Mark to paid" type="object" groups="hr_expense.group_hr_expense_user" class="oe_highlight o_expense_sheet_approve"/>
+                <xpath expr="//group[@name='expense_total']" position="replace">
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="expense_total">
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                            <label for="total_amount"/>
+                        </div>
+                        <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"/>
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}">
+                            <label for="amount_approved" string="Monto Entregado" readonly="True"/>
+                        </div>
+                        <field name="amount_approved" nolabel="1" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}">
+<!--                            <label for="amount_difference" readonly="True"/>-->
+                            <strong><field name="operation_result" attrs="{'invisible':[('state','!=','closed')]}"/></strong>
+                        </div>
+                        <field name="amount_difference" nolabel="1" attrs="{'invisible':[('state','!=','closed')]}" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
+                    </group>
+                    <group class="oe_right">
+                        <button name="compute_amount" type="object" class="oe_link">Update amount</button>
+                    </group>
 
-                </xpath>
-                <xpath expr="//group[@name='expense_total']" position="inside">
-					<div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}">
-						<label for="amount_approved" readonly="True"/>
-					</div>
-					<field name="amount_approved" nolabel="1" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
-<!--                     <field name="amount_approved"/>-->
+                    <!--                     <field name="amount_approved"/>-->
                 </xpath>
             </field>
         </record>
