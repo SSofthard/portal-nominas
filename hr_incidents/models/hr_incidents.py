@@ -3,11 +3,14 @@
 import datetime
 import logging
 
+from datetime import datetime, time, timedelta
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError, UserError
 from odoo.osv import expression
 from odoo.tools.translate import _
 from odoo.tools.float_utils import float_round
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_DATETIME_FORMAT
+
 
 class HolidaysType(models.Model):
     _inherit = "hr.leave.type"
@@ -51,9 +54,6 @@ class HolidaysRequest(models.Model):
         
     @api.multi
     def action_approve(self):
-        print ('Hola mundo')
-        print ('Hola mundo')
-        print ('Hola mundo')
         if not self.request_date_to:
             raise UserError(_('You must enter the end date.'))
         # if validation_type == 'both': this method is the first approval approval
@@ -67,4 +67,58 @@ class HolidaysRequest(models.Model):
         if not self.env.context.get('leave_fast_create'):
             self.activity_update()
         return True
+    
+    # ~ @api.onchange('number_of_days_display')
+    # ~ def _onchange_number_of_days(self):
+        # ~ self.number_of_days = self.number_of_days_display
+        
+    @api.multi
+    def calculate_date_to(self, date_from, duration):
+        date_from = datetime.strptime(date_from, DEFAULT_SERVER_DATE_FORMAT)
+        # ~ date_from = self.request_date_from
+        # ~ duration = self.number_of_days
+        # ~ print ('duration')
+        print (duration)
+        # ~ print ('date_from')
+        print (date_from)
+        if duration == 1 and date_from:
+            self.request_date_to = date_from
+        if duration > 1 and date_from:
+            self.request_date_to = date_from + timedelta(days=duration)
 
+    # ~ @api.model
+    # ~ def write(self, values):
+        # ~ """ Override to avoid automatic logging of creation """
+        # ~ res = super(HolidaysRequest, self).write(values)
+        
+        # ~ self.calculate_date_to()
+        # ~ self.calculate_date_to(self.request_date_from, self.number_of_days)
+        # ~ return res
+            
+            
+    @api.model
+    def create(self, values):
+        """ Override to avoid automatic logging of creation """
+        holiday = super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
+        
+        print (values.get('date_from'))
+        print (values.get('request_date_from'))
+        print (values.get('number_of_days'))
+        date_from = fields.Datetime.from_string(values.get('date_from'))
+        # ~ date_from = datetime.strptime(date_from, DEFAULT_SERVER_DATE_FORMAT)
+        # ~ self.calculate_date_to()
+        self.calculate_date_to(date_from, values.get('number_of_days'))
+        return holiday
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
