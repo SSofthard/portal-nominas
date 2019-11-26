@@ -26,7 +26,7 @@ class Expenses(models.Model):
     employee_id = fields.Many2one(readonly=False)
     other_classification = fields.Char('Other classification', readonly=False)
     completed = fields.Boolean(string='Completed')
-    classification = fields.Selection([('1', 'Clase 1'),('2','Clase 2'), ('other','Other')],string='Classification')
+    classification = fields.Selection([('1', 'Alimentos'),('2   ','Transporte'),('3','Hospedaje'),('4','Translados por movilidad'), ('other','Other')],string='Classification')
     date_invoice = fields.Datetime(string = 'Date invoice')
     date_checking = fields.Datetime(string = 'Date Checking')
     state = fields.Selection([('draft', 'Borrador'),('pending_checking', 'Pending Checking'),('approved','Approved'),('refused','Refused')], track_visibility=True, default='pending_checking',  compute=False)
@@ -81,13 +81,20 @@ class ExpensesSheets(models.Model):
         return self._compute_amount()
 
     @api.one
-    @api.depends('expense_line_ids.state')
+    @api.depends('expense_line_ids.state', 'payment_ids')
     def _compute_amount(self):
         '''
         Este metodd calcula los montos total y el monto de diferencia.
         :return:
         '''
         self.total_amount = sum(map(lambda x: x.total_amount, self.expense_line_ids.filtered(lambda x: x.state == 'approved')))
+        self.amount_payment = sum(self.env['hr.expense.payment'].search([('sheet_id','=',self.id)]).mapped('amount'))
+        payment_type = self.env['hr.expense.payment'].search([('sheet_id','=',self.id)]).mapped('payment_type')
+        if len(payment_type):
+            self.payment_type_res = self.env['hr.expense.payment'].search([('sheet_id','=',self.id)]).mapped('payment_type')[0]
+            self.paid=True
+        else:
+            self.paid = False
         self.amount_difference = self.amount_delivered - self.total_amount
         if self.amount_difference > 0:
             self.operation_result = 'return'
@@ -136,6 +143,10 @@ class ExpensesSheets(models.Model):
         self.activity_update()
 
     # Columns
+    paid = fields.Boolean(compute='_compute_amount', string='Paid')
+    payment_ids = fields.One2many(inverse_name='sheet_id', comodel_name='hr.expense.payment',string='Amount Payment')
+    amount_payment = fields.Monetary(compute='_compute_amount', string='Amount Payment')
+    payment_type_res = fields.Selection([('inbound','Inbound'),('outbound','Outbound')], compute='_compute_amount')
     folio = fields.Char(string='Folio', default='/', readonly=True)
     date_request = fields.Datetime(string='Date request')
     state = fields.Selection(selection_add=[('open','Open'),('closed','Closed'),('cancel', 'Canceled')], track_visibility=True)
