@@ -14,6 +14,8 @@ class HolidaysType(models.Model):
     
     code = fields.Char('Code', required=True)
 
+    _sql_constraints = [('code_unique', 'unique(Code)', "the code must be unique")]
+
     @api.multi
     def name_get(self):
         res = []
@@ -37,3 +39,12 @@ class HolidaysType(models.Model):
             domain = [('code', operator, name)]
         code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(code).name_get()
+
+
+class HolidaysRequest(models.Model):
+    _inherit = "hr.leave"
+    
+    date_to = fields.Datetime(
+        'End Date', readonly=True, copy=False, required=False,
+        default=fields.Datetime.now,
+        states={'draft': [('readonly', False)], 'confirm': [('readonly', False)]}, track_visibility='onchange')
