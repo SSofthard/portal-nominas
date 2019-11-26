@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-26 16:19+0000\n"
-"PO-Revision-Date: 2019-11-26 16:19+0000\n"
+"POT-Creation-Date: 2019-11-26 18:17+0000\n"
+"PO-Revision-Date: 2019-11-26 18:17+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -65,6 +65,7 @@ msgid "Employees:"
 msgstr "Empleados"
 
 #. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__date_to
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__date_to
 msgid "End Date"
 msgstr "Fecha finalización"
@@ -99,10 +100,21 @@ msgid "Last Updated on"
 msgstr "Última actualización el"
 
 #. module: hr_incidents
+#: model:ir.model,name:hr_incidents.model_hr_leave
+msgid "Leave"
+msgstr "Ausencia"
+
+#. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_hr_leave_type
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__holiday_status_ids
 msgid "Leave Type"
 msgstr "Tipo de ausencia"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:62
+#, python-format
+msgid "Leave request must be confirmed (\"To Approve\") in order to approve it."
+msgstr "La solicitud de licencia debe confirmarse (\Para aprobar \) para aprobarla."
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
@@ -142,9 +154,20 @@ msgid "Type leave:"
 msgstr "tipo de ausencia"
 
 #. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:58
+#, python-format
+msgid "You must enter the end date."
+msgstr "Debe ingresar la fecha de finalización"
+
+#. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_report_hr_incidents_hr_leave_incidents_report
 msgid "report.hr_incidents.hr_leave_incidents_report"
 msgstr ""
+
+#. module: hr_incidents
+#: sql_constraint:hr.leave.type:0
+msgid "the code must be unique"
+msgstr "el código debe ser único"
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
