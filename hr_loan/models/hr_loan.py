@@ -14,6 +14,18 @@ class hrLoan(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
     _order = "create_date asc"
     
+    @api.multi
+    @api.depends('loan_line_ids')
+    def _cal_amount_all(self):
+        for loan in self:
+            amount_paid = 0
+            for payment in loan.loan_line_ids:
+                if payment.state == 'paid':
+                    amount_paid += payment.amount_total
+            
+            loan.total_amount_paid = amount_paid
+            loan.total_amount_due= loan.total_amount - amount_paid
+    
     name = fields.Char('Reference', required=False, readonly=True)
     employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'draft':[('readonly', False)]})
     contract_id = fields.Many2one('hr.contract', string='Contract', required=True, readonly=True, states={'draft':[('readonly', False)]})
@@ -34,16 +46,16 @@ class hrLoan(models.Model):
                             ('weekly', 'Weekly'),
                             ('bi-weekly', 'Bi-weekly'),
                             ('bi-monthly', 'Bi-monthly'),
-                        ], string='Scheduled Pay', index=True, default='monthly', required=True, help="Defines the frequency of the loan payment.")
-    interest = fields.Boolean(string='Is Interest Payable', default=False, states={'draft':[('readonly', False)]})
-    interest_type = fields.Selection(selection=[('flat', 'Flat'), ('reducing', 'Reducing'), ('', '')], string='Interest Type', default='', states={'draft':[('readonly', False)]})
-    rate = fields.Float(string='Rate', multi='type', help='Interest rate between 0-100 in range', digits=(16, 2), states={'draft':[('readonly', False)]})
+                        ], string='Scheduled Pay', index=True, default='monthly', required=True, readonly=True, help="Defines the frequency of the loan payment.")
+    interest = fields.Boolean(string='Is Interest Payable', default=False, readonly=True, states={'draft':[('readonly', False)]})
+    interest_type = fields.Selection(selection=[('flat', 'Flat'), ('reducing', 'Reducing'), ('', '')], string='Interest Type', default='', readonly=True, states={'draft':[('readonly', False)]})
+    rate = fields.Float(string='Rate', multi='type', digits=(16, 2), readonly=True, states={'draft':[('readonly', False)]}, help='Interest rate between 0-100 in range',)
     loan_amount = fields.Float(string='Loan Amount', required=True, readonly=True, states={'draft':[('readonly', False)]})
-    wage = fields.Float(string='Wage', help='Salary of the employee based on the selected contract.', required=False, readonly=True, states={'draft':[('readonly', False)]})
-    total_interest_amount = fields.Float(compute='_cal_amount_all', string='Total Interest on Loan', store=True)
-    total_amount = fields.Float(compute='_cal_amount_all', string='Total amount', store=True)
+    wage = fields.Float(string='Wage', required=False, readonly=True, states={'draft':[('readonly', False)]}, help='Salary of the employee based on the selected contract.',)
+    total_interest_amount = fields.Float(string='Total Interest on Loan', store=True)
+    total_amount = fields.Float(string='Total amount', store=True)
     total_amount_paid = fields.Float(compute='_cal_amount_all', string='Received From Employee', store=True)
-    total_amount_due = fields.Float(compute='_cal_amount_all', help='Remaining Amount due.', string='Balance on Loan', store=True)
+    total_amount_due = fields.Float(compute='_cal_amount_all', string='Balance on Loan', store=True, help='Remaining Amount due.',)
     loan_line_ids = fields.One2many('hr.loan.line', 'loan_id', 'Loan Line', copy=False)
     company_id = fields.Many2one('res.company', 'Company',required=True,readonly=True, states={'draft': [('readonly', False)]}, default=lambda self: self.env.user.company_id)
     currency_id = fields.Many2one('res.currency', string='Currency', required=True, readonly=True, states={'draft':[('readonly', False)]}, default=lambda self: self.env.user.company_id.currency_id)
@@ -145,10 +157,93 @@ class hrLoan(models.Model):
     @api.multi
     def action_disburse(self):
         for loan in self:
+            self.compute_installments()
             if loan.type_id.disburse_method == 'payroll':
                 loan.state = 'disburse'
             else:
                 loan.state = 'disburse'
+    
+    def generate_payment_date_to(self,date_from):
+        if self.schedule_pay == 'monthly':
+            date_to = date_from + relativedelta(months=1)
+        elif self.schedule_pay == 'quarterly':
+            date_to = date_from + relativedelta(months=3)
+        elif self.schedule_pay == 'semi-annually':
+            date_to = date_from + relativedelta(months=6)
+        elif self.schedule_pay == 'annually':
+            date_to = date_from + relativedelta(years=1)
+        elif self.schedule_pay == 'weekly':
+            date_to = date_from + relativedelta(days=7)
+        elif self.schedule_pay == 'bi-weekly':
+            date_to = date_from + relativedelta(days=15)
+        elif self.schedule_pay == 'bi-monthly':
+            date_to = date_from + relativedelta(months=2)
+        return date_to
+    
+    @api.model
+    def reducing_balance_method(self, p, r, n):
+        # Determine the interest rate on the loan, the length of the loan and the amount of the loan
+        res = {}
+        for i in range(0, n):
+            print (i)
+            step_1_p = p  # principal amount at the beginning of each period
+            step_2_r_m = r / (12 * 100.00)  # interest rate per month
+            step_3_r_m = 1 + step_2_r_m  # add 1 to interest rate per month
+            step_4 = step_3_r_m ** (n - i)  # Raise the step_2_r_m to the power of the number of payments required on the loan
+            step_5 = step_4 - 1  #  minus 1 from step_4
+            step_6 = step_2_r_m / step_5  # Divide the interest rate per month(step_2_r_m) by the step_5
+            step_7 = step_6 + step_2_r_m  # Add the interest rate per month to the step_6 
+            step_8_EMI = round(step_7 * step_1_p, 2)  # Total EMI to pay month
+            step_9_int_comp = round(step_1_p * step_2_r_m, 2)  # Total Interest component in EMI
+            step_10_p_comp = round(step_8_EMI - step_9_int_comp, 2)  # Total principal component in EMI
+            p -= step_10_p_comp  # new principal amount 
+            res[self.name+'-'+str(i+1)] = {'emi':step_8_EMI,
+                      'amount':step_10_p_comp,
+                      'amount_interest_installment':step_9_int_comp
+                      }
+        return res
+    
+    @api.multi
+    def compute_installments(self):
+        for loan in self:
+            loan.loan_line_ids.unlink()
+            if not loan.date_disb:
+                raise Warning(_('Please give disbursement date.'))
+            installment_obj = self.env['hr.loan.line']
+            amount = loan.loan_amount / (loan.number_fees or 1.0)
+            amount_interest = 0
+            amount_interest = 0
+            acum = 0
+            if loan.interest:
+                amount_interest = (loan.loan_amount * loan.rate)/100
+                amount_interest_installment = amount_interest / (loan.number_fees or 1.0)
+            date_from = self.date_disb
+            if loan.interest_type == 'reducing':
+                reducing = self.reducing_balance_method(loan.loan_amount, loan.rate, loan.number_fees)
+            for installment in range(0, loan.number_fees):
+                date_from = date_from
+                date_to = self.generate_payment_date_to(date_from)
+                acum+=1
+                name = loan.name+'-'+str(acum)
+                if loan.interest_type == 'reducing':
+                    amount = reducing[name]['amount']
+                    if loan.interest:
+                        amount_interest_installment = reducing[name]['amount_interest_installment']
+                line = {'name':name,
+                         'date_from':date_from,
+                         'date_to':date_to,
+                         'amount':amount,
+                         'interest_amount':amount_interest_installment,
+                         'amount_total':amount+amount_interest_installment,
+                         'loan_id':loan.id
+                         }
+                date_from = date_to
+                installment_obj.create(line)
+            self.total_amount = self.loan_amount + amount_interest
+            self.total_interest_amount = amount_interest
+        return True
+        
+        
     
 class hrLoanLIne(models.Model):
     _name = 'hr.loan.line'
@@ -156,7 +251,7 @@ class hrLoanLIne(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
             
     loan_id = fields.Many2one('hr.loan', string='Loan', readonly=True, required=False)
-    name = fields.Integer(string='Name', required=False, readonly=True)
+    name = fields.Char(string='Name', required=False, readonly=True)
     date_from = fields.Date(string='Date From', readonly=True)
     date_to = fields.Date(string='Date To', readonly=True)
     amount = fields.Float(string='Amount', digits=(16, 2), readonly=True)
@@ -170,7 +265,7 @@ class hrLoanLIne(models.Model):
                                 ('paid', 'Paid')], 
                                 string='State', readonly=True, default='unpaid',track_visibility='onchange')
     company_id = fields.Many2one('res.company', related='loan_id.company_id', store=True)
-    currency_id = fields.Many2one('res.currency', related='loan_id.company_id', store=True)
+    currency_id = fields.Many2one('res.currency', related='loan_id.currency_id', store=True)
     
 class hrLoanType(models.Model):
     _name = 'hr.loan.type'
