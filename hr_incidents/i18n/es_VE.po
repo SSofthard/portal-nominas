@@ -1,0 +1,158 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* hr_incidents
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e-201905\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-26 16:19+0000\n"
+"PO-Revision-Date: 2019-11-26 16:19+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
+msgid "Analyze from"
+msgstr "Analizar de"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.wizard_hr_incidents
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__code
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_type_form_inherit
+msgid "Code"
+msgstr "Código"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__create_uid
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__create_date
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__display_name
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
+msgid "Duration (days):"
+msgstr "Duración (días)"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__employee_ids
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
+msgid "Employees:"
+msgstr "Empleados"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__date_to
+msgid "End Date"
+msgstr "Fecha finalización"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.wizard_hr_incidents
+msgid "Generate"
+msgstr "Generar"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__id
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__id
+msgid "ID"
+msgstr ""
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report____last_update
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__write_uid
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__write_date
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: hr_incidents
+#: model:ir.model,name:hr_incidents.model_hr_leave_type
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__holiday_status_ids
+msgid "Leave Type"
+msgstr "Tipo de ausencia"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
+msgid "Leaves Summary"
+msgstr "Resumen de ausencias"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
+msgid "Leaves."
+msgstr "Ausencias."
+
+#. module: hr_incidents
+#: model:ir.actions.act_window,name:hr_incidents.action_wizard_hr_incidents
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: hr_incidents
+#: model:ir.actions.report,name:hr_incidents.report_hr_leave_incidents
+#: model:ir.ui.menu,name:hr_incidents.menu_hr_incidents_report
+msgid "Report by Employee or type"
+msgstr "Informe por empleado o tipo"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__date_from
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/wizards/wizard_hr_incidents.py:75
+#, python-format
+msgid "The end date cannot be less than the start date "
+msgstr "La fecha de finalización no puede ser inferior a la fecha de inicio"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
+msgid "Type leave:"
+msgstr "tipo de ausencia"
+
+#. module: hr_incidents
+#: model:ir.model,name:hr_incidents.model_report_hr_incidents_hr_leave_incidents_report
+msgid "report.hr_incidents.hr_leave_incidents_report"
+msgstr ""
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
+msgid "to"
+msgstr "hasta"
+
+#. module: hr_incidents
+#: model:ir.model,name:hr_incidents.model_wizard_hr_incidents
+msgid "wizard.hr.incidents"
+msgstr ""
+

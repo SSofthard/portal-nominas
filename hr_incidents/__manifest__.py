@@ -5,9 +5,12 @@
     "author": "Soluciones SoftHard",
     "category": "Hr",
     "website" : "http://www.solucionesofthard.com",
-    "depends": ['base','hr','hr_holidays'],
+    "depends": ['web','hr','hr_holidays'],
     "data": [ 
-			'views/hr_incidents.xml',
+            'report/hr_incidents_report.xml',
+            'wizards/wizard_hr_incidents.xml',
+            'views/hr_incidents.xml',
+            
     ],
 }
 

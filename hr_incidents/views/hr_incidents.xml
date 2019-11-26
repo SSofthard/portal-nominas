@@ -12,6 +12,12 @@
                 </xpath>
             </field>
         </record>
+        
+     <menuitem
+        name="Report by Employee or type"
+        id="menu_hr_incidents_report"
+        action="action_wizard_hr_incidents"
+        parent="hr_holidays.menu_hr_holidays_report" sequence="10"/>
 
     </data>
 </odoo>
