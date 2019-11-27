@@ -5,7 +5,6 @@ import logging
 
 from pytz import timezone, UTC
 from datetime import datetime, time, timedelta, date
-from datetime import datetime, time, timedelta
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError, UserError
 from odoo.osv import expression
@@ -20,21 +19,18 @@ class HolidaysType(models.Model):
     code = fields.Char('Code', required=True)
 
     _sql_constraints = [('code_unique', 'unique(Code)', "the code must be unique")]
-
+    
     @api.multi
     def name_get(self):
         res = []
         for record in self:
-            name = record.name
             code = record.code
             if code:
-                name = "%(name)s %(code)s " % {
-                    'name': name,
+                name = "%(code)s " % {
                     'code': code,
                 }
             res.append((record.id, name))
         return res
-
 
     @api.model
     def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
@@ -73,11 +69,10 @@ class HolidaysRequest(models.Model):
         """ Override to avoid automatic logging of creation """
         holiday = super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
         request_date_from = values.get('request_date_from')
-        date_from = values.get('date_from')
         duration = values.get('number_of_days')
         request_date_to = values.get('request_date_to')
         if duration == 1 and request_date_from:
-            request_date_to = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT) + timedelta(days=0.5)
+            request_date_to = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT) + timedelta(days=0.1)
             holiday.date_to = request_date_to
             request_date_to = fields.Date.from_string(request_date_to).strftime(DEFAULT_SERVER_DATE_FORMAT)
             holiday.request_date_to = request_date_to
