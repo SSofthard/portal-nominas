@@ -24,9 +24,10 @@ class HolidaysType(models.Model):
     def name_get(self):
         res = []
         for record in self:
+            name = record.name
             code = record.code
             if code:
-                name = "%(code)s " % {
+                name = "%(code)s" % {
                     'code': code,
                 }
             res.append((record.id, name))
@@ -40,7 +41,6 @@ class HolidaysType(models.Model):
             domain = [('code', operator, name)]
         code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(code).name_get()
-
 
 class HolidaysRequest(models.Model):
     _inherit = "hr.leave"
@@ -72,8 +72,7 @@ class HolidaysRequest(models.Model):
         duration = values.get('number_of_days')
         request_date_to = values.get('request_date_to')
         if duration == 1 and request_date_from:
-            request_date_to = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT) + timedelta(days=0.1)
-            holiday.date_to = request_date_to
+            request_date_to = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT) + timedelta(days=0.5)
             request_date_to = fields.Date.from_string(request_date_to).strftime(DEFAULT_SERVER_DATE_FORMAT)
             holiday.request_date_to = request_date_to
         if duration > 1 and request_date_from:
@@ -82,16 +81,4 @@ class HolidaysRequest(models.Model):
             request_date_to = fields.Date.from_string(request_date_to).strftime(DEFAULT_SERVER_DATE_FORMAT)
             holiday.request_date_to = request_date_to
         return holiday
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             
