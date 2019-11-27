@@ -6,11 +6,18 @@ $brand-primary-light: lighten($brand-primary, 10%);
 $brand-secondary-dark: darken($brand-secondary, 10%);
 $brand-secondary-light: lighten($brand-secondary, 10%);
 
+//.o_home_menu_background {
+//    background: url(/odoo_web_login/static/src/img/back-5.png) no-repeat fixed center;;
+//}
 .o_home_menu_background {
-    background: url(/odoo_web_login/static/src/img/back-5.png) no-repeat fixed center;;
+    background: url(/odoo_web_login/static/src/img/back-6.svg),
+        linear-gradient(to right bottom, #77717e, #060507);
+    background-size: cover;
 }
 
+
 //#465F93
+//#3E3E40
 
 .o_home_menu .o_home_menu_scrollable .o_apps .o_app .o_app_icon {
     width: 100%;
