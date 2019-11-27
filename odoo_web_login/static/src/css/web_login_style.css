@@ -119,7 +119,3 @@ a.btn-select:hover {
 	margin-bottom: 10px;
 }
 
-o_web_client > o_home_menu_background {
-    background: url(/odoo_web_login/static/src/img/3.jpg) !importante;
-    background-size: cover;
-}
