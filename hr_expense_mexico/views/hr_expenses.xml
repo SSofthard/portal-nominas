@@ -108,18 +108,37 @@
                 <xpath expr="//group[@name='expense_total']" position="replace">
                     <group class="oe_subtotal_footer oe_right" colspan="2" name="expense_total">
                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                            <label for="total_amount"/>
+                            <label for="total_amount" string="Monto comprobado"/>
                         </div>
                         <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"/>
                         <div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}">
                             <label for="amount_delivered" string="Monto Entregado" readonly="True"/>
                         </div>
                         <field name="amount_delivered" nolabel="1" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
-                        <div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}">
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}" attrs="{'invisible':[('state','!=','closed')]}">
 <!--                            <label for="amount_difference" readonly="True"/>-->
-                            <strong><field name="operation_result" attrs="{'invisible':[('state','!=','closed')]}"/></strong>
+                            <label for="amount_difference" string="Reconciled" attrs="{'invisible':[('operation_result','!=','reconciled')]}"/>
+                            <label for="amount_difference" string="Return" attrs="{'invisible':[('operation_result','!=','return')]}"/>
+                            <label for="amount_difference" string="Refund" attrs="{'invisible':[('operation_result','!=','refund')]}"/>
+                            <field name="payment_type_res" invisible="True"/>
+                            <field name="operation_result" invisible="True"/>
                         </div>
                         <field name="amount_difference" nolabel="1" attrs="{'invisible':[('state','!=','closed')]}" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
+                    <div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}" attrs="{'invisible':[('paid','!=','True')]}">
+                        <field name="paid" invisible="True"/>
+
+                        <button name="%(hr_expense_mexico.action_hr_expense_payments)d"
+                            class="oe_link"
+                            icon="fa-info"
+                            type="action"
+                            context="{'search_default_sheet_id':id}">
+                            <label for="payment_type_res" string="Inbound Payment" attrs="{'invisible':[('payment_type_res','!=','inbound')]}"/>
+                            <label for="payment_type_res" string="Outbound Payment" attrs="{'invisible':[('payment_type_res','!=','outbound')]}"/>
+                            <field name="payment_type_res" invisible="True"/>:
+                        </button>
+<!--                        </label>-->
+                        </div>
+                        <field name="amount_payment" nolabel="1" attrs="{'invisible':['|',('state','!=','closed'),('paid','!=','True')]}" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
                     </group>
                     <group class="oe_right">
                         <button name="compute_amount" type="object" class="oe_link">Update amount</button>
