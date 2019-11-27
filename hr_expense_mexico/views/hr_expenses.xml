@@ -78,7 +78,7 @@
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='expense_line_ids']" position="attributes">
-                    <attributes name="attrs">{'readonly':[('state','=','closed')]}</attributes>
+                    <attribute name="attrs">{'readonly':[('state','=','closed')]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='payment_mode']" position="replace">
                     <field name="payment_mode" invisible="0"/>
