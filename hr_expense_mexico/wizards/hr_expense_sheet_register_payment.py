@@ -41,7 +41,7 @@ class HrExpenseSheetRegisterPaymentWizard(models.TransientModel):
         active_ids = context.get('active_ids', [])
         expense_sheet = self.env['hr.expense.sheet'].browse(active_ids)
         vals = self._get_payment_vals()
-        vals.update({'sheet_id': context.get('active_id'),'state':'send'})
+        vals.update({'sheet_id': context.get('active_id')})
         # Create payment and post it
         payment = self.env['hr.expense.payment'].create(vals)
 

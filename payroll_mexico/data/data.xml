@@ -72,5 +72,31 @@
         <field name="name">Hijo</field>
     </record>
     
+<!--
+    Worker hiring regime
+-->
+
+    
+    <record id="hr_worker_hiring_regime_1" model="hr.worker.hiring.regime">
+        <field name="name">Sueldos y salarios</field>
+        <field name="code">1</field>
+    </record>
+    <record id="hr_worker_hiring_regime_2" model="hr.worker.hiring.regime">
+        <field name="name">Asimilados a salarios</field>
+        <field name="code">2</field>
+    </record>
+    <record id="hr_worker_hiring_regime_3" model="hr.worker.hiring.regime">
+        <field name="name">Jubilados</field>
+        <field name="code">3</field>
+    </record>
+    <record id="hr_worker_hiring_regime_4" model="hr.worker.hiring.regime">
+        <field name="name">Pensionados</field>
+        <field name="code">4</field>
+    </record>
+    <record id="hr_worker_hiring_regime_5" model="hr.worker.hiring.regime">
+        <field name="name">Free</field>
+        <field name="code">5</field>
+    </record>
+    
    </data>
 </odoo>

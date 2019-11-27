@@ -132,11 +132,27 @@
                         </field>
                     </page>
                     <page name="companies" string="Companies" groups="hr.group_hr_user">
+						<group col="4">
+							<group>
+								<separator string="Hiring Regime" colspan="4" />
+								<field name="hiring_regime_ids" widget="many2many_checkboxes" nolabel="1"/>
+							</group>
+							<group>
+								<separator string="Table CFDI"/>
+								<field name="table_id" />
+							</group>
+						</group>
+						<group>
+								<separator string="Salaries"/>
+								<field name="real_salary" />
+								<field name="gross_salary" />
+								<button name="calculate_salary_scheme" string="Calculate" class="oe_highlight" type="object" groups="hr.group_hr_user"/>
+							</group>
                         <field name="company_ids">
-                            <tree editable="botton">
-                                <field name="company_id" options='{"no_open": True, "no_create": True}'/>
+                            <tree editable="botton" create="0">
+                                <field name="hiring_regime_id" />
                                 <field name="wage" />
-                                <field name="scheme" />
+                                <field name="company_id" options='{"no_open": True, "no_create": True}' required="1"/>
                             </tree>
                         </field>
                     </page>

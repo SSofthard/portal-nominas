@@ -50,10 +50,42 @@ class Contract(models.Model):
     
     def print_contract(self):
         contract_dic = {}
+        mensaje = []
         for contract in self:
+            employee=contract.employee_id
+            if not employee:
+                mensaje.append('Debe llenar el campo empleado en la ficha del Contrato \n')
+            
+            company=contract.company_id
+            if not company:
+                mensaje.append('Debe llenar el campo Compañia en el contrato \n')
+            
+            birthday=contract.employee_id.birthday
+            if not birthday:
+                mensaje.append('Debe llenar la fecha de nacimiento en la ficha de empleado \n')
+            
+            const_date=contract.company_id.constitution_date
+            if not const_date:
+                mensaje.append('Debe llenar la fecha Constitucion de la compañia \n')
+            
+            title_emplo=contract.employee_id.title.shortcut
+            if not title_emplo:
+                mensaje.append('Debe llenar el titulo en la ficha de empleado \n')
+            
+            direccion=contract.employee_id.address_home_id
+            if not direccion:
+                mensaje.append('Debe llenar la dirección de la ficha de empleado \n')
+            
+            dir_state=contract.employee_id.address_home_id.state_id
+            if not dir_state:
+                mensaje.append('Debe llenar el estado en la dirección de la ficha de empleado \n')
+            
             report=self.type_id.report_id
             if not report:
-                msg="The type of contract does not have an assigned report"
+                mensaje.append('Debe llenar el campo reporte dentro de la categoria de empleado \n')
+                
+            if len(mensaje):
+                msg="".join(mensaje)
                 raise  UserError(_(msg))
             date = self.date_start
             previous_contract_date = ''
