@@ -3,6 +3,8 @@
 import datetime
 import logging
 
+from pytz import timezone, UTC
+from datetime import datetime, time, timedelta, date
 from datetime import datetime, time, timedelta
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError, UserError
@@ -56,8 +58,6 @@ class HolidaysRequest(models.Model):
     def action_approve(self):
         if not self.request_date_to:
             raise UserError(_('You must enter the end date.'))
-        # if validation_type == 'both': this method is the first approval approval
-        # if validation_type != 'both': this method calls action_validate() below
         if any(holiday.state != 'confirm' for holiday in self):
             raise UserError(_('Leave request must be confirmed ("To Approve") in order to approve it.'))
 
@@ -67,47 +67,25 @@ class HolidaysRequest(models.Model):
         if not self.env.context.get('leave_fast_create'):
             self.activity_update()
         return True
-    
-    # ~ @api.onchange('number_of_days_display')
-    # ~ def _onchange_number_of_days(self):
-        # ~ self.number_of_days = self.number_of_days_display
-        
-    @api.multi
-    def calculate_date_to(self, date_from, duration):
-        date_from = datetime.strptime(date_from, DEFAULT_SERVER_DATE_FORMAT)
-        # ~ date_from = self.request_date_from
-        # ~ duration = self.number_of_days
-        # ~ print ('duration')
-        print (duration)
-        # ~ print ('date_from')
-        print (date_from)
-        if duration == 1 and date_from:
-            self.request_date_to = date_from
-        if duration > 1 and date_from:
-            self.request_date_to = date_from + timedelta(days=duration)
 
-    # ~ @api.model
-    # ~ def write(self, values):
-        # ~ """ Override to avoid automatic logging of creation """
-        # ~ res = super(HolidaysRequest, self).write(values)
-        
-        # ~ self.calculate_date_to()
-        # ~ self.calculate_date_to(self.request_date_from, self.number_of_days)
-        # ~ return res
-            
-            
     @api.model
     def create(self, values):
         """ Override to avoid automatic logging of creation """
         holiday = super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
-        
-        print (values.get('date_from'))
-        print (values.get('request_date_from'))
-        print (values.get('number_of_days'))
-        date_from = fields.Datetime.from_string(values.get('date_from'))
-        # ~ date_from = datetime.strptime(date_from, DEFAULT_SERVER_DATE_FORMAT)
-        # ~ self.calculate_date_to()
-        self.calculate_date_to(date_from, values.get('number_of_days'))
+        request_date_from = values.get('request_date_from')
+        date_from = values.get('date_from')
+        duration = values.get('number_of_days')
+        request_date_to = values.get('request_date_to')
+        if duration == 1 and request_date_from:
+            request_date_to = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT) + timedelta(days=0.5)
+            holiday.date_to = request_date_to
+            request_date_to = fields.Date.from_string(request_date_to).strftime(DEFAULT_SERVER_DATE_FORMAT)
+            holiday.request_date_to = request_date_to
+        if duration > 1 and request_date_from:
+            request_date_to = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT) + timedelta(days=duration)
+            holiday.date_to = request_date_to
+            request_date_to = fields.Date.from_string(request_date_to).strftime(DEFAULT_SERVER_DATE_FORMAT)
+            holiday.request_date_to = request_date_to
         return holiday
             
             

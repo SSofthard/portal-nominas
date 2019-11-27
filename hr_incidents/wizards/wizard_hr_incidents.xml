@@ -33,7 +33,7 @@
     
     <act_window
         id="action_wizard_hr_incidents"
-        name="Print"
+        name="Report by Employee or type"
         res_model="wizard.hr.incidents"
         src_model="hr.leave"
         view_mode="form"
