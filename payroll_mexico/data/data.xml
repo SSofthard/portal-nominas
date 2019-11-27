@@ -78,11 +78,11 @@
 
     
     <record id="hr_worker_hiring_regime_1" model="hr.worker.hiring.regime">
-        <field name="name">Asimilados a salarios</field>
+        <field name="name">Sueldos y salarios</field>
         <field name="code">1</field>
     </record>
     <record id="hr_worker_hiring_regime_2" model="hr.worker.hiring.regime">
-        <field name="name">Sueldos y salarios</field>
+        <field name="name">Asimilados a salarios</field>
         <field name="code">2</field>
     </record>
     <record id="hr_worker_hiring_regime_3" model="hr.worker.hiring.regime">
