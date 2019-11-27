@@ -13,6 +13,7 @@
         'views/hr_contract.xml',
         'views/hr_contract_type.xml',
         'views/res_company_view.xml',
+        'views/table_cfdi_view.xml',
         'security/ir.model.access.csv',
         #Reports
         'report/base_layout.xml',
@@ -22,6 +23,8 @@
         'report/determinate_contract_with_seniority.xml',
         'report/independent_services_provision_agreement.xml',
         'data/data.xml',
+        'data/sequence_data.xml',
+        'data/data_table_cfdi.xml',
         'data/res.bank.csv',
         
     ],

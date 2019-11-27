@@ -34,7 +34,7 @@ class Employee(models.Model):
             if employee.birthday:
                 employee.age = calculate_age(employee.birthday)
     
-    enrollment = fields.Char("Enrollment", copy=False, required=True)
+    enrollment = fields.Char("Enrollment", copy=False, required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Employee'))
     title = fields.Many2one('res.partner.title','Title')
     rfc = fields.Char("RFC", copy=False)
     curp = fields.Char("CURP", copy=False)
@@ -64,6 +64,10 @@ class Employee(models.Model):
     age = fields.Integer("Age", compute='calculate_age_compute')
     infonavit_ids = fields.One2many('hr.infonavit.credit.line','employee_id', "INFONAVIT credit")
     company_ids = fields.One2many('hr.company.line','employee_id', "Companies")
+    hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
+    real_salary = fields.Float("Real Salary", copy=False)
+    gross_salary = fields.Float("Gross Salary", copy=False)
+    table_id = fields.Many2one('tablas.cfdi','Table CFDI')
     
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -85,6 +89,71 @@ class Employee(models.Model):
         if self.rfc:
             if len(self.rfc) not in [12,13]:
                 raise UserError(_('RFC length is incorrect'))
+    
+    @api.multi
+    def calculate_salary_scheme(self):
+        for employee in self:
+            employee.company_ids.unlink()
+            
+            daily_salary = employee.gross_salary/30
+            minimum_integration_factor = 1.0452
+            integrated_daily_wage = daily_salary * minimum_integration_factor
+            days = 30
+            salary = daily_salary*days
+            lower_limit = 0
+            applicable_percentage = 0
+            fixed_fee = 0
+            for table in employee.table_id.tabla_LISR:
+                if salary > table.lim_inf and salary < table.lim_sup:
+                    lower_limit = table.lim_inf
+                    applicable_percentage = table.s_excedente
+                    fixed_fee = table.c_fija
+            lower_limit_surplus = salary - lower_limit
+            marginal_tax = lower_limit_surplus*applicable_percentage
+            isr_113 = marginal_tax + fixed_fee
+            employment_subsidy = 0
+            for tsub in employee.table_id.tabla_subem:
+                if salary > tsub.lim_inf and salary < tsub.lim_sup:
+                    employment_subsidy = tsub.s_mensual
+            isr = isr_113 - employment_subsidy
+            
+            total_perceptions = salary+employment_subsidy
+            
+            risk_factor = 0.54355
+            work_irrigation = (integrated_daily_wage * risk_factor * days)/100
+            benefits_kind_fixed_fee_pattern = (employee.table_id.uma*employee.table_id.enf_mat_cuota_fija*days)/100
+            benefits_kind_surplus_standard = 0
+            if integrated_daily_wage - (employee.table_id.uma * 3) > 0:
+                benefits_kind_surplus_standard = integrated_daily_wage - (employee.table_id.uma * 3) * (employee.table_id.enf_mat_excedente_p/100) * days
+            benefits_excess_insured_kind = 0
+            if integrated_daily_wage - (employee.table_id.uma * 3) > 0:
+                benefits_excess_insured_kind = integrated_daily_wage - (employee.table_id.uma * 3) * (employee.table_id.enf_mat_excedente_e/100) * days
+            benefits_employer_unique_money = integrated_daily_wage * (employee.table_id.enf_mat_prestaciones_p/100) * days
+            benefits_insured_single_money = integrated_daily_wage * (employee.table_id.enf_mat_prestaciones_e/100) * days
+            pensioned_medical_expenses_employer = integrated_daily_wage * (employee.table_id.enf_mat_gastos_med_p/100) * days
+            pensioned_medical_expenses_insured = integrated_daily_wage * (employee.table_id.enf_mat_gastos_med_e/100) * days
+            disability_life_employer = integrated_daily_wage * (employee.table_id.inv_vida_p/100) * days
+            disability_life_insured = integrated_daily_wage * (employee.table_id.inv_vida_e/100) * days
+            childcare_social_security_expenses_employer = integrated_daily_wage * (employee.table_id.guarderia_p/100) * days
+            total_imss_employee = benefits_excess_insured_kind + benefits_insured_single_money + pensioned_medical_expenses_insured + disability_life_insured
+            
+            unemployment_old_age_insured = integrated_daily_wage * (employee.table_id.cesantia_vejez_e/100) * days
+            total_rcv_infonavit = unemployment_old_age_insured
+            total_deductions = isr_113  + total_imss_employee + total_rcv_infonavit
+            total = total_perceptions - total_deductions
+            for regime in employee.hiring_regime_ids:
+                wage = 0
+                if regime.code=='1':
+                    wage = wage = employee.gross_salary
+                if regime.code=='2':
+                    wage = employee.real_salary-total
+                val = {
+                    'employee_id':employee.id,
+                    'hiring_regime_id':regime.id,
+                    'wage':wage,
+                    }
+                self.env['hr.company.line'].create(val)
+        return True
 
     
 class paymentPeriod(models.Model):
@@ -119,6 +188,7 @@ class bankDetailsEmployee(models.Model):
     def action_inactive(self):
         for account in self:
             account.state = 'inactive'
+    
 
 class resBank(models.Model):
     _inherit = "res.bank"
@@ -189,13 +259,18 @@ class hrCompanyLIne(models.Model):
     _name = "hr.company.line"
     
     employee_id = fields.Many2one('hr.employee', "Employee", required=False)
-    company_id = fields.Many2one('res.company', "Company", required=True)
+    company_id = fields.Many2one('res.company', "Company", required=False)
     wage = fields.Float("Wage", copy=False, required=True)
-    scheme = fields.Selection([
-        ('wage', 'Wages and salaries'),
-        ('assimilated', 'Assimilated'),
-        ('free', 'Free'),
-    ], string="Scheme",default="wage")
+    hiring_regime_id = fields.Many2one('hr.worker.hiring.regime', "Hiring Regime", required=True, readonly=True)
+    
+class hrWorkerHiringRegime(models.Model):
+    _name = "hr.worker.hiring.regime"
+    
+    name = fields.Char("Name", copy=False, required=True)
+    code = fields.Char("code", copy=False, required=True)
+    
+    
+    
 
 class Country(models.Model):
     _inherit = "res.country"

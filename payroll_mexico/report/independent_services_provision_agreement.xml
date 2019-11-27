@@ -365,59 +365,42 @@
                         <p align="center"><b></b></p>
                         <p align="center"><b>LAS PARTES</b></p>
                         
-                        <table class="egt mt64" align="center">
-                              <tr>
-
-                                <td style="border:1px solid black;" width="500px" height="200px" >
-                                    
-                                    <table align="center">
-                                          <tr>
-                                            <td >
-                                                <strong><div align="center" style="margin-top=-90px">“EL CLIENTE”</div></strong>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td height="110px">
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td >
-                                                <div  align="center">
-                                                    <strong><div t-esc="o.company_id.business_name.upper()"/>
-                                                    representada por el(la) 
+                        <table class="egt mt64" align="center" >
+                            <td>
+                                <table align="center">
+                                    <tr>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <strong><div align="center" style="margin-top=-90px">“EL CLIENTE”</div></strong>
+                                        </td>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <strong><div align="center" style="margin-top=-90px">“EL PRESTADOR”</div></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:2px solid black;" width="300px" height="110px">
+                                        </td>
+                                        <td style="border:2px solid black;" width="300px" height="110px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <div  align="center">
+                                                <strong>
+                                                    <div t-esc="o.company_id.business_name.upper()"/>
+                                                        representada por el(la) 
                                                     <div t-esc="o.company_id.legal_representative_id.title.shortcut.upper()" />
                                                     <div t-esc="o.company_id.legal_representative_id.name.upper()" /> </strong>
-                                                </div>
-                                            </td>
-                                          </tr>
-                                    </table>
-                                
-                                    </td>
-
-                                <td  style="border:1px solid black;" width="500px" height="200px" valign="top">
-                                   <table align="center">
-                                          <tr>
-                                            <td >
-                                                <strong><div  align="center" style="margin-top=-90px" >“EL PRESTADOR"</div></strong>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td height="110px">
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td >
-                                                <div  align="center">
-                                                    <strong><div t-esc="o.employee_id.name.upper()" /></strong>
-                                                </div>
-                                            </td>
-                                          </tr>
-                                    </table>
-                                    </td>
-
-                              </tr>
-
-                            </table>
+                                            </div>
+                                        </td>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <div  align="center">
+                                                <strong><div t-esc="o.employee_id.name.upper()" /></strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </table>
                 </page>
                 <page>
                     <br></br>
@@ -512,59 +495,42 @@
                     <p align="center"><b></b></p>
                         <p align="center"><b>LAS PARTES</b></p>
                         
-                        <table class="egt mt64" align="center">
-                              <tr>
-
-                                <td style="border:1px solid black;" width="500px" height="200px" >
-                                    
-                                    <table align="center">
-                                          <tr>
-                                            <td >
-                                                <strong><div align="center" style="margin-top=-90px">“EL CLIENTE”</div></strong>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td height="110px">
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td >
-                                                <div  align="center">
-                                                    <strong><div t-esc="o.company_id.business_name.upper()"/>
-                                                    representada por el(la) 
+                        <table class="egt mt64" align="center" >
+                            <td>
+                                <table align="center">
+                                    <tr>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <strong><div align="center" style="margin-top=-90px">“EL CLIENTE”</div></strong>
+                                        </td>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <strong><div align="center" style="margin-top=-90px">“EL PRESTADOR”</div></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:2px solid black;" width="300px" height="110px">
+                                        </td>
+                                        <td style="border:2px solid black;" width="300px" height="110px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <div  align="center">
+                                                <strong>
+                                                    <div t-esc="o.company_id.business_name.upper()"/>
+                                                        representada por el(la) 
                                                     <div t-esc="o.company_id.legal_representative_id.title.shortcut.upper()" />
                                                     <div t-esc="o.company_id.legal_representative_id.name.upper()" /> </strong>
-                                                </div>
-                                            </td>
-                                          </tr>
-                                    </table>
-                                
-                                    </td>
-
-                                <td  style="border:1px solid black;" width="500px" height="200px" valign="top">
-                                   <table align="center">
-                                          <tr>
-                                            <td >
-                                                <strong><div  align="center" style="margin-top=-90px" >“EL PRESTADOR"</div></strong>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td height="110px">
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td >
-                                                <div  align="center">
-                                                    <strong><div t-esc="o.employee_id.name.upper()" /></strong>
-                                                </div>
-                                            </td>
-                                          </tr>
-                                    </table>
-                                    </td>
-
-                              </tr>
-
-                            </table>
+                                            </div>
+                                        </td>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <div  align="center">
+                                                <strong><div t-esc="o.employee_id.name.upper()" /></strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </table>
                 </page>
                 <page>
                     <br></br>
