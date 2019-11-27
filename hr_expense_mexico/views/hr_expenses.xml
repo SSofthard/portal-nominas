@@ -33,16 +33,16 @@
                         <field name="classification" placeholder="Classification"/>
                         <field name="other_classification" attrs="{'invisible':[('classification','!=','other')],'required':[('classification','=','other')]}" placeholder="Type classification description"/>
                         <field name="document_type"/>
-                        <field name="subtotal_amount" attrs="{'invisible':[('document_type','=','remission')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                        <field name="amount_tax"  attrs="{'invisible':[('document_type','=','remission')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <field name="subtotal_amount" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <field name="amount_tax"  attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                         <field name="total_amount" widget='monetary' readonly="False" options="{'currency_field': 'currency_id'}"/>
                     </group>
                 </xpath>
                 <xpath expr="//group/group[last()]" position="replace">
                 </xpath>
                 <xpath expr="//field[@name='reference']" position="replace">
-                    <field name="reference" string="Folio" placeholder="Folio"/>
-                    <field name="date_invoice" placeholder="Code"/>
+                    <field name="reference" string="Folio" placeholder="Folio" required="True"/>
+                    <field name="date_invoice" required="True"/>
                     <field name="date_checking" readonly="True"/>
                 </xpath>
                 <xpath expr="//field[@name='state']" position="replace">
