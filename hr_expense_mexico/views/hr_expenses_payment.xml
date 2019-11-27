@@ -11,6 +11,7 @@
                     <separator/>
                     <field name="partner_id" />
                     <field name="journal_id" />
+                    <field name="sheet_id" />
                     <field name="company_id" groups="base.group_multi_company" />
                     <filter string="Vendor Payments" domain="[('payment_type','=','outbound')]" name="outbound_filter"/>
                     <filter string="Customer Payments" domain="[('payment_type','=','inbound')]" name="inbound_filter"/>
@@ -56,25 +57,11 @@
             <field name="arch" type="xml">
                 <form string="Register Payment">
                     <header>
-                        <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>
                         <button name="action_draft" class="oe_highlight" states="cancelled" string="Set To Draft" type="object"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,posted,reconciled,cancelled"/>
+                        <field name="state" widget="statusbar" statusbar_visible="send,cancelled"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" name="button_journal_entries"
-                                    string="Journal Items" type="object"
-                                    groups="account.group_account_user"
-                                    attrs="{'invisible':[('move_line_ids','=',[])]}" icon="fa-bars"/>
-                            <field name="move_line_ids" invisible="1"/>
-                            <button class="oe_stat_button" name="button_invoices"
-                                    string="Invoices" type="object"
-                                    attrs="{'invisible':[('has_invoices','=',False)]}" icon="fa-bars"/>
-                            <button class="oe_stat_button" name="open_payment_matching_screen"
-                                    string="Payment Matching" type="object"
-                                    attrs="{'invisible':[('move_reconciled','=',True)]}" icon="fa-university"/>
-                            <field name="has_invoices" invisible="1"/>
-                            <field name="move_reconciled" invisible="1"/>
                         </div>
                         <field name="id" invisible="1"/>
                         <div class="oe_title" attrs="{'invisible': [('state', '=', 'draft')]}">
