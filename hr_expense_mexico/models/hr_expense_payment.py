@@ -11,3 +11,4 @@ class ExpensesPayment(models.Model):
 
     #Columns
     sheet_id = fields.Many2one(comodel_name='hr.expense.sheet', string='Expense sheet')
+    # states = fields.Selection([('draft','Borrador'),('send','Enviado'),('cancelled', 'Cancelado')])
