@@ -5,7 +5,7 @@
         <record id="sequence_employee_code" model="ir.sequence">
             <field name="name">EMPLOYEES</field>
             <field name="code">Employee</field>
-            <field name="prefix">E-</field>
+            <field name="prefix"></field>
             <field name="padding">5</field>
         </record>
         <record id="sequence_contract_code" model="ir.sequence">

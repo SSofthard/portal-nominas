@@ -34,7 +34,18 @@ class Employee(models.Model):
             if employee.birthday:
                 employee.age = calculate_age(employee.birthday)
     
-    enrollment = fields.Char("Enrollment", copy=False, required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Employee'))
+    @api.model
+    def default_enrollment(self):
+        name = self.env['ir.sequence'].next_by_code('Employee')
+        print (name)
+        print (name)
+        print (name)
+        print (name)
+        print (name)
+        print (name)
+        return name
+    
+    enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('New'))
     title = fields.Many2one('res.partner.title','Title')
     rfc = fields.Char("RFC", copy=False)
     curp = fields.Char("CURP", copy=False)
@@ -86,7 +97,6 @@ class Employee(models.Model):
     assimilated_salary_gross = fields.Float("Gross Assimilated Salary", copy=False, readonly=True)
     free_salary_gross = fields.Float("Gross Free", copy=False, readonly=True)
     
-    company_wages_id = fields.Many2one('res.company', "Company (Wages)", required=False)
     company_assimilated_id = fields.Many2one('res.company', "Company (Assimilated)", required=False)
     
     _sql_constraints = [
@@ -97,6 +107,19 @@ class Employee(models.Model):
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
         ('social_security_number_unique', 'unique (social_security_number)', "An employee with this social security number already exists.!"),
     ]
+    
+    @api.model
+    def create(self, vals):
+        if vals.get('enrollment', _('New')) == _('New'):
+            vals['enrollment'] = self.env['ir.sequence'].next_by_code('Employee') or _('New')
+        res = super(Employee, self).create(vals)
+        name = res.group_id.name[0:3].upper()
+        if res.department_id:
+            name += '-'+res.department_id.name.upper()[0:3]
+        res.enrollment = name+'-'+res.enrollment
+        
+        
+        return res
     
     @api.onchange('social_security_number')
     def _check_social_security_number_length(self):
