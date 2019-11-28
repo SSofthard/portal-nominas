@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">  
+		
+		<record forcecreate="True" id="decimal_excess_rate" model="decimal.precision">
+            <field name="name">Excess</field>
+            <field name="digits">4</field>
+        </record>
+		
+        <record id="table_cfdi_1" model="tablas.cfdi">
+			<field name="uma">84.49</field>
+			<field name="imss_mes">30.40</field>
+			<field name="factor_vale_despensa">1</field>
+			<field name="factor_prima_vacacional">15</field>
+			<field name="factor_aguinaldo">30</field>
+			<field name="factor_fondo_ahorro">1.30</field>
+			<field name="factor_tiempo_extra">5</field>
+			<field name="factor_prima_dominical">1</field>
+			<field name="factor_liquidacion">90</field>
+			<field name="factor_ptu">15</field>
+			<field name="aportacion_infonavit">5</field>
+			<field name="umi">82.22</field>
+			<field name="sbcm_general">25</field>
+			<field name="sbcm_inv_inf">25</field>
+			<field name="rt_prom_vida_activa">28</field>
+			<field name="rt_prom_vida_fprima">2.3</field>
+			<field name="rt_prom_vida_pmin">0.5</field>
+			<field name="rt_prom_vida_pmax">15</field>
+			<field name="rt_prom_vida_varmax">1</field>
+			<field name="enf_mat_cuota_fija">20.4</field>
+			<field name="enf_mat_excedente_p">1.10</field>
+			<field name="enf_mat_excedente_e">0.40</field>
+			<field name="enf_mat_prestaciones_p">0.7</field>
+			<field name="enf_mat_prestaciones_e">0.25</field>
+			<field name="enf_mat_gastos_med_p">1.05</field>
+			<field name="enf_mat_gastos_med_e">0.375</field>
+			<field name="inv_vida_p">1.75</field>
+			<field name="inv_vida_e">0.625</field>
+			<field name="cesantia_vejez_p">3.15</field>
+			<field name="cesantia_vejez_e">1.125</field>
+			<field name="retiro_p">12</field>
+			<field name="guarderia_p">1</field>
+        </record>
+        
+        
+        
+        <record id="table_general_line_1" model="tablas.general.line">
+			<field name="lim_inf">0.01</field>
+			<field name="lim_sup">578.52</field>
+			<field name="c_fija">0</field>
+			<field name="s_excedente">0.0192</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_2" model="tablas.general.line">
+			<field name="lim_inf">578.53</field>
+			<field name="lim_sup">4910.18</field>
+			<field name="c_fija">11.11</field>
+			<field name="s_excedente">0.064</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_3" model="tablas.general.line">
+			<field name="lim_inf">4910.19</field>
+			<field name="lim_sup">8629.20</field>
+			<field name="c_fija">288.33</field>
+			<field name="s_excedente">0.1088</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_4" model="tablas.general.line">
+			<field name="lim_inf">8629.21</field>
+			<field name="lim_sup">10031.07</field>
+			<field name="c_fija">692.96</field>
+			<field name="s_excedente">0.16</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_5" model="tablas.general.line">
+			<field name="lim_inf">10031.08</field>
+			<field name="lim_sup">12009.94</field>
+			<field name="c_fija">917.26</field>
+			<field name="s_excedente">0.1792</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_6" model="tablas.general.line">
+			<field name="lim_inf">12009.95</field>
+			<field name="lim_sup">24222.31</field>
+			<field name="c_fija">1271.87</field>
+			<field name="s_excedente">0.2136</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_7" model="tablas.general.line">
+			<field name="lim_inf">24222.32</field>
+			<field name="lim_sup">38177.69</field>
+			<field name="c_fija">3880.44</field>
+			<field name="s_excedente">0.2352</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_8" model="tablas.general.line">
+			<field name="lim_inf">38177.70</field>
+			<field name="lim_sup">72887.50</field>
+			<field name="c_fija">7162.74</field>
+			<field name="s_excedente">0.3</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_9" model="tablas.general.line">
+			<field name="lim_inf">72887.51</field>
+			<field name="lim_sup">97183.33</field>
+			<field name="c_fija">17575.69</field>
+			<field name="s_excedente">0.32</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_10" model="tablas.general.line">
+			<field name="lim_inf">97183.34</field>
+			<field name="lim_sup">291550.00</field>
+			<field name="c_fija">25350.35</field>
+			<field name="s_excedente">0.34</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="table_general_line_11" model="tablas.general.line">
+			<field name="lim_inf">291550.01</field>
+			<field name="lim_sup">9999999999.00</field>
+			<field name="c_fija">91435.02</field>
+			<field name="s_excedente">0.35</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        
+        
+        
+        <record id="tablas_subsidio_line_1" model="tablas.subsidio.line">
+			<field name="lim_inf">0.01</field>
+			<field name="lim_sup">1768.96</field>
+			<field name="s_mensual">407.02</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_2" model="tablas.subsidio.line">
+			<field name="lim_inf">1768.97</field>
+			<field name="lim_sup">2653.38</field>
+			<field name="s_mensual">406.83</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_3" model="tablas.subsidio.line">
+			<field name="lim_inf">2653.39</field>
+			<field name="lim_sup">3472.84</field>
+			<field name="s_mensual">406.62</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_4" model="tablas.subsidio.line">
+			<field name="lim_inf">3472.85</field>
+			<field name="lim_sup">3537.87</field>
+			<field name="s_mensual">392.77</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_5" model="tablas.subsidio.line">
+			<field name="lim_inf">3537.88</field>
+			<field name="lim_sup">4446.15</field>
+			<field name="s_mensual">382.46</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_6" model="tablas.subsidio.line">
+			<field name="lim_inf">4446.16</field>
+			<field name="lim_sup">4717.18</field>
+			<field name="s_mensual">354.23</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_7" model="tablas.subsidio.line">
+			<field name="lim_inf">4717.19</field>
+			<field name="lim_sup">5335.42</field>
+			<field name="s_mensual">324.87</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_8" model="tablas.subsidio.line">
+			<field name="lim_inf">5335.43</field>
+			<field name="lim_sup">6224.67</field>
+			<field name="s_mensual">294.63</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_9" model="tablas.subsidio.line">
+			<field name="lim_inf">6224.68</field>
+			<field name="lim_sup">7113.90</field>
+			<field name="s_mensual">253.54</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_10" model="tablas.subsidio.line">
+			<field name="lim_inf">7113.91</field>
+			<field name="lim_sup">7382.33</field>
+			<field name="s_mensual">217.61</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+        <record id="tablas_subsidio_line_11" model="tablas.subsidio.line">
+			<field name="lim_inf">7382.34</field>
+			<field name="lim_sup">9999999999.00</field>
+			<field name="s_mensual">0</field>
+			<field name="form_id" ref="table_cfdi_1"/>
+        </record>
+   </data>
+</odoo>

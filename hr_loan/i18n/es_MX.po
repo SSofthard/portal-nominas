@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* payroll_mexico
+#	* hr_loan
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-21 09:26+0000\n"
-"PO-Revision-Date: 2019-11-21 09:26+0000\n"
+"POT-Creation-Date: 2019-11-27 04:16+0000\n"
+"PO-Revision-Date: 2019-11-27 04:16+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,897 +15,820 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__document_count
-msgid "# Documents"
-msgstr "Documentos"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "% Rate"
+msgstr "% de Tarifa"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__cer
-msgid ".cer"
-msgstr ".cer"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__rate
+msgid "% interest"
+msgstr "% de interés"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__key
-msgid ".key"
-msgstr ".key"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__access_warning
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__access_warning
+msgid "Access warning"
+msgstr "Alerta de acceso"
 
-#. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_company.py:172
-#, python-format
-msgid "<p class=\"oe_view_nocontent_create\">\n"
-"                           Click to Create for New Documents\n"
-"                        </p>"
-msgstr "<p class=\"oe_view_nocontent_create\">\n"
-"                           Pulse para crear nuevos documentos\n"
-"                        </p>"
-
-#. module: payroll_mexico
-#: sql_constraint:res.company.fiel.csd:0
-msgid "A default record for the type of certificate already exists.!"
-msgstr "Ya existe un registro predeterminado para el tipo de certificado."
-
-#. module: payroll_mexico
-#: selection:hr.employee,blood_type:0
-msgid "AB+"
-msgstr "AB+"
-
-#. module: payroll_mexico
-#: selection:hr.employee,blood_type:0
-msgid "AB-"
-msgstr "AB-"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__account_executive_id
-msgid "Account Executive"
-msgstr "Ejecutivo de cuentas"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__account_holder
-msgid "Account holder"
-msgstr "Titular de la cuenta"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_needaction
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_needaction
 msgid "Action Needed"
 msgstr "Acción Necesaria"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "Activate"
-msgstr "Activar"
-
-#. module: payroll_mexico
-#: selection:bank.account.company,state:0
-#: selection:bank.account.employee,state:0
-#: selection:hr.infonavit.credit.line,state:0
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__active
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__active
 msgid "Active"
 msgstr "Activo"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_ids
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_ids
 msgid "Activities"
 msgstr "Actividades"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_state
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_state
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_state
 msgid "Activity State"
 msgstr "Estado de la actividad"
 
-#. module: payroll_mexico
-#: model:ir.ui.menu,name:payroll_mexico.menu_address
-msgid "Address"
-msgstr "Dirección"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__amount
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Amount"
+msgstr "Importe"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__age
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__age
-msgid "Age"
-msgstr "Edad"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__interest_amount
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Amount Interest"
+msgstr "Importe de interés"
 
-#. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:181
-#, python-format
-msgid "An active INFONAVIT credit already exists for the employee."
-msgstr "Ya existe un crédito de INFONAVIT activo para el empleado"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__amount_paid
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Amount Paid"
+msgstr "Importe pagado"
 
-#. module: payroll_mexico
-#: sql_constraint:hr.employee:0
-msgid "An employee with this CURP already exists.!"
-msgstr "Ya existe un empleado con este CURP"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__amount_total
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Amount Total"
+msgstr "Importe total"
 
-#. module: payroll_mexico
-#: sql_constraint:hr.employee:0
-msgid "An employee with this ID already exists.!"
-msgstr "Ya existe un empleado con esta identificación"
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Annually"
+msgstr "Anualmente"
 
-#. module: payroll_mexico
-#: sql_constraint:hr.employee:0
-msgid "An employee with this RFC already exists.!"
-msgstr "Ya existe un empleado con este RFC"
+#. module: hr_loan
+#: selection:hr.loan,state:0
+msgid "Applied"
+msgstr "Aplicado"
 
-#. module: payroll_mexico
-#: sql_constraint:hr.employee:0
-msgid "An employee with this passport already exists.!"
-msgstr "Ya existe un empleado con este pasaporte"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__date_applied
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Applied Date"
+msgstr "Fecha de aplicación"
 
-#. module: payroll_mexico
-#: sql_constraint:hr.employee:0
-msgid "An employee with this social security number already exists.!"
-msgstr "Ya existe un empleado con este número de seguro social"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Apply"
+msgstr "Solicitar"
 
-#. module: payroll_mexico
-#: sql_constraint:res.company:0
-msgid "And there is a company with this code.!"
-msgstr "Existo un registro de compañía con este código"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__interest
+msgid "Apply interest rate?"
+msgstr "Aplicar tasa de interés"
 
-#. module: payroll_mexico
-#: selection:hr.company.line,scheme:0
-msgid "Assimilated"
-msgstr "Asimilado"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Approve"
+msgstr "Aprobar"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
-msgid "Attach Document"
-msgstr "Documento adjunto"
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: selection:hr.loan.line,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Approved"
+msgstr "Aprobado"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_attachment_count
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__date_approved
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Approved Date"
+msgstr "Fecha de aprobación"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_attachment_count
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_attachment_count
 msgid "Attachment Count"
 msgstr "Conteo de archivos adjuntos"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__attendance_bonus
-msgid "Attendance bonus"
-msgstr "Bono de asistencia"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_amount_due
+msgid "Balance on Loan"
+msgstr "Saldo en préstamo"
 
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_res_bank
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__bank_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__bank_id
-msgid "Bank"
-msgstr "Banco"
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Bi-monthly"
+msgstr "Bimensual"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "Bank Information"
-msgstr "Información bancaria"
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Bi-weekly"
+msgstr "Quincenal"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__bank_account
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__bank_account
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__bank_account_ids
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__bank_account_ids
-msgid "Bank account"
-msgstr "Cuenta de banco"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Cancel"
+msgstr "Cancelar"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__beneficiary
-msgid "Beneficiary"
-msgstr "Beneficiario"
+#. module: hr_loan
+#: selection:hr.loan,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__birthday
-msgid "Birthday"
-msgstr "Cumpleaños"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__blood_type
-msgid "Blood type"
-msgstr "Tipo de sangre"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__book
-msgid "Book"
-msgstr "Libro"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__branch_offices_ids
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__partner_id
-msgid "Branch Offices"
-msgstr "Sucursales"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__branch_offices
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__branch_offices
-msgid "Branch Offices?"
-msgstr "Sucursales?"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__business_name
-msgid "Business Name"
-msgstr "Razón Social"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__business_name
-msgid "Business name"
-msgstr "Razón Social"
-
-#. module: payroll_mexico
-#: selection:res.company.fiel.csd,type:0
-msgid "CSD"
-msgstr "CSD"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__curp
-msgid "CURP"
-msgstr "CURP"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__clabe
-msgid "Clabe"
-msgstr "Clabe"
-
-#. module: payroll_mexico
-#: selection:hr.infonavit.credit.line,state:0
-msgid "Closed"
-msgstr "Cerrado"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__code
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_job__code
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__code
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__code
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_job_inherit
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__code
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__code
 msgid "Code"
 msgstr "Código"
 
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_res_company
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__company_ids
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "Companies"
-msgstr "Empresas"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__company_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__company_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__company_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__company_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__company_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__company_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__company_id
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__company_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__company_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__company_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__company_id
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
 msgid "Company"
-msgstr "Empresa"
+msgstr "Compañía"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
-msgid "Company Information"
-msgstr "Información de la empresa"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Compute"
+msgstr "Calcular"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__constitution_date
-msgid "Constitution Date"
-msgstr "Constitution Date"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Compute Installments or change the state according to the disbursement type for loan request or repayment type in case of installments"
+msgstr "Calcular cuotas o cambiar el estado según el tipo de desembolso para la solicitud de préstamo o el tipo de reembolso en caso de cuotas"
 
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_res_partner
-msgid "Contact"
-msgstr "Contacto"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__contract_id
+msgid "Contract"
+msgstr "Contrato"
 
-#. module: payroll_mexico
-#: model:ir.ui.menu,name:payroll_mexico.menu_country_configuration
-msgid "Countries"
-msgstr "Paises"
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_res_country
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__country_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__country_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__country_id
-msgid "Country"
-msgstr "País"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__create_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__create_uid
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__create_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__create_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__create_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__create_uid
 msgid "Created by"
 msgstr "Creado por"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__create_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__create_date
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__create_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__create_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__create_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__create_date
 msgid "Created on"
 msgstr "Creado el"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__date
-msgid "Date"
-msgstr "Fecha"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__currency_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__currency_id
+msgid "Currency"
+msgstr "Moneda"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__credit_data
-msgid "Detailed credit data"
-msgstr "Datos crediticios detallados"
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__access_url
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__access_url
+msgid "Customer Portal URL"
+msgstr "URL del portal de cliente"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__display_name
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__display_name
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__date_from
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Date From"
+msgstr "Fecha desde"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__date_to
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Date To"
+msgstr "Fecha hasta"
+
+#. module: hr_loan
+#: selection:hr.loan.type,payment_method:0
+msgid "Deduction From Payroll"
+msgstr "Deducción de nómina"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__schedule_pay
+msgid "Defines the frequency of the loan payment."
+msgstr "Define la frecuencia del pago del préstamo."
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__department_id
+msgid "Department"
+msgstr "Departamento"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_form
+msgid "Details"
+msgstr "Detalles"
+
+#. module: hr_loan
+#: selection:hr.loan.type,disburse_method:0
+#: selection:hr.loan.type,payment_method:0
+msgid "Direct Cash/Cheque"
+msgstr "Directo Efectivo/Cheque"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Disburse Loan"
+msgstr "Desembolsar préstamo"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__disburse_method
+msgid "Disburse Method"
+msgstr "Método de desembolso"
+
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Disbursed"
+msgstr "Desembolsado"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__date_disb
+msgid "Disbursement Date"
+msgstr "Fecha de desembolso"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__display_name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__display_name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__display_name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__display_name
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
-msgid "Documents"
-msgstr "Documentos"
-
-#. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_company.py:165
-#, python-format
-msgid "Documents Power Attorney"
-msgstr "Documentos de poder notariado"
-
-#. module: payroll_mexico
-#: selection:hr.infonavit.credit.line,state:0
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
 msgid "Draft"
 msgstr "Borrador"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__effective_date
-msgid "Effective date"
-msgstr "Fecha efectiva"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__electronic_signature
-msgid "Electronic Signature"
-msgstr "Firma electrónica"
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_employee
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__employee_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__employee_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__employee_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__employee_id
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__employee_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__employee_id
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
 msgid "Employee"
 msgstr "Empleado"
 
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_contract
-msgid "Employee Contract"
-msgstr "Contrato de empleado"
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_type__rate
+msgid "Enter the percentage of interest to apply to the loan"
+msgstr "Ingrese el porcentaje de interés para aplicar al préstamo"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__employer_register_ids
-msgid "Employer Register"
-msgstr "Registro Patronal"
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:130
+#, python-format
+msgid "Enter values ​​greater than zero:\n"
+" %s "
+msgstr "Ingrese valores mayores que cero:\n"
+" %s "
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__employer_registry
-msgid "Employer Registry"
-msgstr "Registro patronal"
+#. module: hr_loan
+#: selection:hr.loan,interest_type:0
+#: selection:hr.loan.type,interest_type:0
+msgid "Flat"
+msgstr "Plano"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__enrollment
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "Enrollment"
-msgstr "Matrícula"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Flat Interest"
+msgstr "Interés plano"
 
-#. module: payroll_mexico
-#: selection:res.company.fiel.csd,type:0
-msgid "FIEL"
-msgstr "FIEL"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__fiel_csd_ids
-msgid "FIEL & CSD"
-msgstr "FIEL & CSD"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__family_ids
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "Family"
-msgstr "Familia"
-
-#. module: payroll_mexico
-#: selection:hr.employee,gender:0
-msgid "Female"
-msgstr "Femenino"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_follower_ids
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_follower_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_follower_ids
 msgid "Followers"
 msgstr "Seguidores"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_channel_ids
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_channel_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_channel_ids
 msgid "Followers (Channels)"
 msgstr "Seguidores (Canales)"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_partner_ids
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_partner_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (Empresas)"
 
-#. module: payroll_mexico
-#: selection:hr.company.line,scheme:0
-msgid "Free"
-msgstr "Libre"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "General"
+msgstr "General"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__gender
-msgid "Gender"
-msgstr "Genero"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Group By..."
+msgstr "Agrupar por..."
 
-#. module: payroll_mexico
-#: model:ir.actions.act_window,name:payroll_mexico.action_hr_group
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__group_id
-#: model:ir.ui.menu,name:payroll_mexico.menu_group_configuration
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_group_form
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_group_tree
-msgid "Group"
-msgstr "Grupo"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__id
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__id
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__id
 msgid "ID"
 msgstr "ID"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "IMSS"
-msgstr "IMSS"
-
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "INFONAVIT"
-msgstr "INFONAVIT"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__infonavit_credit_number
-msgid "INFONAVIT Credit Number"
-msgstr "Número de crédito INFONAVIT"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__infonavit_ids
-msgid "INFONAVIT credit"
-msgstr "Crédito INFONAVIT"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_unread
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_unread
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_unread
 msgid "If checked new messages require your attention."
 msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_needaction
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
 
-#. module: payroll_mexico
-#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_has_error
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_has_error
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__implant_id
-msgid "Implant"
-msgstr "Implant"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Interest"
+msgstr "Interés"
 
-#. module: payroll_mexico
-#: selection:bank.account.company,state:0
-#: selection:bank.account.employee,state:0
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
-msgid "Inactive"
-msgstr "Inactivo"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Interest Mode"
+msgstr "Modo de Interés"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__public_deed_number
-msgid "Instrument or public deed number."
-msgstr "Instrumento o número de escritura pública"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Interest Payable"
+msgstr "Intereses a pagar"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_is_follower
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:126
+#, python-format
+msgid "Interest Rate\n"
+" "
+msgstr "Tasa de interés\n"
+" "
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__interest_type
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__interest_type
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Interest Type"
+msgstr "Tipo de interés"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__rate
+msgid "Interest rate between 0-100 in range"
+msgstr "Tasa de interés entre 0-100 en rango"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_is_follower
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_is_follower
 msgid "Is Follower"
 msgstr "Es un seguidor"
 
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_job
-msgid "Job Position"
-msgstr "Puesto de trabajo"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__interest
+msgid "Is Interest Payable"
+msgstr "¿Se paga interés?"
 
-#. module: payroll_mexico
-#: model:ir.ui.menu,name:payroll_mexico.menu_job_position_configuration
-msgid "Job position"
-msgstr "Puesto de trabajo"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner____last_update
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register____last_update
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan____last_update
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line____last_update
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy____last_update
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type____last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__write_uid
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__write_uid
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__write_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__write_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__write_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__write_date
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__write_date
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__write_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__write_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__write_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__write_date
 msgid "Last Updated on"
 msgstr "Última actualización el"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__legal_representative_id
-msgid "Legal Representative"
-msgstr "Representante legal"
+#. module: hr_loan
+#: model:ir.model,name:hr_loan.model_hr_loan_line
+msgid "Line Loan"
+msgstr "Línea de prestamo"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__legal_representative
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__legal_representative
-msgid "Legal Representative?"
-msgstr "Representante legal?"
+#. module: hr_loan
+#: model:ir.actions.act_window,name:hr_loan.action_hr_loan
+#: model:ir.model,name:hr_loan.model_hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__loan_id
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Loan"
+msgstr "Préstamo"
 
-#. module: payroll_mexico
-#: model_terms:ir.actions.act_window,help:payroll_mexico.action_hr_group
-msgid "Let's create a Group."
-msgstr "Vamos a crear un grupo"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__loan_amount
+msgid "Loan Amount"
+msgstr "Monto del préstamo"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_main_attachment_id
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:124
+#, python-format
+msgid "Loan Amount\n"
+" "
+msgstr "Monto del préstamo\n"
+
+#. module: hr_loan
+#: model:ir.ui.menu,name:hr_loan.menu_setting_loan
+msgid "Loan Configuration"
+msgstr "Configuración de prestamos"
+
+#. module: hr_loan
+#: model:ir.actions.act_window,name:hr_loan.action_hr_loan_line
+#: model:ir.ui.menu,name:hr_loan.menu_loan_installments
+msgid "Loan Installments"
+msgstr "Préstamos a plazos"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__loan_line_ids
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Loan Line"
+msgstr "Línea del préstamo"
+
+#. module: hr_loan
+#: model:ir.actions.act_window,name:hr_loan.action_hr_loan_policy
+#: model:ir.ui.menu,name:hr_loan.loan_policies
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_form
+msgid "Loan Policies"
+msgstr "Políticas de préstamos"
+
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:116
+#, python-format
+msgid "Loan Policies not satisfied :\n"
+" %s "
+msgstr "Políticas de préstamo no satisfechas :\n"
+" %s "
+
+#. module: hr_loan
+#: model:ir.model,name:hr_loan.model_hr_loan_type
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__type_id
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_tree
+msgid "Loan Type"
+msgstr "Tipo de préstamo"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Loan Type with Flat Interest mode"
+msgstr "Tipo de préstamo con modo de interés fijo"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Loan Type with Reducing Interest mode"
+msgstr "Tipo de préstamo con modo de reducción de interés"
+
+#. module: hr_loan
+#: model:ir.actions.act_window,name:hr_loan.action_hr_loan_type
+#: model:ir.ui.menu,name:hr_loan.loan_type
+msgid "Loan Types"
+msgstr "Tipos de préstamos"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_calendar
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_graph
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Loan installments"
+msgstr "Préstamos a plazos"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Loan installments paid"
+msgstr "Pagos a plazos pagados"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_policy_tree
+msgid "Loan policies"
+msgstr "Políticas de préstamo"
+
+#. module: hr_loan
+#: model:ir.model,name:hr_loan.model_hr_loan_policy
+msgid "Loan policies for employees"
+msgstr "Políticas de préstamos para empleados"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Loan that haven't yet been approved"
+msgstr "Préstamo que aún no ha sido aprobado"
+
+#. module: hr_loan
+#: model:ir.ui.menu,name:hr_loan.menu_loan
+#: model:ir.ui.menu,name:hr_loan.menu_loan_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_calendar
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_graph
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_tree
+msgid "Loans"
+msgstr "Préstamos"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_main_attachment_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Adjuntos principales"
 
-#. module: payroll_mexico
-#: selection:hr.employee,gender:0
-msgid "Male"
-msgstr "Masculino"
-
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "Medical data"
-msgstr "Datos médicos"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_has_error
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_has_error
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_has_error
 msgid "Message Delivery error"
 msgstr "Error de Envío de Mensaje"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_ids
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_ids
 msgid "Messages"
 msgstr "Mensajes"
 
-#. module: payroll_mexico
-#: selection:hr.infonavit.credit.line,type:0
-msgid "Minimum wage days"
-msgstr "Días de salario mínimo"
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Monthly"
+msgstr "Mensual"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__name
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__name
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payment_period__name
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_relationship__name
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_country__nationality
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__name
 msgid "Name"
 msgstr "Nombre"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
-msgid "Name Contract"
-msgstr "Nombre del contrato"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_date_deadline
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_date_deadline
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Siguiente plazo de actividad"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_summary
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_summary
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_summary
 msgid "Next Activity Summary"
 msgstr "Resumen de la siguiente actividad"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_type_id
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_type_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_type_id
 msgid "Next Activity Type"
 msgstr "Siguiente tipo de actividad"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
-msgid "Notarial Data"
-msgstr "Información de notaria"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__notes
+msgid "Note"
+msgstr "Nota"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__notary_public_number
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__notary_public_number
-msgid "Notary Public Number"
-msgstr "Número de notario público"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Notes"
+msgstr "Notas"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__notary_public
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__notary_public
-msgid "Notary Public?"
-msgstr "Notario público?"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction_counter
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_needaction_counter
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Número de acciones"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_has_error_counter
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_has_error_counter
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_has_error_counter
 msgid "Number of error"
 msgstr "Número de error"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction_counter
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:128
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__number_fees
+#, python-format
+msgid "Number of fees"
+msgstr "Número de cuotas"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_needaction_counter
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_needaction_counter
 msgid "Number of messages which requires an action"
 msgstr "Número de mensajes que requieren una acción"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_has_error_counter
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_has_error_counter
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Número de mensajes con error de envío"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_unread_counter
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_unread_counter
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_unread_counter
 msgid "Number of unread messages"
 msgstr "Número de mensajes no leidos"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
-msgid "Other perceptions"
-msgstr "Otras percepciones"
-
-#. module: payroll_mexico
-#: selection:company.power.attorney,activity_state:0
+#. module: hr_loan
+#: selection:hr.loan,activity_state:0
+#: selection:hr.loan.line,activity_state:0
 msgid "Overdue"
-msgstr "Atrasado"
+msgstr "Vencido"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__partner_id
-msgid "Partner"
-msgstr "Empresa"
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: selection:hr.loan.line,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Paid"
+msgstr "Pagado"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__partner_company
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__partner_company
-msgid "Partner Company?"
-msgstr "Socio de compañía?"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__partner_ids
-msgid "Partners"
-msgstr "Socios"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__payment_period_id
-msgid "Payment period"
-msgstr "Periodo de pago"
-
-#. module: payroll_mexico
-#: selection:hr.infonavit.credit.line,type:0
-msgid "Percentage"
-msgstr "Porcentaje"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__personal_email
-msgid "Personal Email"
-msgstr "Email personal"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__personal_movile_phone
-msgid "Personal movile phone"
-msgstr "Teléfono móvil personal"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__personal_phone
-msgid "Personal phone"
-msgstr "Teléfono personal"
-
-#. module: payroll_mexico
-#: selection:company.power.attorney,activity_state:0
+#. module: hr_loan
+#: selection:hr.loan,activity_state:0
+#: selection:hr.loan.line,activity_state:0
 msgid "Planned"
 msgstr "Planificado"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__power_attorney_ids
-msgid "Power Attorney"
-msgstr "Poder notariado"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__predetermined
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__predetermined
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__predetermined
-msgid "Predetermined"
-msgstr "Predeterminado"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__productivity_bonus
-msgid "Productivity bonus"
-msgstr "Bonus de productividad"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__public_notary
-msgid "Public Notary"
-msgstr "Notario público"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__public_notary_address_id
-msgid "Public Notary Address"
-msgstr "Dirección de notario público"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__public_notary_holder_id
-msgid "Public Notary Holder"
-msgstr "Notario Público Titular"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__public_notary
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__public_notary
-msgid "Public Notary?"
-msgstr "Notario público?"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__punctuality_bonus
-msgid "Punctuality Bonds"
-msgstr "Bonos de puntualidad"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__rfc
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__rfc
-msgid "RFC"
-msgstr "RFC"
-
-#. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:87
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:211
 #, python-format
-msgid "RFC length is incorrect"
-msgstr "La longitud de RFC es incorrecta"
+msgid "Please give disbursement date."
+msgstr "Indique la fecha de desembolso."
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "RH Information"
-msgstr "Información de HR"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__loan_policy_ids
+msgid "Policies"
+msgstr "Políticas"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__reference
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__reference
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__access_url
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__access_url
+msgid "Portal Access URL"
+msgstr "URL de acceso al portal"
+
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Quarterly"
+msgstr "Trimestral"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__rate
+msgid "Rate"
+msgstr "Tasa"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_amount_paid
+msgid "Received From Employee"
+msgstr "Recibido del empleado"
+
+#. module: hr_loan
+#: selection:hr.loan,interest_type:0
+#: selection:hr.loan.type,interest_type:0
+msgid "Reducing"
+msgstr "Reducción"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Reducing Interest"
+msgstr "Reducción de intereses"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__name
 msgid "Reference"
 msgstr "Referencia"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__relationship_id
-msgid "Relationship"
-msgstr "Relación"
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Rejected"
+msgstr "Negado"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__representative_id
-msgid "Representative"
-msgstr "Representante"
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__total_amount_due
+msgid "Remaining Amount due."
+msgstr "Importe restante adeudado."
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_user_id
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__date_repayment
+msgid "Repayment Date"
+msgstr "Fecha de reembolso"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__payment_method
+msgid "Repayment Method"
+msgstr "Método de pago"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Reset To Draft"
+msgstr "Cambiar a borrador"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_user_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_user_id
 msgid "Responsible User"
 msgstr "Usuario responsable"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
-msgid "Revoke"
-msgstr "Revocar"
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__wage
+msgid "Salary of the employee based on the selected contract."
+msgstr "Salario del empleado basado en el contrato seleccionado"
 
-#. module: payroll_mexico
-#: selection:company.power.attorney,state:0
-#: selection:res.company.fiel.csd,state:0
-#: selection:res.employer.register,state:0
-msgid "Revoked"
-msgstr "Revocado"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__schedule_pay
+msgid "Scheduled Pay"
+msgstr "Pago planificado"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__salary
-msgid "Salary"
-msgstr "Salario"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Search Loan"
+msgstr "Buscar préstamos"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__scheme
-msgid "Scheme"
-msgstr "Esquema"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_filter
+msgid "Search Loan Policies"
+msgstr "Buscar políticas de préstamos"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__social_security_number
-msgid "Social Security Number"
-msgstr "Número de seguridad social"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Search Loan Type"
+msgstr "Buscar tipo de préstamo"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__social_security
-msgid "Social security"
-msgstr "Seguridad Social"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Search Loan installments"
+msgstr "Buscar cuotas de préstamos"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__state
-#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__state
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__state
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__state
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__state
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__state
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Search on Dates"
+msgstr "Buscar fechas"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__access_token
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__access_token
+msgid "Security Token"
+msgstr "Token de seguridad"
+
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Semi-annually"
+msgstr "Semi-anualmente"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_policy__value
+msgid "Set the value to be taken by the policy, it can take values ​​for amounts or number of months."
+msgstr "Establezca el valor que tomará la política, puede tomar valores para cantidades o número de meses."
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__state
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__state
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
 msgid "State"
 msgstr "Estado"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__activity_state
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__activity_state
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__activity_state
 msgid "Status based on activities\n"
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
@@ -915,175 +838,120 @@ msgstr "Estado basado en actividades\n"
 "Hoy: La fecha tope es hoy\n"
 "Planificada: futuras actividades."
 
-#. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:81
-#, python-format
-msgid "The length of the social security number is incorrect"
-msgstr "La longitud del número de seguro social es incorrecta"
+#. module: hr_loan
+#: sql_constraint:hr.loan.policy:0
+msgid "There is already a policy registered with this code.!"
+msgstr "Ya existe una política registrada con este código.!"
 
-#. module: payroll_mexico
-#: sql_constraint:bank.account.company:0
-msgid "There is already a default account number for this company.!"
-msgstr "Ya existe un número de cuenta predeterminado para esta empresa."
+#. module: hr_loan
+#: sql_constraint:hr.loan.policy:0
+msgid "There is already a registered policy of this type for this company.!"
+msgstr "Ya existe una política registrada de este tipo para esta empresa.!"
 
-#. module: payroll_mexico
-#: sql_constraint:bank.account.employee:0
-msgid "There is already a default account number for this employee.!"
-msgstr "Ya hay un número de cuenta predeterminado para este empleado"
+#. module: hr_loan
+#: selection:hr.loan.type,disburse_method:0
+msgid "Through Payroll"
+msgstr "Nómina de sueldos"
 
-#. module: payroll_mexico
-#: sql_constraint:hr.employee:0
-msgid "There is already an employee with this registration.!"
-msgstr "There is already an employee with this registration"
+#. module: hr_loan
+#: selection:hr.loan.policy,type:0
+msgid "Time between loans"
+msgstr "Tiempo entre prestamos"
 
-#. module: payroll_mexico
-#: selection:company.power.attorney,state:0
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
-#: selection:res.company.fiel.csd,state:0
-#: selection:res.employer.register,state:0
-msgid "Timed out"
-msgstr "Timed out"
+#. module: hr_loan
+#: selection:hr.loan.policy,type:0
+msgid "Time in the company"
+msgstr "Tiempo en la empresa"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__title
-msgid "Title"
-msgstr "Título"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "To Approve"
+msgstr "Para aprobar"
 
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
-msgid "To close"
-msgstr "Cerrar"
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "To refuse"
+msgstr "Negar"
 
-#. module: payroll_mexico
-#: selection:company.power.attorney,activity_state:0
+#. module: hr_loan
+#: selection:hr.loan,activity_state:0
+#: selection:hr.loan.line,activity_state:0
 msgid "Today"
 msgstr "Hoy"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__track
-msgid "Track"
-msgstr "Pista"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_interest_amount
+msgid "Total Interest on Loan"
+msgstr "Interés total sobre el préstamo"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__type
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__type
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_amount
+msgid "Total amount"
+msgstr "Importe total"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__type
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_filter
 msgid "Type"
 msgstr "Tipo"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__type_id
-msgid "Type Contract"
-msgstr "Tipo de contrato"
+#. module: hr_loan
+#: selection:hr.loan.line,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Unpaid"
+msgstr "No pagado"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Unpaid loan installments"
+msgstr "Cuotas de préstamos impagas"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_unread
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_unread
 msgid "Unread Messages"
 msgstr "Mensajes por leer"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread_counter
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_unread_counter
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_unread_counter
 msgid "Unread Messages Counter"
 msgstr "Contador de mensajes sin leer"
 
-#. module: payroll_mexico
-#: selection:company.power.attorney,state:0
-#: selection:res.company.fiel.csd,state:0
-#: selection:res.employer.register,state:0
-msgid "Valid"
-msgstr "Válido"
+#. module: hr_loan
+#: selection:hr.loan.policy,type:0
+msgid "Upper loan limit"
+msgstr "Límite superior de préstamo"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__validity_signature
-msgid "Validity of Signature"
-msgstr "Validez de la firma"
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__user_id
+msgid "User"
+msgstr "Usuario"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_company_line__wage
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__value
+msgid "Value"
+msgstr "Valor"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__wage
 msgid "Wage"
 msgstr "Salario"
 
-#. module: payroll_mexico
-#: selection:hr.company.line,scheme:0
-msgid "Wages and salaries"
-msgstr "Sueldos y salarios"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__website_message_ids
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__website_message_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__website_message_ids
 msgid "Website Messages"
 msgstr "Mensajes del sitio web"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__website_message_ids
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__website_message_ids
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__website_message_ids
 msgid "Website communication history"
 msgstr "Historial de comunicaciones del sitio web"
 
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__write_number
-msgid "Write Number"
-msgstr "Escribir número"
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_bank_account_company
-msgid "bank.account.company"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_bank_account_employee
-msgid "bank.account.employee"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_company_power_attorney
-msgid "company.power.attorney"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_company_line
-msgid "hr.company.line"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_family_burden
-msgid "hr.family.burden"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_group
-msgid "hr.group"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_infonavit_credit_line
-msgid "hr.infonavit.credit.line"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_payment_period
-msgid "hr.payment.period"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_relationship
-msgid "hr.relationship"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_res_company_branch_offices
-msgid "res.company.branch.offices"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_res_company_fiel_csd
-msgid "res.company.fiel.csd"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_res_company_partner
-msgid "res.company.partner"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_res_employer_register
-msgid "res.employer.register"
-msgstr ""
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Weekly"
+msgstr "Semanal"
 
