@@ -8,6 +8,12 @@
             <field name="prefix">E-</field>
             <field name="padding">5</field>
         </record>
+        <record id="sequence_contract_code" model="ir.sequence">
+            <field name="name">Contract</field>
+            <field name="code">Contract</field>
+            <field name="prefix">C-</field>
+            <field name="padding">5</field>
+        </record>
         <record id="sequence_tablas_cfdi_reference" model="ir.sequence">
             <field name="name">Tablas CFDI Reference</field>
             <field name="code">tablas.cfdi.reference</field>

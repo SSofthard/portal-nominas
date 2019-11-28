@@ -86,6 +86,9 @@ class Employee(models.Model):
     assimilated_salary_gross = fields.Float("Gross Assimilated Salary", copy=False, readonly=True)
     free_salary_gross = fields.Float("Gross Free", copy=False, readonly=True)
     
+    company_wages_id = fields.Many2one('res.company', "Company (Wages)", required=False)
+    company_assimilated_id = fields.Many2one('res.company', "Company (Assimilated)", required=False)
+    
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
         ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
@@ -130,10 +133,13 @@ class Employee(models.Model):
                     employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
                     employee.assimilated_salary_gross = employee.monthly_salary - employee.wage_salaries - employee.free_salary
             else:
-                daily_salary = employee.wage_salaries/30
+                
+                days = 30
+                
+                # ~ calculation of wages and salaries
+                daily_salary = employee.wage_salaries/days
                 minimum_integration_factor = 1.0452
                 integrated_daily_wage = daily_salary * minimum_integration_factor
-                days = 30
                 salary = daily_salary*days
                 lower_limit = 0
                 applicable_percentage = 0
@@ -178,73 +184,77 @@ class Employee(models.Model):
                 employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
                 employee.free_salary_gross = employee.free_salary
                 
-                
-                
-                
-            # ~ if employee.type_salary == 'gross':
-            
-            # ~ employee.company_ids.unlink()
-            
-            # ~ daily_salary = employee.gross_salary/30
-            # ~ minimum_integration_factor = 1.0452
-            # ~ integrated_daily_wage = daily_salary * minimum_integration_factor
-            # ~ days = 30
-            # ~ salary = daily_salary*days
-            # ~ lower_limit = 0
-            # ~ applicable_percentage = 0
-            # ~ fixed_fee = 0
-            # ~ for table in employee.table_id.tabla_LISR:
-                # ~ if salary > table.lim_inf and salary < table.lim_sup:
-                    # ~ lower_limit = table.lim_inf
-                    # ~ applicable_percentage = table.s_excedente
-                    # ~ fixed_fee = table.c_fija
-            # ~ lower_limit_surplus = salary - lower_limit
-            # ~ marginal_tax = lower_limit_surplus*applicable_percentage
-            # ~ isr_113 = marginal_tax + fixed_fee
-            # ~ employment_subsidy = 0
-            # ~ for tsub in employee.table_id.tabla_subem:
-                # ~ if salary > tsub.lim_inf and salary < tsub.lim_sup:
-                    # ~ employment_subsidy = tsub.s_mensual
-            # ~ isr = isr_113 - employment_subsidy
-            
-            # ~ total_perceptions = salary+employment_subsidy
-            
-            # ~ risk_factor = 0.54355
-            # ~ work_irrigation = (integrated_daily_wage * risk_factor * days)/100
-            # ~ benefits_kind_fixed_fee_pattern = (employee.table_id.uma*employee.table_id.enf_mat_cuota_fija*days)/100
-            # ~ benefits_kind_surplus_standard = 0
-            # ~ if integrated_daily_wage - (employee.table_id.uma * 3) > 0:
-                # ~ benefits_kind_surplus_standard = integrated_daily_wage - (employee.table_id.uma * 3) * (employee.table_id.enf_mat_excedente_p/100) * days
-            # ~ benefits_excess_insured_kind = 0
-            # ~ if integrated_daily_wage - (employee.table_id.uma * 3) > 0:
-                # ~ benefits_excess_insured_kind = integrated_daily_wage - (employee.table_id.uma * 3) * (employee.table_id.enf_mat_excedente_e/100) * days
-            # ~ benefits_employer_unique_money = integrated_daily_wage * (employee.table_id.enf_mat_prestaciones_p/100) * days
-            # ~ benefits_insured_single_money = integrated_daily_wage * (employee.table_id.enf_mat_prestaciones_e/100) * days
-            # ~ pensioned_medical_expenses_employer = integrated_daily_wage * (employee.table_id.enf_mat_gastos_med_p/100) * days
-            # ~ pensioned_medical_expenses_insured = integrated_daily_wage * (employee.table_id.enf_mat_gastos_med_e/100) * days
-            # ~ disability_life_employer = integrated_daily_wage * (employee.table_id.inv_vida_p/100) * days
-            # ~ disability_life_insured = integrated_daily_wage * (employee.table_id.inv_vida_e/100) * days
-            # ~ childcare_social_security_expenses_employer = integrated_daily_wage * (employee.table_id.guarderia_p/100) * days
-            # ~ total_imss_employee = benefits_excess_insured_kind + benefits_insured_single_money + pensioned_medical_expenses_insured + disability_life_insured
-            
-            # ~ unemployment_old_age_insured = integrated_daily_wage * (employee.table_id.cesantia_vejez_e/100) * days
-            # ~ total_rcv_infonavit = unemployment_old_age_insured
-            # ~ total_deductions = isr_113  + total_imss_employee + total_rcv_infonavit
-            # ~ total = total_perceptions - total_deductions
-            # ~ for regime in employee.hiring_regime_ids:
-                # ~ wage = 0
-                # ~ if regime.code=='1':
-                    # ~ wage = wage = employee.gross_salary
-                # ~ if regime.code=='2':
-                    # ~ wage = employee.real_salary-total
-                # ~ val = {
-                    # ~ 'employee_id':employee.id,
-                    # ~ 'hiring_regime_id':regime.id,
-                    # ~ 'wage':wage,
-                    # ~ }
-                # ~ self.env['hr.company.line'].create(val)
-        # ~ return True
+                # ~ calculation for assimilates
 
+                daily_salary_assimilated = employee.assimilated_salary/days
+                salary_assimilated = daily_salary_assimilated*days
+                fixed_fee_assimilated = 0
+                applicable_percentage_assimilated = 0
+                applicable_percentage_assimilated = 0
+                for table in employee.table_id.tabla_LISR:
+                    if salary_assimilated > table.lim_inf and salary_assimilated < table.lim_sup:
+                        lower_limit_assimilated = table.lim_inf
+                        applicable_percentage_assimilated = table.s_excedente
+                        fixed_fee_assimilated = table.c_fija
+                lower_limit_surplus_assimilated = salary_assimilated - lower_limit_assimilated
+                marginal_tax_assimilated = lower_limit_surplus_assimilated*applicable_percentage_assimilated
+                isr_assimilated = marginal_tax_assimilated + fixed_fee_assimilated
+                employee.assimilated_salary_gross = employee.assimilated_salary + isr_assimilated
+        return True
+        
+    @api.multi
+    def generate_contracts(self, type_id, date):
+        for employee in self:
+            contract_obj = self.env['hr.contract']
+            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['1','2','5']),('state','in',['open'])])
+            list_contract =[]
+            if contarct:
+                raise UserError(_('The employee has currently open contracts.'))
+            if not employee.company_id:
+                raise UserError(_('You must select a company for the salary and salary contract.'))
+            if not employee.company_assimilated_id:
+                raise UserError(_('You must select a company for the salary-like contract.'))
+            if employee.wage_salaries_gross > 0:
+                val = {
+                    'name':employee.name+' - '+'Sueldos y Salarios',
+                    'employee_id':employee.id,
+                    'department_id':employee.department_id.id,
+                    'job_id':employee.job_id.id,
+                    'wage':employee.wage_salaries_gross,
+                    'contracting_regime':'2',
+                    'company_id':employee.company_id.id,
+                    'type_id':type_id.id,
+                    'date_start':date,
+                        }
+                list_contract.append(contract_obj.create(val).id)
+            if employee.assimilated_salary_gross > 0:
+                val = {
+                    'name':employee.name+' - '+'Asimilado',
+                    'employee_id':employee.id,
+                    'department_id':employee.department_id.id,
+                    'job_id':employee.job_id.id,
+                    'wage':employee.assimilated_salary_gross,
+                    'contracting_regime':'1',
+                    'company_id':employee.company_assimilated_id.id,
+                    'type_id':type_id.id,
+                    'date_start':date,
+                        }
+                list_contract.append(contract_obj.create(val).id)
+            if employee.free_salary_gross > 0:
+                val = {
+                    'name':employee.name+' - '+'Libre',
+                    'employee_id':employee.id,
+                    'department_id':employee.department_id.id,
+                    'job_id':employee.job_id.id,
+                    'wage':employee.free_salary_gross,
+                    'contracting_regime':'5',
+                    'company_id':employee.company_id.id,
+                    'type_id':self.env.ref('payroll_mexico.hr_contract_type_services_other').id,
+                    'date_start':date,
+                        }
+                list_contract.append(contract_obj.create(val).id)
+        return list_contract
+        
     
 class paymentPeriod(models.Model):
     _name = "hr.payment.period"
