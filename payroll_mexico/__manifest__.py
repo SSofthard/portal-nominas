@@ -12,6 +12,7 @@
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
         'views/hr_contract_type.xml',
+        'views/hr_perceptions.xml',
         'views/res_company_view.xml',
         'views/table_cfdi_view.xml',
         'security/ir.model.access.csv',

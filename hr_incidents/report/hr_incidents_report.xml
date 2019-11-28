@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+        <report id="report_hr_leave_incidents" 
+          string="Report by Employee or type" 
+          model="wizard.hr.incidents" 
+          report_type="qweb-pdf" 
+          name="hr_incidents.hr_leave_incidents_report" 
+         /> 
+         
+        <template id="hr_leave_incidents_report" >
+            <t t-call="web.internal_layout">
+                <t t-call="web.html_container">
+                    <div class="page" style="font-size:18px">
+                        <h4 class="mb32">Leaves Summary</h4>
+                        <h4 class="text-center mb32">
+                            Analyze from <u><t t-esc="data['date_from']"/></u> to <u><t t-esc="data['date_to']"/></u> Leaves.
+                        </h4>
+                        
+                        <table class="table">
+                            <tbody>
+                                <table class="table table-condensed">
+                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">Employees:</th>
+                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">Type leave:</th>
+                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">Duration (days):</th>
+                                <t t-set="counter" t-value="0"/>
+                                <t t-foreach="data['name']" t-as="n">
+                                    <tr>
+                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="n"/></td>
+                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['type_leave'][counter]"/></td>
+                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['duration'][counter]"/></td>
+                                    </tr>
+                                    <t t-set="counter" t-value="counter+1" />
+                                </t>
+                                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+        
+    </data>
+</odoo>
