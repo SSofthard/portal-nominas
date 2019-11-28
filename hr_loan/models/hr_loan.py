@@ -289,7 +289,7 @@ class hrLoan(models.Model):
 class hrLoanLIne(models.Model):
     _name = 'hr.loan.line'
     _description = 'Line Loan'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
             
     loan_id = fields.Many2one('hr.loan', string='Loan', readonly=True, required=False)
     name = fields.Char(string='Name', required=False, readonly=True)
