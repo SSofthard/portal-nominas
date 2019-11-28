@@ -11,7 +11,7 @@
             <t t-call="web.html_container">
 				<t t-foreach="docs" t-as="o">
 					<t t-set="lang" t-value="user.lang"/>
-					<t t-call="{{o.type_id.report_id.report_name}}"/>
+					<t t-call="hr_loan.loan_application"/>
 				</t>
             </t>
         </template>

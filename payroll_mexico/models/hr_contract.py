@@ -33,19 +33,19 @@ class Contract(models.Model):
                 if power:
                     contract.power_attorney_id = power.id 
     
-    @api.onchange('employee_id')
-    def onchange_search_company_id(self):
-        domain={}
-        vals=[]
-        value={}
-        for company in self.employee_id.company_ids:
-            vals.append(company.company_id.id)
-        if vals:
-            domain={'company_id': [('id','in', vals)]}
-        else:
-            domain={'company_id': [('id','in', vals)]}
-            value['company_id']=False
-        return {'value': value, 'domain': domain}
+    # ~ @api.onchange('employee_id')
+    # ~ def onchange_search_company_id(self):
+        # ~ domain={}
+        # ~ vals=[]
+        # ~ value={}
+        # ~ for company in self.employee_id.company_ids:
+            # ~ vals.append(company.company_id.id)
+        # ~ if vals:
+            # ~ domain={'company_id': [('id','in', vals)]}
+        # ~ else:
+            # ~ domain={'company_id': [('id','in', vals)]}
+            # ~ value['company_id']=False
+        # ~ return {'value': value, 'domain': domain}
     
     
     def print_contract(self):
@@ -83,6 +83,26 @@ class Contract(models.Model):
             report=self.type_id.report_id
             if not report:
                 mensaje.append('Debe llenar el campo reporte dentro de la categoria de empleado \n')
+                
+            job=self.job_id
+            if not job:
+                mensaje.append('Debe llenar el campo puesto de trabajo en la ficha del contrato \n')
+                
+            rfc=self.employee_id.rfc
+            if not rfc:
+                mensaje.append('Debe llenar el campo RFC en la ficha del empleado \n')
+                
+            curp=self.employee_id.curp
+            if not curp:
+                mensaje.append('Debe llenar el campo CURP en la ficha del empleado \n')
+                
+            country=self.employee_id.country_id
+            if not country:
+                mensaje.append('Debe llenar el campo país en la ficha del empleado \n')
+                
+            nationality=self.employee_id.country_id.nationality
+            if not nationality:
+                mensaje.append('Debe llenar el campo nacionalidad donde se registra país en la parte técnica del sistema \n')
                 
             if len(mensaje):
                 msg="".join(mensaje)
