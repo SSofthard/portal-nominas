@@ -30,3 +30,7 @@ access_tablas_cfdi9,tablas_cfdi9,model_tablas_periodo_bimestral,hr.group_hr_user
 access_tablas_cfdi10,tablas_cfdi10,model_tablas_periodo_mensual,hr.group_hr_user,1,1,1,1
 access_tablas_cfdi12,tablas_cfdi12,model_tablas_isr_anual,hr.group_hr_user,1,1,1,1
 access_tablas_cfdi14,tablas_cfdi14,model_tablas_periodo_semanal,hr.group_hr_user,1,1,1,1
+acces_perceptions_user,Perceptions_user,model_hr_perceptions,hr.group_hr_user,1,1,1,0
+acces_perceptions_manager,Perceptions_manager,model_hr_perceptions,base.group_erp_manager,1,1,1,1
+acces_type_perceptions_user,Type_Perceptions_user,model_hr_type_perceptions,hr.group_hr_user,1,1,1,0
+acces_type_perceptions_manager,Type_Perceptions_manager,model_hr_type_perceptions,base.group_erp_manager,1,1,1,1
