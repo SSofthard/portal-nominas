@@ -13,6 +13,9 @@
                    <attribute name="attrs">{'required':[('payment_type','=','refund')]}</attribute>
                    <attribute name="required">False</attribute>
                 </xpath>
+               <xpath expr="//field[@name='communication']" position="replace">
+                   <field name="communication" string="Referencia" attrs="{'invisible':[('hide_payment_method','=',True)]}"/>
+                </xpath>
             </field>
         </record>
 

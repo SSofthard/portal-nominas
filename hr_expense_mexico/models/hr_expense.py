@@ -26,18 +26,30 @@ class Expenses(models.Model):
     employee_id = fields.Many2one(readonly=False)
     other_classification = fields.Char('Other classification', readonly=False)
     completed = fields.Boolean(string='Completed')
-    classification = fields.Selection([('1', 'Alimentos'),('2   ','Transporte'),('3','Hospedaje'),('4','Translados por movilidad'), ('other','Other')],string='Classification')
+    classification = fields.Selection([('1', 'Alimentos'),('2   ','Transporte'),('3','Hospedaje'),('4','Translados por movilidad'), ('other','Other')],string='Classification', required=True)
     date_invoice = fields.Datetime(string = 'Date invoice')
     date_checking = fields.Datetime(string = 'Date Checking')
     state = fields.Selection([('draft', 'Borrador'),('pending_checking', 'Pending Checking'),('approved','Approved'),('refused','Refused')], track_visibility=True, default='pending_checking',  compute=False)
     subtotal_amount = fields.Monetary('Subtotal')
     total_amount = fields.Monetary('Subtotal', compute=False)
     amount_tax = fields.Monetary('Taxes')
-    document_type = fields.Selection([('invoice', 'Invoice'),('remission','Remission')], string='Document Type')
+    document_type = fields.Selection([('invoice', 'Invoice'),('remission','Remission')], string='Document Type', required=True)
     date = fields.Date(string='Create Date', default= lambda self: fields.Date.context_today(self))
     product_id = fields.Many2one(required=False, comodel_name='product.product')
     unit_amount = fields.Float(required=False)
     # attachment_number = fields.Integer('Number of Attachments', compute='_compute_attachment_number')
+
+    @api.constrains('total_amount','amount_tax','subtotal_amount')
+    def constrains_amount_total(self):
+        if not self.total_amount > 0:
+            raise UserError(_('El monto total del gasto debe ser mayor a 0.'))
+        if self.document_type == 'invoice' and not self.subtotal_amount > 0:
+            raise UserError(_('El monto subtotal del gasto debe ser mayor a 0.'))
+
+    @api.constrains('sheet_id')
+    def constrains_sheet_id(self):
+        if self.sheet_id.state == 'closed':
+            raise UserError(_('No puede agregar gastos a un informe de viaticos cerrado.'))
 
     @api.model
     def create(self,vals):
@@ -51,12 +63,6 @@ class Expenses(models.Model):
 
     @api.multi
     def approve_expense(self):
-        print('kdnsjndksndjnsdknsdn')
-        print('kdnsjndksndjnsdknsdn')
-        print('kdnsjndksndjnsdknsdn')
-        print('kdnsjndksndjnsdknsdn')
-        print('kdnsjndksndjnsdknsdn')
-        print('kdnsjndksndjnsdknsdn')
         self.write({'state':'approved', 'date_checking': fields.Date.context_today(self)})
 
     @api.multi
@@ -154,3 +160,7 @@ class ExpensesSheets(models.Model):
     amount_difference = fields.Monetary(compute='_compute_amount')
     operation_result = fields.Selection([ ('reconciled', 'Reconciled Amount'),('refund', 'Refund'), ('return', 'Return')],compute='_compute_amount')
 
+    @api.constrains('amount_delivered')
+    def constrains_amount_delivered(self):
+        if not self.amount_delivered > 0:
+            raise UserError(_('El monto entregado debe ser mayor a 0.'))

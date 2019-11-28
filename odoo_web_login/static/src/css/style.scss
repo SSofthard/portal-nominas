@@ -1,0 +1,61 @@
+$brand-primary: #414141;
+$brand-secondary: #00A09D;
+
+$brand-primary-dark: darken($brand-primary, 10%);
+$brand-primary-light: lighten($brand-primary, 10%);
+$brand-secondary-dark: darken($brand-secondary, 10%);
+$brand-secondary-light: lighten($brand-secondary, 10%);
+
+//.o_home_menu_background {
+//    background: url(/odoo_web_login/static/src/img/back-5.png) no-repeat fixed center;;
+//}
+.o_home_menu_background {
+    background: url(/odoo_web_login/static/src/img/back-6.svg),
+        linear-gradient(to right bottom, #77717e, #060507);
+    background-size: cover;
+}
+
+
+//#465F93
+//#3E3E40
+
+.o_home_menu .o_home_menu_scrollable .o_apps .o_app .o_app_icon {
+    width: 100%;
+    max-width: 100px;
+}
+
+.o_main_navbar {
+    background-color: #414141;
+}
+
+//.o_main_navbar > a:hover, .o_main_navbar > a:focus, .o_main_navbar > button:hover, .o_main_navbar > button:focus {
+//    background-color: $brand-primary-light;
+//    color: inherit;
+//}
+
+
+.o_main_navbar {
+
+    > a, > button {
+        &:hover, &:focus {
+            background-color: $brand-primary-light;
+            color: inherit;
+        }
+    }
+
+    > ul {
+        > li {
+            > a, > label {
+                &:hover {
+                    background-color: $brand-primary-light;
+                }
+            }
+
+        }
+
+    }
+
+    .show .dropdown-toggle {
+        background-color: $brand-primary-light;
+    }
+}
