@@ -46,6 +46,11 @@ class Expenses(models.Model):
         if self.document_type == 'invoice' and not self.subtotal_amount > 0:
             raise UserError(_('El monto subtotal del gasto debe ser mayor a 0.'))
 
+    @api.constrains('sheet_id')
+    def constrains_sheet_id(self):
+        if self.sheet_id.state == 'closed':
+            raise UserError(_('No puede agregar gastos a un informe de viaticos cerrado.'))
+
     @api.model
     def create(self,vals):
         res = super(Expenses,self).create(vals)
@@ -155,3 +160,7 @@ class ExpensesSheets(models.Model):
     amount_difference = fields.Monetary(compute='_compute_amount')
     operation_result = fields.Selection([ ('reconciled', 'Reconciled Amount'),('refund', 'Refund'), ('return', 'Return')],compute='_compute_amount')
 
+    @api.constrains('amount_delivered')
+    def constrains_amount_delivered(self):
+        if not self.amount_delivered > 0:
+            raise UserError(_('El monto entregado debe ser mayor a 0.'))
