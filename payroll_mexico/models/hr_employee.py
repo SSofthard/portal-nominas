@@ -34,16 +34,6 @@ class Employee(models.Model):
             if employee.birthday:
                 employee.age = calculate_age(employee.birthday)
     
-    @api.model
-    def default_enrollment(self):
-        name = self.env['ir.sequence'].next_by_code('Employee')
-        print (name)
-        print (name)
-        print (name)
-        print (name)
-        print (name)
-        print (name)
-        return name
     
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('New'))
     title = fields.Many2one('res.partner.title','Title')

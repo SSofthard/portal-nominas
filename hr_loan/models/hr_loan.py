@@ -12,7 +12,7 @@ from dateutil.relativedelta import relativedelta
 class hrLoan(models.Model):
     _name = 'hr.loan'
     _description = 'Loan'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = "create_date asc"
     
     @api.multi
