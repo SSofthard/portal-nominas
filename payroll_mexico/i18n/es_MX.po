@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-28 14:29+0000\n"
-"PO-Revision-Date: 2019-11-28 14:29+0000\n"
+"POT-Creation-Date: 2019-11-28 16:04+0000\n"
+"PO-Revision-Date: 2019-11-28 16:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -975,7 +975,7 @@ msgstr "Titular de la cuenta"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction
 msgid "Action Needed"
-msgstr "Acción requerida"
+msgstr "Acción Necesaria"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
@@ -1310,7 +1310,7 @@ msgstr "Cerrado"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_job_inherit
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
 msgid "Code"
-msgstr "Clave"
+msgstr "Código"
 
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_res_company
@@ -1530,6 +1530,8 @@ msgstr ""
 
 #. module: payroll_mexico
 #: selection:hr.type.perceptions,perception_type:0
+#: model:ir.actions.act_window,name:payroll_mexico.view_hr_deductions_action
+#: model:ir.ui.menu,name:payroll_mexico.menu_hr_deductions
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_perceptions_filter
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_type_perceptions_filter
 msgid "Deductions"
@@ -1614,7 +1616,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_subsidio_line__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_subsidioacreditable_line__display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Nombre a mostrar"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
@@ -2700,6 +2702,7 @@ msgstr "Percepción"
 
 #. module: payroll_mexico
 #: model:ir.actions.act_window,name:payroll_mexico.view_hr_perceptions_action
+#: model:ir.ui.menu,name:payroll_mexico.menu_hr_perception
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_perceptions_filter
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_perceptions_form
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_type_perceptions_filter
@@ -3557,7 +3560,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread
 msgid "Unread Messages"
-msgstr "Mensajes sin leer"
+msgstr "Mensajes por leer"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread_counter

@@ -36,7 +36,6 @@
                     <field name="employee_id"/>
                     <field name="type_id"/>
                     <field name="perception_import"/>
-                    <field name="perception_type"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -63,6 +62,15 @@
             <field name="res_model">hr.perceptions</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">[('perception_type', '=', 'perception')]</field>
+        </record>
+        
+        <record id="view_hr_deductions_action" model="ir.actions.act_window">
+            <field name="name">Deductions</field>
+            <field name="res_model">hr.perceptions</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('perception_type', '=', 'deductions')]</field>
         </record>
         
         <record id="view_hr_type_perceptions_action" model="ir.actions.act_window">
@@ -75,8 +83,19 @@
         <menuitem
             name="Perceptions and Deductions"
             id="menu_hr_perceptions"
-            action="view_hr_perceptions_action"
             parent="hr_payroll.menu_hr_payroll_root" sequence="10"/>
+        
+        <menuitem
+            name="Perceptions"
+            id="menu_hr_perception"
+            action="view_hr_perceptions_action"
+            parent="menu_hr_perceptions" sequence="20"/>
+        
+        <menuitem
+            name="Deductions"
+            id="menu_hr_deductions"
+            action="view_hr_deductions_action"
+            parent="menu_hr_perceptions" sequence="30"/>
             
         <menuitem
             name="Type of Perceptions and Deductions"
