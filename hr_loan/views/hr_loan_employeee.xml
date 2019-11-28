@@ -33,6 +33,7 @@
 								<field name="payment_method" />
 								<field name="disburse_method" />
 								<field name="company_id" widget="selection" groups="base.group_multi_company" />
+								<field name="report_id" />
 							</group>
 						</group>
 						<group>
@@ -190,6 +191,13 @@
 						<button string="Reset To Draft" type="object" name="action_reset" states="cancel,rejected" />
 						<button string="Disburse Loan" type="object" name="action_disburse" class="oe_highlight" states="approved" groups="hr.group_hr_manager"/>
 						<button string="Cancel" type="object" name="action_cancel" states="draft" />
+                        <button 
+                            name="print_hr_loan" 
+                            type="object"
+                            string="Print Loan" 
+                            class="oe_highlight" 
+                            >
+                    </button>
 						<field name="state" widget="statusbar" statusbar_visible="draft,applied,approved,cancel,rejected"/>
 					</header>
 					<sheet>
