@@ -12,6 +12,9 @@
         'views/hr_loan_employeee.xml',
         'data/data.xml',
         'security/ir.model.access.csv',
+        #Reports
+        'report/base_layout.xml',
+        'report/hr_loan_application.xml',
     ],
     "active": True,
     "installable": True,

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     
+        <report id="report_loan_application" 
+          string="Loan Application" 
+          model="hr.loan" 
+          report_type="qweb-html" 
+          name="hr_loan.loan_application" 
+         /> 
+        
+        <template id="loan_application" name="Loan Application">
+            <t t-call="web.html_container">
+                <t t-call="hr_loan.internal_layout_loan">
+                    <page>
+                        <h1 align="justify">
+                          <strong> <t t-esc="o.name.upper()"/></strong>
+                        </h1>
+                        <br></br>
+                        <table class="egt" colspan="2">
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong><div>Nombre: <t t-esc="o.employee_id.name.upper()"/></div></strong>
+                                        </td>
+                                        <td width="2500px">
+                                            <strong><div>Fecha Aplicada: <t t-esc="loan_data[str(o.id)][0]" /></div></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong><div>Departamento: <t t-esc="o.department_id.name"/></div></strong>
+                                        </td>
+                                        <td width="2500px">
+                                            <strong><div>Fecha Aprobada: <t t-esc="loan_data[str(o.id)][1]" /></div></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong><div>Cantidad Principal: <t t-esc="loan_data[str(o.id)][2]"/></div></strong>
+                                        </td>
+                                        <td width="2500px">
+                                            <strong><div>Fecha Reembolso: <t t-esc="loan_data[str(o.id)][5]" /></div></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong><div>Tasa de Interés : <t t-esc="o.rate"/></div></strong>
+                                        </td>
+                                        <td width="2500px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong><div>Duración : <t t-esc="o.number_fees"/></div></strong>
+                                        </td>
+                                        <td width="2500px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong><div>Modo de interés : <t t-esc="o.interest_type.upper()"/></div></strong>
+                                        </td>
+                                        <td width="2500px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong><div>Tipo de préstamo : <t t-esc="o.type_id.name"/></div></strong>
+                                        </td>
+                                        <td width="2500px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong>
+                                                <div>Tipo de pago : 
+                                                    <spam class="m-0" t-if="o.type_id.payment_method == 'salary'">Deducción de Nómina</spam>
+                                                    <spam class="m-0" t-if="o.type_id.payment_method == 'cash'">Directo Cheque/Efectivo</spam>
+                                                </div>
+                                            </strong>
+                                        </td>
+                                        <td width="2500px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong>
+                                                <div>Tipo de desembolso : 
+                                                    <spam class="m-0" t-if="o.type_id.disburse_method == 'payroll'">A travvés de la nómina</spam>
+                                                    <spam class="m-0" t-if="o.type_id.disburse_method == 'loan'">Directo Cheque/Efectivo</spam>
+                                                </div>
+                                            </strong>
+                                        </td>
+                                        <td width="2500px">
+                                        </td>
+                                    </tr>
+                        </table>
+                        <table class="egt mt64" align="center">
+                            <tr align="center">
+                                <td style="border:1px solid black;" width="300px" height="50px">
+                                    <strong><div align="center" style="margin-top=-90px">Cantidad de Interés</div></strong>
+                                </td>
+                                <td style="border:2px solid black;" width="300px" height="50px">
+                                    <strong><div align="center" style="margin-top=-90px">Total</div></strong>
+                                </td>
+                                <td style="border:1px solid black;" width="300px" height="50px">
+                                    <strong><div align="center" style="margin-top=-90px">Cantidad Recibida</div></strong>
+                                </td>
+                                <td style="border:2px solid black;" width="300px" height="50px">
+                                    <strong><div align="center" style="margin-top=-90px">Monto Adeudado</div></strong>
+                                </td>
+                            </tr>
+                            <tr align="center">
+                                <td style="border:1px solid black;" width="300px" height="50px">
+                                    <t t-esc="loan_data[str(o.id)][3]"/>
+                                </td>
+                                <td style="border:2px solid black;" width="300px" height="50px">
+                                    <t t-esc="loan_data[str(o.id)][4]"/>
+                                </td>
+                                <td style="border:1px solid black;" width="300px" height="50px">
+                                    <t t-esc="o.total_amount_paid"/>
+                                </td>
+                                <td style="border:2px solid black;" width="300px" height="50px">
+                                    <t t-esc="o.total_amount_due"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br></br>
+                        <h1 align="justify">
+                          <strong> CUOTAS</strong>
+                        </h1>
+                        <table class="egt mt64" align="center">
+                            <thead>
+                                <tr align="center">
+                                    <th style="border:1px solid black;" width="200px" height="20px">
+                                        <strong><div align="center" style="margin-top=-90px">N°</div></strong>
+                                    </th>
+                                    <th style="border:2px solid black;" width="200px" height="20px">
+                                        <strong><div align="center" style="margin-top=-90px">EMI</div></strong>
+                                    </th>
+                                    <th style="border:1px solid black;" width="200px" height="20px">
+                                        <strong><div align="center" style="margin-top=-90px">Monto Total</div></strong>
+                                    </th>
+                                    <th style="border:2px solid black;" width="200px" height="20px">
+                                        <strong><div align="center" style="margin-top=-90px">Interes</div></strong>
+                                    </th>
+                                    <th style="border:2px solid black;" width="200px" height="20px">
+                                        <strong><div align="center" style="margin-top=-90px">Desde</div></strong>
+                                    </th>
+                                    <th style="border:2px solid black;" width="200px" height="20px">
+                                        <strong><div align="center" style="margin-top=-90px">Hasta</div></strong>
+                                    </th>
+                                    <th style="border:2px solid black;" width="200px" height="20px">
+                                        <strong><div align="center" style="margin-top=-90px">Status</div></strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <t t-set="cont" t-value="1"/>
+                            <tbody>
+                                <tr t-foreach="o.loan_line_ids" t-as="line" align="center">
+                                    <td style="height: 80%; padding: 0px"><span t-esc="cont"/></td>
+                                    <td style="height: 80%; padding: 0px"><span t-field="line.amount_total"/></td>
+                                    <td style="height: 80%; padding: 0px"><span t-field="line.amount"/></td>
+                                    <td style="height: 80%; padding: 0px"><span t-field="line.interest_amount"/></td>
+                                    <td style="height: 80%; padding: 0px"><span t-field="line.date_from"/></td>
+                                    <td style="height: 80%; padding: 0px"><span t-field="line.date_to"/></td>
+                                    <td style="height: 80%; padding: 0px"><span t-field="line.state"/></td>
+                                    <t t-set="cont" t-value="cont+1"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </page>
+                </t>
+            </t>
+        </template>
+        
+    </data>
+</odoo>
