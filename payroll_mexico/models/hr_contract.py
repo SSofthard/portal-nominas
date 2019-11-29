@@ -11,7 +11,7 @@ class Contract(models.Model):
 
     _inherit = 'hr.contract'
 
-    code = fields.Char('Code',required=True)
+    code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
     type_id = fields.Many2one(string="Type Contract")
     type_contract = fields.Selection(string="Type", related="type_id.type", invisible=True)
     productivity_bonus = fields.Float('Productivity bonus', required=False)
@@ -21,6 +21,13 @@ class Contract(models.Model):
     company_id = fields.Many2one('res.company', default = ['employee_id','=', False])
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
+    contracting_regime = fields.Selection([
+        ('1', 'Assimilated to wages'),
+        ('2', 'Wages and salaries'),
+        ('3', 'Senior citizens'),
+        ('4', 'Pensioners'),
+        ('5', 'Free'),
+        ], string='Contracting Regime', required=True, default="2")
     
     @api.onchange('company_id')
     def onchange_default_power_attorney(self):
@@ -32,21 +39,6 @@ class Contract(models.Model):
                 power = self.env['company.power.attorney'].search([('company_id','=',contract.company_id.id),('state','in',['valid'])], limit=1)
                 if power:
                     contract.power_attorney_id = power.id 
-    
-    # ~ @api.onchange('employee_id')
-    # ~ def onchange_search_company_id(self):
-        # ~ domain={}
-        # ~ vals=[]
-        # ~ value={}
-        # ~ for company in self.employee_id.company_ids:
-            # ~ vals.append(company.company_id.id)
-        # ~ if vals:
-            # ~ domain={'company_id': [('id','in', vals)]}
-        # ~ else:
-            # ~ domain={'company_id': [('id','in', vals)]}
-            # ~ value['company_id']=False
-        # ~ return {'value': value, 'domain': domain}
-    
     
     def print_contract(self):
         contract_dic = {}

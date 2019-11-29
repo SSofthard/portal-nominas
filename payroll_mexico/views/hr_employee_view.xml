@@ -52,9 +52,7 @@
                         <field name="blood_type"/>
                     </group>
                 </xpath>
-                <xpath expr="//field[@name='company_id']" position="attributes">
-					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
-				</xpath>
+                <field name="company_id" position="replace"/>
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
                         <group  col="4" string="IMSS">
@@ -153,32 +151,12 @@
 								<field name="assimilated_salary_gross" />
 								<field name="free_salary_gross" />
 							</group>
-						</group>
-<!--
-						<group col="4">
 							<group>
-								<separator string="Hiring Regime" colspan="4" />
-								<field name="hiring_regime_ids" widget="many2many_checkboxes" nolabel="1"/>
-							</group>
-							<group>
-								<separator string="Table CFDI"/>
-								<field name="table_id" />
+								<field name="company_id" options='{"no_open": True, "no_create": True}'/>
+								<field name="company_assimilated_id" options='{"no_open": True, "no_create": True}'/>
+								<button name="%(action_hr_employee_contract)d" string="Generate contracts" class="oe_highlight" type="action" groups="hr.group_hr_user"/>
 							</group>
 						</group>
-						<group>
-								<separator string="Salaries"/>
-								<field name="real_salary" />
-								<field name="gross_salary" />
-								<button name="calculate_salary_scheme" string="Calculate" class="oe_highlight" type="object" groups="hr.group_hr_user"/>
-							</group>
-                        <field name="company_ids">
-                            <tree editable="botton" create="0">
-                                <field name="hiring_regime_id" />
-                                <field name="wage" />
-                                <field name="company_id" options='{"no_open": True, "no_create": True}' required="1"/>
-                            </tree>
-                        </field>
--->
                     </page>
                 </xpath>
             </field>

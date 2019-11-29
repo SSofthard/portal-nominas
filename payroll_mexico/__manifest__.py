@@ -9,9 +9,11 @@
     'summary': "Module that adapts Mexico's own characteristics of the human resources process.",
     "depends": ['base','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry'],
     "data": [
+        'wizard/hr_employee_contract_wizard.xml',
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
         'views/hr_contract_type.xml',
+        'views/hr_perceptions.xml',
         'views/res_company_view.xml',
         'views/table_cfdi_view.xml',
         'security/ir.model.access.csv',
@@ -26,6 +28,7 @@
         'data/sequence_data.xml',
         'data/data_table_cfdi.xml',
         'data/res.bank.csv',
+        'data/hr_perceptions.xml',
         
     ],
     "active": True,

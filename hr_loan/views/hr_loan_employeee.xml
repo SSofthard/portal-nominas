@@ -33,6 +33,7 @@
 								<field name="payment_method" />
 								<field name="disburse_method" />
 								<field name="company_id" widget="selection" groups="base.group_multi_company" />
+								<field name="report_id" />
 							</group>
 						</group>
 						<group>

@@ -12,7 +12,7 @@ from dateutil.relativedelta import relativedelta
 class hrLoan(models.Model):
     _name = 'hr.loan'
     _description = 'Loan'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = "create_date asc"
     
     @api.multi
@@ -248,6 +248,7 @@ class hrLoan(models.Model):
         loan_dic = {}
         mensaje = []
         for loan in self:
+
                 
             depart=self.department_id
             if not depart:
@@ -261,6 +262,7 @@ class hrLoan(models.Model):
             if not interest_type:
                 mensaje.append('Debe llenar el campo tipo de interés \n')
                 
+
             loan_line=self.loan_line_ids
             if not loan_line:
                 mensaje.append('Debe haber calculado el desembolso  del préstamo \n')
@@ -269,6 +271,7 @@ class hrLoan(models.Model):
             if not date_disb:
                 mensaje.append('Debe llenar la fecha de Desembolso \n')
                 
+
             if len(mensaje):
                 msg="".join(mensaje)
                 raise  UserError(_(msg))
@@ -294,7 +297,7 @@ class hrLoan(models.Model):
 class hrLoanLIne(models.Model):
     _name = 'hr.loan.line'
     _description = 'Line Loan'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
             
     loan_id = fields.Many2one('hr.loan', string='Loan', readonly=True, required=False)
     name = fields.Char(string='Name', required=False, readonly=True)
@@ -333,6 +336,7 @@ class hrLoanType(models.Model):
                                         default='loan')
     loan_policy_ids = fields.Many2many('hr.loan.policy', 'loan_policy_rel', 'policy_id', 'loan_type_id', string="Policies")
     active = fields.Boolean('Active', default=True)
+    report_id = fields.Many2one('ir.actions.report',domain=[('model','=','hr.loan')],string="Report",)
     
     @api.onchange('interest')
     def onchange_interest(self):
