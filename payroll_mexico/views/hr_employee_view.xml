@@ -53,11 +53,13 @@
                     </group>
                 </xpath>
                 <field name="company_id" position="replace"/>
+                <field name="children" position="replace"/>
+                <field name="google_drive_link" position="replace"/>
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
                         <group  col="4" string="IMSS">
                             <field name="social_security_number" />
-                            <field name="salary" />
+                            <field name="salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
                             <field name="payment_period_id" />
                         </group>
                     </page>
@@ -88,6 +90,11 @@
                         </field>
                     </page>
                     <page name="family" string="Family" groups="hr.group_hr_user">
+						<group>
+							<group col="4">
+								<field name="children" />
+							</group>
+						</group>
                         <field name="family_ids">
                             <form>
                                 <group col="4">
@@ -135,15 +142,18 @@
 								<field name="type_salary" widget="radio"/>
 							</group>
 							<group>
-								<field name="monthly_salary"/>
+								<field name="monthly_salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" />
+<!--
+								<field name="mobile_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 15, 'greedy' : false" />
+-->
 								<field name="table_id" />
 							</group>
 						</group>
 						<group>
 							<group>
-								<field name="wage_salaries" />
-								<field name="assimilated_salary" readonly="1"/>
-								<field name="free_salary" />
+								<field name="wage_salaries" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
+								<field name="assimilated_salary" readonly="1" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
+								<field name="free_salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
 								<button name="calculate_salary_scheme" string="Calculate" class="oe_highlight" type="object" groups="hr.group_hr_user"/>
 							</group>
 							<group>
