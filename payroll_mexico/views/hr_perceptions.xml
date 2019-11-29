@@ -16,12 +16,12 @@
                           <group>
                               <group>
                                   <field name="employee_id"/>
-                                  <field name="perception_import"/>
+                                  <field name="perception_import" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
                                   <field name="perception_type" invisible="1"/>
                                   <field name="group_id" invisible="1"/>
                               </group>
                               <group>
-                                  <field name="type_id"/>
+                                  <field name="type_id" domain="[('perception_type','=',context.get('type'))]"/>
                               </group>
                           </group>
                       </sheet>
@@ -56,20 +56,34 @@
             </field>
         </record>
     
-        <record id="view_hr_perceptions_action" model="ir.actions.act_window">
+        <record id="view_hr_perceptions_pivot" model="ir.ui.view">
+            <field name="name">hr.perceptions.pivot</field>
+            <field name="model">hr.perceptions</field>
+            <field name="arch" type="xml">
+                <pivot string="Perceptions or Deductions">
+                    <field name="employee_id" type="col"/>
+                    <field name="perception_import" type="col"/>
+                    <field name="type_id" type="row"/>
+                </pivot>
+            </field>
+        </record>
+    
+        <record id="view_hr_perceptions_action19" model="ir.actions.act_window">
             <field name="name">Perceptions</field>
             <field name="res_model">hr.perceptions</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,pivot,form</field>
             <field name="domain">[('perception_type', '=', 'perception')]</field>
+            <field name="context">{'type': 'perception'}</field>
         </record>
         
         <record id="view_hr_deductions_action" model="ir.actions.act_window">
             <field name="name">Deductions</field>
             <field name="res_model">hr.perceptions</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,pivot,form</field>
             <field name="domain">[('perception_type', '=', 'deductions')]</field>
+            <field name="context">{'type': 'deductions'}</field>
         </record>
         
         <record id="view_hr_type_perceptions_action" model="ir.actions.act_window">
@@ -77,6 +91,7 @@
             <field name="res_model">hr.type.perceptions</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            
         </record>
     
         <menuitem
@@ -87,7 +102,7 @@
         <menuitem
             name="Perceptions"
             id="menu_hr_perception"
-            action="view_hr_perceptions_action"
+            action="view_hr_perceptions_action19"
             parent="menu_hr_perceptions" sequence="20"/>
         
         <menuitem
@@ -109,9 +124,14 @@
                 <form string="Type Perceptions">
                       <sheet>
                           <group>
-                              <field name="code"/>
-                              <field name="name"/>
-                              <field name="perception_type"/>
+                              <group>
+                                  <field name="perception_type"/>
+                                  <field name="prefix"/>
+                              </group>
+                              <group>
+                                  <field name="code"/>
+                                  <field name="name"/>
+                              </group>
                           </group>
                       </sheet>
                 </form>
