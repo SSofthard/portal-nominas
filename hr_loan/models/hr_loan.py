@@ -248,9 +248,7 @@ class hrLoan(models.Model):
         loan_dic = {}
         mensaje = []
         for loan in self:
-            report=self.type_id.report_id
-            if not report:
-                mensaje.append('Debe llenar el campo reporte dentro de tipo de prestamo \n')
+
                 
             depart=self.department_id
             if not depart:
@@ -264,6 +262,16 @@ class hrLoan(models.Model):
             if not interest_type:
                 mensaje.append('Debe llenar el campo tipo de interés \n')
                 
+
+            loan_line=self.loan_line_ids
+            if not loan_line:
+                mensaje.append('Debe haber calculado el desembolso  del préstamo \n')
+                
+            date_disb=self.date_disb
+            if not date_disb:
+                mensaje.append('Debe llenar la fecha de Desembolso \n')
+                
+
             if len(mensaje):
                 msg="".join(mensaje)
                 raise  UserError(_(msg))
