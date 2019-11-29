@@ -130,5 +130,5 @@ class HolidaysRequest(models.Model):
             values['date_from'] = request_parameters.get('date_from')
             values['date_to'] = request_parameters.get('date_to')
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
-        return super(HolidaysRequest, self).create(values)
+        return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
             
