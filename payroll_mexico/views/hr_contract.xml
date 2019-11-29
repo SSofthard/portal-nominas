@@ -38,11 +38,15 @@
                 </xpath>
                 <xpath expr="//group[@name='main_info']" position="after">
 					<group string="Other perceptions">
-						<field name="productivity_bonus"/>
-						<field name="attendance_bonus"/>
-						<field name="punctuality_bonus"/>
-						<field name="social_security"/>
+						<field name="productivity_bonus" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" style="width:25%"/>
+						<field name="attendance_bonus" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" style="width:25%"/>
+						<field name="punctuality_bonus" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" style="width:25%"/>
+						<field name="social_security" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" style="width:25%"/>
 					</group>
+                </xpath>
+                <xpath expr="//field[@name='wage']" position="attributes">
+					<attribute name="widget">mask</attribute>
+					<attribute name="data-inputmask">'alias': 'decimal','digits':'2', 'greedy' : false</attribute>
                 </xpath>
             </field>
         </record>
