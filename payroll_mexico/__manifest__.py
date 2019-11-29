@@ -28,6 +28,7 @@
         'data/sequence_data.xml',
         'data/data_table_cfdi.xml',
         'data/res.bank.csv',
+        'data/hr_perceptions.xml',
         
     ],
     "active": True,

@@ -6,6 +6,8 @@ from odoo.exceptions import UserError
 
 import datetime
 from datetime import date
+from odoo.osv import expression
+
 
 def calculate_age(date_birthday):
     today = date.today() 
@@ -268,6 +270,14 @@ class Employee(models.Model):
                 list_contract.append(contract_obj.create(val).id)
         return list_contract
         
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = [('enrollment', operator, name)]
+        enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(enrollment).name_get()
     
 class paymentPeriod(models.Model):
     _name = "hr.payment.period"
