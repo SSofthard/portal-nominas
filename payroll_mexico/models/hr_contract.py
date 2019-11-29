@@ -64,6 +64,10 @@ class Contract(models.Model):
             if not title_emplo:
                 mensaje.append('Debe llenar el titulo en la ficha de empleado \n')
             
+            title_repre=contract.company_id.legal_representative_id.title
+            if not title_repre:
+                mensaje.append('Debe llenar el titulo del representante legal en la ficha de compañia \n')
+            
             direccion=contract.employee_id.address_home_id
             if not direccion:
                 mensaje.append('Debe llenar la dirección de la ficha de empleado \n')
