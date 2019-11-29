@@ -20,14 +20,18 @@
                     <field name="code" placeholder="Code"/>
                     <field name="type_contract" invisible="1"/>
                 </xpath>
+                <xpath expr="//field[@name='company_id']" position="before">
+                    <field name="contracting_regime"/>
+                </xpath>
                 <xpath expr="//field[@name='trial_date_end']" position="before">
                     <field name="previous_contract_date" attrs="{'invisible': [('type_contract', '!=','with_seniority')],'required': [('type_contract', '=','with_seniority')]}"/>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="attributes">
 					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
+					<attribute name="attrs">{'invisible': [('contracting_regime','=','5')]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="after">
-					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]" options='{"no_open": True, "no_create": True}'/>
+					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('contracting_regime','=','5')]}"/>
                 </xpath>
                 <xpath expr="//field[@name='name']" position="attributes">
                     <attribute name="placeholder">Name Contract</attribute>

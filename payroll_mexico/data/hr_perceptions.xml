@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--Perception-->
+        <record id="hr_type_perceptions1" model="hr.type.perceptions">
+            <field name="code">001</field>
+            <field name="name">Sueldos, Salarios Rayas y Jornales</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions2" model="hr.type.perceptions">
+            <field name="code">002</field>
+            <field name="name">Gratificación Anual (Aguinaldo)</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions3" model="hr.type.perceptions">
+            <field name="code">003</field>
+            <field name="name">Participación de los Trabajadores en las Utilidades PTU</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions4" model="hr.type.perceptions">
+            <field name="code">004</field>
+            <field name="name">Reembolso de Gastos Médicos Dentales y Hospitalarios</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions5" model="hr.type.perceptions">
+            <field name="code">005</field>
+            <field name="name">Fondo de Ahorro</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions6" model="hr.type.perceptions">
+            <field name="code">006</field>
+            <field name="name">Caja de ahorro</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions7" model="hr.type.perceptions">
+            <field name="code">007</field>
+            <field name="name">Vales</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions8" model="hr.type.perceptions">
+            <field name="code">008</field>
+            <field name="name">Ayudas</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions9" model="hr.type.perceptions">
+            <field name="code">009</field>
+            <field name="name">Contribuciones a Cargo del Trabajador Pagadas por el Patrón</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions10" model="hr.type.perceptions">
+            <field name="code">010</field>
+            <field name="name">Premios por puntualidad</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions11" model="hr.type.perceptions">
+            <field name="code">011</field>
+            <field name="name">Prima de Seguro de vida</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions12" model="hr.type.perceptions">
+            <field name="code">012</field>
+            <field name="name">Seguro de Gastos Medicos Mayores</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions13" model="hr.type.perceptions">
+            <field name="code">013</field>
+            <field name="name">Cuotas Sindicales Pagadas por el Patrón</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions14" model="hr.type.perceptions">
+            <field name="code">014</field>
+            <field name="name">Subsidios por incapacidad</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions15" model="hr.type.perceptions">
+            <field name="code">015</field>
+            <field name="name">Becas para trabajadores y/o hijos</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions16" model="hr.type.perceptions">
+            <field name="code">016</field>
+            <field name="name">Otros</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions17" model="hr.type.perceptions">
+            <field name="code">017</field>
+            <field name="name">Subsidio para el empleo</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions18" model="hr.type.perceptions">
+            <field name="code">018</field>
+            <field name="name">Fomento al primer empleo</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions19" model="hr.type.perceptions">
+            <field name="code">019</field>
+            <field name="name">Horas extra</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions20" model="hr.type.perceptions">
+            <field name="code">020</field>
+            <field name="name">Prima dominical</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions21" model="hr.type.perceptions">
+            <field name="code">021</field>
+            <field name="name">Prima vacacional</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions22" model="hr.type.perceptions">
+            <field name="code">022</field>
+            <field name="name">Prima por antigüedad</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions23" model="hr.type.perceptions">
+            <field name="code">023</field>
+            <field name="name">Pagos por separación</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions24" model="hr.type.perceptions">
+            <field name="code">024</field>
+            <field name="name">Seguro de retiro</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions25" model="hr.type.perceptions">
+            <field name="code">025</field>
+            <field name="name">Indeminizaciones</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions26" model="hr.type.perceptions">
+            <field name="code">026</field>
+            <field name="name">Reembolso por funeral</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions27" model="hr.type.perceptions">
+            <field name="code">027</field>
+            <field name="name">Cuotas de seguridad social pagadas por el patrón</field>
+            <field name="perception_type">perception</field>
+        </record>
+        <record id="hr_type_perceptions28" model="hr.type.perceptions">
+            <field name="code">028</field>
+            <field name="name">Comisiones</field>
+            <field name="perception_type">perception</field>
+        </record>
+        
+        <!--Deductions-->
+        <record id="hr_type_deductions1" model="hr.type.perceptions">
+            <field name="code">001</field>
+            <field name="name">Seguridad social</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions2" model="hr.type.perceptions">
+            <field name="code">002</field>
+            <field name="name">ISR</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions3" model="hr.type.perceptions">
+            <field name="code">003</field>
+            <field name="name">Aportaciones a retiro, cesantía en edad avanzada y vejez</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions4" model="hr.type.perceptions">
+            <field name="code">004</field>
+            <field name="name">Otros</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions5" model="hr.type.perceptions">
+            <field name="code">005</field>
+            <field name="name">Aportaciones a Fondo de vivienda</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions6" model="hr.type.perceptions">
+            <field name="code">006</field>
+            <field name="name">Descuento por incapacidad</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions7" model="hr.type.perceptions">
+            <field name="code">007</field>
+            <field name="name">Pensión alimenticia</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions8" model="hr.type.perceptions">
+            <field name="code">008</field>
+            <field name="name">Renta</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions9" model="hr.type.perceptions">
+            <field name="code">009</field>
+            <field name="name">Préstamos provenientes del Fondo Nacional de la Vivienda para los Trabajadores</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions10" model="hr.type.perceptions">
+            <field name="code">010</field>
+            <field name="name">Pago por crédito de vivienda</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions11" model="hr.type.perceptions">
+            <field name="code">011</field>
+            <field name="name">Pago de abonos INFONACOT</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions12" model="hr.type.perceptions">
+            <field name="code">012</field>
+            <field name="name">NACOT</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions13" model="hr.type.perceptions">
+            <field name="code">013</field>
+            <field name="name">Pagos hechos con exceso al trabajador</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions14" model="hr.type.perceptions">
+            <field name="code">014</field>
+            <field name="name">Errores</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions15" model="hr.type.perceptions">
+            <field name="code">015</field>
+            <field name="name">Pérdidas</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions16" model="hr.type.perceptions">
+            <field name="code">016</field>
+            <field name="name">Averías</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions17" model="hr.type.perceptions">
+            <field name="code">017</field>
+            <field name="name">Adquisición de artículos producidos por la empresa o establecimiento</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions18" model="hr.type.perceptions">
+            <field name="code">018</field>
+            <field name="name">Cuotas para la constitución y fomento de sociedades cooperativas y de cajas de ahorro</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions19" model="hr.type.perceptions">
+            <field name="code">019</field>
+            <field name="name">Cuotas sindicales</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions20" model="hr.type.perceptions">
+            <field name="code">020</field>
+            <field name="name">Ausencia (Ausentismo)</field>
+            <field name="perception_type">deductions</field>
+        </record>
+        <record id="hr_type_deductions21" model="hr.type.perceptions">
+            <field name="code">021</field>
+            <field name="name">Cuotas obrero patronales</field>
+            <field name="perception_type">deductions</field>
+        </record>
+    </data>
+</odoo>

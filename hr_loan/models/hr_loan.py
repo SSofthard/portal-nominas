@@ -4,6 +4,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, Warning
 
+import locale
 import time
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
@@ -11,7 +12,7 @@ from dateutil.relativedelta import relativedelta
 class hrLoan(models.Model):
     _name = 'hr.loan'
     _description = 'Loan'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = "create_date asc"
     
     @api.multi
@@ -243,12 +244,52 @@ class hrLoan(models.Model):
             self.total_interest_amount = amount_interest
         return True
         
+    def print_hr_loan(self):
+        loan_dic = {}
+        mensaje = []
+        for loan in self:
+            report=self.type_id.report_id
+            if not report:
+                mensaje.append('Debe llenar el campo reporte dentro de tipo de prestamo \n')
+                
+            depart=self.department_id
+            if not depart:
+                mensaje.append('Debe llenar el campo departamento \n')
+                
+            date_approved=self.date_approved
+            if not date_approved:
+                mensaje.append('Debe llenar el campo fecha de aprobación \n')
+                
+            interest_type=self.interest_type
+            if not interest_type:
+                mensaje.append('Debe llenar el campo tipo de interés \n')
+                
+            if len(mensaje):
+                msg="".join(mensaje)
+                raise  UserError(_(msg))
+            
+            loan_amount=self.loan_amount    
+            total_interest_amount=self.total_interest_amount    
+            total_amount=self.total_amount    
+            locale.setlocale(locale.LC_ALL, '')
+            loan_dic[loan.id]=[self.date_applied.strftime('%Y-%m-%d'),
+                self.date_approved.strftime('%Y-%m-%d'),
+                locale.format('%.2f', loan_amount, grouping=True, monetary=True),
+                locale.format('%.2f', total_interest_amount, grouping=True, monetary=True),
+                locale.format('%.2f', total_amount, grouping=True, monetary=True),
+                self.date_disb.strftime('%Y-%m-%d'),
+                ]
         
+        data={
+            'loan_data':loan_dic
+            }
+        return self.env.ref('hr_loan.report_loan_type_template').report_action(self,data)
+    
     
 class hrLoanLIne(models.Model):
     _name = 'hr.loan.line'
     _description = 'Line Loan'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
             
     loan_id = fields.Many2one('hr.loan', string='Loan', readonly=True, required=False)
     name = fields.Char(string='Name', required=False, readonly=True)
@@ -287,6 +328,7 @@ class hrLoanType(models.Model):
                                         default='loan')
     loan_policy_ids = fields.Many2many('hr.loan.policy', 'loan_policy_rel', 'policy_id', 'loan_type_id', string="Policies")
     active = fields.Boolean('Active', default=True)
+    report_id = fields.Many2one('ir.actions.report',domain=[('model','=','hr.loan')],string="Report",)
     
     @api.onchange('interest')
     def onchange_interest(self):
