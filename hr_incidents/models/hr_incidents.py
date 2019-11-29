@@ -10,7 +10,8 @@ from odoo.exceptions import ValidationError, UserError
 from odoo.osv import expression
 from odoo.tools.translate import _
 from odoo.tools.float_utils import float_round
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY
 
 
 class HolidaysType(models.Model):
@@ -27,8 +28,9 @@ class HolidaysType(models.Model):
             name = record.name
             code = record.code
             if code:
-                name = "%(code)s" % {
+                name = "[%(code)s] %(name)s" % {
                     'code': code,
+                    'name': name,
                 }
             res.append((record.id, name))
         return res
@@ -41,6 +43,7 @@ class HolidaysType(models.Model):
             domain = [('code', operator, name)]
         code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(code).name_get()
+
 
 class HolidaysRequest(models.Model):
     _inherit = "hr.leave"
@@ -63,22 +66,69 @@ class HolidaysRequest(models.Model):
         if not self.env.context.get('leave_fast_create'):
             self.activity_update()
         return True
+    
+    def request_parameters(self, employee, request_date_from, number_of_days, request_date_from_period):
+        if not number_of_days or number_of_days < 0:
+            raise UserError(_('Negative or empty values ​​are not allowed for the number of days.'))
+        if not employee:
+            raise UserError(_('The employee is required.'))
+        employee_id = self.env['hr.employee'].search([('id','=', employee)])
+        if not employee_id:
+            raise UserError(_('No employees found for the key %s.') % employee)
 
+        dates = {}
+        calendar = employee_id.resource_calendar_id or self.env.user.company_id.resource_calendar_id
+        request_date_from = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT)
+        tz = self.env.user.tz if self.env.user.tz and not self.request_unit_custom else 'UTC'  # custom -> already in UTC
+        
+        domain = [('calendar_id', '=', calendar.id or self.env.user.company_id.resource_calendar_id.id)]
+        attendances = self.env['resource.calendar.attendance'].search(domain, order='dayofweek, day_period DESC')
+
+        # find first attendance coming after first_day
+        attendance_from = next((att for att in attendances if int(att.dayofweek) >= request_date_from.weekday()), attendances[0])
+        hour_from = float_to_time(attendance_from.hour_from)
+        
+        request_date_from = timezone(tz).localize(datetime.combine(request_date_from.date(), hour_from)).astimezone(UTC).replace(tzinfo=None)
+        request_date_to = request_date_from + timedelta(hours=calendar.hours_per_day or HOURS_PER_DAY)
+        
+        # find last attendance coming before last_day
+        attendance_to = next((att for att in reversed(attendances) if int(att.dayofweek) <= request_date_to.weekday()), attendances[-1])
+        hour_to = float_to_time(attendance_to.hour_to)
+        request_date_from = timezone(tz).localize(datetime.combine(request_date_from.date(), hour_from)).astimezone(UTC).replace(tzinfo=None)
+        # if ist half day
+        if number_of_days == 0.5 and request_date_from_period:
+            if request_date_from_period == 'am':
+                hour_from = float_to_time(attendance_from.hour_from)
+                hour_to = float_to_time(attendance_from.hour_to)
+            else:
+                hour_from = float_to_time(attendance_to.hour_from)
+                hour_to = float_to_time(attendance_to.hour_to)
+            
+            # ~ half_day = calendar.hours_per_day / 2 or HOURS_PER_DAY / 2
+            request_date_from = timezone(tz).localize(datetime.combine(request_date_from.date(), hour_from)).astimezone(UTC).replace(tzinfo=None)
+            request_date_to = timezone(tz).localize(datetime.combine(request_date_to.date(), hour_to)).astimezone(UTC).replace(tzinfo=None)
+        if number_of_days == 1:
+            request_date_to = request_date_from + timedelta(hours=calendar.hours_per_day or HOURS_PER_DAY)
+        if number_of_days > 1:
+            request_date_to = request_date_from + timedelta(days=number_of_days)
+        
+        dates['request_date_from'] = request_date_from.date()
+        dates['request_date_to'] = request_date_to.date()
+        dates['date_from'] = request_date_from
+        dates['date_to'] = request_date_to
+        dates['request_date_from_period'] = request_date_from_period
+        return dates
+    
+    
     @api.model
     def create(self, values):
         """ Override to avoid automatic logging of creation """
-        holiday = super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
-        request_date_from = values.get('request_date_from')
-        duration = values.get('number_of_days')
-        request_date_to = values.get('request_date_to')
-        if duration == 1 and request_date_from:
-            request_date_to = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT) + timedelta(days=0.5)
-            request_date_to = fields.Date.from_string(request_date_to).strftime(DEFAULT_SERVER_DATE_FORMAT)
-            holiday.request_date_to = request_date_to
-        if duration > 1 and request_date_from:
-            request_date_to = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT) + timedelta(days=duration)
-            holiday.date_to = request_date_to
-            request_date_to = fields.Date.from_string(request_date_to).strftime(DEFAULT_SERVER_DATE_FORMAT)
-            holiday.request_date_to = request_date_to
-        return holiday
+        if self.env.context.get('import_file'):
+            request_parameters = self.request_parameters(values.get('employee_id'),values.get('request_date_from'),values.get('number_of_days'),values.get('request_date_from_period'))
+            values['request_date_from'] = request_parameters.get('request_date_from')
+            values['request_date_to'] = request_parameters.get('request_date_to')
+            values['date_from'] = request_parameters.get('date_from')
+            values['date_to'] = request_parameters.get('date_to')
+            values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
+        return super(HolidaysRequest, self).create(values)
             
