@@ -137,6 +137,10 @@
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="code" placeholder="Code"/>
                 </xpath>
+                <xpath expr="//field[@name='phone']" position="attributes">
+					<attribute name="widget">mask</attribute>
+					<attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
             </field>
         </record>
         
@@ -158,6 +162,30 @@
                 </xpath>
                 <xpath expr="//page[@name='sales_purchases']" position="attributes">
                     <attribute name="attrs">{'invisible': ['|','|',('public_notary','=', True),('notary_public','=', True),('branch_offices','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="attributes">
+					<attribute name="widget">mask</attribute>
+					<attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='mobile']" position="attributes">
+					<attribute name="widget">mask</attribute>
+					<attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="res_partner_view_form_private_inherit" model="ir.ui.view">
+            <field name="name">res.partner.view.form.private</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.res_partner_view_form_private"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='phone']" position="attributes">
+					<attribute name="widget">mask</attribute>
+					<attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='mobile']" position="attributes">
+					<attribute name="widget">mask</attribute>
+					<attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
                 </xpath>
             </field>
         </record>

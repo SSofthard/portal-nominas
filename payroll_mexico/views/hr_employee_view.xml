@@ -41,8 +41,8 @@
                 </xpath> 
                 <xpath expr="//field[@name='address_home_id']" position="after">
                     <field name="personal_email"/>
-                    <field name="personal_movile_phone"/>
-                    <field name="personal_phone"/>
+                    <field name="personal_movile_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                    <field name="personal_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                 </xpath>
                 <xpath expr="//field[@name='department_id']" position="before">
                     <field name="group_id"/>
@@ -51,6 +51,18 @@
                    <group string="Medical data">
                         <field name="blood_type"/>
                     </group>
+                </xpath>
+                <xpath expr="//field[@name='mobile_phone']" position="replace">
+                    <field name="mobile_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                </xpath>
+                <xpath expr="//field[@name='work_phone']" position="replace">
+                    <field name="work_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                </xpath>
+                <xpath expr="//field[@name='emergency_contact']" position="replace">
+                    <field name="emergency_contact" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                </xpath>
+                <xpath expr="//field[@name='emergency_phone']" position="replace">
+                    <field name="emergency_contact" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                 </xpath>
                 <field name="company_id" position="replace"/>
                 <field name="children" position="replace"/>
