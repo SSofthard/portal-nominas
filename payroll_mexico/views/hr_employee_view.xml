@@ -36,8 +36,8 @@
                 </xpath> 
                 <xpath expr="//field[@name='passport_id']" position="after">
                     <field name="title"/>
-                    <field name="rfc"/>
-                    <field name="curp"/>
+                    <field name="rfc" widget="mask" data-inputmask="'mask': 'AAAA999999&amp;&amp;&amp;', 'greedy' : false"/>
+                    <field name="curp" widget="mask" data-inputmask="'mask': '&amp;', 'repeat': 18, 'greedy' : false"/>
                 </xpath> 
                 <xpath expr="//field[@name='address_home_id']" position="after">
                     <field name="personal_email"/>
@@ -70,8 +70,8 @@
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
                         <group  col="4" string="IMSS">
-                            <field name="social_security_number" />
-                            <field name="salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
+                            <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
+                            <field name="salary" readonly="1"/>
                             <field name="payment_period_id" />
                         </group>
                     </page>
@@ -134,16 +134,16 @@
                                 </header>
                                 <group col="4">
                                     <field name="infonavit_credit_number" />
-                                    <field name="credit_data" />
-                                    <field name="date" />
                                     <field name="type" />
+                                    <field name="date" />
+                                    <field name="value" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
                                 </group>
                             </form>
                             <tree>
                                 <field name="infonavit_credit_number" />
-                                <field name="credit_data" />
-                                <field name="date" />
                                 <field name="type" />
+                                <field name="value" />
+                                <field name="date" />
                                 <field name="state" />
                             </tree>
                         </field>
@@ -155,9 +155,6 @@
 							</group>
 							<group>
 								<field name="monthly_salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" />
-<!--
-								<field name="mobile_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 15, 'greedy' : false" />
--->
 								<field name="table_id" />
 							</group>
 						</group>

@@ -16,10 +16,10 @@ class hrEmployeeContract(models.TransientModel):
         help="Start date of the contract.")
     
     def generate_contract(self):
-        res = self.employee_id.generate_contracts(self.type_id,self.date_start)
+        result = self.employee_id.generate_contracts(self.type_id,self.date_start)
         return {
             'name': _('Contract'),
-            'domain': [('id','in',res)],
+            'domain': [('id','in',result)],
             'res_model': 'hr.contract',
             'type': 'ir.actions.act_window',
             'view_id': False,

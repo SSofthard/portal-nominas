@@ -58,7 +58,6 @@ class Employee(models.Model):
         ('male', 'Male'),
         ('female', 'Female'),
     ], groups="hr.group_hr_user", default="male")
-    social_security_number = fields.Char("Social Security Number", copy=False)
     salary = fields.Float("Salary", copy=False)
     payment_period_id = fields.Many2one('hr.payment.period', "Payment period")
     bank_account_ids = fields.One2many('bank.account.employee','employee_id', "Bank account", required=True)
@@ -113,17 +112,23 @@ class Employee(models.Model):
         
         return res
     
-    @api.onchange('social_security_number')
+    @api.onchange('ssnid')
     def _check_social_security_number_length(self):
-        if self.social_security_number:
-            if len(self.social_security_number) != 11:
+        if self.ssnid:
+            if len(self.ssnid) != 11:
                 raise UserError(_('The length of the social security number is incorrect'))
     
     @api.onchange('rfc')
     def _check_rfc_length(self):
         if self.rfc:
-            if len(self.rfc) not in [12,13]:
+            if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
                 raise UserError(_('RFC length is incorrect'))
+                
+    @api.onchange('curp')
+    def _check_curp_length(self):
+        if self.curp:
+            if len(self.curp) != 18:
+                raise UserError(_('CURP length is incorrect'))
     
     @api.multi
     def calculate_salary_scheme(self):
@@ -268,6 +273,7 @@ class Employee(models.Model):
                     'date_start':date,
                         }
                 list_contract.append(contract_obj.create(val).id)
+            employee.salary = employee.wage_salaries_gross
         return list_contract
         
     @api.model
@@ -352,12 +358,13 @@ class hrInfonavitCreditLine(models.Model):
     
     employee_id = fields.Many2one('hr.employee', "Employee", required=False)
     infonavit_credit_number = fields.Char("INFONAVIT Credit Number", copy=False, required=True)
-    credit_data = fields.Char("Detailed credit data", copy=False, required=False)
+    value = fields.Float("Value", copy=False, required=False)
     date = fields.Date("Date", required=True)
     type = fields.Selection([
         ('day', 'Minimum wage days'),
         ('percentage', 'Percentage'),
-    ],default="day")
+        ('fixed_amount', 'Fixed Amount'),
+    ],default="day", required=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('active', 'Active'),
