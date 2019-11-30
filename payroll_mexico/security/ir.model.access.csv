@@ -34,3 +34,5 @@ acces_perceptions_user,Perceptions_user,model_hr_perceptions,hr.group_hr_user,1,
 acces_perceptions_manager,Perceptions_manager,model_hr_perceptions,base.group_erp_manager,1,1,1,1
 acces_type_perceptions_user,Type_Perceptions_user,model_hr_type_perceptions,hr.group_hr_user,1,1,1,0
 acces_type_perceptions_manager,Type_Perceptions_manager,model_hr_type_perceptions,base.group_erp_manager,1,1,1,1
+acces_perceptions_wizard_user,Perceptions_wizard_user,model_hr_perceptions_wizard,hr.group_hr_user,1,1,1,0
+acces_perceptions_wizard_manager,Perceptions_wizard_manager,model_hr_perceptions_wizard,base.group_erp_manager,1,1,1,1

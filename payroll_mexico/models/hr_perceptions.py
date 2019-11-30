@@ -4,6 +4,7 @@ from datetime import datetime
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from odoo.osv import expression
 
 
 class HrPerceptions(models.Model):
@@ -32,10 +33,36 @@ class HrPerceptions(models.Model):
 
 class HrPerceptions(models.Model):
     _name = 'hr.type.perceptions'
-    _rec_name = 'code'
     
     name = fields.Char('Description')
+    prefix = fields.Char('Prefix')
     code = fields.Char('Code', required=True)
     perception_type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Perceptions or Deductions')
+    
+    @api.onchange('perception_type')
+    def onchange_perception_type(self):
+        for record in self:
+            if record.perception_type == 'perception':
+                record.prefix = 'P'
+            if record.perception_type == 'deductions':
+                record.prefix = 'D'
+                
+    @api.onchange('pre','code')
+    def onchange_code(self):
+        for record in self:
+            if record.prefix:
+                record.code = record.prefix + record.code
+            
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = [('code', operator, name)]
+        code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(code).name_get()
+
+    _sql_constraints = [
+        ('code','UNIQUE (prefix,code)', 'The code must be unique.')]

@@ -10,6 +10,7 @@
     "depends": ['base','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry'],
     "data": [
         'wizard/hr_employee_contract_wizard.xml',
+        'wizard/hr_perceptions.xml',
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
         'views/hr_contract_type.xml',
@@ -28,7 +29,7 @@
         'data/sequence_data.xml',
         'data/data_table_cfdi.xml',
         'data/res.bank.csv',
-        'data/hr_perceptions.xml',
+        'data/data_hr_perceptions.xml',
         
     ],
     "active": True,
