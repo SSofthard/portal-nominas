@@ -35,6 +35,15 @@ class Employee(models.Model):
         for employee in self:
             if employee.birthday:
                 employee.age = calculate_age(employee.birthday)
+                
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|',('enrollment', operator, name),('name', operator, name)]
+        enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(enrollment).name_get()
     
     
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('New'))
@@ -275,14 +284,6 @@ class Employee(models.Model):
             employee.salary = employee.wage_salaries_gross
         return list_contract
         
-    @api.model
-    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
-        args = args or []
-        domain = []
-        if name:
-            domain = [('enrollment', operator, name)]
-        enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
-        return self.browse(enrollment).name_get()
     
 class paymentPeriod(models.Model):
     _name = "hr.payment.period"
