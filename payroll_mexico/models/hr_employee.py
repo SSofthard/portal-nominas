@@ -65,7 +65,6 @@ class Employee(models.Model):
     family_ids = fields.One2many('hr.family.burden','employee_id', "Family")
     age = fields.Integer("Age", compute='calculate_age_compute')
     infonavit_ids = fields.One2many('hr.infonavit.credit.line','employee_id', "INFONAVIT credit")
-    company_ids = fields.One2many('hr.company.line','employee_id', "Companies")
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
     real_salary = fields.Float("Real Salary", copy=False)
     gross_salary = fields.Float("Gross Salary", copy=False)
@@ -385,17 +384,6 @@ class hrInfonavitCreditLine(models.Model):
         for credit in self:
             credit.state = 'closed'
             
-class hrCompanyLIne(models.Model):
-    _name = "hr.company.line"
-    
-    employee_id = fields.Many2one('hr.employee', "Employee", required=False)
-    company_id = fields.Many2one('res.company', "Company", required=False)
-    wage = fields.Float("Wage", copy=False, required=True)
-    hiring_regime_id = fields.Many2one('hr.worker.hiring.regime', "Hiring Regime", required=True, readonly=True)
-    
-    
-    
-    
     
     
 class hrWorkerHiringRegime(models.Model):
@@ -403,8 +391,6 @@ class hrWorkerHiringRegime(models.Model):
     
     name = fields.Char("Name", copy=False, required=True)
     code = fields.Char("code", copy=False, required=True)
-    
-    
     
 
 class Country(models.Model):
