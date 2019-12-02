@@ -131,7 +131,7 @@
                             </group>
                         </group>
              </page>
-             <page name="utilidades" string="Reparto de utilidades" invisible="1"[>
+             <page name="utilidades" string="Reparto de utilidades" invisible="1">
                     <group string="Configuración" cols="4">
                          <field name="importe_utilidades"/>
                          <field name="dias_min_trabajados"/>
