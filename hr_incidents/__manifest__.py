@@ -10,6 +10,7 @@
             'report/hr_incidents_report.xml',
             'wizards/wizard_hr_incidents.xml',
             'views/hr_incidents.xml',
+            'data/incidents_data.xml',
             
     ],
 }

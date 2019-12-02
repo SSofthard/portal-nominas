@@ -21,6 +21,18 @@
                 </xpath>
             </field>
         </record>
+        
+        <record id="hr_mployee_inherit_search" model="ir.ui.view">
+            <field name="name">hr.employee.inherit.search</field>
+            <field name="model">hr.employee</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='group_company']" position="before">
+                    <filter name="group" string="Group" domain="[]" context="{'group_by':'group_id'}"/>
+                </xpath>
+            </field>
+        </record>
             
         <record model="ir.ui.view" id="hr_employee_inherit_form">
             <field name="name">hr_employee_inherit</field>
@@ -67,6 +79,9 @@
                 <field name="company_id" position="replace"/>
                 <field name="children" position="replace"/>
                 <field name="google_drive_link" position="replace"/>
+                <xpath expr="//field[@name='coach_id']" position="attributes">
+					<attribute name="invisible">True</attribute>
+                </xpath>
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
                         <group  col="4" string="IMSS">
@@ -104,7 +119,7 @@
                     <page name="family" string="Family" groups="hr.group_hr_user">
 						<group>
 							<group col="4">
-								<field name="children" />
+								<field name="children" widget="mask" data-inputmask="'mask': '9', 'repeat': 2, 'greedy' : false"/>
 							</group>
 						</group>
                         <field name="family_ids">
@@ -180,19 +195,38 @@
                 </xpath>
             </field>
         </record>
-        <record model="ir.ui.view" id="hr_hr_employee_view_form2_inherit_form">
-            <field name="name">hr_employee_inherit</field>
+        
+        <record id="hr_contract.hr_hr_employee_view_form2" model="ir.ui.view">
+            <field name="name">hr.hr.employee.view.form2</field>
             <field name="model">hr.employee</field>
-            <field name="priority">6</field>
-            <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='bank_account_id']" position="attributes">
-					<attribute name="invisible">True</attribute>
-                </xpath>
-
+                <data>
+                    <xpath expr="//button[@name='toggle_active']" position="before">
+                        <button name="%(hr_contract.act_hr_employee_2_hr_contract)d"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            type="action"
+                            groups="hr.group_hr_manager">
+                            <field name="contracts_count" widget="statinfo" string="Contracts"/>
+                        </button>
+                    </xpath>
+                    <xpath expr="//field[@name='coach_id']" position="after">
+                        <field name="manager" groups="base.group_no_one"/>
+                    </xpath>
+                    <xpath expr="//group[@name='active_group']" position="after">
+                        <group string="Current Contract" invisible="1">
+                            <field name="medic_exam" string="Medical Exam"/>
+                            <field name="vehicle"/>
+                        </group>
+                    </xpath>
+                    <xpath expr="//field[@name='bank_account_id']" position="replace">
+                        <field name="bank_account_id" invisible="1" context="{'display_partner':True}"/>
+                    </xpath>
+                </data>
             </field>
         </record>
-        
+                
         <record model="ir.ui.view" id="view_res_bank_inherit_form">
             <field name="name">res_bank_inherit</field>
             <field name="model">res.bank</field>
