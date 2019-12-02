@@ -46,7 +46,7 @@ class Employee(models.Model):
         return self.browse(enrollment).name_get()
     
     
-    enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('New'))
+    enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
     title = fields.Many2one('res.partner.title','Title')
     rfc = fields.Char("RFC", copy=False)
     curp = fields.Char("CURP", copy=False)
@@ -79,7 +79,8 @@ class Employee(models.Model):
     gross_salary = fields.Float("Gross Salary", copy=False)
     table_id = fields.Many2one('tablas.cfdi','Table CFDI')
     
-    
+    address_id = fields.Many2one(required=True)
+    department_id = fields.Many2one(required=True)
     
     type_salary = fields.Selection([
         ('gross', 'Gross'),
@@ -109,8 +110,8 @@ class Employee(models.Model):
     
     @api.model
     def create(self, vals):
-        if vals.get('enrollment', _('New')) == _('New'):
-            vals['enrollment'] = self.env['ir.sequence'].next_by_code('Employee') or _('New')
+        if vals.get('enrollment', _('/')) == _('/'):
+            vals['enrollment'] = self.env['ir.sequence'].next_by_code('Employee') or _('/')
         res = super(Employee, self).create(vals)
         name = res.group_id.name[0:3].upper()
         if res.department_id:
