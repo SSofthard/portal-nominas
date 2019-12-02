@@ -21,6 +21,18 @@
                 </xpath>
             </field>
         </record>
+        
+        <record id="hr_mployee_inherit_search" model="ir.ui.view">
+            <field name="name">hr.employee.inherit.search</field>
+            <field name="model">hr.employee</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='group_company']" position="before">
+                    <filter name="group" string="Group" domain="[]" context="{'group_by':'group_id'}"/>
+                </xpath>
+            </field>
+        </record>
             
         <record model="ir.ui.view" id="hr_employee_inherit_form">
             <field name="name">hr_employee_inherit</field>
