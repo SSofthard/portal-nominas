@@ -19,11 +19,6 @@
         type contract
 -->
    
-<!--
-    <delete model="hr.contract.type" id="hr_contract.hr_contract_type_emp" />
-    <delete model="hr.contract.type" id="hr_contract.hr_contract_type_wrkr" />
-    <delete model="hr.contract.type" id="hr_contract.hr_contract_type_sub" />
--->
     
     <record id="hr_contract_type_indeterminate_with_seniority" model="hr.contract.type">
         <field name="name">Tiempo Indeterminado</field>
@@ -46,7 +41,7 @@
     <record id="hr_contract_type_determinate_without_seniority" model="hr.contract.type">
         <field name="name">Tiempo Determinado</field>
          <field name="type">without_seniority</field>
-         <field name="report_id" ref="payroll_mexico.report_contract_without_seniority"/>
+         <field name="report_id" ref="payroll_mexico.report_determinate_contract_without_seniority"/>
         <field name="sequence">15</field>
     </record>
     <record id="hr_contract_type_proyect" model="hr.contract.type">

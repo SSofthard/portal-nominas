@@ -17,7 +17,6 @@ access_company_power_attorney_manager,Company power attorney,model_company_power
 access_company_power_attorney_user,Company power attorney,model_company_power_attorney,,1,0,0,0
 access_res_company_fiel_csd_manager,Company FIELD & CSD,model_res_company_fiel_csd,base.group_erp_manager,1,1,1,1
 access_res_company_fiel_csd_user,Company FIELD & CSD,model_res_company_fiel_csd,,0,0,0,0
-access_hr_company_line_user,Company line employee,model_hr_company_line,hr.group_hr_user,1,1,1,1
 access_hr_worker_hiring_regime_user,Worker hiring regime,model_hr_worker_hiring_regime,hr.group_hr_user,1,1,1,0
 access_hr_worker_hiring_regime_manager,Worker hiring regime manager,model_hr_worker_hiring_regime,hr.group_hr_manager,1,1,1,1
 access_tablas_cfdi,tablas_cfdi,model_tablas_cfdi,hr.group_hr_user,1,1,1,1
@@ -30,9 +29,5 @@ access_tablas_cfdi9,tablas_cfdi9,model_tablas_periodo_bimestral,hr.group_hr_user
 access_tablas_cfdi10,tablas_cfdi10,model_tablas_periodo_mensual,hr.group_hr_user,1,1,1,1
 access_tablas_cfdi12,tablas_cfdi12,model_tablas_isr_anual,hr.group_hr_user,1,1,1,1
 access_tablas_cfdi14,tablas_cfdi14,model_tablas_periodo_semanal,hr.group_hr_user,1,1,1,1
-acces_perceptions_user,Perceptions_user,model_hr_perceptions,hr.group_hr_user,1,1,1,0
-acces_perceptions_manager,Perceptions_manager,model_hr_perceptions,base.group_erp_manager,1,1,1,1
-acces_type_perceptions_user,Type_Perceptions_user,model_hr_type_perceptions,hr.group_hr_user,1,1,1,0
-acces_type_perceptions_manager,Type_Perceptions_manager,model_hr_type_perceptions,base.group_erp_manager,1,1,1,1
-acces_perceptions_wizard_user,Perceptions_wizard_user,model_hr_perceptions_wizard,hr.group_hr_user,1,1,1,0
-acces_perceptions_wizard_manager,Perceptions_wizard_manager,model_hr_perceptions_wizard,base.group_erp_manager,1,1,1,1
+acces_inputs_user,Inputs_user,model_hr_inputs,hr_payroll.group_hr_payroll_user,1,1,1,0
+acces_inuts_manager,Inputs_user,model_hr_inputs,hr_payroll.group_hr_payroll_manager,1,1,1,1

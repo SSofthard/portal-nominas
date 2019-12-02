@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        
+        <record model="ir.ui.view" id="view_hr_salary_rule_inherit_form">
+            <field name="name">hr_salary_rule_inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field/tree/field[@name='code']" position="after">
+                    <field name="type"/>
+                </xpath> 
+            </field>
+        </record>
+        
+        <record id="view_hr_inputs_form" model="ir.ui.view">
+            <field name="name">hr.inputs.form</field>
+            <field name="model">hr.inputs</field>
+            <field name="arch" type="xml">
+                <form string="Inputs">
+                      <header>
+                        <field name="state" widget="statusbar" statusbar_visible="approve,paid"/>
+                      </header>
+                      <sheet>
+                          <group>
+                              <group>
+                                  <field name="employee_id"/>
+                                  <field name="group_id"/>
+                                  <field name="type"/>
+                              </group>
+                              <group>
+                                  <field name="input_id" domain="[('type','=',context.get('type_input'))]" options='{"no_create": True}'/>
+                                  <field name="amount" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
+                              </group>
+                          </group>
+                      </sheet>
+                </form>
+             </field>
+        </record>
+        
+        <record id="view_hr_inputs_tree" model="ir.ui.view">
+            <field name="name">hr.inputs.tree</field>
+            <field name="model">hr.inputs</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id"/>
+                    <field name="input_id"/>
+                    <field name="amount"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_inputs_filter" model="ir.ui.view">
+            <field name="name">hr.inputs.filter</field>
+            <field name="model">hr.inputs</field>
+            <field name="arch" type="xml">
+                <search >
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_type_perceptions" string="Type" context="{'group_by':'input_id'}"/>
+                        <filter name="group_by_type_perceptions" string="Group" context="{'group_by':'group_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    
+        <record id="view_hr_inputs_pivot" model="ir.ui.view">
+            <field name="name">hr.inputs.pivot</field>
+            <field name="model">hr.inputs</field>
+            <field name="arch" type="xml">
+                <pivot string="Inputs">
+                    <field name="employee_id" type="row"/>
+                    <field name="amount" type="measure"/>
+                    <field name="input_id" type="col"/>
+                </pivot>
+            </field>
+        </record>
+    
+        <record id="view_hr_inputs_perceptions_action" model="ir.actions.act_window">
+            <field name="name">Inputs Perceptions</field>
+            <field name="res_model">hr.inputs</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,pivot,form</field>
+            <field name="domain">[('type', '=', 'perception')]</field>
+            <field name="context">{'type_input': 'perception'}</field>
+        </record>
+        
+        <record id="view_hr_inputs_deductions_action" model="ir.actions.act_window">
+            <field name="name">Deductions</field>
+            <field name="res_model">hr.inputs</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,pivot,form</field>
+            <field name="domain">[('type', '=', 'deductions')]</field>
+            <field name="context">{'type_input': 'deductions'}</field>
+        </record>
+        
+        <menuitem
+            name="Inputs"
+            id="menu_hr_inputs"
+            parent="hr_payroll.menu_hr_payroll_root" sequence="10"/>
+        
+        <menuitem
+            name="Perceptions"
+            id="menu_hr_perception"
+            action="view_hr_inputs_perceptions_action"
+            parent="menu_hr_inputs" sequence="10"/>
+        
+        <menuitem
+            name="Deductions"
+            id="menu_hr_deductions"
+            action="view_hr_inputs_deductions_action"
+            parent="menu_hr_inputs" sequence="20"/>
+    </data>
+</odoo>

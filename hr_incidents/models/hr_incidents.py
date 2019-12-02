@@ -18,6 +18,28 @@ class HolidaysType(models.Model):
     _inherit = "hr.leave.type"
     
     code = fields.Char('Code', required=True)
+    color_name = fields.Selection([
+        ('red', 'Red'),
+        ('blue', 'Blue'),
+        ('lightgreen', 'Light Green'),
+        ('lightblue', 'Light Blue'),
+        ('lightyellow', 'Light Yellow'),
+        ('magenta', 'Magenta'),
+        ('lightcyan', 'Light Cyan'),
+        ('black', 'Black'),
+        ('lightpink', 'Light Pink'),
+        ('brown', 'Brown'),
+        ('violet', 'Violet'),
+        ('lightcoral', 'Light Coral'),
+        ('lightsalmon', 'Light Salmon'),
+        ('lavender', 'Lavender'),
+        ('wheat', 'Wheat'),
+        ('ivory', 'Ivory'),
+        ('orange', 'Orange'),
+        ('golden', 'Golden'),
+        ('fuchsia', 'Fuchsia'),
+        ], string='Color in Report', required=True, default='red',
+        help='This color will be used in the leaves summary located in Reporting > Leaves by Department.')
 
     _sql_constraints = [('code_unique', 'unique(Code)', "the code must be unique")]
     
