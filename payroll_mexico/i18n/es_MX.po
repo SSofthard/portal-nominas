@@ -2309,7 +2309,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.actions.report,name:payroll_mexico.report_independent_services_pa
 msgid "Independent Services Provision Agreement"
-msgstr ""
+msgstr "Contrato de prestación de servicios independientes"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
@@ -2327,12 +2327,12 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.actions.report,name:payroll_mexico.report_indeterminate_contract_with_seniority2
 msgid "Indeterminate Contract With Seniority"
-msgstr ""
+msgstr "Contrato a tiempo indeterminado con antigüedad"
 
 #. module: payroll_mexico
 #: model:ir.actions.report,name:payroll_mexico.report_contract_without_seniority
 msgid "Indeterminate Contract Without Seniority"
-msgstr ""
+msgstr "Contrato a tiempo indeterminado sin antigüedad"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -3437,7 +3437,7 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:hr.contract,contracting_regime:0
 msgid "Senior citizens"
-msgstr "Personas mayores"
+msgstr "Jubilados"
 
 #. module: payroll_mexico
 #: selection:tablas.periodo.mensual,mes:0
@@ -3981,7 +3981,7 @@ msgstr "Dirección de trabajo"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__write_number
 msgid "Write Number"
-msgstr "Escribir número"
+msgstr "Número de escritura"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_employee.py:243
