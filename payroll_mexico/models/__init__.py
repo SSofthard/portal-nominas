@@ -19,3 +19,4 @@ from . import hr_payslip
 from . import hr_company
 from . import table_cfdi
 from . import tool_convert_numbers_letters
+from . import hr_holidays
