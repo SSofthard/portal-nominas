@@ -1,6 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
     <data>
+		
+		<record id="hr_employee_view_form_inherit_mexico_expense" model="ir.ui.view">
+            <field name="name">hr.employee.view.form.expense</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_expense.hr_employee_view_form_inherit_expense"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='timesheet']" position="replace">
+                </xpath>
+            </field>
+        </record>
 
         <record id="hr_search_expense_inherit" model="ir.ui.view">
             <field name="name">hr.expense.search.inherit</field>

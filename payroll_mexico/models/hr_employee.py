@@ -35,9 +35,18 @@ class Employee(models.Model):
         for employee in self:
             if employee.birthday:
                 employee.age = calculate_age(employee.birthday)
+                
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|',('enrollment', operator, name),('name', operator, name)]
+        enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(enrollment).name_get()
     
     
-    enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('New'))
+    enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
     title = fields.Many2one('res.partner.title','Title')
     rfc = fields.Char("RFC", copy=False)
     curp = fields.Char("CURP", copy=False)
@@ -65,13 +74,13 @@ class Employee(models.Model):
     family_ids = fields.One2many('hr.family.burden','employee_id', "Family")
     age = fields.Integer("Age", compute='calculate_age_compute')
     infonavit_ids = fields.One2many('hr.infonavit.credit.line','employee_id', "INFONAVIT credit")
-    company_ids = fields.One2many('hr.company.line','employee_id', "Companies")
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
     real_salary = fields.Float("Real Salary", copy=False)
     gross_salary = fields.Float("Gross Salary", copy=False)
     table_id = fields.Many2one('tablas.cfdi','Table CFDI')
     
-    
+    address_id = fields.Many2one(required=True)
+    department_id = fields.Many2one(required=True)
     
     type_salary = fields.Selection([
         ('gross', 'Gross'),
@@ -101,8 +110,8 @@ class Employee(models.Model):
     
     @api.model
     def create(self, vals):
-        if vals.get('enrollment', _('New')) == _('New'):
-            vals['enrollment'] = self.env['ir.sequence'].next_by_code('Employee') or _('New')
+        if vals.get('enrollment', _('/')) == _('/'):
+            vals['enrollment'] = self.env['ir.sequence'].next_by_code('Employee') or _('/')
         res = super(Employee, self).create(vals)
         name = res.group_id.name[0:3].upper()
         if res.department_id:
@@ -276,14 +285,6 @@ class Employee(models.Model):
             employee.salary = employee.wage_salaries_gross
         return list_contract
         
-    @api.model
-    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
-        args = args or []
-        domain = []
-        if name:
-            domain = [('enrollment', operator, name)]
-        enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
-        return self.browse(enrollment).name_get()
     
 class paymentPeriod(models.Model):
     _name = "hr.payment.period"
@@ -385,17 +386,6 @@ class hrInfonavitCreditLine(models.Model):
         for credit in self:
             credit.state = 'closed'
             
-class hrCompanyLIne(models.Model):
-    _name = "hr.company.line"
-    
-    employee_id = fields.Many2one('hr.employee', "Employee", required=False)
-    company_id = fields.Many2one('res.company', "Company", required=False)
-    wage = fields.Float("Wage", copy=False, required=True)
-    hiring_regime_id = fields.Many2one('hr.worker.hiring.regime', "Hiring Regime", required=True, readonly=True)
-    
-    
-    
-    
     
     
 class hrWorkerHiringRegime(models.Model):
@@ -403,8 +393,6 @@ class hrWorkerHiringRegime(models.Model):
     
     name = fields.Char("Name", copy=False, required=True)
     code = fields.Char("code", copy=False, required=True)
-    
-    
     
 
 class Country(models.Model):

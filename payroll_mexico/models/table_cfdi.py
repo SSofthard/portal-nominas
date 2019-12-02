@@ -17,20 +17,24 @@ class TablasAntiguedadesLine(models.Model):
 
 class TablasGeneralLine(models.Model):
     _name = 'tablas.general.line'
+    _order = 'sequence'
 
     form_id = fields.Many2one('tablas.cfdi', string='ISR Mensual Art. 113 LISR', required=True)
     lim_inf = fields.Float('Límite inferior')
     lim_sup = fields.Float('Límite superior')
     c_fija = fields.Float('Cuota fija') 
     s_excedente = fields.Float('Sobre excedente (%)', digits=dp.get_precision('Excess') )
+    sequence = fields.Integer('Sequence')
 
 class TablasSubsidiolLine(models.Model):
     _name = 'tablas.subsidio.line'
+    _order = 'sequence'
 
     form_id = fields.Many2one('tablas.cfdi', string='Subem mensual/CAS Mensual', required=True)
     lim_inf = fields.Float('Límite inferior')
     lim_sup = fields.Float('Límite superior')
     s_mensual = fields.Float('Subsidio mensual')
+    sequence = fields.Integer('Sequence')
 
 class TablasSubsidio2lLine(models.Model):
     _name = 'tablas.subsidio2.line'

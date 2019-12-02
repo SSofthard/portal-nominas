@@ -23,6 +23,7 @@
                                 <field name="lim_sup"/>
                                 <field name="c_fija"/>
                                 <field name="s_excedente"/>
+                                <field name="sequence" widget="handle"/>
                             </tree>
                         </field>
                         <field name="tabla_subem" string="Subem mensual/CAS Mensual">
@@ -30,6 +31,7 @@
                                 <field name="lim_inf"/>
                                 <field name="lim_sup"/>
                                 <field name="s_mensual"/>
+                                <field name="sequence" widget="handle"/>
                             </tree>
                         </field>
                         <field name="tabla_ISR_anual" string="ISR Anual">
