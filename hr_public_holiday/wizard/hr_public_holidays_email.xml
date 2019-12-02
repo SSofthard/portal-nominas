@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+         <record id="view_hr_public_holidays_email" model="ir.ui.view">
+            <field name="name">view.hr.public.holidays.email</field>
+            <field name="model">hr.public.holidays.email</field>
+            <field name="priority">5</field>
+            <field name="arch" type="xml">
+                <form string="Send e-mail the Public Holidays">
+                    <group>
+                        <field name="employee_ids"/>
+                    </group>
+                <footer>
+                    <button name="send_mail" string="Send" type="object" default_focus="1" class="oe_highlight"/>
+                    or 
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer> 
+               </form>
+            </field>
+        </record>
+        
+        <act_window
+            id="action_hr_public_holidays_email"
+            name="Send e-mail the Public Holidays"
+            res_model="hr.public.holidays.email"
+            src_model="hr.public.holidays"
+            view_mode="form"
+            multi="True"
+            target="new"
+           />
+
+
+</odoo>
