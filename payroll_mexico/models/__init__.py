@@ -18,4 +18,5 @@ from . import hr_contract_type
 from . import hr_payslip
 from . import hr_company
 from . import table_cfdi
+from . import res_config_settings
 from . import tool_convert_numbers_letters
