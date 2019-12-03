@@ -100,7 +100,7 @@ class HolidaysRequest(models.Model):
 
         dates = {}
         calendar = employee_id.resource_calendar_id or self.env.user.company_id.resource_calendar_id
-        request_date_from = datetime.strptime(request_date_from, DEFAULT_SERVER_DATE_FORMAT)
+        request_date_from = datetime.strptime(fields.Date.from_string(request_date_from).strftime(DEFAULT_SERVER_DATE_FORMAT), DEFAULT_SERVER_DATE_FORMAT)
         tz = self.env.user.tz if self.env.user.tz and not self.request_unit_custom else 'UTC'  # custom -> already in UTC
         
         domain = [('calendar_id', '=', calendar.id or self.env.user.company_id.resource_calendar_id.id)]

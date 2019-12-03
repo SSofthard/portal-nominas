@@ -91,7 +91,7 @@
                     <attribute name="attrs">{'readonly':[('state','=','closed')]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='payment_mode']" position="replace">
-                    <field name="payment_mode" invisible="0"/>
+                    <field name="payment_mode" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='expense_line_ids']/tree/field[@name='total_amount']" position="before">
                     <field name="state"/>
@@ -195,6 +195,22 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="action_hr_expense_sheet_all_sheets" model="ir.actions.act_window">
+            <field name="name">Informes de Viaticos</field>
+            <field name="res_model">hr.expense.sheet</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
+            <field name="search_view_id" ref="hr_expense.view_hr_expense_sheet_filter"/>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_empty_folder">
+                No expense reports to approve
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="hr_expense.menu_hr_expense_sheet_all_to_approve" name="Todos los informes de viaticos" sequence="1" parent="hr_expense.menu_hr_expense_report"
+            action="action_hr_expense_sheet_all_sheets"/>
 
 
 
