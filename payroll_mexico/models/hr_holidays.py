@@ -27,16 +27,15 @@ class Holidays(models.Model):
             cfdi_record = self.env['tablas.antiguedades.line'].search(
                 [('form_id', '=', self.holiday_status_id.cfdi_rule_id.id),
                  ('antiguedad', '=', contract.years_antiquity)])
+            print (cfdi_record)
             amount_bonus = ((contract.wage/30)*self.number_of_days_display) * cfdi_record.prima_vac / 100
             prorate_lines.append({'contract_id': contract.id,
                                   'holidays_bonus': amount_bonus,
                                   'leave_id': self.id
                                   })
             amount_total +=amount_bonus
-        print (prorate_lines)
-        print (prorate_lines)
-        print (prorate_lines)
-        self.prorate_lines = prorate_lines
+        print ([(0,0,line) for line in prorate_lines])
+        self.prorate_lines = [(0,0,line) for line in prorate_lines]
         self.holidays_bonus = amount_total
 
     #Columns
@@ -87,4 +86,5 @@ class HrHolidaysProrate(models.Model):
     #Columns
     contract_id = fields.Many2one(comodel_name='hr.contract', string='Contrato')
     holidays_bonus = fields.Float(string='Amount')
+    input_id = fields.Many2one(comodel_name='hr.rule.input', string='Input')
     leave_id = fields.Many2one(comodel_name='hr.leave', string='Holidays Form')

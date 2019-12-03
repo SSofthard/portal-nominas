@@ -102,6 +102,7 @@
                                     <tree>
                                         <field name="contract_id"/>
                                         <field name="holidays_bonus"/>
+                                        <field name="input_id"/>
                                     </tree>
                                 </field>
                                 <field name="holidays_bonus" invisible="0"/>

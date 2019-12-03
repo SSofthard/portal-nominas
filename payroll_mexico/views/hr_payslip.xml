@@ -112,5 +112,32 @@
             id="menu_hr_deductions"
             action="view_hr_inputs_deductions_action"
             parent="menu_hr_inputs" sequence="20"/>
+            
+            
+        <record id="hr_payslip_inherit" model="ir.ui.view">
+            <field name="name">hr.payslip.inherit.view</field>
+            <field name="model">hr.payslip</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='contract_id']" position="attributes">
+					<attribute name="domain">[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False),('state','in',['open'])]</attribute>
+                </xpath>
+            </field>
+        </record>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
     </data>
 </odoo>
