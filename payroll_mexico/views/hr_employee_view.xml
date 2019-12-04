@@ -70,11 +70,8 @@
                 <xpath expr="//field[@name='work_phone']" position="replace">
                     <field name="work_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                 </xpath>
-                <xpath expr="//field[@name='emergency_contact']" position="replace">
-                    <field name="emergency_contact" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
-                </xpath>
                 <xpath expr="//field[@name='emergency_phone']" position="replace">
-                    <field name="emergency_contact" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                    <field name="emergency_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                 </xpath>
                 <field name="company_id" position="replace"/>
                 <field name="children" position="replace"/>
