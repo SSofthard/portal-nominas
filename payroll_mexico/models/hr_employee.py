@@ -366,7 +366,7 @@ class hrInfonavitCreditLine(models.Model):
     value = fields.Float("Value", copy=False, required=False)
     date = fields.Date("Date", required=True)
     type = fields.Selection([
-        ('day', 'Minimum wage days'),
+        ('umas', 'UMAS'),
         ('percentage', 'Percentage'),
         ('fixed_amount', 'Fixed Amount'),
     ],default="day", required=True)
