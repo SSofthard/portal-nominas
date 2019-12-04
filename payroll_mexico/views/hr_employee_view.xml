@@ -41,9 +41,10 @@
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='name']" position="after">
-                    <field name="enrollment" placeholder="Enrollment"/>
-                    <field name="last_name" />
-                    <field name="mothers_last_name" />
+                    <div>
+                        <field name="last_name" />
+                        <field name="mothers_last_name" />
+                    </div>
                 </xpath> 
                 <xpath expr="//field[@name='birthday']" position="after">
                     <field name="age"/>
@@ -59,6 +60,7 @@
                     <field name="personal_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                 </xpath>
                 <xpath expr="//field[@name='department_id']" position="before">
+                     <field name="enrollment" placeholder="Enrollment"/>
                     <field name="group_id"/>
                 </xpath>
                 <xpath expr="//group[@name='work_permit']" position="after">
