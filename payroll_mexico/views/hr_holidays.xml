@@ -10,15 +10,18 @@
                     <field name="can_reset" invisible="1"/>
                     <field name="can_approve" invisible="1"/>
                     <header>
+                        <button string="Confirm" name="action_validate" type="object" class="oe_highlight" states="draft,confirm"/>
                         <button string="Confirm" name="button_confirm" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,validate"/>
                     </header>
                     <sheet>
                         <field name="leave_type_request_unit" invisible="1"/>
+                        <div class="alert alert-info">
+                            <strong><center><field name="remaining_days" nolabel="True"/></center></strong>
+                        </div>
                         <group>
                             <group>
-                                <field name="holiday_status_id" domain="[('time_type','=','holidays')]" context="{'employee_id':employee_id, 'default_date_from':date_from}" options="{'no_create': True, 'no_open': True}"/>
-
+                                <field name="holiday_status_id"/>
                                 <field name="number_of_days" invisible="1"/>
                                 <label for="number_of_days_display" string="Duration"/>
                                 <div>
@@ -98,11 +101,11 @@
                             <group name="col_right">
                                 <field name="employee_id" invisible="0"/>
                                 <field name="department_id" groups="hr_holidays.group_hr_holidays_user" invisible="0"/>
-                                <field name="prorate_lines" invisible="0">
+                                <field name="prorate_lines" invisible="0" readonly="False">
                                     <tree>
                                         <field name="contract_id"/>
                                         <field name="holidays_bonus"/>
-                                        <field name="input_id"/>
+                                        <field name="input_id" readonly="False"/>
                                     </tree>
                                 </field>
                                 <field name="holidays_bonus" invisible="0"/>
@@ -156,7 +159,7 @@
             <field name="res_model">hr.leave</field>
             <field name="view_type">form</field>
             <field name="view_mode">calendar</field>
-            <field name="context">{'search_default_year': 1, 'search_default_group_employee': 1}</field>
+            <field name="context">{'search_default_year': 1, 'search_default_group_employee': 1, 'no_show_remaining':True}</field>
             <field name="domain">[('holiday_type','=','employee'), ('state', '!=', 'refuse')]</field>
             <field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter"/>
          </record>
