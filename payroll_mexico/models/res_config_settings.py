@@ -9,7 +9,7 @@ class ResConfigSettings(models.TransientModel):
 
     tables_id = fields.Many2one(
         'tablas.cfdi', 'Tables',
-        related='company_id.tables_id', readonly=False)
+        readonly=False)
 
 class Company(models.Model):
     _inherit = 'res.company'
