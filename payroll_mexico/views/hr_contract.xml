@@ -25,6 +25,7 @@
                 </xpath>
                 <xpath expr="//field[@name='trial_date_end']" position="before">
                     <field name="previous_contract_date" attrs="{'invisible': [('type_contract', '!=','with_seniority')],'required': [('type_contract', '=','with_seniority')]}"/>
+                    <field name="years_antiquity"/>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="attributes">
 					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
