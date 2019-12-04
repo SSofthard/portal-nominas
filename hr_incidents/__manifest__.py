@@ -3,12 +3,13 @@
 {
     "name" : "Incidents",
     "author": "Soluciones SoftHard",
-    "category": "Hr",
+    "category": "Employees",
     "website" : "http://www.solucionesofthard.com",
-    "depends": ['web','hr','hr_holidays'],
+    "depends": ['web','hr','hr_holidays','payroll_mexico'],
     "data": [ 
             'report/hr_incidents_report.xml',
-            'wizards/wizard_hr_incidents.xml',
+            'wizard/wizard_hr_incidents.xml',
+            'wizard/hr_incidents_import_view.xml',
             'views/hr_incidents.xml',
             'data/incidents_data.xml',
             

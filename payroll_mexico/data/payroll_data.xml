@@ -13,8 +13,10 @@
 -->
 		
         <record id="hr_salary_rule_P001" model="hr.salary.rule">
-            <field name="name">Sueldos, Salarios Rayas y Jornales</field>
+            <field name="name">SUELDO</field>
             <field name="code">P001</field>
+            <field name="type">perception</field>
+            <field name="type_perception">001</field>
             <field name="sequence">5</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -28,8 +30,10 @@
         </record>
         
         <record id="hr_salary_rule_P002" model="hr.salary.rule">
-            <field name="name">Gratificación Anual (Aguinaldo)</field>
+            <field name="name">COMISIONES</field>
             <field name="code">P002</field>
+            <field name="type">perception</field>
+            <field name="type_perception">028</field>
             <field name="sequence">10</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -41,15 +45,17 @@
             <field name="amount_python_compute">result=inputs.P002.amount</field>
         </record>
         <record id="rule_input_P002" model="hr.rule.input">
-            <field name="name">Gratificación Anual (Aguinaldo)</field>
+            <field name="name">COMISIONES</field>
             <field name="code">P002</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P002"/>
         </record>
         
         <record id="hr_salary_rule_P003" model="hr.salary.rule">
-            <field name="name">Participación de los Trabajadores en las Utilidades PTU</field>
+            <field name="name">HORAS EXTRAS DOBLES</field>
             <field name="code">P003</field>
+            <field name="type">perception</field>
+            <field name="type_perception">019</field>
             <field name="sequence">15</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -61,15 +67,17 @@
             <field name="amount_python_compute">result=inputs.P003.amount</field>
         </record>
         <record id="rule_input_P003" model="hr.rule.input">
-            <field name="name">Participación de los Trabajadores en las Utilidades PTU</field>
+            <field name="name">HORAS EXTRAS DOBLES</field>
             <field name="code">P003</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P003"/>
         </record>
         
         <record id="hr_salary_rule_P004" model="hr.salary.rule">
-            <field name="name">Reembolso de Gastos Médicos Dentales y Hospitalarios</field>
+            <field name="name">AGUINALDO</field>
             <field name="code">P004</field>
+            <field name="type">perception</field>
+            <field name="type_perception">002</field>
             <field name="sequence">20</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -81,15 +89,17 @@
             <field name="amount_python_compute">result=inputs.P004.amount</field>
         </record>
         <record id="rule_input_P004" model="hr.rule.input">
-            <field name="name">Reembolso de Gastos Médicos Dentales y Hospitalarios</field>
+            <field name="name">AGUINALDO</field>
             <field name="code">P004</field>
             <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_P003"/>
+            <field name="input_id" ref="hr_salary_rule_P004"/>
         </record>
         
         <record id="hr_salary_rule_P005" model="hr.salary.rule">
-            <field name="name">Fondo de Ahorro</field>
+            <field name="name">HORAS EXTRAS TRIPLES</field>
             <field name="code">P005</field>
+            <field name="type">perception</field>
+            <field name="type_perception">019</field>
             <field name="sequence">25</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -101,15 +111,17 @@
             <field name="amount_python_compute">result=inputs.P005.amount</field>
         </record>
         <record id="rule_input_P005" model="hr.rule.input">
-            <field name="name">Caja de ahorro</field>
+            <field name="name">HORAS EXTRAS TRIPLES</field>
             <field name="code">P005</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P005"/>
         </record>
-            
+        
         <record id="hr_salary_rule_P006" model="hr.salary.rule">
-            <field name="name">Caja de ahorro</field>
+            <field name="name">FONDO DE AHORRO PATRÓN</field>
             <field name="code">P006</field>
+            <field name="type">perception</field>
+            <field name="type_perception">005</field>
             <field name="sequence">30</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -121,15 +133,17 @@
             <field name="amount_python_compute">result=inputs.P006.amount</field>
         </record>
         <record id="rule_input_P006" model="hr.rule.input">
-            <field name="name">Caja de ahorro</field>
+            <field name="name">FONDO DE AHORRO PATRÓN</field>
             <field name="code">P006</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P006"/>
         </record>
-            
+        
         <record id="hr_salary_rule_P007" model="hr.salary.rule">
-            <field name="name">Vales</field>
+            <field name="name">PRESTAMO DEL FONDO</field>
             <field name="code">P007</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
             <field name="sequence">35</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -141,15 +155,17 @@
             <field name="amount_python_compute">result=inputs.P007.amount</field>
         </record>
         <record id="rule_input_P007" model="hr.rule.input">
-            <field name="name">Vales</field>
+            <field name="name">PRESTAMO DEL FONDO</field>
             <field name="code">P007</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P007"/>
         </record>
         
         <record id="hr_salary_rule_P008" model="hr.salary.rule">
-            <field name="name">Ayudas</field>
+            <field name="name">INTERESES DEL FONDO</field>
             <field name="code">P008</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
             <field name="sequence">40</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -161,16 +177,18 @@
             <field name="amount_python_compute">result=inputs.P008.amount</field>
         </record>
         <record id="rule_input_P008" model="hr.rule.input">
-            <field name="name">Ayudas</field>
+            <field name="name">INTERESES DEL FONDO</field>
             <field name="code">P008</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P008"/>
         </record>
         
         <record id="hr_salary_rule_P009" model="hr.salary.rule">
-            <field name="name">Contribuciones a Cargo del Trabajador Pagadas por el Patrón</field>
+            <field name="name">VACACIONES</field>
             <field name="code">P009</field>
-            <field name="sequence">40</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
+            <field name="sequence">45</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
@@ -181,16 +199,18 @@
             <field name="amount_python_compute">result=inputs.P009.amount</field>
         </record>
         <record id="rule_input_P009" model="hr.rule.input">
-            <field name="name">Contribuciones a Cargo del Trabajador Pagadas por el Patrón</field>
+            <field name="name">VACACIONES</field>
             <field name="code">P009</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P009"/>
         </record>
         
         <record id="hr_salary_rule_P010" model="hr.salary.rule">
-            <field name="name">Premios por puntualidad</field>
+            <field name="name">PRIMA VACACIONAL</field>
             <field name="code">P010</field>
-            <field name="sequence">45</field>
+            <field name="type">perception</field>
+            <field name="type_perception">021</field>
+            <field name="sequence">50</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
@@ -201,16 +221,18 @@
             <field name="amount_python_compute">result=inputs.P010.amount</field>
         </record>
         <record id="rule_input_P010" model="hr.rule.input">
-            <field name="name">Premios por puntualidad</field>
+            <field name="name">PRIMA VACACIONAL</field>
             <field name="code">P010</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P010"/>
         </record>
         
         <record id="hr_salary_rule_P011" model="hr.salary.rule">
-            <field name="name">Prima de Seguro de vida</field>
+            <field name="name">REPARTO DE UTILIDADES</field>
             <field name="code">P011</field>
-            <field name="sequence">50</field>
+            <field name="type">perception</field>
+            <field name="type_perception">003</field>
+            <field name="sequence">55</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
@@ -221,16 +243,18 @@
             <field name="amount_python_compute">result=inputs.P011.amount</field>
         </record>
         <record id="rule_input_P011" model="hr.rule.input">
-            <field name="name">Prima de Seguro de vida</field>
+            <field name="name">REPARTO DE UTILIDADES</field>
             <field name="code">P011</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P011"/>
         </record>
         
         <record id="hr_salary_rule_P012" model="hr.salary.rule">
-            <field name="name">Seguro de Gastos Medicos Mayores</field>
+            <field name="name">ALIMENTACIÓN</field>
             <field name="code">P012</field>
-            <field name="sequence">55</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
+            <field name="sequence">60</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
@@ -241,16 +265,18 @@
             <field name="amount_python_compute">result=inputs.P012.amount</field>
         </record>
         <record id="rule_input_P012" model="hr.rule.input">
-            <field name="name">Seguro de Gastos Medicos Mayores</field>
+            <field name="name">ALIMENTACIÓN</field>
             <field name="code">P012</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P012"/>
         </record>
         
         <record id="hr_salary_rule_P013" model="hr.salary.rule">
-            <field name="name">Cuotas Sindicales Pagadas por el Patrón</field>
+            <field name="name">HABITACIÓN</field>
             <field name="code">P013</field>
-            <field name="sequence">60</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
+            <field name="sequence">65</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
@@ -261,16 +287,18 @@
             <field name="amount_python_compute">result=inputs.P013.amount</field>
         </record>
         <record id="rule_input_P013" model="hr.rule.input">
-            <field name="name">Cuotas Sindicales Pagadas por el Patrón</field>
+            <field name="name">HABITACIÓN</field>
             <field name="code">P013</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P013"/>
         </record>
         
         <record id="hr_salary_rule_P014" model="hr.salary.rule">
-            <field name="name">Subsidios por incapacidad</field>
+            <field name="name">DESPENSA</field>
             <field name="code">P014</field>
-            <field name="sequence">65</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
+            <field name="sequence">70</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
@@ -281,16 +309,18 @@
             <field name="amount_python_compute">result=inputs.P014.amount</field>
         </record>
         <record id="rule_input_P014" model="hr.rule.input">
-            <field name="name">Subsidios por incapacidad</field>
+            <field name="name">DESPENSA</field>
             <field name="code">P014</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P014"/>
         </record>
         
         <record id="hr_salary_rule_P015" model="hr.salary.rule">
-            <field name="name">Becas para trabajadores y/o hijos</field>
+            <field name="name">PREMIOS DE ASISTENCIA</field>
             <field name="code">P015</field>
-            <field name="sequence">70</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
+            <field name="sequence">75</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
@@ -301,16 +331,18 @@
             <field name="amount_python_compute">result=inputs.P015.amount</field>
         </record>
         <record id="rule_input_P015" model="hr.rule.input">
-            <field name="name">Becas para trabajadores y/o hijos</field>
+            <field name="name">PREMIOS DE ASISTENCIA</field>
             <field name="code">P015</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P015"/>
         </record>
         
         <record id="hr_salary_rule_P016" model="hr.salary.rule">
-            <field name="name">Otros</field>
+            <field name="name">PREMIOS DE PUNTUALIDAD</field>
             <field name="code">P016</field>
-            <field name="sequence">70</field>
+            <field name="type">perception</field>
+            <field name="type_perception">010</field>
+            <field name="sequence">80</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
@@ -321,55 +353,17 @@
             <field name="amount_python_compute">result=inputs.P016.amount</field>
         </record>
         <record id="rule_input_P016" model="hr.rule.input">
-            <field name="name">Otros</field>
+            <field name="name">PREMIOS DE PUNTUALIDAD</field>
             <field name="code">P016</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P016"/>
         </record>
         
-        <record id="hr_salary_rule_P017" model="hr.salary.rule">
-            <field name="name">Subsidio para el empleo</field>
-            <field name="code">P017</field>
-            <field name="sequence">75</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="PERCEPTIONS"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.P017.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.P017.amount</field>
-        </record>
-        <record id="rule_input_P017" model="hr.rule.input">
-            <field name="name">Subsidio para el empleo</field>
-            <field name="code">P017</field>
-            <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_P017"/>
-        </record>
-        
-        <record id="hr_salary_rule_P018" model="hr.salary.rule">
-            <field name="name">Fomento al primer empleo</field>
-            <field name="code">P018</field>
-            <field name="sequence">80</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="PERCEPTIONS"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.P018.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.P018.amount</field>
-        </record>
-        <record id="rule_input_P018" model="hr.rule.input">
-            <field name="name">Fomento al primer empleo</field>
-            <field name="code">P018</field>
-            <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_P018"/>
-        </record>
-        
         <record id="hr_salary_rule_P019" model="hr.salary.rule">
-            <field name="name">Horas extra</field>
+            <field name="name">PRIMA DOMINICAL</field>
             <field name="code">P019</field>
+            <field name="type">perception</field>
+            <field name="type_perception">020</field>
             <field name="sequence">85</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -381,15 +375,17 @@
             <field name="amount_python_compute">result=inputs.P019.amount</field>
         </record>
         <record id="rule_input_P019" model="hr.rule.input">
-            <field name="name">Horas extra</field>
-            <field name="code">P019</field>
+            <field name="name">PRIMA DOMINICAL</field>
+            <field name="code">P020</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P019"/>
         </record>
         
         <record id="hr_salary_rule_P020" model="hr.salary.rule">
-            <field name="name">Prima dominical</field>
+            <field name="name">SUBSIDIOS POR INCAPACIDAD</field>
             <field name="code">P020</field>
+            <field name="type">perception</field>
+            <field name="type_perception">014</field>
             <field name="sequence">90</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -401,15 +397,17 @@
             <field name="amount_python_compute">result=inputs.P020.amount</field>
         </record>
         <record id="rule_input_P020" model="hr.rule.input">
-            <field name="name">Prima dominical</field>
+            <field name="name">SUBSIDIOS POR INCAPACIDAD</field>
             <field name="code">P020</field>
             <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_P019"/>
+            <field name="input_id" ref="hr_salary_rule_P020"/>
         </record>
         
         <record id="hr_salary_rule_P021" model="hr.salary.rule">
-            <field name="name">Prima vacacional</field>
+            <field name="name">RETROACTIVOS</field>
             <field name="code">P021</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
             <field name="sequence">95</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -421,15 +419,17 @@
             <field name="amount_python_compute">result=inputs.P021.amount</field>
         </record>
         <record id="rule_input_P021" model="hr.rule.input">
-            <field name="name">Prima vacacional</field>
+            <field name="name">RETROACTIVOS</field>
             <field name="code">P021</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P021"/>
         </record>
         
         <record id="hr_salary_rule_P022" model="hr.salary.rule">
-            <field name="name">Prima por antigüedad</field>
+            <field name="name">BONOS</field>
             <field name="code">P022</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
             <field name="sequence">100</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -441,15 +441,17 @@
             <field name="amount_python_compute">result=inputs.P022.amount</field>
         </record>
         <record id="rule_input_P022" model="hr.rule.input">
-            <field name="name">Prima por antigüedad</field>
+            <field name="name">BONOS</field>
             <field name="code">P022</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P022"/>
         </record>
         
         <record id="hr_salary_rule_P023" model="hr.salary.rule">
-            <field name="name">Pagos por separación</field>
+            <field name="name">AYUDA DE TRANSPORTE</field>
             <field name="code">P023</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
             <field name="sequence">105</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -461,121 +463,134 @@
             <field name="amount_python_compute">result=inputs.P023.amount</field>
         </record>
         <record id="rule_input_P023" model="hr.rule.input">
-            <field name="name">Pagos por separación</field>
+            <field name="name">AYUDA DE TRANSPORTE</field>
             <field name="code">P023</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P023"/>
         </record>
         
-        
-        <record id="hr_salary_rule_P024" model="hr.salary.rule">
-            <field name="name">Seguro de retiro</field>
-            <field name="code">P024</field>
-            <field name="sequence">105</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="PERCEPTIONS"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.P024.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.P024.amount</field>
-        </record>
-        <record id="rule_input_P024" model="hr.rule.input">
-            <field name="name">Seguro de retiro</field>
-            <field name="code">P024</field>
+        <record id="hr_salary_rule_P100" model="hr.salary.rule">
+            <field name="name">INGRESOS POR RETIRO</field>
+            <field name="code">P100</field>
             <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_P024"/>
-        </record>
-        
-        <record id="hr_salary_rule_P025" model="hr.salary.rule">
-            <field name="name">Indeminizaciones</field>
-            <field name="code">P025</field>
+            <field name="type_perception"></field>
             <field name="sequence">110</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
             <field name="condition_select">python</field>
-            <field name="condition_python">inputs.P025.amount > 0</field>
+            <field name="condition_python">inputs.P100.amount > 0</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.P025.amount</field>
+            <field name="amount_python_compute">result=inputs.P100.amount</field>
         </record>
-        <record id="rule_input_P025" model="hr.rule.input">
-            <field name="name">Indeminizaciones</field>
-            <field name="code">P025</field>
+        <record id="rule_input_P100" model="hr.rule.input">
+            <field name="name">INGRESOS POR RETIRO</field>
+            <field name="code">P100</field>
             <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_P025"/>
+            <field name="input_id" ref="hr_salary_rule_P100"/>
         </record>
         
-        <record id="hr_salary_rule_P026" model="hr.salary.rule">
-            <field name="name">Reembolso por funeral</field>
-            <field name="code">P026</field>
+        <record id="hr_salary_rule_P101" model="hr.salary.rule">
+            <field name="name">INGRESOS EXENTOS POR RETIRO</field>
+            <field name="code">P101</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
             <field name="sequence">115</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
             <field name="condition_select">python</field>
-            <field name="condition_python">inputs.P026.amount > 0</field>
+            <field name="condition_python">inputs.P101.amount > 0</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.P026.amount</field>
+            <field name="amount_python_compute">result=inputs.P101.amount</field>
         </record>
-        <record id="rule_input_P026" model="hr.rule.input">
-            <field name="name">Reembolso por funeral</field>
-            <field name="code">P026</field>
+        <record id="rule_input_P101" model="hr.rule.input">
+            <field name="name">INGRESOS EXENTOS POR RETIRO</field>
+            <field name="code">P101</field>
             <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_P026"/>
+            <field name="input_id" ref="hr_salary_rule_P101"/>
         </record>
         
-        <record id="hr_salary_rule_P027" model="hr.salary.rule">
-            <field name="name">Cuotas de seguridad social pagadas por el patrón</field>
-            <field name="code">P027</field>
-            <field name="sequence">115</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="PERCEPTIONS"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.P027.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.P027.amount</field>
-        </record>
-        <record id="rule_input_P027" model="hr.rule.input">
-            <field name="name">Cuotas de seguridad social pagadas por el patrón</field>
-            <field name="code">P027</field>
+        <record id="hr_salary_rule_P102" model="hr.salary.rule">
+            <field name="name">ISR DE INGRESOS POR RETIRO</field>
+            <field name="code">P102</field>
             <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_P027"/>
-        </record>
-        
-        <record id="hr_salary_rule_P028" model="hr.salary.rule">
-            <field name="name">Comisiones</field>
-            <field name="code">P028</field>
+            <field name="type_perception"></field>
             <field name="sequence">120</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
             <field name="condition_select">python</field>
-            <field name="condition_python">inputs.P028.amount > 0</field>
+            <field name="condition_python">inputs.P102.amount > 0</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.P028.amount</field>
+            <field name="amount_python_compute">result=inputs.P102.amount</field>
         </record>
-        <record id="rule_input_P028" model="hr.rule.input">
-            <field name="name">Comisiones</field>
-            <field name="code">P028</field>
+        <record id="rule_input_P102" model="hr.rule.input">
+            <field name="name">ISR DE INGRESOS POR RETIRO</field>
+            <field name="code">P102</field>
             <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_P028"/>
+            <field name="input_id" ref="hr_salary_rule_P102"/>
         </record>
         
+        <record id="hr_salary_rule_P103" model="hr.salary.rule">
+            <field name="name">INDEMNIZACIÓN</field>
+            <field name="code">P103</field>
+            <field name="type">perception</field>
+            <field name="type_perception">025</field>
+            <field name="sequence">125</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">inputs.P103.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=inputs.P103.amount</field>
+        </record>
+        <record id="rule_input_P103" model="hr.rule.input">
+            <field name="name">INDEMNIZACIÓN</field>
+            <field name="code">P103</field>
+            <field name="type">perception</field>
+            <field name="input_id" ref="hr_salary_rule_P103"/>
+        </record>
+        
+        <record id="hr_salary_rule_P104" model="hr.salary.rule">
+            <field name="name">PRIMA DE ANTIGUEDAD</field>
+            <field name="code">P104</field>
+            <field name="type">perception</field>
+            <field name="type_perception">022</field>
+            <field name="sequence">130</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">inputs.P104.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=inputs.P104.amount</field>
+        </record>
+        <record id="rule_input_P104" model="hr.rule.input">
+            <field name="name">PRIMA DE ANTIGUEDAD</field>
+            <field name="code">P104</field>
+            <field name="type">perception</field>
+            <field name="input_id" ref="hr_salary_rule_P104"/>
+        </record>
+
         
 <!--
         Deduction
 -->
         
+        
+        
         <record id="hr_salary_rule_D001" model="hr.salary.rule">
-            <field name="name">Seguridad social</field>
+            <field name="name">ISR</field>
             <field name="code">D001</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">002</field>
             <field name="sequence">200</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
@@ -588,8 +603,10 @@
         </record>
         
         <record id="hr_salary_rule_D002" model="hr.salary.rule">
-            <field name="name">ISR</field>
+            <field name="name">IMSS</field>
             <field name="code">D002</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">002</field>
             <field name="sequence">205</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
@@ -602,57 +619,77 @@
         </record>
         
         <record id="hr_salary_rule_D003" model="hr.salary.rule">
-            <field name="name">Aportaciones a retiro, cesantía en edad avanzada y vejez.</field>
+            <field name="name">ANTICIPO DE NÓMINA</field>
             <field name="code">D003</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">012</field>
             <field name="sequence">210</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
-            <field name="condition_select">none</field>
-            <field name="condition_python"></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">inputs.D003.amount > 0</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=1</field>
+            <field name="amount_python_compute">result=inputs.D003.amount</field>
+        </record>
+        <record id="rule_input_D003" model="hr.rule.input">
+            <field name="name">ANTICIPO DE NÓMINA</field>
+            <field name="code">D003</field>
+            <field name="type">deductions</field>
+            <field name="input_id" ref="hr_salary_rule_D003"/>
         </record>
         
         <record id="hr_salary_rule_D004" model="hr.salary.rule">
-            <field name="name">Otros</field>
-            <field name="code">P004</field>
+            <field name="name">PRESTAMO PERSONAL</field>
+            <field name="code">D004</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction"></field>
             <field name="sequence">215</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
             <field name="condition_select">python</field>
-            <field name="condition_python">inputs.P004.amount > 0</field>
+            <field name="condition_python">inputs.D004.amount > 0</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=inputs.D004.amount</field>
         </record>
         <record id="rule_input_D004" model="hr.rule.input">
-            <field name="name">Otros</field>
+            <field name="name">PRESTAMO PERSONAL</field>
             <field name="code">D004</field>
             <field name="type">deductions</field>
             <field name="input_id" ref="hr_salary_rule_D004"/>
         </record>
         
         <record id="hr_salary_rule_D005" model="hr.salary.rule">
-            <field name="name">Aportaciones a Fondo de vivienda.</field>
+            <field name="name">FONDO DE AHORRO</field>
             <field name="code">D005</field>
-            <field name="sequence">215</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction"></field>
+            <field name="sequence">220</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
-            <field name="condition_select">none</field>
-            <field name="condition_python"></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">inputs.D005.amount > 0</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=1</field>
+            <field name="amount_python_compute">result=inputs.D005.amount</field>
+        </record>
+        <record id="rule_input_D005" model="hr.rule.input">
+            <field name="name">FONDO DE AHORRO</field>
+            <field name="code">D005</field>
+            <field name="type">deductions</field>
+            <field name="input_id" ref="hr_salary_rule_D005"/>
         </record>
         
         <record id="hr_salary_rule_D006" model="hr.salary.rule">
-            <field name="name">Descuento por incapacidad</field>
+            <field name="name">ALIMENTACIÓN</field>
             <field name="code">D006</field>
-            <field name="sequence">220</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction"></field>
+            <field name="sequence">225</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
@@ -663,16 +700,18 @@
             <field name="amount_python_compute">result=inputs.D006.amount</field>
         </record>
         <record id="rule_input_D006" model="hr.rule.input">
-            <field name="name">Descuento por incapacidad</field>
+            <field name="name">ALIMENTACIÓN</field>
             <field name="code">D006</field>
             <field name="type">deductions</field>
             <field name="input_id" ref="hr_salary_rule_D006"/>
         </record>
         
         <record id="hr_salary_rule_D007" model="hr.salary.rule">
-            <field name="name">Pensión alimenticia</field>
+            <field name="name">HABITACIÓN</field>
             <field name="code">D007</field>
-            <field name="sequence">225</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction"></field>
+            <field name="sequence">230</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
@@ -683,238 +722,100 @@
             <field name="amount_python_compute">result=inputs.D007.amount</field>
         </record>
         <record id="rule_input_D007" model="hr.rule.input">
-            <field name="name">Pensión alimenticia</field>
+            <field name="name">HABITACIÓN</field>
             <field name="code">D007</field>
             <field name="type">deductions</field>
             <field name="input_id" ref="hr_salary_rule_D007"/>
         </record>
         
-        <record id="hr_salary_rule_D008" model="hr.salary.rule">
-            <field name="name">Renta</field>
-            <field name="code">D008</field>
-            <field name="sequence">230</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D008.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D008.amount</field>
-        </record>
-        <record id="rule_input_D008" model="hr.rule.input">
-            <field name="name">Renta</field>
-            <field name="code">D008</field>
+        <record id="hr_salary_rule_D010" model="hr.salary.rule">
+            <field name="name">PENSIÓN ALIMENTICIA</field>
+            <field name="code">D010</field>
             <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D008"/>
-        </record>
-        
-        <record id="hr_salary_rule_D009" model="hr.salary.rule">
-            <field name="name">Préstamos provenientes del Fondo Nacional de la Vivienda para los Trabajadores.</field>
-            <field name="code">D009</field>
+            <field name="type_deduction">007</field>
             <field name="sequence">235</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
-            <field name="condition_select">none</field>
-            <field name="condition_python"></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">inputs.D010.amount > 0</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=1</field>
+            <field name="amount_python_compute">result=inputs.D010.amount</field>
+        </record>
+        <record id="rule_input_D010" model="hr.rule.input">
+            <field name="name">PENSIÓN ALIMENTICIA</field>
+            <field name="code">D010</field>
+            <field name="type">deductions</field>
+            <field name="input_id" ref="hr_salary_rule_D010"/>
         </record>
         
-        <record id="hr_salary_rule_D010" model="hr.salary.rule">
-            <field name="name">Pago por crédito de vivienda.</field>
-            <field name="code">D010</field>
+        <record id="hr_salary_rule_D011" model="hr.salary.rule">
+            <field name="name">OTROS DESCUENTOS</field>
+            <field name="code">D011</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">004</field>
             <field name="sequence">240</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
-            <field name="condition_select">none</field>
-            <field name="condition_python"></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">inputs.P011.amount > 0</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=1</field>
+            <field name="amount_python_compute">result=inputs.D011.amount</field>
+        </record>
+        <record id="rule_input_D011" model="hr.rule.input">
+            <field name="name">OTROS DESCUENTOS</field>
+            <field name="code">D011</field>
+            <field name="type">deductions</field>
+            <field name="input_id" ref="hr_salary_rule_D011"/>
         </record>
         
-        <record id="hr_salary_rule_D011" model="hr.salary.rule">
-            <field name="name">Pago de abonos INFONACOT.</field>
-            <field name="code">D011</field>
+        <record id="hr_salary_rule_D091" model="hr.salary.rule">
+            <field name="name">SAR VOLUNTARIO</field>
+            <field name="code">D091</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction"></field>
             <field name="sequence">245</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
-            <field name="condition_select">none</field>
-            <field name="condition_python"></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">inputs.P091.amount > 0</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=1</field>
+            <field name="amount_python_compute">result=inputs.D091.amount</field>
+        </record>
+        <record id="rule_input_D091" model="hr.rule.input">
+            <field name="name">SAR VOLUNTARIO</field>
+            <field name="code">D091</field>
+            <field name="type">deductions</field>
+            <field name="input_id" ref="hr_salary_rule_D091"/>
         </record>
         
-        <record id="hr_salary_rule_D012" model="hr.salary.rule">
-            <field name="name">Anticipo de salarios</field>
-            <field name="code">D012</field>
+        <record id="hr_salary_rule_D092" model="hr.salary.rule">
+            <field name="name">INFONAVIT VOLUNTARIO</field>
+            <field name="code">D092</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">005</field>
             <field name="sequence">250</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D012.amount > 0</field>
+            <field name="condition_select">none</field>
+            <field name="condition_python"></field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D012.amount</field>
-        </record>
-        <record id="rule_input_D012" model="hr.rule.input">
-            <field name="name">Anticipo de salarios</field>
-            <field name="code">D012</field>
-            <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D012"/>
+            <field name="amount_python_compute">result=1</field>
         </record>
         
-        <record id="hr_salary_rule_D013" model="hr.salary.rule">
-            <field name="name">Pagos hechos con exceso al trabajador</field>
-            <field name="code">D013</field>
+        <record id="hr_salary_rule_D093" model="hr.salary.rule">
+            <field name="name">CRÉDITO FONACOT</field>
+            <field name="code">D093</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">011</field>
             <field name="sequence">255</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D013.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D013.amount</field>
-        </record>
-        <record id="rule_input_D013" model="hr.rule.input">
-            <field name="name">Pagos hechos con exceso al trabajador</field>
-            <field name="code">D013</field>
-            <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D013"/>
-        </record>
-        
-        <record id="hr_salary_rule_D014" model="hr.salary.rule">
-            <field name="name">Errores</field>
-            <field name="code">D014</field>
-            <field name="sequence">260</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D014.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D014.amount</field>
-        </record>
-        <record id="rule_input_D014" model="hr.rule.input">
-            <field name="name">Errores</field>
-            <field name="code">D014</field>
-            <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D014"/>
-        </record>
-        
-        <record id="hr_salary_rule_D015" model="hr.salary.rule">
-            <field name="name">Pérdidas</field>
-            <field name="code">D015</field>
-            <field name="sequence">265</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D015.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D015.amount</field>
-        </record>
-        <record id="rule_input_D015" model="hr.rule.input">
-            <field name="name">Errores</field>
-            <field name="code">D015</field>
-            <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D015"/>
-        </record>
-        
-        <record id="hr_salary_rule_D016" model="hr.salary.rule">
-            <field name="name">Averías</field>
-            <field name="code">D016</field>
-            <field name="sequence">270</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D016.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D016.amount</field>
-        </record>
-        <record id="rule_input_D016" model="hr.rule.input">
-            <field name="name">Errores</field>
-            <field name="code">D016</field>
-            <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D016"/>
-        </record>
-        
-        <record id="hr_salary_rule_D017" model="hr.salary.rule">
-            <field name="name">Adquisición de artículos producidos por la empresa o establecimiento</field>
-            <field name="code">D017</field>
-            <field name="sequence">275</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D017.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D017.amount</field>
-        </record>
-        <record id="rule_input_D017" model="hr.rule.input">
-            <field name="name">Adquisición de artículos producidos por la empresa o establecimiento</field>
-            <field name="code">D017</field>
-            <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D017"/>
-        </record>
-        
-        <record id="hr_salary_rule_D018" model="hr.salary.rule">
-            <field name="name">Cuotas para la constitución y fomento de sociedades cooperativas y de cajas de ahorro</field>
-            <field name="code">D018</field>
-            <field name="sequence">280</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D018.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D018.amount</field>
-        </record>
-        <record id="rule_input_D018" model="hr.rule.input">
-            <field name="name">Cuotas para la constitución y fomento de sociedades cooperativas y de cajas de ahorro</field>
-            <field name="code">D018</field>
-            <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D018"/>
-        </record>
-        
-        <record id="hr_salary_rule_D019" model="hr.salary.rule">
-            <field name="name">Cuotas sindicales</field>
-            <field name="code">D019</field>
-            <field name="sequence">285</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="hr_payroll.DED"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D019.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D019.amount</field>
-        </record>
-        <record id="rule_input_D019" model="hr.rule.input">
-            <field name="name">Cuotas sindicales</field>
-            <field name="code">D019</field>
-            <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D019"/>
-        </record>
-        
-        <record id="hr_salary_rule_D020" model="hr.salary.rule">
-            <field name="name">Ausencia (Ausentismo)</field>
-            <field name="code">D020</field>
-            <field name="sequence">290</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
@@ -925,24 +826,68 @@
             <field name="amount_python_compute">result=1</field>
         </record>
         
-        <record id="hr_salary_rule_D021" model="hr.salary.rule">
-            <field name="name">Cuotas obrero patronales</field>
-            <field name="code">D021</field>
-            <field name="sequence">295</field>
+        <record id="hr_salary_rule_D094" model="hr.salary.rule">
+            <field name="name">CRÉDITO INFONAVIT</field>
+            <field name="code">D094</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">009</field>
+            <field name="sequence">260</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D021.amount > 0</field>
+            <field name="condition_select">none</field>
+            <field name="condition_python"></field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D021.amount</field>
+            <field name="amount_python_compute">result=1</field>
         </record>
-        <record id="rule_input_D021" model="hr.rule.input">
-            <field name="name">Cuotas obrero patronales</field>
-            <field name="code">D021</field>
+        
+        <record id="hr_salary_rule_D100" model="hr.salary.rule">
+            <field name="name">SUBSIDIO PARA EL EMPLEO</field>
+            <field name="code">D100</field>
             <field name="type">deductions</field>
-            <field name="input_id" ref="hr_salary_rule_D021"/>
+            <field name="type_deduction"></field>
+            <field name="sequence">265</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="condition_python"></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=1</field>
+        </record>
+        
+        <record id="hr_salary_rule_D101" model="hr.salary.rule">
+            <field name="name">IMPUESTO LOCAL</field>
+            <field name="code">D101</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction"></field>
+            <field name="sequence">270</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="condition_python"></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=1</field>
+        </record>
+        
+        <record id="hr_salary_rule_D111" model="hr.salary.rule">
+            <field name="name">SUBSIDIO PARA EL EMPLEO APLICADO</field>
+            <field name="code">D111</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction"></field>
+            <field name="sequence">275</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="condition_python"></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=1</field>
         </record>
 
         <record id="hr_salary_rule_D030" model="hr.salary.rule">
@@ -984,6 +929,7 @@
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_D031"/>
         </record>
+        
         
    </data>
 </odoo>

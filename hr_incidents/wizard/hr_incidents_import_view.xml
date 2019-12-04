@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        
+        <!--wizard to incidents import-->
+        <record id="view_incidents_import_form" model="ir.ui.view">
+            <field name="name">view.incidents.import.form</field>
+            <field name="model">hr.incidents.import</field>
+            <field name="arch" type="xml">
+            <form string="Incidents Import">
+                <group>
+                    <field name="file_ids" widget="many2many_binary"/>
+                    <field name="file_name" readonly="1"/>
+                </group>
+                <div>
+                    <h2>Upload the excel file</h2>
+                    <p></p> 
+                    <p>
+                        <ul>
+                            <li>Important. The cells cannot be empty.</li>
+                        </ul>
+                    </p>
+                    <p>Please proceed to Upload the excel file.</p>
+                </div>
+                <footer>
+                    <button name="import_data" string="Upload file" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-default"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_incidents_import_form" model="ir.actions.act_window">
+            <field name="name">Incidents Import</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.incidents.import</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            id="hr_incidents_import"
+            name="Incidents"
+            parent="hr_payroll.menu_hr_payroll_root"
+            sequence="15"/>
+
+        <menuitem
+            id="menu_open_incidents_import"
+            name="Incidents Import"
+            parent="hr_incidents_import"
+            action="action_incidents_import_form"
+            sequence="1"/>
+</odoo>
