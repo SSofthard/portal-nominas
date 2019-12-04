@@ -107,6 +107,7 @@
                                     <field name="beneficiary" />
                                     <field name="reference" />
                                     <field name="bank_account" />
+                                    <field name="location_branch" />
                                     <field name="predetermined" />
                                 </group>
                             </form>
@@ -115,6 +116,7 @@
                                 <field name="reference" />
                                 <field name="beneficiary" />
                                 <field name="bank_account" />
+                                <field name="location_branch" />
                                 <field name="predetermined" />
                                 <field name="state" />
                             </tree>

@@ -101,6 +101,7 @@ class Employee(models.Model):
     last_name = fields.Char("Last Name")
     mothers_last_name = fields.Char("Mother's Last Name")
     
+    
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
         ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
@@ -301,6 +302,7 @@ class bankDetailsEmployee(models.Model):
     beneficiary = fields.Char("Beneficiary", copy=False, required=True)
     bank_account = fields.Char("Bank account", copy=False, required=True)
     reference = fields.Char("Reference", copy=False, required=True)
+    location_branch = fields.Char("Location / Branch")
     predetermined = fields.Boolean("Predetermined", copy=False, required=False)
     state = fields.Selection([
         ('active', 'Active'),
