@@ -98,6 +98,8 @@ class Employee(models.Model):
     free_salary_gross = fields.Float("Gross Free", copy=False, readonly=True)
     
     company_assimilated_id = fields.Many2one('res.company', "Company (Assimilated)", required=False)
+    last_name = fields.Char("Last Name")
+    mothers_last_name = fields.Char("Mother's Last Name")
     
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),

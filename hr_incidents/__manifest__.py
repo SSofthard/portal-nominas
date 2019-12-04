@@ -5,7 +5,7 @@
     "author": "Soluciones SoftHard",
     "category": "Employees",
     "website" : "http://www.solucionesofthard.com",
-    "depends": ['base','web','hr','hr_holidays'],
+    "depends": ['web','hr','hr_holidays','payroll_mexico'],
     "data": [ 
             'report/hr_incidents_report.xml',
             'wizard/wizard_hr_incidents.xml',

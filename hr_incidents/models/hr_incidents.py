@@ -74,6 +74,7 @@ class HolidaysRequest(models.Model):
         'End Date', readonly=True, copy=False, required=False,
         default=fields.Datetime.now,
         states={'draft': [('readonly', False)], 'confirm': [('readonly', False)]}, track_visibility='onchange')
+    group_id = fields.Many2one('hr.group', "Group", readonly=True, related= 'employee_id.group_id', store=True)
         
     @api.multi
     def action_approve(self):
@@ -153,4 +154,3 @@ class HolidaysRequest(models.Model):
             values['date_to'] = request_parameters.get('date_to')
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
         return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
-            
