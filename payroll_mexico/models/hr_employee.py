@@ -98,6 +98,9 @@ class Employee(models.Model):
     free_salary_gross = fields.Float("Gross Free", copy=False, readonly=True)
     
     company_assimilated_id = fields.Many2one('res.company', "Company (Assimilated)", required=False)
+    last_name = fields.Char("Last Name")
+    mothers_last_name = fields.Char("Mother's Last Name")
+    
     
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -299,6 +302,7 @@ class bankDetailsEmployee(models.Model):
     beneficiary = fields.Char("Beneficiary", copy=False, required=True)
     bank_account = fields.Char("Bank account", copy=False, required=True)
     reference = fields.Char("Reference", copy=False, required=True)
+    location_branch = fields.Char("Location / Branch")
     predetermined = fields.Boolean("Predetermined", copy=False, required=False)
     state = fields.Selection([
         ('active', 'Active'),
@@ -362,7 +366,7 @@ class hrInfonavitCreditLine(models.Model):
     value = fields.Float("Value", copy=False, required=False)
     date = fields.Date("Date", required=True)
     type = fields.Selection([
-        ('day', 'Minimum wage days'),
+        ('umas', 'UMAS'),
         ('percentage', 'Percentage'),
         ('fixed_amount', 'Fixed Amount'),
     ],default="day", required=True)
