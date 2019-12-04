@@ -102,9 +102,9 @@
                                 <field name="employee_id" invisible="0"/>
                                 <field name="department_id" groups="hr_holidays.group_hr_holidays_user" invisible="0"/>
                                 <field name="prorate_lines" invisible="0" readonly="False">
-                                    <tree editable="botton">
-                                        <field name="contract_id"/>
-                                        <field name="holidays_bonus"/>
+                                    <tree editable="botton" delete="false" create="false">
+                                        <field name="contract_id" readonly="True"/>
+                                        <field name="holidays_bonus" readonly="True"/>
                                         <field name="input_id" readonly="False"/>
                                     </tree>
                                 </field>
