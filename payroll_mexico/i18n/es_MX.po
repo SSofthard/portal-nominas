@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-04 19:11+0000\n"
-"PO-Revision-Date: 2019-12-04 19:11+0000\n"
+"POT-Creation-Date: 2019-12-04 19:37+0000\n"
+"PO-Revision-Date: 2019-12-04 19:37+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -837,7 +837,7 @@ msgid "<b>“EL TRABAJADOR”</b> gozará en todos los casos de una hora diaria 
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_company.py:195
+#: code:addons/payroll_mexico/models/hr_company.py:199
 #, python-format
 msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                           Click to Create for New Documents\n"
@@ -985,6 +985,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__account_executive_id
 msgid "Account Executive"
 msgstr "Ejecutivo de cuentas"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__account_type
+msgid "Account Type "
+msgstr "Tipo de cuenta"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__account_holder
@@ -1415,6 +1420,7 @@ msgid "Cesantía y vejez (%)"
 msgstr ""
 
 #. module: payroll_mexico
+#: selection:bank.account.company,account_type:0
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__clabe
 msgid "Clabe"
 msgstr ""
@@ -1433,7 +1439,7 @@ msgstr "Cerrado"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_job_inherit
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
 msgid "Code"
-msgstr "Código"
+msgstr "Clave"
 
 #. module: payroll_mexico
 #: selection:hr.payslip.line,type_perception:0
@@ -1803,7 +1809,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_subsidio_line__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_subsidioacreditable_line__display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Nombre a mostrar"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
@@ -1811,7 +1817,7 @@ msgid "Documents"
 msgstr "Documentos"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_company.py:188
+#: code:addons/payroll_mexico/models/hr_company.py:192
 #, python-format
 msgid "Documents Power Attorney"
 msgstr "Documentos de poder notariado"
@@ -2431,7 +2437,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__implant_id
 msgid "Implant"
-msgstr ""
+msgstr "Implante"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_cfdi.py:152
@@ -3976,6 +3982,11 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_config_settings__tables_id
 msgid "Tables"
+msgstr "Tablas"
+
+#. module: payroll_mexico
+#: selection:bank.account.company,account_type:0
+msgid "Tarjeta"
 msgstr ""
 
 #. module: payroll_mexico
@@ -4450,11 +4461,6 @@ msgid "estado civil"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_company_line
-msgid "hr.company.line"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_employee_contract
 msgid "hr.employee.contract"
 msgstr ""
@@ -4485,23 +4491,8 @@ msgid "hr.payment.period"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_perceptions
-msgid "hr.perceptions"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_perceptions_wizard
-msgid "hr.perceptions.wizard"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_relationship
 msgid "hr.relationship"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_type_perceptions
-msgid "hr.type.perceptions"
 msgstr ""
 
 #. module: payroll_mexico
@@ -4575,21 +4566,6 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_report_payroll_mexico_contract_type_template
 msgid "report.payroll_mexico.contract_type_template"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_report_payroll_mexico_contract_without_seniority
-msgid "report.payroll_mexico.contract_without_seniority"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_report_payroll_mexico_contract_without_seniority2
-msgid "report.payroll_mexico.contract_without_seniority2"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_report_payroll_mexico_hr_contract_report
-msgid "report.payroll_mexico.hr_contract_report"
 msgstr ""
 
 #. module: payroll_mexico
