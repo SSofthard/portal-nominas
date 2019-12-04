@@ -17,6 +17,20 @@ from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY
 class HolidaysType(models.Model):
     _inherit = "hr.leave.type"
     
+    unpaid = fields.Boolean('Es se paga?', default=False)
+    request_unit = fields.Selection([
+        ('day', 'Días'), ('hour', 'Horas')],
+        default='day', string='Tomar ausencias en', required=True)
+    time_type = fields.Selection([('leave', 'Ausencia'), ('other', 'Otro')], default='leave', string="Tipo de licencia",
+                                 help="Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)")
+    allocation_type = fields.Selection([
+        ('fixed', 'Arreglado por HR'),
+        ('fixed_allocation', 'Solucionado por solicitud de asignación de recursos humanos'),
+        ('no', 'Sin asignación')],
+        default='fixed', string='Modo',
+        help='\tCorregido por HR: asignado por HR y no se puede omitir; los usuarios pueden solicitar hojas;'
+             '\tSolucionado por solicitud de asignación de recursos humanos +: asignado por recursos humanos y los usuarios pueden solicitar permisos y asignaciones;'
+             '\tSin asignación: sin asignación por defecto, los usuarios pueden solicitar permisos libremente;')
     code = fields.Char('Code', required=True)
     color_name = fields.Selection([
         ('red', 'Red'),
