@@ -7,7 +7,8 @@ from odoo.exceptions import UserError
 import datetime
 from datetime import date
 from odoo.osv import expression
-
+import re
+import random
 
 def calculate_age(date_birthday):
     today = date.today() 
@@ -122,6 +123,41 @@ class Employee(models.Model):
         
         
         return res
+    
+    @api.onchange('name','last_name','mothers_last_name','birthday')
+    def _check_rfc(self):
+        chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        vals_sat = ''.join(random.SystemRandom().choice(chars) for i in xrange(3))
+        res={}
+        pri_let=''
+        pri_voc=''
+        mother_ln=''
+        name_let=''
+        birthday_num=''
+        if self.last_name:
+            last_name=self.last_name.upper()
+            pri_let=last_name[0]
+            for i in range(len(last_name)):
+                car=last_name[i]
+                if car in ("A","E","I","O","U","Á","É","Í","Ó","Ú","Ü"):
+                    if i > 0:
+                        pri_voc=car
+                        break 
+        if self.mothers_last_name:
+            mother_ln=self.mothers_last_name[0].upper()
+        if self.name:
+            name_let=self.name[0].upper()
+        if self.birthday:
+            birthday_num=self.birthday.strftime('%y%m%d')
+        nombre = str(pri_let+''+pri_voc+''+mother_ln+''+name_let+''+birthday_num+''+vals_sat)
+        if len(nombre)==13:
+            res = {
+                'rfc':nombre,
+                }
+            return {'value':res}
+        
+        
+        
     
     @api.onchange('ssnid')
     def _check_social_security_number_length(self):
