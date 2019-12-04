@@ -42,8 +42,10 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='name']" position="after">
                     <div>
-                        <field name="last_name" />
-                        <field name="mothers_last_name" />
+                        <div class="o_row">
+                            <field name="last_name" placeholder="Last Name"/>
+                            <field name="mothers_last_name" placeholder="Mother's Last Name"/>
+                        </div>
                     </div>
                 </xpath> 
                 <xpath expr="//field[@name='birthday']" position="after">
