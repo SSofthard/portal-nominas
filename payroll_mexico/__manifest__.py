@@ -16,6 +16,7 @@
         'views/hr_payslip.xml',
         'views/res_company_view.xml',
         'views/table_cfdi_view.xml',
+        'views/res_config_settings_views.xml',
         'security/ir.model.access.csv',
         #Reports
         'report/base_layout.xml',

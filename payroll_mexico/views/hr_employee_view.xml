@@ -167,7 +167,7 @@
 							</group>
 							<group>
 								<field name="monthly_salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" />
-								<field name="table_id" />
+								<field name="table_id" invisible="1"/>
 							</group>
 						</group>
 						<group>
