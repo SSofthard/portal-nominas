@@ -56,74 +56,58 @@ class HrIncidentsImport(models.TransientModel):
         deductions = []
         if datafile:
             book = open_workbook(file_contents=datafile)
-            sheet_incedents = book.sheet_by_index(3)
-            sheet_perceptions = book.sheet_by_index(1)
-            sheet_deductions = book.sheet_by_index(2)
-            for row in range(1, sheet_incedents.nrows):
-                for col in range(sheet_incedents.ncols):
-                    if col <= 4 and not (sheet_incedents.cell_value(row, col)) == '':
-                        if col == 0:
-                            employee_id = self.check_employee(pycompat.text_type(sheet_incedents.cell_value(row , col)), row, col)
-                        if col in (1, 2):
-                            initial = pycompat.text_type(sheet_incedents.cell_value(row , 1))
-                            key = pycompat.text_type(sheet_incedents.cell_value(row , 2))
-                            type_leave = self.check_type_leave(initial+key,row, col)
-                        if col in (3, 4):
-                            duration = pycompat.text_type(sheet_incedents.cell_value(row , 3))
-                            is_datetime = sheet_incedents.cell_value(row , 4) % 1 != 0.0
-                            dt = datetime(*xlrd.xldate.xldate_as_tuple(sheet_incedents.cell_value(row , 4), book.datemode))
-                            date_from = dt.strftime(DEFAULT_SERVER_DATETIME_FORMAT) if is_datetime else dt.strftime(DEFAULT_SERVER_DATE_FORMAT)
-                            data_date = self.check_days_date(employee_id, date_from, duration, type_leave)
-                            incedents.append(
-                                                    {'employee_id': employee_id, 
-                                                    'holiday_status_id': data_date.get('holiday_status_id'),
-                                                    'number_of_days': data_date.get('number_of_days'),
-                                                    'request_date_from': data_date.get('request_date_from'),
-                                                    'request_date_to': data_date.get('request_date_to'),
-                                                    'date_from': data_date.get('date_from'),
-                                                    'date_to': data_date.get('date_to'),
-                                                    'request_date_from_period': data_date.get('request_date_from_period'),
-                                                    'request_unit_half': data_date.get('request_unit_half'),
-                                                    'holiday_type': data_date.get('holiday_type')})
-            
-            for row in range(1, sheet_perceptions.nrows):
-                for col in range(sheet_perceptions.ncols):
-                    if col <= 3 and not (sheet_perceptions.cell_value(row, col)) == '':
-                        if col == 0:
-                            employee_id = self.check_employee(pycompat.text_type(sheet_perceptions.cell_value(row , col)), row, col)
-                        if col in (1, 2):
-                            initial = pycompat.text_type(sheet_perceptions.cell_value(row , 1))
-                            key = pycompat.text_type(sheet_perceptions.cell_value(row , 2))
-                            rule_input_id = self.check_rule_input(initial+key,row, col)
-                        if col == 3:
-                            value = sheet_perceptions.cell_value(row , 3)
-                            is_float = value % 1 != 0.0
-                            amount = pycompat.text_type(value) if is_float else pycompat.text_type(int(value))
-                            perceptions.append(
-                                                    {'employee_id': employee_id, 
-                                                    'input_id': rule_input_id,
-                                                    'amount': amount,
-                                                    'type': 'perception',}
-                                                    )
-            for row in range(1, sheet_deductions.nrows):
-                for col in range(sheet_deductions.ncols):
-                    if col <= 3 and not (sheet_deductions.cell_value(row, col)) == '':
-                        if col == 0:
-                            employee_id = self.check_employee(pycompat.text_type(sheet_deductions.cell_value(row , col)), row, col)
-                        if col in (1, 2):
-                            initial = pycompat.text_type(sheet_deductions.cell_value(row , 1))
-                            key = pycompat.text_type(sheet_deductions.cell_value(row , 2))
-                            rule_input_id = self.check_rule_input(initial+key,row, col)
-                        if col == 3:
-                            value = sheet_deductions.cell_value(row , 3)
-                            is_float = value % 1 != 0.0
-                            amount = pycompat.text_type(value) if is_float else pycompat.text_type(int(value))
-                            deductions.append(
-                                                    {'employee_id': employee_id, 
-                                                    'input_id': rule_input_id,
-                                                    'amount': amount,
-                                                    'type': 'deductions',}
-                                                    )
+            sheet = book.sheet_by_index(0)
+            col = 1
+            for row in range(1, sheet.nrows):
+                    if sheet.cell_value(row, 1) == 'F':
+                        employee_id = self.check_employee(pycompat.text_type(sheet.cell_value(row, 0)), row, col)
+                        initial = pycompat.text_type(sheet.cell_value(row , 1))
+                        key = pycompat.text_type(sheet.cell_value(row , 2))
+                        type_leave = self.check_type_leave(initial+key,row, col)
+                        duration = pycompat.text_type(sheet.cell_value(row , 3))
+                        is_datetime = sheet.cell_value(row , 4) % 1 != 0.0
+                        dt = datetime(*xlrd.xldate.xldate_as_tuple(sheet.cell_value(row , 4), book.datemode))
+                        date_from = dt.strftime(DEFAULT_SERVER_DATETIME_FORMAT) if is_datetime else dt.strftime(DEFAULT_SERVER_DATE_FORMAT)
+                        data_date = self.check_days_date(employee_id, date_from, duration, type_leave)
+                        incedents.append(
+                                        {'employee_id': employee_id, 
+                                        'holiday_status_id': data_date.get('holiday_status_id'),
+                                        'number_of_days': data_date.get('number_of_days'),
+                                        'request_date_from': data_date.get('request_date_from'),
+                                        'request_date_to': data_date.get('request_date_to'),
+                                        'date_from': data_date.get('date_from'),
+                                        'date_to': data_date.get('date_to'),
+                                        'request_date_from_period': data_date.get('request_date_from_period'),
+                                        'request_unit_half': data_date.get('request_unit_half'),
+                                        'holiday_type': data_date.get('holiday_type')})
+                    if sheet.cell_value(row, 1) == 'P':
+                        employee_id = self.check_employee(pycompat.text_type(sheet.cell_value(row , 0)), row, col)
+                        initial = pycompat.text_type(sheet.cell_value(row , 1))
+                        key = pycompat.text_type(sheet.cell_value(row , 2))
+                        rule_input_id = self.check_rule_input(initial+key,row, col)
+                        value = sheet.cell_value(row , 3)
+                        is_float = value % 1 != 0.0
+                        amount = pycompat.text_type(value) if is_float else pycompat.text_type(int(value))
+                        perceptions.append(
+                                        {'employee_id': employee_id, 
+                                        'input_id': rule_input_id,
+                                        'amount': amount,
+                                        'type': 'perception',}
+                                        )
+                    if sheet.cell_value(row, 1) == 'D':
+                        employee_id = self.check_employee(pycompat.text_type(sheet.cell_value(row , 0)), row, col)
+                        initial = pycompat.text_type(sheet.cell_value(row , 1))
+                        key = pycompat.text_type(sheet.cell_value(row , 2))
+                        rule_input_id = self.check_rule_input(initial+key,row, col)
+                        value = sheet.cell_value(row , 3)
+                        is_float = value % 1 != 0.0
+                        amount = pycompat.text_type(value) if is_float else pycompat.text_type(int(value))
+                        deductions.append(
+                                                {'employee_id': employee_id, 
+                                                'input_id': rule_input_id,
+                                                'amount': amount,
+                                                'type': 'deductions',}
+                                                )
         if create_incedents:
             return incedents
         if create_perceptions:
@@ -231,7 +215,7 @@ class HrIncidentsImport(models.TransientModel):
         result_incedents = [dict(tupleized) for tupleized in set(tuple(item.items()) for item in vals_incedents)]
         if result_incedents:
              for incedents in result_incedents:
-                self.env['hr.leave'].create(incedents)
+                self.env['hr.leave'].create(incedents).sudo()
            
         vals_perceptions = self.read_document(create_perceptions=True)
         result_perceptions = [dict(tupleized) for tupleized in set(tuple(item.items()) for item in vals_perceptions)]
