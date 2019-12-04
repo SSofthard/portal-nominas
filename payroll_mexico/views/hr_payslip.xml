@@ -11,9 +11,16 @@
                 <xpath expr="//field/tree/field[@name='code']" position="after">
                     <field name="type"/>
                 </xpath> 
+                <xpath expr="//group[1]" position="after">
+                    <group col="4">
+                       <field name="type" widget="radio"/>
+                       <field name="type_perception" attrs="{'invisible': [('type', '!=', 'perception')],'required': [('type', '=', 'perception')]}"/>
+                       <field name="type_deduction" attrs="{'invisible': [('type', '!=', 'deductions')],'required': [('type', '=', 'deductions')]}"/>
+                    </group>
+                </xpath> 
             </field>
         </record>
-        
+                
         <record id="view_hr_inputs_form" model="ir.ui.view">
             <field name="name">hr.inputs.form</field>
             <field name="model">hr.inputs</field>
@@ -112,5 +119,19 @@
             id="menu_hr_deductions"
             action="view_hr_inputs_deductions_action"
             parent="menu_hr_inputs" sequence="20"/>
+            
+            
+        <record id="hr_payslip_inherit" model="ir.ui.view">
+            <field name="name">hr.payslip.inherit.view</field>
+            <field name="model">hr.payslip</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='contract_id']" position="attributes">
+					<attribute name="domain">[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False),('state','in',['open'])]</attribute>
+                </xpath>
+            </field>
+        </record>
+               
     </data>
 </odoo>

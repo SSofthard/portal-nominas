@@ -6,7 +6,7 @@
         <record id="seq_hr_expense_sheet_folio" model="ir.sequence">
             <field name="name">Sheet expense sequence</field>
             <field name="code">hr.expense.sheet.folio</field>
-            <field name="prefix">%(year)s-%(month)s-</field>
+            <field name="prefix">%(y)s-%(month)s-</field>
             <field name="implementation">no_gap</field>
             <field name="padding">8</field>
             <field name="company_id" eval="False"/>

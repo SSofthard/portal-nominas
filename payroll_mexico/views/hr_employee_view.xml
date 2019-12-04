@@ -42,6 +42,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="enrollment" placeholder="Enrollment"/>
+                    <field name="last_name" />
+                    <field name="mothers_last_name" />
                 </xpath> 
                 <xpath expr="//field[@name='birthday']" position="after">
                     <field name="age"/>
@@ -170,7 +172,7 @@
 							</group>
 							<group>
 								<field name="monthly_salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" />
-								<field name="table_id" />
+								<field name="table_id" invisible="1"/>
 							</group>
 						</group>
 						<group>

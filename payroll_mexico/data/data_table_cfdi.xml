@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">  
+    <data noupdate="0">  
 		
 		<record forcecreate="True" id="decimal_excess_rate" model="decimal.precision">
             <field name="name">Excess</field>
@@ -8,6 +8,7 @@
         </record>
 		
         <record id="table_cfdi_1" model="tablas.cfdi">
+			<field name="name">Tabla 2019</field>
 			<field name="uma">84.49</field>
 			<field name="imss_mes">30.40</field>
 			<field name="factor_vale_despensa">1</field>

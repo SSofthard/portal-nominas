@@ -16,6 +16,7 @@
         'views/hr_payslip.xml',
         'views/res_company_view.xml',
         'views/table_cfdi_view.xml',
+        'views/res_config_settings_views.xml',
         'security/ir.model.access.csv',
         #Reports
         'report/base_layout.xml',
@@ -24,7 +25,6 @@
         'report/indeterminate_contract_with_seniority.xml',
         'report/determinate_contract_with_seniority.xml',
         'report/independent_services_provision_agreement.xml',
-        'report/hr_perceptions_report.xml',
         'data/data.xml',
         'data/sequence_data.xml',
         'data/data_table_cfdi.xml',

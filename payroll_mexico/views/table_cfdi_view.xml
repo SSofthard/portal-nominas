@@ -5,7 +5,12 @@
         <field name="model">tablas.cfdi</field>
         <field name="arch" type="xml">
         <form string="Tablas CFDI">
-             <field name="name"/>
+             <div class="oe_title">
+				<label for="name" class="oe_edit_only"/>
+				<h1>
+					<field name="name" placeholder="Name" required="True"/>
+				</h1>
+			</div>
              <notebook position="inside">
                 <page name="tablas_cfdi" string="Tablas Nomina">
                    <group>
@@ -131,7 +136,7 @@
                             </group>
                         </group>
              </page>
-             <page name="utilidades" string="Reparto de utilidades">
+             <page name="utilidades" string="Reparto de utilidades" invisible="1">
                     <group string="Configuración" cols="4">
                          <field name="importe_utilidades"/>
                          <field name="dias_min_trabajados"/>
@@ -149,7 +154,7 @@
                             string="Calcular" type="object" class="oe_edit_only oe_inline oe_highlight" style="margin-left: 10px;"/>
                     </group>
              </page>
-             <page name="periodos" string="Periodos">
+             <page name="periodos" string="Periodos" invisible="1">
                  <group>
                         <field name="tabla_bimestral" string="Periodo bimestral">
                             <tree editable="bottom">
