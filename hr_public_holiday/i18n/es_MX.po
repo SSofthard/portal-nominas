@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-04 20:09+0000\n"
-"PO-Revision-Date: 2019-12-04 20:09+0000\n"
+"POT-Creation-Date: 2019-12-04 23:23+0000\n"
+"PO-Revision-Date: 2019-12-04 23:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -224,11 +224,6 @@ msgid "Date"
 msgstr "Fecha"
 
 #. module: hr_public_holiday
-#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__days
-msgid "Day"
-msgstr "Día"
-
-#. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__days_public_ids
 msgid "Day public"
 msgstr "Día festivo"
@@ -244,7 +239,7 @@ msgstr "Días festivo publicos"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_email__display_name
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_wizard__display_name
 msgid "Display Name"
-msgstr "Nombre a mostrar"
+msgstr "Nombre mostrado"
 
 #. module: hr_public_holiday
 #: selection:hr.public.holidays,state:0
@@ -287,6 +282,11 @@ msgstr "Seguidores (Canales)"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (Empresas)"
+
+#. module: hr_public_holiday
+#: selection:hr.days.public.holidays,days:0
+msgid "Friday"
+msgstr "Viernes"
 
 #. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__id
@@ -359,6 +359,11 @@ msgstr "Error de Envío de Mensaje"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__message_ids
 msgid "Messages"
 msgstr "Mensajes"
+
+#. module: hr_public_holiday
+#: selection:hr.days.public.holidays,days:0
+msgid "Monday"
+msgstr "Lunes"
 
 #. module: hr_public_holiday
 #: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_hr_publck_holidays_form
@@ -435,6 +440,11 @@ msgid "Public holiday ${object.year}"
 msgstr "Día festivo ${object.year}"
 
 #. module: hr_public_holiday
+#: selection:hr.days.public.holidays,days:0
+msgid "Saturday"
+msgstr "Sábado"
+
+#. module: hr_public_holiday
 #: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_hr_public_holidays_wizard
 msgid "Save"
 msgstr "Guardar"
@@ -473,7 +483,12 @@ msgid "States"
 msgstr "Estados"
 
 #. module: hr_public_holiday
-#: code:addons/hr_public_holiday/models/public_holidays.py:149
+#: selection:hr.days.public.holidays,days:0
+msgid "Sunday"
+msgstr "Domingo"
+
+#. module: hr_public_holiday
+#: code:addons/hr_public_holiday/models/public_holidays.py:160
 #, python-format
 msgid "The date must be between the dates of this year."
 msgstr "La fecha debe estar entre las fechas de este año."
@@ -496,6 +511,16 @@ msgid "The start date must be between the dates of this year."
 msgstr "La fecha de inicio debe ser entre las fechas de este año."
 
 #. module: hr_public_holiday
+#: selection:hr.days.public.holidays,days:0
+msgid "Thursday"
+msgstr "Jueves"
+
+#. module: hr_public_holiday
+#: selection:hr.days.public.holidays,days:0
+msgid "Tuesday"
+msgstr "Martes"
+
+#. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__message_unread
 msgid "Unread Messages"
 msgstr "Mensajes sin leer"
@@ -514,6 +539,16 @@ msgstr "Mensajes del sitio web"
 #: model:ir.model.fields,help:hr_public_holiday.field_hr_public_holidays__website_message_ids
 msgid "Website communication history"
 msgstr "Historial de comunicaciones del sitio web"
+
+#. module: hr_public_holiday
+#: selection:hr.days.public.holidays,days:0
+msgid "Wednesday"
+msgstr "Miercoles"
+
+#. module: hr_public_holiday
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__days
+msgid "Weekday"
+msgstr "Día de la semana"
 
 #. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__year
