@@ -4972,7 +4972,7 @@ msgstr "Pagar días feriados?"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__pay_extra_hours
 msgid "Pay extra hours?"
-msgstr "Pagar horas extras"
+msgstr "Pagar horas extras?"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_hr_employee__pay_extra_hours
