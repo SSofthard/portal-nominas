@@ -24,7 +24,7 @@ class Holidays(models.Model):
             if record.allocation_type != 'no':
                 name = "%(name)s (%(count)s)" % {
                     'name': name,
-                    'count': _('%g remaining out of %g') % (
+                    'count': _('%g días restantes de %g') % (
                         float_round(record.with_context(default_employee_id=self.employee_id.id).virtual_remaining_leaves, precision_digits=2) or 0.0,
                         float_round(record.with_context(default_employee_id=self.employee_id.id).max_leaves, precision_digits=2) or 0.0,
                     )
