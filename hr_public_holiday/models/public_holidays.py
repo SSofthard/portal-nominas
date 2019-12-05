@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models,fields,api, _
-from odoo.exceptions import UserError, ValidationError
-
-from datetime import date, datetime , timedelta
+import calendar 
 import pytz
 import time
+import locale
+
+from datetime import date, datetime , timedelta
+
+from odoo import models,fields,api, _
+from odoo.exceptions import UserError, ValidationError
 
 
 class publicHolidays(models.Model): 
@@ -118,7 +121,15 @@ class publicHolidays(models.Model):
     #Columns
     name = fields.Char(string="Name days public holidays",required=True)
     date = fields.Date(string='Date', required=True)
-    days = fields.Char(string='Day', required=True)
+    days = fields.Selection([
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+        ('Sunday', 'Sunday')
+    ], string='Weekday', readonly=True)
     public_holidays_id = fields.Many2one('hr.public.holidays',string="Public Holidays")
     state_ids = fields.Many2many('res.country.state', 'hr_holiday_public_state_rel', 'line_id', 'state_id', string= 'States')
     country_id = fields.Many2one('res.country', string = 'Country')
@@ -144,7 +155,10 @@ class publicHolidays(models.Model):
         :return:
         '''
         if self.date:
-            self.days = self.date.strftime("%A")
+            self.days = self.get_week_string(self.date)
             if self.date < self.public_holidays_id.date_from or self.date > self.public_holidays_id.date_end:
                 raise UserError(_("The date must be between the dates of this year."))
-            
+
+    def get_week_string(self, dates):
+        locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+        return calendar.day_name[dates.weekday()]
