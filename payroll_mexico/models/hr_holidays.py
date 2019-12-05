@@ -15,6 +15,7 @@ from dateutil.relativedelta import relativedelta
 class Holidays(models.Model):
     _inherit = 'hr.leave'
 
+
     @api.depends('employee_id', 'holiday_status_id', 'number_of_days_display')
     def _compute_remaining_days(self):
         '''En este metodo se busca los dias que quedan assignados por disfrute'''
@@ -24,8 +25,8 @@ class Holidays(models.Model):
                 name = "%(name)s (%(count)s)" % {
                     'name': name,
                     'count': _('%g remaining out of %g') % (
-                        float_round(record.virtual_remaining_leaves, precision_digits=2) or 0.0,
-                        float_round(record.max_leaves, precision_digits=2) or 0.0,
+                        float_round(record.with_context(default_employee_id=self.employee_id.id).virtual_remaining_leaves, precision_digits=2) or 0.0,
+                        float_round(record.with_context(default_employee_id=self.employee_id.id).max_leaves, precision_digits=2) or 0.0,
                     )
                 }
         self.remaining_days = name
@@ -72,16 +73,6 @@ class Holidays(models.Model):
         print ([(0,0,line) for line in prorate_lines])
         self.prorate_lines = [(0,0,line) for line in prorate_lines]
         self.holidays_bonus = amount_total
-        for record in self.holiday_status_id:
-            name = record.name
-            if record.allocation_type != 'no':
-                name = "%(count)s" % {
-                    'count': _('%g días restantes de %g') % (
-                        float_round(record.virtual_remaining_leaves, precision_digits=2) or 0.0,
-                        float_round(record.max_leaves, precision_digits=2) or 0.0,
-                    )
-                }
-        self.remaining_days = name
 
     #Columns
     holidays_bonus = fields.Float(compute='_compute_bonus', string='Holidays total bonus')
