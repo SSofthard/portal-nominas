@@ -16,6 +16,7 @@
             "wizard/hr_public_holidays_wizard_view.xml",
             "wizard/hr_public_holidays_email.xml",
             "views/public_holidays_view.xml",
+            "wizard/hr_public_holidays_import_view.xml",
             ],
     "images": ['static/images/holiday_screenshot.png'],
     "active": True,
