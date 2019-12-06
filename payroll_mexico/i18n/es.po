@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-04 20:14+0000\n"
-"PO-Revision-Date: 2019-12-04 20:14+0000\n"
+"POT-Creation-Date: 2019-12-06 16:24+0000\n"
+"PO-Revision-Date: 2019-12-06 16:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,10 +35,16 @@ msgid "% a repartir en función de los ingresos"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_holidays.py:87
+#: code:addons/payroll_mexico/models/hr_holidays.py:27
 #, python-format
 msgid "%g días restantes de %g"
 msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:405
+#, python-format
+msgid "%s Sequence"
+msgstr "%s Matrícula"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
@@ -1017,7 +1023,7 @@ msgstr "Titular de la cuenta"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction
 msgid "Action Needed"
-msgstr "Acción Necesaria"
+msgstr "Acción requerida"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
@@ -1116,7 +1122,7 @@ msgid "Amount"
 msgstr "Importe"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:386
+#: code:addons/payroll_mexico/models/hr_employee.py:479
 #, python-format
 msgid "An active INFONAVIT credit already exists for the employee."
 msgstr "Ya existe un crédito de INFONAVIT activo para el empleado"
@@ -1165,7 +1171,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__years_antiquity
 msgid "Antiquity"
-msgstr ""
+msgstr "Antigüedad"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -1398,7 +1404,7 @@ msgid "CURP"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:143
+#: code:addons/payroll_mexico/models/hr_employee.py:159
 #, python-format
 msgid "CURP length is incorrect"
 msgstr "La longitud de CURP es incorrecta"
@@ -1848,7 +1854,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_subsidio_line__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_subsidioacreditable_line__display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Nombre a mostrar"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
@@ -1940,9 +1946,19 @@ msgid "Employee Contract"
 msgstr "Contrato de empleado"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__sequence_id
+msgid "Employee Sequence"
+msgstr "Secuencia de empleados"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_contract__employee_id
 msgid "Employees"
 msgstr "Empleados"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_group__code
+msgid "Employees of this group will enrolled using this prefix."
+msgstr "Los empleados de este grupo se matricularán usando este prefijo"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__employer_register_ids
@@ -2080,6 +2096,11 @@ msgid "Expuesto lo anterior, las partes declaran tener capacidad legal para obli
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Extra payments"
+msgstr "Pagos extras"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.determinate_contract_with_seniority
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.determinate_contract_without_seniority
@@ -2174,7 +2195,7 @@ msgstr "Mujer"
 #. module: payroll_mexico
 #: selection:hr.infonavit.credit.line,type:0
 msgid "Fixed Amount"
-msgstr "Monto fija"
+msgstr "Monto fijo"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_follower_ids
@@ -2303,6 +2324,17 @@ msgstr "Grupo"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_inputs_filter
 msgid "Group By"
 msgstr "Agrupar por"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_group_form
+msgid "Group Sequence"
+msgstr "Secuencia de grupo"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:403
+#, python-format
+msgid "Group: "
+msgstr "Grupo: "
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_cfdi.py:189
@@ -2489,6 +2521,16 @@ msgid "If checked new messages require your attention."
 msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_employee__pay_extra_hours
+msgid "If checked, extra hours are paid to the employee"
+msgstr "Si se marca, se pagan horas adicionales al empleado."
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_employee__pay_holiday
+msgid "If checked, holidays are paid to the employee"
+msgstr "Si se marca, se pagan días feriados al empleado."
+
+#. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
@@ -2516,7 +2558,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__implant_id
 msgid "Implant"
-msgstr ""
+msgstr "Implant"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_cfdi.py:152
@@ -2959,7 +3001,7 @@ msgstr "Nombre del contrato"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_country__nationality
 msgid "Nationality"
-msgstr ""
+msgstr "Nacionalidad"
 
 #. module: payroll_mexico
 #: selection:hr.employee,type_salary:0
@@ -2980,6 +3022,11 @@ msgstr "Resumen de la siguiente actividad"
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_type_id
 msgid "Next Activity Type"
 msgstr "Siguiente tipo de actividad"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__sequence_number_next
+msgid "Next Number"
+msgstr "Próximo número"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -3234,6 +3281,16 @@ msgid "Patrón"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__pay_extra_hours
+msgid "Pay extra hours?"
+msgstr "Pagar horas extras?"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__pay_holiday
+msgid "Pay holiday?"
+msgstr "Pagar días feriados?"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__payment_period_id
 msgid "Payment period"
 msgstr "Periodo de pago"
@@ -3325,7 +3382,13 @@ msgid "Planned"
 msgstr "Planificado"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:150
+#: code:addons/payroll_mexico/models/hr_employee.py:125
+#, python-format
+msgid "Please define a sequence on the group."
+msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:166
 #, python-format
 msgid "Please indicate the monthly salary"
 msgstr "Por favor indique el salario mensual"
@@ -3616,7 +3679,7 @@ msgid "RFC"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:137
+#: code:addons/payroll_mexico/models/hr_employee.py:153
 #, python-format
 msgid "RFC length is incorrect"
 msgstr "La longitud de RFC es incorrecta"
@@ -3872,6 +3935,11 @@ msgid "Set the default table to determine the values ​​to be taken surveys f
 msgstr "Establezca la tabla predeterminada para determinar los valores que se tomarán encuestas para el cálculo de la nómina"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__code
+msgid "Short Code"
+msgstr "Código corto"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.determinate_contract_without_seniority
 msgid "Si es su deseo ejercer sus derechos de acceso, rectificación, cancelación y oposición señalados en “LA LEY” respecto a sus datos personales, aun aquellos considerados como sensibles, \n"
@@ -4123,22 +4191,27 @@ msgid "Tener la capacidad y experiencia necesarias, para prestar sus servicios e
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:153
+#: code:addons/payroll_mexico/models/hr_employee.py:169
 #, python-format
 msgid "The amount of wages and salaries must be greater than 0"
 msgstr "La cantidad de sueldos y salarios debe ser mayor que 0"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:244
+#: code:addons/payroll_mexico/models/hr_employee.py:260
 #, python-format
 msgid "The employee has currently open contracts."
 msgstr "El empleado tiene contratos abiertos actualmente"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:131
+#: code:addons/payroll_mexico/models/hr_employee.py:147
 #, python-format
 msgid "The length of the social security number is incorrect"
 msgstr "La longitud del número de seguro social es incorrecta"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_group__sequence_number_next
+msgid "The next sequence number will be used for the next invoice."
+msgstr "El siguiente número de secuencia se usará para la próxima factura."
 
 #. module: payroll_mexico
 #: sql_constraint:bank.account.company:0
@@ -4158,7 +4231,18 @@ msgstr "Ya existe poder notariado predeterminado para esta compañía"
 #. module: payroll_mexico
 #: sql_constraint:hr.employee:0
 msgid "There is already an employee with this registration.!"
-msgstr "There is already an employee with this registration"
+msgstr "Ya hay un empleado con este registro.!"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_group__sequence_id
+msgid "This field contains information related to the numbering of employees established by group."
+msgstr "Este campo contiene información relacionada con la numeración de empleados establecida por el grupo."
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:427
+#, python-format
+msgid "This group already contains items, therefore you cannot modify its name."
+msgstr "Este grupo ya contiene elementos, por lo tanto, no puede modificar su nombre."
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_cfdi.py:139
@@ -4250,7 +4334,7 @@ msgstr "Tipo"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__type_id
 msgid "Type Contract"
-msgstr ""
+msgstr "Tipo de contrato"
 
 #. module: payroll_mexico
 #: model:ir.actions.report,name:payroll_mexico.report_contract_type_template
@@ -4446,13 +4530,13 @@ msgid "Write Number"
 msgstr "Escribir número"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:246
+#: code:addons/payroll_mexico/models/hr_employee.py:262
 #, python-format
 msgid "You must select a company for the salary and salary contract."
 msgstr "Debe seleccionar una empresa para el salario y el contrato salarial"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:248
+#: code:addons/payroll_mexico/models/hr_employee.py:264
 #, python-format
 msgid "You must select a company for the salary-like contract."
 msgstr "Debe seleccionar una empresa para el contrato salarial"
@@ -4596,11 +4680,6 @@ msgid "estado civil"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_company_line
-msgid "hr.company.line"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_employee_contract
 msgid "hr.employee.contract"
 msgstr ""
@@ -4613,11 +4692,6 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_group
 msgid "hr.group"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_holidays
-msgid "hr.holidays"
 msgstr ""
 
 #. module: payroll_mexico
@@ -4641,23 +4715,8 @@ msgid "hr.payment.period"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_perceptions
-msgid "hr.perceptions"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_perceptions_wizard
-msgid "hr.perceptions.wizard"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_relationship
 msgid "hr.relationship"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_type_perceptions
-msgid "hr.type.perceptions"
 msgstr ""
 
 #. module: payroll_mexico
@@ -4684,6 +4743,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
 msgid "mismo que señala para todos los fines legales derivados o que se deriven en de este contrato."
 msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:403
+#, python-format
+msgid "name"
+msgstr "Nombre"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -4958,3 +5023,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.indeterminate_contract_with_seniority
 msgid "“EL TRABAJADOR” se obliga a extender el recibo de pago correspondiente o a autentificar por algún medio electrónico o tecnológico el recibo de los salarios y prestaciones, mismas en las que se incluyen las percepciones y las deducciones de Ley expresamente aceptadas por “EL TRABAJADOR”, suscribiendo con firma autógrafa o mediante la validación electrónica de conformidad, todos y cada uno de los períodos que éstos amparen, haciéndose notar que si en los recibos no aparece concepto alguno por tiempo extraordinario, es porque “EL TRABAJADOR” no lo laboró, extendiendo por lo tanto el más amplio finiquito de los salarios y prestaciones a las que tuvo derecho por el respectivo período, haciéndose notar que en caso de cualquier aclaración al respecto, deberá de hacerlo saber en forma inmediata a “EL PATRON” y en caso de que proceda, se cubrirá en el  siguiente periodo de pago."
 msgstr ""
+
