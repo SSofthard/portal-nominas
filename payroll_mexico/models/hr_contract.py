@@ -6,6 +6,9 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
 from .tool_convert_numbers_letters import numero_to_letras
+from datetime import date,datetime,timedelta
+from dateutil.relativedelta import relativedelta
+
 
 class Contract(models.Model):
 
@@ -34,7 +37,20 @@ class Contract(models.Model):
                         raise ValidationError(_('Ya existe un contrato en proceso, del empleado (%s) \
                             para el régimen (%s).') % (self.employee_id.name,regimen))
 
+    @api.one
+    def _get_years_antiquity(self):
+        '''
+        Este metodo obtiene la antiguedad del contrato
+        :return:
+        '''
+        today = fields.Date.today()
+        date_start_contract =  self.previous_contract_date or self.date_start
+        days_antiquity = (today - date_start_contract).days
+        years_antiquity = int(days_antiquity/365.25)
+        self.years_antiquity = years_antiquity
     
+    
+    #Columns
     code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
     type_id = fields.Many2one(string="Type Contract")
     type_contract = fields.Selection(string="Type", related="type_id.type", invisible=True)
@@ -52,6 +68,7 @@ class Contract(models.Model):
         ('4', 'Pensioners'),
         ('5', 'Free'),
         ], string='Contracting Regime', required=True, default="2")
+    years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     
     @api.onchange('company_id')
     def onchange_default_power_attorney(self):
@@ -142,4 +159,3 @@ class Contract(models.Model):
             'contract_data':contract_dic
             }
         return self.env.ref('payroll_mexico.report_contract_type_template').report_action(self,data)
-

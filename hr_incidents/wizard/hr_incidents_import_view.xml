@@ -41,15 +41,13 @@
         <menuitem
             id="hr_incidents_import"
             name="Incidents"
-            parent="hr_holidays.menu_hr_holidays_approvals"
-            groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
-            sequence="4"/>
+            parent="hr_payroll.menu_hr_payroll_root"
+            sequence="15"/>
 
         <menuitem
             id="menu_open_incidents_import"
             name="Incidents Import"
             parent="hr_incidents_import"
-            groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
             action="action_incidents_import_form"
             sequence="1"/>
 </odoo>

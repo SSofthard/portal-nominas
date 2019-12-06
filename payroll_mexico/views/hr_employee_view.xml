@@ -87,10 +87,16 @@
                 </xpath>
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
-                        <group  col="4" string="IMSS">
-                            <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
-                            <field name="salary" readonly="1"/>
-                            <field name="payment_period_id" />
+                        <group>
+                            <group string="IMSS">
+                                <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
+                                <field name="payment_period_id"/>
+                                <field name="salary" readonly="1"/>
+                            </group>
+                            <group string="Extra payments">
+                                <field name="pay_holiday" />
+                                <field name="pay_extra_hours" />
+                            </group>
                         </group>
                     </page>
                     <page name="bank_information" string="Bank Information" groups="hr.group_hr_user">
@@ -106,6 +112,7 @@
                                     <field name="beneficiary" />
                                     <field name="reference" />
                                     <field name="bank_account" />
+                                    <field name="location_branch" />
                                     <field name="predetermined" />
                                 </group>
                             </form>
@@ -114,6 +121,7 @@
                                 <field name="reference" />
                                 <field name="beneficiary" />
                                 <field name="bank_account" />
+                                <field name="location_branch" />
                                 <field name="predetermined" />
                                 <field name="state" />
                             </tree>
