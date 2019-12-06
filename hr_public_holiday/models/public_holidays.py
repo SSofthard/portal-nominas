@@ -129,12 +129,12 @@ class publicHolidays(models.Model):
         ('Friday', 'Friday'),
         ('Saturday', 'Saturday'),
         ('Sunday', 'Sunday')
-    ], string='Weekday', readonly=True)
+    ], string='Weekday',)
     public_holidays_id = fields.Many2one('hr.public.holidays',string="Public Holidays")
     state_ids = fields.Many2many('res.country.state', 'hr_holiday_public_state_rel', 'line_id', 'state_id', string= 'States')
     country_id = fields.Many2one('res.country', string = 'Country')
     
-    _sql_constraints = [('date_uniq', 'UNIQUE (date)', 'The date must be unique.')]
+    _sql_constraints = [('date_uniq', 'UNIQUE (date, public_holidays_id)', 'The date must be unique.')]
     
     @api.multi
     @api.onchange('country_id')
