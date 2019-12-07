@@ -64,6 +64,7 @@
                                             <field name="bank_id"/>
                                             <field name="account_holder"/>
                                             <field name="bank_account"/>
+                                            <field name="account_type"/>
                                             <field name="reference"/>
                                             <field name="predetermined"/>
                                         </group>
@@ -72,6 +73,7 @@
                                         <field name="bank_id"/>
                                         <field name="account_holder"/>
                                         <field name="bank_account"/>
+                                        <field name="account_type"/>
                                         <field name="reference"/>
                                         <field name="predetermined"/>
                                         <field name="state"/>
@@ -140,6 +142,18 @@
                 <xpath expr="//field[@name='phone']" position="attributes">
 					<attribute name="widget">mask</attribute>
 					<attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="vat" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='company_registry']" position="replace">
+                    <field name="company_registry" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='nomenclature_id']" position="replace">
+                    <field name="nomenclature_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="replace">
+                    <field name="parent_id"  groups="base.group_multi_company" invisible="1"/>
                 </xpath>
             </field>
         </record>

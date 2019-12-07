@@ -114,6 +114,10 @@ class bankDetailsCompany(models.Model):
         ('active', 'Active'),
         ('inactive', 'Inactive'),
     ],default="active")
+    account_type = fields.Selection([
+        ('clabe', 'Clabe'),
+        ('tarjeta', 'Tarjeta'),
+    ],'Account Type ')
     
     _sql_constraints = [
         ('predetermined_uniq', 'unique (company_id,predetermined)', "There is already a default account number for this company.!"),
