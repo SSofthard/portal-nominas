@@ -77,7 +77,7 @@ class Employee(models.Model):
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
     real_salary = fields.Float("Real Salary", copy=False)
     gross_salary = fields.Float("Gross Salary", copy=False)
-    table_id = fields.Many2one('tablas.cfdi','Table CFDI',)
+    table_id = fields.Many2one('tablas.cfdi','Table CFDI', default=lambda self: self.env['res.company']._company_default_get().tables_id,)
     
     address_id = fields.Many2one(required=True)
     department_id = fields.Many2one(required=True)
@@ -100,7 +100,8 @@ class Employee(models.Model):
     company_assimilated_id = fields.Many2one('res.company', "Company (Assimilated)", required=False)
     last_name = fields.Char("Last Name")
     mothers_last_name = fields.Char("Mother's Last Name")
-    
+    pay_holiday = fields.Boolean('Pay holiday?', default=False, help="If checked, holidays are paid to the employee")
+    pay_extra_hours = fields.Boolean('Pay extra hours?', default=False, help="If checked, extra hours are paid to the employee")
     
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),

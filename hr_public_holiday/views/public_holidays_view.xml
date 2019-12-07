@@ -123,7 +123,12 @@
                 <field name="view_mode">calendar,tree,form</field>
         </record>
 
-    <menuitem id="hr_days_public_holidays_menu" name="Public Holidays Days" parent="public_holidays_menu"   action="hr_days_public_holidays_action" sequence="15" />
+    <menuitem 
+        id="hr_days_public_holidays_menu" 
+        name="Public Holidays Days" 
+        parent="public_holidays_menu"   
+        action="hr_days_public_holidays_action" 
+        sequence="15" />
 
     </data>
 </odoo>
