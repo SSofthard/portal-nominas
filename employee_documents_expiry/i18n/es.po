@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-21 10:02+0000\n"
-"PO-Revision-Date: 2019-11-21 10:02+0000\n"
+"POT-Creation-Date: 2019-12-07 15:35+0000\n"
+"PO-Revision-Date: 2019-12-07 15:35+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,9 +30,7 @@ msgstr "Documentos"
 msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                           Click to Create for New Documents\n"
 "                        </p>"
-msgstr "<p class=\"oe_view_nocontent_create\">\n"
-"                           Pulse para crear nuevos documentos\n"
-"                        </p>"
+msgstr ""
 
 #. module: employee_documents_expiry
 #: model:ir.model,name:employee_documents_expiry.model_res_company
@@ -45,6 +43,7 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: employee_documents_expiry
+#: model:ir.model,name:employee_documents_expiry.model_hr_contract
 #: model:ir.model.fields,field_description:employee_documents_expiry.field_ir_attachment__contract_id
 msgid "Contract"
 msgstr "Contrato"
@@ -53,7 +52,7 @@ msgstr "Contrato"
 #: code:addons/employee_documents_expiry/models/employee_documents.py:115
 #, python-format
 msgid "Contract Documents"
-msgstr "Documentos de contratos"
+msgstr "Documentos de contrato"
 
 #. module: employee_documents_expiry
 #: model:ir.model.fields,field_description:employee_documents_expiry.field_hr_employee_document_type__create_uid
@@ -109,7 +108,7 @@ msgstr "Tipo de Documento"
 #: code:addons/employee_documents_expiry/models/employee_documents.py:52
 #, python-format
 msgid "Document-%s Expired On %s"
-msgstr "Documento-%s Expira en %s"
+msgstr "Documento-% s caducado el% s"
 
 #. module: employee_documents_expiry
 #: model_terms:ir.ui.view,arch_db:employee_documents_expiry.hr_contract_document_inherit_form_view
@@ -122,24 +121,19 @@ msgstr "Documentos"
 #: code:addons/employee_documents_expiry/models/employee_documents.py:146
 #, python-format
 msgid "Documents Company"
-msgstr "Documentos de empresa"
+msgstr "Empresa de documentos"
 
 #. module: employee_documents_expiry
 #: code:addons/employee_documents_expiry/models/employee_documents.py:84
 #, python-format
 msgid "Documents Employees"
-msgstr "Documentos de empleados"
+msgstr "Documentos empleados"
 
 #. module: employee_documents_expiry
 #: model:ir.model,name:employee_documents_expiry.model_hr_employee
 #: model:ir.model.fields,field_description:employee_documents_expiry.field_ir_attachment__employee_id
 msgid "Employee"
 msgstr "Empleado"
-
-#. module: employee_documents_expiry
-#: model:ir.model,name:employee_documents_expiry.model_hr_contract
-msgid "Employee Contract"
-msgstr "Contrato de empleado"
 
 #. module: employee_documents_expiry
 #: model:ir.model.fields,field_description:employee_documents_expiry.field_ir_attachment__expired
@@ -154,7 +148,7 @@ msgstr "Documentos caducados"
 #. module: employee_documents_expiry
 #: model:ir.model.fields,field_description:employee_documents_expiry.field_ir_attachment__expiry_date
 msgid "Expiry Date"
-msgstr "Fecha de vencimiento"
+msgstr "Fecha de caducidad"
 
 #. module: employee_documents_expiry
 #: model_terms:ir.ui.view,arch_db:employee_documents_expiry.view_hr_employee_document_type_tree
@@ -162,14 +156,9 @@ msgid "Group"
 msgstr "Grupo"
 
 #. module: employee_documents_expiry
-#: model:ir.model,name:employee_documents_expiry.model_hr_employee_document
-msgid "HR Employee Documents"
-msgstr "Documentos de empleados de recursos humanos"
-
-#. module: employee_documents_expiry
 #: model:ir.model.fields,field_description:employee_documents_expiry.field_hr_employee_document_type__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: employee_documents_expiry
 #: model:ir.model.fields,field_description:employee_documents_expiry.field_ir_attachment__issue_date
@@ -194,7 +183,7 @@ msgstr "Última actualización el"
 #. module: employee_documents_expiry
 #: model_terms:ir.actions.act_window,help:employee_documents_expiry.action_hr_employee_document_type
 msgid "Let's create a Document Type."
-msgstr "Creemos un tipo de documento"
+msgstr "Vamos a crear un tipo de documento."
 
 #. module: employee_documents_expiry
 #: model:ir.model.fields,field_description:employee_documents_expiry.field_hr_employee_document_type__name
@@ -214,7 +203,7 @@ msgstr "Tipo de documento y fecha de vencimiento"
 #. module: employee_documents_expiry
 #: model:ir.model.fields,help:employee_documents_expiry.field_hr_employee_document_type__name
 msgid "You can give your type document."
-msgstr "Puedes dar tu tipo de documento"
+msgstr "Puedes dar tu tipo de documento."
 
 #. module: employee_documents_expiry
 #: model:ir.model,name:employee_documents_expiry.model_hr_employee_document_type
