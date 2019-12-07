@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-07 17:17+0000\n"
-"PO-Revision-Date: 2019-12-07 17:17+0000\n"
+"POT-Creation-Date: 2019-12-07 17:39+0000\n"
+"PO-Revision-Date: 2019-12-07 17:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1121,7 +1121,7 @@ msgid "Amount"
 msgstr "Importe"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:387
+#: code:addons/payroll_mexico/models/hr_employee.py:392
 #, python-format
 msgid "An active INFONAVIT credit already exists for the employee."
 msgstr "Ya existe un crédito de INFONAVIT activo para el empleado"
@@ -1170,7 +1170,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__years_antiquity
 msgid "Antiquity"
-msgstr "Antiquity"
+msgstr ""
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -1755,6 +1755,11 @@ msgid "Date"
 msgstr "Fecha"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__days
+msgid "Days"
+msgstr "Dias"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
 msgid "De los Secretos Industriales"
 msgstr ""
@@ -2276,6 +2281,11 @@ msgstr "Generar contrato"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
 msgid "Generate contracts"
 msgstr "Generar contratos"
+
+#. module: payroll_mexico
+#: selection:hr.group,type:0
+msgid "Governmental"
+msgstr "Gubernamental"
 
 #. module: payroll_mexico
 #: selection:hr.payslip.line,type_perception:0
@@ -3495,6 +3505,11 @@ msgid "Print Contract"
 msgstr "Imprimir contrato"
 
 #. module: payroll_mexico
+#: selection:hr.group,type:0
+msgid "Private"
+msgstr "Privado"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__productivity_bonus
 msgid "Productivity bonus"
 msgstr "Bonus de productividad"
@@ -4222,8 +4237,20 @@ msgid "Timed out"
 msgstr "Caducado"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_deduction
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_deduction
+msgid "Tipo de deducción"
+msgstr ""
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_leave_type__time_type
 msgid "Tipo de licencia"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_perception
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_perception
+msgid "Tipo de percepción"
 msgstr ""
 
 #. module: payroll_mexico
@@ -4303,16 +4330,12 @@ msgstr "Tipo de informe de contrato"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_payslip.py:66
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_deduction
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_deduction
 #, python-format
 msgid "Type of deduction"
 msgstr "Tipo de deducción"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_payslip.py:42
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_perception
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_perception
 #, python-format
 msgid "Type of perception"
 msgstr "Tipo de percepción"
@@ -4835,6 +4858,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.indeterminate_contract_with_seniority
 msgid "tener como Clave Única de Registro de Población la número"
 msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__type
+msgid "type"
+msgstr "Tipo"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa

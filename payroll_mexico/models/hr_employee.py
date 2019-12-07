@@ -338,6 +338,11 @@ class hrGroup(models.Model):
     name = fields.Char("Name", copy=False, required=True)
     implant_id = fields.Many2one('res.partner', "Implant", required=True)
     account_executive_id = fields.Many2one('res.partner', "Account Executive", required=True)
+    type = fields.Selection([
+        ('governmental', 'Governmental'),
+        ('private', 'Private'),
+        ], string='type', required=True)
+    days = fields.Float("Days", required=True)
     
 class hrFamilyBurden(models.Model):
     _name = "hr.family.burden"
