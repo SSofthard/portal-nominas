@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-29 01:31+0000\n"
-"PO-Revision-Date: 2019-11-29 01:31+0000\n"
+"POT-Creation-Date: 2019-12-07 17:12+0000\n"
+"PO-Revision-Date: 2019-12-07 17:12+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,52 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_incidents
+#: model:ir.model.fields,help:hr_incidents.field_hr_leave_type__allocation_type
+msgid "	Corregido por HR: asignado por HR y no se puede omitir; los usuarios pueden solicitar hojas;	Solucionado por solicitud de asignación de recursos humanos +: asignado por recursos humanos y los usuarios pueden solicitar permisos y asignaciones;	Sin asignación: sin asignación por defecto, los usuarios pueden solicitar permisos libremente;"
+msgstr ""
+
+#. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
 msgid "Analyze from"
 msgstr "Analizar de"
 
 #. module: hr_incidents
+#: selection:hr.leave.type,allocation_type:0
+msgid "Arreglado por HR"
+msgstr ""
+
+#. module: hr_incidents
+#: selection:hr.leave.type,time_type:0
+msgid "Ausencia"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_9
+msgid "Ausent. sin 7o. dia"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_2
+msgid "Ausentismo"
+msgstr ""
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Black"
+msgstr "Negro"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Blue"
+msgstr "Azul"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Brown"
+msgstr "Marrón"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
 #: model_terms:ir.ui.view,arch_db:hr_incidents.wizard_hr_incidents
 msgid "Cancel"
 msgstr "Cancelar"
@@ -34,27 +75,40 @@ msgid "Code"
 msgstr "Clave"
 
 #. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__color_name
+msgid "Color in Report"
+msgstr "Color en informe"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__create_uid
 #: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__create_uid
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__create_uid
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__create_date
 #: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__create_date
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__create_date
 msgid "Created on"
 msgstr "Creado el"
 
 #. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__display_name
 #: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__display_name
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__display_name
 msgid "Display Name"
-msgstr "Nombre a mostrar"
+msgstr "Nombre mostrado"
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
 msgid "Duration (days):"
 msgstr "Duración"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,request_unit:0
+msgid "Días"
+msgstr ""
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__employee_ids
@@ -73,33 +127,121 @@ msgid "End Date"
 msgstr "Fecha finalización"
 
 #. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__unpaid
+msgid "Es se paga?"
+msgstr ""
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__file_name
+msgid "File name"
+msgstr "Nombre del archivo"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Fuchsia"
+msgstr ""
+
+#. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.wizard_hr_incidents
 msgid "Generate"
 msgstr "Generar"
 
 #. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Golden"
+msgstr ""
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__group_id
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_search
+msgid "Group"
+msgstr "Grupo"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,request_unit:0
+msgid "Horas"
+msgstr ""
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__id
 #: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__id
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Important. The cells cannot be empty."
+msgstr "Importante. Las celdas no pueden estar vacías."
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_18
+msgid "Incap. perm. parc. R.T."
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_19
+msgid "Incap. perm. total R.T."
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_17
+msgid "Incap. temporal R.T."
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_1
+msgid "Incapacidad"
+msgstr ""
+
+#. module: hr_incidents
+#: model:ir.ui.menu,name:hr_incidents.hr_incidents_import
+msgid "Incidents"
+msgstr "Incidentes"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__file_ids
+msgid "Incidents File"
+msgstr "Archivo de incidentes"
+
+#. module: hr_incidents
+#: model:ir.actions.act_window,name:hr_incidents.action_incidents_import_form
+#: model:ir.model,name:hr_incidents.model_hr_incidents_import
+#: model:ir.ui.menu,name:hr_incidents.menu_open_incidents_import
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Incidents Import"
+msgstr "Importación de incidentes"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Ivory"
+msgstr "Marfil"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import____last_update
 #: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report____last_update
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents____last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
 #. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__write_uid
 #: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__write_uid
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__write_date
 #: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_hr_leave_incidents_report__write_date
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__write_date
 msgid "Last Updated on"
 msgstr "Última actualización el"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Lavender"
+msgstr "Lavanda"
 
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_hr_leave
@@ -113,7 +255,7 @@ msgid "Leave Type"
 msgstr "Tipo de ausencia"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:61
+#: code:addons/hr_incidents/models/hr_incidents.py:98
 #, python-format
 msgid "Leave request must be confirmed (\"To Approve\") in order to approve it."
 msgstr "La solicitud de licencia debe confirmarse ( Para aprobar ) para aprobarla."
@@ -129,16 +271,83 @@ msgid "Leaves."
 msgstr "Ausencias."
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:72
+#: selection:hr.leave.type,color_name:0
+msgid "Light Blue"
+msgstr "Azul claro"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Light Coral"
+msgstr "Coral claro"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Light Cyan"
+msgstr "Cian claro"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Light Green"
+msgstr "Verde claro"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Light Pink"
+msgstr "Rosa claro"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Light Salmon"
+msgstr "Salmón claro"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Light Yellow"
+msgstr "Amarillo claro"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Magenta"
+msgstr ""
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__allocation_type
+msgid "Modo"
+msgstr ""
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:109
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:121
 #, python-format
 msgid "Negative or empty values ​​are not allowed for the number of days."
 msgstr "No se permiten valores negativos o vacíos para la cantidad de días."
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:77
+#: code:addons/hr_incidents/models/hr_incidents.py:114
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:126
 #, python-format
 msgid "No employees found for the key %s."
 msgstr "No se encontraron empleados para la clave %s"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Orange"
+msgstr "Naranja"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,time_type:0
+msgid "Otro"
+msgstr ""
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Please proceed to Upload the excel file."
+msgstr "Proceda a Cargar el archivo de Excel."
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Red"
+msgstr "Rojo"
 
 #. module: hr_incidents
 #: model:ir.actions.act_window,name:hr_incidents.action_wizard_hr_incidents
@@ -148,21 +357,117 @@ msgid "Report by Employee or type"
 msgstr "Informe por empleado o tipo"
 
 #. module: hr_incidents
+#: model:ir.model.fields,help:hr_incidents.field_hr_leave_type__time_type
+msgid "Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)"
+msgstr ""
+
+#. module: hr_incidents
+#: selection:hr.leave.type,allocation_type:0
+msgid "Sin asignación"
+msgstr ""
+
+#. module: hr_incidents
+#: selection:hr.leave.type,allocation_type:0
+msgid "Solucionado por solicitud de asignación de recursos humanos"
+msgstr ""
+
+#. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__date_from
 msgid "Start Date"
 msgstr "Fecha de inicio"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:74
+#: code:addons/hr_incidents/models/hr_incidents.py:111
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:123
 #, python-format
 msgid "The employee is required."
 msgstr "Se requiere el empleado."
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizards/wizard_hr_incidents.py:75
+#: code:addons/hr_incidents/wizard/wizard_hr_incidents.py:75
 #, python-format
 msgid "The end date cannot be less than the start date "
 msgstr "La fecha de finalización no puede ser inferior a la fecha de inicio"
+
+#. module: hr_incidents
+#: model:ir.model.fields,help:hr_incidents.field_hr_leave_type__color_name
+msgid "This color will be used in the leaves summary located in Reporting > Leaves by Department."
+msgstr "Este color será usado en el resumen de ausencias en Listados > Ausencias por Departamento."
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_10
+msgid "Tipo de falta 10"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_11
+msgid "Tipo de falta 11"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_12
+msgid "Tipo de falta 12"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_13
+msgid "Tipo de falta 13"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_14
+msgid "Tipo de falta 14"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_15
+msgid "Tipo de falta 15"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_16
+msgid "Tipo de falta 16"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_3
+msgid "Tipo de falta 3"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_4
+msgid "Tipo de falta 4"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_5
+msgid "Tipo de falta 5"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_6
+msgid "Tipo de falta 6"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_7
+msgid "Tipo de falta 7"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_8
+msgid "Tipo de falta 8"
+msgstr ""
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__time_type
+msgid "Tipo de licencia"
+msgstr ""
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__request_unit
+msgid "Tomar ausencias en"
+msgstr ""
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
@@ -170,7 +475,27 @@ msgid "Type leave:"
 msgstr "Escriba licencia:"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:59
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Upload file"
+msgstr "Subir archivo"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Upload the excel file"
+msgstr "Sube el archivo de Excel"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Violet"
+msgstr "Violeta"
+
+#. module: hr_incidents
+#: selection:hr.leave.type,color_name:0
+msgid "Wheat"
+msgstr "Amarillo"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:96
 #, python-format
 msgid "You must enter the end date."
 msgstr "Debe ingresar la fecha de finalización."
@@ -178,7 +503,7 @@ msgstr "Debe ingresar la fecha de finalización."
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_report_hr_incidents_hr_leave_incidents_report
 msgid "report.hr_incidents.hr_leave_incidents_report"
-msgstr "report.hr_incidents.hr_leave_incidents_report"
+msgstr ""
 
 #. module: hr_incidents
 #: sql_constraint:hr.leave.type:0
@@ -193,5 +518,5 @@ msgstr "a"
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_wizard_hr_incidents
 msgid "wizard.hr.incidents"
-msgstr "wizard.hr.incidents"
+msgstr ""
 

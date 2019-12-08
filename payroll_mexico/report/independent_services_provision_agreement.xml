@@ -7,6 +7,7 @@
           model="hr.contract" 
           report_type="qweb-html" 
           name="payroll_mexico.independent_services_pa" 
+          menu="False"
          /> 
         
         <template id="independent_services_pa" name="Independent Services Provision Agreement">

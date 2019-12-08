@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-26 23:38+0000\n"
-"PO-Revision-Date: 2019-11-26 23:38+0000\n"
+"POT-Creation-Date: 2019-12-07 15:53+0000\n"
+"PO-Revision-Date: 2019-12-07 15:53+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -73,11 +73,6 @@ msgid "Amount Payment"
 msgstr "Monto pagado"
 
 #. module: hr_expense_mexico
-#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__check_amount_in_words
-msgid "Amount in Words"
-msgstr "Importe en palabras"
-
-#. module: hr_expense_mexico
 #: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
 msgid "Approve"
 msgstr "Aprobar"
@@ -101,7 +96,7 @@ msgstr ""
 #. module: hr_expense_mexico
 #: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
 msgid "CODE"
-msgstr "CODIGO"
+msgstr "CLAVE"
 
 #. module: hr_expense_mexico
 #: model_terms:ir.ui.view,arch_db:hr_expense_mexico.refused_expense_wizard
@@ -130,16 +125,6 @@ msgid "Check Again"
 msgstr "Volver a comprobar"
 
 #. module: hr_expense_mexico
-#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__check_number
-msgid "Check Number"
-msgstr "Número de cheque"
-
-#. module: hr_expense_mexico
-#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__check_manual_sequencing
-msgid "Check this option if your pre-printed checks are not numbered."
-msgstr "Marque esta opción si sus cheques pre-impresos no están numerados."
-
-#. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__classification
 #: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
 msgid "Classification"
@@ -157,9 +142,8 @@ msgstr "Cerrado"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_method_code
-#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
 msgid "Code"
-msgstr "Código"
+msgstr "Clave"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__company_id
@@ -179,7 +163,6 @@ msgstr "Completado"
 
 #. module: hr_expense_mexico
 #: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
-#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_form
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -273,6 +256,24 @@ msgid "Draft"
 msgstr "Borrador"
 
 #. module: hr_expense_mexico
+#: code:addons/hr_expense_mexico/models/hr_expense.py:166
+#, python-format
+msgid "El monto entregado debe ser mayor a 0."
+msgstr ""
+
+#. module: hr_expense_mexico
+#: code:addons/hr_expense_mexico/models/hr_expense.py:47
+#, python-format
+msgid "El monto subtotal del gasto debe ser mayor a 0."
+msgstr ""
+
+#. module: hr_expense_mexico
+#: code:addons/hr_expense_mexico/models/hr_expense.py:45
+#, python-format
+msgid "El monto total del gasto debe ser mayor a 0."
+msgstr ""
+
+#. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__employee_id
 msgid "Employee"
 msgstr "Empleado"
@@ -311,7 +312,7 @@ msgstr "Faceta"
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__folio
 #: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
 msgid "Folio"
-msgstr "Folio"
+msgstr ""
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_follower_ids
@@ -349,7 +350,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_refused_expense_wizard__id
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__message_unread
@@ -378,6 +379,11 @@ msgid "Inbound Payment"
 msgstr "Pago recibido"
 
 #. module: hr_expense_mexico
+#: model:ir.actions.act_window,name:hr_expense_mexico.action_hr_expense_sheet_all_sheets
+msgid "Informes de Viaticos"
+msgstr ""
+
+#. module: hr_expense_mexico
 #: selection:hr.expense.payment,payment_type:0
 msgid "Internal Transfer"
 msgstr "Transferencia interna"
@@ -389,14 +395,13 @@ msgstr "Factura"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__invoice_ids
-#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_form
 msgid "Invoices"
 msgstr "Facturas"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__reconciled_invoice_ids
 msgid "Invoices whose journal items have been reconciled with this payment's."
-msgstr ""
+msgstr "Facturas cuyos artículos del diario se han conciliado con los de este pago."
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_is_follower
@@ -419,14 +424,9 @@ msgid "Journal Item Label"
 msgstr "Etiqueta de apunte contable."
 
 #. module: hr_expense_mexico
-#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_form
-msgid "Journal Items"
-msgstr "Apuntes contables"
-
-#. module: hr_expense_mexico
 #: selection:hr.expense.payment,payment_difference_handling:0
 msgid "Keep open"
-msgstr ""
+msgstr "Mantener abierto"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification____last_update
@@ -453,14 +453,14 @@ msgid "Last Updated on"
 msgstr "Última actualización el"
 
 #. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Luego de cerrar la hoja de viaticos no podrá agregar mas gastos. ¿Esta seguro de que desea cerrar la hoja de viaticos?."
+msgstr ""
+
+#. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Adjuntos principales"
-
-#. module: hr_expense_mexico
-#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__check_manual_sequencing
-msgid "Manual Numbering"
-msgstr "Numeración manual"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__payment_method_id
@@ -474,7 +474,7 @@ msgstr ""
 #. module: hr_expense_mexico
 #: selection:hr.expense.payment,payment_difference_handling:0
 msgid "Mark invoice as fully paid"
-msgstr ""
+msgstr "Marcar la factura como totalmente pagada"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__communication
@@ -497,6 +497,11 @@ msgid "Monto Entregado"
 msgstr ""
 
 #. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Monto comprobado"
+msgstr ""
+
+#. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__move_line_ids
 msgid "Move Line"
 msgstr "Registro de movimiento"
@@ -509,13 +514,24 @@ msgstr "Movimientos conciliados"
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__multi
 msgid "Multi"
-msgstr ""
+msgstr "Multi"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__name
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__name
 msgid "Name"
 msgstr "Nombre"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.actions.act_window,help:hr_expense_mexico.action_hr_expense_sheet_all_sheets
+msgid "No expense reports to approve"
+msgstr "No hay informes de gastos para aprobar"
+
+#. module: hr_expense_mexico
+#: code:addons/hr_expense_mexico/models/hr_expense.py:52
+#, python-format
+msgid "No puede agregar gastos a un informe de viaticos cerrado."
+msgstr ""
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__payment_token_id
@@ -622,11 +638,6 @@ msgid "Payment Journal"
 msgstr "Diario de pago"
 
 #. module: hr_expense_mexico
-#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_form
-msgid "Payment Matching"
-msgstr "Asignación de Pagos"
-
-#. module: hr_expense_mexico
 #: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
 msgid "Payment Method"
 msgstr "Método de pago"
@@ -666,7 +677,7 @@ msgstr "Pagos"
 #. module: hr_expense_mexico
 #: model_terms:ir.actions.act_window,help:hr_expense_mexico.action_hr_expense_payments
 msgid "Payments are used to register liquidity movements. You can process those payments by your own means or by using installed facilities."
-msgstr ""
+msgstr "Los pagos se utilizan para registrar movimientos de liquidez. Puede procesar esos pagos por sus propios medios o utilizando las instalaciones instaladas."
 
 #. module: hr_expense_mexico
 #: selection:hr.expense,state:0
@@ -721,12 +732,17 @@ msgstr "Monto Conciliado"
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__reconciled_invoice_ids
 msgid "Reconciled Invoices"
-msgstr ""
+msgstr "Facturas conciliadas"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__payment_reference
 msgid "Reference of the document used to issue this payment. Eg. check number, file name, etc."
 msgstr "Referencia del documento utililizado para emitir este pago. Por ejemplo número de cheque, nombre de archivo, etc."
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_register_payment_inherit_view_form
+msgid "Referencia"
+msgstr ""
 
 #. module: hr_expense_mexico
 #: selection:hr.expense.sheet,operation_result:0
@@ -881,11 +897,6 @@ msgid "Technical field used to know whether the field `partner_bank_account_id` 
 msgstr ""
 
 #. module: hr_expense_mexico
-#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__check_number
-msgid "The selected journal is configured to print check numbers. If your pre-printed check paper already has numbers or if the current numbering is wrong, you can change it in the journal configuration page."
-msgstr "El diario seleccionado está configurado para imprimir números de cheque . Si sus cheques pre-impresos ya tienen números o si la numeración actual es incorrecta, puede cambiarla en la página de configuración del diario."
-
-#. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__destination_journal_id
 msgid "Transfer To"
 msgstr "Transferir a"
@@ -933,7 +944,7 @@ msgstr "Actualizar montos"
 #. module: hr_expense_mexico
 #: selection:hr.expense.payment,partner_type:0
 msgid "Vendor"
-msgstr ""
+msgstr "Vendedor(a)"
 
 #. module: hr_expense_mexico
 #: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
@@ -975,7 +986,3 @@ msgstr ""
 msgid "wizard.attachment.tag"
 msgstr ""
 
-#. module: hr_expense_mexico
-#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
-msgid "{'readonly':[('state','=','closed')]}"
-msgstr ""

@@ -6,6 +6,7 @@
 			  model="hr.loan" 
 			  report_type="qweb-html" 
 			  name="hr_loan.loan_type_template" 
+              menu="False"
 			 /> 
         <template id="loan_type_template">
             <t t-call="web.html_container">

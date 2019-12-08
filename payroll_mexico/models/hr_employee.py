@@ -369,6 +369,7 @@ class HrGroup(models.Model):
     name = fields.Char("Name", copy=False, required=True)
     implant_id = fields.Many2one('res.partner', "Implant", required=True)
     account_executive_id = fields.Many2one('res.partner', "Account Executive", required=True)
+<<<<<<< HEAD
     sequence_id = fields.Many2one('ir.sequence', string='Employee Sequence',
         help="This field contains information related to the numbering of employees established by group.", copy=False)
     code = fields.Char(string='Short Code', size=5, required=True, help="Employees of this group will enrolled using this prefix.")
@@ -445,6 +446,14 @@ class HrGroup(models.Model):
         return super(HrGroup, self).write(vals)
 
 
+=======
+    type = fields.Selection([
+        ('governmental', 'Governmental'),
+        ('private', 'Private'),
+        ], string='type', required=True)
+    days = fields.Float("Days", required=True)
+    
+>>>>>>> f2ddc3cc1297f8e98422b0b04d0ff7addb09b77e
 class hrFamilyBurden(models.Model):
     _name = "hr.family.burden"
     
@@ -511,3 +520,20 @@ class Country(models.Model):
     _inherit = "res.country"
     
     nationality = fields.Char("Nationality", copy=False, required=False)
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

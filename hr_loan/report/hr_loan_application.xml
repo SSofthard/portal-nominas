@@ -7,6 +7,7 @@
           model="hr.loan" 
           report_type="qweb-html" 
           name="hr_loan.loan_application" 
+          menu="False"
          /> 
         
         <template id="loan_application" name="Loan Application">
@@ -58,7 +59,25 @@
                                     </tr>
                                     <tr>
                                         <td width="2500px">
-                                            <strong><div>Modo de interés : <t t-esc="o.interest_type.upper()"/></div></strong>
+                                            <strong><div>Modo de interés : 
+                                            <spam class="m-0" t-if="o.interest_type == 'flat'">Plano</spam>
+                                            <spam class="m-0" t-if="o.interest_type == 'reducing'">Reducción</spam>
+                                            </div></strong>
+                                        </td>
+                                        <td width="2500px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="2500px">
+                                            <strong><div>Pago planificado : 
+                                            <spam class="m-0" t-if="o.schedule_pay == 'monthly'">Mensual</spam>
+                                            <spam class="m-0" t-if="o.schedule_pay == 'quarterly'">Trimestral</spam>
+                                            <spam class="m-0" t-if="o.schedule_pay == 'semi-annually'">Semi-anualmente</spam>
+                                            <spam class="m-0" t-if="o.schedule_pay == 'annually'">Anualmente</spam>
+                                            <spam class="m-0" t-if="o.schedule_pay == 'weekly'">Semanal</spam>
+                                            <spam class="m-0" t-if="o.schedule_pay == 'bi-weekly'">Quincenal</spam>
+                                            <spam class="m-0" t-if="o.schedule_pay == 'bi-monthly'">Bi-mensual</spam>
+                                            </div></strong>
                                         </td>
                                         <td width="2500px">
                                         </td>

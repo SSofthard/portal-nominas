@@ -196,6 +196,7 @@
                             type="object"
                             string="Print Loan" 
                             class="oe_highlight" 
+                            states="paid,disburse"
                             >
                     </button>
 						<field name="state" widget="statusbar" statusbar_visible="draft,applied,approved,cancel,rejected"/>
