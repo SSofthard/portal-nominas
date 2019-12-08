@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+from datetime import date
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-
-import datetime
-from datetime import date
 from odoo.osv import expression
-
+from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
 
 def calculate_age(date_birthday):
     today = date.today() 
@@ -77,7 +76,7 @@ class Employee(models.Model):
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
     real_salary = fields.Float("Real Salary", copy=False)
     gross_salary = fields.Float("Gross Salary", copy=False)
-    table_id = fields.Many2one('tablas.cfdi','Table CFDI', default=lambda self: self.env['res.company']._company_default_get().tables_id,)
+    table_id = fields.Many2one('tablas.cfdi','Table CFDI')
     
     address_id = fields.Many2one(required=True)
     department_id = fields.Many2one(required=True)
@@ -111,18 +110,33 @@ class Employee(models.Model):
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
         ('social_security_number_unique', 'unique (social_security_number)', "An employee with this social security number already exists.!"),
     ]
-    
+
+    @api.multi
+    def post(self):
+        for employee in self:
+            if employee.enrollment == '/':
+                new_enrollment = False
+                group_id = employee.group_id
+                if group_id.sequence_id:
+                    sequence = group_id.sequence_id
+                    new_enrollment = sequence.with_context().next_by_id()
+                else:
+                    raise UserError(_('Please define a sequence on the group.'))
+                if new_enrollment:
+                    employee.enrollment = new_enrollment
+        return True
+
     @api.model
     def create(self, vals):
-        if vals.get('enrollment', _('/')) == _('/'):
-            vals['enrollment'] = self.env['ir.sequence'].next_by_code('Employee') or _('/')
+        # ~ if vals.get('enrollment', _('/')) == _('/'):
+            # ~ vals['enrollment'] = self.env['ir.sequence'].next_by_code('Employee') or _('/')
         res = super(Employee, self).create(vals)
-        name = res.group_id.name[0:3].upper()
-        if res.department_id:
-            name += '-'+res.department_id.name.upper()[0:3]
-        res.enrollment = name+'-'+res.enrollment
+        # ~ name = res.group_id.name[0:3].upper()
+        # ~ if res.department_id:
+            # ~ name += '-'+res.department_id.name.upper()[0:3]
+        # ~ res.enrollment = name+'-'+res.enrollment
         
-        
+        res.post()
         return res
     
     @api.onchange('ssnid')
@@ -234,7 +248,23 @@ class Employee(models.Model):
                 isr_assimilated = marginal_tax_assimilated + fixed_fee_assimilated
                 employee.assimilated_salary_gross = employee.assimilated_salary + isr_assimilated
         return True
-        
+    
+    def get_rfc_curp_data(self):
+        kwargs = {
+            "complete_name": self.name,
+            "last_name": self.last_name,
+            "mother_last_name": self.mothers_last_name if self.mothers_last_name else None,
+            "birth_date": self.birthday.strftime('%d-%m-%Y'),
+            "gender": self.gender[0:1].upper(),
+            "city": self.place_of_birth,
+            "state_code": None
+        }
+        curp = GenerateCURP(**kwargs)
+        rfc = GenerateRFC(**kwargs)
+        self.curp = curp.data
+        self.rfc = rfc.data
+    
+    
     @api.multi
     def generate_contracts(self, type_id, date):
         for employee in self:
@@ -332,18 +362,107 @@ class resBank(models.Model):
     clabe = fields.Char("Clabe", copy=False, required=False)
     code = fields.Char("Code", copy=False, required=False)
 
-class hrGroup(models.Model):
+
+class HrGroup(models.Model):
     _name = "hr.group"
     
     name = fields.Char("Name", copy=False, required=True)
     implant_id = fields.Many2one('res.partner', "Implant", required=True)
     account_executive_id = fields.Many2one('res.partner', "Account Executive", required=True)
+    sequence_id = fields.Many2one('ir.sequence', string='Employee Sequence',
+        help="This field contains information related to the numbering of employees established by group.", copy=False)
+    code = fields.Char(string='Short Code', size=5, required=True, help="Employees of this group will enrolled using this prefix.")
+    sequence_number_next = fields.Integer(string='Next Number',
+        help='The next sequence number will be used for the next invoice.',
+        compute='_compute_seq_number_next',
+        inverse='_inverse_seq_number_next')
     type = fields.Selection([
         ('governmental', 'Governmental'),
         ('private', 'Private'),
         ], string='type', required=True)
     days = fields.Float("Days", required=True)
     
+    _sql_constraints = [
+        ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
+    ]
+    
+    @api.onchange('name')
+    def onchange_name(self):
+        if len(self.name) >= 3:
+            self.code = self.name[0:3].upper()
+        else:
+            raise UserError(_('The group name must contain three or more characters.'))
+
+    @api.onchange('code')
+    def onchange_code(self):
+        if self.code:
+            if len(self.code) == 3:
+                self.code = self.code[0:3].upper()
+            else:
+                raise UserError(_('The group code must contain only three characters.'))
+
+    @api.multi
+    # do not depend on 'sequence_id.date_range_ids', because
+    # sequence_id._get_current_sequence() may invalidate it!
+    @api.depends('sequence_id.use_date_range', 'sequence_id.number_next_actual')
+    def _compute_seq_number_next(self):
+        '''Compute 'sequence_number_next' according to the current sequence in use,
+        an ir.sequence or an ir.sequence.date_range.
+        '''
+        for group in self:
+            if group.sequence_id:
+                sequence = group.sequence_id._get_current_sequence()
+                group.sequence_number_next = sequence.number_next_actual
+            else:
+                group.sequence_number_next = 1
+
+    @api.multi
+    def _inverse_seq_number_next(self):
+        '''Inverse 'sequence_number_next' to edit the current sequence next number.
+        '''
+        for group in self:
+            if group.sequence_id and group.sequence_number_next:
+                sequence = group.sequence_id._get_current_sequence()
+                sequence.sudo().number_next = group.sequence_number_next
+
+    @api.model
+    def _get_sequence_prefix(self, code):
+        prefix = code.upper()
+        return prefix + '-'
+
+    @api.model
+    def _create_sequence(self, vals):
+        """ Create new no_gap entry sequence for every new Group"""
+        prefix = self._get_sequence_prefix(vals['code'])
+        seq_name = _('Group: ') + vals['code'] + ' ' + _(vals['name'])
+        seq = {
+            'name': _('%s Sequence') % seq_name,
+            'implementation': 'no_gap',
+            'prefix': prefix,
+            'padding': 5,
+            'number_increment': 1,
+        }
+        seq = self.env['ir.sequence'].create(seq)
+        return seq
+
+    @api.model
+    def create(self, vals):
+        # We just need to create the relevant sequences according to the chosen options
+        if not vals.get('sequence_id'):
+            vals.update({'sequence_id': self.sudo()._create_sequence(vals).id})
+        return super(HrGroup, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        for group in self:
+            if ('code' in vals and group.code != vals['code']):
+                if self.env['hr.employee'].search([('group_id', 'in', self.ids)], limit=1):
+                    raise UserError(_('This group already contains items, therefore you cannot modify its name.'))
+                new_prefix = self._get_sequence_prefix(vals['code'])
+                group.sequence_id.write({'prefix': new_prefix})
+        return super(HrGroup, self).write(vals)
+
+
 class hrFamilyBurden(models.Model):
     _name = "hr.family.burden"
     
@@ -358,6 +477,7 @@ class hrFamilyBurden(models.Model):
     birthday = fields.Date("Birthday", required=True)
     age = fields.Integer("Age", compute='calculate_age_compute')
     relationship_id = fields.Many2one("hr.relationship","Relationship", required=True)
+
 
 class hrRelationship(models.Model):
     _name = "hr.relationship"
@@ -410,19 +530,3 @@ class Country(models.Model):
     
     nationality = fields.Char("Nationality", copy=False, required=False)
 
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
