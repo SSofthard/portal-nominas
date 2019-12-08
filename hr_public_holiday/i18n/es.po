@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-04 23:23+0000\n"
-"PO-Revision-Date: 2019-12-04 23:23+0000\n"
+"POT-Creation-Date: 2019-12-07 16:27+0000\n"
+"PO-Revision-Date: 2019-12-07 16:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -175,8 +175,14 @@ msgid "Back to draft"
 msgstr "Volver a borrador"
 
 #. module: hr_public_holiday
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_import__file_ids
+msgid "Calendar File"
+msgstr "Archivo de calendario"
+
+#. module: hr_public_holiday
 #: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_hr_public_holidays_email
 #: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_hr_public_holidays_wizard
+#: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_public_holidays_import_form
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -206,6 +212,7 @@ msgstr "Crear multiples días festivos"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__create_uid
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__create_uid
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_email__create_uid
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_import__create_uid
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_wizard__create_uid
 msgid "Created by"
 msgstr "Creado por"
@@ -214,6 +221,7 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__create_date
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__create_date
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_email__create_date
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_import__create_date
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_wizard__create_date
 msgid "Created on"
 msgstr "Creado el"
@@ -237,6 +245,7 @@ msgstr "Días festivo publicos"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__display_name
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__display_name
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_email__display_name
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_import__display_name
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_wizard__display_name
 msgid "Display Name"
 msgstr "Nombre mostrado"
@@ -269,6 +278,11 @@ msgid "End date"
 msgstr "Fecha final"
 
 #. module: hr_public_holiday
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_import__file_name
+msgid "File name"
+msgstr "Nombre del archivo"
+
+#. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__message_follower_ids
 msgid "Followers"
 msgstr "Seguidores"
@@ -289,12 +303,25 @@ msgid "Friday"
 msgstr "Viernes"
 
 #. module: hr_public_holiday
+#: model:ir.model,name:hr_public_holiday.model_hr_public_holidays_import
+msgid "Holiday Calendar Import"
+msgstr "Importar calendario de vacaciones"
+
+#. module: hr_public_holiday
+#: model:ir.actions.act_window,name:hr_public_holiday.action_holidays_import_form
+#: model:ir.ui.menu,name:hr_public_holiday.menu_open_holidays_import
+#: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_public_holidays_import_form
+msgid "Holidays Import"
+msgstr "Importación de vacaciones"
+
+#. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__id
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__id
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_email__id
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_import__id
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_wizard__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: hr_public_holiday
 #: model:ir.model.fields,help:hr_public_holiday.field_hr_public_holidays__message_unread
@@ -304,12 +331,17 @@ msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
 #. module: hr_public_holiday
 #: model:ir.model.fields,help:hr_public_holiday.field_hr_public_holidays__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
+msgstr "Si está marcado hay nuevos mensajes que requieren su atención."
 
 #. module: hr_public_holiday
 #: model:ir.model.fields,help:hr_public_holiday.field_hr_public_holidays__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
+
+#. module: hr_public_holiday
+#: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_public_holidays_import_form
+msgid "Important. The cells cannot be empty."
+msgstr "Importante. Las celdas no pueden estar vacías."
 
 #. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__message_is_follower
@@ -320,6 +352,7 @@ msgstr "Es un seguidor"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays____last_update
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays____last_update
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_email____last_update
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_import____last_update
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_wizard____last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
@@ -328,6 +361,7 @@ msgstr "Última modificación en"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__write_uid
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__write_uid
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_email__write_uid
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_import__write_uid
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_wizard__write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
@@ -336,6 +370,7 @@ msgstr "Última actualización por"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__write_date
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__write_date
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_email__write_date
+#: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_import__write_date
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays_wizard__write_date
 msgid "Last Updated on"
 msgstr "Última actualización el"
@@ -377,6 +412,12 @@ msgid "Name days public holidays"
 msgstr "Nombre días festivos"
 
 #. module: hr_public_holiday
+#: code:addons/hr_public_holiday/wizard/hr_public_holidays_import.py:99
+#, python-format
+msgid "Not found state for code %s."
+msgstr "Estado no encontrado para el código% s."
+
+#. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Número de acciones"
@@ -400,6 +441,11 @@ msgstr "Número de mensajes con error de envío"
 #: model:ir.model.fields,help:hr_public_holiday.field_hr_public_holidays__message_unread_counter
 msgid "Number of unread messages"
 msgstr "Número de mensajes no leidos"
+
+#. module: hr_public_holiday
+#: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_public_holidays_import_form
+msgid "Please proceed to Upload the excel file."
+msgstr "Proceda a Cargar el archivo de Excel."
 
 #. module: hr_public_holiday
 #: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_hr_publck_holidays_form
@@ -511,6 +557,13 @@ msgid "The start date must be between the dates of this year."
 msgstr "La fecha de inicio debe ser entre las fechas de este año."
 
 #. module: hr_public_holiday
+#: code:addons/hr_public_holiday/wizard/hr_public_holidays_import.py:108
+#: code:addons/hr_public_holiday/wizard/hr_public_holidays_import.py:113
+#, python-format
+msgid "The year %s is already registered for the company %s."
+msgstr "El año% s ya está registrado para la empresa% s."
+
+#. module: hr_public_holiday
 #: selection:hr.days.public.holidays,days:0
 msgid "Thursday"
 msgstr "Jueves"
@@ -529,6 +582,16 @@ msgstr "Mensajes sin leer"
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__message_unread_counter
 msgid "Unread Messages Counter"
 msgstr "Contador de mensajes sin leer"
+
+#. module: hr_public_holiday
+#: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_public_holidays_import_form
+msgid "Upload file"
+msgstr "Subir archivo"
+
+#. module: hr_public_holiday
+#: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_public_holidays_import_form
+msgid "Upload the excel file"
+msgstr "Sube el archivo de Excel"
 
 #. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_public_holidays__website_message_ids

@@ -260,6 +260,8 @@
                         <field name="name"/>
                         <field name="implant_id"/>
                         <field name="account_executive_id"/>
+                        <field name="type" widget="selection"/>
+                        <field name="days"/>
                     </group>
                 </form>
             </field>
