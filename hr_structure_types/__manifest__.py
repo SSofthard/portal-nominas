@@ -14,7 +14,7 @@
     'website': "http://www.solucionessofthard.com",
     'category': 'Human Resources',
     'version': '0.1',
-    'depends': ['base','hr_payroll','hr_contract'],
+    'depends': ['base','hr_payroll','hr_contract', 'payroll_mexico'],
     'data': [
         'security/ir.model.access.csv',
         'views/structure_type_views.xml',
