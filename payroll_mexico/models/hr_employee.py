@@ -369,7 +369,6 @@ class HrGroup(models.Model):
     name = fields.Char("Name", copy=False, required=True)
     implant_id = fields.Many2one('res.partner', "Implant", required=True)
     account_executive_id = fields.Many2one('res.partner', "Account Executive", required=True)
-<<<<<<< HEAD
     sequence_id = fields.Many2one('ir.sequence', string='Employee Sequence',
         help="This field contains information related to the numbering of employees established by group.", copy=False)
     code = fields.Char(string='Short Code', size=5, required=True, help="Employees of this group will enrolled using this prefix.")
@@ -377,7 +376,16 @@ class HrGroup(models.Model):
         help='The next sequence number will be used for the next invoice.',
         compute='_compute_seq_number_next',
         inverse='_inverse_seq_number_next')
-
+    type = fields.Selection([
+        ('governmental', 'Governmental'),
+        ('private', 'Private'),
+        ], string='type', required=True)
+    days = fields.Float("Days", required=True)
+    
+    _sql_constraints = [
+        ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
+    ]
+    
     @api.onchange('name')
     def onchange_name(self):
         if self.name:
@@ -446,14 +454,6 @@ class HrGroup(models.Model):
         return super(HrGroup, self).write(vals)
 
 
-=======
-    type = fields.Selection([
-        ('governmental', 'Governmental'),
-        ('private', 'Private'),
-        ], string='type', required=True)
-    days = fields.Float("Days", required=True)
-    
->>>>>>> f2ddc3cc1297f8e98422b0b04d0ff7addb09b77e
 class hrFamilyBurden(models.Model):
     _name = "hr.family.burden"
     

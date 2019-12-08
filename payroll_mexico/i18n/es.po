@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-07 17:39+0000\n"
-"PO-Revision-Date: 2019-12-07 17:39+0000\n"
+"POT-Creation-Date: 2019-12-08 17:04+0000\n"
+"PO-Revision-Date: 2019-12-08 17:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,6 +39,12 @@ msgstr ""
 #, python-format
 msgid "%g días restantes de %g"
 msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:429
+#, python-format
+msgid "%s Sequence"
+msgstr "%s Matrícula"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
@@ -969,6 +975,11 @@ msgid "A default record for the type of certificate already exists.!"
 msgstr "Ya existe un registro predeterminado para el tipo de certificado."
 
 #. module: payroll_mexico
+#: sql_constraint:hr.group:0
+msgid "A registered code already exists, modify and save the document.!"
+msgstr "Ya existe un código registrado, modifique y guarde el documento."
+
+#. module: payroll_mexico
 #: selection:hr.employee,blood_type:0
 msgid "AB+"
 msgstr ""
@@ -1121,7 +1132,7 @@ msgid "Amount"
 msgstr "Importe"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:392
+#: code:addons/payroll_mexico/models/hr_employee.py:503
 #, python-format
 msgid "An active INFONAVIT credit already exists for the employee."
 msgstr "Ya existe un crédito de INFONAVIT activo para el empleado"
@@ -1170,7 +1181,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__years_antiquity
 msgid "Antiquity"
-msgstr ""
+msgstr "Antigüedad"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -1248,11 +1259,6 @@ msgstr "Conteo de archivos adjuntos"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__attendance_bonus
 msgid "Attendance bonus"
 msgstr "Bono de asistencia"
-
-#. module: payroll_mexico
-#: selection:hr.leave.type,time_type:0
-msgid "Ausencia"
-msgstr ""
 
 #. module: payroll_mexico
 #: selection:hr.payslip.line,type_deduction:0
@@ -1408,7 +1414,7 @@ msgid "CURP"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:144
+#: code:addons/payroll_mexico/models/hr_employee.py:158
 #, python-format
 msgid "CURP length is incorrect"
 msgstr "La longitud de CURP es incorrecta"
@@ -1473,7 +1479,7 @@ msgstr "Cerrado"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_job_inherit
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
 msgid "Code"
-msgstr "Clave"
+msgstr "Código"
 
 #. module: payroll_mexico
 #: selection:hr.payslip.line,type_perception:0
@@ -1956,9 +1962,19 @@ msgid "Employee Contract"
 msgstr "Contrato de empleado"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__sequence_id
+msgid "Employee Sequence"
+msgstr ""
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_contract__employee_id
 msgid "Employees"
 msgstr "Empleados"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_group__code
+msgid "Employees of this group will enrolled using this prefix."
+msgstr "Los empleados de este grupo se matricularán usando este prefijo"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__employer_register_ids
@@ -2193,6 +2209,11 @@ msgid "Female"
 msgstr "Mujer"
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Fiscal Information"
+msgstr "Información fiscal"
+
+#. module: payroll_mexico
 #: selection:hr.infonavit.credit.line,type:0
 msgid "Fixed Amount"
 msgstr "Monto fija"
@@ -2272,6 +2293,16 @@ msgid "Generate"
 msgstr "Generar"
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Generate CUR"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Generate CURP"
+msgstr ""
+
+#. module: payroll_mexico
 #: model:ir.actions.act_window,name:payroll_mexico.action_hr_employee_contract
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_employee_contract_wizard
 msgid "Generate Contract"
@@ -2331,6 +2362,17 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_group_form
+msgid "Group Sequence"
+msgstr "Matrícula por grupo"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:427
+#, python-format
+msgid "Group: "
+msgstr "Grupo"
+
+#. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_cfdi.py:189
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_cfdi__guarderia_p
 #, python-format
@@ -2359,6 +2401,7 @@ msgid "Hiring Regime"
 msgstr "Régimen de contratación"
 
 #. module: payroll_mexico
+#: selection:hr.leave.type,time_type:0
 #: model:ir.actions.act_window,name:payroll_mexico.action_hr_holidays_dashboard
 #: model:ir.actions.act_window,name:payroll_mexico.view_hr_holidays_action
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_leave_type__cfdi_rule_id
@@ -2516,12 +2559,12 @@ msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_hr_employee__pay_extra_hours
 msgid "If checked, extra hours are paid to the employee"
-msgstr ""
+msgstr "Si se marca, se pagan horas adicionales al empleado."
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_hr_employee__pay_holiday
 msgid "If checked, holidays are paid to the employee"
-msgstr ""
+msgstr "Si está marcado, se pagan días feriados al empleado"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction
@@ -2670,6 +2713,11 @@ msgid "Junio"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_leave_type__time_type
+msgid "Kind of Leave"
+msgstr "Tipo de licencia"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
 msgid "LEIDO QUE FUE EL PRESENTE CONTRATO Y ENTERADAS LAS PARTES DE SU CONTENIDO, \n"
 "                            ALCANCE Y VALOR LEGAL, LO FIRMAN POR DUPLICADO EN LA CIUDAD DE MÉXICO,  \n"
@@ -2800,6 +2848,7 @@ msgid "Last Updated on"
 msgstr "Última actualización el"
 
 #. module: payroll_mexico
+#: selection:hr.leave.type,time_type:0
 #: model:ir.model,name:payroll_mexico.model_hr_leave
 msgid "Leave"
 msgstr "Ausencia"
@@ -3011,6 +3060,11 @@ msgid "Next Activity Type"
 msgstr "Siguiente tipo de actividad"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__sequence_number_next
+msgid "Next Number"
+msgstr "Próximo número"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
 msgid "Nivel Académico."
 msgstr ""
@@ -3110,6 +3164,11 @@ msgid "Octubre"
 msgstr ""
 
 #. module: payroll_mexico
+#: selection:hr.leave.type,time_type:0
+msgid "Other"
+msgstr "Otro"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
 msgid "Other perceptions"
 msgstr "Otras percepciones"
@@ -3117,11 +3176,6 @@ msgstr "Otras percepciones"
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.form_tablas_cfdi_view
 msgid "Otras ramas"
-msgstr ""
-
-#. module: payroll_mexico
-#: selection:hr.leave.type,time_type:0
-msgid "Otro"
 msgstr ""
 
 #. module: payroll_mexico
@@ -3364,7 +3418,13 @@ msgid "Planned"
 msgstr "Planificado"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:151
+#: code:addons/payroll_mexico/models/hr_employee.py:124
+#, python-format
+msgid "Please define a sequence on the group."
+msgstr "Defina una secuencia en el grupo."
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:165
 #, python-format
 msgid "Please indicate the monthly salary"
 msgstr "Por favor indique el salario mensual"
@@ -3660,7 +3720,7 @@ msgid "RFC"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:138
+#: code:addons/payroll_mexico/models/hr_employee.py:152
 #, python-format
 msgid "RFC length is incorrect"
 msgstr "La longitud de RFC es incorrecta"
@@ -3916,6 +3976,11 @@ msgid "Set the default table to determine the values ​​to be taken surveys f
 msgstr "Establezca la tabla predeterminada para determinar los valores que se tomarán encuestas para el cálculo de la nómina"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__code
+msgid "Short Code"
+msgstr "Código corto"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.determinate_contract_without_seniority
 msgid "Si es su deseo ejercer sus derechos de acceso, rectificación, cancelación y oposición señalados en “LA LEY” respecto a sus datos personales, aun aquellos considerados como sensibles, \n"
@@ -3926,11 +3991,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.determinate_contract_with_seniority
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.indeterminate_contract_with_seniority
 msgid "Si es su deseo ejercer sus derechos de acceso, rectificación, cancelación y oposición señalados en “LA LEY” respecto a sus datos personales, aun aquellos considerados como sensibles, los deberá realizar por escrito a “EL PATRON”, en su domicilio."
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,help:payroll_mexico.field_hr_leave_type__time_type
-msgid "Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)"
 msgstr ""
 
 #. module: payroll_mexico
@@ -4177,22 +4237,27 @@ msgid "Tener la capacidad y experiencia necesarias, para prestar sus servicios e
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:154
+#: code:addons/payroll_mexico/models/hr_employee.py:168
 #, python-format
 msgid "The amount of wages and salaries must be greater than 0"
 msgstr "La cantidad de sueldos y salarios debe ser mayor que 0"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:245
+#: code:addons/payroll_mexico/models/hr_employee.py:275
 #, python-format
 msgid "The employee has currently open contracts."
 msgstr "El empleado tiene contratos abiertos actualmente"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:132
+#: code:addons/payroll_mexico/models/hr_employee.py:146
 #, python-format
 msgid "The length of the social security number is incorrect"
 msgstr "La longitud del número de seguro social es incorrecta"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_group__sequence_number_next
+msgid "The next sequence number will be used for the next invoice."
+msgstr "El siguiente número de secuencia se usará para la próxima factura."
 
 #. module: payroll_mexico
 #: sql_constraint:bank.account.company:0
@@ -4213,6 +4278,17 @@ msgstr "Ya existe poder notariado predeterminado para esta compañía"
 #: sql_constraint:hr.employee:0
 msgid "There is already an employee with this registration.!"
 msgstr "There is already an employee with this registration"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_group__sequence_id
+msgid "This field contains information related to the numbering of employees established by group."
+msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:451
+#, python-format
+msgid "This group already contains items, therefore you cannot modify its name."
+msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_cfdi.py:139
@@ -4240,11 +4316,6 @@ msgstr "Caducado"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_deduction
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_deduction
 msgid "Tipo de deducción"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_leave_type__time_type
-msgid "Tipo de licencia"
 msgstr ""
 
 #. module: payroll_mexico
@@ -4321,7 +4392,7 @@ msgstr "Tipo"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__type_id
 msgid "Type Contract"
-msgstr ""
+msgstr "Tipo de contrato"
 
 #. module: payroll_mexico
 #: model:ir.actions.report,name:payroll_mexico.report_contract_type_template
@@ -4369,7 +4440,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread
 msgid "Unread Messages"
-msgstr "Mensajes por leer"
+msgstr "Mensajes sin leer"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread_counter
@@ -4484,6 +4555,11 @@ msgid "Website communication history"
 msgstr "Historial de comunicaciones del sitio web"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_leave_type__time_type
+msgid "Whether this should be computed as a holiday or as work time (eg: formation)"
+msgstr "Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)"
+
+#. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_contract_type.py:20
 #: selection:hr.contract.type,type:0
 #, python-format
@@ -4508,13 +4584,19 @@ msgid "Write Number"
 msgstr "Escribir número"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:247
+#: code:addons/payroll_mexico/models/hr_contract.py:37
+#, python-format
+msgid "Ya existe un contrato en proceso, del empleado (%s)                             para el régimen (%s)."
+msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:277
 #, python-format
 msgid "You must select a company for the salary and salary contract."
 msgstr "Debe seleccionar una empresa para el salario y el contrato salarial"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:249
+#: code:addons/payroll_mexico/models/hr_employee.py:279
 #, python-format
 msgid "You must select a company for the salary-like contract."
 msgstr "Debe seleccionar una empresa para el contrato salarial"
@@ -4721,6 +4803,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
 msgid "mismo que señala para todos los fines legales derivados o que se deriven en de este contrato."
 msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:427
+#, python-format
+msgid "name"
+msgstr "Nombre"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -5000,3 +5088,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.indeterminate_contract_with_seniority
 msgid "“EL TRABAJADOR” se obliga a extender el recibo de pago correspondiente o a autentificar por algún medio electrónico o tecnológico el recibo de los salarios y prestaciones, mismas en las que se incluyen las percepciones y las deducciones de Ley expresamente aceptadas por “EL TRABAJADOR”, suscribiendo con firma autógrafa o mediante la validación electrónica de conformidad, todos y cada uno de los períodos que éstos amparen, haciéndose notar que si en los recibos no aparece concepto alguno por tiempo extraordinario, es porque “EL TRABAJADOR” no lo laboró, extendiendo por lo tanto el más amplio finiquito de los salarios y prestaciones a las que tuvo derecho por el respectivo período, haciéndose notar que en caso de cualquier aclaración al respecto, deberá de hacerlo saber en forma inmediata a “EL PATRON” y en caso de que proceda, se cubrirá en el  siguiente periodo de pago."
 msgstr ""
+

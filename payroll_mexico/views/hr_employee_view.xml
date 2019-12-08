@@ -283,7 +283,7 @@
                         <page name="group_sequence" string="Group Sequence">
                             <group>
                                 <group>
-                                    <field name="code" readonly="1"/>
+                                    <field name="code"/>
                                     <label for="sequence_number_next"/>
                                     <div>
                                         <field name="sequence_number_next" attrs="{'readonly': 1}" style="padding-right: 1.0em"/>
