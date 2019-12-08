@@ -388,8 +388,18 @@ class HrGroup(models.Model):
     
     @api.onchange('name')
     def onchange_name(self):
-        if self.name:
+        if len(self.name) >= 3:
             self.code = self.name[0:3].upper()
+        else:
+            raise UserError(_('The group name must contain three or more characters.'))
+
+    @api.onchange('code')
+    def onchange_code(self):
+        if self.code:
+            if len(self.code) == 3:
+                self.code = self.code[0:3].upper()
+            else:
+                raise UserError(_('The group code must contain only three characters.'))
 
     @api.multi
     # do not depend on 'sequence_id.date_range_ids', because
@@ -445,7 +455,6 @@ class HrGroup(models.Model):
     @api.multi
     def write(self, vals):
         for group in self:
-            company = journal.company_id
             if ('code' in vals and group.code != vals['code']):
                 if self.env['hr.employee'].search([('group_id', 'in', self.ids)], limit=1):
                     raise UserError(_('This group already contains items, therefore you cannot modify its name.'))
@@ -521,19 +530,3 @@ class Country(models.Model):
     
     nationality = fields.Char("Nationality", copy=False, required=False)
 
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
