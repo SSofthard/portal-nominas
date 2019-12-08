@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api
 
+
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
 
@@ -15,3 +16,10 @@ class HrPayslip(models.Model):
     def onchange_employee(self):
         super(HrPayslip,self).onchange_employee()
         self.struct_id=False 
+
+
+class HrPayslipRun(models.Model):
+    _inherit = 'hr.payslip.run'
+
+    #Columns
+    group_id = fields.Many2one('hr.group', string="Empresa", required=True)
