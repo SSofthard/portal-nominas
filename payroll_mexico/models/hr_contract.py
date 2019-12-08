@@ -3,7 +3,7 @@
 from datetime import datetime
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from .tool_convert_numbers_letters import numero_to_letras
 from datetime import date,datetime,timedelta
@@ -13,6 +13,29 @@ from dateutil.relativedelta import relativedelta
 class Contract(models.Model):
 
     _inherit = 'hr.contract'
+
+    @api.multi
+    @api.constrains('employee_id', 'contracting_regime', 'company_id', 'state')
+    def _check_contract(self):
+        vals=[(self.employee_id.id,self.company_id.id,self.contracting_regime,self.state)]
+        contracting_regime = {1: 'Asimilado a salarios',
+            2: 'Sueldos y salarios',3: 'Jubilados',
+            4: 'Pensionados',5: 'Libre'}
+        regimen=contracting_regime.get(int(self.contracting_regime))
+        lista_contract=[]
+        contr = self.env['hr.contract'].search([
+                        ('employee_id', '=', self.employee_id.id), 
+                        ])
+        for contract in contr:
+            if self.state == 'open':
+                if contract.id != self.id:
+                    lista_contract=[(contract.employee_id.id,
+                            contract.company_id.id,
+                            contract.contracting_regime,
+                            contract.state)]
+                    if lista_contract == vals:
+                        raise ValidationError(_('Ya existe un contrato en proceso, del empleado (%s) \
+                            para el régimen (%s).') % (self.employee_id.name,regimen))
 
     @api.one
     def _get_years_antiquity(self):
@@ -25,8 +48,8 @@ class Contract(models.Model):
         days_antiquity = (today - date_start_contract).days
         years_antiquity = int(days_antiquity/365.25)
         self.years_antiquity = years_antiquity
-
-
+    
+    
     #Columns
     code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
     type_id = fields.Many2one(string="Type Contract")
@@ -136,4 +159,3 @@ class Contract(models.Model):
             'contract_data':contract_dic
             }
         return self.env.ref('payroll_mexico.report_contract_type_template').report_action(self,data)
-
