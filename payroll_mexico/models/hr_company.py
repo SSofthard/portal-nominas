@@ -63,7 +63,7 @@ class companyFielCsd(models.Model):
 
     _name = 'res.company.fiel.csd'
     
-    company_id = fields.Many2one('res.company', "Company", required=True)
+    company_id = fields.Many2one('res.company', "Company", required=False)
     type = fields.Selection([
         ('fiel', 'FIEL'),
         ('csd', 'CSD'),],default="Type", required=True)
@@ -98,13 +98,13 @@ class branchOffices(models.Model):
 
     _name = 'res.company.branch.offices'
     
-    company_id = fields.Many2one('res.company', "Company", required=True)
+    company_id = fields.Many2one('res.company', "Company", required=False)
     partner_id = fields.Many2one('res.partner', "Branch Offices", required=True, copy=False)
 
 class bankDetailsCompany(models.Model):
     _name = "bank.account.company"
     
-    company_id = fields.Many2one('res.company', "Company", required=True)
+    company_id = fields.Many2one('res.company', "Company", required=False)
     bank_id = fields.Many2one('res.bank', "Bank", required=True)
     account_holder = fields.Char("Account holder", copy=False, required=True)
     bank_account = fields.Char("Bank account", copy=False, required=True)
@@ -139,7 +139,7 @@ class companyPowerAttorney(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = "representative_id"
     
-    company_id = fields.Many2one('res.company', "Company", required=True)
+    company_id = fields.Many2one('res.company', "Company", required=False)
     representative_id = fields.Many2one('res.partner', "Representative", required=True, copy=False)
     book = fields.Integer("Book", copy=False, required=True)
     public_deed_number = fields.Char("Instrument or public deed number.", copy=False, required=True)
