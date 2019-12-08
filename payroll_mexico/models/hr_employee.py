@@ -409,3 +409,20 @@ class Country(models.Model):
     _inherit = "res.country"
     
     nationality = fields.Char("Nationality", copy=False, required=False)
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

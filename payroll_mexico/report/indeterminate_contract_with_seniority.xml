@@ -7,6 +7,7 @@
           model="hr.contract" 
           report_type="qweb-html" 
           name="payroll_mexico.indeterminate_contract_with_seniority" 
+          menu="False"
          /> 
         
         <template id="indeterminate_contract_with_seniority" name="Indeterminate Contract With Seniority" >
