@@ -47,14 +47,30 @@
                             <field name="mothers_last_name" placeholder="Mother's Last Name"/>
                         </div>
                     </div>
-                </xpath> 
+                </xpath>
                 <xpath expr="//field[@name='birthday']" position="after">
                     <field name="age"/>
                 </xpath> 
                 <xpath expr="//field[@name='passport_id']" position="after">
                     <field name="title"/>
-                    <field name="rfc" widget="mask" data-inputmask="'mask': 'AAAA999999&amp;&amp;&amp;', 'greedy' : false"/>
-                    <field name="curp" widget="mask" data-inputmask="'mask': '&amp;', 'repeat': 18, 'greedy' : false"/>
+                </xpath> 
+                <xpath expr="//page[@name='personal_information']/group/group[2]" position="after">
+                    <group name="fical_info" string="Fiscal Information">
+                        <div class="o_row">
+                            <button
+                                type="object"
+                                name="get_rfc_curp_data"
+                                class="btn-sm btn-link fa fa-cog"
+                                aria-label="Generate CUR"
+                                title="Generate CURP"
+                                context="{'field_name': 'curp'}"
+                            />
+                        </div>
+                        <field name="rfc" widget="mask" data-inputmask="'mask': 'AAAA999999&amp;&amp;&amp;', 'greedy' : false"/>
+                        
+                        <field name="curp" widget="mask" data-inputmask="'mask': '&amp;', 'repeat': 18, 'greedy' : false"/>
+                        
+                    </group>
                 </xpath> 
                 <xpath expr="//field[@name='address_home_id']" position="after">
                     <field name="personal_email"/>

@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+from datetime import date
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-
-import datetime
-from datetime import date
 from odoo.osv import expression
-
+from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
 
 def calculate_age(date_birthday):
     today = date.today() 
@@ -249,7 +248,23 @@ class Employee(models.Model):
                 isr_assimilated = marginal_tax_assimilated + fixed_fee_assimilated
                 employee.assimilated_salary_gross = employee.assimilated_salary + isr_assimilated
         return True
-        
+    
+    def get_rfc_curp_data(self):
+        kwargs = {
+            "complete_name": self.name,
+            "last_name": self.last_name,
+            "mother_last_name": self.mothers_last_name if self.mothers_last_name else None,
+            "birth_date": self.birthday.strftime('%d-%m-%Y'),
+            "gender": self.gender[0:1].upper(),
+            "city": self.place_of_birth,
+            "state_code": None
+        }
+        curp = GenerateCURP(**kwargs)
+        rfc = GenerateRFC(**kwargs)
+        self.curp = curp.data
+        self.rfc = rfc.data
+    
+    
     @api.multi
     def generate_contracts(self, type_id, date):
         for employee in self:
