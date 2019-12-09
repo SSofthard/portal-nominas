@@ -376,7 +376,7 @@
         </record>
         <record id="rule_input_P019" model="hr.rule.input">
             <field name="name">PRIMA DOMINICAL</field>
-            <field name="code">P020</field>
+            <field name="code">P019</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P019"/>
         </record>
@@ -577,6 +577,26 @@
             <field name="code">P104</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P104"/>
+        </record>
+        
+        <record id="hr_salary_rule_P031" model="hr.salary.rule">
+            <field name="name">PRIMA VACACIONAL ASIMILADOS</field>
+            <field name="code">P031</field>
+            <field name="sequence">370</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">inputs.P031.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=inputs.P031.amount</field>
+        </record>
+        <record id="rule_input_D030" model="hr.rule.input">
+            <field name="name">PRIMA VACACIONAL ASIMILADOS</field>
+            <field name="code">P031</field>
+            <field name="type">perception</field>
+            <field name="input_id" ref="hr_salary_rule_P031"/>
         </record>
 
         
@@ -888,48 +908,7 @@
             <field name="condition_python"></field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=1</field>
-        </record>
-
-        <record id="hr_salary_rule_D030" model="hr.salary.rule">
-            <field name="name">Prima vacacional</field>
-            <field name="code">D030</field>
-            <field name="sequence">365</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="PERCEPTIONS"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D030.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D030.amount</field>
-        </record>
-        <record id="rule_input_D030" model="hr.rule.input">
-            <field name="name">Prima vacacional</field>
-            <field name="code">D030</field>
-            <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_D030"/>
-        </record>
-
-        <record id="hr_salary_rule_D031" model="hr.salary.rule">
-            <field name="name">Prima vacacional asimilados</field>
-            <field name="code">D031</field>
-            <field name="sequence">370</field>
-            <field name="quantity">1</field>
-            <field name="category_id" ref="PERCEPTIONS"/>
-            <field name="active">True</field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_select">python</field>
-            <field name="condition_python">inputs.D031.amount > 0</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=inputs.D031.amount</field>
-        </record>
-        <record id="rule_input_D030" model="hr.rule.input">
-            <field name="name">Prima vacacional asimilados</field>
-            <field name="code">D031</field>
-            <field name="type">perception</field>
-            <field name="input_id" ref="hr_salary_rule_D031"/>
-        </record>
-        
+        </record>        
         
    </data>
 </odoo>

@@ -20,6 +20,31 @@
                 </xpath> 
             </field>
         </record>
+        
+        <record model="ir.ui.view" id="view_hr_payslip_mexico_form">
+            <field name="name">hr.payslip.inherit.mexico</field>
+            <field name="model">hr.payslip</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='credit_note']" position="replace">
+                    <field name="credit_note" invisible="1"/>
+                </xpath> 
+                <xpath expr="//button[@name='compute_sheet']" position="before">
+                    <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
+                </xpath> 
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="payroll_type"/>
+                    <field name="payroll_month"/>
+                    <field name="payroll_of_month"/>
+                </xpath> 
+                <xpath expr="//notebook/page[1]" position="after">
+                    <page string="Inpust reported on payroll">
+                        <field name="input_ids" readonly="1"/>
+                   </page>
+                </xpath> 
+            </field>
+        </record>
                 
         <record id="view_hr_inputs_form" model="ir.ui.view">
             <field name="name">hr.inputs.form</field>
