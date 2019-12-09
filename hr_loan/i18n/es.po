@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-07 16:03+0000\n"
-"PO-Revision-Date: 2019-12-07 16:03+0000\n"
+"POT-Creation-Date: 2019-12-09 13:45+0000\n"
+"PO-Revision-Date: 2019-12-09 13:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,11 @@ msgid "Annually"
 msgstr "Anualmente"
 
 #. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Anualmente"
+msgstr ""
+
+#. module: hr_loan
 #: selection:hr.loan,state:0
 msgid "Applied"
 msgstr "Aplicado"
@@ -141,6 +146,11 @@ msgstr "Conteo de archivos adjuntos"
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_amount_due
 msgid "Balance on Loan"
 msgstr "Saldo en préstamo"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Bi-mensual"
+msgstr ""
 
 #. module: hr_loan
 #: selection:hr.loan,schedule_pay:0
@@ -356,7 +366,7 @@ msgstr "Ingrese el porcentaje de interés para aplicar al préstamo"
 #, python-format
 msgid "Enter values ​​greater than zero:\n"
 " %s "
-msgstr "Ingrese valores mayores que cero: \ n"
+msgstr "Ingrese valores mayores que cero:  n"
 
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
@@ -455,7 +465,7 @@ msgstr ""
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
 msgid "Interest"
-msgstr "Interest"
+msgstr ""
 
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
@@ -472,7 +482,7 @@ msgstr "Los intereses a pagar"
 #, python-format
 msgid "Interest Rate\n"
 " "
-msgstr "Tasa de interés \ n"
+msgstr "Tasa de interés  n"
 
 #. module: hr_loan
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan__interest_type
@@ -548,7 +558,7 @@ msgstr "Monto del préstamo"
 #, python-format
 msgid "Loan Amount\n"
 " "
-msgstr "Monto del préstamo \ n"
+msgstr "Monto del préstamo  n"
 
 #. module: hr_loan
 #: model:ir.actions.report,name:hr_loan.report_loan_application
@@ -577,14 +587,15 @@ msgstr "Línea de préstamo"
 #: model:ir.ui.menu,name:hr_loan.loan_policies
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_form
 msgid "Loan Policies"
-msgstr ""
+msgstr "Políticas de préstamos"
 
 #. module: hr_loan
 #: code:addons/hr_loan/models/hr_loan.py:117
 #, python-format
 msgid "Loan Policies not satisfied :\n"
 " %s "
-msgstr ""
+msgstr "Políticas de préstamo no satisfechas: \ n "
+"% s"
 
 #. module: hr_loan
 #: model:ir.model,name:hr_loan.model_hr_loan_type
@@ -593,23 +604,23 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_form
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_tree
 msgid "Loan Type"
-msgstr ""
+msgstr "Tipo de préstamo"
 
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
 msgid "Loan Type with Flat Interest mode"
-msgstr ""
+msgstr "Tipo de préstamo con modo de interés fijo"
 
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
 msgid "Loan Type with Reducing Interest mode"
-msgstr ""
+msgstr "Tipo de préstamo con modo de reducción de interés"
 
 #. module: hr_loan
 #: model:ir.actions.act_window,name:hr_loan.action_hr_loan_type
 #: model:ir.ui.menu,name:hr_loan.loan_type
 msgid "Loan Types"
-msgstr ""
+msgstr "Tipos de préstamos"
 
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_calendar
@@ -617,12 +628,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_graph
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
 msgid "Loan installments"
-msgstr ""
+msgstr "Préstamos a plazos"
 
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
 msgid "Loan installments paid"
-msgstr ""
+msgstr "Pagos a plazos pagados"
 
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_policy_tree
@@ -658,6 +669,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Adjuntos principales"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Mensual"
+msgstr ""
 
 #. module: hr_loan
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_has_error
@@ -772,7 +788,12 @@ msgstr "Número de mensajes no leidos"
 #: selection:hr.loan,activity_state:0
 #: selection:hr.loan.line,activity_state:0
 msgid "Overdue"
-msgstr "Overdue"
+msgstr "Atrasado"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Pago planificado :"
+msgstr ""
 
 #. module: hr_loan
 #: selection:hr.loan,state:0
@@ -789,6 +810,11 @@ msgid "Planned"
 msgstr "Planificado"
 
 #. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Plano"
+msgstr ""
+
+#. module: hr_loan
 #: code:addons/hr_loan/models/hr_loan.py:212
 #, python-format
 msgid "Please give disbursement date."
@@ -802,7 +828,7 @@ msgstr "Políticas"
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
 msgid "Print Loan"
-msgstr "Print Loan"
+msgstr "Préstamo de impresión"
 
 #. module: hr_loan
 #: model_terms:ir.ui.view,arch_db:hr_loan.internal_layout_loan
@@ -816,6 +842,11 @@ msgid "Quarterly"
 msgstr "Trimestral"
 
 #. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Quincenal"
+msgstr ""
+
+#. module: hr_loan
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan__rate
 msgid "Rate"
 msgstr "Tasa"
@@ -824,6 +855,11 @@ msgstr "Tasa"
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_amount_paid
 msgid "Received From Employee"
 msgstr "Recibido del empleado"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Reducción"
+msgstr ""
 
 #. module: hr_loan
 #: selection:hr.loan,interest_type:0
@@ -915,9 +951,19 @@ msgid "Search on Dates"
 msgstr "Buscar fechas"
 
 #. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Semanal"
+msgstr ""
+
+#. module: hr_loan
 #: selection:hr.loan,schedule_pay:0
 msgid "Semi-annually"
 msgstr "Semi-anualmente"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Semi-anualmente"
+msgstr ""
 
 #. module: hr_loan
 #: model:ir.model.fields,help:hr_loan.field_hr_loan_policy__value
@@ -1026,6 +1072,11 @@ msgid "Total amount"
 msgstr "Cantidad total"
 
 #. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Trimestral"
+msgstr ""
+
+#. module: hr_loan
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__type
 #: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_filter
 msgid "Type"
@@ -1051,7 +1102,7 @@ msgstr "Préstamos impagos"
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_unread
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_unread
 msgid "Unread Messages"
-msgstr "Mensajes por leer"
+msgstr "Mensajes sin leer"
 
 #. module: hr_loan
 #: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_unread_counter
@@ -1094,7 +1145,7 @@ msgstr "Historial de comunicaciones del sitio web"
 #. module: hr_loan
 #: selection:hr.loan,schedule_pay:0
 msgid "Weekly"
-msgstr "Weekly"
+msgstr "Semanal"
 
 #. module: hr_loan
 #: model:ir.model,name:hr_loan.model_report_hr_loan_loan_type_template
