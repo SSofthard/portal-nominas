@@ -5795,3 +5795,19 @@ msgstr ""
 msgid "“EL TRABAJADOR” se obliga a extender el recibo de pago correspondiente o a autentificar por algún medio electrónico o tecnológico el recibo de los salarios y prestaciones, mismas en las que se incluyen las percepciones y las deducciones de Ley expresamente aceptadas por “EL TRABAJADOR”, suscribiendo con firma autógrafa o mediante la validación electrónica de conformidad, todos y cada uno de los períodos que éstos amparen, haciéndose notar que si en los recibos no aparece concepto alguno por tiempo extraordinario, es porque “EL TRABAJADOR” no lo laboró, extendiendo por lo tanto el más amplio finiquito de los salarios y prestaciones a las que tuvo derecho por el respectivo período, haciéndose notar que en caso de cualquier aclaración al respecto, deberá de hacerlo saber en forma inmediata a “EL PATRON” y en caso de que proceda, se cubrirá en el  siguiente periodo de pago."
 msgstr ""
 
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:394
+#, python-format
+msgid "The group name must contain three or more characters."
+msgstr "El nombre del grupo debe contener tres o más caracteres."
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employee.py:402
+#, python-format
+msgid "The group code must contain only three characters."
+msgstr "El código del grupo debe contener solo tres caracteres."
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Generate RFC and CURP"
+msgstr "Generar RFC y CURP"
