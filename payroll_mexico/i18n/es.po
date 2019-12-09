@@ -5101,3 +5101,7 @@ msgstr "El nombre del grupo debe contener tres o más caracteres."
 msgid "The group code must contain only three characters."
 msgstr "El código del grupo debe contener solo tres caracteres."
 
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
+msgid "Generate RFC and CURP"
+msgstr "Generar RFC y CURP"
