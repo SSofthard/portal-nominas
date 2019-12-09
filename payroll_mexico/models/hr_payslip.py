@@ -13,8 +13,64 @@ class HrPayslip(models.Model):
     
     payroll_type = fields.Selection([
             ('ordinary_payroll', 'Ordinary Payroll'),
-            ('extraordinary_payroll', 'Extraordinary Payroll')], string='Payroll Type', default="ordinary_payroll")
+            ('extraordinary_payroll', 'Extraordinary Payroll')], string='Payroll Type', default="ordinary_payroll", required=True)
+    payroll_month = fields.Selection([
+            ('1', 'January'),
+            ('2', 'February'),
+            ('3', 'March'),
+            ('4', 'April'),
+            ('5', 'May'),
+            ('6', 'June'),
+            ('7', 'July'),
+            ('8', 'August'),
+            ('9', 'September'),
+            ('10', 'October'),
+            ('11', 'November'),
+            ('12', 'December')], string='Payroll month', required=True)
+    payroll_of_month = fields.Selection([
+            ('1', '1'),
+            ('2', '2'),
+            ('3', '3'),
+            ('4', '4'),
+            ('5', '5'),
+            ('6', '6')], string='Payroll of the month', required=True)
+    input_ids = fields.Many2many('hr.inputs', string="Inpust reported on payroll")
 
+
+    @api.model
+    def get_inputs(self, contracts, date_from, date_to):
+        res = []
+        structure_ids = contracts.get_all_structures(self.struct_id)
+        rule_ids = self.env['hr.payroll.structure'].browse(structure_ids).get_all_rules()
+        sorted_rule_ids = [id for id, sequence in sorted(rule_ids, key=lambda x:x[1])]
+        inputs = self.env['hr.salary.rule'].browse(sorted_rule_ids).mapped('input_ids')
+        hr_inputs = self.env['hr.inputs'].browse([])
+        self.input_ids.write({'payslip':False})
+        print (self.input_ids)
+        print (self.input_ids)
+        print (self.input_ids)
+        print (self.input_ids)
+        self.input_ids = False
+        for contract in contracts:
+            employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
+            for input in inputs:
+                amount = 0.0
+                other_input_line = self.env['hr.inputs'].search([('employee_id', '=', employee_id),('input_id', '=', input.id),('state','in',['approve']),('payslip','=',False)])
+                hr_inputs += other_input_line
+                for line in other_input_line:
+                    amount += line.amount
+                input_data = {
+                    'name': input.name,
+                    'code': input.code,
+                    'amount': amount,
+                    'contract_id': contract.id,
+                }
+                res += [input_data]
+            self.input_ids = hr_inputs
+            hr_inputs.write({'payslip':True})
+        return res
+
+    
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
     def onchange_employee(self):
         if (not self.employee_id) or (not self.date_from) or (not self.date_to):
@@ -22,6 +78,7 @@ class HrPayslip(models.Model):
         employee = self.employee_id
         date_from = self.date_from
         date_to = self.date_to
+        
         contract_ids = []
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
         locale = self.env.context.get('lang') or 'en_US'
@@ -43,8 +100,20 @@ class HrPayslip(models.Model):
         for r in worked_days_line_ids:
             worked_days_lines += worked_days_lines.new(r)
         self.worked_days_line_ids = worked_days_lines
+        self.payroll_month = str(date_from.month)
+        return
+        
+    def search_inputs(self):
+        if (not self.employee_id) or (not self.date_from) or (not self.date_to) or (not self.contract_id):
+            return
+        employee = self.employee_id
+        date_from = self.date_from
+        date_to = self.date_to
+        contracts = self.contract_id
         input_line_ids = self.get_inputs(contracts, date_from, date_to)
         input_lines = self.input_line_ids.browse([])
+        for r in input_line_ids:
+            input_lines += input_lines.new(r)
         self.input_line_ids = input_lines
         return
         
@@ -121,16 +190,12 @@ class HrInputs(models.Model):
     _name = 'hr.inputs'
     
     employee_id = fields.Many2one('hr.employee', string='Employee', required=True, states={'paid': [('readonly', True)]})
+    payslip = fields.Boolean('Payroll?')
     amount = fields.Float('Amount', states={'paid': [('readonly', True)]}, digits=(16, 2))
-    
-    
     input_id = fields.Many2one('hr.rule.input', string='Input', required=True, states={'paid': [('readonly', True)]})
-    
-    
     state = fields.Selection([
         ('approve', 'Approved'),
         ('paid', 'Reported on payroll')], string='Status', readonly=True, default='approve')
-        
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, states={'paid': [('readonly', True)]}, store=True)

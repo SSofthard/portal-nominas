@@ -70,6 +70,18 @@ class Contract(models.Model):
         ], string='Contracting Regime', required=True, default="2")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     
+    @api.multi
+    def get_all_structures(self,struct_id):
+        """
+        @return: the structures linked to the given contracts, ordered by hierachy (parent=False first,
+                 then first level children and so on) and without duplicata
+        """
+        structures = struct_id
+        if not structures:
+            return []
+        # YTI TODO return browse records
+        return list(set(structures._get_parent_structure().ids))
+    
     @api.onchange('company_id')
     def onchange_default_power_attorney(self):
         for contract in self:
