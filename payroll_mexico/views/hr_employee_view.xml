@@ -59,16 +59,19 @@
                 </xpath> 
                 <xpath expr="//page[@name='personal_information']/group/group[2]" position="after">
                     <group name="fical_info" string="Fiscal Information">
-                        <button
-                            type="object"
-                            name="get_rfc_curp_data"
-                            class="oe_highlight"
-                            string="Generate RFC and CURP"
-                        />
-                        <field name="rfc" widget="mask" data-inputmask="'mask': 'AAAA999999&amp;&amp;&amp;', 'greedy' : false"/>
-                        
+                        <label for="rfc"/>
+                        <div class="o_row">
+                            <field name="rfc" widget="mask" data-inputmask="'mask': 'AAAA999999&amp;&amp;&amp;', 'greedy' : false"/>
+                            <button
+                                type="object"
+                                name="get_rfc_curp_data"
+                                class="btn-sm btn-link mb4 fa fa-cogs"
+                                aria-label="Generate RFC &amp; CURP"
+                                title="Generate RFC &amp; CURP"
+                                context="{'field_name': 'rfc'}"
+                            />
+                        </div>
                         <field name="curp" widget="mask" data-inputmask="'mask': '&amp;', 'repeat': 18, 'greedy' : false"/>
-                        
                     </group>
                 </xpath> 
                 <xpath expr="//field[@name='address_home_id']" position="after">
@@ -349,6 +352,10 @@
             action="base.action_country"
             parent="menu_address"
             sequence="10"/>
+            
+        <menuitem
+            id="account.menu_finance"
+            active="False"/>
           
     </data>
 </odoo>
