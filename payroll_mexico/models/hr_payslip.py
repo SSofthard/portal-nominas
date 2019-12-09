@@ -10,6 +10,10 @@ from odoo.osv import expression
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
+    
+    payroll_type = fields.Selection([
+            ('ordinary_payroll', 'Ordinary Payroll'),
+            ('extraordinary_payroll', 'Extraordinary Payroll')], string='Payroll Type', default="ordinary_payroll")
 
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
     def onchange_employee(self):
@@ -22,7 +26,6 @@ class HrPayslip(models.Model):
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
         locale = self.env.context.get('lang') or 'en_US'
         self.name = _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
-        self.company_id = employee.company_id
         if not self.contract_id:
             contract = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('state','in',['open'])])
             if not contract:
@@ -31,6 +34,7 @@ class HrPayslip(models.Model):
             contract_ids = [contract[0].id]
         else:
             contract_ids = [self.contract_id.id]
+        self.company_id = self.contract_id.company_id
         self.struct_id=False
         contracts = self.env['hr.contract'].browse(contract_ids)
         worked_days_line_ids = self.get_worked_day_lines(contracts, date_from, date_to)
