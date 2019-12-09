@@ -88,16 +88,10 @@ class GenerateRfcCompany(BaseGenerator):
         }
 
         for count in range(0,len(rfc)):
-            letra = rfc[count]
-            if rfc3[letra]:
-                suma_numero = rfc3[letra]
-                print ('len(rfc)len(rfc)len(rfc)len(rfc)len(rfc)')
-                print (suma_numero)
-                print (rfc3[letra])
+            letra = self.remove_accents(rfc[count])
+            if rfc3[letra if letra not in ('ñ','Ñ') else 'X']:
+                suma_numero = rfc3[letra if letra not in ('ñ','Ñ') else 'X']
                 suma_parcial += (suma_numero*(14-(count+1)))
-                print ('suma_parcial')
-                print (suma_parcial)
-                print (count)
 
         print ('suma_numero')
         print (suma_numero)
