@@ -12,7 +12,18 @@
                             <group>
                                 <group>
                                     <field name="business_name"/>
-                                    <field name="rfc"/>
+                                    <div class="o_row">
+                                        <button
+                                            type="object"
+                                            name="get_rfc_data"
+                                            class="btn-sm btn-link fa fa-cog"
+                                            aria-label="Generate RFC"
+                                            title="Generar RFC"
+                                            context="{'field_name': 'rfc'}"
+                                        />
+                                    </div>
+                                    <field name="rfc" widget="mask" data-inputmask="'mask': 'AAA999999&amp;&amp;&amp;', 'greedy' : false"/>
+                                
                                 </group>
                                 <group string="Notarial Data">
                                     <field name="legal_representative_id" context="{'default_legal_representative': True}" domain="[('legal_representative','=',True)]"/>
