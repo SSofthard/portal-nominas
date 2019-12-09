@@ -11,6 +11,21 @@
             </xpath>
       </field>
     </record>
+
+    <record model="ir.ui.view" id="hr_payslip_run_inherit_form">
+      <field name="name">hr.payslip.run.inherit.form</field>
+      <field name="model">hr.payslip.run</field>
+      <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+      <field name="arch" type="xml">
+            <xpath expr="//group" position="after">
+                <group>
+                    <group>
+                        <field name="group_id" required="1"/>
+                    </group>
+                </group>
+            </xpath>
+      </field>
+    </record>
     
 
     

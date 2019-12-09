@@ -109,7 +109,7 @@ class Employee(models.Model):
         ('passport_uniq', 'unique (passport_id)', "An employee with this passport already exists.!"),
         ('rfc_uniq', 'unique (rfc)', "An employee with this RFC already exists.!"),
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
-        ('social_security_number_unique', 'unique (social_security_number)', "An employee with this social security number already exists.!"),
+        ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
     
     @api.constrains('ssnid','rfc','curp')
@@ -410,10 +410,11 @@ class HrGroup(models.Model):
     
     @api.onchange('name')
     def onchange_name(self):
-        if len(self.name) >= 3:
-            self.code = self.name[0:3].upper()
-        else:
-            raise UserError(_('The group name must contain three or more characters.'))
+        if self.name:
+            if len(self.name) >= 3:
+                self.code = self.name[0:3].upper()
+            else:
+                raise UserError(_('The group name must contain three or more characters.'))
 
     @api.onchange('code')
     def onchange_code(self):

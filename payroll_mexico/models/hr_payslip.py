@@ -2,9 +2,51 @@
 
 from datetime import datetime
 
-from odoo import api, fields, models, _
+import babel
+from odoo import api, fields, models, tools, _
+from datetime import date, datetime, time
 from odoo.exceptions import UserError
 from odoo.osv import expression
+
+class HrPayslip(models.Model):
+    _inherit = 'hr.payslip'
+
+    @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
+    def onchange_employee(self):
+        if (not self.employee_id) or (not self.date_from) or (not self.date_to):
+            return
+        employee = self.employee_id
+        date_from = self.date_from
+        date_to = self.date_to
+        contract_ids = []
+        ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
+        locale = self.env.context.get('lang') or 'en_US'
+        self.name = _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
+        self.company_id = employee.company_id
+        if not self.contract_id:
+            contract = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('state','in',['open'])])
+            if not contract:
+                return
+            self.contract_id = contract[0].id
+            contract_ids = [contract[0].id]
+        else:
+            contract_ids = [self.contract_id.id]
+        self.struct_id=False
+        contracts = self.env['hr.contract'].browse(contract_ids)
+        worked_days_line_ids = self.get_worked_day_lines(contracts, date_from, date_to)
+        worked_days_lines = self.worked_days_line_ids.browse([])
+        self.worked_days_line_ids = []
+        for r in worked_days_line_ids:
+            worked_days_lines += worked_days_lines.new(r)
+        self.worked_days_line_ids = worked_days_lines
+        input_line_ids = self.get_inputs(contracts, date_from, date_to)
+        input_lines = self.input_line_ids.browse([])
+        self.input_line_ids = input_lines
+        return
+        
+    @api.onchange('contract_id')
+    def onchange_contract(self):
+        return
 
 class HrSalaryRule(models.Model):
     _inherit = 'hr.salary.rule'

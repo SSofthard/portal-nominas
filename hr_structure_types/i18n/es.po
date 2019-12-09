@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-07 16:56+0000\n"
-"PO-Revision-Date: 2019-12-07 16:56+0000\n"
+"POT-Creation-Date: 2019-12-09 16:05+0000\n"
+"PO-Revision-Date: 2019-12-09 16:05+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,9 +16,19 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_structure_types
+#: selection:hr.payslip.employees,contracting_regime:0
+msgid "Assimilated to wages"
+msgstr "Asimilados a salarios"
+
+#. module: hr_structure_types
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_structure_types__company_id
 msgid "Company"
 msgstr "Compañía"
+
+#. module: hr_structure_types
+#: model:ir.model.fields,field_description:hr_structure_types.field_hr_payslip_employees__contracting_regime
+msgid "Contracting Regime"
+msgstr "Régimen de contratación"
 
 #. module: hr_structure_types
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_structure_types__country_id
@@ -46,14 +56,29 @@ msgid "Employee Contract"
 msgstr "Contrato de empleado"
 
 #. module: hr_structure_types
+#: model:ir.model.fields,field_description:hr_structure_types.field_hr_payslip_run__group_id
+msgid "Empresa"
+msgstr ""
+
+#. module: hr_structure_types
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_payslip_employees__estructure_id
 msgid "Estructure"
-msgstr "Estructura"
+msgstr "Estructura salarial"
+
+#. module: hr_structure_types
+#: selection:hr.payslip.employees,contracting_regime:0
+msgid "Free"
+msgstr "Libre"
 
 #. module: hr_structure_types
 #: model:ir.model,name:hr_structure_types.model_hr_payslip_employees
 msgid "Generate payslips for all selected employees"
 msgstr "Generar las nóminas para todos los empleados seleccionados"
+
+#. module: hr_structure_types
+#: model:ir.model.fields,field_description:hr_structure_types.field_hr_payslip_employees__group_id
+msgid "Group"
+msgstr "Grupo"
 
 #. module: hr_structure_types
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_structure_types__id
@@ -86,9 +111,24 @@ msgid "Pay Slip"
 msgstr "Nómina"
 
 #. module: hr_structure_types
+#: model:ir.model,name:hr_structure_types.model_hr_payslip_run
+msgid "Payslip Batches"
+msgstr "Procesamientos de nóminas"
+
+#. module: hr_structure_types
+#: selection:hr.payslip.employees,contracting_regime:0
+msgid "Pensioners"
+msgstr "Pensionados"
+
+#. module: hr_structure_types
 #: model:ir.model,name:hr_structure_types.model_hr_payroll_structure
 msgid "Salary Structure"
 msgstr "Estructura salarial"
+
+#. module: hr_structure_types
+#: selection:hr.payslip.employees,contracting_regime:0
+msgid "Senior citizens"
+msgstr "Personas mayores"
 
 #. module: hr_structure_types
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_structure_types__structure_ids
@@ -103,7 +143,7 @@ msgstr "Tipo de estructura"
 #. module: hr_structure_types
 #: model_terms:ir.ui.view,arch_db:hr_structure_types.hr_structure_types_form
 msgid "Structure Type Name"
-msgstr "Nombre del tipo de estructura"
+msgstr "Nombre de tipo de estructura salarial"
 
 #. module: hr_structure_types
 #: model:ir.actions.act_window,name:hr_structure_types.hr_structure_types_action_window
@@ -111,13 +151,18 @@ msgstr "Nombre del tipo de estructura"
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_payroll_structure__structure_type_id
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_payslip__structure_type_id
 msgid "Structure Types"
-msgstr "Tipos de estructura"
+msgstr "Tipo de estructura salarial"
 
 #. module: hr_structure_types
-#: code:addons/hr_structure_types/wizard/hr_payroll_payslips_by_employees.py:34
+#: selection:hr.payslip.employees,contracting_regime:0
+msgid "Wages and salaries"
+msgstr "Sueldos y salarios"
+
+#. module: hr_structure_types
+#: code:addons/hr_structure_types/wizard/hr_payroll_payslips_by_employees.py:52
 #, python-format
 msgid "You must select employee(s) to generate payslip(s)."
-msgstr "Debe seleccionar empleado (s) para generar boletas de pago."
+msgstr "Debe seleccionar empleados para generar las nominas"
 
 #. module: hr_structure_types
 #: model:ir.model,name:hr_structure_types.model_hr_structure_types

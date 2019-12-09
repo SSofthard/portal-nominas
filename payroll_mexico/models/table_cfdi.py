@@ -138,6 +138,7 @@ class TablasCFDI(models.Model):
     ex_fondo_ahorro = fields.Float(string=_('Fondo de ahorro'), compute='_compute_ex_fondo_ahorro')
     ex_tiempo_extra = fields.Float(string=_('Tiempo extra'), compute='_compute_ex_tiempo_extra')
     ex_prima_dominical = fields.Float(string=_('Prima dominical'), compute='_compute_ex_prima_dominical')
+    
     factor_vale_despensa= fields.Float(string=_('Vale de despensa (UMA)'), )
     factor_prima_vacacional = fields.Float(string=_('Prima vacacional (UMA)'))
     factor_aguinaldo = fields.Float(string=_('Aguinaldo (UMA)'),)
@@ -165,11 +166,14 @@ class TablasCFDI(models.Model):
     umi = fields.Float(string=_('UMI (Unidad Mixta INFONAVIT)'))
     sbcm_general = fields.Float(string=_('General (UMA)'))
     sbcm_inv_inf = fields.Float(string=_('Para invalidez e Infonavit (UMA)'))
+    
     rt_prom_vida_activa = fields.Float(string=_('Promedio de vida activa (años)'))
     rt_prom_vida_fprima = fields.Float(string=_('Factor de prima'))
     rt_prom_vida_pmin = fields.Float(string=_('Prima mínima (%)'))
     rt_prom_vida_pmax = fields.Float(string=_('Prima máxima (%)'))
     rt_prom_vida_varmax = fields.Float(string=_('Variación máxima de prima (%)'))
+    
+    
     enf_mat_cuota_fija = fields.Float(string=_('Cuota fija (%)'))
     enf_mat_excedente_p = fields.Float(string=_('Excedente de 3 UMA (%)'))
     enf_mat_excedente_e = fields.Float(string=_('Excedente de 3 UMA (%)'))
