@@ -61,6 +61,9 @@
                 <xpath expr="//field[@name='state']" position="replace">
                     <field name="state" widget="statusbar" statusbar_visible="pending_checking,approved,refused"/>
                 </xpath>
+                <xpath expr="//field[@name='subtotal_amount']" position="after">
+                    <button name="update_amount_tax" type="object" string="To update" attrs="{'invisible':[('document_type','=','remission')]}"/>
+                </xpath>
             </field>
         </record>
 

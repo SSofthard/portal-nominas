@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-09 13:28+0000\n"
-"PO-Revision-Date: 2019-12-09 13:28+0000\n"
+"POT-Creation-Date: 2019-12-09 17:43+0000\n"
+"PO-Revision-Date: 2019-12-09 17:43+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -143,7 +143,7 @@ msgstr "Cerrado"
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_method_code
 msgid "Code"
-msgstr "Clave"
+msgstr "Código"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__company_id
@@ -256,7 +256,7 @@ msgid "Draft"
 msgstr "Borrador"
 
 #. module: hr_expense_mexico
-#: code:addons/hr_expense_mexico/models/hr_expense.py:166
+#: code:addons/hr_expense_mexico/models/hr_expense.py:180
 #, python-format
 msgid "El monto entregado debe ser mayor a 0."
 msgstr ""
@@ -275,6 +275,7 @@ msgstr ""
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__employee_id
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_register_payment_inherit_view_form
 msgid "Employee"
 msgstr "Empleado"
 
@@ -469,11 +470,7 @@ msgid "Manual: Get paid by cash, check or any other method outside of Odoo.\n"
 "Check: Pay bill by check and print it from Odoo.\n"
 "Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo, you are suggested to reconcile the transaction with the batch deposit.To enable batch deposit, module account_batch_payment must be installed.\n"
 "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. To enable sepa credit transfer, module account_sepa must be installed "
-msgstr "Manual: reciba pagos en efectivo, cheque o cualquier otro método fuera de Odoo. \ N "
-"Electrónico: se le paga automáticamente a través de un adquirente de pago solicitando una transacción en una tarjeta guardada por el cliente al comprar o suscribirse en línea (token de pago). \ N"
-"Cheque: Pague la factura con cheque e imprímala desde Odoo. \ N"
-"Depósito por lotes: Envuelva varios cheques de clientes a la vez generando un depósito por lotes para enviar a su banco. Al codificar el extracto bancario en Odoo, se le sugiere que concilie la transacción con el depósito por lotes. Para habilitar el depósito por lotes, el módulo account_batch_payment debe ser instalado. \ n "
-"Transferencia de crédito SEPA: Pague la factura de un archivo de transferencia de crédito SEPA que envíe a su banco. Para habilitar la transferencia de crédito por separado, se debe instalar el módulo account_sepa"
+msgstr "Manual: reciba pagos en efectivo, cheque o cualquier otro método fuera de Odoo.  N Electrónico: se le paga automáticamente a través de un adquirente de pago solicitando una transacción en una tarjeta guardada por el cliente al comprar o suscribirse en línea (token de pago).  NCheque: Pague la factura con cheque e imprímala desde Odoo.  NDepósito por lotes: Envuelva varios cheques de clientes a la vez generando un depósito por lotes para enviar a su banco. Al codificar el extracto bancario en Odoo, se le sugiere que concilie la transacción con el depósito por lotes. Para habilitar el depósito por lotes, el módulo account_batch_payment debe ser instalado.  n Transferencia de crédito SEPA: Pague la factura de un archivo de transferencia de crédito SEPA que envíe a su banco. Para habilitar la transferencia de crédito por separado, se debe instalar el módulo account_sepa"
 
 #. module: hr_expense_mexico
 #: selection:hr.expense.payment,payment_difference_handling:0
@@ -868,9 +865,7 @@ msgstr "Impuestos"
 msgid "Technical field containing the invoices for which the payment has been generated.\n"
 "                                                                                                                                                                       This does not especially correspond to the invoices reconciled with the payment,\n"
 "                                                                                                                                                                       as it can have been generated first, and reconciled later"
-msgstr "Campo técnico que contiene las facturas para las que se ha generado el pago. \ N "
-"Esto no corresponde especialmente a las facturas conciliadas con el pago, \ n"
-"como se pudo haber generado primero y reconciliado después"
+msgstr "Campo técnico que contiene las facturas para las que se ha generado el pago.  N Esto no corresponde especialmente a las facturas conciliadas con el pago,  ncomo se pudo haber generado primero y reconciliado después"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__move_name
@@ -901,6 +896,11 @@ msgstr "Campo técnico utilizado para ocultar el método de pago si el diario se
 #: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__show_partner_bank_account
 msgid "Technical field used to know whether the field `partner_bank_account_id` needs to be displayed or not in the payments form views"
 msgstr "El campo técnico solía saber si el campo `partner_bank_account_id` debe mostrarse o no en las vistas del formulario de pagos"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
+msgid "To update"
+msgstr "Calcular"
 
 #. module: hr_expense_mexico
 #: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__destination_journal_id

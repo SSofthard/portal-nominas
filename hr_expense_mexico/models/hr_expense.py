@@ -32,7 +32,7 @@ class Expenses(models.Model):
     state = fields.Selection([('draft', 'Borrador'),('pending_checking', 'Pending Checking'),('approved','Approved'),('refused','Refused')], track_visibility=True, default='pending_checking',  compute=False)
     subtotal_amount = fields.Monetary('Subtotal')
     total_amount = fields.Monetary('Subtotal', compute=False)
-    amount_tax = fields.Monetary('Taxes')
+    amount_tax = fields.Monetary('Taxes', default= '16')
     document_type = fields.Selection([('invoice', 'Invoice'),('remission','Remission')], string='Document Type', required=True)
     date = fields.Date(string='Create Date', default= lambda self: fields.Date.context_today(self))
     product_id = fields.Many2one(required=False, comodel_name='product.product')
@@ -71,7 +71,21 @@ class Expenses(models.Model):
                 'res_model': 'refused.expense.wizard',
                 'view_mode': 'form',
                 'target': 'new'}
-
+                
+    @api.onchange('subtotal_amount','total_amount')
+    def onchange_total_amount(self):
+        sub_total = self.subtotal_amount
+        amount = self.amount_tax
+        if sub_total:
+            total =  sub_total * (amount / 100)
+            self.total_amount = sub_total + total
+    
+    @api.multi
+    def update_amount_tax(self):
+        sub_total = self.subtotal_amount
+        amount = self.amount_tax
+        total =  sub_total * (amount / 100)
+        self.total_amount = sub_total + total
 
 class ExpensesClassification(models.Model):
     _name = 'hr.expense.classification'
