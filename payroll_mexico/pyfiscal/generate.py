@@ -3,6 +3,9 @@ import unicodedata
 import re
 from .base import BaseGenerator
 
+KEYWORDS = {
+    '/': 'X', '-': 'X', '.': 'X',
+}
 
 class GenerateRFC(BaseGenerator):
     key_value = 'rfc'
@@ -35,13 +38,10 @@ class GenerateRFC(BaseGenerator):
         return rfc
 
     def remove_accents(self, s):
+        trans_tab = dict.fromkeys(map(ord, u'\u0301\u0308'), None)
         if type(s) is str:
             s = u"%s" % s
-            if s not in ('ñ','Ñ'):
-                for c in unicodedata.normalize('NFD', s):
-                    if unicodedata.category(c) != 'Mn':
-                        s = ''.join(s)
-        return s
+        return ''.join((c for c in unicodedata.normalize('NFKC', unicodedata.normalize('NFKD', s).translate(trans_tab))))
 
     def homoclave(self, rfc, complete_name):
         nombre_numero = '0'
@@ -66,7 +66,7 @@ class GenerateRFC(BaseGenerator):
         # Recorrer el nombre y convertir las letras en su valor numérico.
         for count in range(0, len(complete_name)):
             letra = self.remove_accents(complete_name[count])
-            nombre_numero += self.rfc_set(str(rfc1[letra]),'00')
+            nombre_numero += self.rfc_set(str(rfc1[letra if letra not in KEYWORDS.keys() else KEYWORDS[letra]]),'00')
         # La formula es:
             # El caracter actual multiplicado por diez mas el valor del caracter
             # siguiente y lo anterior multiplicado por el valor del caracter siguiente.
@@ -96,9 +96,9 @@ class GenerateRFC(BaseGenerator):
         }
 
         for count in range(0,len(rfc)):
-            letra = rfc[count]
-            if rfc3[letra]:
-                suma_numero = rfc3[letra]
+            letra = self.remove_accents(rfc[count])
+            if rfc3[letra if letra not in ('ñ','Ñ') else 'X']:
+                suma_numero = rfc3[letra if letra not in ('ñ','Ñ') else 'X']
                 suma_parcial += (suma_numero*(14-(count+1)))
 
         modulo = suma_parcial % 11
@@ -265,7 +265,7 @@ class GenericGeneration(object):
 
     @property
     def data(self):
-        for cls in self.generadores:		
+        for cls in self.generadores:
             data = cls.DATA_REQUIRED
             kargs = {key: self._datos[key] for key in data}
             gen = cls(**kargs)
