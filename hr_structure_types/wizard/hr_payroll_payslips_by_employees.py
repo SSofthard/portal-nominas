@@ -8,13 +8,31 @@ class HrPayslipEmployees(models.TransientModel):
     _inherit = 'hr.payslip.employees'
 
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure')
-    
-    @api.onchange('estructure_id')
+    group_id = fields.Many2one('hr.group', "Group", required=True,
+                               default=lambda self: self.env[self._context.get('active_model')].browse([self._context.get('active_id')]).group_id.id
+                               )
+    contracting_regime = fields.Selection([
+                                        ('1', 'Assimilated to wages'),
+                                        ('2', 'Wages and salaries'),
+                                        ('3', 'Senior citizens'),
+                                        ('4', 'Pensioners'),
+                                        ('5', 'Free'),
+                                        ], string='Contracting Regime', required=True, default="2")
+
+    @api.onchange('estructure_id','contracting_regime')
     def onchange_estructure(self):
         contract=self.env['hr.contract']
         structure_type_id=self.estructure_id.structure_type_id.id
-        domain=[('structure_type_id','=',structure_type_id)]
-        employees=contract.search_read(domain,['employee_id','state']) 
+        print(structure_type_id)
+        print(self.contracting_regime)
+        print(self.group_id.id)
+        domain=[
+            ('structure_type_id','=',structure_type_id),
+            ('employee_id.group_id','=',self.group_id.id),
+            ('contracting_regime','=',self.contracting_regime)
+            ]
+        employees=contract.search_read(domain,['employee_id','state'])
+        print (employees)
         employee_ids=[]
         for employee in employees:
             if employee['state'] in ['open']:
