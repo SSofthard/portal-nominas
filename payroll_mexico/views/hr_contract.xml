@@ -17,7 +17,12 @@
                     </button>
                 </xpath>
                 <xpath expr="//field[@name='name']" position="after">
-                    <field name="code" placeholder="Code"/>
+                    <label for="code" class="oe_edit_only"/>
+                    <div>
+                        <div class="o_row">
+                            <field name="code" placeholder="Code"/>
+                        </div>
+                    </div>
                     <field name="type_contract" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="before">

@@ -986,7 +986,7 @@ msgstr "Ya existe un registro predeterminado para el tipo de certificado."
 #. module: payroll_mexico
 #: sql_constraint:hr.group:0
 msgid "A registered code already exists, modify and save the document.!"
-msgstr "Ya existe un código registrado, modifique y guarde el documento."
+msgstr "Ya existe una clave registrado, modifique y guarde el documento."
 
 #. module: payroll_mexico
 #: selection:hr.employee,blood_type:0
@@ -1174,7 +1174,7 @@ msgstr "Ya existe un empleado con este número de seguro social"
 #. module: payroll_mexico
 #: sql_constraint:res.company:0
 msgid "And there is a company with this code.!"
-msgstr "Existo un registro de compañía con este código"
+msgstr "Existo un registro de compañía con esta clave"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_uma__annual_amount
@@ -1575,7 +1575,7 @@ msgstr "Cerrado"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_job_inherit
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
 msgid "Code"
-msgstr "Código"
+msgstr "Clave"
 
 #. module: payroll_mexico
 #: selection:hr.payslip.line,type_perception:0
