@@ -166,6 +166,9 @@
                 <xpath expr="//field[@name='parent_id']" position="replace">
                     <field name="parent_id"  groups="base.group_multi_company" invisible="1"/>
                 </xpath>
+                <xpath expr="//field[@name='state_id']" position="attributes">
+                    <attribute name="domain">[('country_id', '=', country_id)]</attribute>
+                </xpath>
             </field>
         </record>
         
@@ -198,6 +201,7 @@
                 </xpath>
             </field>
         </record>
+        
         <record id="res_partner_view_form_private_inherit" model="ir.ui.view">
             <field name="name">res.partner.view.form.private</field>
             <field name="model">res.partner</field>
@@ -214,5 +218,17 @@
                 </xpath>
             </field>
         </record>
+        
+        <record id="res_company_form_view_inherit_account_intrastat_iherit" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.account.intrastat</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="account.res_company_form_view_inherit_account_intrastat"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='incoterm_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+            </field>
+        </record>
+        
     </data>
 </odoo>
