@@ -25,7 +25,7 @@ class Job(models.Model):
     
     code = fields.Char("Code", copy=False, required=True)
 
-
+tab
 class Employee(models.Model):
     _inherit = "hr.employee"
     
@@ -76,7 +76,7 @@ class Employee(models.Model):
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
     real_salary = fields.Float("Real Salary", copy=False)
     gross_salary = fields.Float("Gross Salary", copy=False)
-    table_id = fields.Many2one('tablas.cfdi','Table CFDI')
+    table_id = fields.Many2one('tablas.cfdi','Table CFDI', default=lambda self: self.env['res.company']._company_default_get().tables_id,)
     place_of_birth = fields.Many2one('res.country.state', string='Place of Birth', groups="hr.group_hr_user")
     country_id = fields.Many2one('res.country', 'Nationality (Country)', 
         default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
