@@ -162,6 +162,11 @@ msgstr "Grupo"
 msgid "Hojas para Imprimir"
 msgstr "Hojas para Imprimir"
 
+#. module: hr_holidays
+#: model:ir.ui.menu,name:hr_holidays.menu_hr_holidays_approvals
+msgid "Leaves"
+msgstr "Ausencias"
+
 #. module: hr_incidents
 #: selection:hr.leave.type,request_unit:0
 msgid "Horas"
