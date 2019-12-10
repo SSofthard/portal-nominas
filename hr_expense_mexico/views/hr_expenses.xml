@@ -91,12 +91,13 @@
                         <field name="estimate_viatics" />
                         <field name="address_origin_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'show_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
                         <field name="address_dest_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'show_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="qty_days" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
                         <field name="total_by_day" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
                     </group>
-                    <group attrs="{'invisible':[('is_older','!=',True)]}">
-                        <field name="is_older" invisible="1"/>
-                        <span class="badge badge-danger"  >The amount delivered is greater than the estimated amount per day, justify it in the note field!</span>
-                    </group>
+                </xpath>
+                <xpath expr="//group" position="after">
+                    <field name="is_older" invisible="1"/>
+                        <div attrs="{'invisible':[('is_older','!=',True)]}" class="alert alert-warning"><strong>El monto entregado es mayor que el monto estimado por día. Justifíquelo en el campo de notas!</strong></div>
                 </xpath>
                 <xpath expr="//field[@name='expense_line_ids']" position="attributes">
                     <attribute name="attrs">{'readonly':[('state','=','closed')]}</attribute>

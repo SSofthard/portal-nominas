@@ -17,6 +17,7 @@
         'report/hr_expense_report.xml',
         'views/hr_expenses_payment.xml',
         'views/hr_expenses.xml',
+        'views/hr_tab_expenses_view.xml',
         # 'security/ir.model.access.csv'
     ],
     "active": True,
