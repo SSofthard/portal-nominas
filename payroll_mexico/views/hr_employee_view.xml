@@ -51,21 +51,20 @@
                 <xpath expr="//field[@name='birthday']" position="after">
                     <field name="age"/>
                 </xpath> 
+                <xpath expr="//field[@name='place_of_birth']" position="attributes">
+                    <attribute name="domain">[('country_id', '=', country_of_birth)]</attribute>
+                </xpath> 
                 <xpath expr="//field[@name='passport_id']" position="after">
                     <field name="title"/>
                 </xpath> 
                 <xpath expr="//page[@name='personal_information']/group/group[2]" position="after">
                     <group name="fical_info" string="Fiscal Information">
-                        <div class="o_row">
-                            <button
-                                type="object"
-                                name="get_rfc_curp_data"
-                                class="btn-sm btn-link fa fa-cog"
-                                aria-label="Generate CUR"
-                                title="Generate CURP"
-                                context="{'field_name': 'curp'}"
-                            />
-                        </div>
+                        <button
+                            type="object"
+                            name="get_rfc_curp_data"
+                            class="oe_highlight"
+                            string="Generate RFC and CURP"
+                        />
                         <field name="rfc" widget="mask" data-inputmask="'mask': 'AAAA999999&amp;&amp;&amp;', 'greedy' : false"/>
                         
                         <field name="curp" widget="mask" data-inputmask="'mask': '&amp;', 'repeat': 18, 'greedy' : false"/>
@@ -197,7 +196,7 @@
 							</group>
 							<group>
 								<field name="monthly_salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" />
-								<field name="table_id" invisible="1"/>
+								<field name="table_id" invisible="0"/>
 							</group>
 						</group>
 						<group>

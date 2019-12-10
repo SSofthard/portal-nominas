@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import api, fields, models, tools, _
+from datetime import date, datetime, time
 
 
 class HrPayslip(models.Model):
@@ -12,10 +13,6 @@ class HrPayslip(models.Model):
                                     related="contract_id.structure_type_id",
                                     string="Structure Types")
                                     
-    @api.onchange('employee_id', 'date_from', 'date_to')
-    def onchange_employee(self):
-        super(HrPayslip,self).onchange_employee()
-        self.struct_id=False 
 
 
 class HrPayslipRun(models.Model):
