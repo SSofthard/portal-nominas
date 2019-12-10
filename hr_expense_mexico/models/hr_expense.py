@@ -92,7 +92,7 @@ class ExpensesClassification(models.Model):
 
     #Columns
     name = fields.Char(string = 'Name')
-
+    
 class ExpensesSheets(models.Model):
     _inherit = 'hr.expense.sheet'
 
@@ -173,8 +173,27 @@ class ExpensesSheets(models.Model):
     amount_delivered = fields.Monetary('Amount Delivered')
     amount_difference = fields.Monetary(compute='_compute_amount')
     operation_result = fields.Selection([ ('reconciled', 'Reconciled Amount'),('refund', 'Refund'), ('return', 'Return')],compute='_compute_amount')
+    estimate_viatics = fields.Boolean(string='Do you want to estimate viatics?')
+    is_older = fields.Boolean(string='Is older')
+    note = fields.Text('Notes')
+    address_origin_id = fields.Many2one('res.partner', string='Origin Address')
+    address_dest_id = fields.Many2one('res.partner', string='Dest Address')
+    total_by_day = fields.Monetary(string='Amount By Day', compute=False)
+
+    @api.onchange('amount_delivered','is_older')
+    def onchange_is_older(self):
+        amount = self.amount_delivered
+        if amount > self.total_by_day:
+            self.is_older =  True
+        else:
+            self.is_older =  False
 
     @api.constrains('amount_delivered')
     def constrains_amount_delivered(self):
         if not self.amount_delivered > 0:
             raise UserError(_('El monto entregado debe ser mayor a 0.'))
+            
+class Partner(models.Model):
+    _inherit = "res.partner"
+
+    estimate_viatics = fields.Boolean(string='Do you want to estimate viatics?')
