@@ -78,7 +78,10 @@ class Employee(models.Model):
     gross_salary = fields.Float("Gross Salary", copy=False)
     table_id = fields.Many2one('tablas.cfdi','Table CFDI')
     place_of_birth = fields.Many2one('res.country.state', string='Place of Birth', groups="hr.group_hr_user")
-    
+    country_id = fields.Many2one('res.country', 'Nationality (Country)', 
+        default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
+    country_of_birth = fields.Many2one('res.country', string="Country of Birth",
+        default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
     address_id = fields.Many2one(required=True)
     department_id = fields.Many2one(required=True)
     
@@ -88,7 +91,7 @@ class Employee(models.Model):
     ],"Real Salary", default="gross")
     
     monthly_salary = fields.Float("Monthly Salary", copy=False)
-    
+
     wage_salaries = fields.Float("Wages and salaries", copy=False)
     assimilated_salary = fields.Float("Assimilated Salary", copy=False)
     free_salary = fields.Float("Free", copy=False)
@@ -100,9 +103,14 @@ class Employee(models.Model):
     company_assimilated_id = fields.Many2one('res.company', "Company (Assimilated)", required=False)
     last_name = fields.Char("Last Name")
     mothers_last_name = fields.Char("Mother's Last Name")
+    # Extra Payments
     pay_holiday = fields.Boolean('Pay holiday?', default=False, help="If checked, holidays are paid to the employee")
     pay_extra_hours = fields.Boolean('Pay extra hours?', default=False, help="If checked, extra hours are paid to the employee")
-    
+    # Health Restrictions
+    health_restrictions = fields.Text('Health Restrictions', copy=False)
+    emergency_address = fields.Char('Emergency address',
+        copy=False, help="Set emergency contact address")
+
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
         ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),

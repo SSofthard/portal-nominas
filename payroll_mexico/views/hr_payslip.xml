@@ -81,7 +81,7 @@
                               </group>
                               <group>
                                   <field name="input_id" domain="[('type','=',context.get('type_input'))]" options='{"no_create": True}'/>
-                                  <field name="amount" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
+                                  <field name="amount"/>
                               </group>
                           </group>
                       </sheet>

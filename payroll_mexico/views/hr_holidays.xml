@@ -152,6 +152,7 @@
             <field name="res_model">hr.leave</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="view_hr_holidays_form"/>
         </record>
 
         <record id="action_hr_holidays_dashboard" model="ir.actions.act_window">
@@ -203,6 +204,24 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="hr_holidays.hr_leave_action_action_approve_department" model="ir.actions.act_window">
+        <field name="name">Department Leaves</field>
+        <field name="res_model">hr.leave</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form,calendar,activity</field>
+        <field name="view_id" ref="hr_holidays.hr_leave_view_form_manager"/>
+        <field name="context">{
+            'search_default_department':1,
+            'search_default_approve':1}
+        </field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new leave request
+            </p>
+        </field>
+    </record>
 
     </data>
 </odoo>

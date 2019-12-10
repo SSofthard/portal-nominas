@@ -17,7 +17,6 @@
     'depends': ['base','hr_payroll','hr_contract','payroll_mexico'],
     'data': [
         'security/ir.model.access.csv',
-        # ~ 'views/hr_employee.xml',
         'views/structure_type_views.xml',
         'views/hr_contract.xml',
         'views/hr_payroll_structure.xml',
