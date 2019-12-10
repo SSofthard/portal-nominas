@@ -3941,7 +3941,7 @@ msgstr "Tipo de nómina"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__payroll_month
 msgid "Payroll month"
-msgstr "Nómina mensual"
+msgstr "Mes de la nómina"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__payroll_of_month
@@ -5406,7 +5406,7 @@ msgstr "Dirección de trabajo"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__write_number
 msgid "Write Number"
-msgstr "Escribir número"
+msgstr "Número de escritura"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_contract.py:37
