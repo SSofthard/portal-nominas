@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
+
+import unicodedata
 import datetime
 from .utils import (
     ENT_FED, WORDS, to_upper, remove_article, remove_precisions,
     remove_names, search_vowel, search_consonant
 )
 
+KEYWORDS = {
+    '/': 'X', '-': 'X', '.': 'X', 'ñ': 'X', 'Ñ': 'X',
+}
 
 class BaseGenerator(object):
     """class Base"""
@@ -13,6 +18,7 @@ class BaseGenerator(object):
 
     def parse(self, complete_name, last_name, mother_last_name=None, city=None,
         state_code=None):
+        
         if city is not None:
             self.city = to_upper(city)
         if state_code is not None:
@@ -21,8 +27,8 @@ class BaseGenerator(object):
             self.mother_last_name = to_upper(mother_last_name)
             self.mother_last_name = remove_article(self.mother_last_name)
             self.mother_last_name = remove_precisions(self.mother_last_name)
-        self.complete_name = to_upper(complete_name)
-        self.complete_name = remove_names(self.complete_name)
+        complete_name = to_upper(complete_name)
+        self.complete_name = remove_names(complete_name)
         self.complete_name = remove_precisions(self.complete_name)
         self.last_name = to_upper(last_name)
         self.last_name = remove_article(self.last_name)
@@ -33,23 +39,36 @@ class BaseGenerator(object):
         completename = self.verify_words(initials)
         birth_date = self.parse_date(birth_date)
         return '%s%s' % (completename, birth_date)
-        
+
+    def remove_accents(self, s):
+        trans_tab = dict.fromkeys(map(ord, u'\u0301\u0308'), None)
+        if type(s) is str:
+            s = u"%s" % s
+        return ''.join((c for c in unicodedata.normalize('NFKC', unicodedata.normalize('NFKD', s).translate(trans_tab))))
+
     def initials_name(self, complete_name, last_name, mother_last_name):
-        ini_last_name = last_name[0:1] # Initial last name
-        last_name_vowel = search_vowel(last_name) # Find the first vowel of the last name
+        complete_name = remove_names(complete_name)
+        ini_last_name = last_name[0:1] if last_name[0:1] not in KEYWORDS.keys() else KEYWORDS[last_name[0:1]] # Initial last name
+        
         if mother_last_name is None:
             ini_mothlast_name = 'X'
         else:
-            ini_mothlast_name = mother_last_name[0:1] # Initial mother's last name
-        ini_compl_name = complete_name[0:1] # Initial complete name
-        initials = '%s%s%s%s' % (ini_last_name, last_name_vowel, 
-                                 ini_mothlast_name, ini_compl_name)
+            ini_mothlast_name = mother_last_name[0:1] if mother_last_name[0:1] not in KEYWORDS.keys() else KEYWORDS[mother_last_name[0:1]] # Initial mother's last name
+        ini_compl_name = ''
+        last_name_vowel = ''
+        if len(last_name) == 1:
+            ini_compl_name = complete_name[0:2] if complete_name[0:2] not in KEYWORDS.keys() else KEYWORDS[complete_name[0:2]] # Initial complete name
+        else:
+            last_name_vowel = search_vowel(last_name) # Find the first vowel of the last name
+            ini_compl_name = complete_name[0:1] if complete_name[0:1] not in KEYWORDS.keys() else KEYWORDS[complete_name[0:1]] # Initial complete name
+        initials = '%s%s%s%s' % (self.remove_accents(ini_last_name), self.remove_accents(last_name_vowel), 
+                                self.remove_accents(ini_mothlast_name), self.remove_accents(ini_compl_name))
         return initials
 
     def verify_words(self, rfc):
         for item in WORDS:
             if item == rfc:
-                rfc = 'XXXX'
+                rfc = rfc[0:3] + 'X'
                 break
         return rfc
 

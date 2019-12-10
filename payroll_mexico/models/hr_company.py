@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+from datetime import date
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
+from odoo.addons.payroll_mexico.pyfiscal.generate_company import GenerateRfcCompany
+
+
 class Company(models.Model):
 
     _inherit = 'res.company'
-    
 
     business_name = fields.Char("Business Name", copy=False, required=True, )
     legal_representative_id = fields.Many2one('res.partner', "Legal Representative", required=True, copy=False)
@@ -17,18 +21,28 @@ class Company(models.Model):
     public_notary_address_id = fields.Many2one('res.partner', "Public Notary Address", required=True, copy=False)
     code = fields.Char("Code", copy=False, required=True)
     employer_register_ids = fields.One2many('res.employer.register','company_id', "Employer Register")
-    rfc = fields.Char("RFC", copy=False, required=True)
+    rfc = fields.Char("RFC", copy=False, required=False)
     partner_ids = fields.One2many('res.company.partner','company_id', "Partners")
     fiel_csd_ids = fields.One2many('res.company.fiel.csd','company_id', "FIEL & CSD")
     branch_offices_ids = fields.One2many('res.company.branch.offices','company_id', "Branch Offices")
     bank_account_ids = fields.One2many('bank.account.company','company_id', "Bank account", required=True)
     power_attorney_ids = fields.One2many('company.power.attorney','company_id', "Power Attorney", required=True)
-    country_id=fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
+    country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),
     ]
+
     
+    def get_rfc_data(self):
+        kwargs = {
+            "complete_name": self.business_name,
+            "constitution_date": self.constitution_date.strftime('%d-%m-%Y'),
+        }
+        rfc = GenerateRfcCompany(**kwargs)
+        self.rfc = rfc.data
+    
+
 class employerRegister(models.Model):
 
     _name = 'res.employer.register'
@@ -41,7 +55,7 @@ class employerRegister(models.Model):
         ('valid', 'Valid'),
         ('timed_out', 'Timed out'),
         ('revoked', 'Revoked'),],default="valid")
-    
+
     @api.multi
     def action_revoked(self):
         for employer in self:
@@ -51,13 +65,15 @@ class employerRegister(models.Model):
     def action_timed_out(self):
         for employer in self:
             employer.state = 'timed_out'
-    
+
+
 class companyPartner(models.Model):
 
     _name = 'res.company.partner'
     
     company_id = fields.Many2one('res.company', "Company")
     partner_id = fields.Many2one('res.partner', "Partner", required=True, copy=False)
+
 
 class companyFielCsd(models.Model):
 
@@ -93,13 +109,15 @@ class companyFielCsd(models.Model):
         for fc in self:
             fc.state = 'timed_out'
             fc.predetermined = False
-    
+
+
 class branchOffices(models.Model):
 
     _name = 'res.company.branch.offices'
     
     company_id = fields.Many2one('res.company', "Company", required=False)
     partner_id = fields.Many2one('res.partner', "Branch Offices", required=True, copy=False)
+
 
 class bankDetailsCompany(models.Model):
     _name = "bank.account.company"
@@ -122,23 +140,24 @@ class bankDetailsCompany(models.Model):
     _sql_constraints = [
         ('predetermined_uniq', 'unique (company_id,predetermined)', "There is already a default account number for this company.!"),
     ]
-    
+
     @api.multi
     def action_active(self):
         for account in self:
             account.state = 'active'
-            
+
     @api.multi
     def action_inactive(self):
         for account in self:
             account.state = 'inactive'
             account.predetermined = False
-    
+
+
 class companyPowerAttorney(models.Model):
     _name = "company.power.attorney"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = "representative_id"
-    
+
     company_id = fields.Many2one('res.company', "Company", required=False)
     representative_id = fields.Many2one('res.partner', "Representative", required=True, copy=False)
     book = fields.Integer("Book", copy=False, required=True)
@@ -149,11 +168,11 @@ class companyPowerAttorney(models.Model):
         ('valid', 'Valid'),
         ('timed_out', 'Timed out'),
         ('revoked', 'Revoked'),], "Status",default="valid")
-    
+
     _sql_constraints = [
         ('predetermined_uniq', 'unique (company_id,predetermined)', "There is already a default ower attorney for this company.!"),
     ]
-    
+
     def _get_name(self):
         return "%s ‒ %s" % (self.representative_id.name, self.public_deed_number)
 
@@ -164,19 +183,19 @@ class companyPowerAttorney(models.Model):
             name = power._get_name()
             res.append((power.id, name))
         return res
-    
+
     @api.multi
     def action_revoked(self):
         for power in self:
             power.state = 'revoked'
             power.predetermined = False
-            
+
     @api.multi
     def action_timed_out(self):
         for power in self:
             power.state = 'timed_out'
             power.predetermined = False
-    
+
     @api.multi
     def _document_count(self):
         for power in self:
@@ -205,10 +224,10 @@ class companyPowerAttorney(models.Model):
 
     document_count = fields.Integer(compute='_document_count', string='# Documents')
 
-    
+
 class Partner(models.Model):
     _inherit = 'res.partner'
-    
+
     legal_representative = fields.Boolean(string='Legal Representative?', copy=False)
     public_notary = fields.Boolean(string='Public Notary?', copy=False)
     notary_public_number = fields.Integer("Notary Public Number", copy=False)
@@ -216,7 +235,7 @@ class Partner(models.Model):
     partner_company = fields.Boolean(string='Partner Company?', copy=False)
     branch_offices = fields.Boolean(string='Branch Offices?', copy=False)
     country_id=fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
-    
+
     @api.multi
     def _display_address(self, without_company=False):
 

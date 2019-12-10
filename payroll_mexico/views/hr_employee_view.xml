@@ -51,25 +51,45 @@
                 <xpath expr="//field[@name='birthday']" position="after">
                     <field name="age"/>
                 </xpath> 
+                <xpath expr="//field[@name='certificate']" position="attributes">
+                    <attribute name="string">Education level</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='km_home_work']" position="attributes">
+                    <attribute name="string">Distance home work (Km)</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='country_of_birth']" position="attributes">
+                    <attribute name="string">Country of Birth</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='place_of_birth']" position="attributes">
+                    <attribute name="domain">[('country_id', '=', country_of_birth)]</attribute>
+                </xpath> 
                 <xpath expr="//field[@name='passport_id']" position="after">
                     <field name="title"/>
                 </xpath> 
-                <xpath expr="//page[@name='personal_information']/group/group[2]" position="after">
+                <xpath expr="//page[@name='personal_information']/group/group[4]" position="after">
                     <group name="fical_info" string="Fiscal Information">
+                        <label for="rfc"/>
                         <div class="o_row">
+                            <field name="rfc" widget="mask" data-inputmask="'mask': 'AAAA999999&amp;&amp;&amp;', 'greedy' : false"/>
                             <button
                                 type="object"
                                 name="get_rfc_curp_data"
-                                class="btn-sm btn-link fa fa-cog"
-                                aria-label="Generate CUR"
-                                title="Generate CURP"
-                                context="{'field_name': 'curp'}"
+                                class="btn-sm btn-link mb4 fa fa-cogs"
+                                aria-label="Generate RFC &amp; CURP"
+                                title="Generate RFC &amp; CURP"
+                                context="{'field_name': 'rfc'}"
                             />
                         </div>
-                        <field name="rfc" widget="mask" data-inputmask="'mask': 'AAAA999999&amp;&amp;&amp;', 'greedy' : false"/>
-                        
                         <field name="curp" widget="mask" data-inputmask="'mask': '&amp;', 'repeat': 18, 'greedy' : false"/>
-                        
+                    </group>
+                </xpath> 
+                <xpath expr="//page[@name='personal_information']/group/group[3]" position="after">
+                    <group name="emergency_info" string="Emergency information">
+                        <field name="health_restrictions" placeholder="Health Restrictions"/>
+                        <h3>In case of emergency contact:</h3>
+                        <field name="emergency_contact" placeholder="Name emergency contact"/>
+                        <field name="emergency_address"/>
+                        <field name="emergency_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                     </group>
                 </xpath> 
                 <xpath expr="//field[@name='address_home_id']" position="after">
@@ -92,14 +112,13 @@
                 <xpath expr="//field[@name='work_phone']" position="replace">
                     <field name="work_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                 </xpath>
-                <xpath expr="//field[@name='emergency_phone']" position="replace">
-                    <field name="emergency_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
-                </xpath>
                 <field name="company_id" position="replace"/>
                 <field name="children" position="replace"/>
+                <field name="emergency_contact" position="replace"/>
+                <field name="emergency_phone" position="replace"/>
                 <field name="google_drive_link" position="replace"/>
                 <xpath expr="//field[@name='coach_id']" position="attributes">
-					<attribute name="invisible">True</attribute>
+                    <attribute name="invisible">True</attribute>
                 </xpath>
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
@@ -178,7 +197,7 @@
                                     <field name="infonavit_credit_number" />
                                     <field name="type" />
                                     <field name="date" />
-                                    <field name="value" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
+                                    <field name="value"/>
                                 </group>
                             </form>
                             <tree>
@@ -196,15 +215,15 @@
 								<field name="type_salary" widget="radio"/>
 							</group>
 							<group>
-								<field name="monthly_salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false" />
+								<field name="monthly_salary"/>
 								<field name="table_id" invisible="0"/>
 							</group>
 						</group>
 						<group>
 							<group>
-								<field name="wage_salaries" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
-								<field name="assimilated_salary" readonly="1" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
-								<field name="free_salary" widget="mask" data-inputmask="'alias': 'decimal','digits':'2', 'greedy' : false"/>
+								<field name="wage_salaries"/>
+								<field name="assimilated_salary" readonly="1"/>
+								<field name="free_salary"/>
 								<button name="calculate_salary_scheme" string="Calculate" class="oe_highlight" type="object" groups="hr.group_hr_user"/>
 							</group>
 							<group>
@@ -350,6 +369,10 @@
             action="base.action_country"
             parent="menu_address"
             sequence="10"/>
+            
+        <menuitem
+            id="account.menu_finance"
+            active="False"/>
           
     </data>
 </odoo>

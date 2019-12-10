@@ -1,47 +1,38 @@
 # -*- coding: utf-8 -*-
 import unicodedata
 import re
-from .base import BaseGenerator
+from .base_company import BaseGenerator
 
-KEYWORDS = {
-    '/': 'X', '-': 'X', '.': 'X',
-}
 
-class GenerateRFC(BaseGenerator):
+class GenerateRfcCompany(BaseGenerator):
     key_value = 'rfc'
-    DATA_REQUIRED = ('complete_name', 'last_name', 'mother_last_name', 'birth_date')
+    DATA_REQUIRED = ('complete_name', 'constitution_date')
     partial_data = None
-
+    
     def __init__(self, **kwargs):
         self.complete_name = kwargs.get('complete_name')
-        self.last_name = kwargs.get('last_name')
-        self.mother_last_name = kwargs.get('mother_last_name')
-        self.birth_date = kwargs.get('birth_date')
-
-        self.parse(complete_name=self.complete_name, last_name=self.last_name, 
-                  mother_last_name=self.mother_last_name)
+        self.constitution_date = kwargs.get('constitution_date')
+        self.parse_company(complete_name=self.complete_name)
+        self.partial_data = self.data_fiscal_company(
+            complete_name=self.complete_name, constitution_date=self.constitution_date)
         
-        self.partial_data = self.data_fiscal(
-            complete_name=self.complete_name, last_name=self.last_name, 
-            mother_last_name=self.mother_last_name, birth_date=self.birth_date)
-
     def calculate(self):
-        if self.mother_last_name is not None:
-            complete_name = u"%s %s %s" % (self.last_name, self.mother_last_name, self.complete_name)
-        else:
-            complete_name = u"%s %s" % (self.last_name, self.complete_name)
-
+        
+        complete_name =  u"%s" % (self.complete_name)
         rfc = self.partial_data
         hc = self.homoclave(self.partial_data, complete_name)
         rfc += '%s' % hc
         rfc += self.verification_number(rfc)
         return rfc
-
+    
     def remove_accents(self, s):
-        trans_tab = dict.fromkeys(map(ord, u'\u0301\u0308'), None)
         if type(s) is str:
             s = u"%s" % s
-        return ''.join((c for c in unicodedata.normalize('NFKC', unicodedata.normalize('NFKD', s).translate(trans_tab))))
+            if s not in ('ñ','Ñ'):
+                for c in unicodedata.normalize('NFD', s):
+                    if unicodedata.category(c) != 'Mn':
+                        s = ''.join(s)
+        return s
 
     def homoclave(self, rfc, complete_name):
         nombre_numero = '0'
@@ -60,13 +51,13 @@ class GenerateRFC(BaseGenerator):
             0:'1', 1:'2', 2:'3', 3:'4', 4:'5', 5:'6', 6:'7', 7:'8', 8:'9', 9:'A', 10:'B',
             11:'C', 12:'D', 13:'E', 14:'F', 15:'G', 16:'H', 17:'I', 18:'J', 19:'K',
             20:'L', 21:'M', 22:'N', 23:'P', 24:'Q', 25:'R', 26:'S', 27:'T', 28:'U',
-            29:'V', 30:'W', 31:'X', 32:'Y',
+            29:'V', 30:'W', 31:'X', 32:'Y', 33:'Z',
         }
 
         # Recorrer el nombre y convertir las letras en su valor numérico.
         for count in range(0, len(complete_name)):
             letra = self.remove_accents(complete_name[count])
-            nombre_numero += self.rfc_set(str(rfc1[letra if letra not in KEYWORDS.keys() else KEYWORDS[letra]]),'00')
+            nombre_numero += self.rfc_set(str(rfc1[letra]),'00')
         # La formula es:
             # El caracter actual multiplicado por diez mas el valor del caracter
             # siguiente y lo anterior multiplicado por el valor del caracter siguiente.
@@ -86,6 +77,7 @@ class GenerateRFC(BaseGenerator):
         suma_numero = 0 
         suma_parcial = 0
         digito = None 
+        print (len(rfc))
 
         rfc3 = {
             'A':10, 'B':11, 'C':12, 'D':13, 'E':14, 'F':15, 'G':16, 'H':17, 'I':18,
@@ -101,8 +93,17 @@ class GenerateRFC(BaseGenerator):
                 suma_numero = rfc3[letra if letra not in ('ñ','Ñ') else 'X']
                 suma_parcial += (suma_numero*(14-(count+1)))
 
+        print ('suma_numero')
+        print (suma_numero)
+        print ('suma_parcial')
+        print (suma_parcial)
         modulo = suma_parcial % 11
+        print ('modulo')
+        print (modulo)
         digito_parcial = (11-modulo)
+        print ('digito_parcial')
+        print ('digito_parcial')
+        print (digito_parcial)
         
         if modulo == 0:
             digito = '0'
@@ -111,6 +112,7 @@ class GenerateRFC(BaseGenerator):
         else:
             digito = str(digito_parcial)
 
+        print (digito)
         return  digito
 
     def rfc_set(self, a, b):
@@ -123,94 +125,6 @@ class GenerateRFC(BaseGenerator):
     def data(self):
         return self.calculate()
 
-
-class GenerateCURP(BaseGenerator):
-    """ Generate CURP"""
-    key_value = 'curp'
-    partial_data = None
-    DATA_REQUIRED = (
-        'complete_name',
-        'last_name',
-        'mother_last_name',
-        'birth_date',
-        'gender',
-        'city',
-        'state_code'
-    )
-    
-    def __init__(self, **kwargs):
-        self.complete_name = kwargs.get('complete_name')
-        self.last_name = kwargs.get('last_name')
-        self.mother_last_name = kwargs.get('mother_last_name', None)
-        self.birth_date = kwargs.get('birth_date')
-        self.gender = kwargs.get('gender')
-        self.city = kwargs.get('city', None)
-        self.state_code = kwargs.get('state_code')
-        self.parse(complete_name=self.complete_name, last_name=self.last_name,
-                   mother_last_name=self.mother_last_name, city=self.city, state_code=self.state_code)
-
-        self.partial_data = self.data_fiscal(
-            complete_name=self.complete_name, last_name=self.last_name,
-            mother_last_name=self.mother_last_name, birth_date=self.birth_date)
-
-    def calculate(self):
-        curp = self.partial_data
-        statecode = self.state_code
-        
-        if self.city is not None:
-            statecode = self.city_search(self.city)
-        elif self.state_code is not None:
-            statecode = self.state_code
-        else: 
-            raise AttributeError("No such attribute: state_code")
-
-        lastname = self.get_consonante(self.last_name)
-        mslastname = self.get_consonante(self.mother_last_name)
-        name = self.get_consonante(self.complete_name)
-        year = self.get_year(self.birth_date)
-        hc = self.homoclave(year)
-
-        curp += '%s%s%s%s%s%s' % (self.gender, statecode, lastname,
-            mslastname, name, hc)
-        curp += self.check_digit(curp)
-        return curp
-    
-    def homoclave(self, year):
-        hc = ''
-        if year < 2000:
-            hc = '0'
-        elif year >= 2000:
-            hc = 'A'
-        return hc
-
-    def check_digit(self, curp):
-        value = 0
-        summary = 0
-        checkers = {
-            '0':0, '1':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9,
-            'A':10, 'B':11, 'C':12, 'D':13, 'E':14, 'F':15, 'G':16, 'H':17, 'I':18,
-            'J':19, 'K':20, 'L':21, 'M':22, 'N':23, 'Ñ':24, 'O':25, 'P':26, 'Q':27,
-            'R':28, 'S':29, 'T':30, 'U':31, 'V':32, 'W':33, 'X':34, 'Y':35, 'Z':36
-        }
-
-        count = 0
-        count2 = 18
-        for count in range(0,len(curp)):
-            posicion = curp[count]
-            for k, v in checkers.items():
-                if posicion == k:
-                    value = (v * count2)
-            count2 = count2 - 1
-            summary = summary + value
-        num_ver = summary % 10 # Residue
-        num_ver = abs(10 - num_ver)	#Returns the absolute value in case it is negative.
-        if num_ver == 10: 
-            num_ver = 0
-        return str(num_ver)	
-
-    @property
-    def data(self):
-        return self.calculate()
 
 
 class GenerateNSS(BaseGenerator):
@@ -261,11 +175,14 @@ class GenericGeneration(object):
     _data = {}
 
     def __init__(self, **kwargs):
+        print (kwargs)
+        print (kwargs)
+        print (kwargs)
         self._datos = kwargs
 
     @property
     def data(self):
-        for cls in self.generadores:
+        for cls in self.generadores:		
             data = cls.DATA_REQUIRED
             kargs = {key: self._datos[key] for key in data}
             gen = cls(**kargs)

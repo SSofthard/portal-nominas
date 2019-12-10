@@ -305,14 +305,14 @@ msgstr "Viernes"
 #. module: hr_public_holiday
 #: model:ir.model,name:hr_public_holiday.model_hr_public_holidays_import
 msgid "Holiday Calendar Import"
-msgstr "Importar calendario de vacaciones"
+msgstr "Importar calendario de días feriados"
 
 #. module: hr_public_holiday
 #: model:ir.actions.act_window,name:hr_public_holiday.action_holidays_import_form
 #: model:ir.ui.menu,name:hr_public_holiday.menu_open_holidays_import
 #: model_terms:ir.ui.view,arch_db:hr_public_holiday.view_public_holidays_import_form
 msgid "Holidays Import"
-msgstr "Importación de vacaciones"
+msgstr "Importar días feriados"
 
 #. module: hr_public_holiday
 #: model:ir.model.fields,field_description:hr_public_holiday.field_hr_days_public_holidays__id
