@@ -25,7 +25,7 @@ class Job(models.Model):
     
     code = fields.Char("Code", copy=False, required=True)
 
-
+tab
 class Employee(models.Model):
     _inherit = "hr.employee"
     
@@ -76,8 +76,12 @@ class Employee(models.Model):
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
     real_salary = fields.Float("Real Salary", copy=False)
     gross_salary = fields.Float("Gross Salary", copy=False)
-    table_id = fields.Many2one('tablas.cfdi','Table CFDI')
-    
+    table_id = fields.Many2one('tablas.cfdi','Table CFDI', default=lambda self: self.env['res.company']._company_default_get().tables_id,)
+    place_of_birth = fields.Many2one('res.country.state', string='Place of Birth', groups="hr.group_hr_user")
+    country_id = fields.Many2one('res.country', 'Nationality (Country)', 
+        default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
+    country_of_birth = fields.Many2one('res.country', string="Country of Birth",
+        default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
     address_id = fields.Many2one(required=True)
     department_id = fields.Many2one(required=True)
     
@@ -87,7 +91,7 @@ class Employee(models.Model):
     ],"Real Salary", default="gross")
     
     monthly_salary = fields.Float("Monthly Salary", copy=False)
-    
+
     wage_salaries = fields.Float("Wages and salaries", copy=False)
     assimilated_salary = fields.Float("Assimilated Salary", copy=False)
     free_salary = fields.Float("Free", copy=False)
@@ -99,9 +103,14 @@ class Employee(models.Model):
     company_assimilated_id = fields.Many2one('res.company', "Company (Assimilated)", required=False)
     last_name = fields.Char("Last Name")
     mothers_last_name = fields.Char("Mother's Last Name")
+    # Extra Payments
     pay_holiday = fields.Boolean('Pay holiday?', default=False, help="If checked, holidays are paid to the employee")
     pay_extra_hours = fields.Boolean('Pay extra hours?', default=False, help="If checked, extra hours are paid to the employee")
-    
+    # Health Restrictions
+    health_restrictions = fields.Text('Health Restrictions', copy=False)
+    emergency_address = fields.Char('Emergency address',
+        copy=False, help="Set emergency contact address")
+
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
         ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
@@ -110,7 +119,18 @@ class Employee(models.Model):
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
         ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
-
+    
+    @api.constrains('ssnid','rfc','curp')
+    def validate_ssnid(self):
+        for record in self:
+            if record.ssnid and len(record.ssnid) != 11:
+                raise UserError(_('The length of the social security number is incorrect'))
+            if record.rfc:
+                if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
+                    raise UserError(_('RFC length is incorrect'))
+            if record.curp and len(record.curp) != 18:
+                raise UserError(_('CURP length is incorrect'))
+    
     @api.multi
     def post(self):
         for employee in self:
@@ -139,23 +159,23 @@ class Employee(models.Model):
         res.post()
         return res
     
-    @api.onchange('ssnid')
-    def _check_social_security_number_length(self):
-        if self.ssnid:
-            if len(self.ssnid) != 11:
-                raise UserError(_('The length of the social security number is incorrect'))
+    # ~ @api.onchange('ssnid')
+    # ~ def _check_social_security_number_length(self):
+        # ~ if self.ssnid:
+            # ~ if len(self.ssnid) != 11:
+                # ~ raise UserError(_('The length of the social security number is incorrect'))
     
-    @api.onchange('rfc')
-    def _check_rfc_length(self):
-        if self.rfc:
-            if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
-                raise UserError(_('RFC length is incorrect'))
+    # ~ @api.onchange('rfc')
+    # ~ def _check_rfc_length(self):
+        # ~ if self.rfc:
+            # ~ if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
+                # ~ raise UserError(_('RFC length is incorrect'))
                 
-    @api.onchange('curp')
-    def _check_curp_length(self):
-        if self.curp:
-            if len(self.curp) != 18:
-                raise UserError(_('CURP length is incorrect'))
+    # ~ @api.onchange('curp')
+    # ~ def _check_curp_length(self):
+        # ~ if self.curp:
+            # ~ if len(self.curp) != 18:
+                # ~ raise UserError(_('CURP length is incorrect'))
     
     @api.multi
     def calculate_salary_scheme(self):
@@ -248,15 +268,25 @@ class Employee(models.Model):
                 isr_assimilated = marginal_tax_assimilated + fixed_fee_assimilated
                 employee.assimilated_salary_gross = employee.assimilated_salary + isr_assimilated
         return True
-    
+
+    def set_required_field(self, field_name):
+        raise UserError(_('The following fields are required: %s.') %field_name)
+
+    def set_gender_format(self, gender):
+        if gender == 'male':
+            return 'H'
+        if gender == 'female':
+            return 'M'
+
     def get_rfc_curp_data(self):
+        
         kwargs = {
-            "complete_name": self.name,
-            "last_name": self.last_name,
+            "complete_name": self.name if self.name else self.set_required_field(self.fields_get()['name']['string']),
+            "last_name": self.last_name if self.last_name else self.set_required_field(self.fields_get()['last_name']['string']),
             "mother_last_name": self.mothers_last_name if self.mothers_last_name else None,
-            "birth_date": self.birthday.strftime('%d-%m-%Y'),
-            "gender": self.gender[0:1].upper(),
-            "city": self.place_of_birth,
+            "birth_date": self.birthday.strftime('%d-%m-%Y') if self.birthday else self.set_required_field(self.fields_get()['birthday']['string']),
+            "gender": self.set_gender_format(self.gender) if self.gender else self.set_required_field(self.fields_get()['gender']['string']),
+            "city": self.place_of_birth.name if self.place_of_birth else self.set_required_field(self.fields_get()['place_of_birth']['string']),
             "state_code": None
         }
         curp = GenerateCURP(**kwargs)

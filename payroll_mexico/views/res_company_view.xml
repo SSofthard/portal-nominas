@@ -12,7 +12,18 @@
                             <group>
                                 <group>
                                     <field name="business_name"/>
-                                    <field name="rfc"/>
+                                    <div class="o_row">
+                                        <button
+                                            type="object"
+                                            name="get_rfc_data"
+                                            class="btn-sm btn-link fa fa-cog"
+                                            aria-label="Generate RFC"
+                                            title="Generar RFC"
+                                            context="{'field_name': 'rfc'}"
+                                        />
+                                    </div>
+                                    <field name="rfc" widget="mask" data-inputmask="'mask': 'AAA999999&amp;&amp;&amp;', 'greedy' : false"/>
+                                
                                 </group>
                                 <group string="Notarial Data">
                                     <field name="legal_representative_id" context="{'default_legal_representative': True}" domain="[('legal_representative','=',True)]"/>
@@ -155,6 +166,9 @@
                 <xpath expr="//field[@name='parent_id']" position="replace">
                     <field name="parent_id"  groups="base.group_multi_company" invisible="1"/>
                 </xpath>
+                <xpath expr="//field[@name='state_id']" position="attributes">
+                    <attribute name="domain">[('country_id', '=', country_id)]</attribute>
+                </xpath>
             </field>
         </record>
         
@@ -187,6 +201,7 @@
                 </xpath>
             </field>
         </record>
+        
         <record id="res_partner_view_form_private_inherit" model="ir.ui.view">
             <field name="name">res.partner.view.form.private</field>
             <field name="model">res.partner</field>
@@ -203,5 +218,17 @@
                 </xpath>
             </field>
         </record>
+        
+        <record id="res_company_form_view_inherit_account_intrastat_iherit" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.account.intrastat</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="account.res_company_form_view_inherit_account_intrastat"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='incoterm_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+            </field>
+        </record>
+        
     </data>
 </odoo>

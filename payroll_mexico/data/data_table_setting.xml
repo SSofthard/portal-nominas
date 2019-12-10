@@ -28,161 +28,161 @@
 -->
         
         <record id="table_minimum_wages_1" model="table.minimum.wages">
-            <field name="date">01/01/2000</field>
+            <field name="date">2000-01-01</field>
             <field name="zone_a">37.90</field>
             <field name="zone_b">35.10</field>
             <field name="zone_c">32.70</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_2" model="table.minimum.wages">
-            <field name="date">01/01/2001</field>
+            <field name="date">2001-01-01</field>
             <field name="zone_a">40.35</field>
             <field name="zone_b">37.95</field>
             <field name="zone_c">35.85</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_3" model="table.minimum.wages">
-            <field name="date">01/01/2002</field>
+            <field name="date">2002-01-01</field>
             <field name="zone_a">42.15</field>
             <field name="zone_b">40.10</field>
             <field name="zone_c">38.30</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_4" model="table.minimum.wages">
-            <field name="date">01/01/2003</field>
+            <field name="date">2003-01-01</field>
             <field name="zone_a">43.65</field>
             <field name="zone_b">41.85</field>
             <field name="zone_c">40.30</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_5" model="table.minimum.wages">
-            <field name="date">01/01/2004</field>
+            <field name="date">2004-01-01</field>
             <field name="zone_a">45.24</field>
             <field name="zone_b">43.73</field>
             <field name="zone_c">42.11</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_6" model="table.minimum.wages">
-            <field name="date">01/01/2005</field>
+            <field name="date">2005-01-01</field>
             <field name="zone_a">46.80</field>
             <field name="zone_b">45.35</field>
             <field name="zone_c">44.05</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_7" model="table.minimum.wages">
-            <field name="date">01/01/2006</field>
+            <field name="date">2006-01-01</field>
             <field name="zone_a">48.67</field>
             <field name="zone_b">47.16</field>
             <field name="zone_c">45.81</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_8" model="table.minimum.wages">
-            <field name="date">01/01/2007</field>
+            <field name="date">2007-01-01</field>
             <field name="zone_a">50.57</field>
             <field name="zone_b">49.00</field>
             <field name="zone_c">47.60</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_9" model="table.minimum.wages">
-            <field name="date">01/01/2008</field>
+            <field name="date">2008-01-01</field>
             <field name="zone_a">52.59</field>
             <field name="zone_b">49.00</field>
             <field name="zone_c">49.50</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_10" model="table.minimum.wages">
-            <field name="date">01/01/2009</field>
+            <field name="date">2009-01-01</field>
             <field name="zone_a">54.80</field>
             <field name="zone_b">53.26</field>
             <field name="zone_c">51.95</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_11" model="table.minimum.wages">
-            <field name="date">01/01/2010</field>
+            <field name="date">2010-01-01</field>
             <field name="zone_a">57.46</field>
             <field name="zone_b">55.84</field>
             <field name="zone_c">54.47</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_12" model="table.minimum.wages">
-            <field name="date">01/01/2011</field>
+            <field name="date">2011-01-01</field>
             <field name="zone_a">59.82</field>
             <field name="zone_b">58.13</field>
             <field name="zone_c">56.70</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_13" model="table.minimum.wages">
-            <field name="date">01/01/2012</field>
+            <field name="date">2012-01-01</field>
             <field name="zone_a">62.33</field>
             <field name="zone_b">60.57</field>
             <field name="zone_c">59.08</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_14" model="table.minimum.wages">
-            <field name="date">27/11/2012</field>
+            <field name="date">2012-11-27</field>
             <field name="zone_a">62.33</field>
             <field name="zone_b">59.08</field>
             <field name="zone_c">0</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_15" model="table.minimum.wages">
-            <field name="date">01/01/2013</field>
+            <field name="date">2013-01-01</field>
             <field name="zone_a">64.76</field>
             <field name="zone_b">61.38</field>
             <field name="zone_c">0</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_16" model="table.minimum.wages">
-            <field name="date">01/01/2014</field>
+            <field name="date">2014-01-01</field>
             <field name="zone_a">67.29</field>
             <field name="zone_b">63.77</field>
             <field name="zone_c">0</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_17" model="table.minimum.wages">
-            <field name="date">01/01/2015</field>
+            <field name="date">2015-01-01</field>
             <field name="zone_a">70.10</field>
             <field name="zone_b">66.45</field>
             <field name="zone_c">0</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_18" model="table.minimum.wages">
-            <field name="date">01/04/2015</field>
+            <field name="date">2015-04-01</field>
             <field name="zone_a">70.10</field>
             <field name="zone_b">68.28</field>
             <field name="zone_c">0</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_19" model="table.minimum.wages">
-            <field name="date">01/10/2015</field>
+            <field name="date">2015-10-01</field>
             <field name="zone_a">70.10</field>
             <field name="zone_b">0</field>
             <field name="zone_c">0</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_20" model="table.minimum.wages">
-            <field name="date">01/01/2016</field>
+            <field name="date">2016-01-01</field>
             <field name="zone_a">73.04</field>
             <field name="zone_b">0</field>
             <field name="zone_c">0</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_21" model="table.minimum.wages">
-            <field name="date">01/01/2017</field>
+            <field name="date">2017-01-01</field>
             <field name="zone_a">80.04</field>
             <field name="zone_b">0</field>
             <field name="zone_c">0</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_22" model="table.minimum.wages">
-            <field name="date">01/01/2018</field>
+            <field name="date">2018-01-01</field>
             <field name="zone_a">88.36</field>
             <field name="zone_b">0</field>
             <field name="zone_c">0</field>
             <field name="border_crossing">0</field>
         </record>
         <record id="table_minimum_wages_23" model="table.minimum.wages">
-            <field name="date">01/01/2019</field>
+            <field name="date">2019-01-01</field>
             <field name="zone_a">102.68</field>
             <field name="zone_b">0</field>
             <field name="zone_c">0</field>

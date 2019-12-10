@@ -8,7 +8,7 @@ class StructureTypes(models.Model):
     name = fields.Char(string='Name',required=True)
     country_id = fields.Many2one(
                                 'res.country',
-                                default=lambda self: self.env.user.company_id,
+                                default=lambda self: self.env['res.company']._company_default_get().country_id,
                                 string="Country",
                                 required=True)
     company_id = fields.Many2one(

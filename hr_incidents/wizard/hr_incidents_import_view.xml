@@ -40,7 +40,7 @@
 
         <menuitem
             id="hr_incidents_import"
-            name="Incidents"
+            name="Incidents / Inputs"
             parent="hr_payroll.menu_hr_payroll_root"
             sequence="15"/>
 
