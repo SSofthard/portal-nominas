@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+from datetime import date
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+
+from odoo.addons.payroll_mexico.pyfiscal.generate_company import GenerateRfcCompany
 
 
 class Company(models.Model):
@@ -16,7 +21,7 @@ class Company(models.Model):
     public_notary_address_id = fields.Many2one('res.partner', "Public Notary Address", required=True, copy=False)
     code = fields.Char("Code", copy=False, required=True)
     employer_register_ids = fields.One2many('res.employer.register','company_id', "Employer Register")
-    rfc = fields.Char("RFC", copy=False, required=True)
+    rfc = fields.Char("RFC", copy=False, required=False)
     partner_ids = fields.One2many('res.company.partner','company_id', "Partners")
     fiel_csd_ids = fields.One2many('res.company.fiel.csd','company_id', "FIEL & CSD")
     branch_offices_ids = fields.One2many('res.company.branch.offices','company_id', "Branch Offices")
@@ -28,6 +33,15 @@ class Company(models.Model):
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),
     ]
 
+    
+    def get_rfc_data(self):
+        kwargs = {
+            "complete_name": self.business_name,
+            "constitution_date": self.constitution_date.strftime('%d-%m-%Y'),
+        }
+        rfc = GenerateRfcCompany(**kwargs)
+        self.rfc = rfc.data
+    
 
 class employerRegister(models.Model):
 
