@@ -37,10 +37,28 @@
                     <field name="payroll_type"/>
                     <field name="payroll_month"/>
                     <field name="payroll_of_month"/>
+                    <field name="payroll_period"/>
+                    <field name="table_id" invisible="1"/>
                 </xpath> 
                 <xpath expr="//notebook/page[1]" position="after">
                     <page string="Inpust reported on payroll">
                         <field name="input_ids" readonly="1"/>
+                   </page>
+                </xpath> 
+                <xpath expr="//notebook/page[5]" position="replace">
+                    <page string="Miscellaneous">
+                        <group>
+                            <group string="Miscellaneous">
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="payslip_run_id" domain="[('state','=','draft')]"/>
+                            </group>
+                            <group name="accounting" string="Accounting" invisible="1">
+                                <field name="paid" readonly="1"/>
+                            </group>
+                        </group>
+                        <div colspan="4">
+                            <field name="note" placeholder="Add an internal note..."/>
+                        </div>
                    </page>
                 </xpath> 
             </field>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">  
+    <data noupdate="1">  
 
 		
 		<record id="PERCEPTIONS" model="hr.salary.rule.category">
@@ -143,7 +143,7 @@
             <field name="name">PRESTAMO DEL FONDO</field>
             <field name="code">P007</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">005</field>
             <field name="sequence">35</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -165,7 +165,7 @@
             <field name="name">INTERESES DEL FONDO</field>
             <field name="code">P008</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">005</field>
             <field name="sequence">40</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -187,7 +187,7 @@
             <field name="name">VACACIONES</field>
             <field name="code">P009</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">001</field>
             <field name="sequence">45</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -253,7 +253,7 @@
             <field name="name">ALIMENTACIÓN</field>
             <field name="code">P012</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">007</field>
             <field name="sequence">60</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -275,7 +275,7 @@
             <field name="name">HABITACIÓN</field>
             <field name="code">P013</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">008</field>
             <field name="sequence">65</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -297,7 +297,7 @@
             <field name="name">DESPENSA</field>
             <field name="code">P014</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">007</field>
             <field name="sequence">70</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -407,7 +407,7 @@
             <field name="name">RETROACTIVOS</field>
             <field name="code">P021</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">001</field>
             <field name="sequence">95</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -429,7 +429,7 @@
             <field name="name">BONOS</field>
             <field name="code">P022</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">028</field>
             <field name="sequence">100</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -451,7 +451,7 @@
             <field name="name">AYUDA DE TRANSPORTE</field>
             <field name="code">P023</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">008</field>
             <field name="sequence">105</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -473,7 +473,7 @@
             <field name="name">INGRESOS POR RETIRO</field>
             <field name="code">P100</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">025</field>
             <field name="sequence">110</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -495,7 +495,7 @@
             <field name="name">INGRESOS EXENTOS POR RETIRO</field>
             <field name="code">P101</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">025</field>
             <field name="sequence">115</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -517,7 +517,7 @@
             <field name="name">ISR DE INGRESOS POR RETIRO</field>
             <field name="code">P102</field>
             <field name="type">perception</field>
-            <field name="type_perception"></field>
+            <field name="type_perception">008</field>
             <field name="sequence">120</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
@@ -582,7 +582,8 @@
         <record id="hr_salary_rule_P031" model="hr.salary.rule">
             <field name="name">PRIMA VACACIONAL ASIMILADOS</field>
             <field name="code">P031</field>
-            <field name="sequence">370</field>
+            <field name="sequence">50</field>
+            <field name="type">perception</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="PERCEPTIONS"/>
             <field name="active">True</field>
@@ -592,11 +593,27 @@
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=inputs.P031.amount</field>
         </record>
-        <record id="rule_input_D030" model="hr.rule.input">
+        <record id="rule_input_P030" model="hr.rule.input">
             <field name="name">PRIMA VACACIONAL ASIMILADOS</field>
             <field name="code">P031</field>
             <field name="type">perception</field>
             <field name="input_id" ref="hr_salary_rule_P031"/>
+        </record>
+        
+        <record id="hr_salary_rule_P105" model="hr.salary.rule">
+            <field name="name">SUBSIDIO PARA EL EMPLEO</field>
+            <field name="code">P105</field>
+            <field name="type">perception</field>
+            <field name="type_deduction">017</field>
+            <field name="sequence">135</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="condition_python"></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=1</field>
         </record>
 
         
@@ -664,7 +681,7 @@
             <field name="name">PRESTAMO PERSONAL</field>
             <field name="code">D004</field>
             <field name="type">deductions</field>
-            <field name="type_deduction"></field>
+            <field name="type_deduction">004</field>
             <field name="sequence">215</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
@@ -686,7 +703,7 @@
             <field name="name">FONDO DE AHORRO</field>
             <field name="code">D005</field>
             <field name="type">deductions</field>
-            <field name="type_deduction"></field>
+            <field name="type_deduction">004</field>
             <field name="sequence">220</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
@@ -708,7 +725,7 @@
             <field name="name">ALIMENTACIÓN</field>
             <field name="code">D006</field>
             <field name="type">deductions</field>
-            <field name="type_deduction"></field>
+            <field name="type_deduction">004</field>
             <field name="sequence">225</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
@@ -796,7 +813,7 @@
             <field name="name">SAR VOLUNTARIO</field>
             <field name="code">D091</field>
             <field name="type">deductions</field>
-            <field name="type_deduction"></field>
+            <field name="type_deduction">003</field>
             <field name="sequence">245</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
@@ -862,6 +879,7 @@
             <field name="amount_python_compute">result=1</field>
         </record>
         
+<!--
         <record id="hr_salary_rule_D100" model="hr.salary.rule">
             <field name="name">SUBSIDIO PARA EL EMPLEO</field>
             <field name="code">D100</field>
@@ -877,12 +895,13 @@
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=1</field>
         </record>
+-->
         
         <record id="hr_salary_rule_D101" model="hr.salary.rule">
             <field name="name">IMPUESTO LOCAL</field>
             <field name="code">D101</field>
             <field name="type">deductions</field>
-            <field name="type_deduction"></field>
+            <field name="type_deduction">004</field>
             <field name="sequence">270</field>
             <field name="quantity">1</field>
             <field name="category_id" ref="hr_payroll.DED"/>
@@ -894,6 +913,7 @@
             <field name="amount_python_compute">result=1</field>
         </record>
         
+<!--
         <record id="hr_salary_rule_D111" model="hr.salary.rule">
             <field name="name">SUBSIDIO PARA EL EMPLEO APLICADO</field>
             <field name="code">D111</field>
@@ -909,6 +929,7 @@
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=1</field>
         </record>        
+-->
         
    </data>
 </odoo>

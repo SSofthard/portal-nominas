@@ -34,7 +34,14 @@ class HrPayslip(models.Model):
             ('4', '4'),
             ('5', '5'),
             ('6', '6')], string='Payroll of the month', required=True)
+    payroll_period = fields.Selection([
+            ('daily', 'Daily'),
+            ('weekly', 'Weekly'),
+            ('decennial', 'Decennial'),
+            ('biweekly', 'Biweekly'),
+            ('monthly', 'Monthly')], string='Payroll period', default="biweekly",required=True)
     input_ids = fields.Many2many('hr.inputs', string="Inpust reported on payroll")
+    table_id = fields.Many2one('table.settings', string="Table Settings")
 
 
     @api.model
@@ -46,10 +53,6 @@ class HrPayslip(models.Model):
         inputs = self.env['hr.salary.rule'].browse(sorted_rule_ids).mapped('input_ids')
         hr_inputs = self.env['hr.inputs'].browse([])
         self.input_ids.write({'payslip':False})
-        print (self.input_ids)
-        print (self.input_ids)
-        print (self.input_ids)
-        print (self.input_ids)
         self.input_ids = False
         for contract in contracts:
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
@@ -101,6 +104,7 @@ class HrPayslip(models.Model):
             worked_days_lines += worked_days_lines.new(r)
         self.worked_days_line_ids = worked_days_lines
         self.payroll_month = str(date_from.month)
+        self.table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
         return
         
     def search_inputs(self):
