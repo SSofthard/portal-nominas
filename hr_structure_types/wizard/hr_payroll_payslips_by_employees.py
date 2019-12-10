@@ -9,7 +9,7 @@ class HrPayslipEmployees(models.TransientModel):
 
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure')
     group_id = fields.Many2one('hr.group', "Group", required=True,
-                               default=lambda self: self.env[self._context.get('active_model')].browse([self._context.get('active_id')]).group_id.id
+                               # default=lambda self: self.env[self._context.get('active_model')].browse([self._context.get('active_id')]).group_id.id
                                )
     contracting_regime = fields.Selection([
                                         ('1', 'Assimilated to wages'),

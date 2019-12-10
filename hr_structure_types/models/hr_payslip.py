@@ -22,4 +22,4 @@ class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
 
     #Columns
-    group_id = fields.Many2one('hr.group', string="Empresa", required=True)
+    group_id = fields.Many2one('hr.group', string="Empresa")
