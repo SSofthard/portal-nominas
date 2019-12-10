@@ -7,8 +7,6 @@ from odoo.exceptions import UserError
 class Expenses(models.Model):
     _inherit = 'hr.expense'
 
-
-
     # def _compute_attachment_number(self):
     #     '''
     #     Herencia para que se ejecute el metodo compute de el campo numero de documentos y se agregue el estado por defecto de cada uno
@@ -178,7 +176,20 @@ class ExpensesSheets(models.Model):
     note = fields.Text('Notes')
     address_origin_id = fields.Many2one('res.partner', string='Origin Address')
     address_dest_id = fields.Many2one('res.partner', string='Dest Address')
-    total_by_day = fields.Monetary(string='Amount By Day', compute=False)
+    qty_days = fields.Integer(string='Cantidad de días', compute=False)
+    total_by_day = fields.Monetary(string='Cantidad estimada', compute=False)
+
+    @api.onchange('address_origin_id','address_dest_id','qty_days')
+    def onchange_estimate_info(self):
+        '''
+        Este metodo calcula el monto estimado de viaticos segun la tabulacion
+        '''
+        if self.estimate_viatics:
+            tabulador = self.env['hr.tab.expenses.lines'].search([('address_from','=',self.address_origin_id.id),('address_to','=',self.address_dest_id.id)])
+            cost_per_day = tabulador.amount_per_day
+            self.total_by_day = cost_per_day*self.qty_days
+            self.amount_delivered = self.total_by_day
+
 
     @api.onchange('amount_delivered','is_older')
     def onchange_is_older(self):

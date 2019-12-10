@@ -14,4 +14,5 @@
 
 from . import hr_expense
 from . import hr_expense_payment
+from . import hr_tab_expense
 # from . import ir_attachment
