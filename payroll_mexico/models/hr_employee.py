@@ -108,7 +108,7 @@ class Employee(models.Model):
     pay_extra_hours = fields.Boolean('Pay extra hours?', default=False, help="If checked, extra hours are paid to the employee")
     # Health Restrictions
     health_restrictions = fields.Text('Health Restrictions', copy=False)
-    emergency_address = fields.Text('Emergency address',
+    emergency_address = fields.Char('Emergency address',
         copy=False, help="Set emergency contact address")
 
     _sql_constraints = [
