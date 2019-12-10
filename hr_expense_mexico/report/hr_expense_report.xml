@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="report_expense_sheet_inherit" inherit_id="hr_expense.report_expense_sheet">
+         <xpath expr="//div[@class='page']" position="replace">
+                    <center><h2>COMPROBACION DE GASTOS Y VIATICOS</h2></center>
+                    <br/>
+                    <div>
+                         <div >
+                            <tr>
+                                <td>
+                                    <strong>FECHA DE ATENCION DE ASUNTO: </strong> <span t-field="o.date_request"/>
+                                </td>
+                            </tr>
+                             <tr class="text-right">
+                                <td>
+                                    <strong>FOLIO: </strong>  <span>DEFINIR</span>
+                                </td>
+                             </tr>
+                        </div>
+                        
+                        <div >
+                            <tr>
+                                <td>
+                                    <strong>NUM. MATRICULA: </strong> <span t-field="o.employee_id.enrollment"/>
+                                </td>
+                            </tr>
+                        </div>
+                        <div>
+                            <tr>
+                                <td>
+                                    <strong>NOMBE COMPLETO EMPLEADO: </strong> <span t-field="o.employee_id.name"/>
+                                </td>
+                            </tr>
+                        </div>
+                        <div>
+                           <tr>
+                                <td>
+                                    <strong>LUGAR: </strong> <span> DEFINIR</span>
+                                </td>
+                            </tr>
+                        </div>
+                        <div>
+                             <tr>
+                                <td>
+                                    <strong>EXP. NUM.: </strong> <span> DEFINIR</span>
+                                </td>
+                            </tr>  
+                        </div>
+                        <div>
+                            <tr>
+                                <td>
+                                    <strong>DEPENDENCIA O CUSURSAL: </strong> <span> DEFINIR</span>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                    <br/>
+                    <div>
+                         <div>
+                            <tr>
+                                <td>
+                                    <strong>TIPO DE ASUSTO: </strong> <span> DEFINIR</span>
+                                </td>
+                            </tr>
+                        </div>
+                        <div>
+                             <tr>
+                                <td>
+                                    <strong>AUDIENCIA DE O.A.P PAGADORA: </strong> <span> DEFINIR</span>
+                                </td>
+                             </tr>
+                        </div>
+                        <div>
+                            <tr>
+                                <td>
+                                    <strong>STATUS ABOGADO EJECUTOR: </strong> <span> DEFINIR</span>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    
+                    
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>CONCEPTO</th>
+                                <th>DESCRIPCION</th>
+                                <th>FECHA</th>
+                                <th>IMPORTE</th>
+                                <th>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="counter" t-value="1"/>
+                                <tr t-foreach="o.expense_line_ids" t-as="line">
+                                    <td>
+                                        <t t-esc="counter"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.classification"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.name"/><br/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.total_amount"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.total_amount"/>
+                                    </td>
+                                    <t t-set="counter" t-value="counter+1" />
+                                </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row justify-content-end">
+                        <div class="col-4">
+                            <table class="table table-sm">
+                                <tr class="border-white">
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.total_amount"
+                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="table-right">
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td><strong>TOTAL GASTOS:</strong></td>
+                                <td class="text-right">
+                                    <span t-field="o.total_amount"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>IMPORTE RECIBIDO:</strong></td>
+                                <td class="text-right">
+                                     <span t-field="o.total_amount"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr t-if="o.amount_delivered > o.total_amount">
+                                <td><strong>SALDO A FAVOR:</strong></td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_difference"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr t-if="o.total_amount > o.amount_delivered">
+                                <td><strong>SALDO EN CONTRA:</strong></td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_difference"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="col-xs-12">
+                        <table class="table">
+                            <br/>
+                            <br/>
+                            <tr> 
+                                <th colspan="5" class="text-center" style="border: white 1px solid;">_____________________________</th>
+                                <th colspan="5" class="text-center" style="border: white 1px solid;">_____________________________</th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" class="text-center"  style="border: white 1px solid;">FIRMANTE 1</th>
+                                <th colspan="5" class="text-center"  style="border: white 1px solid;">FIRMANTE 2</th>
+                            </tr>
+                        </table>
+                    </div>
+                    
+        </xpath>
+    </template>
+    
+</odoo>
