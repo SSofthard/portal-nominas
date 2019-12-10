@@ -22,4 +22,5 @@ from . import table_settings
 from . import table_cfdi
 from . import tool_convert_numbers_letters
 from . import hr_holidays
+from . import resource_mixin
 

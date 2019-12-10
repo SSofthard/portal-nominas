@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from pytz import timezone
 
 import babel
 from odoo import api, fields, models, tools, _
 from datetime import date, datetime, time
 from odoo.exceptions import UserError
 from odoo.osv import expression
+
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
@@ -120,6 +122,74 @@ class HrPayslip(models.Model):
             input_lines += input_lines.new(r)
         self.input_line_ids = input_lines
         return
+    
+    @api.model
+    def get_worked_day_lines(self, contracts, date_from, date_to):
+        '''Este metodo hereda el comportamiento nativo para agregar los dias feriados, prima dominical al O2m de dias trabajados'''
+        res = []
+        # fill only if the contract as a working schedule linked
+        for contract in contracts.filtered(lambda contract: contract.resource_calendar_id):
+            day_from = datetime.combine(fields.Date.from_string(date_from), time.min)
+            day_to = datetime.combine(fields.Date.from_string(date_to), time.max)
+            # compute leave days
+            leaves = {}
+            calendar = contract.resource_calendar_id
+            tz = timezone(calendar.tz)
+            day_leave_intervals = contract.employee_id.list_leaves(day_from, day_to,
+                                                                   calendar=contract.resource_calendar_id)
+            for day, hours, leave in day_leave_intervals:
+                holiday = leave.holiday_id
+                current_leave_struct = leaves.setdefault(holiday.holiday_status_id, {
+                    'name': holiday.holiday_status_id.name or _('Global Leaves'),
+                    'sequence': 5,
+                    'code': holiday.holiday_status_id.name or 'GLOBAL',
+                    'number_of_days': 0.0,
+                    'number_of_hours': 0.0,
+                    'contract_id': contract.id,
+                })
+                current_leave_struct['number_of_hours'] += hours
+                work_hours = calendar.get_work_hours_count(
+                    tz.localize(datetime.combine(day, time.min)),
+                    tz.localize(datetime.combine(day, time.max)),
+                    compute_leaves=False,
+                )
+                if work_hours:
+                    current_leave_struct['number_of_days'] += hours / work_hours
+
+            # compute worked days
+            work_data = contract.employee_id.get_work_days_data(day_from, day_to,
+                                                                calendar=contract.resource_calendar_id)
+
+            dias_feriados = {
+                'name': _("Días feriados"),
+                'sequence': 1,
+                'code': 'DFER',
+                'number_of_days': work_data['public_days'],
+                'number_of_hours': work_data['public_days_hours'],
+                'contract_id': contract.id,
+            }
+            prima_dominical = {
+                'name': _("DOMINGO"),
+                'sequence': 1,
+                'code': 'DOMINGO',
+                'number_of_days': work_data['sundays'],
+                'number_of_hours': work_data['sundays_hours'],
+                'contract_id': contract.id,
+            }
+            attendances = {
+                'name': _("Normal Working Days paid at 100%"),
+                'sequence': 1,
+                'code': 'WORK100',
+                'number_of_days': work_data['days'],
+                'number_of_hours': work_data['hours'],
+                'contract_id': contract.id,
+            }
+
+            res.append(attendances)
+            res.append(prima_dominical)
+            res.append(dias_feriados)
+            res.extend(leaves.values())
+        return res
         
     @api.onchange('contract_id')
     def onchange_contract(self):
@@ -222,4 +292,3 @@ class HrRuleInput(models.Model):
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', required=True)
-
