@@ -25,7 +25,6 @@ class Job(models.Model):
     
     code = fields.Char("Code", copy=False, required=True)
 
-tab
 class Employee(models.Model):
     _inherit = "hr.employee"
     
