@@ -173,7 +173,6 @@ class HrPayslip(models.Model):
                 'contract_id': contract.id,
             }
             days_factor = contract.employee_id.group_id.days
-            print ('prueba para git')
             elemento_calculo = {
                 'name': _("Periodo mensual IMSS"),
                 'sequence': 1,
