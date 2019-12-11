@@ -8,6 +8,7 @@ from odoo.exceptions import UserError
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
     
+    
     payroll_type = fields.Selection([
             ('ordinary_payroll', 'Ordinary Payroll'),
             ('extraordinary_payroll', 'Extraordinary Payroll')], string='Payroll Type', default="ordinary_payroll", required=True)
@@ -30,12 +31,22 @@ class HrPayslipRun(models.Model):
             ('3', '3'),
             ('4', '4'),
             ('5', '5'),
-            ('6', '6')], string='Payroll of the month', required=True)
+            ('6', '6')], string='Payroll of the month', required=True, default="1")
     payroll_period = fields.Selection([
             ('daily', 'Daily'),
             ('weekly', 'Weekly'),
             ('decennial', 'Decennial'),
             ('biweekly', 'Biweekly'),
             ('monthly', 'Monthly')], string='Payroll period', default="biweekly",required=True)
+    table_id = fields.Many2one('table.settings', string="Table Settings")
     
     
+    @api.onchange('date_start', 'date_end')
+    def onchange_date_start_date_end(self):
+        if (not self.date_start) or (not self.date_end):
+            return
+        date_from = self.date_start
+        date_to = self.date_end
+        self.table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
+        self.payroll_month = str(date_from.month)
+        return

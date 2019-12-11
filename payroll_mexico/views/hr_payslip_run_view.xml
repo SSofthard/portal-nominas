@@ -17,6 +17,7 @@
                         <field name="payroll_month"/>
                         <field name="payroll_of_month"/>
                         <field name="payroll_period"/>
+                        <field name="table_id" invisible="1"/>
                     </group>
                 </xpath> 
             </field>

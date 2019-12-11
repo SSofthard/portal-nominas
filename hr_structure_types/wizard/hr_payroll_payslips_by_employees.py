@@ -8,9 +8,7 @@ class HrPayslipEmployees(models.TransientModel):
     _inherit = 'hr.payslip.employees'
 
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure')
-    group_id = fields.Many2one('hr.group', "Group", required=True,
-                               # default=lambda self: self.env[self._context.get('active_model')].browse([self._context.get('active_id')]).group_id.id
-                               )
+    # ~ group_id = fields.Many2one('hr.group', "Group", required=True,)
     contracting_regime = fields.Selection([
                                         ('1', 'Assimilated to wages'),
                                         ('2', 'Wages and salaries'),
@@ -19,20 +17,19 @@ class HrPayslipEmployees(models.TransientModel):
                                         ('5', 'Free'),
                                         ], string='Contracting Regime', required=True, default="2")
 
-    @api.onchange('estructure_id','contracting_regime')
+    @api.onchange('estructure_id','contracting_regime','group_id')
     def onchange_estructure(self):
+        active_id = self.env.context.get('active_id')
+        if active_id:
+            payslip_run = self.env['hr.payslip.run'].browse(active_id)
         contract=self.env['hr.contract']
         structure_type_id=self.estructure_id.structure_type_id.id
-        print(structure_type_id)
-        print(self.contracting_regime)
-        print(self.group_id.id)
         domain=[
             ('structure_type_id','=',structure_type_id),
-            ('employee_id.group_id','=',self.group_id.id),
+            ('employee_id.group_id','=',payslip_run.group_id.id),
             ('contracting_regime','=',self.contracting_regime)
             ]
         employees=contract.search_read(domain,['employee_id','state'])
-        print (employees)
         employee_ids=[]
         for employee in employees:
             if employee['state'] in ['open']:
@@ -45,7 +42,12 @@ class HrPayslipEmployees(models.TransientModel):
         [data] = self.read()
         active_id = self.env.context.get('active_id')
         if active_id:
-            [run_data] = self.env['hr.payslip.run'].browse(active_id).read(['date_start', 'date_end', 'credit_note'])
+            [run_data] = self.env['hr.payslip.run'].browse(active_id).read(['date_start', 'date_end', 'credit_note','struct_id',
+                                                                                                                        'payroll_type',
+                                                                                                                        'payroll_month',
+                                                                                                                        'payroll_of_month',
+                                                                                                                        'payroll_period',
+                                                                                                                        'table_id'])
         from_date = run_data.get('date_start')
         to_date = run_data.get('date_end')
         if not data['employee_ids']:
@@ -53,7 +55,8 @@ class HrPayslipEmployees(models.TransientModel):
         estructure_id=self.estructure_id.id
         structure_type_id=self.estructure_id.structure_type_id.id
         for employee in self.env['hr.employee'].browse(data['employee_ids']):
-            slip_data = self.env['hr.payslip'].onchange_employee_id(from_date, to_date, employee.id, contract_id=False)
+            contract=self.env['hr.contract'].search([('contracting_regime','=',self.contracting_regime),('employee_id','=',employee.id),('state','in',['open']),])[0]
+            slip_data = self.env['hr.payslip'].onchange_employee_id(from_date, to_date, employee.id, contract_id=contract.id, struct_id=self.estructure_id, run_data=run_data )
             res = {
                 'employee_id': employee.id,
                 'name': slip_data['value'].get('name'),
@@ -67,6 +70,11 @@ class HrPayslipEmployees(models.TransientModel):
                 'date_to': to_date,
                 'credit_note': run_data.get('credit_note'),
                 'company_id': employee.company_id.id,
+                'payroll_type':slip_data['value'].get('payroll_type'),
+                'payroll_month':slip_data['value'].get('payroll_month'),
+                'payroll_of_month':slip_data['value'].get('payroll_of_month'),
+                'payroll_period':slip_data['value'].get('payroll_period'),
+                'table_id':slip_data['value'].get('table_id'),
             }
             payslips += self.env['hr.payslip'].create(res)
         payslips.compute_sheet()
