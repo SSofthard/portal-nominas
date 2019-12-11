@@ -35,7 +35,7 @@ class HrPayslip(models.Model):
             ('3', '3'),
             ('4', '4'),
             ('5', '5'),
-            ('6', '6')], string='Payroll of the month', required=True)
+            ('6', '6')], string='Payroll of the month', required=True, default="1")
     payroll_period = fields.Selection([
             ('daily', 'Daily'),
             ('weekly', 'Weekly'),
@@ -74,7 +74,21 @@ class HrPayslip(models.Model):
             self.input_ids = hr_inputs
             hr_inputs.write({'payslip':True})
         return res
-
+    
+    @api.multi
+    def compute_sheet(self):
+        for payslip in self:
+            number = payslip.number or self.env['ir.sequence'].next_by_code('salary.slip')
+            self.search_inputs()
+            # delete old payslip lines
+            payslip.line_ids.unlink()
+            # set the list of contract for which the rules have to be applied
+            # if we don't give the contract, then the rules to apply should be for all current contracts of the employee
+            contract_ids = payslip.contract_id.ids or \
+                self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
+            lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
+            payslip.write({'line_ids': lines, 'number': number})
+        return True
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
     def onchange_employee(self):
@@ -124,11 +138,13 @@ class HrPayslip(models.Model):
         return
 
     @api.model
-    def get_worked_day_lines(self, contracts, date_from, date_to):
+    def get_worked_day_lines(self, contracts, date_from, date_to,payroll_period=False ):
         '''Este metodo hereda el comportamiento nativo para agregar los dias feriados, prima dominical al O2m de dias trabajados'''
         res = []
         # fill only if the contract as a working schedule linked
+        print (contracts)
         for contract in contracts.filtered(lambda contract: contract.resource_calendar_id):
+            print (contract)
             day_from = datetime.combine(fields.Date.from_string(date_from), time.min)
             day_to = datetime.combine(fields.Date.from_string(date_to), time.max)
             # compute leave days
@@ -192,8 +208,11 @@ class HrPayslip(models.Model):
                 'decennial': 10,
                 'daily': 1,
                                 }
-            if (to_full - from_full).days >= payroll_periods_days[self.payroll_period]:
-                cant_days = payroll_periods_days[self.payroll_period]*(days_factor/30)
+            period = self.payroll_period
+            if payroll_period:
+                period = payroll_period
+            if (to_full - from_full).days >= payroll_periods_days[period]:
+                cant_days = payroll_periods_days[period]*(days_factor/30)
             else:
                 cant_days = (to_full - from_full).days*(days_factor/30)
 
