@@ -51,7 +51,7 @@ class Employee(models.Model):
             factor_christmas_bonus = default_chirstmas_bonus_days \
                 if years_antiquity >= 1 else (15/365)*(current_date - (start_date_contract - timedelta(days=1))).days
             christmas_bonus = factor_christmas_bonus*daily_salary
-            integral_salary = self.contract_id.wage + bonus_holiday + christmas_bonus
+            integral_salary = (self.contract_id.wage + bonus_holiday + christmas_bonus)/self.group_id.days if self.group_id.days else (self.contract_id.wage + bonus_holiday + christmas_bonus)/30
             self.salary = integral_salary
 
     @api.model
