@@ -333,3 +333,4 @@ class HrRuleInput(models.Model):
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', required=True)
+

@@ -201,6 +201,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='time_type']" position="after">
                     <field name="cfdi_rule_id"/>
+                    <field name="is_holidays"/>
                 </xpath>
             </field>
         </record>
