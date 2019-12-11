@@ -6,6 +6,10 @@
             <field name="name">Excess</field>
             <field name="digits">4</field>
         </record>
+		<record forcecreate="True" id="decimal_risk_factor" model="decimal.precision">
+            <field name="name">Risk</field>
+            <field name="digits">5</field>
+        </record>
 		
         <record id="table_cfdi_1" model="tablas.cfdi">
 			<field name="name">Tabla 2019</field>

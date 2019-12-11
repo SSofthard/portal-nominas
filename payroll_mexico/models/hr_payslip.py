@@ -323,6 +323,13 @@ class HrInputs(models.Model):
         ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, states={'paid': [('readonly', True)]}, store=True)
     group_id = fields.Many2one('hr.group', "Group", related= 'employee_id.group_id', readonly=True, states={'paid': [('readonly', True)]}, store=True)
 
+    @api.multi
+    def name_get(self):
+        result = []
+        for inputs in self:
+            name = '%s %s %s' % (inputs.employee_id.name.upper(), inputs.input_id.name.upper(), str(inputs.amount))
+            result.append((inputs.id, name))
+        return result
 
 
 class HrRuleInput(models.Model):

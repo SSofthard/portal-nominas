@@ -193,15 +193,20 @@
                                    <button name="action_close" states="active" string="To close" class="oe_highlight" type="object" groups="hr.group_hr_manager"/>
                                     <field name="state" widget="statusbar" statusbar_visible="draft,active,close"/>
                                 </header>
-                                <group col="4">
-                                    <field name="infonavit_credit_number" />
-                                    <field name="type" />
-                                    <field name="date" />
-                                    <field name="value"/>
+                                <group>
+									<group>
+										<field name="infonavit_credit_number" />
+										<field name="date" />
+									</group>
+									<group>
+										<field name="type" />
+										<field name="value"/>
+										<field name="uma" attrs="{'invisible': [('type','!=','umas')]}"/>
+									</group>
                                 </group>
                             </form>
                             <tree>
-                                <field name="infonavit_credit_number" />
+                                <field name="infonavit_credit_number"/>
                                 <field name="type" />
                                 <field name="value" />
                                 <field name="date" />

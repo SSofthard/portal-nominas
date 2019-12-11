@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError, UserError
+from odoo.tools import float_round
 from odoo.addons import decimal_precision as dp
-
+from odoo.exceptions import ValidationError, UserError
 
 class HrIsn(models.Model):
     _name = 'hr.isn'
@@ -22,6 +22,7 @@ class HrIsn(models.Model):
         help="Select type of tax by state.\n"\
         "Select 'Fixed fee' if it is a fixed rate.\n"\
         "Select 'Range' if it is a Range.")
+    percent = fields.Float(string='Percentage', digits=dp.get_precision('Excess'))
     isn_line = fields.One2many('hr.isn.range.line', 'isn_id', string="Entidade Federativas")
 
     @api.multi
@@ -32,28 +33,51 @@ class HrIsn(models.Model):
             result.append((isn.id, name))
         return result
 
-    @api.constrains('year','isn_line')
-    def validate_isn(self):
-        for record in self:
-            if record.year and len(str(record.year)) != 4:
-                raise ValidationError(_('The format of the year is incorrect, configure the format of the year YYYY'))
-            if not record.isn_line and record.type == 'range':
-                raise ValidationError(_('You must select the range percentage for this state.'))
+    @api.onchange('type')
+    def _onchange_type(self):
+        if self.type == 'fixed':
+            if self.isn_line:
+                self.isn_line.unlink()
+        if self.type == 'range':
+            self.percent = False
+
+    def get_value_isn(self, state_id, amount, year):
+        isn_id = self.search([('state_id', '=', state_id),('year', '=', year)], limit=1)
+        amount_tax = 0.0
+        for isn in isn_id:
+            if isn.type == 'fixed':
+                amount_tax = amount * isn.percent
+            if isn.type == 'range':
+                fixed_fee = isn.isn_line.filtered(lambda d: amount >= d.lim_inf and amount <= d.lim_sup)
+                excedente = float_round(amount - fixed_fee.lim_inf, 4)
+                total_taxt = float_round((excedente / 100) * fixed_fee.s_excedente, 4)
+                amount_tax = float_round(total_taxt + fixed_fee.c_fija, 4)
+        return float_round(amount_tax, precision_digits=2, precision_rounding=None, rounding_method='UP')
+        
+    def button_value_isn(self):
+        amount = 2000000
+        year = 2019
+        return self.get_value_isn(self.state_id.id, amount, year)
+
+    @api.model
+    def _get_state_name(self, state_id):
+        name_state = self.env['res.country.state'].search([('id','=',state_id)]).name.upper()
+        return name_state
 
     @api.model
     def create(self, vals):
         isn = super(HrIsn, self).create(vals)
-        isn.name = 'ISN %s %s ' %(isn.state_id.name.upper(), str(isn.year))
+        isn.name = 'ISN %s %s' %(isn.state_id.name.upper(), str(isn.year))
         return isn
 
     @api.multi
     def write(self, vals):
-        print (vals)
-        print (vals.get('state_id'))
-        print (vals.get('state_id'))
-        print (vals.get('state_id'))
-        print (vals.get('state_id'))
-        vals['name'] = vals.get('name')
+        if 'state_id' and 'year' in vals:
+            vals['name'] = 'ISN %s %s' %(self._get_state_name(vals['state_id']), vals['year'])
+        if 'state_id' in vals and not 'year' in vals:
+            vals['name'] = 'ISN %s %s' %(self._get_state_name(vals['state_id']), str(self.year))
+        if not 'state_id' in vals and 'year' in vals:
+            vals['name'] = 'ISN %s %s' %(self.state_id.name.upper(), str(self.year))
         return super(HrIsn, self).write(vals)
 
 
@@ -62,25 +86,19 @@ class HrIsnLine(models.Model):
     _order = 'lim_inf'
 
     isn_id = fields.Many2one('hr.isn', string='ISN')
-    lim_inf = fields.Float(string='Lower limit')
-    lim_sup = fields.Float(string='Upper limit')
-    c_fija = fields.Float(string='Fixed fee') 
+    lim_inf = fields.Float(string='Lower limit', digits=dp.get_precision('Excess'))
+    lim_sup = fields.Float(string='Upper limit', digits=dp.get_precision('Excess'))
+    c_fija = fields.Float(string='Fixed fee', digits=dp.get_precision('Excess')) 
     s_excedente = fields.Float(string='Over surplus (%)', digits=dp.get_precision('Excess'),
         help="percent to be applied over the lower limit surplus")
 
-    # ~ @api.onchange('tax_percent')
-    # ~ def _onchange_tax_percent(self):
-        # ~ return self._tax_percent_get()
+    @api.constrains('lim_sup')
+    def validate_isn_line(self):
+        self.not_be_less()
+                
+    def not_be_less(self):
+        for record in self:
+            if record.lim_sup <= record.lim_inf:
+                raise UserError(_('The upper limit cannot be less than or equal to the lower limit'))
+                
 
-    # ~ def _tax_percent_get(self):
-        # ~ self.tax_percent_to = self.tax_percent
-
-    # ~ @api.constrains('state_id','tax_percent','tax_percent_to')
-    # ~ def validate_isn_line(self):
-        # ~ for record in self:
-            # ~ if not record.state_id:
-                # ~ raise ValidationError(_('The format of the year is incorrect, configure the format of the year YYYY'))
-            # ~ if record.tax_percent <= 0:
-                # ~ raise ValidationError(_('The tax percentage cannot be less than 0.'))
-            # ~ if record.tax_percent_to <= 0:
-                # ~ raise ValidationError(_('The tax percentage to cannot be less than 0.'))

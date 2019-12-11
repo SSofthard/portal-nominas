@@ -2,63 +2,319 @@
 <odoo>
     <data noupdate="1">  
         <!-- ISN 2019-->
-        <record id="hr_isn_2019" model="hr.isn">
+        <record id="isn_state_mx_ags_2019" model="hr.isn">
             <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_ags"/>
+        </record>
+        <record id="isn_state_mx_bc_2019" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">1.80</field>
+            <field name="state_id" ref="base.state_mx_bc"/>
+        </record>
+        <record id="isn_state_mx_bcs_2019" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_bcs"/>
+        </record>
+        <record id="isn_state_mx_camp_2019" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">range</field>
+            <field name="state_id" ref="base.state_mx_camp"/>
+        </record>
+        <record id="isn_state_mx_chis" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_chis"/>
+        </record>
+        <record id="isn_state_mx_chih" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_chih"/>
+        </record>
+        <record id="isn_state_mx_coah" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_coah"/>
+        </record>
+        <record id="isn_state_mx_col" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_col"/>
+        </record>
+        <record id="isn_state_mx_df" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_df"/>
+        </record>
+        <record id="isn_state_mx_dgo" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_dgo"/>
+        </record>
+        <record id="isn_state_mx_mex" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_mex"/>
+        </record>
+        <record id="isn_state_mx_gto" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.30</field>
+            <field name="state_id" ref="base.state_mx_gto"/>
+        </record>
+        <record id="isn_state_mx_gro" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_gro"/>
+        </record>
+        <record id="isn_state_mx_hgo" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">range</field>
+            <field name="state_id" ref="base.state_mx_hgo"/>
+        </record>
+        <record id="isn_state_mx_jal" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_jal"/>
+        </record>
+        <record id="isn_state_mx_mich" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_mich"/>
+        </record>
+        <record id="isn_state_mx_mor" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_mor"/>
+        </record>
+        <record id="isn_state_mx_nay" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_nay"/>
+        </record>
+        <record id="isn_state_mx_nl" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_nl"/>
+        </record>
+        <record id="isn_state_mx_oax" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_oax"/>
+        </record>
+        <record id="isn_state_mx_pue" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_pue"/>
+        </record>
+        <record id="isn_state_mx_qro" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_qro"/>
+        </record>
+        <record id="isn_state_mx_q_roo" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_q roo"/>
+        </record>
+        <record id="isn_state_mx_slp" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_slp"/>
+        </record>
+        <record id="isn_state_mx_sin" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">range</field>
+            <field name="state_id" ref="base.state_mx_sin"/>
         </record>
         
-        <!-- ISN 2019 by states -->
-    <record id="isn_state_mx_ags" model="hr.isn.line">
-        <field name="isn_id" ref="hr_isn_2019"/>
-        <field name="state_id" ref="base.state_mx_ags"/>
-        <field name="tax_percent">2.00</field>
-        <field name="tax_percent_to">2.00</field>
-    </record>
-    <record id="isn_state_mx_ags" model="hr.isn.line">
-        <field name="isn_id" ref="hr_isn_2019"/>
-        <field name="state_id" ref="base.state_mx_bc"/>
-        <field name="tax_percent">2.00</field>
-        <field name="tax_percent_to">2.00</field>
-    </record>
-    <record id="isn_state_mx_ags" model="hr.isn.line">
-        <field name="isn_id" ref="hr_isn_2019"/>
-        <field name="state_id" ref="base.state_mx_bc"/>
-        <field name="tax_percent">2.00</field>
-        <field name="tax_percent_to">2.00</field>
-    </record>
-    
-    
-    
-state_mx_bcs
-state_mx_chih
-state_mx_col
-state_mx_camp
-state_mx_coah
-state_mx_chis
-state_mx_df
-state_mx_dgo
-state_mx_gro
-state_mx_gto
-state_mx_hgo
-state_mx_jal
-state_mx_mich
-state_mx_mor
-state_mx_mex
-state_mx_nay
-state_mx_nl
-state_mx_oax
-state_mx_pue
-state_mx_q roo
-state_mx_qro
-state_mx_sin
-state_mx_slp
-state_mx_son
-state_mx_tab
-state_mx_tlax
-state_mx_tamps
-state_mx_ver
-state_mx_yuc
-state_mx_zac
+        <record id="isn_state_mx_son" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_son"/>
+        </record>
+        <record id="isn_state_mx_tab" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_tab"/>
+        </record>
+        <record id="isn_state_mx_tamps" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_tamps"/>
+        </record>
+        <record id="isn_state_mx_tlax" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_tlax"/>
+        </record>
+        <record id="isn_state_mx_ver" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_ver"/>
+        </record>
+        <record id="isn_state_mx_yuc" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_yuc"/>
+        </record>
+        <record id="isn_state_mx_zac" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_zac"/>
+        </record>
+        
+        <!-- ISN 2019 by state Campeche range -->
+        <record id="isn_line_state_mx_camp1" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_camp_2019"/>
+            <field name="lim_inf">0.01</field>
+            <field name="lim_sup">252625.00</field>
+            <field name="c_fija">0.00</field>
+            <field name="s_excedente">2.00</field>
+        </record>
+        <record id="isn_line_state_mx_camp2" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_camp_2019"/>
+            <field name="lim_inf">252626.00</field>
+            <field name="lim_sup">525752.00</field>
+            <field name="c_fija">5052.50</field>
+            <field name="s_excedente">2.20</field>
+        </record>
+        <record id="isn_line_state_mx_camp3" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_camp_2019"/>
+            <field name="lim_inf">525753.00</field>
+            <field name="lim_sup">2520124.00</field>
+            <field name="c_fija">11061.27</field>
+            <field name="s_excedente">2.40</field>
+        </record>
+        <record id="isn_line_state_mx_camp4" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_camp_2019"/>
+            <field name="lim_inf">2520125.00</field>
+            <field name="lim_sup">5207421.00</field>
+            <field name="c_fija">58926.18</field>
+            <field name="s_excedente">2.60</field>
+        </record>
+        <record id="isn_line_state_mx_camp5" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_camp_2019"/>
+            <field name="lim_inf">5207422.00</field>
+            <field name="lim_sup">8559929.00</field>
+            <field name="c_fija">128795.87</field>
+            <field name="s_excedente">2.80</field>
+        </record>
+        <record id="isn_line_state_mx_camp6" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_camp_2019"/>
+            <field name="lim_inf">8559930.00</field>
+            <field name="lim_sup">999999999999.00</field>
+            <field name="c_fija">222666.07</field>
+            <field name="s_excedente">3.00</field>
+        </record>
+        <!-- ISN 2019 by state Hidalgo range -->
+        <record id="isn_line_isn_state_mx_hgo1" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_hgo"/>
+            <field name="lim_inf">0.01</field>
+            <field name="lim_sup">500000.00</field>
+            <field name="c_fija">0.00</field>
+            <field name="s_excedente">0.50</field>
+        </record>
+        <record id="isn_line_isn_state_mx_hgo2" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_hgo"/>
+            <field name="lim_inf">500000.01</field>
+            <field name="lim_sup">600000.00</field>
+            <field name="c_fija">2500.01</field>
+            <field name="s_excedente">1.50</field>
+        </record>
+        <record id="isn_line_isn_state_mx_hgo3" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_hgo"/>
+            <field name="lim_inf">600000.01</field>
+            <field name="lim_sup">700000.00</field>
+            <field name="c_fija">4000.02</field>
+            <field name="s_excedente">1.60</field>
+        </record>
+        <record id="isn_line_isn_state_mx_hgo4" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_hgo"/>
+            <field name="lim_inf">700000.01</field>
+            <field name="lim_sup">800000.00</field>
+            <field name="c_fija">5600.03</field>
+            <field name="s_excedente">1.70</field>
+        </record>
+        <record id="isn_line_isn_state_mx_hgo5" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_hgo"/>
+            <field name="lim_inf">800000.01</field>
+            <field name="lim_sup">900000.00</field>
+            <field name="c_fija">7300.04</field>
+            <field name="s_excedente">1.80</field>
+        </record>
+        <record id="isn_line_isn_state_mx_hgo6" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_hgo"/>
+            <field name="lim_inf">900000.01</field>
+            <field name="lim_sup">1000000.00</field>
+            <field name="c_fija">9100.05</field>
+            <field name="s_excedente">1.90</field>
+        </record>
+        <record id="isn_line_isn_state_mx_hgo6" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_hgo"/>
+            <field name="lim_inf">1000000.01</field>
+            <field name="lim_sup">999999999999.00</field>
+            <field name="c_fija">11000.06</field>
+            <field name="s_excedente">2.00</field>
+        </record>
+        <!-- ISN 2019 by state Sinaloa range -->
+        <record id="isn_line_isn_state_mx_sin1" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_sin"/>
+            <field name="lim_inf">0.01</field>
+            <field name="lim_sup">500000.00</field>
+            <field name="c_fija">0.00</field>
+            <field name="s_excedente">2.40</field>
+        </record>
+        <record id="isn_line_isn_state_mx_sin2" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_sin"/>
+            <field name="lim_inf">500000.01</field>
+            <field name="lim_sup">700000.00</field>
+            <field name="c_fija">0.00</field>
+            <field name="s_excedente">2.60</field>
+        </record>
+        <record id="isn_line_isn_state_mx_sin3" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_sin"/>
+            <field name="lim_inf">700000.01</field>
+            <field name="lim_sup">900000.00</field>
+            <field name="c_fija">0.00</field>
+            <field name="s_excedente">2.80</field>
+        </record>
+        <record id="isn_line_isn_state_mx_sin4" model="hr.isn.range.line">
+            <field name="isn_id" ref="isn_state_mx_sin"/>
+            <field name="lim_inf">900000.01</field>
+            <field name="lim_sup">999999999999.00</field>
+            <field name="c_fija">0.00</field>
+            <field name="s_excedente">3.00</field>
+        </record>
 
-    
-   </data>
+    </data>
 </odoo>

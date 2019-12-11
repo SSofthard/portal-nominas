@@ -6,6 +6,7 @@ from datetime import date
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.osv import expression
+from odoo.addons import decimal_precision as dp
 from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
 
 def calculate_age(date_birthday):
@@ -410,7 +411,7 @@ class HrGroup(models.Model):
         ('private', 'Private'),
         ], string='type', required=True)
     days = fields.Float("Days", required=True)
-    risk_factor = fields.Float("Risk Factor", required=True)
+    risk_factor = fields.Float("Risk Factor", required=True, digits=dp.get_precision('Risk'))
     country_id = fields.Many2one('res.country', string='Country', store=True,
         default=lambda self: self.env['res.company']._company_default_get().country_id)
     state_id = fields.Many2one('res.country.state', string='State', required=True)
@@ -521,15 +522,23 @@ class hrRelationship(models.Model):
 class hrInfonavitCreditLine(models.Model):
     _name = "hr.infonavit.credit.line"
     
+    @api.depends('type')
+    def _search_uma(self):
+        for employee in self:
+            if employee.type == 'umas':
+                today = date.today()
+                employee.uma = self.env['table.uma'].search([('year','=',int(today.year))],limit=1).daily_amount
+    
     employee_id = fields.Many2one('hr.employee', "Employee", required=False)
     infonavit_credit_number = fields.Char("INFONAVIT Credit Number", copy=False, required=True)
     value = fields.Float("Value", copy=False, required=False)
     date = fields.Date("Date", required=True)
+    uma = fields.Float('UMA', compute="_search_uma")
     type = fields.Selection([
-        ('umas', 'UMAS'),
         ('percentage', 'Percentage'),
+        ('umas', 'UMAS'),
         ('fixed_amount', 'Fixed Amount'),
-    ],default="day", required=True)
+    ],default="percentage", required=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('active', 'Active'),
