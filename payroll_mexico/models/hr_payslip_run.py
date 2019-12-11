@@ -39,7 +39,8 @@ class HrPayslipRun(models.Model):
             ('biweekly', 'Biweekly'),
             ('monthly', 'Monthly')], string='Payroll period', default="biweekly",required=True)
     table_id = fields.Many2one('table.settings', string="Table Settings")
-    
+    subtotal_amount_untaxed = fields.Float(string='Base imponible')
+    amount_tax = fields.Float(string='Impuestos')
     
     @api.onchange('date_start', 'date_end')
     def onchange_date_start_date_end(self):
@@ -50,3 +51,23 @@ class HrPayslipRun(models.Model):
         self.table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
         self.payroll_month = str(date_from.month)
         return
+
+    @api.multi
+    def compute_amount_untaxed(self):
+        '''
+        Este metodo calcula el monto de base imponible para la nomina a este monto se le calculara el impuesto
+        '''
+        lines_untaxed = self.slip_ids.mapped('line_ids').filtered(
+            lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
+        self.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
+        self.get_tax_amount()
+
+    @api.multi
+    def get_tax_amount(self):
+        '''
+        Este metodo calcula el monto de impuesto para la nomina
+        '''
+
+        self.amount_tax = self.env['hr.isn'].get_value_isn(self.group_id.state_id.id,
+                                                           self.subtotal_amount_untaxed, self.date_start.year)
+

@@ -44,6 +44,8 @@ class HrPayslip(models.Model):
             ('monthly', 'Monthly')], string='Payroll period', default="biweekly",required=True)
     input_ids = fields.Many2many('hr.inputs', string="Inpust reported on payroll")
     table_id = fields.Many2one('table.settings', string="Table Settings")
+    subtotal_amount_untaxed = fields.Float(string='Base imponible')
+    amount_tax = fields.Float(string='Impuestos')
 
 
     @api.model
@@ -88,7 +90,26 @@ class HrPayslip(models.Model):
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
             payslip.write({'line_ids': lines, 'number': number})
+            self.compute_amount_untaxed()
         return True
+
+    @api.multi
+    def compute_amount_untaxed(self):
+        '''
+        Este metodo calcula el monto de base imponible para la nomina a este monto se le calculara el impuesto
+        '''
+        lines_untaxed = self.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
+        self.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
+
+
+    @api.multi
+    def get_tax_amount(self):
+        '''
+        Este metodo calcula el monto de impuesto para la nomina
+        '''
+        self.amount_tax = self.env['hr.isn'].get_value_isn(self.employee_id.group_id.state_id.id, self.subtotal_amount_untaxed, self.date_from.year)
+
+
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
     def onchange_employee(self):
