@@ -159,6 +159,19 @@ class HrPayslip(models.Model):
             # compute worked days
             work_data = contract.employee_id.get_work_days_data(day_from, day_to,
                                                                 calendar=contract.resource_calendar_id, contract=contract)
+            attendances_hours =  sum(attendace.hour_to - attendace.hour_from
+                                    for attendace in calendar.attendance_ids
+                                    )
+            attendances_list = calendar.attendance_ids.mapped('dayofweek')
+            count_days_week = list(set(attendances_list))
+            count_days_weeks = {
+                'name': _("Dias semana"),
+                'sequence': 1,
+                'code': 'DIASEMANA',
+                'number_of_days': len(count_days_week),
+                'number_of_hours': attendances_hours,
+                'contract_id': contract.id,
+            }
             days_factor = contract.employee_id.group_id.days
             elemento_calculo = {
                 'name': _("Periodo mensual IMSS"),
@@ -218,6 +231,7 @@ class HrPayslip(models.Model):
                 'number_of_hours': work_data['hours'],
                 'contract_id': contract.id,
             }
+            res.append(count_days_weeks)
             res.append(cant_days_IMSS)
             res.append(elemento_calculo)
             res.append(attendances)
