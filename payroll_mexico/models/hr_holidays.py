@@ -11,7 +11,6 @@ from datetime import date,datetime,timedelta
 from dateutil.relativedelta import relativedelta
 
 
-
 class Holidays(models.Model):
     _inherit = 'hr.leave'
 
@@ -38,15 +37,16 @@ class Holidays(models.Model):
         Este metodo ejecutará el metodo de validacón del super y agregará la prima vacacional a las entradas de nomina.
         :return:
         '''
-        inputs_obj = self.env['hr.inputs']
-        for line in self.prorate_lines:
-            vals = {
-                'employee_id' : self.employee_id.id,
-                'input_id' : line.input_id.id,
-                'amount' : line.holidays_bonus,
-                'type' : 'perception',
-            }
-            inputs_obj.create(vals)
+        if self.holiday_status_id.is_holidays:
+            inputs_obj = self.env['hr.inputs']
+            for line in self.prorate_lines:
+                vals = {
+                    'employee_id' : self.employee_id.id,
+                    'input_id' : line.input_id.id,
+                    'amount' : line.holidays_bonus,
+                    'type' : 'perception',
+                }
+                inputs_obj.create(vals)
         return super(Holidays, self).action_validate()
 
     @api.depends('employee_id','holiday_status_id','number_of_days_display')
@@ -101,6 +101,7 @@ class LeaveType(models.Model):
 
     time_type = fields.Selection(selection_add=[('holidays','Holidays')])
     cfdi_rule_id = fields.Many2one(comodel_name='tablas.cfdi', string='Holidays')
+    is_holidays = fields.Boolean(string='Is holidays?')
 
 
 class HrLeaveAllocation(models.Model):

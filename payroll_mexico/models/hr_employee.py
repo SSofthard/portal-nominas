@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-from datetime import date
+from datetime import date, timedelta
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
@@ -34,7 +34,26 @@ class Employee(models.Model):
         for employee in self:
             if employee.birthday:
                 employee.age = calculate_age(employee.birthday)
-                
+
+    def _get_integral_salary(self):
+        '''
+        Esten metodo busca el salario integral fijo para agregarlo al formulario del empleado
+        '''
+        contract = self.env['hr.contract'].search([('contracting_regime','=',2), ('state','=','open'),('employee_id','=',self.id)])
+        if contract:
+            current_date  =  fields.Date.context_today(self)+timedelta(days=1)
+            start_date_contract = contract.previous_contract_date or contract.date_start
+            years_antiquity = contract.years_antiquity
+            days_holiday = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity)]).vacaciones
+            daily_salary = self.contract_id.wage / self.group_id.days if self.group_id.days else self.contract_id.wage / 30
+            bonus_holiday = daily_salary * days_holiday
+            default_chirstmas_bonus_days = 15
+            factor_christmas_bonus = default_chirstmas_bonus_days \
+                if years_antiquity >= 1 else (15/365)*(current_date - (start_date_contract - timedelta(days=1))).days
+            christmas_bonus = factor_christmas_bonus*daily_salary
+            integral_salary = self.contract_id.wage + bonus_holiday + christmas_bonus
+            self.salary = integral_salary
+
     @api.model
     def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
         args = args or []
@@ -66,7 +85,7 @@ class Employee(models.Model):
         ('male', 'Male'),
         ('female', 'Female'),
     ], groups="hr.group_hr_user", default="male")
-    salary = fields.Float("Salary", copy=False)
+    salary = fields.Float("Salary", compute='_get_integral_salary', copy=False)
     payment_period_id = fields.Many2one('hr.payment.period', "Payment period")
     bank_account_ids = fields.One2many('bank.account.employee','employee_id', "Bank account", required=True)
     group_id = fields.Many2one('hr.group', "Group", required=True)
@@ -119,7 +138,8 @@ class Employee(models.Model):
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
         ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
-    
+
+
     @api.constrains('ssnid','rfc','curp')
     def validate_ssnid(self):
         for record in self:

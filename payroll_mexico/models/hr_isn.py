@@ -46,7 +46,7 @@ class HrIsn(models.Model):
         amount_tax = 0.0
         for isn in isn_id:
             if isn.type == 'fixed':
-                amount_tax = amount * isn.percent
+                amount_tax = float_round((amount / 100) * isn.percent)
             if isn.type == 'range':
                 fixed_fee = isn.isn_line.filtered(lambda d: amount >= d.lim_inf and amount <= d.lim_sup)
                 excedente = float_round(amount - fixed_fee.lim_inf, 4)
@@ -54,10 +54,10 @@ class HrIsn(models.Model):
                 amount_tax = float_round(total_taxt + fixed_fee.c_fija, 4)
         return float_round(amount_tax, precision_digits=2, precision_rounding=None, rounding_method='UP')
         
-    def button_value_isn(self):
-        amount = 2000000
-        year = 2019
-        return self.get_value_isn(self.state_id.id, amount, year)
+    # ~ def button_value_isn(self):
+        # ~ amount = 2000000
+        # ~ year = 2019
+        # ~ return self.get_value_isn(self.state_id.id, amount, year)
 
     @api.model
     def _get_state_name(self, state_id):

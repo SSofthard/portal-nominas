@@ -158,7 +158,20 @@ class HrPayslip(models.Model):
 
             # compute worked days
             work_data = contract.employee_id.get_work_days_data(day_from, day_to,
-                                                                calendar=contract.resource_calendar_id)
+                                                                calendar=contract.resource_calendar_id, contract=contract)
+            attendances_hours =  sum(attendace.hour_to - attendace.hour_from
+                                    for attendace in calendar.attendance_ids
+                                    )
+            attendances_list = calendar.attendance_ids.mapped('dayofweek')
+            count_days_week = list(set(attendances_list))
+            count_days_weeks = {
+                'name': _("Dias semana"),
+                'sequence': 1,
+                'code': 'DIASEMANA',
+                'number_of_days': len(count_days_week),
+                'number_of_hours': attendances_hours,
+                'contract_id': contract.id,
+            }
             days_factor = contract.employee_id.group_id.days
             elemento_calculo = {
                 'name': _("Periodo mensual IMSS"),
@@ -192,14 +205,16 @@ class HrPayslip(models.Model):
                 'number_of_hours': 0,
                 'contract_id': contract.id,
             }
-            dias_feriados = {
-                'name': _("Días feriados"),
-                'sequence': 1,
-                'code': 'FERIADO',
-                'number_of_days': work_data['public_days'],
-                'number_of_hours': work_data['public_days_hours'],
-                'contract_id': contract.id,
-            }
+            if contract.employee_id.pay_holiday:
+                dias_feriados = {
+                    'name': _("Días feriados"),
+                    'sequence': 1,
+                    'code': 'FERIADO',
+                    'number_of_days': work_data['public_days'],
+                    'number_of_hours': work_data['public_days_hours'],
+                    'contract_id': contract.id,
+                }
+                res.append(dias_feriados)
             prima_dominical = {
                 'name': _("DOMINGO"),
                 'sequence': 1,
@@ -216,11 +231,11 @@ class HrPayslip(models.Model):
                 'number_of_hours': work_data['hours'],
                 'contract_id': contract.id,
             }
+            res.append(count_days_weeks)
             res.append(cant_days_IMSS)
             res.append(elemento_calculo)
             res.append(attendances)
             res.append(prima_dominical)
-            res.append(dias_feriados)
             res.extend(leaves.values())
         return res
         
@@ -292,6 +307,7 @@ class HrSalaryRule(models.Model):
         ('not_apply', 'Does not apply'),
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', default="not_apply")
+    payroll_tax = fields.Boolean('Apply payroll tax?', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
 
 class HrInputs(models.Model):
     _name = 'hr.inputs'
@@ -332,3 +348,4 @@ class HrRuleInput(models.Model):
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', required=True)
+
