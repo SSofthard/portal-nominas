@@ -122,7 +122,7 @@ class HrPayslip(models.Model):
             input_lines += input_lines.new(r)
         self.input_line_ids = input_lines
         return
-    
+
     @api.model
     def get_worked_day_lines(self, contracts, date_from, date_to):
         '''Este metodo hereda el comportamiento nativo para agregar los dias feriados, prima dominical al O2m de dias trabajados'''
@@ -159,21 +159,43 @@ class HrPayslip(models.Model):
             # compute worked days
             work_data = contract.employee_id.get_work_days_data(day_from, day_to,
                                                                 calendar=contract.resource_calendar_id)
-            days = contract.employee_id.group_id.days
+            days_factor = contract.employee_id.group_id.days
             elemento_calculo = {
-                'name': _("Elemento de calculo"),
+                'name': _("Periodo mensual IMSS"),
                 'sequence': 1,
-                'code': 'QDPM',
-                'number_of_days': days,
+                'code': 'PERIODOIMSS100',
+                'number_of_days': days_factor,
                 'number_of_hours': 0,
                 'contract_id': contract.id,
             }
-            # if self.payroll_period == 'monthly':
+            date_start = date_from if contract.date_start < date_from else contract.date_start
+            date_end =  contract.date_end if contract.date_end and contract.date_end < date_to else date_to
+            from_full = date_start
+            to_full = date_end + timedelta(days=1)
+            payroll_periods_days = {
+                'monthly': 30,
+                'biweekly': 15,
+                'weekly': 7,
+                'decennial': 10,
+                'daily': 1,
+                                }
+            if (to_full - from_full).days >= payroll_periods_days[self.payroll_period]:
+                cant_days = payroll_periods_days[self.payroll_period]*(days_factor/30)
+            else:
+                cant_days = (to_full - from_full).days*(days_factor/30)
 
+            cant_days_IMSS = {
+                'name': _("Días a cotizar en la nómina"),
+                'sequence': 1,
+                'code': 'DIASIMSS',
+                'number_of_days': cant_days,
+                'number_of_hours': 0,
+                'contract_id': contract.id,
+            }
             dias_feriados = {
                 'name': _("Días feriados"),
                 'sequence': 1,
-                'code': 'DFER',
+                'code': 'FERIADO',
                 'number_of_days': work_data['public_days'],
                 'number_of_hours': work_data['public_days_hours'],
                 'contract_id': contract.id,
@@ -194,7 +216,7 @@ class HrPayslip(models.Model):
                 'number_of_hours': work_data['hours'],
                 'contract_id': contract.id,
             }
-
+            res.append(cant_days_IMSS)
             res.append(elemento_calculo)
             res.append(attendances)
             res.append(prima_dominical)
@@ -249,7 +271,7 @@ class HrSalaryRule(models.Model):
                    ('005', 'Aportaciones a Fondo de vivienda'),
                    ('006', 'Descuento por incapacidad'),
                    ('007', 'Pensión alimenticia'),
-                   ('008', 'Renta'),				   
+                   ('008', 'Renta'),
                    ('009', 'Préstamos provenientes del Fondo Nacional de la Vivienda para los Trabajadores'), 
                    ('010', 'Pago por crédito de vivienda'),
                    ('011', 'Pago de abonos INFONACOT'), 
