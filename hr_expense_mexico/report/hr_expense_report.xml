@@ -146,7 +146,7 @@
                             <tr>
                                 <td><strong>IMPORTE RECIBIDO:</strong></td>
                                 <td class="text-right">
-                                     <span t-field="o.total_amount"
+                                     <span t-field="o.amount_delivered"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                 </td>
                             </tr>
