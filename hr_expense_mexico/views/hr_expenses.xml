@@ -23,7 +23,7 @@
                 </xpath>
             </field>
         </record>
-
+    
         <record id="hr_expense_inherit" model="ir.ui.view">
             <field name="name">hr.expense.inherit.view</field>
             <field name="model">hr.expense</field>
@@ -44,6 +44,10 @@
                         <field name="other_classification" attrs="{'invisible':[('classification','!=','other')],'required':[('classification','=','other')]}" placeholder="Type classification description"/>
                         <field name="document_type"/>
                         <field name="subtotal_amount" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <div class="o_row">
+                            <field name="iva_amount" class="o_row"/>
+                            <span class="oe_inline" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}">%</span>
+                        </div>
                         <field name="amount_tax"  attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                         <field name="total_amount" widget='monetary' readonly="False" options="{'currency_field': 'currency_id'}"/>
                     </group>
@@ -89,8 +93,8 @@
                     <group>
                         <field name="date_request" attrs="{'readonly':[('state','!=','draft')]}"/>
                         <field name="estimate_viatics" />
-                        <field name="address_origin_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'show_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
-                        <field name="address_dest_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'show_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_origin_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_dest_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
                         <field name="qty_days" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
                         <field name="total_by_day" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
                     </group>

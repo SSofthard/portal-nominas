@@ -14,10 +14,12 @@
                         <field name="name" placeholder="Descripción de tabulador"/>
                     </h1>
                 </div>
-                <field name="expense_tab_lines">
+                <field name="expense_tab_lines" context="{'viatics_address': 1}">
                     <tree editable="bottom">
-                        <field name="address_from" context="{'show_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>
-                        <field name="address_to" context="{'show_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_from" context="{'viatics_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_from_complete"  nolabel="1" string="Direccion"/>
+                        <field name="address_to" context="{'viatics_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_to_complete"  nolabel="1" string="Direccion"/>
                         <field name="amount_per_day"/>
                     </tree>
                 </field>

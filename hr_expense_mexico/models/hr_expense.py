@@ -30,11 +30,12 @@ class Expenses(models.Model):
     state = fields.Selection([('draft', 'Borrador'),('pending_checking', 'Pending Checking'),('approved','Approved'),('refused','Refused')], track_visibility=True, default='pending_checking',  compute=False)
     subtotal_amount = fields.Monetary('Subtotal')
     total_amount = fields.Monetary('Subtotal', compute=False)
-    amount_tax = fields.Monetary('Taxes', default= '16')
+    amount_tax = fields.Monetary('Taxes')
     document_type = fields.Selection([('invoice', 'Invoice'),('remission','Remission')], string='Document Type', required=True)
     date = fields.Date(string='Create Date', default= lambda self: fields.Date.context_today(self))
     product_id = fields.Many2one(required=False, comodel_name='product.product')
     unit_amount = fields.Float(required=False)
+    iva_amount = fields.Float(string='I.V.A.', default= '16')
     # attachment_number = fields.Integer('Number of Attachments', compute='_compute_attachment_number')
 
     @api.constrains('total_amount','amount_tax','subtotal_amount')
@@ -69,21 +70,21 @@ class Expenses(models.Model):
                 'res_model': 'refused.expense.wizard',
                 'view_mode': 'form',
                 'target': 'new'}
-                
-    @api.onchange('subtotal_amount','total_amount')
-    def onchange_total_amount(self):
-        sub_total = self.subtotal_amount
-        amount = self.amount_tax
-        if sub_total:
-            total =  sub_total * (amount / 100)
-            self.total_amount = sub_total + total
     
     @api.multi
+    @api.onchange('subtotal_amount')
     def update_amount_tax(self):
+        print ('AAAAAAAAAaa')
         sub_total = self.subtotal_amount
-        amount = self.amount_tax
-        total =  sub_total * (amount / 100)
-        self.total_amount = sub_total + total
+        iva = self.iva_amount
+        amount =  sub_total * (iva / 100)
+        print ('amount')
+        print ('amount')
+        print (amount)
+        self.amount_tax = sub_total + amount
+        self.total_amount = self.amount_tax
+        
+    
 
 class ExpensesClassification(models.Model):
     _name = 'hr.expense.classification'
@@ -208,3 +209,14 @@ class Partner(models.Model):
     _inherit = "res.partner"
 
     estimate_viatics = fields.Boolean(string='Do you want to estimate viatics?')
+    
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            if self.env.context.get('viatics_address') == 1:
+                name = str(record.street) + ' ' + str(record.street2) + ' ' + str(record.city) + ' ' + str(record.state_id.name) + ' ' + str(record.zip) + ' ' + str(record.country_id.name)
+                result.append((record.id, str(name)))
+            else: 
+                result.append((record.id, record.name))
+        return result
