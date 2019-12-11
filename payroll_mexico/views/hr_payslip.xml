@@ -16,6 +16,7 @@
                        <field name="type" widget="radio"/>
                        <field name="type_perception" attrs="{'invisible': [('type', '!=', 'perception')],'required': [('type', '=', 'perception')]}"/>
                        <field name="type_deduction" attrs="{'invisible': [('type', '!=', 'deductions')],'required': [('type', '=', 'deductions')]}"/>
+                       <field name="payroll_tax" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
                     </group>
                 </xpath> 
             </field>

@@ -59,7 +59,6 @@ class HrPayslip(models.Model):
         for contract in contracts:
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
             for input in inputs:
-                print (5)
                 amount = 0.0
                 other_input_line = self.env['hr.inputs'].search([('employee_id', '=', employee_id),('input_id', '=', input.id),('state','in',['approve']),('payslip','=',False)])
                 hr_inputs += other_input_line
@@ -174,7 +173,6 @@ class HrPayslip(models.Model):
                 'contract_id': contract.id,
             }
             days_factor = contract.employee_id.group_id.days
-            print ('prueba para git')
             elemento_calculo = {
                 'name': _("Periodo mensual IMSS"),
                 'sequence': 1,
@@ -288,7 +286,7 @@ class HrSalaryRule(models.Model):
                    ('005', 'Aportaciones a Fondo de vivienda'),
                    ('006', 'Descuento por incapacidad'),
                    ('007', 'Pensión alimenticia'),
-                   ('008', 'Renta'),				   
+                   ('008', 'Renta'),
                    ('009', 'Préstamos provenientes del Fondo Nacional de la Vivienda para los Trabajadores'), 
                    ('010', 'Pago por crédito de vivienda'),
                    ('011', 'Pago de abonos INFONACOT'), 
@@ -309,6 +307,7 @@ class HrSalaryRule(models.Model):
         ('not_apply', 'Does not apply'),
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', default="not_apply")
+    payroll_tax = fields.Boolean('Apply payroll tax?', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
 
 class HrInputs(models.Model):
     _name = 'hr.inputs'
@@ -329,7 +328,7 @@ class HrInputs(models.Model):
     def name_get(self):
         result = []
         for inputs in self:
-            name = '%s %s %s' % (inputs.employee_id.name.upper(), inputs.input_id.name.upper(), str(inputs.amount))
+            name = '%s %s %s' %(inputs.employee_id.name.upper(), inputs.input_id.name.upper(), str(inputs.amount))
             result.append((inputs.id, name))
         return result
 
@@ -349,3 +348,4 @@ class HrRuleInput(models.Model):
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', required=True)
+
