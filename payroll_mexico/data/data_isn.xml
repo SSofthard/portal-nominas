@@ -150,6 +150,49 @@
             <field name="state_id" ref="base.state_mx_sin"/>
         </record>
         
+        <record id="isn_state_mx_son" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_son"/>
+        </record>
+        <record id="isn_state_mx_tab" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_tab"/>
+        </record>
+        <record id="isn_state_mx_tamps" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_tamps"/>
+        </record>
+        <record id="isn_state_mx_tlax" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_tlax"/>
+        </record>
+        <record id="isn_state_mx_ver" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_ver"/>
+        </record>
+        <record id="isn_state_mx_yuc" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_yuc"/>
+        </record>
+        <record id="isn_state_mx_zac" model="hr.isn">
+            <field name="year">2019</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_zac"/>
+        </record>
+        
         <!-- ISN 2019 by state Campeche range -->
         <record id="isn_line_state_mx_camp1" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2019"/>
