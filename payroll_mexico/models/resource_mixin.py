@@ -15,7 +15,7 @@ ROUNDING_FACTOR = 16
 class ResourceMixin(models.AbstractModel):
     _inherit = 'resource.mixin'
 
-    def get_work_days_data(self, from_datetime, to_datetime, compute_leaves=True, calendar=None, domain=None):
+    def get_work_days_data(self, from_datetime, to_datetime, compute_leaves=True, calendar=None, domain=None, contract = False):
         """
             By default the resource calendar is used, but it can be
             changed using the `calendar` argument.
@@ -26,11 +26,14 @@ class ResourceMixin(models.AbstractModel):
             Returns a dict {'days': n, 'hours': h} containing the
             quantity of working time expressed as days and as hours.
         """
-
+        public_holidays_obj = self.env['hr.days.public.holidays']
+        if contract:
+            state = contract.employee_id.group_id.state_id
+            public_holidays_days = public_holidays_obj.search([('state_ids', 'in', state._ids)]).mapped('date')
+        else:
+            public_holidays_days = public_holidays_obj.search([]).mapped('date')
         resource = self.resource_id
         calendar = calendar or self.resource_calendar_id
-        public_holidays_obj = self.env['hr.days.public.holidays']
-        public_holidays_days = public_holidays_obj.search([]).mapped('date')
         # naive datetimes are made explicit in UTC
         if not from_datetime.tzinfo:
             from_datetime = from_datetime.replace(tzinfo=utc)
