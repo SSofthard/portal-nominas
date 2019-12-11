@@ -292,6 +292,7 @@ class HrSalaryRule(models.Model):
         ('not_apply', 'Does not apply'),
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', default="not_apply")
+    payroll_tax = fields.Boolean('Apply payroll tax?', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
 
 class HrInputs(models.Model):
     _name = 'hr.inputs'
