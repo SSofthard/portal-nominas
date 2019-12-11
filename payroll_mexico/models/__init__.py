@@ -4,7 +4,7 @@
 #
 #
 #    Copyright (C) 2019-TODAY .
-#    Author: Eng.Ramadan Khalil (<rkhalil1990@gmail.com>)
+#    Author: OSITECH
 #
 #    It is forbidden to publish, distribute, sublicense, or sell copies
 #    of the Software or modified copies of the Software.
@@ -23,4 +23,5 @@ from . import table_cfdi
 from . import tool_convert_numbers_letters
 from . import hr_holidays
 from . import resource_mixin
+from . import hr_isn
 

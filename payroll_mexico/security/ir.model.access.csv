@@ -47,3 +47,9 @@ acces_table_isr_biweekly_subsidy_user,table.isr.biweekly.subsidy,model_table_isr
 acces_table_isr_monthly_user,table.isr.monthly,model_table_isr_monthly,hr.group_hr_user,1,1,1,1
 acces_table_isr_monthly_subsidy_user,table.isr.monthly.subsidy,model_table_isr_monthly_subsidy,hr.group_hr_user,1,1,1,1
 acces_table_isr_annual_user,table.isr.annual,model_table_isr_annual,hr.group_hr_user,1,1,1,1
+access_hr_isn_hr_user,hr_isn_hr_user,model_hr_isn,hr.group_hr_user,1,1,1,1
+access_hr_isn_hr_payroll_user,hr_isn_hr_payroll_user,model_hr_isn,hr_payroll.group_hr_payroll_user,1,1,1,0
+access_hr_isn_hr_payroll_manager,hr_isn_hr_payroll_manager,model_hr_isn,hr_payroll.group_hr_payroll_manager,1,1,1,1
+access_hr_isn_hr_user_line,hr_isn_hr_user_line,model_hr_isn_range_line,hr.group_hr_user,1,1,1,1
+access_hr_isn_hr_payroll_user_line,hr_isn_hr_payroll_user_line,model_hr_isn_range_line,hr_payroll.group_hr_payroll_user,1,1,1,0
+access_hr_isn_hr_payroll_manager_line,hr_isn_hr_payroll_manager_line,model_hr_isn_range_line,hr_payroll.group_hr_payroll_manager,1,1,1,1

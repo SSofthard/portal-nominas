@@ -410,6 +410,10 @@ class HrGroup(models.Model):
         ('private', 'Private'),
         ], string='type', required=True)
     days = fields.Float("Days", required=True)
+    risk_factor = fields.Float("Risk Factor", required=True)
+    country_id = fields.Many2one('res.country', string='Country', store=True,
+        default=lambda self: self.env['res.company']._company_default_get().country_id)
+    state_id = fields.Many2one('res.country.state', string='State', required=True)
     
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
