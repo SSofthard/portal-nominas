@@ -1,61 +1,61 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
 from datetime import datetime
 
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 from odoo.addons import decimal_precision as dp
 
 class TablasAntiguedadesLine(models.Model):
     _name = 'tablas.antiguedades.line'
 
     form_id = fields.Many2one('tablas.cfdi', string='Vacaciones y aguinaldos', required=True)
-    antiguedad = fields.Float('Antigüedad/Años') 
-    vacaciones = fields.Float('Vacaciones/Días') 
-    prima_vac = fields.Float('Prima vacacional (%)')
-    aguinaldo = fields.Float('Aguinaldo/Días')
+    antiguedad = fields.Float('Antigüedad/Años', digits=dp.get_precision('Excess')) 
+    vacaciones = fields.Float('Vacaciones/Días', digits=dp.get_precision('Excess')) 
+    prima_vac = fields.Float('Prima vacacional (%)', digits=dp.get_precision('Excess'))
+    aguinaldo = fields.Float('Aguinaldo/Días', digits=dp.get_precision('Excess'))
 
 class TablasGeneralLine(models.Model):
     _name = 'tablas.general.line'
     _order = 'sequence'
 
     form_id = fields.Many2one('tablas.cfdi', string='ISR Mensual Art. 113 LISR', required=True)
-    lim_inf = fields.Float('Límite inferior')
-    lim_sup = fields.Float('Límite superior')
+    lim_inf = fields.Float('Límite inferior', digits=dp.get_precision('Excess'))
+    lim_sup = fields.Float('Límite superior', digits=dp.get_precision('Excess'))
     c_fija = fields.Float('Cuota fija') 
-    s_excedente = fields.Float('Sobre excedente (%)', digits=dp.get_precision('Excess') )
+    s_excedente = fields.Float('Sobre excedente (%)', digits=dp.get_precision('Excess'))
     sequence = fields.Integer('Sequence')
 
 class TablasSubsidiolLine(models.Model):
     _name = 'tablas.subsidio.line'
     _order = 'sequence'
 
-    form_id = fields.Many2one('tablas.cfdi', string='Subem mensual/CAS Mensual', required=True)
-    lim_inf = fields.Float('Límite inferior')
-    lim_sup = fields.Float('Límite superior')
-    s_mensual = fields.Float('Subsidio mensual')
+    form_id = fields.Many2one('tablas.cfdi', string='Subem mensual/CAS Mensual',required=True)
+    lim_inf = fields.Float('Límite inferior', digits=dp.get_precision('Excess'))
+    lim_sup = fields.Float('Límite superior', digits=dp.get_precision('Excess'))
+    s_mensual = fields.Float('Subsidio mensual', digits=dp.get_precision('Excess'))
     sequence = fields.Integer('Sequence')
 
 class TablasSubsidio2lLine(models.Model):
     _name = 'tablas.subsidio2.line'
 
     form_id = fields.Many2one('tablas.cfdi', string='Subsidio Mensual Art. 114 LISR', required=True)
-    lim_inf = fields.Float('Límite inferior') 
-    c_fija = fields.Float('Cuota fija') 
-    s_imp_marginal = fields.Float('Sobre imp. marginal (%)')
+    lim_inf = fields.Float('Límite inferior', digits=dp.get_precision('Excess')) 
+    c_fija = fields.Float('Cuota fija', digits=dp.get_precision('Excess')) 
+    s_imp_marginal = fields.Float('Sobre imp. marginal (%)', digits=dp.get_precision('Excess'))
 
 class TablasSubsidioAcreditablelLine(models.Model):
     _name = 'tablas.subsidioacreditable.line'
 
     form_id = fields.Many2one('tablas.cfdi', string='Subsidio acreditable', required=True)
     ano = fields.Float('Año') 
-    s_mensual = fields.Float('Subsidio (%)')
+    s_mensual = fields.Float('Subsidio (%)', digits=dp.get_precision('Excess'))
 
 class TablasPeriodoBimestrallLine(models.Model):
     _name = 'tablas.periodo.bimestral'
 
     form_id = fields.Many2one('tablas.cfdi', string='Periodo bimestral', required=True)
-    dia_inicio = fields.Date('Primer día del peridoo') 
+    dia_inicio = fields.Date('Primer día del peridoo', digits=dp.get_precision('Excess')) 
     dia_fin = fields.Date('Ultímo día del peridoo') 
     no_dias = fields.Float('Dias en el periodo', store=True)
 
@@ -109,9 +109,9 @@ class TablasAnualISR(models.Model):
     _name = 'tablas.isr.anual'
 
     form_id = fields.Many2one('tablas.cfdi', string='ISR Anual', required=True)
-    lim_inf = fields.Float('Límite inferior') 
-    c_fija = fields.Float('Cuota fija') 
-    s_excedente = fields.Float('Sobre excedente (%)')
+    lim_inf = fields.Float('Límite inferior', digits=dp.get_precision('Excess')) 
+    c_fija = fields.Float('Cuota fija', digits=dp.get_precision('Excess')) 
+    s_excedente = fields.Float('Sobre excedente (%)', digits=dp.get_precision('Excess'))
 
 
 class TablasCFDI(models.Model):
@@ -132,65 +132,65 @@ class TablasCFDI(models.Model):
     salario_minimo = fields.Float(string=_('Salario mínimo'))
     imss_mes = fields.Float('Periodo Mensual para IMSS (dias)')
 	
-    ex_vale_despensa= fields.Float(string=_('Vale de despena'), compute='_compute_ex_vale_despensa')
-    ex_prima_vacacional = fields.Float(string=_('Prima vacacional'), compute='_compute_ex_prima_vacacional')
-    ex_aguinaldo = fields.Float(string=_('Aguinaldo'), compute='_compute_ex_aguinaldo')
-    ex_fondo_ahorro = fields.Float(string=_('Fondo de ahorro'), compute='_compute_ex_fondo_ahorro')
-    ex_tiempo_extra = fields.Float(string=_('Tiempo extra'), compute='_compute_ex_tiempo_extra')
-    ex_prima_dominical = fields.Float(string=_('Prima dominical'), compute='_compute_ex_prima_dominical')
+    ex_vale_despensa= fields.Float(string=_('Vale de despena'), compute='_compute_ex_vale_despensa', digits=dp.get_precision('Excess'))
+    ex_prima_vacacional = fields.Float(string=_('Prima vacacional'), compute='_compute_ex_prima_vacacional', digits=dp.get_precision('Excess'))
+    ex_aguinaldo = fields.Float(string=_('Aguinaldo'), compute='_compute_ex_aguinaldo', digits=dp.get_precision('Excess'))
+    ex_fondo_ahorro = fields.Float(string=_('Fondo de ahorro'), compute='_compute_ex_fondo_ahorro', digits=dp.get_precision('Excess'))
+    ex_tiempo_extra = fields.Float(string=_('Tiempo extra'), compute='_compute_ex_tiempo_extra', digits=dp.get_precision('Excess'))
+    ex_prima_dominical = fields.Float(string=_('Prima dominical'), compute='_compute_ex_prima_dominical', digits=dp.get_precision('Excess'))
     
-    factor_vale_despensa= fields.Float(string=_('Vale de despensa (UMA)'), )
-    factor_prima_vacacional = fields.Float(string=_('Prima vacacional (UMA)'))
+    factor_vale_despensa= fields.Float(string=_('Vale de despensa (UMA)'), digits=dp.get_precision('Excess'))
+    factor_prima_vacacional = fields.Float(string=_('Prima vacacional (UMA)'), digits=dp.get_precision('Excess'))
     factor_aguinaldo = fields.Float(string=_('Aguinaldo (UMA)'),)
-    factor_fondo_ahorro = fields.Float(string=_('Fondo de ahorro (UMA)'),)
-    factor_tiempo_extra = fields.Float(string=_('Tiempo extra (UMA)'),)
-    factor_prima_dominical = fields.Float(string=_('Prima dominical (UMA)'),)
-    ex_liquidacion = fields.Float(string=_('Liquidación'), compute='_compute_ex_liquidacion')
-    factor_liquidacion = fields.Float(string=_('Liquidación (UMA)'), )
-    ex_ptu = fields.Float(string=_('PTU'), compute='_compute_ex_ptu')
-    factor_ptu = fields.Float(string=_('PTU (UMA)'))
+    factor_fondo_ahorro = fields.Float(string=_('Fondo de ahorro (UMA)'), digits=dp.get_precision('Excess'))
+    factor_tiempo_extra = fields.Float(string=_('Tiempo extra (UMA)'), digits=dp.get_precision('Excess'))
+    factor_prima_dominical = fields.Float(string=_('Prima dominical (UMA)'), digits=dp.get_precision('Excess'))
+    ex_liquidacion = fields.Float(string=_('Liquidación'), compute='_compute_ex_liquidacion', digits=dp.get_precision('Excess'))
+    factor_liquidacion = fields.Float(string=_('Liquidación (UMA)'), digits=dp.get_precision('Excess'))
+    ex_ptu = fields.Float(string=_('PTU'), compute='_compute_ex_ptu', digits=dp.get_precision('Excess'))
+    factor_ptu = fields.Float(string=_('PTU (UMA)'), digits=dp.get_precision('Excess'))
 
-    importe_utilidades = fields.Float(string=_('Importe a repartir a todos los empleados'))
-    dias_min_trabajados = fields.Float(string=_('Dias mínimos trabajados en empleados eventuales'))
+    importe_utilidades = fields.Float(string=_('Importe a repartir a todos los empleados'), digits=dp.get_precision('Excess'))
+    dias_min_trabajados = fields.Float(string=_('Dias mínimos trabajados en empleados eventuales'), digits=dp.get_precision('Excess'))
     funcion_ingresos = fields.Float(string=_('% a repartir en función de los ingresos'))
     funcion_dias = fields.Float(string=_('% a repartir en función de los días trabajados'), compute='_compute_funcion_dias', readonly=True)
-    total_dias_trabajados = fields.Float(string=_('Total de días trabajados'),)
-    total_sueldo_percibido = fields.Float(string=_('Total de sueldo percibido'))
+    total_dias_trabajados = fields.Float(string=_('Total de días trabajados'), digits=dp.get_precision('Excess'))
+    total_sueldo_percibido = fields.Float(string=_('Total de sueldo percibido'), digits=dp.get_precision('Excess'))
     factor_dias = fields.Float(string=_('Factor por dias trabajados'), compute='_factor_dias', readonly=True)
     factor_sueldo = fields.Float(string=_('Factor por sueldo percibido'), compute='_factor_sueldo', readonly=True)
     fecha_inicio = fields.Date('Fecha inicio')
     fecha_fin = fields.Date('Fecha fin')
 
     ######## Variables del seguro ####################3
-    aportacion_infonavit = fields.Float(string=_('Aportación al Infonavit (%)'))
-    umi = fields.Float(string=_('UMI (Unidad Mixta INFONAVIT)'))
-    sbcm_general = fields.Float(string=_('General (UMA)'))
-    sbcm_inv_inf = fields.Float(string=_('Para invalidez e Infonavit (UMA)'))
+    aportacion_infonavit = fields.Float(string=_('Aportación al Infonavit (%)'), digits=dp.get_precision('Excess'))
+    umi = fields.Float(string=_('UMI (Unidad Mixta INFONAVIT)'), digits=dp.get_precision('Excess'))
+    sbcm_general = fields.Float(string=_('General (UMA)'), digits=dp.get_precision('Excess'))
+    sbcm_inv_inf = fields.Float(string=_('Para invalidez e Infonavit (UMA)'), digits=dp.get_precision('Excess'))
     
-    rt_prom_vida_activa = fields.Float(string=_('Promedio de vida activa (años)'))
-    rt_prom_vida_fprima = fields.Float(string=_('Factor de prima'))
-    rt_prom_vida_pmin = fields.Float(string=_('Prima mínima (%)'))
-    rt_prom_vida_pmax = fields.Float(string=_('Prima máxima (%)'))
-    rt_prom_vida_varmax = fields.Float(string=_('Variación máxima de prima (%)'))
+    rt_prom_vida_activa = fields.Float(string=_('Promedio de vida activa (años)'), digits=dp.get_precision('Excess'))
+    rt_prom_vida_fprima = fields.Float(string=_('Factor de prima'), digits=dp.get_precision('Excess'))
+    rt_prom_vida_pmin = fields.Float(string=_('Prima mínima (%)'), digits=dp.get_precision('Excess'))
+    rt_prom_vida_pmax = fields.Float(string=_('Prima máxima (%)'), digits=dp.get_precision('Excess'))
+    rt_prom_vida_varmax = fields.Float(string=_('Variación máxima de prima (%)'), digits=dp.get_precision('Excess'))
     
     
-    enf_mat_cuota_fija = fields.Float(string=_('Cuota fija (%)'))
-    enf_mat_excedente_p = fields.Float(string=_('Excedente de 3 UMA (%)'))
-    enf_mat_excedente_e = fields.Float(string=_('Excedente de 3 UMA (%)'))
+    enf_mat_cuota_fija = fields.Float(string=_('Cuota fija (%)'), digits=dp.get_precision('Excess'))
+    enf_mat_excedente_p = fields.Float(string=_('Excedente de 3 UMA (%)'), digits=dp.get_precision('Excess'))
+    enf_mat_excedente_e = fields.Float(string=_('Excedente de 3 UMA (%)'), digits=dp.get_precision('Excess'))
 
-    enf_mat_prestaciones_p = fields.Float(string=_('Prestaciones en dinero (%)'))
-    enf_mat_prestaciones_e = fields.Float(string=_('Prestaciones en dinero (%)'))
-    enf_mat_gastos_med_p = fields.Float(string=_('Gastos médicos personales (%)'))
-    enf_mat_gastos_med_e = fields.Float(string=_('Gastos médicos personales (%)'))
+    enf_mat_prestaciones_p = fields.Float(string=_('Prestaciones en dinero (%)'), digits=dp.get_precision('Excess'))
+    enf_mat_prestaciones_e = fields.Float(string=_('Prestaciones en dinero (%)'), digits=dp.get_precision('Excess'))
+    enf_mat_gastos_med_p = fields.Float(string=_('Gastos médicos personales (%)'), digits=dp.get_precision('Excess'))
+    enf_mat_gastos_med_e = fields.Float(string=_('Gastos médicos personales (%)'), digits=dp.get_precision('Excess'))
 
-    inv_vida_p = fields.Float(string=_('Invalidez y vida (%)'))
-    inv_vida_e = fields.Float(string=_('Invalidez y vida (%)'))
+    inv_vida_p = fields.Float(string=_('Invalidez y vida (%)'), digits=dp.get_precision('Excess'))
+    inv_vida_e = fields.Float(string=_('Invalidez y vida (%)'), digits=dp.get_precision('Excess'))
 
-    cesantia_vejez_p = fields.Float(string=_('Cesantía y vejez (%)'))
-    cesantia_vejez_e = fields.Float(string=_('Cesantía y vejez (%)'))
+    cesantia_vejez_p = fields.Float(string=_('Cesantía y vejez (%)'), digits=dp.get_precision('Excess'))
+    cesantia_vejez_e = fields.Float(string=_('Cesantía y vejez (%)'), digits=dp.get_precision('Excess'))
 
-    retiro_p = fields.Float(string=_('Retiro (%)'))
-    guarderia_p = fields.Float(string=_('Guardería y prestaciones sociales (%)'))
+    retiro_p = fields.Float(string=_('Retiro (%)'), digits=dp.get_precision('Excess'))
+    guarderia_p = fields.Float(string=_('Guardería y prestaciones sociales (%)'), digits=dp.get_precision('Excess'))
 
     @api.one
     @api.constrains('name')
