@@ -23,7 +23,7 @@
                 </xpath>
             </field>
         </record>
-
+    
         <record id="hr_expense_inherit" model="ir.ui.view">
             <field name="name">hr.expense.inherit.view</field>
             <field name="model">hr.expense</field>
@@ -44,6 +44,10 @@
                         <field name="other_classification" attrs="{'invisible':[('classification','!=','other')],'required':[('classification','=','other')]}" placeholder="Type classification description"/>
                         <field name="document_type"/>
                         <field name="subtotal_amount" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <div class="o_row">
+                            <field name="iva_amount" class="o_row"/>
+                            <span class="oe_inline" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}">%</span>
+                        </div>
                         <field name="amount_tax"  attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                         <field name="total_amount" widget='monetary' readonly="False" options="{'currency_field': 'currency_id'}"/>
                     </group>
@@ -60,6 +64,9 @@
                 </xpath>
                 <xpath expr="//field[@name='state']" position="replace">
                     <field name="state" widget="statusbar" statusbar_visible="pending_checking,approved,refused"/>
+                </xpath>
+                <xpath expr="//field[@name='subtotal_amount']" position="after">
+                    <button name="update_amount_tax" type="object" string="To update" attrs="{'invisible':[('document_type','=','remission')]}"/>
                 </xpath>
             </field>
         </record>
@@ -85,7 +92,16 @@
                 <xpath expr="//group" position="inside">
                     <group>
                         <field name="date_request" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="estimate_viatics" />
+                        <field name="address_origin_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_dest_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="qty_days" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
+                        <field name="total_by_day" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
                     </group>
+                </xpath>
+                <xpath expr="//group" position="after">
+                    <field name="is_older" invisible="1"/>
+                        <div attrs="{'invisible':[('is_older','!=',True)]}" class="alert alert-warning"><strong>El monto entregado es mayor que el monto estimado por día. Justifíquelo en el campo de notas!</strong></div>
                 </xpath>
                 <xpath expr="//field[@name='expense_line_ids']" position="attributes">
                     <attribute name="attrs">{'readonly':[('state','=','closed')]}</attribute>
@@ -117,6 +133,7 @@
                     </button>
                 </xpath>
                 <xpath expr="//group[@name='expense_total']" position="replace">
+                 <group>
                     <group class="oe_subtotal_footer oe_right" colspan="2" name="expense_total">
                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                             <label for="total_amount" string="Monto comprobado"/>
@@ -149,11 +166,16 @@
                         </button>
 <!--                        </label>-->
                         </div>
+                       
                         <field name="amount_payment" nolabel="1" attrs="{'invisible':['|',('state','!=','closed'),('paid','!=',True)]}" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
                     </group>
-                    <group class="oe_right">
-                        <button name="compute_amount" type="object" class="oe_link">Update amount</button>
-                    </group>
+                        <group >
+                           <field name="note" attrs="{'invisible':[('is_older','!=',True)],'required':[('is_older','=',True)]}"/>
+                        </group>
+                        <group class="oe_right">
+                            <button name="compute_amount" type="object" class="oe_link">Update amount</button>
+                        </group>
+                 </group>
 
                     <!--                     <field name="amount_delivered"/>-->
                 </xpath>
@@ -212,7 +234,16 @@
         <menuitem id="hr_expense.menu_hr_expense_sheet_all_to_approve" name="Todos los informes de viaticos" sequence="1" parent="hr_expense.menu_hr_expense_report"
             action="action_hr_expense_sheet_all_sheets"/>
 
-
+        <record id="view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">view.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="estimate_viatics" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
 
     </data>
 </odoo>

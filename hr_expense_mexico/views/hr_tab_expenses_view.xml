@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+        <!-- explicit from view definition -->
+    <record model="ir.ui.view" id="hr_tab_expenses_form">
+      <field name="name">hr_tab_expenses_form</field>
+      <field name="model">hr.tab.expenses</field>
+      <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Descripción de tabulador"/>
+                    </h1>
+                </div>
+                <field name="expense_tab_lines" context="{'viatics_address': 1}">
+                    <tree editable="bottom">
+                        <field name="address_from" context="{'viatics_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_from_complete"  nolabel="1" string="Direccion"/>
+                        <field name="address_to" context="{'viatics_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_to_complete"  nolabel="1" string="Direccion"/>
+                        <field name="amount_per_day"/>
+                    </tree>
+                </field>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="hr_tab_expenses_list">
+      <field name="name">hr.tab.expenses.tree</field>
+      <field name="model">hr.tab.expenses</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="expense_tab_lines"/>
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="hr_tab_expenses_action_window">
+      <field name="name">Tabulador de costos de viaticos</field>
+      <field name="res_model">hr.tab.expenses</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+     <menuitem id="menu_tabulator_expenses" name="Tabulador de costos" action="hr_tab_expenses_action_window" parent="hr_expense.menu_hr_expense_configuration" sequence="10"/>
+
+    </data>
+</odoo>
