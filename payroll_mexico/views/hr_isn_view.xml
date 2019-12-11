@@ -6,6 +6,9 @@
         <field name="model">hr.isn</field>
         <field name="arch" type="xml">
         <form string="ISN">
+            <header>
+                <button name="button_value_isn" type="object" string="Validate ISN" class="oe_highlight"/>
+            </header>
             <sheet>
                 <div>
                     <h1 class="oe_title">
@@ -15,13 +18,12 @@
                 <field name="country_id" invisible="1"/>
                 <group>
                     <group>
-                        <group>
-                            <field name="year"/>
-                            <field name="type"/>
-                        </group>
-                        <group>
-                            <field name="state_id" domain="[('country_id','=', country_id)]"/>
-                        </group>
+                        <field name="year"/>
+                        <field name="state_id" domain="[('country_id','=', country_id)]"/>
+                    </group>
+                    <group>
+                        <field name="type"/>
+                        <field name="percent" attrs="{'invisible': [('type', '!=', 'fixed')]}"/>
                     </group>
                 </group>
                  <notebook attrs="{'invisible': [('type', '==', 'fixed')]}">
@@ -47,6 +49,7 @@
         <field name="arch" type="xml">
             <tree string="ISN">
                <field name="name"/>
+               <field name="state_id"/>
                <field name="year"/>
                <field name="type"/>
             </tree>

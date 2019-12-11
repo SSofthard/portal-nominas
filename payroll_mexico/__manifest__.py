@@ -34,6 +34,7 @@
         'data/data_table_setting.xml',
         'data/res.bank.csv',
         'data/payroll_data.xml',
+        'data/data_isn.xml',
         # ~ 'data/data_hr_perceptions.xml',
         
     ],
