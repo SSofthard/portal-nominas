@@ -19,6 +19,7 @@
         'views/table_settings.xml',
         'views/res_config_settings_views.xml',
         'views/hr_holidays.xml',
+        'views/hr_isn_view.xml',
         'security/ir.model.access.csv',
         #Reports
         'report/base_layout.xml',
@@ -33,6 +34,7 @@
         'data/data_table_setting.xml',
         'data/res.bank.csv',
         'data/payroll_data.xml',
+        'data/data_isn.xml',
         # ~ 'data/data_hr_perceptions.xml',
         
     ],

@@ -362,7 +362,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_surplus_p
 #, python-format
 msgid "3 UMA surplus (%)"
-msgstr ""
+msgstr "Excedente de 3 UMA (%)"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -1300,7 +1300,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__average_active_life
 #, python-format
 msgid "Average Active Life (años)"
-msgstr "Vida activa promedio (años)"
+msgstr "Promedio de vida activa (años)"
 
 #. module: payroll_mexico
 #: selection:hr.payslip.line,type_deduction:0
@@ -1390,14 +1390,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_bonus_factor
 #, python-format
 msgid "Bonus"
-msgstr ""
+msgstr "Aginaldos"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:73
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__bonus_factor
 #, python-format
 msgid "Bonus (UMA)"
-msgstr ""
+msgstr "Aginaldos (UMA)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__book
@@ -1532,7 +1532,7 @@ msgstr "Cancelar"
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_cash_benefits_p
 #, python-format
 msgid "Cash benefits (%)"
-msgstr "Beneficios en efectivo (%)"
+msgstr "Prestaciones en dinero (%)"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_cfdi.py:189
@@ -1963,7 +1963,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__unemployment_old_age_e
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__unemployment_old_age_p
 msgid "Desempleo y vejez (%)"
-msgstr ""
+msgstr "Censantía y vejez (%)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_clearance_factor
@@ -2013,13 +2013,13 @@ msgstr ""
 #: code:addons/payroll_mexico/models/table_settings.py:111
 #, python-format
 msgid "Disability and life (%)"
-msgstr "Discapacidad y vida (%)"
+msgstr "Invalidez y vida (%)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__disability_life_e
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__disability_life_p
 msgid "Discapacidad y vida (%)"
-msgstr ""
+msgstr "Invalidez y vida (%)"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.form_table_settings_view
@@ -2529,7 +2529,7 @@ msgstr ""
 #: code:addons/payroll_mexico/models/table_settings.py:92
 #, python-format
 msgid "For disability and Infonavit (UMA)"
-msgstr "Para discapacidad e Infonavit (UMA)"
+msgstr "Para invalidez e Infonavit (UMA)"
 
 #. module: payroll_mexico
 #: selection:hr.contract,contracting_regime:0
@@ -2813,7 +2813,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__infonavit_contribution
 #, python-format
 msgid "INFONAVIT contribution (%)"
-msgstr ""
+msgstr "Aportación al INFONAVIT (%)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__infonavit_ids
@@ -3110,7 +3110,7 @@ msgstr "Puesto de trabajo"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__retirement
 msgid "Jubilación (%)"
-msgstr ""
+msgstr "Retiro (%)"
 
 #. module: payroll_mexico
 #: selection:tablas.periodo.mensual,mes:0
@@ -3467,7 +3467,7 @@ msgstr "Prima máxima (%)"
 #: code:addons/payroll_mexico/models/table_settings.py:98
 #, python-format
 msgid "Maximum Premium Variation (%)"
-msgstr "Prima máxima Variación (%)"
+msgstr "Variación máxima prima (%)"
 
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
@@ -3677,7 +3677,7 @@ msgstr "Número de mensajes no leidos"
 #: code:addons/payroll_mexico/models/table_settings.py:117
 #, python-format
 msgid "Nursery and social benefits (%)"
-msgstr "Vivero y prestaciones sociales (%)"
+msgstr "Guardería y prestaciones sociales (%)"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -3692,7 +3692,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.form_table_settings_view
 msgid "Occupational Risk"
-msgstr "Riesgo laboral"
+msgstr "Riesgo de trabajo"
 
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
@@ -3906,7 +3906,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.form_table_settings_view
 msgid "Pattern"
-msgstr "Modelo"
+msgstr "Patrón"
 
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_payslip
@@ -4026,7 +4026,7 @@ msgstr "Email personal"
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_personal_medical_expenses_p
 #, python-format
 msgid "Personal medical expenses (%)"
-msgstr ""
+msgstr "Gastos médicos personales (%)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__personal_movile_phone
@@ -4105,7 +4105,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__premium_factor
 #, python-format
 msgid "Premium Factor"
-msgstr ""
+msgstr "Factor de prima"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_cfdi.py:181
@@ -4459,7 +4459,7 @@ msgstr "Usuario responsable"
 #: code:addons/payroll_mexico/models/table_settings.py:116
 #, python-format
 msgid "Retirement (%)"
-msgstr "Jubilación (%)"
+msgstr "Retiro (%)"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_cfdi.py:192
@@ -5229,7 +5229,7 @@ msgstr ""
 #: code:addons/payroll_mexico/models/table_settings.py:114
 #, python-format
 msgid "Unemployment and old age (%)"
-msgstr "Desempleo y vejez (%)"
+msgstr "Cesantía y vejez (%)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread
@@ -5356,7 +5356,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__nursery_social_benefits
 msgid "Vivero y prestaciones sociales (%)"
-msgstr ""
+msgstr "Guardería y prestaciones sociales"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__wage_salaries_gross
