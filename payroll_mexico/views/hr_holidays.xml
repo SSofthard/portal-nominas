@@ -5,6 +5,7 @@
         <record id="view_hr_holidays_form" model="ir.ui.view">
             <field name="name">hr.leave.form</field>
             <field name="model">hr.leave</field>
+            <field name="priority">20</field>
             <field name="arch" type="xml">
                 <form string="Leave Request">
                     <field name="can_reset" invisible="1"/>
@@ -152,7 +153,7 @@
             <field name="res_model">hr.leave</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-             <field name="view_id" ref="view_hr_holidays_form"/>
+            <field name="view_id"></field>
         </record>
 
         <record id="action_hr_holidays_dashboard" model="ir.actions.act_window">
@@ -164,6 +165,13 @@
             <field name="domain">[('holiday_type','=','employee'), ('state', '!=', 'refuse')]</field>
             <field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter"/>
          </record>
+
+        <record id="hr_holiday_action_all_view_form" model="ir.actions.act_window.view">
+            <field name="sequence">2</field>
+            <field name="view_mode">form</field>
+            <field name="act_window_id" ref="view_hr_holidays_action"/>
+            <field name="view_id" ref="view_hr_holidays_form"/>
+        </record>
         
 
         <menuitem
@@ -205,24 +213,6 @@
                 </xpath>
             </field>
         </record>
-
-        <record id="hr_holidays.hr_leave_action_action_approve_department" model="ir.actions.act_window">
-        <field name="name">Department Leaves</field>
-        <field name="res_model">hr.leave</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,kanban,form,calendar,activity</field>
-        <field name="view_id" ref="hr_holidays.hr_leave_view_form_manager"/>
-        <field name="context">{
-            'search_default_department':1,
-            'search_default_approve':1}
-        </field>
-        <field name="domain">[]</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create a new leave request
-            </p>
-        </field>
-    </record>
 
     </data>
 </odoo>
