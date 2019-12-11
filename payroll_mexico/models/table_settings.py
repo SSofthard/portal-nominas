@@ -68,14 +68,14 @@ class TableSettings(models.Model):
     uma_id = fields.Many2one('table.uma', string='UMA', required=True)
     daily_amount_uma = fields.Float('UMA amount', related='uma_id.daily_amount')
     
-    pantry_voucher_factor= fields.Float(string=_('Pantry Voucher (UMA)'))
-    holiday_bonus_factor = fields.Float(string=_('Holiday Bonus (UMA)'))
+    pantry_voucher_factor= fields.Float(string=_('Pantry Voucher (UMA)'), digits=dp.get_precision('Excess'))
+    holiday_bonus_factor = fields.Float(string=_('Holiday Bonus (UMA)'), digits=dp.get_precision('Excess'))
     bonus_factor = fields.Float(string=_('Bonus (UMA)'),)
-    savings_fund_factor = fields.Float(string=_('Savings Fund (UMA)'),)
-    extra_time_factor = fields.Float(string=_('Extra Time (UMA)'),)
-    sunday_prime_factor = fields.Float(string=_('Sunday prime (UMA)'),)
-    clearance_factor = fields.Float(string=_('Clearance (UMA)'), )
-    factor_ptu = fields.Float(string=_('PTU (UMA)'))
+    savings_fund_factor = fields.Float(string=_('Savings Fund (UMA)'), digits=dp.get_precision('Excess'))
+    extra_time_factor = fields.Float(string=_('Extra Time (UMA)'), digits=dp.get_precision('Excess'))
+    sunday_prime_factor = fields.Float(string=_('Sunday prime (UMA)'), digits=dp.get_precision('Excess'))
+    clearance_factor = fields.Float(string=_('Clearance (UMA)'), digits=dp.get_precision('Excess'))
+    factor_ptu = fields.Float(string=_('PTU (UMA)'), digits=dp.get_precision('Excess'))
     
     ex_pantry_voucher_factor= fields.Float(string=_('Pantry Voucher'), compute="_compute_exemptions")
     ex_holiday_bonus_factor = fields.Float(string=_('Holiday Bonus'), compute="_compute_exemptions")
@@ -86,35 +86,35 @@ class TableSettings(models.Model):
     ex_clearance_factor = fields.Float(string=_('Clearance'), compute="_compute_exemptions")
     ex_factor_ptu = fields.Float(string=_('PTU'), compute="_compute_exemptions")
     
-    infonavit_contribution = fields.Float(string=_('INFONAVIT contribution (%)'))
-    umi = fields.Float(string=_('UMI (Mixed Unit INFONAVIT)'))
+    infonavit_contribution = fields.Float(string=_('INFONAVIT contribution (%)'), digits=dp.get_precision('Excess'))
+    umi = fields.Float(string=_('UMI (Mixed Unit INFONAVIT)'), digits=dp.get_precision('Excess'))
     sbcm_general = fields.Float(string=_('General (UMA)'))
-    sbcm_inv_inf = fields.Float(string=_('For disability and Infonavit (UMA)'))
+    sbcm_inv_inf = fields.Float(string=_('For disability and Infonavit (UMA)'), digits=dp.get_precision('Excess'))
     
-    average_active_life = fields.Float(string=_('Average Active Life (años)'))
-    premium_factor = fields.Float(string=_('Premium Factor'))
-    minimum_premium = fields.Float(string=_('Minimum Premium (%)'))
-    maximum_premium = fields.Float(string=_('Maximum Premium (%)'))
-    maximum_premium_variation = fields.Float(string=_('Maximum Premium Variation (%)'))
+    average_active_life = fields.Float(string=_('Average Active Life (años)'), digits=dp.get_precision('Excess'))
+    premium_factor = fields.Float(string=_('Premium Factor'), digits=dp.get_precision('Excess'))
+    minimum_premium = fields.Float(string=_('Minimum Premium (%)'), digits=dp.get_precision('Excess'))
+    maximum_premium = fields.Float(string=_('Maximum Premium (%)'), digits=dp.get_precision('Excess'))
+    maximum_premium_variation = fields.Float(string=_('Maximum Premium Variation (%)'), digits=dp.get_precision('Excess'))
     
-    em_fixed_fee = fields.Float(string=_('Fixed Fee (%)'))
-    em_surplus_p = fields.Float(string=_('3 UMA surplus (%)'))
-    em_surplus_e = fields.Float(string=_('3 UMA surplus (%)'))
+    em_fixed_fee = fields.Float(string=_('Fixed Fee (%)'), digits=dp.get_precision('Excess'))
+    em_surplus_p = fields.Float(string=_('3 UMA surplus (%)'), digits=dp.get_precision('Excess'))
+    em_surplus_e = fields.Float(string=_('3 UMA surplus (%)'), digits=dp.get_precision('Excess'))
 
-    em_cash_benefits_p = fields.Float(string=_('Cash benefits (%)'))
-    em_cash_benefits_e = fields.Float(string=_('Cash benefits (%)'))
-    em_personal_medical_expenses_p = fields.Float(string=_('Personal medical expenses (%)'))
-    em_personal_medical_expenses_e = fields.Float(string=_('Personal medical expenses (%)'))
+    em_cash_benefits_p = fields.Float(string=_('Cash benefits (%)'), digits=dp.get_precision('Excess'))
+    em_cash_benefits_e = fields.Float(string=_('Cash benefits (%)'), digits=dp.get_precision('Excess'))
+    em_personal_medical_expenses_p = fields.Float(string=_('Personal medical expenses (%)'), digits=dp.get_precision('Excess'))
+    em_personal_medical_expenses_e = fields.Float(string=_('Personal medical expenses (%)'), digits=dp.get_precision('Excess'))
     
     
-    disability_life_p = fields.Float(string=_('Disability and life (%)'))
-    disability_life_e = fields.Float(string=_('Disability and life (%)'))
+    disability_life_p = fields.Float(string=_('Disability and life (%)'), digits=dp.get_precision('Excess'))
+    disability_life_e = fields.Float(string=_('Disability and life (%)'), digits=dp.get_precision('Excess'))
 
-    unemployment_old_age_p = fields.Float(string=_('Unemployment and old age (%)'))
-    unemployment_old_age_e = fields.Float(string=_('Unemployment and old age (%)'))
+    unemployment_old_age_p = fields.Float(string=_('Unemployment and old age (%)'), digits=dp.get_precision('Excess'))
+    unemployment_old_age_e = fields.Float(string=_('Unemployment and old age (%)'), digits=dp.get_precision('Excess'))
 
-    retirement = fields.Float(string=_('Retirement (%)'))
-    nursery_social_benefits = fields.Float(string=_('Nursery and social benefits (%)'))
+    retirement = fields.Float(string=_('Retirement (%)'), digits=dp.get_precision('Excess'))
+    nursery_social_benefits = fields.Float(string=_('Nursery and social benefits (%)'), digits=dp.get_precision('Excess'))
     
     
     isr_daily_ids = fields.One2many('table.isr.daily','table_id', "ISR Daily")
@@ -234,9 +234,9 @@ class TableIsrMonthlySubsidy(models.Model):
     _order = 'sequence'
 
     table_id = fields.Many2one('table.settings', string='ISR Monthly')
-    lim_inf = fields.Float('Lower limit')
-    lim_sup = fields.Float('Upper limit')
-    s_mensual = fields.Float('Monthly allowance')
+    lim_inf = fields.Float('Lower limit', digits=dp.get_precision('Excess'))
+    lim_sup = fields.Float('Upper limit', digits=dp.get_precision('Excess'))
+    s_mensual = fields.Float('Monthly allowance', digits=dp.get_precision('Excess'))
     sequence = fields.Integer('Sequence')
     
 class TableIsrAnnual(models.Model):
@@ -244,8 +244,8 @@ class TableIsrAnnual(models.Model):
     _order = 'sequence'
 
     table_id = fields.Many2one('table.settings', string='ISR Annual')
-    lim_inf = fields.Float('Lower limit')
-    lim_sup = fields.Float('Upper limit')
+    lim_inf = fields.Float('Lower limit', digits=dp.get_precision('Excess'))
+    lim_sup = fields.Float('Upper limit', digits=dp.get_precision('Excess'))
     c_fija = fields.Float('Fixed fee') 
     s_excedente = fields.Float('Over surplus (%)', digits=dp.get_precision('Excess') )
     sequence = fields.Integer('Sequence')
