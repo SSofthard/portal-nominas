@@ -521,15 +521,23 @@ class hrRelationship(models.Model):
 class hrInfonavitCreditLine(models.Model):
     _name = "hr.infonavit.credit.line"
     
+    @api.depends('type')
+    def _search_uma(self):
+        for employee in self:
+            if employee.type == 'umas':
+                today = date.today()
+                employee.uma = self.env['table.uma'].search([('year','=',int(today.year))],limit=1).daily_amount
+    
     employee_id = fields.Many2one('hr.employee', "Employee", required=False)
     infonavit_credit_number = fields.Char("INFONAVIT Credit Number", copy=False, required=True)
     value = fields.Float("Value", copy=False, required=False)
     date = fields.Date("Date", required=True)
+    uma = fields.Float('UMA', compute="_search_uma")
     type = fields.Selection([
-        ('umas', 'UMAS'),
         ('percentage', 'Percentage'),
+        ('umas', 'UMAS'),
         ('fixed_amount', 'Fixed Amount'),
-    ],default="day", required=True)
+    ],default="percentage", required=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('active', 'Active'),

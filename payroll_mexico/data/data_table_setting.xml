@@ -219,7 +219,7 @@
             <field name="em_fixed_fee">20.40</field>
             <field name="em_surplus_p">1.10</field>
             <field name="em_cash_benefits_p">0.7</field>
-            <field name="em_personal_medical_expenses_p">1.50</field>
+            <field name="em_personal_medical_expenses_p">1.05</field>
             <field name="em_surplus_e">0.4</field>
             <field name="em_cash_benefits_e">0.25</field>
             <field name="em_personal_medical_expenses_e">0.38</field>
