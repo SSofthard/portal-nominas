@@ -158,7 +158,7 @@ class HrPayslip(models.Model):
 
             # compute worked days
             work_data = contract.employee_id.get_work_days_data(day_from, day_to,
-                                                                calendar=contract.resource_calendar_id)
+                                                                calendar=contract.resource_calendar_id, contract=contract)
             days_factor = contract.employee_id.group_id.days
             elemento_calculo = {
                 'name': _("Periodo mensual IMSS"),
@@ -192,14 +192,16 @@ class HrPayslip(models.Model):
                 'number_of_hours': 0,
                 'contract_id': contract.id,
             }
-            dias_feriados = {
-                'name': _("Días feriados"),
-                'sequence': 1,
-                'code': 'FERIADO',
-                'number_of_days': work_data['public_days'],
-                'number_of_hours': work_data['public_days_hours'],
-                'contract_id': contract.id,
-            }
+            if contract.employee_id.pay_holiday:
+                dias_feriados = {
+                    'name': _("Días feriados"),
+                    'sequence': 1,
+                    'code': 'FERIADO',
+                    'number_of_days': work_data['public_days'],
+                    'number_of_hours': work_data['public_days_hours'],
+                    'contract_id': contract.id,
+                }
+                res.append(dias_feriados)
             prima_dominical = {
                 'name': _("DOMINGO"),
                 'sequence': 1,
@@ -220,7 +222,6 @@ class HrPayslip(models.Model):
             res.append(elemento_calculo)
             res.append(attendances)
             res.append(prima_dominical)
-            res.append(dias_feriados)
             res.extend(leaves.values())
         return res
         
