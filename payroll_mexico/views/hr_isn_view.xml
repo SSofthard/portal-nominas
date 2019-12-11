@@ -6,9 +6,11 @@
         <field name="model">hr.isn</field>
         <field name="arch" type="xml">
         <form string="ISN">
+<!--
             <header>
                 <button name="button_value_isn" type="object" string="Validate ISN" class="oe_highlight"/>
             </header>
+-->
             <sheet>
                 <div>
                     <h1 class="oe_title">
