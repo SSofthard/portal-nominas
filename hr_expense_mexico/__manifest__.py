@@ -14,8 +14,10 @@
         'wizards/refused_expense_wizard.xml',
         'wizards/hr_expense_sheet_register_payment.xml',
         'data/ir_sequence_data.xml',
+        'report/hr_expense_report.xml',
         'views/hr_expenses_payment.xml',
         'views/hr_expenses.xml',
+        'views/hr_tab_expenses_view.xml',
         # 'security/ir.model.access.csv'
     ],
     "active": True,

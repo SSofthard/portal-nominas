@@ -7,8 +7,6 @@ from odoo.exceptions import UserError
 class Expenses(models.Model):
     _inherit = 'hr.expense'
 
-
-
     # def _compute_attachment_number(self):
     #     '''
     #     Herencia para que se ejecute el metodo compute de el campo numero de documentos y se agregue el estado por defecto de cada uno
@@ -37,6 +35,7 @@ class Expenses(models.Model):
     date = fields.Date(string='Create Date', default= lambda self: fields.Date.context_today(self))
     product_id = fields.Many2one(required=False, comodel_name='product.product')
     unit_amount = fields.Float(required=False)
+    iva_amount = fields.Float(string='I.V.A.', default= '16')
     # attachment_number = fields.Integer('Number of Attachments', compute='_compute_attachment_number')
 
     @api.constrains('total_amount','amount_tax','subtotal_amount')
@@ -71,14 +70,28 @@ class Expenses(models.Model):
                 'res_model': 'refused.expense.wizard',
                 'view_mode': 'form',
                 'target': 'new'}
-
+    
+    @api.multi
+    @api.onchange('subtotal_amount')
+    def update_amount_tax(self):
+        print ('AAAAAAAAAaa')
+        sub_total = self.subtotal_amount
+        iva = self.iva_amount
+        amount =  sub_total * (iva / 100)
+        print ('amount')
+        print ('amount')
+        print (amount)
+        self.amount_tax = sub_total + amount
+        self.total_amount = self.amount_tax
+        
+    
 
 class ExpensesClassification(models.Model):
     _name = 'hr.expense.classification'
 
     #Columns
     name = fields.Char(string = 'Name')
-
+    
 class ExpensesSheets(models.Model):
     _inherit = 'hr.expense.sheet'
 
@@ -159,8 +172,51 @@ class ExpensesSheets(models.Model):
     amount_delivered = fields.Monetary('Amount Delivered')
     amount_difference = fields.Monetary(compute='_compute_amount')
     operation_result = fields.Selection([ ('reconciled', 'Reconciled Amount'),('refund', 'Refund'), ('return', 'Return')],compute='_compute_amount')
+    estimate_viatics = fields.Boolean(string='Do you want to estimate viatics?')
+    is_older = fields.Boolean(string='Is older')
+    note = fields.Text('Notes')
+    address_origin_id = fields.Many2one('res.partner', string='Origin Address')
+    address_dest_id = fields.Many2one('res.partner', string='Dest Address')
+    qty_days = fields.Integer(string='Cantidad de días', compute=False)
+    total_by_day = fields.Monetary(string='Cantidad estimada', compute=False)
+
+    @api.onchange('address_origin_id','address_dest_id','qty_days')
+    def onchange_estimate_info(self):
+        '''
+        Este metodo calcula el monto estimado de viaticos segun la tabulacion
+        '''
+        if self.estimate_viatics:
+            tabulador = self.env['hr.tab.expenses.lines'].search([('address_from','=',self.address_origin_id.id),('address_to','=',self.address_dest_id.id)])
+            cost_per_day = tabulador.amount_per_day
+            self.total_by_day = cost_per_day*self.qty_days
+            self.amount_delivered = self.total_by_day
+
+
+    @api.onchange('amount_delivered','is_older')
+    def onchange_is_older(self):
+        amount = self.amount_delivered
+        if amount > self.total_by_day:
+            self.is_older =  True
+        else:
+            self.is_older =  False
 
     @api.constrains('amount_delivered')
     def constrains_amount_delivered(self):
         if not self.amount_delivered > 0:
             raise UserError(_('El monto entregado debe ser mayor a 0.'))
+            
+class Partner(models.Model):
+    _inherit = "res.partner"
+
+    estimate_viatics = fields.Boolean(string='Do you want to estimate viatics?')
+    
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            if self.env.context.get('viatics_address') == 1:
+                name = str(record.street) + ' ' + str(record.street2) + ' ' + str(record.city) + ' ' + str(record.state_id.name) + ' ' + str(record.zip) + ' ' + str(record.country_id.name)
+                result.append((record.id, str(name)))
+            else: 
+                result.append((record.id, record.name))
+        return result

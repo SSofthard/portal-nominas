@@ -12,6 +12,7 @@
                <xpath expr="//field[@name='partner_id']" position="attributes">
                    <attribute name="attrs">{'required':[('payment_type','=','refund')]}</attribute>
                    <attribute name="required">False</attribute>
+                   <attribute name="string">Employee</attribute>
                 </xpath>
                <xpath expr="//field[@name='communication']" position="replace">
                    <field name="communication" string="Referencia" attrs="{'invisible':[('hide_payment_method','=',True)]}"/>
