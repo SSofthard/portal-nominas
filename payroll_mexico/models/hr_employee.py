@@ -6,6 +6,7 @@ from datetime import date
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.osv import expression
+from odoo.addons import decimal_precision as dp
 from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
 
 def calculate_age(date_birthday):
@@ -410,7 +411,7 @@ class HrGroup(models.Model):
         ('private', 'Private'),
         ], string='type', required=True)
     days = fields.Float("Days", required=True)
-    risk_factor = fields.Float("Risk Factor", required=True)
+    risk_factor = fields.Float("Risk Factor", required=True, digits=dp.get_precision('Risk'))
     country_id = fields.Many2one('res.country', string='Country', store=True,
         default=lambda self: self.env['res.company']._company_default_get().country_id)
     state_id = fields.Many2one('res.country.state', string='State', required=True)
