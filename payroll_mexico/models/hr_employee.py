@@ -25,7 +25,6 @@ class Job(models.Model):
     
     code = fields.Char("Code", copy=False, required=True)
 
-
 class Employee(models.Model):
     _inherit = "hr.employee"
     
@@ -76,7 +75,7 @@ class Employee(models.Model):
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
     real_salary = fields.Float("Real Salary", copy=False)
     gross_salary = fields.Float("Gross Salary", copy=False)
-    table_id = fields.Many2one('tablas.cfdi','Table CFDI')
+    table_id = fields.Many2one('tablas.cfdi','Table CFDI', default=lambda self: self.env['res.company']._company_default_get().tables_id,)
     place_of_birth = fields.Many2one('res.country.state', string='Place of Birth', groups="hr.group_hr_user")
     country_id = fields.Many2one('res.country', 'Nationality (Country)', 
         default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
@@ -125,9 +124,9 @@ class Employee(models.Model):
         for record in self:
             if record.ssnid and len(record.ssnid) != 11:
                 raise UserError(_('The length of the social security number is incorrect'))
-            if record.rfc:
-                if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
-                    raise UserError(_('RFC length is incorrect'))
+            # ~ if record.rfc:
+                # ~ if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
+                    # ~ raise UserError(_('RFC length is incorrect'))
             if record.curp and len(record.curp) != 18:
                 raise UserError(_('CURP length is incorrect'))
     

@@ -5,7 +5,7 @@ from pytz import timezone
 
 import babel
 from odoo import api, fields, models, tools, _
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 from odoo.exceptions import UserError
 from odoo.osv import expression
 
@@ -159,6 +159,16 @@ class HrPayslip(models.Model):
             # compute worked days
             work_data = contract.employee_id.get_work_days_data(day_from, day_to,
                                                                 calendar=contract.resource_calendar_id)
+            days = contract.employee_id.group_id.days
+            elemento_calculo = {
+                'name': _("Elemento de calculo"),
+                'sequence': 1,
+                'code': 'QDPM',
+                'number_of_days': days,
+                'number_of_hours': 0,
+                'contract_id': contract.id,
+            }
+            # if self.payroll_period == 'monthly':
 
             dias_feriados = {
                 'name': _("Días feriados"),
@@ -185,6 +195,7 @@ class HrPayslip(models.Model):
                 'contract_id': contract.id,
             }
 
+            res.append(elemento_calculo)
             res.append(attendances)
             res.append(prima_dominical)
             res.append(dias_feriados)
