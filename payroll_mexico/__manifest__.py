@@ -20,6 +20,7 @@
         'views/res_config_settings_views.xml',
         'views/hr_holidays.xml',
         'views/hr_isn_view.xml',
+        'views/hr_payslip_run_view.xml',
         'security/ir.model.access.csv',
         #Reports
         'report/base_layout.xml',
