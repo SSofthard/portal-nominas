@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">  
+        <!-- ISN 2019-->
+        <record id="hr_isn_2019" model="hr.isn">
+            <field name="year">2019</field>
+        </record>
+        
+        <!-- ISN 2019 by states -->
+    <record id="isn_state_mx_ags" model="hr.isn.line">
+        <field name="isn_id" ref="hr_isn_2019"/>
+        <field name="state_id" ref="base.state_mx_ags"/>
+        <field name="tax_percent">2.00</field>
+        <field name="tax_percent_to">2.00</field>
+    </record>
+    <record id="isn_state_mx_ags" model="hr.isn.line">
+        <field name="isn_id" ref="hr_isn_2019"/>
+        <field name="state_id" ref="base.state_mx_bc"/>
+        <field name="tax_percent">2.00</field>
+        <field name="tax_percent_to">2.00</field>
+    </record>
+    <record id="isn_state_mx_ags" model="hr.isn.line">
+        <field name="isn_id" ref="hr_isn_2019"/>
+        <field name="state_id" ref="base.state_mx_bc"/>
+        <field name="tax_percent">2.00</field>
+        <field name="tax_percent_to">2.00</field>
+    </record>
+    
+    
+    
+state_mx_bcs
+state_mx_chih
+state_mx_col
+state_mx_camp
+state_mx_coah
+state_mx_chis
+state_mx_df
+state_mx_dgo
+state_mx_gro
+state_mx_gto
+state_mx_hgo
+state_mx_jal
+state_mx_mich
+state_mx_mor
+state_mx_mex
+state_mx_nay
+state_mx_nl
+state_mx_oax
+state_mx_pue
+state_mx_q roo
+state_mx_qro
+state_mx_sin
+state_mx_slp
+state_mx_son
+state_mx_tab
+state_mx_tlax
+state_mx_tamps
+state_mx_ver
+state_mx_yuc
+state_mx_zac
+
+    
+   </data>
+</odoo>
