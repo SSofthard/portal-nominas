@@ -170,6 +170,13 @@ class HrPayslip(models.Model):
             }
             date_start = date_from if contract.date_start < date_from else contract.date_start
             date_end =  contract.date_end if contract.date_end and contract.date_end < date_to else date_to
+            from_full = date_start
+            to_full = date_end + timedelta(days=1)
+            print (from_full)
+            print (to_full)
+            print (calendar)
+            print (calendar)
+            print (calendar)
             payroll_periods_days = {
                 'monthly': 30,
                 'biweekly': 15,
@@ -190,8 +197,6 @@ class HrPayslip(models.Model):
                 'number_of_hours': 0,
                 'contract_id': contract.id,
             }
-
-
             dias_feriados = {
                 'name': _("Días feriados"),
                 'sequence': 1,
