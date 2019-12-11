@@ -122,7 +122,7 @@ class HrPayslip(models.Model):
             input_lines += input_lines.new(r)
         self.input_line_ids = input_lines
         return
-    
+
     @api.model
     def get_worked_day_lines(self, contracts, date_from, date_to):
         '''Este metodo hereda el comportamiento nativo para agregar los dias feriados, prima dominical al O2m de dias trabajados'''
@@ -172,11 +172,6 @@ class HrPayslip(models.Model):
             date_end =  contract.date_end if contract.date_end and contract.date_end < date_to else date_to
             from_full = date_start
             to_full = date_end + timedelta(days=1)
-            print (from_full)
-            print (to_full)
-            print (calendar)
-            print (calendar)
-            print (calendar)
             payroll_periods_days = {
                 'monthly': 30,
                 'biweekly': 15,
@@ -184,10 +179,10 @@ class HrPayslip(models.Model):
                 'decennial': 10,
                 'daily': 1,
                                 }
-            if (date_end - date_start).days >= payroll_periods_days[self.payroll_period]:
+            if (to_full - from_full).days >= payroll_periods_days[self.payroll_period]:
                 cant_days = payroll_periods_days[self.payroll_period]*(days_factor/30)
             else:
-                cant_days = (date_end - date_start).days*(days_factor/30)
+                cant_days = (to_full - from_full).days*(days_factor/30)
 
             cant_days_IMSS = {
                 'name': _("Días a cotizar en la nómina"),
@@ -221,7 +216,6 @@ class HrPayslip(models.Model):
                 'number_of_hours': work_data['hours'],
                 'contract_id': contract.id,
             }
-
             res.append(cant_days_IMSS)
             res.append(elemento_calculo)
             res.append(attendances)
