@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!-- Municipios del estado AGUASCALIENTES -->
+    <record id="municipality_aguascalientes_001" model="res.country.state.municipality">
+        <field name="name">Aguascalientes</field>
+        <field name="code">101</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_002" model="res.country.state.municipality">
+        <field name="name">Calvillo</field>
+        <field name="code">102</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_003" model="res.country.state.municipality">
+        <field name="name">Asientos</field>
+        <field name="code">103</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_004" model="res.country.state.municipality">
+        <field name="name">Cosío</field>
+        <field name="code">104</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_005" model="res.country.state.municipality">
+        <field name="name">Jesús María</field>
+        <field name="code">105</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_006" model="res.country.state.municipality">
+        <field name="name">Pabellón de Arteaga</field>
+        <field name="code">106</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_007" model="res.country.state.municipality">
+        <field name="name">Rincón de Romos</field>
+        <field name="code">107</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_008" model="res.country.state.municipality">
+        <field name="name">San José de Gracia</field>
+        <field name="code">108</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_009" model="res.country.state.municipality">
+        <field name="name">Tepezalá</field>
+        <field name="code">109</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_010" model="res.country.state.municipality">
+        <field name="name">El Llano</field>
+        <field name="code">110</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    <record id="municipality_aguascalientes_011" model="res.country.state.municipality">
+        <field name="name">San Francisco de los Romo</field>
+        <field name="code">111</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_ags"/>
+    </record>
+    
+    <!-- Municipios del estado BAJA CALIFORNIA -->
+    <record id="municipality_state_mx_bc_201" model="res.country.state.municipality">
+        <field name="name">Ensenada</field>
+        <field name="code">201</field>
+        <field name="zone">freezone</field>
+        <field name="state_id" ref="base.state_mx_bc"/>
+    </record>
+    <record id="municipality_state_mx_bc_202" model="res.country.state.municipality">
+        <field name="name">Mexicali</field>
+        <field name="code">202</field>
+        <field name="zone">freezone</field>
+        <field name="state_id" ref="base.state_mx_bc"/>
+    </record>
+    <record id="municipality_state_mx_bc_203" model="res.country.state.municipality">
+        <field name="name">Tecate</field>
+        <field name="code">203</field>
+        <field name="zone">freezone</field>
+        <field name="state_id" ref="base.state_mx_bc"/>
+    </record>
+    <record id="municipality_state_mx_bc_204" model="res.country.state.municipality">
+        <field name="name">Tijuana</field>
+        <field name="code">204</field>
+        <field name="zone">freezone</field>
+        <field name="state_id" ref="base.state_mx_bc"/>
+    </record>
+    <record id="municipality_state_mx_bc_205" model="res.country.state.municipality">
+        <field name="name">Playas de Rosarito</field>
+        <field name="code">205</field>
+        <field name="zone">freezone</field>
+        <field name="state_id" ref="base.state_mx_bc"/>
+    </record>
+    
+    <!-- Municipios del estado BAJA CALIFORNIA SUR -->
+    <record id="municipality_state_mx_bcs_301" model="res.country.state.municipality">
+        <field name="name">Comondú</field>
+        <field name="code">301</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_bcs"/>
+    </record>
+    <record id="municipality_state_mx_bcs_302" model="res.country.state.municipality">
+        <field name="name">Mulegé</field>
+        <field name="code">302</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_bcs"/>
+    </record>
+    <record id="municipality_state_mx_bcs_303" model="res.country.state.municipality">
+        <field name="name">La Paz</field>
+        <field name="code">303</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_bcs"/>
+    </record>
+    <record id="municipality_state_mx_bcs_308" model="res.country.state.municipality">
+        <field name="name">Los Cabos</field>
+        <field name="code">303</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_bcs"/>
+    </record>
+    <record id="municipality_state_mx_bcs_309" model="res.country.state.municipality">
+        <field name="name">Loreto</field>
+        <field name="code">309</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_bcs"/>
+    </record>
+    
+    <!-- Municipios del estado CAMPECHE -->
+    <record id="municipality_state_mx_camp_401" model="res.country.state.municipality">
+        <field name="name">Calkiní</field>
+        <field name="code">401</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    <record id="municipality_state_mx_camp_402" model="res.country.state.municipality">
+        <field name="name">Campeche</field>
+        <field name="code">402</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    <record id="municipality_state_mx_camp_403" model="res.country.state.municipality">
+        <field name="name">Carmen</field>
+        <field name="code">403</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    <record id="municipality_state_mx_camp_404" model="res.country.state.municipality">
+        <field name="name">Champotón</field>
+        <field name="code">404</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_bcs"/>
+    </record>
+    <record id="municipality_state_mx_camp_405" model="res.country.state.municipality">
+        <field name="name">Hecelchakán</field>
+        <field name="code">405</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    <record id="municipality_state_mx_camp_406" model="res.country.state.municipality">
+        <field name="name">Hopelchén</field>
+        <field name="code">406</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    <record id="municipality_state_mx_camp_407" model="res.country.state.municipality">
+        <field name="name">Palizada</field>
+        <field name="code">407</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    <record id="municipality_state_mx_camp_408" model="res.country.state.municipality">
+        <field name="name">Tenabo</field>
+        <field name="code">408</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    <record id="municipality_state_mx_camp_409" model="res.country.state.municipality">
+        <field name="name">Escárcega</field>
+        <field name="code">409</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    <record id="municipality_state_mx_camp_410" model="res.country.state.municipality">
+        <field name="name">Calakmul</field>
+        <field name="code">410</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    <record id="municipality_state_mx_camp_411" model="res.country.state.municipality">
+        <field name="name">Candelaria</field>
+        <field name="code">411</field>
+        <field name="zone">singlezone</field>
+        <field name="state_id" ref="base.state_mx_camp"/>
+    </record>
+    
+    
+   </data>
+</odoo>

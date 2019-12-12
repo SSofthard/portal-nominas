@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        
+        <!-- municipality -->
+        <record id="view_country_state_municipality_tree" model="ir.ui.view">
+            <field name="name">res.country.state.municipality.tree</field>
+            <field name="model">res.country.state.municipality</field>
+            <field name="arch" type="xml">
+                <tree string="State">
+                    <field name="name"/>
+                    <field name="zone"/>
+                    <field name="code"/>
+                    <field name="state_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_country_state_municipality_form" model="ir.ui.view">
+            <field name="name">res.country.state.municipality.form</field>
+            <field name="model">res.country.state.municipality</field>
+            <field name="arch" type="xml">
+                <form string="State">
+                    <group>
+                        <field name="name"/>
+                        <field name="zone"/>
+                        <field name="code"/>
+                        <field name="state_id" options='{"no_open": True}'/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_country_state_municipality" model="ir.actions.act_window">
+            <field name="name">Fed. States Municipality</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.state.municipality</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_country_state_municipality_tree"/>
+        </record>
+        
+        <record id="view_country_state_municipality_inherit_form" model="ir.ui.view">
+            <field name="name">view.country.state.municipality.inherit.form</field>
+            <field name="model">res.country.state</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_country_state_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <label for="municipality_ids"/>
+                    <field name="municipality_ids">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="zone"/>
+                        </tree>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
