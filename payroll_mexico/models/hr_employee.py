@@ -54,6 +54,16 @@ class Employee(models.Model):
             integral_salary = (self.contract_id.wage + bonus_holiday + christmas_bonus)/self.group_id.days if self.group_id.days else (self.contract_id.wage + bonus_holiday + christmas_bonus)/30
             self.salary = integral_salary
 
+    @api.multi
+    def name_get(self):
+        result = []
+        for employee in self:
+            name = '%s %s %s' %(employee.name.upper(), employee.last_name.upper() \
+                if employee.last_name else '', employee.mothers_last_name.upper() \
+                if employee.mothers_last_name else '')
+            result.append((employee.id, name))
+        return result
+
     @api.model
     def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
         args = args or []
@@ -63,7 +73,7 @@ class Employee(models.Model):
         enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(enrollment).name_get()
     
-    
+    #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
     title = fields.Many2one('res.partner.title','Title')
     rfc = fields.Char("RFC", copy=False)
@@ -138,7 +148,6 @@ class Employee(models.Model):
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
         ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
-
 
     @api.constrains('ssnid','rfc','curp')
     def validate_ssnid(self):
