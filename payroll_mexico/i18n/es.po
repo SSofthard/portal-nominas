@@ -1431,7 +1431,7 @@ msgstr "Tipo de sangre"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_holiday_bonus_factor
 msgid "Bono de vacaciones"
-msgstr ""
+msgstr "Prima Vacacional"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:82
@@ -2796,7 +2796,7 @@ msgstr "Régimen de contratación"
 #: code:addons/payroll_mexico/models/table_settings.py:81
 #, python-format
 msgid "Holiday Bonus"
-msgstr "Bono de vacaciones"
+msgstr "Prima Vacacional"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:72

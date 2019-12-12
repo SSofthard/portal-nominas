@@ -222,13 +222,13 @@
             <field name="em_personal_medical_expenses_p">1.05</field>
             <field name="em_surplus_e">0.4</field>
             <field name="em_cash_benefits_e">0.25</field>
-            <field name="em_personal_medical_expenses_e">0.38</field>
+            <field name="em_personal_medical_expenses_e">0.375</field>
             <field name="disability_life_p">1.75</field>
             <field name="unemployment_old_age_p">3.15</field>
             <field name="retirement">2</field>
             <field name="nursery_social_benefits">1</field>
-            <field name="disability_life_e">0.63</field>
-            <field name="unemployment_old_age_e">1.13</field>
+            <field name="disability_life_e">0.625</field>
+            <field name="unemployment_old_age_e">1.125</field>
             
         </record>
                 
