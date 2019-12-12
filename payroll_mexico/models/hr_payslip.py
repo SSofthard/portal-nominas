@@ -46,6 +46,25 @@ class HrPayslip(models.Model):
     table_id = fields.Many2one('table.settings', string="Table Settings")
     subtotal_amount_untaxed = fields.Float(string='Base imponible')
     amount_tax = fields.Float(string='Impuestos')
+    
+    payroll_tax_count = fields.Integer(compute='_compute_payroll_tax_count', string="Payslip Computation Details")
+    
+    @api.multi
+    def _compute_payroll_tax_count(self):
+        for payslip in self:
+            line_ids = payslip.line_ids.filtered(lambda o: o.salary_rule_id.payroll_tax == True)
+            payslip.payroll_tax_count = len(line_ids)
+
+    @api.multi
+    def action_view_payroll_tax(self):
+        line_ids = self.mapped('line_ids')
+        action = self.env.ref('hr_payroll.act_payslip_lines').read()[0]
+        if len(line_ids) >= 1:
+            line_tax_ids = line_ids.filtered(lambda o: o.salary_rule_id.payroll_tax == True)
+            action['domain'] = [('id', 'in', line_tax_ids.ids)]
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+        return action
 
 
     @api.model

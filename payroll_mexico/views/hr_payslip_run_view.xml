@@ -8,6 +8,16 @@
             <field name="priority">6</field>
             <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
             <field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_payroll_tax_run"
+                            class="oe_stat_button"
+                            icon="fa-money"
+                            type="object">
+                            <field name="payroll_tax_run_count" widget="statinfo" string="Base Imp. ISN" help="Payslip Computation Tax"/>
+                        </button>
+                    </div>
+                </xpath>
                 <xpath expr="//field[@name='credit_note']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
@@ -24,7 +34,7 @@
                         <field name="payroll_month"/>
                         <field name="payroll_of_month"/>
                         <field name="payroll_period"/>
-                        <field name="table_id" invisible="0"/>
+                        <field name="table_id" invisible="1"/>
                     </group>
                 </xpath>
             </field>

@@ -41,6 +41,40 @@ class HrPayslipRun(models.Model):
     table_id = fields.Many2one('table.settings', string="Table Settings")
     subtotal_amount_untaxed = fields.Float(string='Base imponible')
     amount_tax = fields.Float(string='Impuestos')
+    payroll_tax_run_count = fields.Integer(compute='_compute_payroll_tax_run_count', string="Payslip Computation Details")
+
+    @api.multi
+    def _compute_payroll_tax_run_count(self):
+        list_tax = []
+        slip_ids = self.mapped('slip_ids')
+        for payslip in slip_ids:
+            line_ids = payslip.line_ids.filtered(lambda o: o.salary_rule_id.payroll_tax == True)
+            list_tax += line_ids.ids
+        self.payroll_tax_run_count = len(list_tax)
+    
+    @api.multi
+    def action_view_payroll_tax_run(self):
+        list_tax = []
+        slip_ids = self.mapped('slip_ids')
+        for payslip in slip_ids:
+            line_ids = payslip.line_ids.filtered(lambda o: o.salary_rule_id.payroll_tax == True)
+            list_tax += line_ids.ids
+        domain = [('id', 'in', list_tax)]
+        return {
+            'name': _('Base Imp. ISN'),
+            'domain': domain,
+            'res_model': 'hr.payslip.line',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                           Click to Create for New Documents
+                        </p>'''),
+            'limit': 80,
+        }
+        
+        return action
     
     @api.onchange('date_start', 'date_end')
     def onchange_date_start_date_end(self):
