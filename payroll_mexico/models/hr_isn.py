@@ -46,7 +46,7 @@ class HrIsn(models.Model):
         amount_tax = 0.0
         for isn in isn_id:
             if isn.type == 'fixed':
-                amount_tax = float_round((amount / 100) * isn.percent)
+                amount_tax = float_round((amount / 100) * isn.percent,precision_digits=2)
             if isn.type == 'range':
                 fixed_fee = isn.isn_line.filtered(lambda d: amount >= d.lim_inf and amount <= d.lim_sup)
                 excedente = float_round(amount - fixed_fee.lim_inf, 4)

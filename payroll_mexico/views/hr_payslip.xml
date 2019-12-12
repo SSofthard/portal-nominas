@@ -52,6 +52,9 @@
                             <group string="Miscellaneous">
                                 <field name="company_id" groups="base.group_multi_company"/>
                                 <field name="payslip_run_id" domain="[('state','=','draft')]"/>
+                                <field name="subtotal_amount_untaxed"/>
+                                 <button name="get_tax_amount" type="object" class="oe_link">Cálcular impuesto de la nómina</button>
+                                 <field name="amount_tax"/>
                             </group>
                             <group name="accounting" string="Accounting" invisible="1">
                                 <field name="paid" readonly="1"/>

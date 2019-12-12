@@ -12,6 +12,7 @@
         Perceptions
 -->
 		
+<!--
         <record id="hr_salary_rule_P001" model="hr.salary.rule">
             <field name="name">SUELDO</field>
             <field name="code">P001</field>
@@ -615,6 +616,7 @@
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=1</field>
         </record>
+-->
 
         
 <!--
@@ -623,6 +625,7 @@
         
         
         
+<!--
         <record id="hr_salary_rule_D001" model="hr.salary.rule">
             <field name="name">ISR</field>
             <field name="code">D001</field>
@@ -878,6 +881,7 @@
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=1</field>
         </record>
+-->
         
 <!--
         <record id="hr_salary_rule_D100" model="hr.salary.rule">
@@ -897,6 +901,7 @@
         </record>
 -->
         
+<!--
         <record id="hr_salary_rule_D101" model="hr.salary.rule">
             <field name="name">IMPUESTO LOCAL</field>
             <field name="code">D101</field>
@@ -912,6 +917,7 @@
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=1</field>
         </record>
+-->
         
 <!--
         <record id="hr_salary_rule_D111" model="hr.salary.rule">
