@@ -60,6 +60,7 @@ class HrPayslipRun(models.Model):
         # lines_untaxed = self.slip_ids.mapped('line_ids').filtered(
         #     lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
         # self.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
+        self.slip_ids.compute_amount_untaxed()
         self.subtotal_amount_untaxed = sum(self.slip_ids.mapped('subtotal_amount_untaxed'))
         self.get_tax_amount()
 
