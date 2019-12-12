@@ -1414,14 +1414,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_bonus_factor
 #, python-format
 msgid "Bonus"
-msgstr "Aginaldos"
+msgstr "Aguinaldos"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:73
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__bonus_factor
 #, python-format
 msgid "Bonus (UMA)"
-msgstr "Aginaldos (UMA)"
+msgstr "Aguinaldos (UMA)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__book
@@ -1575,13 +1575,13 @@ msgstr ""
 #: code:addons/payroll_mexico/models/table_settings.py:86
 #, python-format
 msgid "Clearance"
-msgstr "Despeje"
+msgstr "Liquidación"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:77
 #, python-format
 msgid "Clearance (UMA)"
-msgstr "Despeje (UMA)"
+msgstr "Liquidación (UMA)"
 
 #. module: payroll_mexico
 #: selection:hr.infonavit.credit.line,state:0
@@ -2412,13 +2412,13 @@ msgstr ""
 #: code:addons/payroll_mexico/models/table_settings.py:84
 #, python-format
 msgid "Extra Time"
-msgstr "Extra tiempo"
+msgstr "Tiempo extra"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:75
 #, python-format
 msgid "Extra Time (UMA)"
-msgstr "Extra tiempo (UMA)"
+msgstr "Tiempo extra (UMA)"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
@@ -2428,7 +2428,7 @@ msgstr "Pagos adicionales"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_extra_time_factor
 msgid "Extra tiempo"
-msgstr ""
+msgstr "Tiempo extra"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__extra_time_factor
@@ -2790,7 +2790,7 @@ msgstr "Bono de vacaciones"
 #: code:addons/payroll_mexico/models/table_settings.py:72
 #, python-format
 msgid "Holiday Bonus (UMA)"
-msgstr "Bono de vacaciones (UMA)"
+msgstr "Prima vacacional (UMA)"
 
 #. module: payroll_mexico
 #: selection:hr.leave.type,time_type:0
@@ -3881,7 +3881,7 @@ msgstr "Otro"
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.form_table_settings_view
 msgid "Other branches"
-msgstr "Otras Ramas"
+msgstr "Otras"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
@@ -4385,12 +4385,12 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_sunday_prime_factor
 msgid "Primer domingo"
-msgstr ""
+msgstr "Prima dominical"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__sunday_prime_factor
 msgid "Primer domingo (UMA)"
-msgstr ""
+msgstr "Prima dominical (UMA)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_periodo_bimestral__dia_inicio
@@ -5060,13 +5060,13 @@ msgstr ""
 #: code:addons/payroll_mexico/models/table_settings.py:85
 #, python-format
 msgid "Sunday prime"
-msgstr "Primer domingo"
+msgstr "Prima dominical"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:76
 #, python-format
 msgid "Sunday prime (UMA)"
-msgstr "Primer domingo (UMA)"
+msgstr "Prima dominical (UMA)"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa

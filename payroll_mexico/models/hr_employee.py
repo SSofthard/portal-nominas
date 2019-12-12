@@ -436,8 +436,8 @@ class HrGroup(models.Model):
         compute='_compute_seq_number_next',
         inverse='_inverse_seq_number_next')
     type = fields.Selection([
-        ('governmental', 'Governmental'),
-        ('private', 'Private'),
+        ('governmental', 'Proporción 30,4'),
+        ('private', 'Base 30 días mensuales'),
         ], string='type', required=True)
     days = fields.Float("Days", required=True)
     risk_factor = fields.Float("Risk Factor", required=True, digits=dp.get_precision('Risk'))
@@ -456,6 +456,14 @@ class HrGroup(models.Model):
                 self.code = self.name[0:3].upper()
             else:
                 raise UserError(_('The group name must contain three or more characters.'))
+
+    @api.onchange('type')
+    def onchange_type(self):
+        if self.type:
+            if self.type == 'governmental':
+                self.days = 30.4
+            if self.type == 'private':
+                self.days = 30.0
 
     @api.onchange('code')
     def onchange_code(self):
