@@ -440,7 +440,7 @@ class HrGroup(models.Model):
         ('private', 'Base 30 días mensuales'),
         ], string='type', required=True)
     days = fields.Float("Days", required=True)
-    risk_factor = fields.Float("Risk Factor", required=True, digits=dp.get_precision('Risk'))
+    risk_factor_ids = fields.One2many('hr.group.risk.factor','group_id', string="Factor de riesgo anual")
     country_id = fields.Many2one('res.country', string='Country', store=True,
         default=lambda self: self.env['res.company']._company_default_get().country_id)
     state_id = fields.Many2one('res.country.state', string='State', required=True)
@@ -533,6 +533,29 @@ class HrGroup(models.Model):
                 new_prefix = self._get_sequence_prefix(vals['code'])
                 group.sequence_id.write({'prefix': new_prefix})
         return super(HrGroup, self).write(vals)
+
+    def get_risk_factor(self, date_factor):
+        risk_factor = 0.0
+        for group in self:
+            if group.risk_factor_ids:
+                factor_ids = group.risk_factor_ids.filtered(
+                    lambda factor: date_factor >= factor.date_from \
+                    and date_factor <= factor.date_to)
+                if factor_ids:
+                    risk_factor = factor_ids.mapped('risk_factor')
+                else:
+                    risk_factor = 0.0
+        return risk_factor
+        
+
+class HrGroupRiskFactor(models.Model):
+    _name = "hr.group.risk.factor"
+    _description="Annual Risk Factor"
+    
+    group_id = fields.Many2one('hr.group', string="group")
+    risk_factor = fields.Float(string="Risk Factor", required=True, digits=dp.get_precision('Risk'))
+    date_from = fields.Date(string="Start Date", required=True)
+    date_to = fields.Date(string="End Date", required=True)
 
 
 class hrFamilyBurden(models.Model):
