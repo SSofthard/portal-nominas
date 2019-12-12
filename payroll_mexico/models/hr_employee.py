@@ -54,6 +54,16 @@ class Employee(models.Model):
             integral_salary = (self.contract_id.wage + bonus_holiday + christmas_bonus)/self.group_id.days if self.group_id.days else (self.contract_id.wage + bonus_holiday + christmas_bonus)/30
             self.salary = integral_salary
 
+    @api.multi
+    def name_get(self):
+        result = []
+        for employee in self:
+            name = '%s %s %s' %(employee.name.upper(), employee.last_name.upper() \
+                if employee.last_name else '', employee.mothers_last_name.upper() \
+                if employee.mothers_last_name else '')
+            result.append((employee.id, name))
+        return result
+
     @api.model
     def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
         args = args or []
@@ -63,7 +73,7 @@ class Employee(models.Model):
         enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(enrollment).name_get()
     
-    
+    #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
     title = fields.Many2one('res.partner.title','Title')
     rfc = fields.Char("RFC", copy=False)
@@ -138,7 +148,6 @@ class Employee(models.Model):
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
         ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
-
 
     @api.constrains('ssnid','rfc','curp')
     def validate_ssnid(self):
@@ -427,11 +436,11 @@ class HrGroup(models.Model):
         compute='_compute_seq_number_next',
         inverse='_inverse_seq_number_next')
     type = fields.Selection([
-        ('governmental', 'Governmental'),
-        ('private', 'Private'),
+        ('governmental', 'Proporción 30,4'),
+        ('private', 'Base 30 días mensuales'),
         ], string='type', required=True)
     days = fields.Float("Days", required=True)
-    risk_factor = fields.Float("Risk Factor", required=True, digits=dp.get_precision('Risk'))
+    risk_factor_ids = fields.One2many('hr.group.risk.factor','group_id', string="Factor de riesgo anual")
     country_id = fields.Many2one('res.country', string='Country', store=True,
         default=lambda self: self.env['res.company']._company_default_get().country_id)
     state_id = fields.Many2one('res.country.state', string='State', required=True)
@@ -447,6 +456,14 @@ class HrGroup(models.Model):
                 self.code = self.name[0:3].upper()
             else:
                 raise UserError(_('The group name must contain three or more characters.'))
+
+    @api.onchange('type')
+    def onchange_type(self):
+        if self.type:
+            if self.type == 'governmental':
+                self.days = 30.4
+            if self.type == 'private':
+                self.days = 30.0
 
     @api.onchange('code')
     def onchange_code(self):
@@ -516,6 +533,29 @@ class HrGroup(models.Model):
                 new_prefix = self._get_sequence_prefix(vals['code'])
                 group.sequence_id.write({'prefix': new_prefix})
         return super(HrGroup, self).write(vals)
+
+    def get_risk_factor(self, date_factor):
+        risk_factor = 0.0
+        for group in self:
+            if group.risk_factor_ids:
+                factor_ids = group.risk_factor_ids.filtered(
+                    lambda factor: date_factor >= factor.date_from \
+                    and date_factor <= factor.date_to)
+                if factor_ids:
+                    risk_factor = factor_ids.mapped('risk_factor')
+                else:
+                    risk_factor = 0.0
+        return risk_factor
+        
+
+class HrGroupRiskFactor(models.Model):
+    _name = "hr.group.risk.factor"
+    _description="Annual Risk Factor"
+    
+    group_id = fields.Many2one('hr.group', string="group")
+    risk_factor = fields.Float(string="Risk Factor", required=True, digits=dp.get_precision('Risk'))
+    date_from = fields.Date(string="Start Date", required=True)
+    date_to = fields.Date(string="End Date", required=True)
 
 
 class hrFamilyBurden(models.Model):
