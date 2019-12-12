@@ -57,9 +57,10 @@ class HrPayslipRun(models.Model):
         '''
         Este metodo calcula el monto de base imponible para la nomina a este monto se le calculara el impuesto
         '''
-        lines_untaxed = self.slip_ids.mapped('line_ids').filtered(
-            lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
-        self.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
+        # lines_untaxed = self.slip_ids.mapped('line_ids').filtered(
+        #     lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
+        # self.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
+        self.subtotal_amount_untaxed = sum(self.slip_ids.mapped('subtotal_amount_untaxed'))
         self.get_tax_amount()
 
     @api.multi
@@ -70,4 +71,11 @@ class HrPayslipRun(models.Model):
 
         self.amount_tax = self.env['hr.isn'].get_value_isn(self.group_id.state_id.id,
                                                            self.subtotal_amount_untaxed, self.date_start.year)
-
+    @api.multi
+    def close_payslip_run(self):
+        '''
+        En este metodo se correran los calculos de base imponible e impuestos
+        '''
+        self.slip_ids.compute_amount_untaxed()
+        self.compute_amount_untaxed()
+        return super(HrPayslipRun, self).close_payslip_run()

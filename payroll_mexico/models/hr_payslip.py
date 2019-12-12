@@ -144,8 +144,10 @@ class HrPayslip(models.Model):
         '''
         Este metodo calcula el monto de base imponible para la nomina a este monto se le calculara el impuesto
         '''
-        lines_untaxed = self.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
-        self.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
+        for payslip in self:
+            lines_untaxed = payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
+            payslip.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
+            payslip.get_tax_amount()
 
 
     @api.multi
@@ -153,7 +155,7 @@ class HrPayslip(models.Model):
         '''
         Este metodo calcula el monto de impuesto para la nomina
         '''
-        self.amount_tax = self.env['hr.isn'].get_value_isn(self.employee_id.group_id.state_id.id, self.subtotal_amount_untaxed, self.date_from.year)
+        self.amount_tax = self.env['hr.isn'].get_value_isn(self.payslip_run_id.group_id.state_id.id, self.subtotal_amount_untaxed, self.date_from.year)
 
 
     @api.model
