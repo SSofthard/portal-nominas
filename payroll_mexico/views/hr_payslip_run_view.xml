@@ -10,6 +10,12 @@
             <field name="arch" type="xml">
 				<xpath expr="//field[@name='name']" position="before">
                     <div class="oe_button_box" name="button_box">
+                        <button name="action_view_payslip"
+                            class="oe_stat_button"
+                            icon="fa-money"
+                            type="object">
+                            <field name="payslip_count" widget="statinfo" string="Payslip" help="Payslip Computation Details"/>
+                        </button>
                         <button name="action_view_payroll_tax_run"
                             class="oe_stat_button"
                             icon="fa-money"
