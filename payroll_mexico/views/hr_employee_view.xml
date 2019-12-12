@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
     <data>
-		
-		<menuitem
+        
+        <menuitem
             id="menu_job_position_configuration"
             name="Job position"
             action="hr.action_hr_job"
@@ -137,11 +137,11 @@
                     <page name="bank_information" string="Bank Information" groups="hr.group_hr_user">
                         <field name="bank_account_ids">
                             <form>
-								<header>
-									<button name="action_active" states="inactive" string="Active" class="oe_highlight" type="object"/>
-									<button name="action_inactive" states="active" string="Inactive" class="oe_highlight" type="object"/>
-									<field name="state" widget="statusbar" statusbar_visible="active,inactive"/>
-								</header>
+                                <header>
+                                    <button name="action_active" states="inactive" string="Active" class="oe_highlight" type="object"/>
+                                    <button name="action_inactive" states="active" string="Inactive" class="oe_highlight" type="object"/>
+                                    <field name="state" widget="statusbar" statusbar_visible="active,inactive"/>
+                                </header>
                                 <group col="4">
                                     <field name="bank_id" />
                                     <field name="beneficiary" />
@@ -163,11 +163,11 @@
                         </field>
                     </page>
                     <page name="family" string="Family" groups="hr.group_hr_user">
-						<group>
-							<group col="4">
-								<field name="children" widget="mask" data-inputmask="'mask': '9', 'repeat': 2, 'greedy' : false"/>
-							</group>
-						</group>
+                        <group>
+                            <group col="4">
+                                <field name="children" widget="mask" data-inputmask="'mask': '9', 'repeat': 2, 'greedy' : false"/>
+                            </group>
+                        </group>
                         <field name="family_ids">
                             <form>
                                 <group col="4">
@@ -194,15 +194,15 @@
                                     <field name="state" widget="statusbar" statusbar_visible="draft,active,close"/>
                                 </header>
                                 <group>
-									<group>
-										<field name="infonavit_credit_number" />
-										<field name="date" />
-									</group>
-									<group>
-										<field name="type" />
-										<field name="value"/>
-										<field name="uma" attrs="{'invisible': [('type','!=','umas')]}"/>
-									</group>
+                                    <group>
+                                        <field name="infonavit_credit_number" />
+                                        <field name="date" />
+                                    </group>
+                                    <group>
+                                        <field name="type" />
+                                        <field name="value"/>
+                                        <field name="uma" attrs="{'invisible': [('type','!=','umas')]}"/>
+                                    </group>
                                 </group>
                             </form>
                             <tree>
@@ -215,33 +215,33 @@
                         </field>
                     </page>
                     <page name="companies" string="Companies" groups="hr.group_hr_user">
-						<group>
-							<group>
-								<field name="type_salary" widget="radio"/>
-							</group>
-							<group>
-								<field name="monthly_salary"/>
-								<field name="table_id" invisible="1"/>
-							</group>
-						</group>
-						<group>
-							<group>
-								<field name="wage_salaries"/>
-								<field name="assimilated_salary" readonly="1"/>
-								<field name="free_salary"/>
-								<button name="calculate_salary_scheme" string="Calculate" class="oe_highlight" type="object" groups="hr.group_hr_user"/>
-							</group>
-							<group>
-								<field name="wage_salaries_gross" />
-								<field name="assimilated_salary_gross" />
-								<field name="free_salary_gross" />
-							</group>
-							<group>
-								<field name="company_id" options='{"no_open": True, "no_create": True}'/>
-								<field name="company_assimilated_id" options='{"no_open": True, "no_create": True}'/>
-								<button name="%(action_hr_employee_contract)d" string="Generate contracts" class="oe_highlight" type="action" groups="hr.group_hr_user"/>
-							</group>
-						</group>
+                        <group>
+                            <group>
+                                <field name="type_salary" widget="radio"/>
+                            </group>
+                            <group>
+                                <field name="monthly_salary"/>
+                                <field name="table_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="wage_salaries"/>
+                                <field name="assimilated_salary" readonly="1"/>
+                                <field name="free_salary"/>
+                                <button name="calculate_salary_scheme" string="Calculate" class="oe_highlight" type="object" groups="hr.group_hr_user"/>
+                            </group>
+                            <group>
+                                <field name="wage_salaries_gross" />
+                                <field name="assimilated_salary_gross" />
+                                <field name="free_salary_gross" />
+                            </group>
+                            <group>
+                                <field name="company_id" options='{"no_open": True, "no_create": True}'/>
+                                <field name="company_assimilated_id" options='{"no_open": True, "no_create": True}'/>
+                                <button name="%(action_hr_employee_contract)d" string="Generate contracts" class="oe_highlight" type="action" groups="hr.group_hr_user"/>
+                            </group>
+                        </group>
                     </page>
                 </xpath>
             </field>
@@ -301,7 +301,6 @@
                         <group>
                             <field name="name"/>
                             <field name="state_id" domain="[('country_id','=', country_id)]"/>
-                            <field name="risk_factor"/>
                             <field name="days"/>
                         </group>
                         <group>
@@ -311,6 +310,23 @@
                         </group>
                     </group>
                     <notebook>
+                        <page name="risk_factor" string="Annual Risk Factor">
+                            <field name="risk_factor_ids">
+                                <form>
+                                    <group col="4">
+                                        <field name="group_id" readonly="1"/>
+                                        <field name="risk_factor" />
+                                        <field name="date_from" />
+                                        <field name="date_to" />
+                                    </group>
+                                </form>
+                                <tree editable="botton">
+                                    <field name="risk_factor" />
+                                    <field name="date_from" />
+                                    <field name="date_to" />
+                                </tree>
+                            </field>
+                        </page>
                         <page name="group_sequence" string="Group Sequence">
                             <group>
                                 <group>
@@ -372,10 +388,10 @@
                     <field name="nationality"/>
                 </xpath> 
             </field>
-		  </record>
-		  
-		  <menuitem id="menu_address" name="Address" parent="base.menu_custom" sequence="60"/>
-		  <menuitem
+          </record>
+          
+          <menuitem id="menu_address" name="Address" parent="base.menu_custom" sequence="60"/>
+          <menuitem
             id="menu_country_configuration"
             name="Countries"
             action="base.action_country"
