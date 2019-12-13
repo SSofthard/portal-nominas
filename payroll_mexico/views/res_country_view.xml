@@ -2,7 +2,25 @@
 <odoo>
     <data>
         
-        <!-- municipality -->
+        <!-- Search Municipality -->
+        <record id="view_country_state_municipality_filter" model="ir.ui.view">
+            <field name="name">view.country.state.municipality.filter</field>
+            <field name="model">res.country.state.municipality</field>
+            <field name="arch" type="xml">
+                <search string="Search Municipality">
+                   <field name="name"
+                       filter_domain="[('name','ilike',self)]"/>
+                   <field name="code"
+                       filter_domain="[('code','ilike',self)]"/>
+                   <field name="state_id" string="State" filter_domain="[('state_id','ilike', self)]"/>
+                   <group expand="0" name="group_by" string="Group By">
+                       <filter name="state" string="Salesperson" domain="[]" context="{'group_by' : 'state_id'}" />
+                   </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- municipality tree view-->
         <record id="view_country_state_municipality_tree" model="ir.ui.view">
             <field name="name">res.country.state.municipality.tree</field>
             <field name="model">res.country.state.municipality</field>

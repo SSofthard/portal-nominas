@@ -19,10 +19,10 @@ class StateMunicipality(models.Model):
         help='Name of the State to which the municipality belongs')
     name = fields.Char('Municipality', required=True, 
         help='Municipality name')
-    code = fields.Char('Code', size=3, required=True, 
-        help='Municipality code in max. three chars.')
+    code = fields.Char('Code', size=5, required=True, 
+        help='Municipality code in max. five chars.')
     zone = fields.Selection([
             ('freezone', 'Zona Libre de la Fronteriza'),
             ('singlezone', 'Salarios Mínimos Generales'),
-        ], string="Zone", default="zone-a",
+        ], string="Zone", default="singlezone",
         help="Determines where the Commercial Zone should be placed")
