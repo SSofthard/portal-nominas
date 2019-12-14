@@ -34,7 +34,7 @@ class MunicipalityZone(models.Model):
     active = fields.Boolean(default=True)
 
     _sql_constraints = [
-        ('zone_date_from_uniq', 'CHECK(1=1)', 'The code of the state must be unique by country !')
+        ('zone_date_from_uniq', 'unique(municipality_id, zone_id, date_from)', 'Already zone for this municipality!')
     ]
 
 class StateMunicipality(models.Model):
