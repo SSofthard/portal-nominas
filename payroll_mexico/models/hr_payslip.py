@@ -182,9 +182,7 @@ class HrPayslip(models.Model):
         '''Este metodo hereda el comportamiento nativo para agregar los dias feriados, prima dominical al O2m de dias trabajados'''
         res = []
         # fill only if the contract as a working schedule linked
-        print (contracts)
         for contract in contracts.filtered(lambda contract: contract.resource_calendar_id):
-            print (contract)
             day_from = datetime.combine(fields.Date.from_string(date_from), time.min)
             day_to = datetime.combine(fields.Date.from_string(date_to), time.max)
             # compute leave days
@@ -301,6 +299,12 @@ class HrPayslip(models.Model):
     @api.onchange('contract_id')
     def onchange_contract(self):
         return
+    
+    @api.multi
+    def unlink(self):
+        for pay in self:
+            pay.input_ids.write({'payslip':False})
+        return super(HrPayslip, self).unlink()
 
 class HrSalaryRule(models.Model):
     _inherit = 'hr.salary.rule'
