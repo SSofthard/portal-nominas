@@ -244,6 +244,32 @@
                         </group>
                     </page>
                 </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Credito Fonacot">
+                        <separator string="Datos generales"/>
+                        <group>
+                            <group>
+                                <field name="fonacot_payroll" string="¿Descontar en nómina?"/>
+                                <field name="fonacot_credit_number"/>
+                                <field name="last_amount_update"/>
+                                <field name="fonacot_amount_debt"/>
+                                <field name="ammount_discounted"/>
+                                <button name="%(action_update_fonacot)d" string="Actualizar Deuda" class="oe_highlight" type="action" groups="hr.group_hr_user"/>
+                                <field name="lines_fonacot" string="Movimientos">
+                                    <tree editable="True">
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="credit"/>
+                                        <field name="debit"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+
+
+                    </page>
+
+                </xpath>
             </field>
         </record>
         
