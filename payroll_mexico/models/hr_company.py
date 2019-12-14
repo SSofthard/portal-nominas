@@ -43,6 +43,11 @@ class Company(models.Model):
         rfc = GenerateRfcCompany(**kwargs)
         self.rfc = rfc.data
     
+    @api.onchange('state_id')
+    def onchange_state_id(self):
+        if self.state_id:
+            self.municipality_id = False
+
 
 class employerRegister(models.Model):
 
@@ -263,3 +268,8 @@ class Partner(models.Model):
         for field in self._address_fields():
             args[field] = getattr(self, field) or ''
         return address_format % args
+    
+    @api.onchange('state_id')
+    def onchange_state_id(self):
+        if self.state_id:
+            self.municipality_id = False
