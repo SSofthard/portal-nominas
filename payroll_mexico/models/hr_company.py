@@ -28,7 +28,8 @@ class Company(models.Model):
     bank_account_ids = fields.One2many('bank.account.company','company_id', "Bank account", required=True)
     power_attorney_ids = fields.One2many('company.power.attorney','company_id', "Power Attorney", required=True)
     country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
-
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+ 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),
     ]
@@ -235,6 +236,7 @@ class Partner(models.Model):
     partner_company = fields.Boolean(string='Partner Company?', copy=False)
     branch_offices = fields.Boolean(string='Branch Offices?', copy=False)
     country_id=fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
 
     @api.multi
     def _display_address(self, without_company=False):
