@@ -11,6 +11,32 @@ class CountryState(models.Model):
     municipality_ids = fields.One2many('res.country.state.municipality', 'state_id', 'Municipalities')
 
 
+class ResZone(models.Model):
+    _name = 'res.zone'
+    _description="Geographical distribution of minimum wages in Mexico."
+    
+    name = fields.Char(string='Zone', required=True, 
+        help='Municipality Zone name')
+    active = fields.Boolean(default=True)
+
+
+class MunicipalityZone(models.Model):
+    _name = 'res.municipality.zone'
+    _description = "Municipality zone"
+    _rec_name = "municipality_id"
+    
+    municipality_id = fields.Many2one('res.country.state.municipality', 'Municipality',
+        help='Municipality')
+    zone_id = fields.Many2one('res.zone', string='Zone', required=True, 
+        help='Geographical distribution of minimum wages in Mexico.')
+    date_from = fields.Date(string="Start Date", required=True)
+    date_to = fields.Date(string="End Date",)
+    active = fields.Boolean(default=True)
+
+    _sql_constraints = [
+        ('zone_date_from_uniq', 'CHECK(1=1)', 'The code of the state must be unique by country !')
+    ]
+
 class StateMunicipality(models.Model):
     _name = 'res.country.state.municipality'
     _description="State municipalities"
@@ -21,8 +47,6 @@ class StateMunicipality(models.Model):
         help='Municipality name')
     code = fields.Char('Code', size=5, required=True, 
         help='Municipality code in max. five chars.')
-    zone = fields.Selection([
-            ('freezone', 'Zona Libre de la Fronteriza'),
-            ('singlezone', 'Salarios Mínimos Generales'),
-        ], string="Zone", default="singlezone",
-        help="Determines where the Commercial Zone should be placed")
+    zone_ids = fields.One2many('res.municipality.zone', 'municipality_id', string='Zones')
+    active = fields.Boolean(default=True)
+
