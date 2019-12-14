@@ -23,7 +23,7 @@ class HrIsn(models.Model):
         "Select 'Fixed fee' if it is a fixed rate.\n"\
         "Select 'Range' if it is a Range.")
     percent = fields.Float(string='Percentage', digits=dp.get_precision('Excess'))
-    isn_line = fields.One2many('hr.isn.range.line', 'isn_id', string="Entidade Federativas")
+    isn_line = fields.One2many('hr.isn.range.line', 'isn_id', string="Entidades Federativas")
 
     @api.multi
     def name_get(self):

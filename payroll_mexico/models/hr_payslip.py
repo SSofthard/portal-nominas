@@ -46,6 +46,25 @@ class HrPayslip(models.Model):
     table_id = fields.Many2one('table.settings', string="Table Settings")
     subtotal_amount_untaxed = fields.Float(string='Base imponible')
     amount_tax = fields.Float(string='Impuestos')
+    
+    payroll_tax_count = fields.Integer(compute='_compute_payroll_tax_count', string="Payslip Computation Details")
+    
+    @api.multi
+    def _compute_payroll_tax_count(self):
+        for payslip in self:
+            line_ids = payslip.line_ids.filtered(lambda o: o.salary_rule_id.payroll_tax == True)
+            payslip.payroll_tax_count = len(line_ids)
+
+    @api.multi
+    def action_view_payroll_tax(self):
+        line_ids = self.mapped('line_ids')
+        action = self.env.ref('hr_payroll.act_payslip_lines').read()[0]
+        if len(line_ids) >= 1:
+            line_tax_ids = line_ids.filtered(lambda o: o.salary_rule_id.payroll_tax == True)
+            action['domain'] = [('id', 'in', line_tax_ids.ids)]
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+        return action
 
 
     @api.model
@@ -81,7 +100,7 @@ class HrPayslip(models.Model):
     def compute_sheet(self):
         for payslip in self:
             number = payslip.number or self.env['ir.sequence'].next_by_code('salary.slip')
-            self.search_inputs()
+            payslip.search_inputs()
             # delete old payslip lines
             payslip.line_ids.unlink()
             # set the list of contract for which the rules have to be applied
@@ -90,28 +109,7 @@ class HrPayslip(models.Model):
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
             payslip.write({'line_ids': lines, 'number': number})
-            self.compute_amount_untaxed()
         return True
-
-    @api.multi
-    def compute_amount_untaxed(self):
-        '''
-        Este metodo calcula el monto de base imponible para la nomina a este monto se le calculara el impuesto
-        '''
-        for payslip in self:
-            lines_untaxed = payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
-            payslip.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
-            payslip.get_tax_amount()
-
-
-    @api.multi
-    def get_tax_amount(self):
-        '''
-        Este metodo calcula el monto de impuesto para la nomina
-        '''
-        self.amount_tax = self.env['hr.isn'].get_value_isn(self.payslip_run_id.group_id.state_id.id, self.subtotal_amount_untaxed, self.date_from.year)
-
-
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
     def onchange_employee(self):
@@ -159,6 +157,25 @@ class HrPayslip(models.Model):
             input_lines += input_lines.new(r)
         self.input_line_ids = input_lines
         return
+    
+    @api.multi
+    def compute_amount_untaxed(self):
+        '''
+        Este metodo calcula el monto de base imponible para la nomina a este monto se le calculara el impuesto
+        '''
+        for payslip in self:
+            lines_untaxed = payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
+            payslip.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
+            payslip.get_tax_amount()
+
+
+    @api.multi
+    def get_tax_amount(self):
+        '''
+        Este metodo calcula el monto de impuesto para la nomina
+        '''
+        self.amount_tax = self.env['hr.isn'].get_value_isn(self.payslip_run_id.group_id.state_id.id, self.subtotal_amount_untaxed, self.date_from.year)
+
 
     @api.model
     def get_worked_day_lines(self, contracts, date_from, date_to,payroll_period=False ):

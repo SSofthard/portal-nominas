@@ -11,6 +11,7 @@
     "data": [
         'wizard/hr_update_fonacot_wizard.xml',
         'wizard/hr_employee_contract_wizard.xml',
+        'views/res_country_view.xml',
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
         'views/hr_contract_type.xml',
@@ -37,6 +38,9 @@
         'data/res.bank.csv',
         'data/payroll_data.xml',
         'data/data_isn.xml',
+        'data/data_zone.xml',
+        'data/res.country.state.municipality.csv',
+        'data/res.municipality.zone.csv',
         # ~ 'data/data_hr_perceptions.xml',
         
     ],
