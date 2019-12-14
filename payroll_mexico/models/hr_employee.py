@@ -138,6 +138,12 @@ class Employee(models.Model):
     health_restrictions = fields.Text('Health Restrictions', copy=False)
     emergency_address = fields.Char('Emergency address',
         copy=False, help="Set emergency contact address")
+    fonacot_credit_number = fields.Char(string='Numero de prestamo')
+    fonacot_amount_debt = fields.Float(string='Deuda', compute='_get_fonacot_amount_debt')
+    ammount_discounted = fields.Float(string='Monto a descontar')
+    last_amount_update = fields.Float(string='Ultima deuda agregada')
+    fonacot_payroll = fields.Boolean(string='¿Descontar Fonacot en nómina?')
+    lines_fonacot = fields.One2many(inverse_name='employee_id', comodel_name='hr.credit.employee.account')
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -377,7 +383,16 @@ class Employee(models.Model):
                 list_contract.append(contract_obj.create(val).id)
             employee.salary = employee.wage_salaries_gross
         return list_contract
-        
+
+    def _get_fonacot_amount_debt(self):
+        '''
+        Este metodo calcula el monto adeudado según el estado de cuenta de FONACOT
+        '''
+        total_credit,total_debit = sum(line.credit for line in self.lines_fonacot),sum(line.debit for line in self.lines_fonacot)
+        print (total_credit)
+        print (total_debit)
+        self.fonacot_amount_debt = total_credit - total_debit
+
     
 class paymentPeriod(models.Model):
     _name = "hr.payment.period"
@@ -633,3 +648,27 @@ class Country(models.Model):
     
     nationality = fields.Char("Nationality", copy=False, required=False)
 
+
+class hrCreditsEmployeeAccount(models.Model):
+    _name = 'hr.credit.employee.account'
+
+    #Columns
+    name = fields.Char("Name", required = True)
+    date = fields.Date("Date", required = True)
+    credit = fields.Float("Credit", required = True)
+    debit = fields.Float("Debit", required = True)
+    employee_id = fields.Many2one(comodel_name='hr.employee')
+
+    def create_move(self, description, date=False, credit=0.0, debit=0.0, employee=False):
+        '''
+        Este metodo generara los movimientos para el estado de cuenta del credito de fonacot
+
+        '''
+        vals = {
+            'name': description,
+            'date': date or fields.Date.context_today(self),
+            'credit': credit,
+            'debit': debit,
+            'employee_id': employee.id,
+        }
+        self.create(vals)
