@@ -4,7 +4,7 @@ import datetime
 from datetime import date, timedelta
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.addons import decimal_precision as dp
 from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
@@ -145,6 +145,7 @@ class Employee(models.Model):
     last_amount_update = fields.Float(string='Ultima deuda agregada')
     fonacot_payroll = fields.Boolean(string='¿Descontar Fonacot en nómina?')
     lines_fonacot = fields.One2many(inverse_name='employee_id', comodel_name='hr.credit.employee.account')
+    work_center_id = fields.Many2one('hr.work.center', "Work Center", required=False)
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -439,7 +440,13 @@ class resBank(models.Model):
 
 class HrGroup(models.Model):
     _name = "hr.group"
-    
+
+    @api.constrains('days')
+    def validate_ssnid(self):
+        for record in self:
+            if record.days <= 0:
+                raise ValidationError(_('The number of days cannot be less than or equal to zero.'))
+
     name = fields.Char("Name", copy=False, required=True)
     implant_id = fields.Many2one('res.partner', "Implant", required=True)
     account_executive_id = fields.Many2one('res.partner', "Account Executive", required=True)
@@ -641,7 +648,31 @@ class hrWorkerHiringRegime(models.Model):
     
     name = fields.Char("Name", copy=False, required=True)
     code = fields.Char("code", copy=False, required=True)
-    
+
+
+class HrWorkCenters(models.Model):
+    _name = "hr.work.center"
+
+    def _default_country(self):
+        country_id = self.env['res.country'].search([('code','=','MX')], limit=1)
+        return country_id
+
+    name = fields.Char("Name", copy=False, required=True)
+    code = fields.Char("code", copy=False, required=True)
+    group_id = fields.Many2one('hr.group', string="Group")
+    country_id = fields.Many2one('res.country', default=_default_country, string="Country")
+    city = fields.Char(string="City")
+    state_id = fields.Many2one('res.country.state', string="Fed. State")
+    zip = fields.Char(string="ZIP")
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    street = fields.Char(string="Street")
+    street2 = fields.Char(string="Street 2")
+    active = fields.Boolean(default=True)
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'The work center name must be unique !'),
+        ('code_uniq', 'code (name)', 'The work center code must be unique !')
+    ]
+
 
 class Country(models.Model):
     _inherit = "res.country"

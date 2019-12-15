@@ -30,6 +30,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='group_company']" position="before">
                     <filter name="group" string="Group" domain="[]" context="{'group_by':'group_id'}"/>
+                    <filter name="work_center" string="Work Center" domain="[]" context="{'group_by':'work_center_id'}"/>
                 </xpath>
             </field>
         </record>
@@ -48,6 +49,11 @@
                         </div>
                     </div>
                 </xpath>
+                <!-- Remove field work_location & address_id-->
+                <field name="work_location" position="replace"/>
+                <xpath expr="//field[@name='address_id']" position="replace">
+                    <field name="work_center_id" context="{'default_group_id': group_id}"/>
+                </xpath> 
                 <xpath expr="//field[@name='birthday']" position="after">
                     <field name="age"/>
                 </xpath> 
@@ -317,6 +323,7 @@
                 </xpath> 
             </field>
         </record>
+        
         <record id="view_hr_group_form" model="ir.ui.view">
             <field name="name">hr.group.form</field>
             <field name="model">hr.group</field>
@@ -399,6 +406,77 @@
             parent="hr.menu_human_resources_configuration"
             groups="hr.group_hr_manager"
             sequence="110"/>
+
+        <!-- Viewa Work Center-->
+        <record id="view_hr_work_center_form" model="ir.ui.view">
+            <field name="name">hr.work.center.form</field>
+            <field name="model">hr.work.center</field>
+            <field name="arch" type="xml">
+                <form string="Work Center">
+                    <sheet>
+                        <div class="oe_title">  
+                            <h1><field name="name" placeholder="Name"/></h1>   
+                        </div>
+                        <div class="oe_title">  
+                            <h1><field name="code" placeholder="Code"/></h1>   
+                        </div>
+                        <group>
+                            <group>
+                                <field name="group_id"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State" 
+                                        domain="[('country_id','=',country_id)]" options='{"no_open": True}'/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
+                                        domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                </div>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_hr_work_center_tree" model="ir.ui.view">
+            <field name="name">hr.work.center.tree</field>
+            <field name="model">hr.work.center</field>
+            <field name="arch" type="xml">
+                <tree string="Work Centers">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="group_id"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_hr_work_center" model="ir.actions.act_window">
+            <field name="name">Work Centers</field>
+            <field name="res_model">hr.work.center</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_work_center_tree"/>
+        </record>
+        
+        <menuitem
+            id="wmenu_action_hr_work_center"
+            name="Work Centers"
+            action="action_hr_work_center"
+            parent="hr.menu_human_resources_configuration"
+            sequence="130"/>
             
 <!--
             view country
