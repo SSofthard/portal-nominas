@@ -13,6 +13,10 @@ class Company(models.Model):
 
     _inherit = 'res.company'
 
+    def _default_country(self):
+        country_id = self.env['res.country'].search([('code','=','MX')], limit=1)
+        return country_id
+
     business_name = fields.Char("Business Name", copy=False, required=True, )
     legal_representative_id = fields.Many2one('res.partner', "Legal Representative", required=True, copy=False)
     write_number = fields.Integer("Write Number", copy=False, required=True)
@@ -27,14 +31,13 @@ class Company(models.Model):
     branch_offices_ids = fields.One2many('res.company.branch.offices','company_id', "Branch Offices")
     bank_account_ids = fields.One2many('bank.account.company','company_id', "Bank account", required=True)
     power_attorney_ids = fields.One2many('company.power.attorney','company_id', "Power Attorney", required=True)
-    country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
+    country_id = fields.Many2one('res.country', compute='_compute_address', inverse='_inverse_country', string="Country", default=lambda self: self.env.user.company_id.country_id.id)
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
  
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),
     ]
 
-    
     def get_rfc_data(self):
         kwargs = {
             "complete_name": self.business_name,
@@ -240,7 +243,7 @@ class Partner(models.Model):
     notary_public = fields.Boolean(string='Notary Public?', copy=False)
     partner_company = fields.Boolean(string='Partner Company?', copy=False)
     branch_offices = fields.Boolean(string='Branch Offices?', copy=False)
-    country_id=fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
+    country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
 
     @api.multi
