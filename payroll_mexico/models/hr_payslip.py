@@ -15,7 +15,12 @@ class HrPayslip(models.Model):
     
     payroll_type = fields.Selection([
             ('ordinary_payroll', 'Ordinary Payroll'),
-            ('extraordinary_payroll', 'Extraordinary Payroll')], string='Payroll Type', default="ordinary_payroll", required=True)
+            ('extraordinary_payroll', 'Extraordinary Payroll')], 
+            string='Payroll Type', 
+            default="ordinary_payroll", 
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
     payroll_month = fields.Selection([
             ('1', 'January'),
             ('2', 'February'),
@@ -28,26 +33,39 @@ class HrPayslip(models.Model):
             ('9', 'September'),
             ('10', 'October'),
             ('11', 'November'),
-            ('12', 'December')], string='Payroll month', required=True)
+            ('12', 'December')], string='Payroll month', 
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
     payroll_of_month = fields.Selection([
             ('1', '1'),
             ('2', '2'),
             ('3', '3'),
             ('4', '4'),
             ('5', '5'),
-            ('6', '6')], string='Payroll of the month', required=True, default="1")
+            ('6', '6')], string='Payroll of the month', 
+            required=True, 
+            default="1",
+            readonly=True,
+            states={'draft': [('readonly', False)]})
     payroll_period = fields.Selection([
             ('daily', 'Daily'),
             ('weekly', 'Weekly'),
             ('decennial', 'Decennial'),
             ('biweekly', 'Biweekly'),
-            ('monthly', 'Monthly')], string='Payroll period', default="biweekly",required=True)
+            ('monthly', 'Monthly')], 
+            string='Payroll period', 
+            default="biweekly",
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
     input_ids = fields.Many2many('hr.inputs', string="Inpust reported on payroll")
     table_id = fields.Many2one('table.settings', string="Table Settings")
     subtotal_amount_untaxed = fields.Float(string='Base imponible')
     amount_tax = fields.Float(string='Impuestos')
-    
     payroll_tax_count = fields.Integer(compute='_compute_payroll_tax_count', string="Payslip Computation Details")
+    move_infonacot_id = fields.Many2one('hr.credit.employee.account', string="FONACOT Move")
+    group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
     
     @api.multi
     def _compute_payroll_tax_count(self):
@@ -123,7 +141,8 @@ class HrPayslip(models.Model):
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
         locale = self.env.context.get('lang') or 'en_US'
         self.name = _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
-        if not self.contract_id:
+        if not self.contract_id or employee.id != self.contract_id.employee_id.id:
+            self.contract_id = False
             contract = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('state','in',['open'])])
             if not contract:
                 return
@@ -303,7 +322,7 @@ class HrPayslip(models.Model):
     @api.multi
     def unlink(self):
         for pay in self:
-            pay.input_ids.write({'payslip':False})
+            pay.input_ids.write({'payslip':False,'state':'approve'})
         return super(HrPayslip, self).unlink()
 
 class HrSalaryRule(models.Model):

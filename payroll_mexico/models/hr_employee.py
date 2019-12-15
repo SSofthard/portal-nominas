@@ -671,4 +671,4 @@ class hrCreditsEmployeeAccount(models.Model):
             'debit': debit,
             'employee_id': employee.id,
         }
-        self.create(vals)
+        return self.create(vals)

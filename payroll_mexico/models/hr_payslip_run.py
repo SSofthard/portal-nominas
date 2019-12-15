@@ -11,7 +11,12 @@ class HrPayslipRun(models.Model):
     
     payroll_type = fields.Selection([
             ('ordinary_payroll', 'Ordinary Payroll'),
-            ('extraordinary_payroll', 'Extraordinary Payroll')], string='Payroll Type', default="ordinary_payroll", required=True)
+            ('extraordinary_payroll', 'Extraordinary Payroll')], 
+            string='Payroll Type', 
+            default="ordinary_payroll", 
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
     payroll_month = fields.Selection([
             ('1', 'January'),
             ('2', 'February'),
@@ -24,25 +29,44 @@ class HrPayslipRun(models.Model):
             ('9', 'September'),
             ('10', 'October'),
             ('11', 'November'),
-            ('12', 'December')], string='Payroll month', required=True)
+            ('12', 'December')], 
+            string='Payroll month', 
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
     payroll_of_month = fields.Selection([
             ('1', '1'),
             ('2', '2'),
             ('3', '3'),
             ('4', '4'),
             ('5', '5'),
-            ('6', '6')], string='Payroll of the month', required=True, default="1")
+            ('6', '6')], 
+            string='Payroll of the month', 
+            required=True, 
+            default="1",
+            readonly=True,
+            states={'draft': [('readonly', False)]})
     payroll_period = fields.Selection([
             ('daily', 'Daily'),
             ('weekly', 'Weekly'),
             ('decennial', 'Decennial'),
             ('biweekly', 'Biweekly'),
-            ('monthly', 'Monthly')], string='Payroll period', default="biweekly",required=True)
+            ('monthly', 'Monthly')], 
+            string='Payroll period', 
+            default="biweekly",
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
     table_id = fields.Many2one('table.settings', string="Table Settings")
-    subtotal_amount_untaxed = fields.Float(string='Base imponible')
-    amount_tax = fields.Float(string='Impuestos')
+    subtotal_amount_untaxed = fields.Float(string='Base imponible', readonly=True)
+    amount_tax = fields.Float(string='Impuestos', readonly=True)
     payslip_count = fields.Integer(compute='_compute_payslip_count', string="Payslip Computation Details")
     payroll_tax_run_count = fields.Integer(compute='_compute_payroll_tax_run_count', string="Payslip Computation Details")
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('close', 'Close'),
+        ('cancel', 'Cancelled'),
+    ], string='Status', index=True, readonly=True, copy=False, default='draft')
 
     @api.multi
     def _compute_payslip_count(self):
@@ -101,7 +125,6 @@ class HrPayslipRun(models.Model):
                         </p>'''),
             'limit': 80,
         }
-        
         return action
     
     @api.onchange('date_start', 'date_end')
@@ -139,6 +162,43 @@ class HrPayslipRun(models.Model):
         '''
         En este metodo se correran los calculos de base imponible e impuestos
         '''
+        self.recalculate_payroll()
         self.slip_ids.compute_amount_untaxed()
         self.compute_amount_untaxed()
+        for payslip in self.slip_ids:
+            payslip.state = 'done'
+            amount = 0
+            for line in payslip.line_ids:
+                if line.salary_rule_id.type == 'deductions' and line.salary_rule_id.type_deduction == '011':
+                    amount += line.total
+            move_id = self.env['hr.credit.employee.account'].create_move(description=payslip.number,debit=amount,employee=payslip.employee_id)
+            payslip.move_infonacot_id = move_id.id
+            payslip.input_ids.write({'state':'paid'})
         return super(HrPayslipRun, self).close_payslip_run()
+    
+    @api.multi
+    def draft_payslip_run(self):
+        for payslip in self.slip_ids:
+            payslip.state = 'draft'
+            payslip.move_infonacot_id.unlink()
+        return self.write({'state': 'draft'})
+        
+    @api.multi
+    def cancel_payslip_run(self):
+        for payslip in self.slip_ids:
+            payslip.state = 'cancel'
+            payslip.move_infonacot_id.unlink()
+            payslip.input_ids.write({'payslip':False,'state':'approve'})
+            payslip.input_ids = False
+        return self.write({'state': 'cancel'})
+    
+    def recalculate_payroll(self):
+        for payslip in self.slip_ids:
+            worked_days_line_ids = payslip.get_worked_day_lines(payslip.contract_id, payslip.date_from, payslip.date_to)
+            worked_days_lines = payslip.worked_days_line_ids.browse([])
+            payslip.worked_days_line_ids = []
+            for r in worked_days_line_ids:
+                worked_days_lines += worked_days_lines.new(r)
+            payslip.worked_days_line_ids = worked_days_lines
+            payslip.compute_sheet()
+        return 
