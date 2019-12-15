@@ -105,7 +105,6 @@ class Employee(models.Model):
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
     real_salary = fields.Float("Real Salary", copy=False)
     gross_salary = fields.Float("Gross Salary", copy=False)
-    table_id = fields.Many2one('tablas.cfdi','Table CFDI', default=lambda self: self.env['res.company']._company_default_get().tables_id,)
     place_of_birth = fields.Many2one('res.country.state', string='Place of Birth', groups="hr.group_hr_user")
     country_id = fields.Many2one('res.country', 'Nationality (Country)', 
         default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
@@ -236,53 +235,54 @@ class Employee(models.Model):
                     employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
                     employee.assimilated_salary_gross = employee.monthly_salary - employee.wage_salaries - employee.free_salary
             else:
-                
-                days = 30
+                today = date.today()
+                table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
+                days = employee.group_id.days
                 
                 # ~ calculation of wages and salaries
+                
                 daily_salary = employee.wage_salaries/days
                 minimum_integration_factor = 1.0452
+                
                 integrated_daily_wage = daily_salary * minimum_integration_factor
                 salary = daily_salary*days
                 lower_limit = 0
                 applicable_percentage = 0
                 fixed_fee = 0
-                for table in employee.table_id.tabla_LISR:
+                for table in table_id.isr_monthly_ids:
                     if salary > table.lim_inf and salary < table.lim_sup:
                         lower_limit = table.lim_inf
-                        applicable_percentage = table.s_excedente
+                        applicable_percentage = (table.s_excedente)/100
                         fixed_fee = table.c_fija
                 lower_limit_surplus = salary - lower_limit
                 marginal_tax = lower_limit_surplus*applicable_percentage
                 isr_113 = marginal_tax + fixed_fee
                 employment_subsidy = 0
-                for tsub in employee.table_id.tabla_subem:
+                for tsub in table_id.isr_monthly_subsidy_ids:
                     if salary > tsub.lim_inf and salary < tsub.lim_sup:
                         employment_subsidy = tsub.s_mensual
-                isr = isr_113 - employment_subsidy
                 total_perceptions = salary+employment_subsidy
-                risk_factor = 0.54355
+                risk_factor = employee.group_id.get_risk_factor(today)[0]
                 work_irrigation = (integrated_daily_wage * risk_factor * days)/100
-                benefits_kind_fixed_fee_pattern = (employee.table_id.uma*employee.table_id.enf_mat_cuota_fija*days)/100
+                uma = table_id.uma_id.daily_amount
+                benefits_kind_fixed_fee_pattern = (uma*table_id.em_fixed_fee*days)/100
                 benefits_kind_surplus_standard = 0
-                if integrated_daily_wage - (employee.table_id.uma * 3) > 0:
-                    benefits_kind_surplus_standard = integrated_daily_wage - (employee.table_id.uma * 3) * (employee.table_id.enf_mat_excedente_p/100) * days
+                if integrated_daily_wage - (uma * 3) > 0:
+                    benefits_kind_surplus_standard = integrated_daily_wage - (uma * 3) * (table_id.em_surplus_p/100) * days
                 benefits_excess_insured_kind = 0
-                if integrated_daily_wage - (employee.table_id.uma * 3) > 0:
-                    benefits_excess_insured_kind = (integrated_daily_wage - (employee.table_id.uma * 3)) * (employee.table_id.enf_mat_excedente_e/100) * days
-                benefits_employer_unique_money = integrated_daily_wage * (employee.table_id.enf_mat_prestaciones_p/100) * days
-                benefits_insured_single_money = integrated_daily_wage * (employee.table_id.enf_mat_prestaciones_e/100) * days
-                pensioned_medical_expenses_employer = integrated_daily_wage * (employee.table_id.enf_mat_gastos_med_p/100) * days
-                pensioned_medical_expenses_insured = integrated_daily_wage * (employee.table_id.enf_mat_gastos_med_e/100) * days
-                disability_life_employer = integrated_daily_wage * (employee.table_id.inv_vida_p/100) * days
-                disability_life_insured = integrated_daily_wage * (employee.table_id.inv_vida_e/100) * days
-                childcare_social_security_expenses_employer = integrated_daily_wage * (employee.table_id.guarderia_p/100) * days
+                if integrated_daily_wage - (uma * 3) > 0:
+                    benefits_excess_insured_kind = (integrated_daily_wage - (uma * 3)) * (table_id.em_surplus_e/100) * days
+                benefits_employer_unique_money = integrated_daily_wage * (table_id.em_cash_benefits_p/100) * days
+                benefits_insured_single_money = integrated_daily_wage * (table_id.em_cash_benefits_e/100) * days
+                pensioned_medical_expenses_employer = integrated_daily_wage * (table_id.em_personal_medical_expenses_p/100) * days
+                pensioned_medical_expenses_insured = integrated_daily_wage * (table_id.em_personal_medical_expenses_e/100) * days
+                disability_life_employer = integrated_daily_wage * (table_id.disability_life_p/100) * days
+                disability_life_insured = integrated_daily_wage * (table_id.disability_life_e/100) * days
+                childcare_social_security_expenses_employer = integrated_daily_wage * (table_id.nursery_social_benefits/100) * days
                 total_imss_employee = benefits_excess_insured_kind + benefits_insured_single_money + pensioned_medical_expenses_insured + disability_life_insured
-                unemployment_old_age_insured = integrated_daily_wage * (employee.table_id.cesantia_vejez_e/100) * days
+                unemployment_old_age_insured = integrated_daily_wage * (table_id.unemployment_old_age_e/100) * days
                 total_rcv_infonavit = unemployment_old_age_insured
                 total_deductions = isr_113  + total_imss_employee + total_rcv_infonavit
-                total = total_perceptions - total_deductions
-                
                 employee.wage_salaries_gross = employee.wage_salaries + total_deductions
                 employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
                 employee.free_salary_gross = employee.free_salary
@@ -294,10 +294,10 @@ class Employee(models.Model):
                 fixed_fee_assimilated = 0
                 applicable_percentage_assimilated = 0
                 applicable_percentage_assimilated = 0
-                for table in employee.table_id.tabla_LISR:
+                for table in table_id.isr_monthly_ids:
                     if salary_assimilated > table.lim_inf and salary_assimilated < table.lim_sup:
                         lower_limit_assimilated = table.lim_inf
-                        applicable_percentage_assimilated = table.s_excedente
+                        applicable_percentage_assimilated = (table.s_excedente)/100
                         fixed_fee_assimilated = table.c_fija
                 lower_limit_surplus_assimilated = salary_assimilated - lower_limit_assimilated
                 marginal_tax_assimilated = lower_limit_surplus_assimilated*applicable_percentage_assimilated
@@ -702,4 +702,4 @@ class hrCreditsEmployeeAccount(models.Model):
             'debit': debit,
             'employee_id': employee.id,
         }
-        self.create(vals)
+        return self.create(vals)
