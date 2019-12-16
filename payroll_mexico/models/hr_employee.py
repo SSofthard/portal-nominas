@@ -105,14 +105,12 @@ class Employee(models.Model):
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
     real_salary = fields.Float("Real Salary", copy=False)
     gross_salary = fields.Float("Gross Salary", copy=False)
-    place_of_birth = fields.Many2one('res.country.state', string='Place of Birth', groups="hr.group_hr_user")
     country_id = fields.Many2one('res.country', 'Nationality (Country)', 
         default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
     country_of_birth = fields.Many2one('res.country', string="Country of Birth",
         default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
     address_id = fields.Many2one(required=True)
     department_id = fields.Many2one(required=True)
-    
     type_salary = fields.Selection([
         ('gross', 'Gross'),
         ('net', 'Net'),
@@ -145,7 +143,18 @@ class Employee(models.Model):
     fonacot_payroll = fields.Boolean(string='¿Descontar Fonacot en nómina?')
     lines_fonacot = fields.One2many(inverse_name='employee_id', comodel_name='hr.credit.employee.account')
     work_center_id = fields.Many2one('hr.work.center', "Work Center", required=False)
-
+    # Fields Translate
+    spouse_complete_name = fields.Char(string="Spouse Complete Name", groups="hr.group_hr_user")
+    spouse_birthdate = fields.Date(string="Spouse Birthdate", groups="hr.group_hr_user")
+    place_of_birth = fields.Many2one('res.country.state', string='Place of Birth', groups="hr.group_hr_user")
+    certificate = fields.Selection([
+        ('bachelor', 'Bachelor'),
+        ('master', 'Master'),
+        ('other', 'Other'),
+    ], 'Certificate Level', default='master', groups="hr.group_hr_user")
+    km_home_work = fields.Integer(string="Km home-work", groups="hr.group_hr_user")
+    # Fields Translate
+    
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
         ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
