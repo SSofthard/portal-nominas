@@ -51,7 +51,10 @@
                 </xpath>
                 <!-- Remove field work_location & address_id-->
                 <field name="work_location" position="replace"/>
-                <xpath expr="//field[@name='address_id']" position="replace">
+                <xpath expr="//field[@name='address_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='work_email']" position="before">
                     <field name="group_id"/>
                     <field name="work_center_id" context="{'default_group_id': group_id}"
                         domain="[('group_id','=',group_id)]"/>

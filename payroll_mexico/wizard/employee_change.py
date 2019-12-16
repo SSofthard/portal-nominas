@@ -17,7 +17,7 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
         ('wage', 'Wage'),
         ('job', 'Job Position'),
     ], string='Change History', index=True,
-        help="""* Type changue'
+        help="""* Type change'
                 \n* If the changue is wage, the type is \'Wage\'.
                 \n* If the changue is job then type is set to \'Job Position\'.""")
 

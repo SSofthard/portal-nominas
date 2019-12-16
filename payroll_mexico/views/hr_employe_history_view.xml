@@ -11,7 +11,7 @@
             <xpath expr="//field[@name='job_id']" position="replace">
                 <label for="job_id"/>
                 <div class="o_row">
-                    <field name="job_id" attrs="{'readonly':[('id', '!=', False)]}"/>
+                    <field name="job_id" required="1" attrs="{'readonly':[('id', '!=', False),('job_id', '!=', False)]}"/>
                     <button
                         type="action"
                         name="%(payroll_mexico.change_history_form_action)d"
@@ -25,7 +25,7 @@
             </xpath>
             <xpath expr="//div[@name='wage']" position="replace">
                 <div class="o_row" name="wage">
-                    <field name="wage" attrs="{'readonly':[('id', '!=', False)]}" nolabel="1"/>
+                    <field name="wage" attrs="{'readonly':[('id', '!=', False),('wage', '!=', 0)]}" nolabel="1"/>
                     <span>/ month</span>
                     <button
                         type="action"
@@ -107,6 +107,7 @@
     
     <act_window name="Employee Change History"
         context="{'search_default_type': 1, 'search_default_date_from': 1}"
+        domain="[('employee_id','=',active_id)]"
         res_model="hr.employee.change.history"
         src_model="hr.employee"
         id="action_change_history"/>

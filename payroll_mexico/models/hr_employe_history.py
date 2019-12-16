@@ -20,7 +20,7 @@ class EmployeeChangeHistory(models.Model):
         ('wage', 'Wage'),
         ('job', 'Job Position'),
     ], string='Change History', index=True,
-        help="""* Type changue'
+        help="""* Type change'
                 \n* If the changue is wage, the type is \'Wage\'.
                 \n* If the changue is job then type is set to \'Job Position\'.""")
 
@@ -43,8 +43,25 @@ class Contract(models.Model):
     reported_to_secretariat = fields.Boolean('Social Secretariat',
         help='Green this button when the contract information has been transfered to the social secretariat.')
 
+    @api.model
+    def create(self, vals):
+        result = super(Contract, self).create(vals)
+        for contract in result:
+            kwargs = {
+                'employee_id': contract.employee_id.id,
+                'contract_id': contract.id,
+                'job_id': contract.job_id.id,
+                'wage': contract.wage,
+                'date_from': contract.date_start,
+                'type': 'job',
+            }
+            if contract.wage < 0:
+                raise ValidationError(_("The salary cannot be negative."))
+            contract.env['hr.employee.change.history'].prepare_changes(**kwargs)
+        return result
 
-class Contract(models.Model):
+
+class Employee(models.Model):
     _inherit = 'hr.employee'
 
     history_count = fields.Integer(compute='_compute_history_count', string="Employee Change History")
@@ -53,3 +70,4 @@ class Contract(models.Model):
     def _compute_history_count(self):
         for employee in self:
             employee.history_count = len(self.env['hr.employee.change.history'].search([('employee_id','=',employee.id)]))
+    
