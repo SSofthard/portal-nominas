@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Add action entry in the Action Menu for Partners -->
+    <!-- Add action entry in the Action fields contract for update -->
     <record id="hr_contract_view_form_change_history" model="ir.ui.view">
         <field name="name">hr.contract.view.form.change.history</field>
         <field name="model">hr.contract</field>
@@ -11,36 +11,124 @@
             <xpath expr="//field[@name='job_id']" position="replace">
                 <label for="job_id"/>
                 <div class="o_row">
-                    <field name="job_id"/>
+                    <field name="job_id" attrs="{'readonly':[('id', '!=', False)]}"/>
                     <button
                         type="action"
                         name="%(payroll_mexico.change_history_form_action)d"
-                        class="btn-sm btn-link mb4 fa fa-envelope-o"
+                        class="btn-sm btn-link mb4 fa fa-history"
                         aria-label="Change Job Position"
                         title="Change Job Position"
                         attrs="{'invisible':[('id', '=', False)]}"
-                        context="{'default_type': 'job'}"
+                        context="{'default_type': 'job', 'default_employee_id': employee_id, 'default_contract_id': id}"
                     />
                 </div>
             </xpath>
-<!--
-            <xpath expr="//field[@name='mobile']" position="replace">
-            <label for="mobile"/>
-            <div class="o_row">
-                <field name="mobile" widget="phone"/>
-                <button
-                    type="action"
-                    name="%(sms.send_sms_form_action)d"
-                    class="btn-sm btn-link mb4 fa fa-envelope-o"
-                    aria-label="Send SMS"
-                    title="Send SMS"
-                    attrs="{'invisible':[('mobile', '=', False)]}"
-                    context="{'field_name': 'mobile'}"
+            <xpath expr="//div[@name='wage']" position="replace">
+                <div class="o_row" name="wage">
+                    <field name="wage" attrs="{'readonly':[('id', '!=', False)]}" nolabel="1"/>
+                    <span>/ month</span>
+                    <button
+                        type="action"
+                        name="%(payroll_mexico.change_history_form_action)d"
+                        class="btn-sm btn-link mb4 fa fa-history"
+                        aria-label="Change Job Position"
+                        title="Change Job Position"
+                        attrs="{'invisible':[('id', '=', False)]}"
+                        context="{'default_type': 'wage', 'default_employee_id': employee_id, 'default_contract_id': id}"
                     />
                 </div>
             </xpath>
--->
         </field>
     </record>
 
+    <record id="view_employee_change_history_filter" model="ir.ui.view">
+        <field name="name">view.employee.change.history.filter</field>
+        <field name="model">hr.employee.change.history</field>
+        <field name="arch" type="xml">
+            <search string="Employee Change History">
+                <field name="employee_id" string="Employee" filter_domain="[('employee_id','ilike',self)]"/>
+                <field name="contract_id" string="Contract" filter_domain="[('contract_id','ilike',self)]"/>
+                <field name="job_id" string="Job Position" filter_domain="[('job_id','ilike',self)]"/>
+                <group col="8" colspan="4" expand="0" string="Group By">
+                    <filter string="Type Changue" name="type" context="{'group_by':'type'}"/>
+                    <filter string="Employee" name="employee_id" context="{'group_by':'employee_id'}"/>
+                    <filter string="Contract" name="contract_id" context="{'group_by':'contract_id'}"/>
+                    <filter string="Start Date" name="date_from" domain="[]" context="{'group_by':'date_from'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="employee_change_history_tree" model="ir.ui.view">
+        <field name="name">hr.employee.change.history.tree</field>
+        <field name="model">hr.employee.change.history</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Change History" edit="false" create="false" delete="false">
+                <field name="employee_id"/>
+                <field name="contract_id"/>
+                <field name="job_id"/>
+                <field name="wage"/>
+                <field name="date_from"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_employee_change_history_form_view" model="ir.ui.view">
+        <field name="name">hr.employee.change.history.form.view</field>
+        <field name="model">hr.employee.change.history</field>
+        <field name="arch" type="xml">
+            <form string="Employee Change History" edit="false" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <field name="type" invisible="1"/>
+                        <group>
+                            <field name="employee_id" readonly="1"/>
+                            <field name="contract_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="job_id" attrs="{'required' : [('type', '=', 'job')], 'invisible': [('type','!=', 'job')]}"/>
+                            <field name="wage" attrs="{'required' : [('type', '=', 'wage')], 'invisible': [('type','!=', 'wage')]}"/>
+                            <field name="date_from"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="employee_change_history_action" model="ir.actions.act_window">
+        <field name="name">Employee Change History</field>
+        <field name="res_model">hr.employee.change.history</field>
+        <field name="view_type">tree</field>
+        <field name="view_mode">tree</field>
+        <field name="target">current</field>
+    </record>
+    
+    <act_window name="Employee Change History"
+        context="{'search_default_type': 1, 'search_default_date_from': 1}"
+        res_model="hr.employee.change.history"
+        src_model="hr.employee"
+        id="action_change_history"/>
+    
+    <record id="hr_view_employee_form_change_history" model="ir.ui.view">
+        <field name="name">hr.contract.view.form.change.history</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="%(payroll_mexico.action_change_history)d"
+                    type="action"
+                    class="oe_stat_button"
+                    icon="fa-list-alt"
+                    aria-label="Change History"
+                    title="Change History"
+                    >
+                    <field name="history_count" widget="statinfo" string="Change History" help="Employee Change History"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+    
 </odoo>

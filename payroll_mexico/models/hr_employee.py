@@ -189,6 +189,17 @@ class Employee(models.Model):
                 if new_enrollment:
                     employee.enrollment = new_enrollment
         return True
+        
+    def search_minimum_wage(self):
+        for employee in self:
+            zone = self.env['res.municipality.zone'].search([('municipality_id','=',employee.work_center_id.municipality_id.id)],limit=1)
+            wage = self.env['table.minimum.wages'].search([],limit=1)
+            wage_minimum = 0
+            if zone.zone == 'freezone':
+                wage_minimum = wage.border_crossing
+            elif zone.zone == 'singlezone':
+                wage_minimum = wage.zone_a
+        return wage_minimum
 
     @api.model
     def create(self, vals):
