@@ -4,7 +4,7 @@ from datetime import datetime
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from .tool_convert_numbers_letters import numero_to_letras
 from datetime import date,datetime,timedelta
 from dateutil.relativedelta import relativedelta
@@ -171,3 +171,18 @@ class Contract(models.Model):
             'contract_data':contract_dic
             }
         return self.env.ref('payroll_mexico.report_contract_type_template').report_action(self,data)
+
+    
+    def time_worked_year(self,date_payroll):
+        date_from = self.date_start
+        date_to = self.date_end
+        days = 0
+        if self.type_id.type == 'with_seniority':
+            date_from = self.previous_contract_date
+        date1 =datetime.strptime(str(str(date_payroll.year)+'-01-01'), DEFAULT_SERVER_DATE_FORMAT).date()
+        if date_from <= date1:
+            days = 365
+        else:
+            date2 =datetime.strptime(str(str(date_payroll.year)+'-12-31'), DEFAULT_SERVER_DATE_FORMAT).date()
+            days = (date2 - date_from).days
+        return days

@@ -328,12 +328,13 @@
                         <group>
                             <field name="name"/>
                             <field name="state_id" domain="[('country_id','=', country_id)]"/>
-                            <field name="days"/>
+                            <field name="account_executive_id"/>
+                            <field name="implant_id"/>
                         </group>
                         <group>
                             <field name="type" widget="selection"/>
-                            <field name="account_executive_id"/>
-                            <field name="implant_id"/>
+                            <field name="days"/>
+                            <field name="bonus_days"/>
                         </group>
                     </group>
                     <notebook>
