@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-16 06:50+0000\n"
-"PO-Revision-Date: 2019-12-16 06:50+0000\n"
+"POT-Creation-Date: 2019-12-16 21:15+0000\n"
+"PO-Revision-Date: 2019-12-16 21:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -883,17 +883,19 @@ msgstr ""
 msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                           Click to Create for New Documents\n"
 "                        </p>"
-msgstr ""
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                           Haga clic para crear para nuevos documentos\n"
+"                        </p>"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_holidays_form
 msgid "<span class=\"ml8\">Days</span>"
-msgstr ""
+msgstr "<span class=\"ml8\">Días</span>"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_holidays_form
 msgid "<span class=\"ml8\">Hours</span>"
-msgstr ""
+msgstr "<span class=\"ml8\">Horas</span>"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_holidays_form
@@ -1804,6 +1806,8 @@ msgstr "Tipo de contrato"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__contracting_regime
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_change_history__contracting_regime
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_employee_change_history_filter
 msgid "Contracting Regime"
 msgstr "Régimen de contratación"
 
@@ -2312,7 +2316,7 @@ msgstr "Enfermedades y maternidad"
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_uma__display_name
 msgid "Display Name"
-msgstr "Nombre a mostrar"
+msgstr "Nombre mostrado"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit
@@ -2437,13 +2441,14 @@ msgstr "Categoría de empleado"
 #: model:ir.actions.act_window,name:payroll_mexico.employee_change_history_action
 #: model:ir.model,name:payroll_mexico.model_hr_employee_change_history
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__history_count
+#: model:ir.ui.menu,name:payroll_mexico.menu_employee_change_history_action
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.employee_change_history_tree
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_change_history_form_view
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_change_history_wizard_view
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_view_employee_form_change_history
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_employee_change_history_filter
 msgid "Employee Change History"
-msgstr "Historial de cambios del empleado"
+msgstr "Movimientos filiatorios"
 
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_contract
@@ -3701,7 +3706,7 @@ msgstr "Representante legal?"
 #. module: payroll_mexico
 #: model_terms:ir.actions.act_window,help:payroll_mexico.action_hr_group
 msgid "Let's create a Group."
-msgstr "Vamos a crear un grupo"
+msgstr "Vamos a crear un grupo o empresa"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__lines_fonacot
@@ -4516,7 +4521,7 @@ msgstr "Planificado"
 #: code:addons/payroll_mexico/models/hr_employee.py:188
 #, python-format
 msgid "Please define a sequence on the group."
-msgstr "Defina una secuencia en el grupo."
+msgstr "Defina una secuencia en el grupo/empresa."
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_employee.py:240
@@ -4873,6 +4878,13 @@ msgid "Reference with same name already exist."
 msgstr "Ya existe una referencia con el mismo nombre"
 
 #. module: payroll_mexico
+#: selection:hr.employee.change.history,type:0
+#: selection:hr.employee.change.history.wizard,type:0
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__register
+msgid "Register"
+msgstr "ALTA"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__relationship_id
 msgid "Relationship"
 msgstr "Relación"
@@ -4958,6 +4970,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_group_risk_factor__risk_factor
 msgid "Risk Factor"
 msgstr "Factor de riesgo"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_change_history__salary
+#: model:ir.model.fields,help:payroll_mexico.field_hr_employee_change_history__salary
+msgid "SDI"
+msgstr ""
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
@@ -5533,6 +5551,12 @@ msgid "The employee has currently open contracts."
 msgstr "El empleado tiene contratos abiertos actualmente"
 
 #. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employe_history.py:74
+#, python-format
+msgid "The employee is required to have a contract of regimen 'Wages and salaries' in process to give HIGH."
+msgstr "Se requiere que el empleado tenga un contrato de tipo régimen 'Sueldos y salarios' en proceso para ser dado de ALTA."
+
+#. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_employee.py:329
 #, python-format
 msgid "The following fields are required: %s."
@@ -5568,7 +5592,8 @@ msgid "The number of days cannot be less than or equal to zero."
 msgstr "El número de días no puede ser menor o igual a cero"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/employee_change.py:39
+#: code:addons/payroll_mexico/models/hr_employe_history.py:77
+#: code:addons/payroll_mexico/wizard/employee_change.py:32
 #, python-format
 msgid "The salary cannot be negative."
 msgstr "El salario no puede ser negativo."
@@ -5680,6 +5705,11 @@ msgstr "Para"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
 msgid "To close"
 msgstr "Cerrar"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_view_employee_form_change_history
+msgid "To register"
+msgstr "Alta del empleado"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
@@ -6036,6 +6066,12 @@ msgstr "Año"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_mexico_form
 msgid "You can select the option \"Pay bonus?\" to take into account for this nomination the calculation of the bonuses."
 msgstr "Puede seleccionar la opción '¿Pagar aguinaldos?' Para tener en cuenta para esta nómina el cálculo de los aguinaldos."
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_employe_history.py:55
+#, python-format
+msgid "You cannot create a contract with a salary less than or equal to zero."
+msgstr "No puede crear un contrato con un salario menor o igual a cero."
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_employee.py:363

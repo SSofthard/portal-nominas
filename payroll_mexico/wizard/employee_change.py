@@ -16,20 +16,13 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
     type = fields.Selection([
         ('wage', 'Wage'),
         ('job', 'Job Position'),
+        ('register', 'Register'),
     ], string='Change History', index=True,
         help="""* Type change'
                 \n* If the changue is wage, the type is \'Wage\'.
                 \n* If the changue is job then type is set to \'Job Position\'.""")
 
     def apply_change(self):
-        kwargs = {
-            'employee_id': self.employee_id.id,
-            'contract_id': self.contract_id.id,
-            'job_id': self.job_id.id if self.type == 'job' else self.contract_id.job_id.id,
-            'wage': self.wage if self.type == 'wage' else self.contract_id.wage,
-            'date_from': self.date_from,
-            'type': self.type,
-        }
         if self.type == 'job':
             self.contract_id.write({'job_id': self.job_id.id})
         if self.type == 'wage':
@@ -37,4 +30,13 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
                 self.contract_id.write({'wage': self.wage})
             else:
                 raise ValidationError(_("The salary cannot be negative."))
+        kwargs = {
+            'employee_id': self.employee_id.id,
+            'contract_id': self.contract_id.id,
+            'job_id': self.job_id.id if self.type == 'job' else self.contract_id.job_id.id,
+            'wage': self.wage if self.type == 'wage' else self.contract_id.wage,
+            'salary': self.employee_id.salary,
+            'date_from': self.date_from,
+            'type': self.type,
+        }
         self.env['hr.employee.change.history'].prepare_changes(**kwargs)

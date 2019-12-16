@@ -49,10 +49,12 @@
                 <field name="employee_id" string="Employee" filter_domain="[('employee_id','ilike',self)]"/>
                 <field name="contract_id" string="Contract" filter_domain="[('contract_id','ilike',self)]"/>
                 <field name="job_id" string="Job Position" filter_domain="[('job_id','ilike',self)]"/>
+                <field name="contracting_regime" string="Contracting Regime" filter_domain="[('contracting_regime','ilike',self)]"/>
                 <group col="8" colspan="4" expand="0" string="Group By">
                     <filter string="Type Changue" name="type" context="{'group_by':'type'}"/>
                     <filter string="Employee" name="employee_id" context="{'group_by':'employee_id'}"/>
                     <filter string="Contract" name="contract_id" context="{'group_by':'contract_id'}"/>
+                    <filter string="Contracting Regime" name="contracting_regime" context="{'group_by':'contracting_regime'}"/>
                     <filter string="Start Date" name="date_from" domain="[]" context="{'group_by':'date_from'}"/>
                 </group>
             </search>
@@ -69,6 +71,7 @@
                 <field name="contract_id"/>
                 <field name="job_id"/>
                 <field name="wage"/>
+                <field name="salary"/>
                 <field name="date_from"/>
             </tree>
         </field>
@@ -89,6 +92,7 @@
                         <group>
                             <field name="job_id" attrs="{'required' : [('type', '=', 'job')], 'invisible': [('type','!=', 'job')]}"/>
                             <field name="wage" attrs="{'required' : [('type', '=', 'wage')], 'invisible': [('type','!=', 'wage')]}"/>
+                            <field name="salary"/>
                             <field name="date_from"/>
                         </group>
                     </group>
@@ -96,13 +100,13 @@
             </form>
         </field>
     </record>
-    
+
     <record id="employee_change_history_action" model="ir.actions.act_window">
         <field name="name">Employee Change History</field>
         <field name="res_model">hr.employee.change.history</field>
-        <field name="view_type">tree</field>
-        <field name="view_mode">tree</field>
-        <field name="target">current</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="employee_change_history_tree"/>
     </record>
     
     <act_window name="Employee Change History"
@@ -118,6 +122,14 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="priority">10</field>
         <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button string="To register" name="to_register_employee" attrs="{'invisible': ['|',('contracts_count','&lt;',1),('register','=',True)]}" type="object" class="oe_highlight"/>
+                </header>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="register" invisible="True"/>
+            </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="%(payroll_mexico.action_change_history)d"
                     type="action"
@@ -131,5 +143,12 @@
             </xpath>
         </field>
     </record>
+
+    <menuitem
+            id="menu_employee_change_history_action"
+            name="Employee Change History"
+            action="employee_change_history_action"
+            parent="hr.menu_human_resources_configuration"
+            sequence="140"/>
     
 </odoo>
