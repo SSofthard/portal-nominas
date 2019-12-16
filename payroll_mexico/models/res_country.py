@@ -11,31 +11,26 @@ class CountryState(models.Model):
     municipality_ids = fields.One2many('res.country.state.municipality', 'state_id', 'Municipalities')
 
 
-class ResZone(models.Model):
-    _name = 'res.zone'
-    _description="Geographical distribution of minimum wages in Mexico."
-    
-    name = fields.Char(string='Zone', required=True, 
-        help='Municipality Zone name')
-    active = fields.Boolean(default=True)
-
-
 class MunicipalityZone(models.Model):
     _name = 'res.municipality.zone'
     _description = "Municipality zone"
     _rec_name = "municipality_id"
-    
+
     municipality_id = fields.Many2one('res.country.state.municipality', 'Municipality',
         help='Municipality')
-    zone_id = fields.Many2one('res.zone', string='Zone', required=True, 
-        help='Geographical distribution of minimum wages in Mexico.')
+    zone = fields.Selection([
+            ('freezone', 'Zona Libre de la Frontera Norte'),
+            ('singlezone', 'Salarios Mínimos Generales'),
+        ], string="Zone", default="singlezone", required=True,
+        help="Geographical distribution of minimum wages in Mexico.")
     date_from = fields.Date(string="Start Date", required=True)
     date_to = fields.Date(string="End Date",)
     active = fields.Boolean(default=True)
 
     _sql_constraints = [
-        ('zone_date_from_uniq', 'unique(municipality_id, zone_id, date_from)', 'Already zone for this municipality!')
+        ('zone_date_from_uniq', 'unique(municipality_id, zone, date_from)', 'Already zone for this municipality!')
     ]
+
 
 class StateMunicipality(models.Model):
     _name = 'res.country.state.municipality'

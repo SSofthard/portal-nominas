@@ -38,7 +38,6 @@
         'data/res.bank.csv',
         'data/payroll_data.xml',
         'data/data_isn.xml',
-        'data/data_zone.xml',
         'data/res.country.state.municipality.csv',
         'data/res.municipality.zone.csv',
         # ~ 'data/data_hr_perceptions.xml',

@@ -1,4 +1,4 @@
-id,municipality_id:id,zone_id:id,date_from
+id,municipality_id:id,zone,date_from
 zone_municipality_state_mx_ags_01001,municipality_state_mx_ags_01001,singlezone,2019-01-01
 zone_municipality_state_mx_ags_01002,municipality_state_mx_ags_01002,singlezone,2019-01-01
 zone_municipality_state_mx_ags_01003,municipality_state_mx_ags_01003,singlezone,2019-01-01

@@ -78,4 +78,4 @@ class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
 
     #Columns
-    group_id = fields.Many2one('hr.group', string="Empresa",readonly=True, states={'draft': [('readonly', False)]})
+    group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
