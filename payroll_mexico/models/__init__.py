@@ -26,4 +26,5 @@ from . import hr_holidays
 from . import resource_mixin
 from . import hr_isn
 from . import hr_payslip_run
+from . import hr_employe_history
 
