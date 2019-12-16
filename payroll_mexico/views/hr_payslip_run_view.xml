@@ -43,8 +43,13 @@
                         <field name="payroll_month"/>
                         <field name="payroll_of_month"/>
                         <field name="payroll_period"/>
+                        <field name="pay_bonus" attrs="{'invisible': [('bonus_date','!=',True)]}"/>
                         <field name="table_id" invisible="1"/>
+                        <field name="bonus_date" invisible="1"/>
                     </group>
+                    <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('bonus_date','=',False)]}">
+						You can select the option "Pay bonus?" to take into account for this nomination the calculation of the bonuses.
+					</div>
                 </xpath>
                 <xpath expr="//button[@name='close_payslip_run']" position="before">
 					<button name="recalculate_payroll" type="object" string="Recalculate payroll" states="draft" class="oe_highlight"/>
