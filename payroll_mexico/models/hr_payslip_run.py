@@ -4,6 +4,9 @@
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
 
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+from datetime import datetime
+
 
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
@@ -68,6 +71,8 @@ class HrPayslipRun(models.Model):
         ('cancel', 'Cancelled'),
     ], string='Status', index=True, readonly=True, copy=False, default='draft')
     acumulated_amount_tax = fields.Float(string='Impuestos acumulados del mes')
+    bonus_date = fields.Boolean('Bonus date', default=False)
+    pay_bonus = fields.Boolean('Pay bonus?')
 
     def _compute_acumulated_tax_amount(self):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
@@ -135,7 +140,7 @@ class HrPayslipRun(models.Model):
         }
         return action
     
-    @api.onchange('date_start', 'date_end')
+    @api.onchange('date_start', 'date_end','payroll_type')
     def onchange_date_start_date_end(self):
         if (not self.date_start) or (not self.date_end):
             return
@@ -143,6 +148,13 @@ class HrPayslipRun(models.Model):
         date_to = self.date_end
         self.table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
         self.payroll_month = str(date_from.month)
+        date1 =datetime.strptime(str(str(date_from.year)+'-12-01'), DEFAULT_SERVER_DATE_FORMAT).date()
+        date2 =datetime.strptime(str(str(date_from.year)+'-12-15'), DEFAULT_SERVER_DATE_FORMAT).date()
+        
+        if date_from >= date1 and date_to <= date2 and self.payroll_type == 'ordinary_payroll':
+            self.bonus_date = True
+        else:
+            self.bonus_date = False
         return
 
     @api.multi

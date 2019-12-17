@@ -431,8 +431,6 @@ class Employee(models.Model):
         Este metodo calcula el monto adeudado según el estado de cuenta de FONACOT
         '''
         total_credit,total_debit = sum(line.credit for line in self.lines_fonacot),sum(line.debit for line in self.lines_fonacot)
-        print (total_credit)
-        print (total_debit)
         self.fonacot_amount_debt = total_credit - total_debit
 
     
@@ -507,6 +505,7 @@ class HrGroup(models.Model):
     country_id = fields.Many2one('res.country', string='Country', store=True,
         default=lambda self: self.env['res.company']._company_default_get().country_id)
     state_id = fields.Many2one('res.country.state', string='State', required=True)
+    bonus_days = fields.Float(string="Bonus days", required=True, default=15)
     
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
