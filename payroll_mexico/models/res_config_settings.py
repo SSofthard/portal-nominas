@@ -36,7 +36,7 @@ class ResConfigSettings(models.TransientModel):
                                   company_id=self.env.user.company_id.id)
 
     tables_id = fields.Many2one(
-        'tablas.cfdi', 'Tables',
+        'tablas.antiguedades', 'Tables',
         related='company_id.tables_id', readonly=False)
     default_input_id = fields.Many2one(comodel_name='hr.rule.input', default_model='hr.holidays.prorate', string='Entrada predeterminada para vacaciones')
 
@@ -44,4 +44,4 @@ class Company(models.Model):
     _inherit = 'res.company'
 
     tables_id = fields.Many2one(
-        'tablas.cfdi', 'CFDI tables', readonly=False, invisible=True)
+        'tablas.antiguedades', 'Antiguedades tables', readonly=False, invisible=True)
