@@ -20,11 +20,12 @@ from . import hr_contract_type
 from . import hr_payslip
 from . import hr_company
 from . import table_settings
-from . import table_cfdi
 from . import tool_convert_numbers_letters
 from . import hr_holidays
 from . import resource_mixin
 from . import hr_isn
 from . import hr_payslip_run
 from . import hr_employe_history
+from . import table_antiguedades
+
 

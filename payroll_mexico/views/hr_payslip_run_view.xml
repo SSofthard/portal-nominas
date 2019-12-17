@@ -36,6 +36,7 @@
                             <field name="subtotal_amount_untaxed"/>
                                      <button name="compute_amount_untaxed" type="object" class="oe_left oe_link" states="draft">Cálcular impuesto de la nómina</button>
                             <field name="amount_tax"/>
+                            <field name="acumulated_amount_tax"/>
                         </group>
                     </group>
                     <group col="4">

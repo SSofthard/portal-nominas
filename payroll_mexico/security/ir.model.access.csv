@@ -22,16 +22,8 @@ access_res_company_fiel_csd_manager,Company FIELD & CSD,model_res_company_fiel_c
 access_res_company_fiel_csd_user,Company FIELD & CSD,model_res_company_fiel_csd,,0,0,0,0
 access_hr_worker_hiring_regime_user,Worker hiring regime,model_hr_worker_hiring_regime,hr.group_hr_user,1,1,1,0
 access_hr_worker_hiring_regime_manager,Worker hiring regime manager,model_hr_worker_hiring_regime,hr.group_hr_manager,1,1,1,1
-access_tablas_cfdi,tablas_cfdi,model_tablas_cfdi,hr.group_hr_user,1,1,1,1
-access_tablas_cfdi2,tablas_cfdi2,model_tablas_general_line,hr.group_hr_user,1,1,1,1
-access_tablas_cfdi3,tablas_cfdi3,model_tablas_subsidio_line,hr.group_hr_user,1,1,1,1
-access_tablas_cfdi4,tablas_cfdi4,model_tablas_subsidio2_line,hr.group_hr_user,1,1,1,1
-access_tablas_cfdi5,tablas_cfdi5,model_tablas_subsidioacreditable_line,hr.group_hr_user,1,1,1,1
+access_tablas_cfdi,tablas_cfdi,model_tablas_antiguedades,hr.group_hr_user,1,1,1,1
 access_tablas_cfdi6,tablas_cfdi6,model_tablas_antiguedades_line,hr.group_hr_user,1,1,1,1
-access_tablas_cfdi9,tablas_cfdi9,model_tablas_periodo_bimestral,hr.group_hr_user,1,1,1,1
-access_tablas_cfdi10,tablas_cfdi10,model_tablas_periodo_mensual,hr.group_hr_user,1,1,1,1
-access_tablas_cfdi12,tablas_cfdi12,model_tablas_isr_anual,hr.group_hr_user,1,1,1,1
-access_tablas_cfdi14,tablas_cfdi14,model_tablas_periodo_semanal,hr.group_hr_user,1,1,1,1
 acces_inputs_user,Inputs_user,model_hr_inputs,hr_payroll.group_hr_payroll_user,1,1,1,0
 acces_inuts_manager,Inputs_user,model_hr_inputs,hr_payroll.group_hr_payroll_manager,1,1,1,1
 acces_holidays_prorate_wizard_user,holidays_prorate_wizard_user,model_hr_holidays_prorate,hr.group_hr_user,1,1,1,1

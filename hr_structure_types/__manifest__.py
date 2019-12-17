@@ -22,7 +22,7 @@
         'views/hr_payroll_structure.xml',
         'views/hr_payslip.xml',
         'wizard/hr_payroll_payslips_by_employees.xml',
-        
+
     ],
     'demo': [
         'demo/demo.xml',
