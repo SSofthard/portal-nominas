@@ -21,8 +21,11 @@ class HolidaysType(models.Model):
     request_unit = fields.Selection([
         ('day', 'Días'), ('hour', 'Horas')],
         default='day', string='Tomar ausencias en', required=True)
-    time_type = fields.Selection([('leave', 'Ausencia'), ('other', 'Otro')], default='leave', string="Tipo de licencia",
-                                 help="Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)")
+    time_type = fields.Selection([('leave', 'Ausencia'),
+        ('inability', 'Inability'),
+        ('other', 'Otro')], 
+        default='leave', string="Tipo de licencia",
+        help="Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)")
     allocation_type = fields.Selection([
         ('fixed', 'Arreglado por HR'),
         ('fixed_allocation', 'Solucionado por solicitud de asignación de recursos humanos'),
@@ -54,6 +57,7 @@ class HolidaysType(models.Model):
         ('fuchsia', 'Fuchsia'),
         ], string='Color in Report', required=True, default='red',
         help='This color will be used in the leaves summary located in Reporting > Leaves by Department.')
+    
 
     _sql_constraints = [('code_unique', 'unique(Code)', "the code must be unique")]
     
