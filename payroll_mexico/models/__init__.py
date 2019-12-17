@@ -18,6 +18,7 @@ from . import hr_employee
 from . import hr_contract
 from . import hr_contract_type
 from . import hr_payslip
+from . import hr_settlement
 from . import hr_company
 from . import table_settings
 from . import table_cfdi

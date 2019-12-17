@@ -6,7 +6,7 @@ from pytz import timezone
 import babel
 from odoo import api, fields, models, tools, _
 from datetime import date, datetime, time, timedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 
 
@@ -140,7 +140,10 @@ class HrPayslip(models.Model):
         contract_ids = []
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
         locale = self.env.context.get('lang') or 'en_US'
-        self.name = _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
+        if self.settlement:
+            self.name= _('FINIQUITO %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
+        else:
+            self.name = _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
         if not self.contract_id or employee.id != self.contract_id.employee_id.id:
             self.contract_id = False
             contract = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('state','in',['open'])])
@@ -150,9 +153,14 @@ class HrPayslip(models.Model):
             contract_ids = [contract[0].id]
         else:
             contract_ids = [self.contract_id.id]
+            
         self.company_id = self.contract_id.company_id
         self.struct_id=False
         contracts = self.env['hr.contract'].browse(contract_ids)
+        if not contracts[0].date_end and self.settlement:
+            self.contract_id = False
+            self.worked_days_line_ids = []
+            return
         worked_days_line_ids = self.get_worked_day_lines(contracts, date_from, date_to)
         worked_days_lines = self.worked_days_line_ids.browse([])
         self.worked_days_line_ids = []
@@ -390,6 +398,7 @@ class HrSalaryRule(models.Model):
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', default="not_apply")
     payroll_tax = fields.Boolean('Apply payroll tax?', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
+    settlement = fields.Boolean(string='Settlement structure?')
 
 class HrInputs(models.Model):
     _name = 'hr.inputs'
