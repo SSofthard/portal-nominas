@@ -66,7 +66,54 @@ class HrPayslip(models.Model):
     payroll_tax_count = fields.Integer(compute='_compute_payroll_tax_count', string="Payslip Computation Details")
     move_infonacot_id = fields.Many2one('hr.credit.employee.account', string="FONACOT Move")
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
-    
+    integral_salary = fields.Float(string = 'Salario diario integral', related='employee_id.salary')
+    integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
+
+    @api.depends('subtotal_amount_untaxed')
+    def _compute_integral_variable_salary(self):
+        '''Este metodo se utiliza para el cálculo de salario diario integral variable'''
+        perception_types = ['001','002','007','010','019','020','021','022']
+        days_factor = {
+                       'daily':1,
+                       'weekly':7,
+                       'decennial':10,
+                       'biweekly':15,
+                       'monthly':30,
+                       }
+        list_percepcions = self.line_ids.filtered(lambda o: o.salary_rule_id.type == 'perception' and
+                                                                o.salary_rule_id.type_perception in perception_types
+                                                                )
+        total_perception = self.get_total_perceptions_to_sv(list_percepcions)
+        factor_days = (self.employee_id.group_id.days/30)*days_factor[self.payroll_period]
+        self.integral_variable_salary = total_perception/factor_days
+
+    def get_total_perceptions_to_sv(self, lines):
+        '''
+        Este metodo permite consultar si la regla aplica según los criterios de evaluación por ley
+        '''
+        vals=[]
+        for line in lines:
+            if line.salary_rule_id.type_perception == '010':
+                print ('''cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
+                        Seguro Social, de ser así la cantidad que rebase integrará''')
+                proporcion_percepcion = line.amount/self.employee_id.salary_var
+                if proporcion_percepcion > 0.1:
+                    restante = (line.amount - (self.employee_id.salary_var*0.1))*line.quantity
+                    vals.append(restante)
+            if line.salary_rule_id.type_perception == '019':
+                print ('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
+                        exceda de tres horas diarias ni de tres veces en una semana''')
+                vals.append(line.total)
+            if line.salary_rule_id.type_perception == '007':
+                print ('''si su importe no rebasa el 40% del SMGVDF, de lo contrario el excedente se integrará''')
+                minimum_salary = self.company_id.municipality_id.get_salary_min(self.date_from)
+                if line.amount > (minimum_salary*0.40):
+                    restante = (line.amount - (minimum_salary*0.40))*line.quantity
+                    vals.append(restante)
+            else:
+                vals.append(line.total)
+        return sum(vals)
+
     @api.multi
     def _compute_payroll_tax_count(self):
         for payslip in self:
@@ -144,6 +191,7 @@ class HrPayslip(models.Model):
             self.name= _('FINIQUITO %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
         else:
             self.name = _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
+
         if not self.contract_id or employee.id != self.contract_id.employee_id.id:
             self.contract_id = False
             contract = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('state','in',['open'])])

@@ -111,6 +111,9 @@
                                 </field>
                                 <field name="holidays_bonus" invisible="0"/>
                             </group>
+                            <group name="col_right">
+                                <field name="date_payroll_asign" invisible="0"/>
+                            </group>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -208,7 +211,6 @@
             <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='time_type']" position="after">
-                    <field name="cfdi_rule_id"/>
                     <field name="is_holidays"/>
                 </xpath>
             </field>
