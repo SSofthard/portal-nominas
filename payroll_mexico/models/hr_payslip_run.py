@@ -2,7 +2,7 @@
 
 
 from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from datetime import datetime
@@ -72,6 +72,41 @@ class HrPayslipRun(models.Model):
     ], string='Status', index=True, readonly=True, copy=False, default='draft')
     bonus_date = fields.Boolean('Bonus date', default=False)
     pay_bonus = fields.Boolean('Pay bonus?')
+
+    def not_total(self):
+        raise ValidationError(_('Nose encontraron valores para totalizar en la categoría NETO.'))
+
+    @api.multi
+    def print_payroll_deposit_report(self):
+        payrolls = self.filtered(lambda s: s.state in ['close'])
+        payroll_dic = {}
+        employees = []
+        total = 0
+        for payroll in payrolls:
+            payroll_dic['payroll_of_month'] = payroll.payroll_of_month
+            payroll_dic['date_large'] = '%s/%s/%s' %(payroll.date_end.strftime("%d"), payroll.date_end.strftime("%b").title(), payroll.date_end.strftime("%Y"))
+            company = payroll.mapped('slip_ids').mapped('company_id')
+            payroll_dic['rfc'] = company.rfc
+            payroll_dic['employer_registry'] = company.employer_register_ids.filtered(lambda r: r.state == 'valid').mapped('employer_registry')[0] or ''
+            for slip in payroll.slip_ids:
+                total += sum(slip.line_ids.filtered(lambda r: r.category_id.code == 'NET').mapped('total'))
+                employees.append({
+                    'enrollment': slip.employee_id.enrollment,
+                    'name': slip.employee_id.name_get()[0][1],
+                    'fulltime': '?',
+                    'office': '?',
+                    'bank_key': slip.employee_id.get_bank().bank_id.code or '',
+                    'bank': slip.employee_id.get_bank().bank_id.name or '',
+                    'account': slip.employee_id.get_bank().bank_account or '',
+                    'total': slip.line_ids.filtered(lambda r: r.category_id.code == 'NET').mapped('total')[0] or self.not_total(),
+                })
+            payroll_dic['employees'] = employees
+            payroll_dic['total_records'] = len(payroll.slip_ids)
+        payroll_dic['total'] = total
+        data={
+            'payroll_data':payroll_dic
+            }
+        return self.env.ref('payroll_mexico.payroll_deposit_report_template').report_action(self,data)
 
     @api.multi
     def _compute_payslip_count(self):

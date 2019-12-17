@@ -164,6 +164,15 @@ class Employee(models.Model):
         ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
 
+    def get_bank(self):
+        bank_ids = []
+        for employee in self:
+            if not employee.bank_account_ids:
+                return employee.bank_account_ids
+            for bank in employee.bank_account_ids:
+                if bank.predetermined:
+                    return bank
+
     @api.constrains('ssnid','rfc','curp')
     def validate_ssnid(self):
         for record in self:
@@ -436,7 +445,7 @@ class bankDetailsEmployee(models.Model):
     _sql_constraints = [
         ('predetermined_uniq', 'unique (employee_id,predetermined)', "There is already a default account number for this employee.!"),
     ]
-    
+
     @api.multi
     def action_active(self):
         for account in self:
@@ -479,6 +488,13 @@ class HrGroup(models.Model):
         ('governmental', 'Proporción 30,4'),
         ('private', 'Base 30 días mensuales'),
         ], string='type', required=True)
+    job_risk = fields.Selection([
+        ('1', 'Clase I'),
+        ('2', 'Clase II'),
+        ('3', 'Clase III'),
+        ('4', 'Clase IV'),
+        ('5', 'Clase V'),
+        ], string='Job risk', required=True)
     days = fields.Float("Days", required=True)
     risk_factor_ids = fields.One2many('hr.group.risk.factor','group_id', string="Factor de riesgo anual")
     country_id = fields.Many2one('res.country', string='Country', store=True,
