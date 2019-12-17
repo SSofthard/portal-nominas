@@ -44,15 +44,35 @@ class Employee(models.Model):
             current_date  =  fields.Date.context_today(self)+timedelta(days=1)
             start_date_contract = contract.previous_contract_date or contract.date_start
             years_antiquity = contract.years_antiquity
-            days_holiday = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity)]).vacaciones
-            daily_salary = self.contract_id.wage / self.group_id.days if self.group_id.days else self.contract_id.wage / 30
-            bonus_holiday = daily_salary * days_holiday
+            antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity)])
+            days_holiday = antiguedad.vacaciones
+            print (days_holiday)
+            daily_salary = contract.wage / self.group_id.days if self.group_id.days else self.contract_id.wage / 30
+            bonus_holiday = ((daily_salary * days_holiday)*(antiguedad.prima_vac/100))/365
+            print (bonus_holiday)
             default_chirstmas_bonus_days = 15
             factor_christmas_bonus = default_chirstmas_bonus_days \
                 if years_antiquity >= 1 else (15/365)*(current_date - (start_date_contract - timedelta(days=1))).days
-            christmas_bonus = factor_christmas_bonus*daily_salary
-            integral_salary = (self.contract_id.wage + bonus_holiday + christmas_bonus)/self.group_id.days if self.group_id.days else (self.contract_id.wage + bonus_holiday + christmas_bonus)/30
+            christmas_bonus = (factor_christmas_bonus*daily_salary)/365
+            print (christmas_bonus)
+            print (daily_salary)
+            integral_salary =  daily_salary + bonus_holiday + christmas_bonus
             self.salary = integral_salary
+
+    def get_variable_salary(self):
+        '''
+        Este metodo buscara los salarios variables de las nominas y calculara el valor para agregarlo al empleado
+        '''
+        current_date = fields.Date.context_today(self)
+        current_month = current_date.month
+        date_start = date(current_date.year, current_month-2, 1)
+        date_end = current_date
+        payslips = self.env['hr.payslip'].search([('date_from','>=',date_start),('date_to','<=',date_end)])
+        print (sum(payslips.mapped('integral_variable_salary')) / len(payslips))
+        self.salary_var = sum(payslips.mapped('integral_variable_salary'))/len(payslips)
+        print (self.salary_var)
+        print (self.salary_var)
+        print (self.salary_var)
 
     @api.multi
     def name_get(self):
@@ -96,6 +116,7 @@ class Employee(models.Model):
         ('female', 'Female'),
     ], groups="hr.group_hr_user", default="male")
     salary = fields.Float("Salary", compute='_get_integral_salary', copy=False)
+    salary_var = fields.Float("Salary", copy=False)
     payment_period_id = fields.Many2one('hr.payment.period', "Payment period")
     bank_account_ids = fields.One2many('bank.account.employee','employee_id', "Bank account", required=True)
     group_id = fields.Many2one('hr.group', "Group", required=True)

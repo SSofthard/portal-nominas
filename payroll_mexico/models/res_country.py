@@ -45,3 +45,10 @@ class StateMunicipality(models.Model):
     zone_ids = fields.One2many('res.municipality.zone', 'municipality_id', string='Zones')
     active = fields.Boolean(default=True)
 
+    def get_salary_min(self, date):
+        '''
+        Este metodo busca el salario minimo en las tablas de salarios minimos, teniendo en cuenta segun el registro actual y la fecha de vigencia
+        '''
+        zone = 'border_crossing' if self.env['res.municipality.zone'].search([('municipality_id','=',self.id)]).zone == 'freezone' else 'zone_a'
+        salary = getattr(self.env['table.minimum.wages'].search([('date','<=',date)],order='date DESC', limit=1),zone)
+        return salary
