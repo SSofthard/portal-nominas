@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+import calendar
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
@@ -61,8 +62,7 @@ class Holidays(models.Model):
         amount_total = 0.0
         for contract in contracts:
             cfdi_record = self.env['tablas.antiguedades.line'].search(
-                [('form_id', '=', self.holiday_status_id.cfdi_rule_id.id),
-                 ('antiguedad', '=', contract.years_antiquity)])
+                [('antiguedad', '=', contract.years_antiquity)])
             print (cfdi_record)
             amount_bonus = ((contract.wage/30)*self.number_of_days_display) * cfdi_record.prima_vac / 100
             prorate_lines.append({'contract_id': contract.id,
@@ -79,6 +79,7 @@ class Holidays(models.Model):
     contract_id = fields.Many2one(comodel_name='hr.contract', string='Contrato')
     prorate_lines = fields.One2many(comodel_name='hr.holidays.prorate', inverse_name='leave_id', compute='_compute_bonus', store='True',string='Holidays Bonus')
     remaining_days = fields.Char(compute='_compute_remaining_days', string='Remaining')
+    date_payroll_asign = fields.Date(string='Indique la fecha de pago por nómina')
     # state = fields.Selection([
     #     ('draft', 'Draft'),
     #     ('confirmed', 'Confirmed'),
@@ -100,12 +101,54 @@ class LeaveType(models.Model):
         return res
 
     time_type = fields.Selection(selection_add=[('holidays','Holidays')])
-    cfdi_rule_id = fields.Many2one(comodel_name='tablas.cfdi', string='Holidays')
     is_holidays = fields.Boolean(string='Is holidays?')
 
 
 class HrLeaveAllocation(models.Model):
     _inherit='hr.leave.allocation'
+
+    @api.multi
+    def assign_allocations_for_employee(self):
+        today = fields.Date.context_today(self)
+        range_date = calendar.monthrange(today.year,today.month)
+        date_init = date(today.year, today.month, 1)
+        date_end = date(today.year, today.month, range_date[1])
+        contracts = self.env['hr.contract'].search([('employee_id','!=', False), ('contracting_regime','=',2)])
+        holidays_type = self.env['hr.leave.type'].search([('validity_start','<=',today),
+                                                          ('validity_stop','>=',today),
+                                                          ('is_holidays','=',True)])
+        employees = []
+        print ('ejecutando')
+        print ('ejecutando')
+        print ('ejecutando')
+        print ('ejecutando')
+        print ('ejecutando')
+        for contract in contracts:
+            print ('foroorororororo')
+            date_init = date(contract.date_start.year, today.month, 1)
+            date_end = date(contract.date_start.year, today.month, range_date[1])
+            allocations_assignated = sum(self.search([('employee_id','=',contract.employee_id.id)]).mapped('number_of_days_display'))
+            if contract.date_start >= date_init and contract.date_start <= date_end:
+                print('jajajajajajajajajaj')
+                employees.append(contract.employee_id.id)
+                days_holidays=self.env['tablas.antiguedades.line'].search([('antiguedad','=', contract.years_antiquity)]).vacaciones
+                print (days_holidays)
+                print (days_holidays)
+                if days_holidays >  allocations_assignated:
+                    vals = {
+                        'mode':'employee',
+                        'number_of_days':float(days_holidays),
+                        'employee_id':contract.employee_id.id,
+                        'contract_id':contract.id,
+                        'holiday_status_id':holidays_type.id,
+                    }
+                    print (vals)
+                    print (vals)
+                    print (vals)
+                    print (vals)
+                    res_id = self.create(vals)
+                    res_id.action_approve()
+
 
     def _get_rules_cfdi(self):
         print (self)
@@ -117,16 +160,12 @@ class HrLeaveAllocation(models.Model):
     @api.onchange('contract_id','holiday_status_id')
     def onchange_contract_id(self):
         cfdi_record = self.env['tablas.antiguedades.line'].search([('form_id', '=',self.cfdi_rule_id.id),('antiguedad','=',self.contract_id.years_antiquity)])
-        print (cfdi_record)
-        print (cfdi_record)
-        print (cfdi_record)
-        print (cfdi_record)
         self.number_of_days_display = cfdi_record.vacaciones
 
 
     #Columns
     contract_id = fields.Many2one(comodel_name='hr.contract', string='Contrato')
-    cfdi_rule_id = fields.Many2one(related='holiday_status_id.cfdi_rule_id', string='Contrato')
+    # cfdi_rule_id = fields.Many2one(related='holiday_status_id.cfdi_rule_id', string='Contrato')
 
 class HrHolidaysProrate(models.Model):
     _name = 'hr.holidays.prorate'

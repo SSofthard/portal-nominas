@@ -70,6 +70,7 @@ class HrPayslipRun(models.Model):
         ('close', 'Close'),
         ('cancel', 'Cancelled'),
     ], string='Status', index=True, readonly=True, copy=False, default='draft')
+    acumulated_amount_tax = fields.Float(string='Impuestos acumulados del mes')
     bonus_date = fields.Boolean('Bonus date', default=False)
     pay_bonus = fields.Boolean('Pay bonus?')
 
@@ -107,6 +108,13 @@ class HrPayslipRun(models.Model):
             'payroll_data':payroll_dic
             }
         return self.env.ref('payroll_mexico.payroll_deposit_report_template').report_action(self,data)
+
+    def _compute_acumulated_tax_amount(self):
+        '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
+        current_year = fields.Date.context_today(self).year
+        payslips_current_month = self.search([('payroll_month','=',self.payroll_month)]).filtered(lambda sheet: sheet.date_start.year == current_year)
+        total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
+        payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated})
 
     @api.multi
     def _compute_payslip_count(self):
@@ -204,6 +212,8 @@ class HrPayslipRun(models.Model):
 
         self.amount_tax = self.env['hr.isn'].get_value_isn(self.group_id.state_id.id,
                                                            self.subtotal_amount_untaxed, self.date_start.year)
+        self._compute_acumulated_tax_amount()
+
     @api.multi
     def close_payslip_run(self):
         '''
