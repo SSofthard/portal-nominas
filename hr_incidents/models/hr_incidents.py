@@ -89,7 +89,9 @@ class HolidaysRequest(models.Model):
         default=fields.Datetime.now,
         states={'draft': [('readonly', False)], 'confirm': [('readonly', False)]}, track_visibility='onchange')
     group_id = fields.Many2one('hr.group', "Group", readonly=True, related= 'employee_id.group_id', store=True)
-        
+    # Translate fields
+    request_unit_half = fields.Boolean('Half Day')
+
     @api.multi
     def action_approve(self):
         if not self.request_date_to:
