@@ -11,6 +11,8 @@
     "data": [
         'wizard/hr_update_fonacot_wizard.xml',
         'wizard/hr_employee_contract_wizard.xml',
+        'wizard/employee_change_view.xml',
+        'views/hr_employe_history_view.xml',
         'views/res_country_view.xml',
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
