@@ -159,16 +159,8 @@ class HrPayslipRun(models.Model):
                             'inhability': inhability,
                             'absenteeism': absenteeism,
                         })
-                        # ~ employee_data[employee.id] = {
-                            
-                            # ~ 'fault_data': fault_data
-                        # ~ }
                         payroll_dic['employee_data'] = fault_data
         
-        print (payroll_dic)
-        print (payroll_dic)
-        print (payroll_dic)
-        print (payroll_dic)
         data={
             'payroll_data': payroll_dic
             }
