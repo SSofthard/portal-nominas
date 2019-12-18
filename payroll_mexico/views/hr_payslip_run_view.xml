@@ -44,7 +44,9 @@
                         </group>
                     </group>
                     <group col="4">
-                        <field name="payroll_type"/>
+                        <field name="estructure_id"/>
+                        <field name="contracting_regime"/>
+                        <field name="payroll_type" attrs="{'invisible': [('state','=','draft')]}"/>
                         <field name="payroll_month"/>
                         <field name="payroll_of_month"/>
                         <field name="payroll_period"/>

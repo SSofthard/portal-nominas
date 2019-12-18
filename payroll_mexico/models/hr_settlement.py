@@ -38,3 +38,8 @@ class HrPayrollStructure(models.Model):
     _inherit = 'hr.payroll.structure'
     
     settlement = fields.Boolean(string='Settlement structure?')
+    payroll_type = fields.Selection([
+            ('ordinary_payroll', 'Ordinary Payroll'),
+            ('extraordinary_payroll', 'Extraordinary Payroll')], 
+            string='Payroll Type', 
+            required=True,)

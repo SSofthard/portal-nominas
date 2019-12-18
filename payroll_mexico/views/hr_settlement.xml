@@ -8,7 +8,8 @@
 			  <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
 			  <field name="arch" type="xml">
 					<xpath expr="//field[@name='parent_id']" position="before">
-						<field name="settlement" required="1"/>
+						<field name="payroll_type"/>
+						<field name="settlement"/>
 					</xpath>
 			  </field>
 			</record>
