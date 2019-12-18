@@ -5921,7 +5921,7 @@ msgstr "Cerrar"
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_form
 msgid "To complete calculating a settlement you must select a contract with the defined end date."
-msgstr ""
+msgstr "Para completar el cálculo de una liquidación, debe seleccionar un contrato con la fecha de finalización definida."
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_view_employee_form_change_history

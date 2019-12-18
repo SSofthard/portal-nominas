@@ -133,13 +133,14 @@ class HrPayslipRun(models.Model):
             payroll_dic['date_start'] = '%s/%s/%s' %(payroll.date_start.strftime("%d"), payroll.date_start.strftime("%b").title(), payroll.date_start.strftime("%Y"))
             payroll_dic['date_end'] = '%s/%s/%s' %(payroll.date_end.strftime("%d"), payroll.date_end.strftime("%b").title(), payroll.date_end.strftime("%Y"))
             employee_ids = payroll.slip_ids.mapped('employee_id')
+            fault_data = []
             for employee in employee_ids:
-                fault_data = []
+                
                 for slip in payroll.slip_ids:
-                    total = 0
-                    absenteeism = 0
-                    inhability = 0
                     if employee.id == slip.employee_id.id:
+                        total = 0
+                        absenteeism = 0
+                        inhability = 0
                         for leave in leave_type:
                             for wl in slip.worked_days_line_ids:
                                 if leave.code == wl.code:
@@ -148,18 +149,18 @@ class HrPayslipRun(models.Model):
                                         inhability += wl.number_of_days
                                     if leave.time_type == 'leave':
                                         absenteeism += wl.number_of_days
-                    if total > 0:
-                        fault_data.append({
-                            'enrollment': employee.enrollment,
-                            'name': employee.name_get()[0][1],
-                            'fulltime': '---',
-                            'total': total,
-                            'pay_company': '---',
-                            '7mo': '---',
-                            'inhability': inhability,
-                            'absenteeism': absenteeism,
-                        })
-                        payroll_dic['employee_data'] = fault_data
+                        if total > 0:
+                            fault_data.append({
+                                'enrollment': employee.enrollment,
+                                'name': employee.name_get()[0][1],
+                                'fulltime': '---',
+                                'total': total,
+                                'pay_company': '---',
+                                '7mo': '---',
+                                'inhability': inhability,
+                                'absenteeism': absenteeism,
+                            })
+                payroll_dic['employee_data'] = fault_data
         
         data={
             'payroll_data': payroll_dic
