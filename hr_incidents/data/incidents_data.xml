@@ -8,30 +8,31 @@
             <field name="code">F1</field>
             <field name="color_name">red</field>
 			<field name="allocation_type">no</field>
+			<field name="time_type">inability</field>
         </record>
 		<record id="leave_type_2" model="hr.leave.type">
             <field name="name">Ausentismo</field>
             <field name="code">F2</field>
-        <field name="color_name">blue</field>
-        <field name="allocation_type">no</field>
+            <field name="color_name">blue</field>
+            <field name="allocation_type">no</field>
         </record>
 		<record id="leave_type_3" model="hr.leave.type">
             <field name="name">Tipo de falta 3</field>
             <field name="code">F3</field>
-        <field name="color_name">lightgreen</field>
-        <field name="allocation_type">no</field>
+            <field name="color_name">lightgreen</field>
+            <field name="allocation_type">no</field>
         </record>
 		<record id="leave_type_4" model="hr.leave.type">
             <field name="name">Tipo de falta 4</field>
             <field name="code">F4</field>
-        <field name="color_name">lightblue</field>
-        <field name="allocation_type">no</field>
+            <field name="color_name">lightblue</field>
+            <field name="allocation_type">no</field>
         </record>
 		<record id="leave_type_5" model="hr.leave.type">
             <field name="name">Tipo de falta 5</field>
             <field name="code">F5</field>
-        <field name="color_name">lightyellow</field>
-        <field name="allocation_type">no</field>
+            <field name="color_name">lightyellow</field>
+            <field name="allocation_type">no</field>
         </record>
 		<record id="leave_type_6" model="hr.leave.type">
             <field name="name">Tipo de falta 6</field>
@@ -104,18 +105,33 @@
             <field name="code">F17</field>
         <field name="color_name">orange</field>
         <field name="allocation_type">no</field>
+        <field name="time_type">inability</field>
         </record>
 		<record id="leave_type_18" model="hr.leave.type">
             <field name="name">Incap. perm. parc. R.T.</field>
             <field name="code">F18</field>
-        <field name="color_name">golden</field>
-        <field name="allocation_type">no</field>
+            <field name="color_name">golden</field>
+            <field name="allocation_type">no</field>
+            <field name="time_type">inability</field>
         </record>
-		<record id="leave_type_19" model="hr.leave.type">
+        <record id="leave_type_19" model="hr.leave.type">
             <field name="name">Incap. perm. total R.T.</field>
             <field name="code">F19</field>
-        <field name="color_name">fuchsia</field>
-        <field name="allocation_type">no</field>
+            <field name="color_name">fuchsia</field>
+            <field name="allocation_type">no</field>
+            <field name="time_type">inability</field>
+        </record>
+        <record id="leave_type_20" model="hr.leave.type">
+            <field name="name">Perm. con gose de sueldo</field>
+            <field name="code">F20</field>
+            <field name="color_name">fuchsia</field>
+            <field name="allocation_type">no</field>
+        </record>
+        <record id="leave_type_21" model="hr.leave.type">
+            <field name="name">Perm. sin gose de sueldo</field>
+            <field name="code">F21</field>
+            <field name="color_name">golden</field>
+            <field name="allocation_type">no</field>
         </record>
    </data>
 </odoo>

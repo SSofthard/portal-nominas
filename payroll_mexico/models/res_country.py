@@ -15,6 +15,7 @@ class MunicipalityZone(models.Model):
     _name = 'res.municipality.zone'
     _description = "Municipality zone"
     _rec_name = "municipality_id"
+    _order = 'date_from desc'
 
     municipality_id = fields.Many2one('res.country.state.municipality', 'Municipality',
         help='Municipality')

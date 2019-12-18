@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     
+        <report id="payroll_deposit_report_template" 
+          string="Payroll Deposit Report" 
+          model="hr.payslip.run" 
+          report_type="qweb-html" 
+          name="payroll_mexico.report_payroll_deposit_report_template" 
+          menu="False"
+         /> 
+        
+        <template id="report_payroll_deposit_report_template" name="Payroll Deposit Report">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <h4 align="center"><b>Payroll Deposit Report</b></h4>
+                    <div class="page" >
+                        <div class="oe_structure"/>
+                        <h5>
+                            <t>
+                                <span>Nómina: </span>
+                            </t>
+                            <t t-esc="payroll_data['payroll_of_month']"/>
+                        </h5>
+                        <h5>
+                            <t>
+                                <span>Rango de trabajadores:</span>
+                            </t>
+                        </h5>
+                        <table class="table table-sm o_main_table" style="font-size:8px;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Clave</th>
+                                    <th class="text-left">Nombre del trabajador</th>
+                                    <th class="text-center">J. Completa</th>
+                                    <th class="text-center">Sucursal</th>
+                                    <th class="text-center">Clave</th>
+                                    <th class="text-center">Nombre banco</th>
+                                    <th class="text-center">No. de cuenta</th>
+                                    <th class="text-center">Total a pagar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="payroll_data['employees']" t-as="employee">
+                                    <tr>
+                                        <td class="text-center">
+                                            <t t-esc="employee['enrollment']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="employee['name']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="employee['fulltime']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="employee['office']"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-esc="employee['bank_key']"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-esc="employee['bank']"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-esc="employee['account']"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-esc="employee['total']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="clearfix">
+                            <div id="total" class="row" name="total">
+                                <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                    <table class="table table-sm">
+                                        <tr class="border-black o_total" style="font-size:9px;">
+                                            <td><strong>Total</strong></td>
+                                            <td class="text-right">
+                                                <t t-esc="payroll_data['total']"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="record" class="row" name="record">
+                                <div>
+                                    <tr class="text-left" style="font-size:9px;">
+                                        <td><strong>Total de registros impresos: </strong><t t-esc="payroll_data['total_records']"/></td>
+                                    </tr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+        
+        
+    </data>
+</odoo>

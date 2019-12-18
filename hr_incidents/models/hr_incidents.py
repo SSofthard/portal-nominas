@@ -3,7 +3,7 @@
 import datetime
 import logging
 
-from pytz import timezone, UTC
+from pytz import timezone, UTC, utc
 from datetime import datetime, time, timedelta, date
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError, UserError
@@ -12,6 +12,8 @@ from odoo.tools.translate import _
 from odoo.tools.float_utils import float_round
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY
+from odoo.addons.resource.models.resource import Intervals
+from odoo.addons.resource.models.resource import float_to_time
 
 
 class HolidaysType(models.Model):
@@ -21,8 +23,12 @@ class HolidaysType(models.Model):
     request_unit = fields.Selection([
         ('day', 'Días'), ('hour', 'Horas')],
         default='day', string='Tomar ausencias en', required=True)
-    time_type = fields.Selection([('leave', 'Ausencia'), ('other', 'Otro')], default='leave', string="Tipo de licencia",
-                                 help="Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)")
+    time_type = fields.Selection([
+        ('leave', 'Ausentismo'),
+        ('other', 'Other'),
+        ('inability', 'Incapacidad'),], 
+        default='leave', string="Tipo de licencia",
+        help="Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)")
     allocation_type = fields.Selection([
         ('fixed', 'Arreglado por HR'),
         ('fixed_allocation', 'Solucionado por solicitud de asignación de recursos humanos'),
@@ -54,6 +60,7 @@ class HolidaysType(models.Model):
         ('fuchsia', 'Fuchsia'),
         ], string='Color in Report', required=True, default='red',
         help='This color will be used in the leaves summary located in Reporting > Leaves by Department.')
+    
 
     _sql_constraints = [('code_unique', 'unique(Code)', "the code must be unique")]
     
@@ -89,7 +96,36 @@ class HolidaysRequest(models.Model):
         default=fields.Datetime.now,
         states={'draft': [('readonly', False)], 'confirm': [('readonly', False)]}, track_visibility='onchange')
     group_id = fields.Many2one('hr.group', "Group", readonly=True, related= 'employee_id.group_id', store=True)
+    time_type = fields.Selection("Selection", related= 'holiday_status_id.time_type')
+    # Translate fields
+    request_unit_half = fields.Boolean('Half Day')
+    type_inhability_id = fields.Many2one('hr.leave.inhability', "Type inhability")
+    inhability_classification_id = fields.Many2one('hr.leave.classification', "Classification")
+    inhability_category_id = fields.Many2one('hr.leave.category', "Category")
+    inhability_subcategory_id = fields.Many2one('hr.leave.subcategory', "Subcategory")
+    folio = fields.Char('Folio', required=True)
+
+    @api.multi
+    @api.onchange('type_inhability_id')
+    def onchange_type_inhability_id(self):
+        self.inhability_classification_id = False
+        domain = {'inhability_classification_id': [('id', '=', self.type_inhability_id.classification_ids.ids)]}
+        return {'domain': domain}
         
+    @api.multi
+    @api.onchange('inhability_classification_id')
+    def onchange_inhability_classification_id(self):
+        self.inhability_category_id = False
+        domain = {'inhability_category_id': [('id', '=', self.inhability_classification_id.category_ids.ids)]}
+        return {'domain': domain}
+        
+    @api.multi
+    @api.onchange('inhability_category_id')
+    def onchange_inhability_category_id(self):
+        self.inhability_subcategory_id = False
+        domain = {'inhability_subcategory_id': [('id', '=', self.inhability_category_id.subcategory_ids.ids)]}
+        return {'domain': domain}
+
     @api.multi
     def action_approve(self):
         if not self.request_date_to:
@@ -168,3 +204,50 @@ class HolidaysRequest(models.Model):
             values['date_to'] = request_parameters.get('date_to')
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
         return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
+
+
+class CalendarLeaves(models.Model):
+    _inherit = "resource.calendar.leaves"
+
+    time_type = fields.Selection(selection_add=[('inability', 'Incapacidad')])
+
+def string_to_datetime(value):
+    """ Convert the given string value to a datetime in UTC. """
+    return utc.localize(fields.Datetime.from_string(value))
+
+def datetime_to_string(dt):
+    """ Convert the given datetime (converted in UTC) to a string value. """
+    return fields.Datetime.to_string(dt.astimezone(utc))
+
+class ResourceCalendar(models.Model):
+    _inherit = "resource.calendar"
+
+    def _leave_intervals(self, start_dt, end_dt, resource=None, domain=None):
+        """ Return the leave intervals in the given datetime range.
+            The returned intervals are expressed in the calendar's timezone.
+        """
+        assert start_dt.tzinfo and end_dt.tzinfo
+        self.ensure_one()
+
+        # for the computation, express all datetimes in UTC
+        resource_ids = [resource.id, False] if resource else [False]
+        if domain is None:
+            domain = [('time_type', 'in', ['leave','inability'])]
+        domain = domain + [
+            ('calendar_id', '=', self.id),
+            ('resource_id', 'in', resource_ids),
+            ('date_from', '<=', datetime_to_string(end_dt)),
+            ('date_to', '>=', datetime_to_string(start_dt)),
+        ]
+
+        # retrieve leave intervals in (start_dt, end_dt)
+        tz = timezone((resource or self).tz)
+        start_dt = start_dt.astimezone(tz)
+        end_dt = end_dt.astimezone(tz)
+        result = []
+        for leave in self.env['resource.calendar.leaves'].search(domain):
+            dt0 = string_to_datetime(leave.date_from).astimezone(tz)
+            dt1 = string_to_datetime(leave.date_to).astimezone(tz)
+            result.append((max(start_dt, dt0), min(end_dt, dt1), leave))
+
+        return Intervals(result)

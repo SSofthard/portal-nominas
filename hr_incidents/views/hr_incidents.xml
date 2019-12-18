@@ -14,6 +14,9 @@
                         </div>
                     </div>
                 </xpath>
+                <xpath expr="//field[@name='time_type']" position="replace">
+                    <field name="time_type"/>
+                </xpath>
             </field>
         </record>
         
@@ -38,7 +41,7 @@
                 </xpath>
             </field>
         </record>
-        
+
         <record id="hr_leave_inherit_view_form" model="ir.ui.view">
             <field name="name">hr.leave.inherit.view.form</field>
             <field name="model">hr.leave</field>
@@ -47,9 +50,17 @@
                 <xpath expr="//field[@name='employee_id']" position="after">
                     <field name="group_id"/>
                 </xpath>
+                <xpath expr="//field[@name='holiday_status_id']" position="after">
+                    <field name="time_type" attrs="{'invisible': 1}"/>
+                    <field name="folio" attrs="{'invisible': [('time_type', '!=', 'inability')], 'required': [('time_type', '=', 'inability')]}"/>
+                    <field name="type_inhability_id" attrs="{'invisible': [('time_type', '!=', 'inability')], 'required': [('time_type', '=', 'inability')]}"/>
+                    <field name="inhability_classification_id" attrs="{'invisible': [('time_type', '!=', 'inability')], 'required': [('time_type', '=', 'inability')]}"/>
+                    <field name="inhability_category_id" attrs="{'invisible': [('time_type', '!=', 'inability')], 'required': [('time_type', '=', 'inability')]}"/>
+                    <field name="inhability_subcategory_id" attrs="{'invisible': [('time_type', '!=', 'inability')], 'required': [('time_type', '=', 'inability')]}"
+                        />
+                </xpath>
             </field>
         </record>
-        
 
         <record id="hr_leave_inherit_view_search" model="ir.ui.view">
             <field name="name">hr.leave.inherit.search</field>

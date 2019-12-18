@@ -25,6 +25,18 @@
                     </div>
                     <field name="type_contract" invisible="1"/>
                 </xpath>
+                <xpath expr="//group[@name='duration_group']" position="replace">
+                    <group name="duration_group" string="Contract Terms">
+                        <field name="date_start"/>
+                        <label for="date_end"/>
+                        <div class="o_row">
+                            <field name="date_end" nolabel="1"/>
+                            <span class="text-muted">(If fixed-term contract)</span>
+                        </div>
+                        <field name="trial_date_end"/>
+                        <field name="resource_calendar_id"/>
+                    </group>
+                </xpath>
                 <xpath expr="//field[@name='company_id']" position="before">
                     <field name="contracting_regime"/>
                 </xpath>
