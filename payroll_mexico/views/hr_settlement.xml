@@ -59,8 +59,8 @@
                     <h1><field name="employee_id" placeholder="Employee"/></h1>
                 </div>
                 <div class="alert alert-info" role="alert" style="margin-bottom:0px;">
-                    Para completar el cálculo de una liquidación, debe seleccionar un contrato con la fecha de finalización definida.
-                </div>
+					To complete calculating a settlement you must select a contract with the defined end date.
+				</div>
                 <group col="4">
                     <label for="date_from" string="Period"/>
                     <div>
