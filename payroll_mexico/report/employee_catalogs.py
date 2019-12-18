@@ -8,8 +8,8 @@ import pytz
 from datetime import date, datetime, timedelta
 from odoo.exceptions import UserError, ValidationError
 
-class reportHrExpiredContracts(models.TransientModel):
-    _name = 'report.payroll_mexico.template_expired_contracts'
+class reportEmployeecatalogs(models.TransientModel):
+    _name = 'report.payroll_mexico.template_employee_catalogs'
         
     @api.multi
     def _get_report_values(self, docids, data=None):
