@@ -174,6 +174,17 @@ class Employee(models.Model):
         ('other', 'Other'),
     ], 'Certificate Level', default='master', groups="hr.group_hr_user")
     km_home_work = fields.Integer(string="Km home-work", groups="hr.group_hr_user")
+    salary_type = fields.Selection([('0','Fijo'),('1','Variable'),('2','Mixto')],string="Tipo de salario", default='0')
+    working_day_week = fields.Selection([('0','Completa'),
+                                         ('1','Trabaja un día'),
+                                         ('2','Mixto'),
+                                         ('3','Trabaja tres días'),
+                                         ('4','Trabaja cuatro días'),
+                                         ('5','Trabaja cinco días'),
+                                         ('6','Jornada reducida'),
+                                         ],
+                                        string="Jornada semanal",
+                                        default='0')
     # Fields Translate
     
     _sql_constraints = [

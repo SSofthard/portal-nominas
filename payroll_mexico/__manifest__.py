@@ -31,6 +31,7 @@
         'report/indeterminate_contract_with_seniority.xml',
         'report/determinate_contract_with_seniority.xml',
         'report/independent_services_provision_agreement.xml',
+        'report/payslip_run_report.xml',
         'data/data.xml',
         'data/sequence_data.xml',
         # 'data/data_table_cfdi.xml',

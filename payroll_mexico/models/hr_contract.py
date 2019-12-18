@@ -186,3 +186,10 @@ class Contract(models.Model):
             date2 =datetime.strptime(str(str(date_payroll.year)+'-12-31'), DEFAULT_SERVER_DATE_FORMAT).date()
             days = (date2 - date_from).days
         return days
+
+class CalendarResource(models.Model):
+    _inherit = 'resource.calendar'
+
+    #Columns
+    turno = fields.Selection([('0','Dia'),('1','Noche'),('2','Mixto')], default='0',string='Turno')
+

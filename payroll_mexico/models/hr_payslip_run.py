@@ -73,6 +73,13 @@ class HrPayslipRun(models.Model):
     acumulated_amount_tax = fields.Float(string='Impuestos acumulados del mes')
     bonus_date = fields.Boolean('Bonus date', default=False)
     pay_bonus = fields.Boolean('Pay bonus?')
+    pay_type = fields.Selection([('0','Efectivo'),('1','Especie')], string='Tipo de pago', default='0')
+
+    def print_payslip_run_details(self):
+        '''
+        Este metodo imprime el reporte de payslip run
+        '''
+        return self.env.ref('payroll_mexico.report_payslip_run_template').report_action(self, {})
 
     def _compute_acumulated_tax_amount(self):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
