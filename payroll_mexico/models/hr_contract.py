@@ -46,8 +46,11 @@ class Contract(models.Model):
         today = fields.Date.today()
         date_start_contract =  self.previous_contract_date or self.date_start
         days_antiquity = (today - date_start_contract).days
+        days_antiquity_2 = today - date_start_contract
         years_antiquity = int(days_antiquity/365.25)
         self.years_antiquity = years_antiquity
+        
+
     
     
     #Columns
@@ -218,6 +221,13 @@ class Contract(models.Model):
             years_antiquity = 1
         antiquity = self.env['tablas.antiguedades.line'].search([('form_id.group_id','=',self.employee_id.group_id.id),('antiguedad','=',years_antiquity)],limit=1)
         return antiquity.prima_vac
+        
+    def old_cousin(self):
+        years_antiquity = self.years_antiquity
+        if years_antiquity == 0:
+            years_antiquity = 1
+        antiquity = self.env['tablas.antiguedades.line'].search([('form_id.group_id','=',self.employee_id.group_id.id),('antiguedad','=',years_antiquity)],limit=1)
+        return 1
 
 class CalendarResource(models.Model):
     _inherit = 'resource.calendar'
