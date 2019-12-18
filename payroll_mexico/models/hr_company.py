@@ -53,8 +53,8 @@ class Company(models.Model):
 
 
 class employerRegister(models.Model):
-
     _name = 'res.employer.register'
+    _rec_name='employer_registry'
     
     company_id = fields.Many2one('res.company', "Company")
     employer_registry = fields.Char("Employer Registry", copy=False, required=True)

@@ -20,5 +20,19 @@ class reportHrIncidentsWizard(models.TransientModel):
             'docs': '',
             'data': data,
         }
+
+    
+class reportHrInhabilityAbsenteeism(models.TransientModel):
+    _name = 'report.hr_incidents.inhability_absenteeism_report_view'
+        
+    @api.multi
+    def _get_report_values(self, docids, data=None):
+        print ('data')
+        return {
+            'doc_ids': '',
+            'doc_model': 'hr.leave',
+            'docs': '',
+            'data': data,
+        }
         
         
