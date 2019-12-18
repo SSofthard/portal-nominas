@@ -122,7 +122,7 @@ class Employee(models.Model):
         default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
     country_of_birth = fields.Many2one('res.country', string="Country of Birth",
         default=lambda self: self.env['res.company']._company_default_get().country_id.id, groups="hr.group_hr_user")
-    address_id = fields.Many2one(required=True)
+    address_id = fields.Many2one(required=False)
     department_id = fields.Many2one(required=True)
     type_salary = fields.Selection([
         ('gross', 'Gross'),

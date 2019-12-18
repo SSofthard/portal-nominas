@@ -322,9 +322,17 @@
             
         <menuitem
             id="menu_report_expired_contract"
-            name="Informe de contrato vencido"
+            name="Contratos vencidos"
             parent="menu_report_contract"
             action="action_wizard_expired_contracts"
+            groups="hr.group_hr_manager"
+            sequence="5"/>
+            
+        <menuitem
+            id="menu_report_employee_catalogs"
+            name="Catalago de empleados"
+            parent="menu_report_contract"
+            action="action_wizard_employee_catalogs"
             groups="hr.group_hr_manager"
             sequence="5"/>
         
