@@ -40,7 +40,7 @@ class WizardExpiredContracts(models.TransientModel):
             domain = [('employee_id.group_id', '=', self.group_id.id)]
         if self.job_id:
             domain_job = [('employee_id.job_id', '=', self.job_id.id)]
-        contract_ids=contract.search([('date_start','>=',date_from),('date_end','<=',date_to)] + domain + domain_job)
+        contract_ids=contract.search([('date_end','>=',date_from),('date_end','<=',date_to)] + domain + domain_job)
         for i in contract_ids:
             group = (i.employee_id.group_id.name)
             code = (i.employee_id.enrollment)
