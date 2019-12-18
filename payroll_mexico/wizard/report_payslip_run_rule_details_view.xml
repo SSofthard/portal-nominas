@@ -9,8 +9,8 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="payslip_run_id" context="{'default_payslip_run_id': active_id}"/>
-                            <field name="rule_id"/>
+                            <field name="payslip_run_id" invisible="1"/>
+                            <field name="rule_id" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                         <group>
                         </group>
@@ -33,6 +33,7 @@
         <field name="res_model">hr.payslip.run.rule.details</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
+        <field name="context">{'default_payslip_run_id': active_id}</field>
         <field name="target">new</field>
     </record>
 

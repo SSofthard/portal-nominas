@@ -166,12 +166,6 @@ class HrPayslipRun(models.Model):
             }
         return self.env.ref('payroll_mexico.action_fault_report').report_action(self,data)
 
-    @api.multi
-    def print_rule_details(self):
-
-        return self.env.ref('sale.action_report_saleorder')\
-            .with_context({'discard_logo_check': True}).report_action(self)
-
     def _compute_acumulated_tax_amount(self):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
         current_year = fields.Date.context_today(self).year
