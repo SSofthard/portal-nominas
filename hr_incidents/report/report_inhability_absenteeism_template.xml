@@ -16,7 +16,7 @@
                         <h4 class="text-center">Reporte de Incapacidades y Ausentismos</h4>
                         <h5 class="text-center">
                             <strong>De</strong>:
-                            <t t-esc="leaves_data['date_from']" t-options='{"widget": "date"}'/>
+                            <t t-esc="leaves_data['date_from']" t-field-options='{"format": "%d/%b/%Y"}'/>
                             <strong>A</strong>:
                             <t t-esc="leaves_data['date_to']" t-options='{"widget": "date"}'/>
                         </h5>
