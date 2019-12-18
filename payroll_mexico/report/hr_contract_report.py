@@ -32,4 +32,17 @@ class reportHrPayroll(models.TransientModel):
             'docs': self.env['hr.payslip.run'].search([('id','in',data['context']['active_ids'])]),
             'data': data,
         }
+
+
+class reportHrFault(models.TransientModel):
+    _name = 'report.payroll_mexico.fault_report_template'
+        
+    @api.multi
+    def _get_report_values(self, docids, data=None):
+        return {
+            'doc_ids': docids,
+            'doc_model': 'hr.payslip.run',
+            'docs': self.env['hr.payslip.run'].search([('id','in',data['context']['active_ids'])]),
+            'data': data,
+        }
         
