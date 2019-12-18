@@ -313,6 +313,21 @@
             </field>
         </record>
                 
+        <menuitem
+            id="menu_report_contract"
+            name="Informes"
+            parent="hr.menu_hr_root"
+            groups="hr.group_hr_manager"
+            sequence="5"/>
+            
+        <menuitem
+            id="menu_report_expired_contract"
+            name="Informe de contrato vencido"
+            parent="menu_report_contract"
+            action="action_wizard_expired_contracts"
+            groups="hr.group_hr_manager"
+            sequence="5"/>
+        
         <record model="ir.ui.view" id="view_res_bank_inherit_form">
             <field name="name">res_bank_inherit</field>
             <field name="model">res.bank</field>
