@@ -3,7 +3,7 @@
 import datetime
 import logging
 
-from pytz import timezone, UTC
+from pytz import timezone, UTC, utc
 from datetime import datetime, time, timedelta, date
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError, UserError
@@ -12,6 +12,8 @@ from odoo.tools.translate import _
 from odoo.tools.float_utils import float_round
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY
+from odoo.addons.resource.models.resource import Intervals
+from odoo.addons.resource.models.resource import float_to_time
 
 
 class HolidaysType(models.Model):
@@ -21,9 +23,10 @@ class HolidaysType(models.Model):
     request_unit = fields.Selection([
         ('day', 'Días'), ('hour', 'Horas')],
         default='day', string='Tomar ausencias en', required=True)
-    time_type = fields.Selection([('leave', 'Ausentismo'),
-        ('inability', 'Incapacidad'),
-        ('other', 'Otro')], 
+    time_type = fields.Selection([
+        ('leave', 'Ausentismo'),
+        ('other', 'Other'),
+        ('inability', 'Incapacidad'),], 
         default='leave', string="Tipo de licencia",
         help="Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)")
     allocation_type = fields.Selection([
@@ -206,4 +209,45 @@ class HolidaysRequest(models.Model):
 class CalendarLeaves(models.Model):
     _inherit = "resource.calendar.leaves"
 
-    time_type = fields.Selection(selection_add=[('inability', 'Inability')])
+    time_type = fields.Selection(selection_add=[('inability', 'Incapacidad')])
+
+def string_to_datetime(value):
+    """ Convert the given string value to a datetime in UTC. """
+    return utc.localize(fields.Datetime.from_string(value))
+
+def datetime_to_string(dt):
+    """ Convert the given datetime (converted in UTC) to a string value. """
+    return fields.Datetime.to_string(dt.astimezone(utc))
+
+class ResourceCalendar(models.Model):
+    _inherit = "resource.calendar"
+
+    def _leave_intervals(self, start_dt, end_dt, resource=None, domain=None):
+        """ Return the leave intervals in the given datetime range.
+            The returned intervals are expressed in the calendar's timezone.
+        """
+        assert start_dt.tzinfo and end_dt.tzinfo
+        self.ensure_one()
+
+        # for the computation, express all datetimes in UTC
+        resource_ids = [resource.id, False] if resource else [False]
+        if domain is None:
+            domain = [('time_type', 'in', ['leave','inability'])]
+        domain = domain + [
+            ('calendar_id', '=', self.id),
+            ('resource_id', 'in', resource_ids),
+            ('date_from', '<=', datetime_to_string(end_dt)),
+            ('date_to', '>=', datetime_to_string(start_dt)),
+        ]
+
+        # retrieve leave intervals in (start_dt, end_dt)
+        tz = timezone((resource or self).tz)
+        start_dt = start_dt.astimezone(tz)
+        end_dt = end_dt.astimezone(tz)
+        result = []
+        for leave in self.env['resource.calendar.leaves'].search(domain):
+            dt0 = string_to_datetime(leave.date_from).astimezone(tz)
+            dt1 = string_to_datetime(leave.date_to).astimezone(tz)
+            result.append((max(start_dt, dt0), min(end_dt, dt1), leave))
+
+        return Intervals(result)
