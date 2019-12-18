@@ -13,18 +13,12 @@ class reportHrPayslipRun(models.TransientModel):
         
     @api.multi
     def _get_report_values(self, docids, data=None):
-        print ('kndnskdnskdnksndksndkdnksnkdnk')
-        print ('kndnskdnskdnksndksndkdnksnkdnk')
-        print ('kndnskdnskdnksndksndkdnksnkdnk')
-        print ('kndnskdnskdnksndksndkdnksnkdnk')
-        print ('kndnskdnskdnksndksndkdnksnkdnk')
-        print ('kndnskdnskdnksndksndkdnksnkdnk')
         docs = self.env['hr.payslip.run'].search([('id','in',docids)])
         return {
             'doc_ids': docids,
             'doc_model': 'hr.contract',
             'docs': docs,
             'data': data,
-
+            'currency_precision': self.env.user.company_id.currency_id.decimal_places,
         }
         
