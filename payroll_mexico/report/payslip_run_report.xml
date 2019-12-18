@@ -15,7 +15,7 @@
              <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.internal_layout">
-                        <div class="page" style="font-size:18px">
+                        <div class="page" style="font-size:12px">
                             <table class="table">
                                 <tbody>
                                     <tr>
@@ -28,7 +28,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h3>Reporte de Nómina</h3></center>
+                            <center><h4>Reporte de Nómina</h4></center>
                             <br/>
                             <table class="table">
                                 <tbody>
@@ -248,7 +248,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="page" style="font-size:18px">
+                        <div class="page" style="font-size:12px">
                             <table class="table">
                                 <tbody>
                                     <tr>
@@ -261,7 +261,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h3>Reporte de Nómina</h3></center>
+                            <center><h4>Reporte de Nómina</h4></center>
                             <br/>
                             <table class="table">
                                 <tbody>
@@ -292,7 +292,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h4>Percepciones</h4></center>
+                            <center><h5>Percepciones</h5></center>
                             <table class="table table-condensed">
                                 <tbody>
                                     <t t-set="total_perceptions" t-value="0"/>
@@ -329,7 +329,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h4>Deducciones</h4></center>
+                            <center><h5>Deducciones</h5></center>
                             <table class="table table-condensed">
                                 <tbody>
                                     <tr>
@@ -386,7 +386,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h4>Totales</h4></center>
+                            <center><h5>Totales</h5></center>
                             <table class="table table-condensed">
                                 <tbody>
                                     <tr>

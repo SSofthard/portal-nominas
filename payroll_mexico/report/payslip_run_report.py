@@ -20,6 +20,5 @@ class reportHrPayslipRun(models.TransientModel):
             'docs': docs,
             'data': data,
             'currency_precision': self.env.user.company_id.currency_id.decimal_places,
-
         }
         
