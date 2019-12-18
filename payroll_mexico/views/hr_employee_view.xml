@@ -128,6 +128,8 @@
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
                         <group>
                             <group string="IMSS">
+                                <field name="employer_register_id" context="{'default_company_id': company_id}"
+                                    domain="[('company_id','=',company_id)]"/>
                                 <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
                                 <field name="payment_period_id"/>
                                 <field name="salary" readonly="1"/>

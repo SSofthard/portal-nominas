@@ -21,8 +21,8 @@ class HolidaysType(models.Model):
     request_unit = fields.Selection([
         ('day', 'Días'), ('hour', 'Horas')],
         default='day', string='Tomar ausencias en', required=True)
-    time_type = fields.Selection([('leave', 'Ausencia'),
-        ('inability', 'Inability'),
+    time_type = fields.Selection([('leave', 'Ausentismo'),
+        ('inability', 'Incapacidad'),
         ('other', 'Otro')], 
         default='leave', string="Tipo de licencia",
         help="Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)")
@@ -93,8 +93,35 @@ class HolidaysRequest(models.Model):
         default=fields.Datetime.now,
         states={'draft': [('readonly', False)], 'confirm': [('readonly', False)]}, track_visibility='onchange')
     group_id = fields.Many2one('hr.group', "Group", readonly=True, related= 'employee_id.group_id', store=True)
+    time_type = fields.Selection("Selection", related= 'holiday_status_id.time_type')
     # Translate fields
     request_unit_half = fields.Boolean('Half Day')
+    type_inhability_id = fields.Many2one('hr.leave.inhability', "Type inhability")
+    inhability_classification_id = fields.Many2one('hr.leave.classification', "Classification")
+    inhability_category_id = fields.Many2one('hr.leave.category', "Category")
+    inhability_subcategory_id = fields.Many2one('hr.leave.subcategory', "Subcategory")
+    folio = fields.Char('Folio', required=True)
+
+    @api.multi
+    @api.onchange('type_inhability_id')
+    def onchange_type_inhability_id(self):
+        self.inhability_classification_id = False
+        domain = {'inhability_classification_id': [('id', '=', self.type_inhability_id.classification_ids.ids)]}
+        return {'domain': domain}
+        
+    @api.multi
+    @api.onchange('inhability_classification_id')
+    def onchange_inhability_classification_id(self):
+        self.inhability_category_id = False
+        domain = {'inhability_category_id': [('id', '=', self.inhability_classification_id.category_ids.ids)]}
+        return {'domain': domain}
+        
+    @api.multi
+    @api.onchange('inhability_category_id')
+    def onchange_inhability_category_id(self):
+        self.inhability_subcategory_id = False
+        domain = {'inhability_subcategory_id': [('id', '=', self.inhability_category_id.subcategory_ids.ids)]}
+        return {'domain': domain}
 
     @api.multi
     def action_approve(self):
@@ -174,3 +201,9 @@ class HolidaysRequest(models.Model):
             values['date_to'] = request_parameters.get('date_to')
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
         return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
+
+
+class CalendarLeaves(models.Model):
+    _inherit = "resource.calendar.leaves"
+
+    time_type = fields.Selection(selection_add=[('inability', 'Inability')])

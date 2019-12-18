@@ -70,9 +70,6 @@ class Employee(models.Model):
         payslips = self.env['hr.payslip'].search([('date_from','>=',date_start),('date_to','<=',date_end)])
         print (sum(payslips.mapped('integral_variable_salary')) / len(payslips))
         self.salary_var = sum(payslips.mapped('integral_variable_salary'))/len(payslips)
-        print (self.salary_var)
-        print (self.salary_var)
-        print (self.salary_var)
 
     @api.multi
     def name_get(self):
@@ -174,7 +171,8 @@ class Employee(models.Model):
         ('other', 'Other'),
     ], 'Certificate Level', default='master', groups="hr.group_hr_user")
     km_home_work = fields.Integer(string="Km home-work", groups="hr.group_hr_user")
-    # Fields Translate
+    # Register pattern
+    employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
     
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -246,6 +244,19 @@ class Employee(models.Model):
         res.post()
         return res
     
+    @api.multi
+    def write(self, vals):
+        res = super(Employee, self).write(vals)
+        if 'group_id' in vals:
+            self.post()
+        return res
+    
+    @api.onchange('company_id')
+    def _onchange_company(self):
+        address = self.company_id.partner_id.address_get(['default'])
+        self.address_id = address['default'] if address else False
+        self.employer_register_id = False
+
     # ~ @api.onchange('ssnid')
     # ~ def _check_social_security_number_length(self):
         # ~ if self.ssnid:
