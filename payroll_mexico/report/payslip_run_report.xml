@@ -5,10 +5,10 @@
         <report id="report_payslip_run_template"
 			  string="Detalles de nomina"
 			  model="hr.payslip.run"
-			  report_type="qweb-html"
+			  report_type="qweb-pdf"
 			  name="payroll_mexico.payslip_run_template"
 			  file="payroll_mexico.payslip_run_template"
-              menu="False"
+              menu="True"
 			 />
 
         <template id="payslip_run_template" name="Reporte de Procesamiento de Nómina">
@@ -34,17 +34,17 @@
                                 <tbody>
                                     <tr>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <strong>Nómina:</strong><span t-field="o.name"/>
+                                             <strong>Nómina: </strong><span t-field="o.name"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <strong>Clasificación:</strong>??????
+                                            <strong>Clasificación: </strong>??????
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <strong>Rango de departamentos:</strong>?????
+                                             <strong>Rango de departamentos: </strong>?????
                                         </td>
                                     </tr>
                                     <tr>
@@ -54,12 +54,19 @@
                                     </tr>
                                     <tr>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <strong>Periodicidad:</strong> <span t-field="o.payroll_period"/>
+                                             <strong>Periodicidad: </strong> <span t-field="o.payroll_period"/>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-
+                            <t t-set="sum_subs_empleo" t-value="0"/>
+                            <t t-set="sum_subs_isr" t-value="0"/>
+                            <t t-set="sum_IMSS" t-value="0"/>
+                            <t t-set="sum_otras_deducciones" t-value="0"/>
+                            <t t-set="sum_total_percepciones" t-value="0"/>
+                            <t t-set="sum_otras_percepciones" t-value="0"/>
+                            <t t-set="sum_sueldo" t-value="0"/>
+                            <t t-set="c" t-value="0"/>
                             <table class="table table-condensed">
                                 <tbody>
                                     <tr>
@@ -155,12 +162,16 @@
                                             <span t-field="payslip.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100').number_of_days"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.type_perception == '001').mapped('total'))"/>
+                                            <t t-set="sum_sueldo" t-value="sum_sueldo + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code == 'P001').mapped('total'))"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code == 'P001').mapped('total'))
+"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.type_perception != '001').mapped('total'))"/>
+                                            <t t-set="sum_otras_percepciones" t-value="sum_otras_percepciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code != 'P001').mapped('total'))"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code != 'P001').mapped('total'))"/>
                                         </td>
                                         <td class="text-center">
+                                            <t t-set="sum_total_percepciones" t-value="sum_total_percepciones + payslip.line_ids.filtered(lambda line: line.code == 'P195').total"/>
                                             <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'P195').total"/>
                                         </td>
                                         <td class="text-center">
@@ -174,28 +185,32 @@
                                             <span t-esc="payslip.line_ids.filtered(lambda line: line.code == 'T001').total if o.pay_type == '1' else 0"/>
                                         </td>
                                         <td class="text-center">
-                                             <span t-esc="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI002').total/WORKHOUR"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI002').total/WORKHOUR"/>
                                         </td>
                                         <td class="text-center">
-                                           <span t-esc="payslip.line_ids.filtered(lambda line: line.code == 'D002').total or 0"/>
+                                            <t t-set="sum_IMSS" t-value="sum_IMSS+payslip.line_ids.filtered(lambda line: line.code == 'D002').total or 0"/>
+                                           <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.code == 'D002').total or 0"/>
                                         </td>
                                         <td class="text-center">
                                             <span t-esc="WORKHOUR"/>
                                         </td>
                                         <td class="text-center">
+                                            <t t-set="sum_subs_isr" t-value="sum_subs_isr+payslip.line_ids.filtered(lambda line: line.code == 'UI105').total"/>
                                             <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'UI105').total"/>
                                         </td>
                                         <td class="text-center">
+                                            <t t-set="sum_subs_empleo" t-value="sum_subs_empleo+payslip.line_ids.filtered(lambda line: line.code == 'P105').total"/>
                                             <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'P105').total"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>
+                                            <t t-set="sum_otras_deducciones" t-value="sum_otras_deducciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="sum(payslip.line_ids.filtered(lambda line: line.code == '103').mapped('total'))"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.code == '103').mapped('total'))"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="payslip.line_ids.filtered(lambda line: line.code == 'T001').total if o.pay_type == '0' else 0"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.code == 'T001').total if o.pay_type == '0' else 0"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -250,27 +265,27 @@
                                 <tbody>
                                     <tr>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <strong>Nómina:</strong><span t-field="o.name"/>
+                                             <strong>Nómina: </strong><span t-field="o.name"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <strong>Clasificación:</strong>??????
+                                            <strong>Clasificación: </strong>??????
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <strong>Rango de departamentos:</strong>?????
+                                             <strong>Rango de departamentos: </strong>?????
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <strong>Periodo de pago:</strong> Del <span t-field="o.date_start"/> al <span t-field="o.date_end"/>
+                                             <strong>Periodo de pago: </strong> Del <span t-field="o.date_start"/> al <span t-field="o.date_end"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <strong>Periodicidad:</strong> <span t-field="o.payroll_period"/>
+                                             <strong>Periodicidad: </strong> <span t-field="o.payroll_period"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -279,24 +294,35 @@
                             <table class="table table-condensed">
                                 <tbody>
                                     <t t-set="total_perceptions" t-value="0"/>
-                                    <tr t-foreach="o.slip_ids.mapped('line_ids').filtered(lambda line: line.salary_rule_id.type == 'perception')" t-as="slip">
+                                    <tr>
                                         <td class="text-right" style="border: white 1px solid;">
-                                             <span t-field="slip.code"/>
+                                             P001
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <span t-field="slip.name"/>
+                                            SUELDOS
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-field="slip.total"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_sueldo"/>
                                         </td>
-                                        <t t-set="total_perceptions" t-value="total_perceptions+slip.total"/>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                             --
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            OTRAS PERCEPCIONES
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_otras_percepciones"/>
+                                        </td>
+                                        <t t-set="total_perceptions" t-value="sum_sueldo+sum_otras_percepciones"/>
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="text-right" style="border: white 1px solid;">
                                              Total percepciones
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <span t-esc="total_perceptions"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="total_perceptions"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -304,25 +330,56 @@
                             <center><h4>Deducciones</h4></center>
                             <table class="table table-condensed">
                                 <tbody>
-                                    <t t-set="total_deductions" t-value="0"/>
-                                    <tr t-foreach="o.slip_ids.mapped('line_ids').filtered(lambda line: line.salary_rule_id.type == 'deduction')" t-as="slip">
+                                    <tr>
                                         <td class="text-right" style="border: white 1px solid;">
-                                             <span t-field="slip.code"/>
+                                             D001
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <span t-field="slip.name"/>
+                                            ISR
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-field="slip.total"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_isr"/>
                                         </td>
-                                        <t t-set="total_deductions" t-value="total_perceptions+slip.total"/>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                             D002
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            IMSS
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_IMSS"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                             D100
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            SUBSIDIO PARA EL EMPLEO
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_empleo"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                             --
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            OTRAS DEDUCCIONES
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_otras_deducciones"/>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="text-right" style="border: white 1px solid;">
                                              Total deducciones
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <span t-esc="total_deductions"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_isr+sum_subs_isr+sum_IMSS+sum_otras_deducciones"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -335,7 +392,7 @@
                                              Total efectivo
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '0' else 0"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '0' else 0"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -343,7 +400,7 @@
                                              Neto Pagado
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total'))"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total'))"/>
                                         </td>
                                     </tr>
                                         <tr>
@@ -351,7 +408,7 @@
                                              Total gravable
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.salary_rule_id.payroll_tax).mapped('total'))"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.salary_rule_id.payroll_tax).mapped('total'))"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -359,7 +416,7 @@
                                              Subs. Empleo
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'P105').mapped('total'))"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'P105').mapped('total'))"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -367,11 +424,13 @@
                                              Total en especie
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '1' else 0"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '1' else 0"/>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <p>Las percepciones marcadas con * se pagan en especie. </p>
+                            <p>EL NETO PAGADO incluye el total en efectivo y el total en especie.</p>
                         </div>
                     </t>
                 </t>
