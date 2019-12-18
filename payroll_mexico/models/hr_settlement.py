@@ -36,7 +36,7 @@ class HrPayslip(models.Model):
     
     @api.onchange('reason_liquidation')
     def onchange_estructure_id(self):
-        if self.reason_liquidation in  ['2']:
+        if self.reason_liquidation in  ['2','1']:
             self.indemnify_employee = False
         return 
 

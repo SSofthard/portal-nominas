@@ -46,16 +46,12 @@ class Employee(models.Model):
             years_antiquity = contract.years_antiquity
             antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity)])
             days_holiday = antiguedad.vacaciones
-            print (days_holiday)
             daily_salary = contract.wage / self.group_id.days if self.group_id.days else self.contract_id.wage / 30
             bonus_holiday = ((daily_salary * days_holiday)*(antiguedad.prima_vac/100))/365
-            print (bonus_holiday)
             default_chirstmas_bonus_days = 15
             factor_christmas_bonus = default_chirstmas_bonus_days \
                 if years_antiquity >= 1 else (15/365)*(current_date - (start_date_contract - timedelta(days=1))).days
             christmas_bonus = (factor_christmas_bonus*daily_salary)/365
-            print (christmas_bonus)
-            print (daily_salary)
             integral_salary =  daily_salary + bonus_holiday + christmas_bonus
             self.salary = integral_salary
 
@@ -68,7 +64,6 @@ class Employee(models.Model):
         date_start = date(current_date.year, current_month-2, 1)
         date_end = current_date
         payslips = self.env['hr.payslip'].search([('date_from','>=',date_start),('date_to','<=',date_end)])
-        print (sum(payslips.mapped('integral_variable_salary')) / len(payslips))
         self.salary_var = sum(payslips.mapped('integral_variable_salary'))/len(payslips)
 
     @api.multi
@@ -234,8 +229,6 @@ class Employee(models.Model):
         for employee in self:
             zone = self.env['res.municipality.zone'].search([('municipality_id','=',employee.work_center_id.municipality_id.id)],limit=1)
             wage = self.env['table.minimum.wages'].search([],limit=1)
-            print (zone)
-            print (wage)
             wage_minimum = 0
             if zone.zone == 'freezone':
                 wage_minimum = wage.border_crossing

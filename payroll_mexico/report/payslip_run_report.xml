@@ -218,7 +218,9 @@
                                             <span t-field="payslip.employee_id.working_day_week"/>
                                         </td>
                                         <td class="text-center">
+<!--
                                             <span t-field="payslip.contract_id.previous_contract_date or payslip.contract_id.date_start"/>
+-->
                                         </td>
                                         <td class="text-center">
                                             <span t-field="payslip.employee_id.salary_type"/>

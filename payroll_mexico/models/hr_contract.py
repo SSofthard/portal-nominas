@@ -193,8 +193,31 @@ class Contract(models.Model):
                 days = (date_to - date_from).days
         return days
         
-    def holiday_calculation_finiquito(self):
-        return 1
+    def holiday_calculation_finiquito(self,date_payroll):
+        date_from = self.date_start
+        date_to = self.date_end
+        days = 0
+        if self.type_id.type == 'with_seniority':
+            date_from = self.previous_contract_date
+        date1 =datetime.strptime(str(str(date_payroll.year)+'-01-01'), DEFAULT_SERVER_DATE_FORMAT).date()
+        if date_from <= date1:
+            date2 =datetime.strptime(str(str(date_payroll.year)+'-01-01'), DEFAULT_SERVER_DATE_FORMAT).date()
+            days =  (date_to - date2).days
+        else:
+            days = (date_to - date_from).days
+        years_antiquity = self.years_antiquity
+        if years_antiquity == 0:
+            years_antiquity = 1
+        antiquity = self.env['tablas.antiguedades.line'].search([('form_id.group_id','=',self.employee_id.group_id.id),('antiguedad','=',years_antiquity)],limit=1)
+        proportional_days = (antiquity.vacaciones/365) * days
+        return proportional_days
+        
+    def holiday_bonus(self):
+        years_antiquity = self.years_antiquity
+        if years_antiquity == 0:
+            years_antiquity = 1
+        antiquity = self.env['tablas.antiguedades.line'].search([('form_id.group_id','=',self.employee_id.group_id.id),('antiguedad','=',years_antiquity)],limit=1)
+        return antiquity.prima_vac
 
 class CalendarResource(models.Model):
     _inherit = 'resource.calendar'
