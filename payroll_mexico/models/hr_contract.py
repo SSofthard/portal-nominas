@@ -174,11 +174,6 @@ class Contract(models.Model):
 
     
     def time_worked_year(self,date_payroll,settlement=None):
-        print (settlement)
-        print (settlement)
-        print (settlement)
-        print (settlement)
-        print (settlement)
         date_from = self.date_start
         date_to = self.date_end
         days = 0
@@ -196,10 +191,7 @@ class Contract(models.Model):
                 days = (date2 - date_from).days
             else:
                 days = (date_to - date_from).days
-        print (days)
-        print (days)
-        print (days)
-        print (days)
-        print (days)
-        print (days)
         return days
+        
+    def holiday_calculation_finiquito(self):
+        return 1
