@@ -32,8 +32,20 @@ class HrPayslip(models.Model):
             string='Reason for liquidation', 
             required=False,
             states={'draft': [('readonly', False)]})
+    indemnify_employee = fields.Boolean(string='Indemnify the employee')
+    
+    @api.onchange('reason_liquidation')
+    def onchange_estructure_id(self):
+        if self.reason_liquidation in  ['2']:
+            self.indemnify_employee = False
+        return 
 
 class HrPayrollStructure(models.Model):
     _inherit = 'hr.payroll.structure'
     
     settlement = fields.Boolean(string='Settlement structure?')
+    payroll_type = fields.Selection([
+            ('ordinary_payroll', 'Ordinary Payroll'),
+            ('extraordinary_payroll', 'Extraordinary Payroll')], 
+            string='Payroll Type', 
+            required=True,)

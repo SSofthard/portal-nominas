@@ -8,6 +8,13 @@
             <field name="priority">6</field>
             <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
             <field name="arch" type="xml">
+				<xpath expr="//header" position="inside">
+                        <button name="print_payslip_run_details"
+                            type="object"
+                            string="Imprimir detalles de nomina"
+                        >
+                        </button>
+                </xpath>
                 <xpath expr="//header" position="inside">
                     <button name="print_payroll_deposit_report" string="Payroll Deposit Report" type="object" states="close" class="o_sale_print"/>
                     <button name="print_fault_report" string="Reporte de faltas" type="object" class="o_sale_print" attrs="{'invisible': [('payroll_type','!=','ordinary_payroll')]}"/>
@@ -44,10 +51,13 @@
                         </group>
                     </group>
                     <group col="4">
-                        <field name="payroll_type"/>
+                        <field name="estructure_id"/>
+                        <field name="contracting_regime"/>
+                        <field name="payroll_type" attrs="{'invisible': [('state','=','draft')]}"/>
                         <field name="payroll_month"/>
                         <field name="payroll_of_month"/>
                         <field name="payroll_period"/>
+                        <field name="pay_type"/>
                         <field name="pay_bonus" attrs="{'invisible': [('bonus_date','!=',True)]}"/>
                         <field name="table_id" invisible="1"/>
                         <field name="bonus_date" invisible="1"/>

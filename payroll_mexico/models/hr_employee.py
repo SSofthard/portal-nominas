@@ -171,9 +171,21 @@ class Employee(models.Model):
         ('other', 'Other'),
     ], 'Certificate Level', default='master', groups="hr.group_hr_user")
     km_home_work = fields.Integer(string="Km home-work", groups="hr.group_hr_user")
+    salary_type = fields.Selection([('0','Fijo'),('1','Variable'),('2','Mixto')],string="Tipo de salario", default='0')
+    working_day_week = fields.Selection([('0','Completa'),
+                                         ('1','Trabaja un día'),
+                                         ('2','Mixto'),
+                                         ('3','Trabaja tres días'),
+                                         ('4','Trabaja cuatro días'),
+                                         ('5','Trabaja cinco días'),
+                                         ('6','Jornada reducida'),
+                                         ],
+                                        string="Jornada semanal",
+                                        default='0')
+    # Fields Translate
     # Register pattern
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
-    
+
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
         ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
@@ -222,6 +234,8 @@ class Employee(models.Model):
         for employee in self:
             zone = self.env['res.municipality.zone'].search([('municipality_id','=',employee.work_center_id.municipality_id.id)],limit=1)
             wage = self.env['table.minimum.wages'].search([],limit=1)
+            print (zone)
+            print (wage)
             wage_minimum = 0
             if zone.zone == 'freezone':
                 wage_minimum = wage.border_crossing

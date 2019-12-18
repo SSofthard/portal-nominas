@@ -6,18 +6,28 @@ from odoo.exceptions import UserError
 
 class HrPayslipEmployees(models.TransientModel):
     _inherit = 'hr.payslip.employees'
+    
+    def _default_estructure(self):
+        payslip_run=self.env['hr.payslip.run'].search([('id','in',self.env.context.get('active_ids', []))])
+        return payslip_run.estructure_id.id
+        
+    def _default_contracting_regime(self):
+        payslip_run=self.env['hr.payslip.run'].search([('id','in',self.env.context.get('active_ids', []))])
+        return payslip_run.contracting_regime
 
-    estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure')
-    # ~ group_id = fields.Many2one('hr.group', "Group", required=True,)
+    estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', readonly=True, default=lambda self: self._default_estructure())
     contracting_regime = fields.Selection([
                                         ('1', 'Assimilated to wages'),
                                         ('2', 'Wages and salaries'),
                                         ('3', 'Senior citizens'),
                                         ('4', 'Pensioners'),
                                         ('5', 'Free'),
-                                        ], string='Contracting Regime', required=True, default="2")
-
-    @api.onchange('estructure_id','contracting_regime','group_id')
+                                        ], string='Contracting Regime', 
+                                        required=True, 
+                                        readonly=True,
+                                        default=lambda self: self._default_contracting_regime()
+                                        )
+    @api.onchange('estructure_id','contracting_regime')
     def onchange_estructure(self):
         active_id = self.env.context.get('active_id')
         if active_id:
@@ -78,4 +88,5 @@ class HrPayslipEmployees(models.TransientModel):
             }
             payslips += self.env['hr.payslip'].create(res)
             payslips.compute_sheet()
+        
         return {'type': 'ir.actions.act_window_close'}
