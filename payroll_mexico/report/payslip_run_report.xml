@@ -15,10 +15,10 @@
              <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.internal_layout">
-                        <div class="page" style="font-size:12px">
+                        <div class="page" style="font-size:10px">
                             <table class="table">
                                 <tbody>
-                                    <tr>
+                                    <tr>    
                                         <td class="text-left" style="border: white 1px solid;">
                                              <strong>Registro Patronal:</strong>
                                         </td>
@@ -28,8 +28,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h4>Reporte de Nómina</h4></center>
-                            <br/>
+                            <center><h5>Reporte de Nómina</h5></center>
                             <table class="table">
                                 <tbody>
                                     <tr>
@@ -248,7 +247,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="page" style="font-size:12px; page-break-after:always;">
+                        <div style="display:block;page-break-before:always;"/>
+                        <div class="page" style="font-size:10px;">
                             <table class="table">
                                 <tbody>
                                     <tr>
@@ -261,8 +261,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h4>Reporte de Nómina</h4></center>
-                            <br/>
+                            <center><h5>Reporte de Nómina</h5></center>
                             <table class="table">
                                 <tbody>
                                     <tr>
@@ -292,7 +291,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h5>Percepciones</h5></center>
+                            <center><h6>Percepciones</h6></center>
                             <table class="table table-condensed">
                                 <tbody>
                                     <t t-set="total_perceptions" t-value="0"/>
@@ -329,7 +328,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h5>Deducciones</h5></center>
+                            <center><h6>Deducciones</h6></center>
                             <table class="table table-condensed">
                                 <tbody>
                                     <tr>
@@ -386,7 +385,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h5>Totales</h5></center>
+                            <center><h6>Totales</h6></center>
                             <table class="table table-condensed">
                                 <tbody>
                                     <tr>
