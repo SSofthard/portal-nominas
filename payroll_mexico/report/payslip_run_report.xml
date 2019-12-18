@@ -5,7 +5,7 @@
         <report id="report_payslip_run_template"
 			  string="Detalles de nomina"
 			  model="hr.payslip.run"
-			  report_type="qweb-pdf"
+			  report_type="qweb-html"
 			  name="payroll_mexico.payslip_run_template"
 			  file="payroll_mexico.payslip_run_template"
               menu="True"
