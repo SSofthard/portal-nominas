@@ -18,6 +18,7 @@
                 <xpath expr="//header" position="inside">
                     <button name="print_payroll_deposit_report" string="Payroll Deposit Report" type="object" states="close" class="o_sale_print"/>
                     <button name="print_fault_report" string="Reporte de faltas" type="object" class="o_sale_print" attrs="{'invisible': [('payroll_type','!=','ordinary_payroll')]}"/>
+                    <button name="%(payroll_mexico.action_payslip_run_rule_details)d" string="Reporte detalles de calculos" type="action" class="o_sale_print"/>
                 </xpath>
                 <xpath expr="//field[@name='name']" position="before">
                     <div class="oe_button_box" name="button_box">
@@ -51,7 +52,9 @@
                         </group>
                     </group>
                     <group col="4">
-                        <field name="payroll_type"/>
+                        <field name="estructure_id"/>
+                        <field name="contracting_regime"/>
+                        <field name="payroll_type" attrs="{'invisible': [('state','=','draft')]}"/>
                         <field name="payroll_month"/>
                         <field name="payroll_of_month"/>
                         <field name="payroll_period"/>

@@ -12,14 +12,20 @@ class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
     
     
+    estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', required=True)
+    contracting_regime = fields.Selection([
+                                        ('1', 'Assimilated to wages'),
+                                        ('2', 'Wages and salaries'),
+                                        ('3', 'Senior citizens'),
+                                        ('4', 'Pensioners'),
+                                        ('5', 'Free'),
+                                        ], string='Contracting Regime', required=True, default="2")
     payroll_type = fields.Selection([
             ('ordinary_payroll', 'Ordinary Payroll'),
             ('extraordinary_payroll', 'Extraordinary Payroll')], 
             string='Payroll Type', 
-            default="ordinary_payroll", 
-            required=True,
-            readonly=True,
-            states={'draft': [('readonly', False)]})
+            required=False,
+            readonly=False,)
     payroll_month = fields.Selection([
             ('1', 'January'),
             ('2', 'February'),
@@ -153,16 +159,8 @@ class HrPayslipRun(models.Model):
                             'inhability': inhability,
                             'absenteeism': absenteeism,
                         })
-                        # ~ employee_data[employee.id] = {
-                            
-                            # ~ 'fault_data': fault_data
-                        # ~ }
                         payroll_dic['employee_data'] = fault_data
         
-        print (payroll_dic)
-        print (payroll_dic)
-        print (payroll_dic)
-        print (payroll_dic)
         data={
             'payroll_data': payroll_dic
             }
@@ -250,6 +248,13 @@ class HrPayslipRun(models.Model):
         else:
             self.bonus_date = False
         return
+        
+    @api.onchange('estructure_id')
+    def onchange_estructure_id(self):
+        if not self.estructure_id:
+            return
+        self.payroll_type = self.estructure_id.payroll_type
+        return 
 
     @api.multi
     def compute_amount_untaxed(self):
