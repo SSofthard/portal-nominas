@@ -109,21 +109,21 @@ class HolidaysRequest(models.Model):
     @api.onchange('type_inhability_id')
     def onchange_type_inhability_id(self):
         self.inhability_classification_id = False
-        domain = {'inhability_classification_id': [('id', '=', self.type_inhability_id.classification_ids.ids)]}
+        domain = {'inhability_classification_id': [('id', 'in', self.type_inhability_id.classification_ids.ids)]}
         return {'domain': domain}
         
     @api.multi
     @api.onchange('inhability_classification_id')
     def onchange_inhability_classification_id(self):
         self.inhability_category_id = False
-        domain = {'inhability_category_id': [('id', '=', self.inhability_classification_id.category_ids.ids)]}
+        domain = {'inhability_category_id': [('id', 'in', self.inhability_classification_id.category_ids.ids)]}
         return {'domain': domain}
         
     @api.multi
     @api.onchange('inhability_category_id')
     def onchange_inhability_category_id(self):
         self.inhability_subcategory_id = False
-        domain = {'inhability_subcategory_id': [('id', '=', self.inhability_category_id.subcategory_ids.ids)]}
+        domain = {'inhability_subcategory_id': [('id', 'in', self.inhability_category_id.subcategory_ids.ids)]}
         return {'domain': domain}
 
     @api.multi
