@@ -224,6 +224,8 @@ class Employee(models.Model):
         for employee in self:
             zone = self.env['res.municipality.zone'].search([('municipality_id','=',employee.work_center_id.municipality_id.id)],limit=1)
             wage = self.env['table.minimum.wages'].search([],limit=1)
+            print (zone)
+            print (wage)
             wage_minimum = 0
             if zone.zone == 'freezone':
                 wage_minimum = wage.border_crossing

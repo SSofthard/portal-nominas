@@ -145,6 +145,8 @@ class HrPayslip(models.Model):
         for contract in contracts:
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
             for input in inputs:
+                print (input)
+                print (input.name)
                 amount = 0.0
                 other_input_line = self.env['hr.inputs'].search([('employee_id', '=', employee_id),('input_id', '=', input.id),('state','in',['approve']),('payslip','=',False)])
                 hr_inputs += other_input_line

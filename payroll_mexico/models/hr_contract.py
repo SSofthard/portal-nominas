@@ -173,7 +173,12 @@ class Contract(models.Model):
         return self.env.ref('payroll_mexico.report_contract_type_template').report_action(self,data)
 
     
-    def time_worked_year(self,date_payroll):
+    def time_worked_year(self,date_payroll,settlement=None):
+        print (settlement)
+        print (settlement)
+        print (settlement)
+        print (settlement)
+        print (settlement)
         date_from = self.date_start
         date_to = self.date_end
         days = 0
@@ -182,7 +187,19 @@ class Contract(models.Model):
         date1 =datetime.strptime(str(str(date_payroll.year)+'-01-01'), DEFAULT_SERVER_DATE_FORMAT).date()
         if date_from <= date1:
             days = 365
+            if settlement:
+                date2 =datetime.strptime(str(str(date_payroll.year)+'-01-01'), DEFAULT_SERVER_DATE_FORMAT).date()
+                days =  (date_to - date2).days
         else:
-            date2 =datetime.strptime(str(str(date_payroll.year)+'-12-31'), DEFAULT_SERVER_DATE_FORMAT).date()
-            days = (date2 - date_from).days
+            if not settlement:
+                date2 =datetime.strptime(str(str(date_payroll.year)+'-12-31'), DEFAULT_SERVER_DATE_FORMAT).date()
+                days = (date2 - date_from).days
+            else:
+                days = (date_to - date_from).days
+        print (days)
+        print (days)
+        print (days)
+        print (days)
+        print (days)
+        print (days)
         return days

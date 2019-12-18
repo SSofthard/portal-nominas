@@ -32,6 +32,7 @@ class HrPayslip(models.Model):
             string='Reason for liquidation', 
             required=False,
             states={'draft': [('readonly', False)]})
+    indemnify_employee = fields.Boolean(string='Indemnify the employee')
 
 class HrPayrollStructure(models.Model):
     _inherit = 'hr.payroll.structure'

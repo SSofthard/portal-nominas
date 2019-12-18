@@ -36,6 +36,7 @@
         <field name="arch" type="xml">
             <form string="Settlement">
             <header>
+				<button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
                 <button string="Confirm" name="action_payslip_done" type="object" states="draft" class="oe_highlight"/>
                 <button string="Refund" name="refund_sheet" states="confirm,done" type='object' />
                 <button string="Set to Draft" name="action_payslip_draft" type="object" states="cancel"/>
@@ -72,6 +73,7 @@
                     <field name="reason_liquidation" attrs="{'required':[('settlement','!=',False)]}"/>
                     <field name="group_id"/>
                     <field name="settlemen_date" attrs="{'required':[('settlement','!=',False)]}"/>
+                    <field name="indemnify_employee"/>
                     <field name="payroll_month" invisible="1"/>
                     <field name="payroll_of_month" invisible="1"/>
                     <field name="payroll_type" invisible="1"/>
@@ -121,6 +123,9 @@
                             </form>
                         </field>
                     </page>
+                    <page string="Inpust reported on payroll">
+                        <field name="input_ids" readonly="1"/>
+                   </page>
                     <page string="Salary Computation" >
                         <field name="line_ids" colspan="4" nolabel="1">
                             <tree string="Salary Structure" editable="bottom" decoration-info="total == 0">
@@ -159,14 +164,11 @@
                             </tree>
                         </field>
                    </page>
-                   <page string="Accounting Information">
+                   <page string="Miscellaneous">
                         <group>
                             <group string="Miscellaneous">
                                 <field name="company_id" groups="base.group_multi_company"/>
-                                <field name="payslip_run_id" domain="[('state','=','draft')]"/>
-                            </group>
-                            <group name="accounting" string="Accounting">
-                                <field name="paid" readonly="1"/>
+                                <field name="payslip_run_id" domain="[('state','=','draft')]" invisible="1"/>
                             </group>
                         </group>
                         <div colspan="4">
