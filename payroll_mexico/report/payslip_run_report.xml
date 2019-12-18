@@ -248,7 +248,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="page" style="font-size:12px">
+                        <div class="page" style="font-size:12px; page-break-after:always;">
                             <table class="table">
                                 <tbody>
                                     <tr>
