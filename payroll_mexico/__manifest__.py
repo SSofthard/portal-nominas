@@ -34,6 +34,7 @@
         'report/indeterminate_contract_with_seniority.xml',
         'report/determinate_contract_with_seniority.xml',
         'report/independent_services_provision_agreement.xml',
+        'report/payslip_run_report.xml',
         'report/payroll_deposit_report_template.xml',
         'report/fault_report_template.xml',
         'data/data.xml',

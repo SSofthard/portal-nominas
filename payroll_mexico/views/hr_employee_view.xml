@@ -127,6 +127,10 @@
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
                         <group>
+                            <group string="Datos de Nómina">
+                                <field name="salary_type"/>
+                                <field name="working_day_week"/>
+                            </group>
                             <group string="IMSS">
                                 <field name="employer_register_id" context="{'default_company_id': company_id}"
                                     domain="[('company_id','=',company_id)]"/>

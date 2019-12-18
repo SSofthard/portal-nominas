@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <report id="report_payslip_run_template"
+			  string="Detalles de nomina"
+			  model="hr.payslip.run"
+			  report_type="qweb-html"
+			  name="payroll_mexico.payslip_run_template"
+			  file="payroll_mexico.payslip_run_template"
+              menu="False"
+			 />
+
+        <template id="payslip_run_template" name="Reporte de Procesamiento de Nómina">
+             <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page" style="font-size:18px">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Registro Patronal:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>RFC:</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <center><h3>Reporte de Nómina</h3></center>
+                            <br/>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Nómina:</strong><span t-field="o.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Clasificación:</strong>??????
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Rango de departamentos:</strong>?????
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Periodo de pago:</strong> Del <span t-field="o.date_start"/> al <span t-field="o.date_end"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Periodicidad:</strong> <span t-field="o.payroll_period"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <strong>Clave</strong>
+                                        </td>
+                                        <td class="text-center" colspan="3">
+                                            <strong>Nombre del Trabajador</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Dias Trabajados</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Sueldo</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Otras percepciones</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Total percepciones</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Neto pagado</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            <strong>Total en especie</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Salario por hora</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Total IMSS</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Horas por día</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Total ISR</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Subs. Empleo</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Otra Deduc</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Total Deduc</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Total Efectivo</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            <strong>N.S.S</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>RFC</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>CURP</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Sal.Diario</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>S.D.I.</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>D. Jornada</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>F. Alta</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Tipo salario</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>U.T. Laboradas</strong>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="o.slip_ids" t-as="payslip">
+                                        <tr>
+                                        <td class="text-center">
+                                            <span t-field="payslip.employee_id.enrollment"/>
+                                        </td>
+                                        <td class="text-center" colspan="3">
+                                            <span t-esc="payslip.employee_id.name_get()[0][1]"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100').number_of_days"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.type_perception == '001').mapped('total'))"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.type_perception != '001').mapped('total'))"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'P195').total"/>
+                                        </td>
+                                        <td class="text-center">
+                                               <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'T001').total"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                         <t t-set="WORK100" t-value="payslip.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100')"/>
+                                         <t t-set="WORKHOUR" t-value="WORK100.number_of_hours/WORK100.number_of_days"/>
+                                        <td class="text-center">
+                                            <span t-esc="payslip.line_ids.filtered(lambda line: line.code == 'T001').total if o.pay_type == '1' else 0"/>
+                                        </td>
+                                        <td class="text-center">
+                                             <span t-esc="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI002').total/WORKHOUR"/>
+                                        </td>
+                                        <td class="text-center">
+                                           <span t-esc="payslip.line_ids.filtered(lambda line: line.code == 'D002').total or 0"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="WORKHOUR"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'UI105').total"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'P105').total"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="sum(payslip.line_ids.filtered(lambda line: line.code == '103').mapped('total'))"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="payslip.line_ids.filtered(lambda line: line.code == 'T001').total if o.pay_type == '0' else 0"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            <span t-field="payslip.employee_id.ssnid"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.employee_id.rfc"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.employee_id.curp"/>
+                                        </td>
+                                        <td class="text-center">
+                                             <span t-field="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI002').total"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI003').total"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.employee_id.working_day_week"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.contract_id.previous_contract_date or payslip.contract_id.date_start"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.employee_id.salary_type"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="payslip.contract_id.resource_calendar_id.turno"/>
+                                        </td>
+                                    </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page" style="font-size:18px">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Registro Patronal:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>RFC:</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <center><h3>Reporte de Nómina</h3></center>
+                            <br/>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Nómina:</strong><span t-field="o.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Clasificación:</strong>??????
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Rango de departamentos:</strong>?????
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Periodo de pago:</strong> Del <span t-field="o.date_start"/> al <span t-field="o.date_end"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Periodicidad:</strong> <span t-field="o.payroll_period"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <center><h4>Percepciones</h4></center>
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <t t-set="total_perceptions" t-value="0"/>
+                                    <tr t-foreach="o.slip_ids.mapped('line_ids').filtered(lambda line: line.salary_rule_id.type == 'perception')" t-as="slip">
+                                        <td class="text-right" style="border: white 1px solid;">
+                                             <span t-field="slip.code"/>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="slip.name"/>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <span t-field="slip.total"/>
+                                        </td>
+                                        <t t-set="total_perceptions" t-value="total_perceptions+slip.total"/>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-right" style="border: white 1px solid;">
+                                             Total percepciones
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="total_perceptions"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <center><h4>Deducciones</h4></center>
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <t t-set="total_deductions" t-value="0"/>
+                                    <tr t-foreach="o.slip_ids.mapped('line_ids').filtered(lambda line: line.salary_rule_id.type == 'deduction')" t-as="slip">
+                                        <td class="text-right" style="border: white 1px solid;">
+                                             <span t-field="slip.code"/>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="slip.name"/>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <span t-field="slip.total"/>
+                                        </td>
+                                        <t t-set="total_deductions" t-value="total_perceptions+slip.total"/>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-right" style="border: white 1px solid;">
+                                             Total deducciones
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="total_deductions"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <center><h4>Totales</h4></center>
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                             Total efectivo
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '0' else 0"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                             Neto Pagado
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total'))"/>
+                                        </td>
+                                    </tr>
+                                        <tr>
+                                         <td class="text-right" style="border: white 1px solid;">
+                                             Total gravable
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.salary_rule_id.payroll_tax).mapped('total'))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                         <td class="text-right" style="border: white 1px solid;">
+                                             Subs. Empleo
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'P105').mapped('total'))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                         <td class="text-right" style="border: white 1px solid;">
+                                             Total en especie
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <span t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '1' else 0"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+
+
+        </template>
+    
+   </data>
+</odoo>

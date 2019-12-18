@@ -195,3 +195,9 @@ class Contract(models.Model):
         
     def holiday_calculation_finiquito(self):
         return 1
+
+class CalendarResource(models.Model):
+    _inherit = 'resource.calendar'
+
+    #Columns
+    turno = fields.Selection([('0','Dia'),('1','Noche'),('2','Mixto')], default='0',string='Turno')
