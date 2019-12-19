@@ -9,6 +9,7 @@
     'summary': "Module that adapts Mexico's own characteristics of the human resources process.",
     "depends": ['base','account','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry'],
     "data": [
+        'wizard/report_payslip_line_details_view.xml',
         'wizard/report_payslip_run_rule_details_view.xml',
         'wizard/hr_update_fonacot_wizard.xml',
         'wizard/hr_employee_contract_wizard.xml',
@@ -32,6 +33,7 @@
         'security/ir.model.access.csv',
         #Reports
         'report/base_layout.xml',
+        'report/report_payslip_line_template.xml',
         'report/indeterminate_contract_without_seniority.xml',
         'report/determinate_contract_without_seniority.xml',
         'report/indeterminate_contract_with_seniority.xml',

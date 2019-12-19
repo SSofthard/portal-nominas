@@ -206,6 +206,7 @@
             <field name="context">{'type_input': 'deductions'}</field>
         </record>
         
+        
         <menuitem
             name="Inputs"
             id="menu_hr_inputs"
@@ -223,6 +224,7 @@
             action="view_hr_inputs_deductions_action"
             parent="menu_hr_inputs" sequence="20"/>
             
+        
             
         <record id="hr_payslip_inherit" model="ir.ui.view">
             <field name="name">hr.payslip.inherit.view</field>
@@ -231,10 +233,101 @@
             <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='contract_id']" position="attributes">
-					<attribute name="domain">[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False),('state','in',['open'])]</attribute>
+                    <attribute name="domain">[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False),('state','in',['open'])]</attribute>
                 </xpath>
             </field>
         </record>
 
+        <!-- View search inherit para los detalles de las nóminas -->
+        <record id="view_hr_payslip_line_filter_inherit" model="ir.ui.view">
+            <field name="name">hr.payslip.line.select</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_line_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='category_id']" position="before">
+                    <filter string="Nómina" name="gruopby_slip_id" context="{'group_by':'slip_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Tree readonly para los detalles de las nóminas -->
+        <record id="view_hr_payslip_line_readonly_tree" model="ir.ui.view">
+            <field name="name">hr.payslip.line.readonl.tree</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="arch" type="xml">
+                <tree string="Salary Structure" decoration-info="total == 0" create="false" edit="false">
+                    <field name="employee_id" />
+                    <field name="category_id"/>
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="quantity"/>
+                    <field name="rate"/>
+                    <field name="amount"/>
+                    <field name="total"/>
+                    <field name="amount_select" invisible="1"/>
+                    <field name="register_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_hr_payslip_line_readonly_form">
+            <field name="name">view.hr.payslip.line.readonly.form</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_line_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//form" position="attributes">
+                   <attribute name="create">0</attribute>
+                   <attribute name="edit">0</attribute>
+               </xpath>
+            </field>
+        </record>
+        
+        <!-- Acction para los detalles de las nóminas -->
+        <record id="action_view_hr_payslip_line_form" model="ir.actions.act_window">
+            <field name="name">Detalles de la Nómina</field>
+            <field name="res_model">hr.payslip.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="view_hr_payslip_line_readonly_tree"/>
+            <field name="search_view_id" ref="hr_payroll.view_hr_payslip_line_filter"/>
+            <field name="context">{
+                "search_default_gruopby_slip_id": 1,
+                }
+            </field>
+        </record>
+        
+        <menuitem
+            name="Nóminas del empleado"
+            id="menu_view_hr_payslip_refactor"
+            action="view_hr_inputs_deductions_action"
+            parent="hr_payroll.menu_hr_payroll_root" sequence="5"/>
+        <menuitem 
+            name="Nóminas del empleado"
+            action="hr_payroll.action_view_hr_payslip_form" 
+            id="hr_payroll.menu_department_tree" 
+            parent="menu_view_hr_payslip_refactor" 
+            sequence="10"/>
+        <menuitem 
+            name="Detalles de la Nómina"
+            action="action_view_hr_payslip_line_form" 
+            id="menu_details_payslip_lines" 
+            parent="menu_view_hr_payslip_refactor" 
+            sequence="10"/>
+        
+        <!-- Menu de reportes de Nómina -->
+        <menuitem
+            name="Informes"
+            id="menu_payroll_line_report_root"
+            parent="hr_payroll.menu_hr_payroll_root"
+            sequence="30"/>
+            
+        <menuitem 
+            name="Detalles de la nómina"
+            action="payroll_mexico.action_report_payslip_line_details" 
+            id="report_payslip_line_details" 
+            parent="menu_payroll_line_report_root" 
+            sequence="5"/>
+        
     </data>
 </odoo>
