@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     
-    <record id="wizard_expired_contracts" model="ir.ui.view">
-        <field name="name">wizard.expired.contracts</field>
-        <field name="model">wizard.expired.contracts</field>
+    <record id="wizard_employee_catalogs" model="ir.ui.view">
+        <field name="name">wizard.employee.catalogs</field>
+        <field name="model">wizard.employee.catalogs</field>
         <field name="priority">5</field>
         <field name="arch" type="xml">
             <form>
@@ -33,9 +33,9 @@
     </record>
     
     <act_window
-        id="action_wizard_expired_contracts"
-        name="Vencimiento de contratos"
-        res_model="wizard.expired.contracts"
+        id="action_wizard_employee_catalogs"
+        name="Catalogos de empleados"
+        res_model="wizard.employee.catalogs"
         src_model="hr.contract"
         view_mode="form"
         multi="True"
