@@ -81,7 +81,7 @@ class Employee(models.Model):
                         'contract_id': contract.id,
                         'job_id': contract.job_id.id,
                         'wage': contract.wage,
-                        'salary': employee.salary,
+                        'salary': contract.integral_salary,
                         'date_from': contract.date_start,
                         'type': 'register',
                     }

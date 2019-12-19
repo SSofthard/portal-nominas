@@ -3,19 +3,25 @@
     <data noupdate="1">
         <!-- Sequence -->
         <!-- Sequence -->
-<!--
-        <record id="sequence_employee_code" model="ir.sequence">
-            <field name="name">EMPLOYEES</field>
-            <field name="code">Employee</field>
-            <field name="prefix"></field>
-            <field name="padding">5</field>
-        </record>
--->
         <record id="sequence_contract_code" model="ir.sequence">
             <field name="name">Contract</field>
             <field name="code">Contract</field>
             <field name="prefix">C-</field>
             <field name="padding">5</field>
+        </record>
+        
+          <record id="seq_salary_settlement" model="ir.sequence">
+            <field name="name">Salary settlement</field>
+            <field name="code">salary.settlement</field>
+            <field name="prefix">FINIQUITO/</field>
+            <field name="padding">5</field>
+        </record>
+        
+          <record id="seq_salary_slip" model="ir.sequence">
+            <field name="name">Salary Slip</field>
+            <field name="code">salary.slip</field>
+            <field name="prefix">NÓMINA/</field>
+            <field name="padding">3</field>
         </record>
 
     </data>

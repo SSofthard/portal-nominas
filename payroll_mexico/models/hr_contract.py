@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
@@ -51,6 +52,36 @@ class Contract(models.Model):
         self.years_antiquity = years_antiquity
         self.days_rest = days_rest
 
+    def _get_integral_salary(self):
+        '''
+        Esten metodo busca el salario integral fijo para agregarlo al formulario del empleado
+        '''
+        contract = self
+        if contract:
+            current_date  =  fields.Date.context_today(self)+timedelta(days=1)
+            start_date_contract = contract.previous_contract_date or contract.date_start
+            years_antiquity = contract.years_antiquity
+            antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity)])
+            days_holiday = antiguedad.vacaciones
+            daily_salary = contract.wage / contract.employee_id.group_id.days if contract.employee_id.group_id.days else self.contract_id.wage / 30
+            bonus_holiday = ((daily_salary * days_holiday)*(antiguedad.prima_vac/100))/365
+            default_chirstmas_bonus_days = 15
+            factor_christmas_bonus = default_chirstmas_bonus_days \
+                if years_antiquity >= 1 else (15/365)*(current_date - (start_date_contract - timedelta(days=1))).days
+            christmas_bonus = (factor_christmas_bonus*daily_salary)/365
+            integral_salary =  daily_salary + bonus_holiday + christmas_bonus
+            self.integral_salary = integral_salary
+
+    # ~ def _get_variable_salary(self):
+        # ~ '''
+        # ~ Este metodo buscara los salarios variables de las nominas y calculara el valor para agregarlo al empleado
+        # ~ '''
+        # ~ current_date = fields.Date.context_today(self)
+        # ~ current_month = current_date.month
+        # ~ date_start = date(current_date.year, current_month-2, 1)
+        # ~ date_end = current_date
+        # ~ payslips = self.env['hr.payslip'].search([('date_from','>=',date_start),('date_to','<=',date_end)])
+        # ~ self.salary_var = sum(payslips.mapped('integral_variable_salary'))/len(payslips)
 
 
     #Columns
@@ -73,6 +104,8 @@ class Contract(models.Model):
         ], string='Contracting Regime', required=True, default="2")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
+    integral_salary= fields.Float("Integral Salary", compute='_get_integral_salary', copy=False)
+    # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False)
 
     @api.multi
     def get_all_structures(self,struct_id):
@@ -209,19 +242,22 @@ class Contract(models.Model):
             days =  (date_to - date2).days
         else:
             days = (date_to - date_from).days
+        days = days+1
         years_antiquity = self.years_antiquity
-        if years_antiquity == 0:
-            years_antiquity = 1
-        antiquity = self.env['tablas.antiguedades.line'].search([('form_id.group_id','=',self.employee_id.group_id.id),('antiguedad','=',years_antiquity)],limit=1)
-        proportional_days = (antiquity.vacaciones/365) * days
-        return proportional_days
+        antiquity = self.env['tablas.antiguedades.line'].search([('form_id','=',self.employee_id.group_id.antique_table.id),('antiguedad','=',years_antiquity)],limit=1)
+        proportional_days = (float("{0:.4f}".format(antiquity.vacaciones/365))) * days
+        return float("{0:.2f}".format(proportional_days))
         
     def holiday_bonus(self):
         years_antiquity = self.years_antiquity
         if years_antiquity == 0:
             years_antiquity = 1
-        antiquity = self.env['tablas.antiguedades.line'].search([('form_id.group_id','=',self.employee_id.group_id.id),('antiguedad','=',years_antiquity)],limit=1)
+        antiquity = self.env['tablas.antiguedades.line'].search([('form_id','=',self.employee_id.group_id.antique_table.id),('antiguedad','=',years_antiquity)],limit=1)
         return antiquity.prima_vac
+        
+    # ~ def old_cousin(self):
+        # ~ antiquity = self.env['tablas.antiguedades.line'].search([('form_id','=',self.employee_id.group_id.antique_table.id),('antiguedad','=',years_antiquity)],limit=1)
+        # ~ return antiquity.
 
 class CalendarResource(models.Model):
     _inherit = 'resource.calendar'

@@ -59,6 +59,9 @@
                     <attribute name="placeholder">Name Contract</attribute>
                 </xpath>
                 <xpath expr="//group[@name='main_info']" position="after">
+					<group>
+						<field name="integral_salary"/>
+					</group>
 					<group string="Other perceptions">
 						<field name="productivity_bonus" style="width:25%"/>
 						<field name="attendance_bonus" style="width:25%"/>
