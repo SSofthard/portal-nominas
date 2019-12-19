@@ -44,9 +44,11 @@ class Contract(models.Model):
         Este metodo obtiene la antiguedad del contrato
         :return:
         '''
-        today = fields.Date.today()
+        date_end = fields.Date.today()
+        if self.date_end and self.date_end < date_end:
+            date_end = self.date_end + timedelta(days=1)
         date_start_contract =  self.previous_contract_date or self.date_start
-        days_antiquity = (today - date_start_contract).days
+        days_antiquity = (date_end - date_start_contract).days
         years_antiquity = int(days_antiquity/365.25)
         days_rest = int(days_antiquity%365.25)
         self.years_antiquity = years_antiquity
