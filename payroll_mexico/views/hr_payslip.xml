@@ -108,7 +108,9 @@
                                 <field name="subtotal_amount_untaxed"/>
                                  <field name="amount_tax"/>
                                  <field name="integral_salary"/>
+<!--
                                  <field name="integral_variable_salary"/>
+-->
                             </group>
                             <group name="accounting" string="Accounting" invisible="1">
                                 <field name="paid" readonly="1"/>

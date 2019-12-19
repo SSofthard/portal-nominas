@@ -66,7 +66,7 @@
                     <div>
                         <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
                     </div>
-                    <field name="contract_id" domain="[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False)]" context="{'default_employee_id': employee_id}"/>
+                    <field name="contract_id" domain="[('employee_id','=',employee_id),('state','in',['close'])]" context="{'default_employee_id': employee_id}"/>
                     <field name="number"/>
                     <field name="struct_id" attrs="{'required':[('contract_id','!=',False)]}"/>
                     <field name="name" string="Nombre del finiquito"/>
@@ -74,12 +74,23 @@
                     <field name="reason_liquidation" attrs="{'required':[('settlement','!=',False)]}"/>
                     <field name="group_id"/>
                     <field name="settlemen_date" attrs="{'required':[('settlement','!=',False)]}"/>
-                    <field name="indemnify_employee" attrs="{'invisible':[('reason_liquidation','in',['2','1','3','5'])]}"/>
+                    <field name="indemnify_employee"/>
+                    <field name="compensation_20"/>
                     <field name="payroll_month" invisible="1"/>
                     <field name="payroll_of_month" invisible="1"/>
                     <field name="payroll_type" invisible="1"/>
                     <field name="table_id" invisible="1"/>
                     <field name="settlement" invisible="1"/>
+                </group>
+                <group>
+					<group string="Fechas del periodo laborado">
+						<field name="date_start"/>
+						<field name="date_end"/>
+					</group>
+					<group string="Antiguedad">
+						<field name="years_antiquity"/>
+						<field name="days_rest"/>
+					</group>
                 </group>
                 <notebook>
                     <page string="Worked Days &amp; Inputs">
@@ -113,7 +124,7 @@
                                 <field name="contract_id"/>
                                 <field name="sequence" invisible="True"/>
                             </tree>
-                            <form string="Payslip Line">
+                            <form string="Settlemen Line">
                                 <group col="4">
                                     <field name="name"/>
                                     <field name="code"/>
@@ -124,12 +135,12 @@
                             </form>
                         </field>
                     </page>
-                    <page string="Inpust reported on payroll">
+                    <page string="Inpust reported on settlemen">
                         <field name="input_ids" readonly="1"/>
                    </page>
                     <page string="Salary Computation" >
                         <field name="line_ids" colspan="4" nolabel="1">
-                            <tree string="Salary Structure" editable="bottom" decoration-info="total == 0">
+                            <tree string="Settlemen Structure" editable="bottom" decoration-info="total == 0">
                                 <field name="name"/>
                                 <field name="code"/>
                                 <field name="category_id"/>
@@ -140,7 +151,7 @@
                                 <field name="amount"/>
                                 <field name="total"/>
                             </tree>
-                            <form string="Payslip Line">
+                            <form string="Settlemen Line">
                                 <group col="4">
                                     <field name="name"/>
                                     <field name="code"/>

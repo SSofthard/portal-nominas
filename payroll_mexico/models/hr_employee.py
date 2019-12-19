@@ -35,37 +35,7 @@ class Employee(models.Model):
             if employee.birthday:
                 employee.age = calculate_age(employee.birthday)
 
-    def _get_integral_salary(self):
-        '''
-        Esten metodo busca el salario integral fijo para agregarlo al formulario del empleado
-        '''
-        contract = self.env['hr.contract'].search([('contracting_regime','=',2), ('state','=','open'),('employee_id','=',self.id)])
-        if contract:
-            current_date  =  fields.Date.context_today(self)+timedelta(days=1)
-            start_date_contract = contract.previous_contract_date or contract.date_start
-            years_antiquity = contract.years_antiquity
-            antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity)])
-            days_holiday = antiguedad.vacaciones
-            daily_salary = contract.wage / self.group_id.days if self.group_id.days else self.contract_id.wage / 30
-            bonus_holiday = ((daily_salary * days_holiday)*(antiguedad.prima_vac/100))/365
-            default_chirstmas_bonus_days = 15
-            factor_christmas_bonus = default_chirstmas_bonus_days \
-                if years_antiquity >= 1 else (15/365)*(current_date - (start_date_contract - timedelta(days=1))).days
-            christmas_bonus = (factor_christmas_bonus*daily_salary)/365
-            integral_salary =  daily_salary + bonus_holiday + christmas_bonus
-            self.salary = integral_salary
-
-    def get_variable_salary(self):
-        '''
-        Este metodo buscara los salarios variables de las nominas y calculara el valor para agregarlo al empleado
-        '''
-        current_date = fields.Date.context_today(self)
-        current_month = current_date.month
-        date_start = date(current_date.year, current_month-2, 1)
-        date_end = current_date
-        payslips = self.env['hr.payslip'].search([('date_from','>=',date_start),('date_to','<=',date_end)])
-        self.salary_var = sum(payslips.mapped('integral_variable_salary'))/len(payslips)
-
+   
     @api.multi
     def name_get(self):
         result = []
@@ -107,8 +77,6 @@ class Employee(models.Model):
         ('male', 'Male'),
         ('female', 'Female'),
     ], groups="hr.group_hr_user", default="male")
-    salary = fields.Float("Salary", compute='_get_integral_salary', copy=False)
-    salary_var = fields.Float("Salary", copy=False)
     payment_period_id = fields.Many2one('hr.payment.period', "Payment period")
     bank_account_ids = fields.One2many('bank.account.employee','employee_id', "Bank account", required=True)
     group_id = fields.Many2one('hr.group', "Group", required=True)
@@ -450,7 +418,6 @@ class Employee(models.Model):
                     'date_start':date,
                         }
                 list_contract.append(contract_obj.create(val).id)
-            employee.salary = employee.wage_salaries_gross
         return list_contract
 
     def _get_fonacot_amount_debt(self):
@@ -540,6 +507,7 @@ class HrGroup(models.Model):
         default=lambda self: self.env['res.company']._company_default_get().country_id)
     state_id = fields.Many2one('res.country.state', string='State', required=True)
     bonus_days = fields.Float(string="Bonus days", required=True, default=15)
+    antique_table = fields.Many2one('tablas.antiguedades', string='Antique table', required=True)
     
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),

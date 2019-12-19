@@ -33,13 +33,15 @@ class HrPayslip(models.Model):
             required=False,
             states={'draft': [('readonly', False)]})
     indemnify_employee = fields.Boolean(string='Indemnify the employee')
+    compensation_20 = fields.Boolean(string='I will pay the compensation of 20 days per year worked?')
     
-    @api.onchange('reason_liquidation')
-    def onchange_estructure_id(self):
-        if self.reason_liquidation in  ['2','1','3','4','5']:
-            self.indemnify_employee = False
-        return 
-
+    date_start = fields.Date('Start Date', required=True, default=fields.Date.today,
+        help="Start date of the contract.", related="contract_id.date_start")
+    date_end = fields.Date('End Date',
+        help="End date of the contract", related="contract_id.date_end")
+    years_antiquity = fields.Integer(string='Antiquity', related="contract_id.years_antiquity")
+    days_rest = fields.Integer(string='Días de antiguedad ultimo año', related="contract_id.days_rest")
+    
     @api.multi
     def print_settlement_report(self):
         # ~ payrolls = self.filtered(lambda s: s.state in ['close'])
