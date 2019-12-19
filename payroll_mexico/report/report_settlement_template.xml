@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <report 
+            id="action_report_settlement_template"
+            string="Settlement"
+            model="hr.payslip" 
+            report_type="qweb-html"
+            file="payroll_mexico.report_settlement_template" 
+            name="payroll_mexico.report_settlement_template"
+            print_report_name="'Settlement - %s' % (object.employee_id.name)"
+        />
+        
+        <template id="report_settlement_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                            <table class="table-sm" border="0" style="width:100%;">
+                                <tr>
+                                    <td><strong>Trabajador:</strong></td>
+                                    <td><span t-field="o.employee_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Salario diario:</strong></td>
+                                    <td>
+                                        <t t-set="total" t-value="sum(o.line_ids.filtered(lambda line: line.code == 'UI002').mapped('total'))"/>
+                                            <span t-esc="total" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                    </td>
+                                    <td><strong>Fecha de alta:</strong></td>
+                                    <td><span t-field="o.contract_id.date_start"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Antigüedad:</strong></td>
+                                    <td><span t-field="o.number"/></td>
+                                    <td><strong>Fecha de baja:</strong></td>
+                                    <td><span t-field="o.contract_id.date_end"/></td>
+                                </tr>
+                            </table>
+                            <tr> </tr>
+
+                            <table class="table-sm" border="0" style="width:100%;">
+                            <thead>
+                                <tr class="border-black"  style="border-bottom: 1px solid black;">
+                                    <th></th>
+                                    <th>Percepciones</th>
+                                    <th></th>
+                                    <th>Deducciones</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 10px;">
+                                <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip and line.total > 0)" t-as="line">
+                                    <t t-if="line.category_id.code == 'PERCEPCIONES'" class="border-black">
+                                        <td><span t-field="line.name"/></td>
+                                        <td><span t-esc="line.total"
+                                            t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                                        <td></td>
+                                        <td></td>
+                                    </t>
+                                    <t t-if="line.category_id.code == 'DED'">
+                                        <td><span t-field="line.name"/></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><span t-esc="line.total"
+                                            t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                                    </t>
+                                </tr>
+                                <tr class="border-black">
+                                    <td class="text-right"><strong>Total: </strong> </td>
+                                    <th class="text-left">
+                                        <t t-set="perceptions" t-value="sum(o.line_ids.filtered(lambda line: line.code == 'P195').mapped('total'))"/>
+                                            <span t-esc="perceptions" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                    </th>
+                                    <td class="text-right"><strong>Total: </strong> </td>
+                                    <th class="text-left">
+                                        <t t-set="discount" t-value="sum(o.line_ids.filtered(lambda line: line.code == 'D103').mapped('total'))"/>
+                                            <span t-esc="discount" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                    </th>
+                                </tr>
+                                <tr style="font-size: 12px;">
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-right"><strong>Neto a pagar: </strong></td>
+                                    <td><strong>
+                                        <t t-set="total" t-value="sum(o.line_ids.filtered(lambda line: line.code == 'T001').mapped('total'))"/>
+                                            <span t-esc="total" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                    </strong></td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        
+        
+    </data>
+</odoo>
