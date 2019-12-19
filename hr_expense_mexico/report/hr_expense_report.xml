@@ -14,7 +14,7 @@
                             </tr>
                              <tr class="text-right">
                                 <td>
-                                    <strong>FOLIO: </strong>  <span>DEFINIR</span>
+                                    <strong>FOLIO: </strong>  <span t-field="o.folio"/>
                                 </td>
                              </tr>
                         </div>
@@ -29,7 +29,7 @@
                         <div>
                             <tr>
                                 <td>
-                                    <strong>NOMBE COMPLETO EMPLEADO: </strong> <span t-field="o.employee_id.name"/>
+                                    <strong>NOMBRE COMPLETO EMPLEADO: </strong> <span t-field="o.employee_id.name"/>
                                 </td>
                             </tr>
                         </div>

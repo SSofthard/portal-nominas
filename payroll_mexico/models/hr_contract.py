@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
@@ -105,6 +104,9 @@ class Contract(models.Model):
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
     integral_salary= fields.Float("Integral Salary", compute='_get_integral_salary', copy=False)
+    group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
+    work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
+    employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
     # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False)
 
     @api.multi
@@ -229,7 +231,7 @@ class Contract(models.Model):
             else:
                 days = (date_to - date_from).days
         return days
-        
+
     def holiday_calculation_finiquito(self,date_payroll):
         date_from = self.date_start
         date_to = self.date_end

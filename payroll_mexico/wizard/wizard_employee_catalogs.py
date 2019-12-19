@@ -9,9 +9,9 @@ from odoo.exceptions import UserError, ValidationError
 class WizardEmployeeCatalogs(models.TransientModel):
     _name = "wizard.employee.catalogs"
 
-    date_from = fields.Date('Desde', required=True)
-    date_to = fields.Date('Hasta', required=True)
-    group_id = fields.Many2one('hr.group', "Grupo", required=False)
+    date_from = fields.Date('Desde', required=False)
+    date_to = fields.Date('Hasta', required=False)
+    group_id = fields.Many2one('hr.group', "Grupo", required=True)
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", required=False)
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", required=False)
     
@@ -19,9 +19,9 @@ class WizardEmployeeCatalogs(models.TransientModel):
     def report_print(self, data):
         date_from = self.date_from
         date_to = self.date_to
-        domain = []
         domain_register = []
         domain_work_center = []
+        domain_date = []
         list_code = []
         list_name = []
         list_imss = []
@@ -30,13 +30,13 @@ class WizardEmployeeCatalogs(models.TransientModel):
         list_department = []
         list_date_end = []
         contract=self.env['hr.contract']
-        if self.group_id:
-            domain = [('employee_id.group_id', '=', self.group_id.id)]
+        if date_from and date_to:
+            domain_date = [('date_end','>=',date_from),('date_end','<=',date_to)]
         if self.employer_register_id:
             domain_register = [('employee_id.employer_register_id', '=', self.employer_register_id.id)]
         if self.work_center_id:
             domain_work_center = [('employee_id.work_center_id', '=', self.work_center_id.id)]
-        contract_ids=contract.search([('date_end','>=',date_from),('date_end','<=',date_to)] + domain + domain_work_center + domain_register)
+        contract_ids=contract.search([('employee_id.group_id','=',self.group_id.id)] + domain_date + domain_register + domain_work_center)
         for i in contract_ids:
             code = (i.employee_id.enrollment)
             name = (i.employee_id.name)
