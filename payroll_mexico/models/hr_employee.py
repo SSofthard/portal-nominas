@@ -180,6 +180,8 @@ class Employee(models.Model):
     # Fields Translate
     # Register pattern
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
+    contract_id = fields.Many2one('hr.contract', string='Contract', store=True)
+
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),

@@ -8,6 +8,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from .tool_convert_numbers_letters import numero_to_letras
 from datetime import date,datetime,timedelta
 from dateutil.relativedelta import relativedelta
+from datetime import datetime, date
 
 
 class Contract(models.Model):
@@ -48,8 +49,7 @@ class Contract(models.Model):
         days_antiquity = (today - date_start_contract).days
         years_antiquity = int(days_antiquity/365.25)
         self.years_antiquity = years_antiquity
-    
-    
+
     #Columns
     code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
     type_id = fields.Many2one(string="Type Contract")
@@ -69,6 +69,9 @@ class Contract(models.Model):
         ('5', 'Free'),
         ], string='Contracting Regime', required=True, default="2")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
+    group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
+    work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
+    employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
     
     @api.multi
     def get_all_structures(self,struct_id):
