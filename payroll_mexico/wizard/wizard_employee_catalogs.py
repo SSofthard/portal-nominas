@@ -31,7 +31,7 @@ class WizardEmployeeCatalogs(models.TransientModel):
         list_date_end = []
         contract=self.env['hr.contract']
         if date_from and date_to:
-            domain_date = [('date_end','>=',date_from),('date_end','<=',date_to)]
+            domain_date = [('date_start','>=',date_from),('date_start','<=',date_to)]
         if self.employer_register_id:
             domain_register = [('employee_id.employer_register_id', '=', self.employer_register_id.id)]
         if self.work_center_id:
