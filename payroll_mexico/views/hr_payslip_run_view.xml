@@ -44,10 +44,13 @@
                 </xpath>
                 <xpath expr="//sheet/group" position="after">
                     <group>
-                        <group col="4">
+                        <group col="4" string="Impuestos">
                             <field name="subtotal_amount_untaxed"/>
                                      <button name="compute_amount_untaxed" type="object" class="oe_left oe_link" states="draft">Cálcular impuesto de la nómina</button>
                             <field name="amount_tax"/>
+                        </group>
+                        <group col="4" string="Acumulados">
+                            <field name="acumulated_subtotal_amount"/>
                             <field name="acumulated_amount_tax"/>
                         </group>
                     </group>

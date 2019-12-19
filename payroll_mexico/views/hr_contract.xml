@@ -42,7 +42,11 @@
                 </xpath>
                 <xpath expr="//field[@name='trial_date_end']" position="before">
                     <field name="previous_contract_date" attrs="{'invisible': [('type_contract', '!=','with_seniority')],'required': [('type_contract', '=','with_seniority')]}"/>
-                    <field name="years_antiquity"/>
+
+                    <label for="years_antiquity" string="Antigüedad"/>
+                    <div>
+                        <field name="years_antiquity" class="oe_inline"/> Año(s) y  <field name="days_rest" class="oe_inline"/> día(s)
+                    </div>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="attributes">
 					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
@@ -55,6 +59,9 @@
                     <attribute name="placeholder">Name Contract</attribute>
                 </xpath>
                 <xpath expr="//group[@name='main_info']" position="after">
+					<group>
+						<field name="integral_salary"/>
+					</group>
 					<group string="Other perceptions">
 						<field name="productivity_bonus" style="width:25%"/>
 						<field name="attendance_bonus" style="width:25%"/>

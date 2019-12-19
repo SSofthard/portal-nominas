@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <report 
+            id="action_report_payslip_line"
+            string="Detalles de la Nómina"
+            model="hr.payslip" 
+            report_type="qweb-html"
+            file="payroll_mexico.report_payslip_line_template" 
+            name="payroll_mexico.report_payslip_line_template"
+            print_report_name="'Nómina - %s' % (object.employee_id.name)"
+        />
+        
+        <template id="report_payslip_line_template">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div style="border-bottom: 2px solid black">
+                        <h4 class="text-center">Detalles de Nómina</h4>
+                        <h5 class="text-center">
+                            <strong>De</strong>:
+                            <t t-esc="lines_data['date_from']" t-field-options='{"widget": "date"}'/>
+                            <strong>A</strong>:
+                            <t t-esc="lines_data['date_to']" t-options='{"widget": "date"}'/>
+                        </h5>
+                    </div>
+                    <div class="page">
+<!--
+                        <div>
+                            <t t-if="lines_data['employer_register_id']">
+                                <strong>Registro patronal</strong>:
+                                <t t-esc="lines_data['employer_register_id']"/>
+                            </t>
+                            <t t-if="lines_data['company']" class="text-center">
+                                <strong>Razón Social</strong>:
+                                <t t-esc="lines_data['company']"/>
+                            </t>
+                            <t t-if="lines_data['rfc']" class="text-rigth">
+                                <strong>R.F.C.</strong>:
+                                <t t-esc="lines_data['rfc']"/>
+                            </t>
+                            
+                        </div>
+-->
+                            
+                        <table class="table-sm" border="0" style="width:100%;">
+                            <thead>
+                                <tr class="border-black"  style="border-bottom: 1px solid black;">
+                                    <th class="text-left">Clave</th>
+                                    <th class="text-left">Nombre del Trabajador</th>
+                                    <th class="text-left">Regimen de contratación</th>
+                                    <th class="text-left">Periodo</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Nómina</th>
+                                    <th class="text-center">Regla de negocio</th>
+                                    <th class="text-center">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="lines_data['employees']" t-as="employee">
+                                    <tr>
+                                        <th class="text-left">
+                                            <t t-esc="employee['enrollment']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="employee['employee_name']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="employee['contracting_regime']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="employee['date_from']" t-options='{"widget": "date"}'/> - <t t-esc="employee['date_to']" t-options='{"widget": "date"}'/>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            <t t-esc="employee['reference']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="employee['linename']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="employee['total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="clearfix">
+                            <div id="total" class="row" name="total">
+                                <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                    <table class="table table-sm">
+                                        <tr class="border-black o_total" style="font-size:10px;">
+                                            <td><strong>Total</strong>: </td>
+                                            <td class="text-right">
+                                                <t t-esc="lines_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>    
+             </t>
+        </template>
+        
+        
+    </data>
+</odoo>

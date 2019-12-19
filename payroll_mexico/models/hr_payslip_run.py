@@ -77,6 +77,7 @@ class HrPayslipRun(models.Model):
         ('cancel', 'Cancelled'),
     ], string='Status', index=True, readonly=True, copy=False, default='draft')
     acumulated_amount_tax = fields.Float(string='Impuestos acumulados del mes')
+    acumulated_subtotal_amount = fields.Float(string='Base imponible acumulada del mes')
     bonus_date = fields.Boolean('Bonus date', default=False)
     pay_bonus = fields.Boolean('Pay bonus?')
     pay_type = fields.Selection([('0','Efectivo'),('1','Especie')], string='Tipo de pago', default='0')
@@ -120,7 +121,7 @@ class HrPayslipRun(models.Model):
         data={
             'payroll_data':payroll_dic
             }
-        return self.env.ref('payroll_mexico.payroll_deposit_report_template').report_action(self,data)
+        return self.env.ref('payroll_mexico.payroll_deposit_report_template').report_action(self,data)       
 
     @api.multi
     def print_fault_report(self):
@@ -144,21 +145,22 @@ class HrPayslipRun(models.Model):
                         for leave in leave_type:
                             for wl in slip.worked_days_line_ids:
                                 if leave.code == wl.code:
-                                    total += wl.number_of_days
+                                    # ~ total += wl.number_of_days
                                     if leave.time_type == 'inability':
                                         inhability += wl.number_of_days
                                     if leave.time_type == 'leave':
                                         absenteeism += wl.number_of_days
+                                    total += inhability + absenteeism
                         if total > 0:
                             fault_data.append({
                                 'enrollment': employee.enrollment,
                                 'name': employee.name_get()[0][1],
                                 'fulltime': '---',
-                                'total': total,
+                                'total': round(total, 2),
                                 'pay_company': '---',
                                 '7mo': '---',
-                                'inhability': inhability,
-                                'absenteeism': absenteeism,
+                                'inhability': round(inhability, 2),
+                                'absenteeism': round(absenteeism, 2),
                             })
                 payroll_dic['employee_data'] = fault_data
         
@@ -172,7 +174,9 @@ class HrPayslipRun(models.Model):
         current_year = fields.Date.context_today(self).year
         payslips_current_month = self.search([('payroll_month','=',self.payroll_month)]).filtered(lambda sheet: sheet.date_start.year == current_year)
         total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
-        payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated})
+        acumulated_subtotal_amount =  sum(payslips_current_month.mapped('subtotal_amount_untaxed'))
+        payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated,
+                                      'acumulated_subtotal_amount':acumulated_subtotal_amount})
 
     @api.multi
     def _compute_payslip_count(self):

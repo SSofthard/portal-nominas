@@ -35,7 +35,7 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
             'contract_id': self.contract_id.id,
             'job_id': self.job_id.id if self.type == 'job' else self.contract_id.job_id.id,
             'wage': self.wage if self.type == 'wage' else self.contract_id.wage,
-            'salary': self.employee_id.salary,
+            'salary': self.contract_id.integral_salary,
             'date_from': self.date_from,
             'type': self.type,
         }

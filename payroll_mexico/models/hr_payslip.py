@@ -66,8 +66,8 @@ class HrPayslip(models.Model):
     payroll_tax_count = fields.Integer(compute='_compute_payroll_tax_count', string="Payslip Computation Details")
     move_infonacot_id = fields.Many2one('hr.credit.employee.account', string="FONACOT Move")
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
-    integral_salary = fields.Float(string = 'Salario diario integral', related='employee_id.salary')
-    integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
+    integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
+    # ~ integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
 
     @api.depends('subtotal_amount_untaxed')
     def _compute_integral_variable_salary(self):
@@ -87,32 +87,32 @@ class HrPayslip(models.Model):
         factor_days = (self.employee_id.group_id.days/30)*days_factor[self.payroll_period]
         self.integral_variable_salary = total_perception/factor_days
 
-    def get_total_perceptions_to_sv(self, lines):
-        '''
-        Este metodo permite consultar si la regla aplica según los criterios de evaluación por ley
-        '''
-        vals=[]
-        for line in lines:
-            if line.salary_rule_id.type_perception == '010':
-                print ('''cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
-                        Seguro Social, de ser así la cantidad que rebase integrará''')
-                proporcion_percepcion = line.amount/self.employee_id.salary_var
-                if proporcion_percepcion > 0.1:
-                    restante = (line.amount - (self.employee_id.salary_var*0.1))*line.quantity
-                    vals.append(restante)
-            if line.salary_rule_id.type_perception == '019':
-                print ('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
-                        exceda de tres horas diarias ni de tres veces en una semana''')
-                vals.append(line.total)
-            if line.salary_rule_id.type_perception == '007':
-                print ('''si su importe no rebasa el 40% del SMGVDF, de lo contrario el excedente se integrará''')
-                minimum_salary = self.company_id.municipality_id.get_salary_min(self.date_from)
-                if line.amount > (minimum_salary*0.40):
-                    restante = (line.amount - (minimum_salary*0.40))*line.quantity
-                    vals.append(restante)
-            else:
-                vals.append(line.total)
-        return sum(vals)
+    # ~ def get_total_perceptions_to_sv(self, lines):
+        # ~ '''
+        # ~ Este metodo permite consultar si la regla aplica según los criterios de evaluación por ley
+        # ~ '''
+        # ~ vals=[]
+        # ~ for line in lines:
+            # ~ if line.salary_rule_id.type_perception == '010':
+                # ~ print ('''cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
+                        # ~ Seguro Social, de ser así la cantidad que rebase integrará''')
+                # ~ proporcion_percepcion = line.amount/self.contract.salary_var
+                # ~ if proporcion_percepcion > 0.1:
+                    # ~ restante = (line.amount - (self.contract.salary_var*0.1))*line.quantity
+                    # ~ vals.append(restante)
+            # ~ if line.salary_rule_id.type_perception == '019':
+                # ~ print ('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
+                        # ~ exceda de tres horas diarias ni de tres veces en una semana''')
+                # ~ vals.append(line.total)
+            # ~ if line.salary_rule_id.type_perception == '007':
+                # ~ print ('''si su importe no rebasa el 40% del SMGVDF, de lo contrario el excedente se integrará''')
+                # ~ minimum_salary = self.company_id.municipality_id.get_salary_min(self.date_from)
+                # ~ if line.amount > (minimum_salary*0.40):
+                    # ~ restante = (line.amount - (minimum_salary*0.40))*line.quantity
+                    # ~ vals.append(restante)
+            # ~ else:
+                # ~ vals.append(line.total)
+        # ~ return sum(vals)
 
     @api.multi
     def _compute_payroll_tax_count(self):
@@ -164,7 +164,10 @@ class HrPayslip(models.Model):
     @api.multi
     def compute_sheet(self):
         for payslip in self:
-            number = payslip.number or self.env['ir.sequence'].next_by_code('salary.slip')
+            if not payslip.settlement:
+                number = payslip.number or self.env['ir.sequence'].next_by_code('salary.slip')
+            else:
+                number = payslip.number or self.env['ir.sequence'].next_by_code('salary.settlement')
             payslip.search_inputs()
             # delete old payslip lines
             payslip.line_ids.unlink()

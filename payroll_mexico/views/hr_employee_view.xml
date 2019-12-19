@@ -160,7 +160,6 @@
                                     domain="[('company_id','=',company_id)]"/>
                                 <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
                                 <field name="payment_period_id"/>
-                                <field name="salary" readonly="1"/>
                             </group>
                             <group string="Extra payments">
                                 <field name="pay_holiday" />
@@ -392,6 +391,7 @@
                             <field name="job_risk"/>
                             <field name="days"/>
                             <field name="bonus_days"/>
+                            <field name="antique_table"/>
                         </group>
                     </group>
                     <notebook>
