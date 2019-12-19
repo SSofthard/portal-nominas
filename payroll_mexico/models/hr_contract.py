@@ -228,8 +228,7 @@ class Contract(models.Model):
             else:
                 days = (date_to - date_from).days
         return days
-        
->>>>>>> f39b2cba52dc710eac3b7b9839da140b16e2f154
+
     def holiday_calculation_finiquito(self,date_payroll):
         date_from = self.date_start
         date_to = self.date_end
