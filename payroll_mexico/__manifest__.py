@@ -42,6 +42,7 @@
         'report/fault_report_template.xml',
         'report/report_rule_details_template.xml',
         'report/expired_contracts_report.xml',
+        'report/report_settlement_template.xml',
         'report/employee_catalogs.xml',
         'data/data.xml',
         'data/sequence_data.xml',
