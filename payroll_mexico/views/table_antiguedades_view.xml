@@ -18,6 +18,7 @@
                                 <field name="vacaciones"/>
                                 <field name="prima_vac"/>
                                 <field name="aguinaldo"/>
+                                <field name="factor"/>
                             </tree>
                         </field>
                     </group>
