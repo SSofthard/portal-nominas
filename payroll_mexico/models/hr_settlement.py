@@ -72,7 +72,7 @@ class HrPayslip(models.Model):
         data={
             'payroll_data':payroll_dic
             }
-        return self.env.ref('payroll_mexico.settlement_report').report_action(self,data)
+        return self.env.ref('payroll_mexico.action_report_settlement_template').report_action(self, {})
 
 class HrPayrollStructure(models.Model):
     _inherit = 'hr.payroll.structure'
