@@ -33,7 +33,11 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Antigüedad:</strong></td>
-                                    <td><span t-field="o.number"/></td>
+                                    <td>
+                                        <span t-field="o.contract_id.years_antiquity"></span> <span>Años</span>
+                                        <span t-field="o.contract_id.days_rest"></span> <span>Días</span>
+                                        
+                                    </td>
                                     <td><strong>Fecha de baja:</strong></td>
                                     <td><span t-field="o.contract_id.date_end"/></td>
                                 </tr>
