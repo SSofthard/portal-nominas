@@ -108,7 +108,7 @@
     <record id="hr_tabla_antiguedades_item_0" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
-        <field name="antiguedad">0.1</field>
+        <field name="antiguedad">0</field>
         <field name="vacaciones">6</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
