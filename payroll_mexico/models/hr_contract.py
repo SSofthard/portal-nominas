@@ -47,9 +47,12 @@ class Contract(models.Model):
         date_start_contract =  self.previous_contract_date or self.date_start
         days_antiquity = (today - date_start_contract).days
         years_antiquity = int(days_antiquity/365.25)
+        days_rest = int(days_antiquity%365.25)
         self.years_antiquity = years_antiquity
-    
-    
+        self.days_rest = days_rest
+
+
+
     #Columns
     code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
     type_id = fields.Many2one(string="Type Contract")
@@ -69,7 +72,8 @@ class Contract(models.Model):
         ('5', 'Free'),
         ], string='Contracting Regime', required=True, default="2")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
-    
+    days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
+
     @api.multi
     def get_all_structures(self,struct_id):
         """

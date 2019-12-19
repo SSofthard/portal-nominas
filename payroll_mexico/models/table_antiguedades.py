@@ -15,11 +15,11 @@ class TablasAntiguedadesLine(models.Model):
     vacaciones = fields.Float('Vacaciones/Días', digits=dp.get_precision('Excess'))
     prima_vac = fields.Float('Prima vacacional (%)', digits=dp.get_precision('Excess'))
     aguinaldo = fields.Float('Aguinaldo/Días', digits=dp.get_precision('Excess'))
+    factor = fields.Float('Factor de integración', digits=dp.get_precision('Excess'))
 
 class TablaAntiguedadesAguinaldos(models.Model):
     _name = 'tablas.antiguedades'
     
     name = fields.Char("Nombre")
-    group_id = fields.Many2one(comodel_name='hr.group', string='Grupo/Empresa')
     tabla_antiguedades = fields.One2many(comodel_name='tablas.antiguedades.line', inverse_name='form_id')
 
