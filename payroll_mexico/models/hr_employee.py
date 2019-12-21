@@ -53,8 +53,20 @@ class Employee(models.Model):
         if name:
             domain = ['|',('enrollment', operator, name),('name', operator, name)]
         enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
-        return self.browse(enrollment).name_get()
-    
+        return self.browse(enrollment).name_get()\
+
+    @api.depends('name','last_name','mothers_last_name')
+    @api.onchange('complete_name')
+    def _compute_complete_name(self):
+        for name in self:
+            name.complete_name = name.name + ' ' + name.last_name + ' ' + name.mothers_last_name
+            print('name.complete_name')
+            print(name.complete_name)
+
+
+        # for name in self:
+        #     name.comlete_name = self.name + ' ' + self.last_name + ' ' + self.mothers_last_name
+
     #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
     title = fields.Many2one('res.partner.title','Title')
@@ -149,6 +161,7 @@ class Employee(models.Model):
     # Register pattern
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
     contract_id = fields.Many2one('hr.contract', string='Contract', store=True)
+    complete_name = fields.Char(compute='_compute_complete_name', string='Nombre completo', store=True)
 
 
     _sql_constraints = [
