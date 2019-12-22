@@ -161,6 +161,12 @@ class ExpensesSheets(models.Model):
         self.write({'state': 'open'})
         self.activity_update()
 
+
+    @api.onchange('employee_id')
+    def onchange_proceedings(self):
+        for name in self:
+            name.proceedings = 'E-' + name.employee_id.enrollment
+
     # Columns
     paid = fields.Boolean(compute='_compute_amount', string='Paid')
     payment_ids = fields.One2many(inverse_name='sheet_id', comodel_name='hr.expense.payment',string='Amount Payment')
@@ -179,6 +185,11 @@ class ExpensesSheets(models.Model):
     address_dest_id = fields.Many2one('res.partner', string='Dest Address')
     qty_days = fields.Integer(string='Cantidad de días', compute=False)
     total_by_day = fields.Monetary(string='Cantidad estimada', compute=False)
+    proceedings = fields.Char(string='Expediente Nro.', store=True)
+    dependency_or_branch = fields.Char(string='Dependencia o sucursal', store=True)
+    subject_type = fields.Char(string='Tipo de asunto', store=True)
+    paying_hearing = fields.Char(string='Audencia de O.A.P pagadora', store=True)
+    executing_attorney_status = fields.Char(string='Status abogado ejecutor', store=True)
 
     @api.onchange('address_origin_id','address_dest_id','qty_days')
     def onchange_estimate_info(self):

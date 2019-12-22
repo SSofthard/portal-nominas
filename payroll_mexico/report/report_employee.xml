@@ -25,12 +25,12 @@
                             </div>
                             <br/>
                             <br/>
-                            <center><strong><h2>Informacion Privada</h2></strong></center>
+                            <center><strong><h4>Informacion Privada</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h3>Ciudadanía e información adicional</h3></strong>
+                                        <strong><h5>Ciudadanía e información adicional</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Nacionalidad (País):</strong>
@@ -52,7 +52,7 @@
                                 <br/>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h3>Información de contacto</h3></strong>
+                                        <strong><h5>Información de contacto</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Dirección Privada:</strong>
@@ -80,7 +80,7 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h3>Información de emergencia</h3></strong>
+                                        <strong><h5>Información de emergencia</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Restricciones de salud:</strong>
@@ -88,7 +88,7 @@
                                     </div>
                                     <br/>
                                     <div class="row">
-                                        <strong><h3>En caso de emergencia contactar a:</h3></strong>
+                                        <strong><h5>En caso de emergencia contactar a:</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Contacto de emergencia:</strong>
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h3>Estado</h3></strong>
+                                        <strong><h5>Estado</h5></strong>
                                     </div>
                                     <div class="row">
                                             <strong>Sexo:</strong>
@@ -121,7 +121,7 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h3>Fecha de nacimiento</h3></strong>
+                                        <strong><h5>Fecha de nacimiento</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Fecha de nacimiento:</strong>
@@ -142,7 +142,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h3>Información fiscal</h3></strong>
+                                        <strong><h5>Información fiscal</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>RFC:</strong>
@@ -166,7 +166,7 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h3>Permiso de trabajo</h3></strong>
+                                        <strong><h5>Permiso de trabajo</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Número de Visado:</strong>
@@ -183,7 +183,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h3>Educación</h3></strong>
+                                        <strong><h5>Educación</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Nivel de estudio:</strong>
@@ -201,12 +201,12 @@
                             </div>
                             <br/>
                             <br/>
-                            <center><strong><h2>Información del trabajo</h2></strong></center>
+                            <center><strong><h4>Información del trabajo</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h3>Información de contacto</h3></strong>
+                                        <strong><h5>Información de contacto</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Grupo/Empresa:</strong>
@@ -231,7 +231,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h3>Cargo</h3></strong>
+                                        <strong><h5>Cargo</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Matrícula:</strong>
@@ -268,12 +268,12 @@
                                 </div>
                             </div>
                             <br/>
-                            <center><strong><h2>Información del HR</h2></strong></center>
+                            <center><strong><h4>Información del HR</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h3>Datos de Nómina</h3></strong>
+                                        <strong><h5>Datos de Nómina</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Tipo de salario:</strong>
@@ -286,7 +286,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h3>IMSS</h3></strong>
+                                        <strong><h5>IMSS</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Registro Patronal:</strong>
@@ -306,7 +306,7 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h3>Pagos adicionales</h3></strong>
+                                        <strong><h5>Pagos adicionales</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Pagar días festivos?:</strong>
@@ -319,7 +319,7 @@
                                 </div>
                             </div>
                             <br/>
-                            <center><strong><h2>Familia</h2></strong></center>
+                            <center><strong><h4>Familia</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
@@ -358,7 +358,7 @@
                                 </tbody>
                              </table>
                             <br/>
-                            <center><strong><h2>Compañias</h2></strong></center>
+                            <center><strong><h4>Compañias</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
@@ -407,7 +407,7 @@
                                 </div>
                             </div>
                             <br/>
-                            <center><strong><h2>Información bancaria</h2></strong></center>
+                            <center><strong><h4>Información bancaria</h4></strong></center>
                             <br/>
                             <table class="table">
                                 <thead>
@@ -446,7 +446,7 @@
                                 </tbody>
                             </table>
                             <br/>
-                            <center><strong><h2>INFONAVIT</h2></strong></center>
+                            <center><strong><h4>INFONAVIT</h4></strong></center>
                             <br/>
                             <table class="table">
                                 <thead>
@@ -477,18 +477,18 @@
                                 </tbody>
                             </table>
                             <br/>
-                            <center><strong><h2>Configuración RRHH</h2></strong></center>
+                            <center><strong><h4>Configuración RRHH</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
-                                    <strong>Estado</strong>
+                                    <strong><h5>Estado</h5></strong>
                                     <div class="row">
                                         <strong>Usuario OpenERP:</strong>
                                         <p t-field="o.user_id"/>
                                     </div>
                                     <br/>
                                     <div class="row">
-                                        <strong>Servicio</strong>
+                                        <strong><h5>Servicio</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>ID de credencial</strong>
@@ -497,7 +497,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong>Ausencias</strong>
+                                        <strong><h5>Ausencias</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Ausencias permitidas restantes</strong>
@@ -506,12 +506,12 @@
                                 </div>
                             </div>
                             <br/>
-                            <center><strong><h2>Credito Fonacot</h2></strong></center>
+                            <center><strong><h4>Credito Fonacot</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong>Datos generales</strong>
+                                        <strong><h5>Datos generales</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>¿Descontar en nómina?</strong>

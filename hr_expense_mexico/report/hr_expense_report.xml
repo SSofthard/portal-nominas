@@ -29,28 +29,28 @@
                         <div>
                             <tr>
                                 <td>
-                                    <strong>NOMBRE COMPLETO EMPLEADO: </strong> <span t-field="o.employee_id.name"/>
+                                    <strong>NOMBRE COMPLETO EMPLEADO: </strong> <span t-field="o.employee_id.complete_name"/>
                                 </td>
                             </tr>
                         </div>
                         <div>
                            <tr>
                                 <td>
-                                    <strong>LUGAR: </strong> <span> DEFINIR</span>
+                                    <strong>LUGAR: </strong> <span t-field="o.address_dest_id.city"/> - <span t-field="o.address_dest_id.municipality_id.name"/>
                                 </td>
                             </tr>
                         </div>
                         <div>
                              <tr>
                                 <td>
-                                    <strong>EXP. NUM.: </strong> <span> DEFINIR</span>
+                                    <strong>EXP. NUM.: </strong> <span t-field="o.proceedings"/>
                                 </td>
                             </tr>  
                         </div>
                         <div>
                             <tr>
                                 <td>
-                                    <strong>DEPENDENCIA O CUSURSAL: </strong> <span> DEFINIR</span>
+                                    <strong>DEPENDENCIA O CUSURSAL: </strong> <span t-field="o.dependency_or_branch"/>
                                 </td>
                             </tr>
                         </div>
@@ -60,21 +60,21 @@
                          <div>
                             <tr>
                                 <td>
-                                    <strong>TIPO DE ASUSTO: </strong> <span> DEFINIR</span>
+                                    <strong>TIPO DE ASUSTO: </strong> <span t-field="o.subject_type"/>
                                 </td>
                             </tr>
                         </div>
                         <div>
                              <tr>
                                 <td>
-                                    <strong>AUDIENCIA DE O.A.P PAGADORA: </strong> <span> DEFINIR</span>
+                                    <strong>AUDIENCIA DE O.A.P PAGADORA: </strong> <span t-field="o.paying_hearing"/>
                                 </td>
                              </tr>
                         </div>
                         <div>
                             <tr>
                                 <td>
-                                    <strong>STATUS ABOGADO EJECUTOR: </strong> <span> DEFINIR</span>
+                                    <strong>STATUS ABOGADO EJECUTOR: </strong> <span t-field="o.executing_attorney_status"/>
                                 </td>
                             </tr>
                         </div>
