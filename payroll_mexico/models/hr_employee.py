@@ -60,12 +60,6 @@ class Employee(models.Model):
     def _compute_complete_name(self):
         for name in self:
             name.complete_name = name.name + ' ' + name.last_name + ' ' + name.mothers_last_name
-            print('name.complete_name')
-            print(name.complete_name)
-
-
-        # for name in self:
-        #     name.comlete_name = self.name + ' ' + self.last_name + ' ' + self.mothers_last_name
 
     #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
