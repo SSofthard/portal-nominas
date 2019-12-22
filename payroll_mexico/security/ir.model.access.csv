@@ -8,6 +8,7 @@ access_hr_group_risk_factor_user,Group Risk Factor,model_hr_group_risk_factor,hr
 access_hr_family_burden_user,Family,model_hr_family_burden,hr.group_hr_user,1,1,1,1
 access_hr_relationship_user,Relationship,model_hr_relationship,hr.group_hr_user,1,1,1,1
 access_hr_infonavit_credit_line_user,INFONAVIT Credit Line,model_hr_infonavit_credit_line,hr.group_hr_user,1,1,1,1
+access_hr_infonavit_credit_history_user,INFONAVIT Credit History,model_hr_infonavit_credit_history,hr.group_hr_user,1,1,1,1
 access_res_employer_register_manager,Employer register,model_res_employer_register,base.group_erp_manager,1,1,1,1
 access_res_employer_register_user,Employer register,model_res_employer_register,,1,0,0,0
 access_res_company_partner_manager,Company partner,model_res_company_partner,base.group_erp_manager,1,1,1,1

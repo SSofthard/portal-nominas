@@ -670,6 +670,7 @@ class hrInfonavitCreditLine(models.Model):
         ('active', 'Active'),
         ('closed', 'Closed'),
     ],default="draft")
+    history_ids = fields.One2many(inverse_name='credit_id', comodel_name='hr.infonavit.credit.history', string='Historico de cambios')
     
     @api.multi
     def action_active(self):
@@ -677,16 +678,60 @@ class hrInfonavitCreditLine(models.Model):
             infonavit = self.search([('employee_id', '=', self.employee_id.id),('state', '=', 'active')])
             if not infonavit:
                 credit.state = 'active'
+                self._set_to_history(name='Activando cobro de credito', move_type='0')
             else:
                 raise UserError(_("An active INFONAVIT credit already exists for the employee."))
             
     @api.multi
+    def action_reset(self):
+        for credit in self:
+            credit.state = 'draft'
+            credit._set_to_history(name='Reiniciando credito', move_type='4')\
+
+    @api.multi
     def action_close(self):
         for credit in self:
             credit.state = 'closed'
+            credit._set_to_history(name='Cerrando credito', move_type='3')
+
+    @api.model
+    def create(self, vals):
+        '''
+        Este metodod ejecuta el metodo _set_to_history al momento de crear credito infonavit.
+        '''
+        res = super(hrInfonavitCreditLine, self).create(vals)
+        self._set_to_history()
+        return res
+
+    def _set_to_history(self, name, move_type):
+        '''
+        Este metodo agrega al historico los cambios correspondientes al credito infonavit
+        '''
+        vals = {
+            'name': 'name',
+            'move_type': move_type,
+            'discount_value': self.value,
+            'discount_type': self.type,
+            'apply_discount':True if self.state == 'active' else False ,
+            'credit_id':self.id,
+            }
+        self.env['hr.infonavit.credit.history'].create(vals)
+
+
             
-    
-    
+class hrInfonavitCreditHistory(models.Model):
+    _name='hr.infonavit.credit.history'
+
+    name = fields.Char(string='Name')
+    move_type = fields.Selection([('0','Inicio de descuento'),('2','Stop'),('3','Reinicio'),('4','Cierre')],string='Tipo de movimiento')
+    discount_value = fields.Float(string='Valor de descuento')
+    discount_type = fields.Selection([
+                                    ('percentage', 'Percentage'),
+                                    ('umas', 'UMAS'),
+                                    ('fixed_amount', 'Fixed Amount')],string='Tipo de descuento')
+    apply_discount = fields.Boolean(string='Aplica descuento')
+    credit_id = fields.Many2one(comodel_name='hr.infonavit.credit.line', string='Credito')
+
 class hrWorkerHiringRegime(models.Model):
     _name = "hr.worker.hiring.regime"
     
