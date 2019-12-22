@@ -9,6 +9,7 @@
     'summary': "Module that adapts Mexico's own characteristics of the human resources process.",
     "depends": ['base','account','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry'],
     "data": [
+        'wizard/payroll_report_excel_view.xml',
         'wizard/report_payslip_line_details_view.xml',
         'wizard/report_payslip_run_rule_details_view.xml',
         'wizard/hr_update_fonacot_wizard.xml',
