@@ -28,9 +28,33 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="hr.view_employee_filter"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='job_id']" position="after">
+                    <field name="enrollment" />
+                    <field name="curp" />
+                    <field name="rfc" />
+                    <field name="ssnid" />
+                    <field name="group_id" />
+                    <field name="work_center_id" />
+                    <field name="employer_register_id" />
+                </xpath>
+                <xpath expr="//filter[@name='message_needaction']" position="after">
+                    <filter string="Contratos vencidos (hoy)" name="exipred_today_employee" domain="[('contract_id.date_end','=',context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos vencidos 7 (dias)" name="exipred_7_days_employee" domain="[('contract_id.date_end','&gt;=',(context_today()-relativedelta(days=7)).strftime('%Y-%m-%d')),('contract_id.date_end','&lt;',time.strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos vencidos 15 (dias)" name="exipred_15_days_employee" domain="[('contract_id.date_end','&gt;=',(context_today()-relativedelta(days=15)).strftime('%Y-%m-%d')),('contract_id.date_end','&lt;',time.strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos vencidos 30 (dias)" name="exipred_30_days_employee" domain="[('contract_id.date_end','&gt;=',(context_today()-relativedelta(days=30)).strftime('%Y-%m-%d')),('contract_id.date_end','&lt;',time.strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Contratos por vencerse 7 (dias)" name="exipred_7_days_after_employee" domain="[('contract_id.date_end','&gt;',time.strftime('%Y-%m-%d')),('contract_id.date_end','&lt;=',(context_today()+relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos por vencerse 15 (dias)" name="exipred_15_days_after_employee" domain="[('contract_id.date_end','&gt;',time.strftime('%Y-%m-%d')),('contract_id.date_end','&lt;=',(context_today()+relativedelta(days=15)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos por vencerse 30 (dias)" name="exipred_30_days_after_employee" domain="[('contract_id.date_end','&gt;',time.strftime('%Y-%m-%d')),('contract_id.date_end','&lt;=',(context_today()+relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Nuevos Ingresos 7 (dias)" name="new_revenue_7_days_employee" domain="[('contract_id.date_start','&gt;',time.strftime('%Y-%m-%d')),('contract_id.date_start','&lt;=',(context_today()+relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Nuevos Ingresos 15 (dias)" name="new_revenue_15_days_employee" domain="[('contract_id.date_start','&gt;',time.strftime('%Y-%m-%d')),('contract_id.date_start','&lt;=',(context_today()+relativedelta(days=15)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Nuevos Ingresos 30 (dias)" name="new_revenue_30_days_employee" domain="[('contract_id.date_start','&gt;',time.strftime('%Y-%m-%d')),('contract_id.date_start','&lt;=',(context_today()+relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                </xpath>
                 <xpath expr="//filter[@name='group_company']" position="before">
                     <filter name="group" string="Group" domain="[]" context="{'group_by':'group_id'}"/>
                     <filter name="work_center" string="Work Center" domain="[]" context="{'group_by':'work_center_id'}"/>
+                    <filter name="employer_register" string="Registro Patronal" domain="[]" context="{'group_by':'employer_register_id'}"/>
                 </xpath>
             </field>
         </record>

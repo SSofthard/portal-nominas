@@ -77,6 +77,7 @@ class HrPayslipRun(models.Model):
         ('cancel', 'Cancelled'),
     ], string='Status', index=True, readonly=True, copy=False, default='draft')
     acumulated_amount_tax = fields.Float(string='Impuestos acumulados del mes')
+    acumulated_subtotal_amount = fields.Float(string='Base imponible acumulada del mes')
     bonus_date = fields.Boolean('Bonus date', default=False)
     pay_bonus = fields.Boolean('Pay bonus?')
     pay_type = fields.Selection([('0','Efectivo'),('1','Especie')], string='Tipo de pago', default='0')
@@ -173,7 +174,9 @@ class HrPayslipRun(models.Model):
         current_year = fields.Date.context_today(self).year
         payslips_current_month = self.search([('payroll_month','=',self.payroll_month)]).filtered(lambda sheet: sheet.date_start.year == current_year)
         total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
-        payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated})
+        acumulated_subtotal_amount =  sum(payslips_current_month.mapped('subtotal_amount_untaxed'))
+        payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated,
+                                      'acumulated_subtotal_amount':acumulated_subtotal_amount})
 
     @api.multi
     def _compute_payslip_count(self):

@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
@@ -44,9 +43,11 @@ class Contract(models.Model):
         Este metodo obtiene la antiguedad del contrato
         :return:
         '''
-        today = fields.Date.today()
+        date_end = fields.Date.today()
+        if self.date_end and self.date_end < date_end:
+            date_end = self.date_end + timedelta(days=1)
         date_start_contract =  self.previous_contract_date or self.date_start
-        days_antiquity = (today - date_start_contract).days
+        days_antiquity = (date_end - date_start_contract).days
         years_antiquity = int(days_antiquity/365.25)
         days_rest = int(days_antiquity%365.25)
         self.years_antiquity = years_antiquity
@@ -62,35 +63,27 @@ class Contract(models.Model):
             current_date  =  fields.Date.context_today(self)+timedelta(days=1)
             start_date_contract = contract.previous_contract_date or contract.date_start
             years_antiquity = contract.years_antiquity
-            print (years_antiquity)
-            antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity)], limit=1)
-            print (antiguedad)
-            print (antiguedad)
-            print (antiguedad)
-            print (antiguedad)
+            antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',contract.employee_id.group_id.antique_table.id)])
             days_holiday = antiguedad.vacaciones
-            print ('entre')
             daily_salary = contract.wage / contract.employee_id.group_id.days if contract.employee_id.group_id.days else self.contract_id.wage / 30
             bonus_holiday = ((daily_salary * days_holiday)*(antiguedad.prima_vac/100))/365
             default_chirstmas_bonus_days = 15
-            print ('entre')
             factor_christmas_bonus = default_chirstmas_bonus_days \
                 if years_antiquity >= 1 else (15/365)*(current_date - (start_date_contract - timedelta(days=1))).days
             christmas_bonus = (factor_christmas_bonus*daily_salary)/365
             integral_salary =  daily_salary + bonus_holiday + christmas_bonus
-            print ('entre')
             self.integral_salary = integral_salary
 
-    # ~ def _get_variable_salary(self):
-        # ~ '''
-        # ~ Este metodo buscara los salarios variables de las nominas y calculara el valor para agregarlo al empleado
-        # ~ '''
-        # ~ current_date = fields.Date.context_today(self)
-        # ~ current_month = current_date.month
-        # ~ date_start = date(current_date.year, current_month-2, 1)
-        # ~ date_end = current_date
-        # ~ payslips = self.env['hr.payslip'].search([('date_from','>=',date_start),('date_to','<=',date_end)])
-        # ~ self.salary_var = sum(payslips.mapped('integral_variable_salary'))/len(payslips)
+    # def _get_variable_salary(self):
+    #     '''
+    #     Este metodo buscara los salarios variables de las nominas y calculara el valor para agregarlo al empleado
+    #     '''
+    #     current_date = fields.Date.context_today(self)
+    #     current_month = current_date.month
+    #     date_start = date(current_date.year, current_month-2, 1)
+    #     date_end = current_date
+    #     payslips = self.env['hr.payslip'].search([('date_from','>=',date_start),('date_to','<=',date_end)])
+    #     self.salary_var = sum(payslips.mapped('integral_variable_salary'))/len(payslips)
 
 
     #Columns
@@ -114,6 +107,9 @@ class Contract(models.Model):
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
     integral_salary= fields.Float("Integral Salary", compute='_get_integral_salary', copy=False)
+    group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
+    work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
+    employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
     # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False)
 
     @api.multi
@@ -238,7 +234,7 @@ class Contract(models.Model):
             else:
                 days = (date_to - date_from).days
         return days
-        
+
     def holiday_calculation_finiquito(self,date_payroll):
         date_from = self.date_start
         date_to = self.date_end

@@ -29,8 +29,7 @@
                                 <p t-esc="data['work_center']"/>
                             </div>
                             <div class="row">
-                                <strong>PERIODO DE NUEVO INGRESO: </strong>
-                                    <t t-esc="data['date_from']"/> - <t t-esc="data['date_to']"/>
+                                <strong>INGRESADO DESDE: </strong> <t t-esc="data['date_from']"/> <strong>HASTA: </strong> <t t-esc="data['date_to']"/>
                             </div>
                         </div>
                         <table class="table">
