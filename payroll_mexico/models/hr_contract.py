@@ -64,7 +64,7 @@ class Contract(models.Model):
             years_antiquity = contract.years_antiquity
             antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',contract.employee_id.group_id.antique_table.id)])
             days_holiday = antiguedad.vacaciones
-            daily_salary = contract.wage / contract.employee_id.group_id.days if contract.employee_id.group_id.days else self.contract_id.wage / 30
+            daily_salary = contract.wage / contract.employee_id.group_id.days if contract.employee_id.group_id.days else contract.wage / 30
             bonus_holiday = ((daily_salary * days_holiday)*(antiguedad.prima_vac/100))/365
             default_chirstmas_bonus_days = 15
             factor_christmas_bonus = default_chirstmas_bonus_days \
