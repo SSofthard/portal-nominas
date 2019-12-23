@@ -423,8 +423,9 @@
                                             <td class="text-center">
                                                 <p t-field="ban.location_branch"/>
                                             </td>
-                                            <td class="text-center">
-                                                <p t-field="ban.predetermined"/>
+                                            <td class="text-center" t-if="ban.predetermined == True">Si
+                                            </td>
+                                            <td class="text-center" t-if="ban.predetermined == False">No
                                             </td>
                                         </tr>
                                     </t>

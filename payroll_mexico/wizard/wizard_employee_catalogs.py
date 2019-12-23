@@ -24,7 +24,6 @@ class WizardEmployeeCatalogs(models.TransientModel):
     
     @api.multi
     def report_print(self, data):
-        date_from = self.date_from
         date_to = self.date_to
         domain_register = []
         domain_work_center = []
@@ -37,7 +36,7 @@ class WizardEmployeeCatalogs(models.TransientModel):
         list_date_end = []
         contract=self.env['hr.contract']
         if self.contracting_regime:
-            domain_regime = [('contract_ids.ids','=',self.contracting_regime.ids)]
+            domain_regime = [('contracting_regime','=',self.contracting_regime)]
             print ('domain_regime')
             print (domain_regime)
         if self.employer_register_id:
@@ -60,9 +59,8 @@ class WizardEmployeeCatalogs(models.TransientModel):
             list_rfc.append(rfc)
             list_department.append(department)
             list_date_end.append(date_end)
-        data['date_from'] = date_from
-        data['date_to'] = date_to
         data['group'] = self.group_id.name
+        data['regime'] = self.contracting_regime
         data['register'] = self.employer_register_id.employer_registry
         data['work_center'] = self.work_center_id.name
         data['code'] = list_code

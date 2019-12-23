@@ -19,13 +19,16 @@
                             <div class="row">
                                 <strong>GRUPO:&amp;nbsp; </strong>
                                 <p t-esc="data['group']"/>
+                            </div><div class="row">
+                                <strong>REGIMEN DE CONTRATACION:&amp;nbsp; </strong>
+                                <p t-esc="data['group']"/>
                             </div>
                             <div class="row">
                                 <strong>REGISTRO PATRONAL:&amp;nbsp; </strong>
                                 <p t-esc="data['register']"/>
                             </div>
                             <div class="row">
-                                <strong>CENTRO DE TRABAJO:&amp;nbspp </strong>
+                                <strong>CENTRO DE TRABAJO:&amp;nbsp; </strong>
                                 <p t-esc="data['work_center']"/>
                             </div>
                         </div>
