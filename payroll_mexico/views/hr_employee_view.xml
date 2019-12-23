@@ -30,6 +30,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='job_id']" position="after">
                     <field name="enrollment" />
+                    <field name="complete_name" />
                     <field name="curp" />
                     <field name="rfc" />
                     <field name="ssnid" />
@@ -70,6 +71,11 @@
                         <div class="o_row">
                             <field name="last_name" placeholder="Last Name"/>
                             <field name="mothers_last_name" placeholder="Mother's Last Name"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="o_row">
+                            <field name="complete_name" invisible="1"/>
                         </div>
                     </div>
                 </xpath>
