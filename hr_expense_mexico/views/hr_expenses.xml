@@ -91,10 +91,17 @@
                 </xpath>
                 <xpath expr="//group" position="inside">
                     <group>
+                        <field name="address_origin_id" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_dest_id" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="proceedings"/>
+                        <field name="dependency_or_branch"/>
+                        <field name="subject_type"/>
+                        <field name="paying_hearing"/>
+                        <field name="executing_attorney_status"/>
+                    </group>
+                    <group>
                         <field name="date_request" attrs="{'readonly':[('state','!=','draft')]}"/>
                         <field name="estimate_viatics" />
-                        <field name="address_origin_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
-                        <field name="address_dest_id" attrs="{'invisible':[('estimate_viatics','=',False)]}" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
                         <field name="qty_days" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
                         <field name="total_by_day" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
                     </group>
