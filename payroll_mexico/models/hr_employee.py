@@ -59,7 +59,12 @@ class Employee(models.Model):
     @api.onchange('complete_name')
     def _compute_complete_name(self):
         for name in self:
-            name.complete_name = name.name + ' ' + name.last_name + ' ' + name.mothers_last_name
+            complete_name = name.name
+            if name.last_name: 
+                complete_name += ' ' + name.last_name
+            if name.last_name: 
+                complete_name += ' ' + name.mothers_last_name
+            name.complete_name = complete_name
 
     #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
@@ -212,12 +217,6 @@ class Employee(models.Model):
                 wage_minimum = wage.border_crossing
             elif zone.zone == 'singlezone':
                 wage_minimum = wage.zone_a
-        print (wage_minimum)
-        print (wage_minimum)
-        print (wage_minimum)
-        print (wage_minimum)
-        print (wage_minimum)
-        print (wage_minimum)
         return wage_minimum
 
     @api.model
