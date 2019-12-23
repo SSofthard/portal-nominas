@@ -230,6 +230,7 @@
                                 <header>
                                    <button name="action_active" states="draft" string="Activate" class="oe_highlight" type="object" groups="hr.group_hr_manager"/>
                                    <button name="action_close" states="active" string="To close" class="oe_highlight" type="object" groups="hr.group_hr_manager"/>
+                                   <button name="action_reset" states="closed" string="To close" class="oe_highlight" type="object" groups="hr.group_hr_manager"/>
                                     <field name="state" widget="statusbar" statusbar_visible="draft,active,close"/>
                                 </header>
                                 <group>
@@ -241,6 +242,9 @@
                                         <field name="type" />
                                         <field name="value"/>
                                         <field name="uma" attrs="{'invisible': [('type','!=','umas')]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="history_ids"/>
                                     </group>
                                 </group>
                             </form>
