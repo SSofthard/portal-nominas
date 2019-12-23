@@ -12,7 +12,7 @@
             <t t-call="web.html_container">
                 <t t-call="web.internal_layout">
                     <t t-foreach="docs" t-as="o">
-                        <div class="page">
+                        <div class="page" style="font-size:12px">
                             <div class="row">
                                 <div class="col-9">
                                     <h1><span t-field="o.complete_name"/></h1>
@@ -32,20 +32,20 @@
                                     <div class="row">
                                         <strong><h5>Ciudadanía e información adicional</h5></strong>
                                     </div>
+
                                     <div class="row">
-                                        <strong>Nacionalidad (País):</strong>
-                                        <p t-field="o.country_id"/>
+                                        <strong>Nacionalidad  (País):&amp;nbsp;</strong> <p t-field="o.country_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Nº identificación:</strong>
+                                        <strong>Nº identificación:&amp;nbsp;</strong>
                                         <p t-field="o.identification_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Nº Pasaporte:</strong>
+                                        <strong>Nº Pasaporte:&amp;nbsp;</strong>
                                         <p t-field="o.passport_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Título:</strong>
+                                        <strong>Título:&amp;nbsp;</strong>
                                         <p t-field="o.title"/>
                                     </div>
                                 </div>
@@ -55,23 +55,23 @@
                                         <strong><h5>Información de contacto</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Dirección Privada:</strong>
+                                        <strong>Dirección Privada:&amp;nbsp;</strong>
                                         <p t-field="o.address_home_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Email personal:</strong>
+                                        <strong>Email personal:&amp;nbsp;</strong>
                                         <p t-field="o.personal_email"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Teléfono móvil personal:</strong>
+                                        <strong>Teléfono móvil personal:&amp;nbsp;</strong>
                                         <p t-field="o.personal_movile_phone"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Teléfono personal:</strong>
+                                        <strong>Teléfono personal:&amp;nbsp;</strong>
                                         <p t-field="o.personal_phone"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Distancia trabajo a domicilio (Km):</strong>
+                                        <strong>Distancia trabajo a domicilio (Km):&amp;nbsp;</strong>
                                         <p t-field="o.km_home_work"/>
                                     </div>
                                 </div>
@@ -83,23 +83,23 @@
                                         <strong><h5>Información de emergencia</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Restricciones de salud:</strong>
+                                        <strong>Restricciones de salud:&amp;nbsp;</strong>
                                         <p t-field="o.health_restrictions"/>
                                     </div>
                                     <br/>
                                     <div class="row">
-                                        <strong><h5>En caso de emergencia contactar a:</h5></strong>
+                                        <strong><h5>En caso de emergencia contactar a:&amp;nbsp;</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Contacto de emergencia:</strong>
+                                        <strong>Contacto de emergencia:&amp;nbsp;</strong>
                                         <p t-field="o.emergency_contact"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Dirección de emergencia:</strong>
+                                        <strong>Dirección de emergencia:&amp;nbsp;</strong>
                                         <p t-field="o.emergency_address"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Teléfono de emergencia:</strong>
+                                        <strong>Teléfono de emergencia:&amp;nbsp;</strong>
                                         <p t-field="o.emergency_phone"/>
                                     </div>
                                 </div>
@@ -108,11 +108,11 @@
                                         <strong><h5>Estado</h5></strong>
                                     </div>
                                     <div class="row">
-                                            <strong>Sexo:</strong>
+                                            <strong>Sexo:&amp;nbsp;</strong>
                                             <p t-field="o.gender"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Estado civil:</strong>
+                                        <strong>Estado civil:&amp;nbsp;</strong>
                                         <p t-field="o.marital"/>
                                     </div>
                                 </div>
@@ -128,15 +128,15 @@
                                         <p t-field="o.birthday"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Edad:</strong>
+                                        <strong>Edad:&amp;nbsp;</strong>
                                         <p t-field="o.age"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Lugar de nacimiento:</strong>
+                                        <strong>Lugar de nacimiento:&amp;nbsp;</strong>
                                         <p t-field="o.place_of_birth"/>
                                     </div>
                                     <div class="row">
-                                        <strong>País de nacimiento:</strong>
+                                        <strong>País de nacimiento:&amp;nbsp;</strong>
                                         <p t-field="o.country_of_birth"/>
                                     </div>
                                 </div>
@@ -145,19 +145,19 @@
                                         <strong><h5>Información fiscal</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>RFC:</strong>
+                                        <strong>RFC:&amp;nbsp;</strong>
                                         <p t-field="o.rfc"/>
                                     </div>
                                     <div class="row">
-                                        <strong>CURP:</strong>
+                                        <strong>CURP:&amp;nbsp;</strong>
                                         <p t-field="o.curp"/>
                                     </div>
                                     <br/>
                                     <div class="row">
-                                        <strong>Datos médicos:</strong>
+                                        <strong>Datos médicos:&amp;nbsp;</strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Tipo de sangre:</strong>
+                                        <strong>Tipo de sangre:&amp;nbsp;</strong>
                                         <p t-field="o.blood_type"/>
                                     </div>
                                 </div>
@@ -169,15 +169,15 @@
                                         <strong><h5>Permiso de trabajo</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Número de Visado:</strong>
+                                        <strong>Número de Visado:&amp;nbsp;</strong>
                                         <p t-field="o.visa_no"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Número de permiso de trabajo:</strong>
+                                        <strong>Número de permiso de trabajo:&amp;nbsp;</strong>
                                         <p t-field="o.permit_no"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Fecha expiración visado:</strong>
+                                        <strong>Fecha expiración visado:&amp;nbsp;</strong>
                                         <p t-field="o.visa_expire"/>
                                     </div>
                                 </div>
@@ -186,15 +186,15 @@
                                         <strong><h5>Educación</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Nivel de estudio:</strong>
+                                        <strong>Nivel de estudio:&amp;nbsp;</strong>
                                         <p t-field="o.certificate"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Ámbito de estudio:</strong>
+                                        <strong>Ámbito de estudio:&amp;nbsp;</strong>
                                         <p t-field="o.study_field"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Escuela:</strong>
+                                        <strong>Escuela:&amp;nbsp;</strong>
                                         <p t-field="o.study_school"/>
                                     </div>
                                 </div>
@@ -209,23 +209,23 @@
                                         <strong><h5>Información de contacto</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Grupo/Empresa:</strong>
+                                        <strong>Grupo/Empresa:&amp;nbsp;</strong>
                                         <p t-field="o.group_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Centro de trabajo:</strong>
+                                        <strong>Centro de trabajo&amp;nbsp;:</strong>
                                         <p t-field="o.work_center_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Correo-e del trabajo:</strong>
+                                        <strong>Correo-e del trabajo:&amp;nbsp;</strong>
                                         <p t-field="o.work_email"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Móvil del trabajo:</strong>
+                                        <strong>Móvil del trabajo:&amp;nbsp;</strong>
                                         <p t-field="o.mobile_phone"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Teléfono trabajo:</strong>
+                                        <strong>Teléfono trabajo:&amp;nbsp;</strong>
                                         <p t-field="o.work_phone"/>
                                     </div>
                                 </div>
@@ -234,35 +234,37 @@
                                         <strong><h5>Cargo</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Matrícula:</strong>
+                                        <strong>Matrícula:&amp;nbsp;</strong>
                                         <p t-field="o.enrollment"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Departamento:</strong>
+                                        <strong>Departamento:&amp;nbsp;</strong>
                                         <p t-field="o.department_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Puesto de trabajo:</strong>
+                                        <strong>Puesto de trabajo:&amp;nbsp;</strong>
                                         <p t-field="o.job_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Título del trabajo:</strong>
+                                        <strong>Título del trabajo:&amp;nbsp;</strong>
                                         <p t-field="o.job_title"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Responsable:</strong>
+                                        <strong>Responsable:&amp;nbsp;</strong>
                                         <p t-field="o.parent_id"/>
                                     </div>
-                                    <div class="row">
-                                        <strong>Es un director:</strong>
-                                        <p t-field="o.manager"/>
+                                    <div class="row" t-if="o.manager == True">
+                                        <strong>Es un director:&amp;nbsp;</strong> Si
+                                    </div>
+                                    <div class="row" t-if="o.manager == False">
+                                        <strong>Es un director:&amp;nbsp;</strong> No
                                     </div>
                                     <div class="row">
-                                        <strong>Horas laborales:</strong>
+                                        <strong>Horas laborales:&amp;nbsp;</strong>
                                         <p t-field="o.resource_calendar_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Zona horaria:</strong>
+                                        <strong>Zona horaria:&amp;nbsp;</strong>
                                         <p t-field="o.title"/>
                                     </div>
                                 </div>
@@ -276,11 +278,11 @@
                                         <strong><h5>Datos de Nómina</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Tipo de salario:</strong>
+                                        <strong>Tipo de salario:&amp;nbsp;</strong>
                                         <p t-field="o.salary_type"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Jornada semanal:</strong>
+                                        <strong>Jornada semanal:&amp;nbsp;</strong>
                                         <p t-field="o.working_day_week"/>
                                     </div>
                                 </div>
@@ -289,15 +291,15 @@
                                         <strong><h5>IMSS</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>Registro Patronal:</strong>
+                                        <strong>Registro Patronal:&amp;nbsp;</strong>
                                         <p t-field="o.employer_register_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Nº Seguridad Social:</strong>
+                                        <strong>Nº Seguridad Social:&amp;nbsp;</strong>
                                         <p t-field="o.ssnid"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Periodo de pago:</strong>
+                                        <strong>Periodo de pago:&amp;nbsp;</strong>
                                         <p t-field="o.payment_period_id"/>
                                     </div>
                                 </div>
@@ -308,13 +310,16 @@
                                     <div class="row">
                                         <strong><h5>Pagos adicionales</h5></strong>
                                     </div>
-                                    <div class="row">
-                                        <strong>Pagar días festivos?:</strong>
-                                        <p t-field="o.pay_holiday"/>
+                                    <div class="row" t-if="o.pay_holiday == True">
+                                        <strong>Pagar días festivos?:&amp;nbsp;</strong> Si
+                                    </div><div class="row" t-if="o.pay_holiday == False">
+                                        <strong>Pagar días festivos?:&amp;nbsp;</strong> No
                                     </div>
-                                    <div class="row">
-                                        <strong>Pagar horas extra?:</strong>
-                                        <p t-field="o.pay_extra_hours"/>
+                                    <div class="row" t-if="o.pay_extra_hours == True">
+                                        <strong>Pagar horas extra?:&amp;nbsp;</strong> Si
+                                    </div>
+                                    <div class="row" t-if="o.pay_extra_hours == False">
+                                        <strong>Pagar horas extra?:&amp;nbsp;</strong> No
                                     </div>
                                 </div>
                             </div>
@@ -363,45 +368,25 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong>Salario Real:</strong>
-                                        <p t-field="o.type_salary"/>
-                                    </div>
-                                    <div class="row">
-                                        <strong>Sueldos y salarios:</strong>
-                                        <p t-field="o.wage_salaries"/>
-                                    </div>
-                                    <div class="row">
-                                        <strong>Salario asimilado:</strong>
-                                        <p t-field="o.assimilated_salary"/>
-                                    </div>
-                                    <div class="row">
-                                        <strong>Libre:</strong>
-                                        <p t-field="o.free_salary"/>
-                                    </div>
-                                    <div class="row">
-                                        <strong>Compañía:</strong>
+                                        <strong>Compañía:&amp;nbsp;</strong>
                                         <p t-field="o.company_id"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Compañía (asimilado):</strong>
+                                        <strong>Compañía (asimilado):&amp;nbsp;</strong>
                                         <p t-field="o.company_assimilated_id"/>
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                     <div class="row">
-                                        <strong>Salario mensual:</strong>
-                                        <p t-field="o.monthly_salary"/>
-                                    </div>
                                     <div class="row">
-                                        <strong>Sueldos y salarios brutos:</strong>
+                                        <strong>Sueldos y salarios brutos:&amp;nbsp;</strong>
                                         <p t-field="o.wage_salaries_gross"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Salario bruto asimilado:</strong>
+                                        <strong>Salario bruto asimilado:&amp;nbsp;</strong>
                                         <p t-field="o.assimilated_salary_gross"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Salario libre bruto:</strong>
+                                        <strong>Salario libre bruto:&amp;nbsp;</strong>
                                         <p t-field="o.free_salary_gross"/>
                                     </div>
                                 </div>
@@ -508,62 +493,29 @@
                             <br/>
                             <center><strong><h4>Credito Fonacot</h4></strong></center>
                             <br/>
-                            <div class="row">
+                            <div class="row" t-if="o.fonacot_payroll == True">
                                 <div class="col-7">
                                     <div class="row">
                                         <strong><h5>Datos generales</h5></strong>
                                     </div>
                                     <div class="row">
-                                        <strong>¿Descontar en nómina?</strong>
-                                        <p t-field="o.fonacot_payroll"/>
-                                    </div>
-                                    <div class="row">
-                                        <strong>Numero de prestamo</strong>
+                                        <strong>Numero de prestamo:&amp;nbsp;</strong>
                                         <p t-field="o.fonacot_credit_number"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Ultima deuda agregada</strong>
+                                        <strong>Ultima deuda agregada:&amp;nbsp;</strong>
                                         <p t-field="o.last_amount_update"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Deuda</strong>
+                                        <strong>Deuda:&amp;nbsp;</strong>
                                         <p t-field="o.fonacot_amount_debt"/>
                                     </div>
                                     <div class="row">
-                                        <strong>Monto a descontar</strong>
+                                        <strong>Monto a descontar:&amp;nbsp;</strong>
                                         <p t-field="o.ammount_discounted"/>
                                     </div>
                                 </div>
                             </div>
-                            <strong>Movimientos:</strong>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">Nombre</th>
-                                        <th class="text-center">Fecha</th>
-                                        <th class="text-center">Haber</th>
-                                        <th class="text-center">Debe</th>
-                                    </tr>
-                                </thead>
-                                <tbody >
-                                    <t t-foreach="o.lines_fonacot" t-as="fon">
-                                        <tr>
-                                            <td class="text-center">
-                                                <p t-field="fon.name"/>
-                                            </td>
-                                            <td class="text-center">
-                                                <p t-field="fon.date"/>
-                                            </td>
-                                            <td class="text-center">
-                                                <p t-field="fon.credit"/>
-                                            </td>
-                                            <td class="text-center">
-                                                <p t-field="fon.debit"/>
-                                            </td>
-                                        </tr>
-                                    </t>
-                                </tbody>
-                            </table>
                         </div>
                     </t>
                 </t>
