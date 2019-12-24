@@ -30,6 +30,11 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
                 self.contract_id.write({'wage': self.wage})
             else:
                 raise ValidationError(_("The salary cannot be negative."))
+        History = self.env['hr.employee.change.history']
+        domain = []
+        # ~ if self.type == 'job':
+            # ~ domain = [()]
+        history_id = History.search([('employee_id','=', self.employee_id.id),('contract_id','=',self.contract_id.id)], limit=1)
         kwargs = {
             'employee_id': self.employee_id.id,
             'contract_id': self.contract_id.id,
@@ -39,4 +44,6 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
             'date_from': self.date_from,
             'type': self.type,
         }
-        self.env['hr.employee.change.history'].prepare_changes(**kwargs)
+        kwargs['before_job_id'] = history_id.contract_id.job_id
+        history_id.write({'date_to': fields.Date.today()})
+        History.prepare_changes(**kwargs)

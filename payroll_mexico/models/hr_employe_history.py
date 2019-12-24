@@ -19,6 +19,7 @@ class EmployeeChangeHistory(models.Model):
     wage = fields.Monetary('Wage', digits=(16, 2), help="Employee's monthly gross wage.")
     salary = fields.Monetary('SDI', digits=(16, 2), help="SDI")
     date_from = fields.Date(string="Confirmation Date")
+    date_to = fields.Date(string="Date end")
     type = fields.Selection([
         ('wage', 'Wage'),
         ('job', 'Job Position'),
@@ -27,6 +28,7 @@ class EmployeeChangeHistory(models.Model):
         help="""* Type change'
                 \n* If the changue is wage, the type is \'Wage\'.
                 \n* If the changue is job then type is set to \'Job Position\'.""")
+    before_job_id = fields.Char(string='before job')
 
     @api.multi
     def prepare_changes(self, **kwargs):
@@ -34,9 +36,11 @@ class EmployeeChangeHistory(models.Model):
             'employee_id': kwargs.get('employee_id', ''),
             'contract_id': kwargs.get('contract_id', ''),
             'job_id': kwargs.get('job_id', ''),
+            'before_job_id': kwargs.get('before_job_id', ''),
             'wage': kwargs.get('wage', ''),
             'salary': kwargs.get('salary', ''),
             'date_from': kwargs.get('date_from', ''),
+            'date_to': kwargs.get('date_to', ''),
             'type': kwargs.get('type', ''),
         })
 
