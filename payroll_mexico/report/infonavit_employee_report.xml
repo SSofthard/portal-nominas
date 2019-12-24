@@ -30,7 +30,8 @@
             <t t-call="web.internal_layout">
                 <t t-call="web.html_container">
                     <div class="page" style="font-size:12px">
-                        <h4 class="text-center">Consulta de Trabajadores con Crédito INFONAVIT</h4>
+                        <h4 class="text-center">REPORTE DE VERIFICACIÓN DE DATOS DEL ACREDITADO</h4>
+                        <h6 class="text-center">Período: <span t-esc="data['start_bimester']"/> AL <span t-esc="data['bimester_end']"/></h6>
                         <br/>
                         <br/>
                         <br/>
@@ -45,57 +46,47 @@
                                     <td colspan="2"><strong>CENTRO DE TRABAJO: </strong>
                                 <span t-esc="data['work_center']"/></td>
                                 </tr>
-                                <tr t-if="data['date_from'] and data['date_to']">
-                                    <td colspan="3"><strong>DESDE: </strong>
-                                <span t-esc="data['date_from']"/></td>
-                                    <td colspan="3"><strong>HASTA: </strong>
-                                <span t-esc="data['date_to']"/></td>
-                                </tr>
                             </tbody>
                         </table>
-                        <table class="table table-bordered">
+                        <span t-esc="o"/>
+                        <table class="table" style="border-style: none;">
                             <tbody>
-                                <table class="table">
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Número de trabajador</strong></th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>N.S.S.</strong></th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Nombre</strong></th>
-                                <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>R.F.C.</strong></th>
-                                <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>C.U.R.P.</strong></th>
-                                <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Sexo</strong></th>
-                                <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Tipo de trabajador</strong></th>
-                                <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Fecha de ingreso</strong></th>
+                                <table class="table" style="border-style: none;">
+								<th colspan="4" class="text-center"><strong>N.S.S.</strong></th>
+                                <th colspan="4" class="text-center"><strong>Nombre</strong></th>
+                                <th colspan="3" class="text-center" ><strong>Clave / Ubicación</strong></th>
                                 <tr>
-                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Tipo de Movimiento</strong></th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Fecha</strong></th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Número de credito</strong></th>
-                                    <th colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Tipo de descuento</strong></th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Valor de descuento</strong></th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><strong>Aplica descuento</strong></th>
+                                    <th colspan="2" class="text-center" ><strong>Bim/Año</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>Crédito</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>S.D.I.</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>Tipo Desc.</strong></th>
+                                    <th colspan="3" class="text-center" ><strong>Valor Desc.</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>Fecha ALta</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>I.C.V</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>Fecha Baja</strong></th>
                                 </tr>
                                 <t t-set="counter" t-value="1"/>
                                 <t t-foreach="docs" t-as="o">
                                     <tr>
-                                        <td colspan="1" class="text-center"><span t-esc="counter"/></td>
-                                        <td colspan="1" class="text-center"><span t-field="o.ssnid"/></td>
-                                        <td colspan="2" class="text-center"><span t-field="o.name"/></td>
-                                        <td colspan="1" class="text-center"><span t-field="o.rfc"/></td>
-                                        <td colspan="1" class="text-center"><span t-field="o.curp"/></td>
-                                        <td colspan="1" class="text-center"><span t-field="o.gender"/></td>
-                                        <td colspan="1" class="text-center">??????????</td>
-                                        <td colspan="1" class="text-center">??????????</td>
+                                        <td colspan="4" class="text-center"><span t-field="o.ssnid"/></td>
+                                        <td colspan="4" class="text-center"><span t-field="o.name"/></td>
+                                        <td colspan="3" class="text-center"><span t-field="o.enrollment"/></td>
                                     </tr>
-                                    <tr t-foreach="o.infonavit_ids.history_ids" t-as="o">
-                                        <td colspan="2" class="text-center"><span t-field="o.move_type"/></td>
-                                        <td colspan="1" class="text-center"><span t-field="o.create_date"/></td>
-                                        <td colspan="1" class="text-center"><span t-field="o.credit_id.infonavit_credit_number"/></td>
-                                        <td colspan="3" class="text-center"><span t-field="o.discount_type"/></td>
-                                        <td colspan="1" class="text-center"><span t-field="o.discount_value"/></td>
-                                        <td colspan="1  " class="text-center"><span t-esc="'Si' if o.apply_discount else 'NO'"/></td>
+                                    <tr t-foreach="o.infonavit_ids.history_ids" t-as="i">
+                                        <td colspan="2" class="text-center"></td>
+                                        <td colspan="1" class="text-center"><span t-field="data['credit'][o.id][4]"/></td>
+                                        <td colspan="1" class="text-center"></td>
+                                        <td colspan="1" class="text-center"></td>
+                                        <td colspan="3" class="text-center"></td>
+                                        <td colspan="1" class="text-center"></td>
+                                        <td colspan="1" class="text-center"></td>
+                                        <td colspan="1" class="text-center"></td>
                                     </tr>
                                     <t t-set="counter" t-value="counter+1"/>
                                 </t>
                                 </table>
                             </tbody>
+<!--
                             <tfooter>
                                 <tr>
                                     <td colspan="7" class="text-right">Total trabajadores</td>
@@ -103,6 +94,7 @@
                                 </tr>
 
                             </tfooter>
+-->
                         </table>
                     </div>
                 </t>

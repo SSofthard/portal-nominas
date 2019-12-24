@@ -32,49 +32,48 @@
                                 <strong>VENCIDOS DESDE: </strong> <t t-esc="data['date_from']"/><strong>HASTA: </strong> <t t-esc="data['date_to']"/>
                             </div>
                         </div>
-                        
+                        <br/>
+                        <br/>
                         <table class="table">
-                            <tbody>
-                                <table class="table table-condensed">
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">MATRICULA:</th>
-                                <th colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">NOMBRE</th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">N IMSS:</th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">CURP:</th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">RFC:</th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">CENTRO DE TRABAJO:</th>
-                                <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">DEPARTAMENTO:</th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">FECHA DE ALTA:</th>
+                            <thead>
+                                <th colspan="2" class="text-center" >MATRICULA</th>
+                                <th colspan="3" class="text-center" >NOMBRE</th>
+                                <th colspan="2" class="text-center" >N.S.S.</th>
+                                <th colspan="2" class="text-center" >CURP</th>
+                                <th colspan="2" class="text-center" >RFC</th>
+                                <th colspan="2" class="text-center" >CENTRO DE TRABAJO</th>
+                                <th colspan="2" class="text-center" >DEPARTAMENTO</th>
                                 <tr>
-                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">CODIGO:</th>
-                                    <th colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">TIPO DE CONTRACTO:</th>
-                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">REGIMEN:</th>
-                                    <th colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">FECHA DE INICIO:</th>
-                                    <th colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">FECHA FIN:</th>
-                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">STATUS:</th>
+                                    <th colspan="2" class="text-center" >CODIGO</th>
+                                    <th colspan="3" class="text-center" >TIPO DE CONTRACTO</th>
+                                    <th colspan="2" class="text-center" >REGIMEN</th>
+                                    <th colspan="3" class="text-center" >FECHA DE INICIO</th>
+                                    <th colspan="3" class="text-center" >FECHA FIN</th>
+                                    <th colspan="2" class="text-center" >STATUS</th>
                                 </tr>
+                            </thead>
+                            <tbody>
                                 <t t-set="counter" t-value="0"/>
-                                <t t-foreach="data['code']" t-as="c">
+                                <t t-foreach="docs.mapped('employee_id')" t-as="o">
                                     <tr>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="c"/></td>
-                                        <td colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['name'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['imss'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['curp'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['rfc'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['job'][counter]"/></td>
-                                        <td colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['department'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['date_end'][counter]"/></td>
+                                        <th colspan="2" class="text-center" ><t t-esc="o.enrollment"/></th>
+                                        <th colspan="3" class="text-center" ><span t-field="o.name"/></th>
+                                        <th colspan="2" class="text-center" ><span t-field="o.ssnid"/></th>
+                                        <th colspan="2" class="text-center" ><span t-field="o.curp"/></th>
+                                        <th colspan="2" class="text-center" ><span t-field="o.rfc"/></th>
+                                        <th colspan="2" class="text-center" ><span t-field="o.job_id.name"/></th>
+                                        <th colspan="1" class="text-center" ><span t-field="o.department_id.name"/></th>
                                     </tr>
-                                    <tr>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['code_contract'][counter]"/></td>
-                                        <td colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['type'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['regime'][counter]"/></td>
-                                        <td colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['date_start'][counter]"/></td>
-                                        <td colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['date_end'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['status'][counter]"/></td>
+                                    <tr t-foreach="o.contract_ids.filtered(lambda contract: contract.id in doc_ids)" t-as="c">
+                                        <td colspan="2" class="text-center" ><span t-field="c.code"/></td>
+                                        <td colspan="3" class="text-center" ><span t-field="c.type_id.name"/></td>
+                                        <td colspan="2" class="text-center" ><span t-field="c.contracting_regime"/></td>
+                                        <td colspan="3" class="text-center" ><span t-field="c.date_start"/></td>
+                                        <td colspan="3" class="text-center" ><span t-field="c.date_end"/></td>
+                                        <td colspan="2" class="text-center" ><span t-field="c.state"/></td>
                                     </tr>
                                     <t t-set="counter" t-value="counter+1" />
                                 </t>
-                                </table>
                             </tbody>
                         </table>
                     </div>

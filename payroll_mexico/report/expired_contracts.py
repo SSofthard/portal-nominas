@@ -13,10 +13,11 @@ class reportHrExpiredContracts(models.TransientModel):
         
     @api.multi
     def _get_report_values(self, docids, data=None):
+        docs = self.env['hr.contract'].search([('id', 'in', data['contract_ids'])])
         return {
-            'doc_ids': '',
+            'doc_ids':docs._ids,
             'doc_model': 'hr.contract',
-            'docs': '',
+            'docs': docs,
             'data': data,
         }
 

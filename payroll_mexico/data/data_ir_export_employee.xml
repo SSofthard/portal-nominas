@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">  
+
+        <!-- Export data employees -->
+        <record id="hr_work_data_export" model="ir.exports">
+            <field name="name">Información de Trabajo</field>
+            <field name="resource">hr.employee</field>
+        </record>
+        
+        <record id="hr_personal_data_export" model="ir.exports">
+            <field name="name">Información Personal</field>
+            <field name="resource">hr.employee</field>
+        </record>
+        
+        <record id="hr_fiscal_data_export" model="ir.exports">
+            <field name="name">Información Fiscal</field>
+            <field name="resource">hr.employee</field>
+        </record>
+        
+        <record id="hr_contact_data_export" model="ir.exports">
+            <field name="name">Información de Contacto</field>
+            <field name="resource">hr.employee</field>
+        </record>
+        
+        <record id="hr_emergency_data_export" model="ir.exports">
+            <field name="name">Inf. en Caso de Emergencia</field>
+            <field name="resource">hr.employee</field>
+        </record>
+        
+        <record id="hr_bank_data_export" model="ir.exports">
+            <field name="name">Información Bancaria</field>
+            <field name="resource">hr.employee</field>
+        </record>
+        
+        <record id="hr_infonavit_data_export" model="ir.exports">
+            <field name="name">Información INFONAVIT</field>
+            <field name="resource">hr.employee</field>
+        </record>
+        
+        <!-- Export work data Lines-->
+        <record id="hr_exports_line_enrollment" model="ir.exports.line">
+            <field name="name">enrollment</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_name" model="ir.exports.line">
+            <field name="name">name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_last_name" model="ir.exports.line">
+            <field name="name">last_name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_mothers_last_name" model="ir.exports.line">
+            <field name="name">mothers_last_name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_group_id" model="ir.exports.line">
+            <field name="name">group_id/name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_work_center_id" model="ir.exports.line">
+            <field name="name">work_center_id/name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_work_email" model="ir.exports.line">
+            <field name="name">work_email</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        
+        <record id="hr_exports_line_work_phone" model="ir.exports.line">
+            <field name="name">work_phone</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_department_id" model="ir.exports.line">
+            <field name="name">department_id/name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_work_job_id" model="ir.exports.line">
+            <field name="name">job_id/name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_job_title" model="ir.exports.line">
+            <field name="name">job_title</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_work_job_title" model="ir.exports.line">
+            <field name="name">parent_id/name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        
+        <record id="hr_exports_line_resource_calendar_id" model="ir.exports.line">
+            <field name="name">resource_calendar_id/name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        <record id="hr_exports_line_resource_calendar_id" model="ir.exports.line">
+            <field name="name">resource_calendar_id/name</field>
+            <field name="export_id" ref="hr_work_data_export"/>
+        </record>
+        
+        <!-- Export Personal data Lines-->
+        <record id="hr_exports_line_pd_enrollment" model="ir.exports.line">
+            <field name="name">enrollment</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_complete_name" model="ir.exports.line">
+            <field name="name">complete_name</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_country_id" model="ir.exports.line">
+            <field name="name">country_id/name</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_identification_id" model="ir.exports.line">
+            <field name="name">identification_id</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_passport_id" model="ir.exports.line">
+            <field name="name">passport_id</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_title" model="ir.exports.line">
+            <field name="name">title/name</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_gender" model="ir.exports.line">
+            <field name="name">gender</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_marital" model="ir.exports.line">
+            <field name="name">marital</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_birthday" model="ir.exports.line">
+            <field name="name">birthday</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_age" model="ir.exports.line">
+            <field name="name">age</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_age" model="ir.exports.line">
+            <field name="name">age</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_place_of_birth" model="ir.exports.line">
+            <field name="name">place_of_birth/name</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_country_of_birth" model="ir.exports.line">
+            <field name="name">country_of_birth/name</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_visa_no" model="ir.exports.line">
+            <field name="name">visa_no</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_permit_no" model="ir.exports.line">
+            <field name="name">permit_no</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_visa_expire" model="ir.exports.line">
+            <field name="name">visa_expire</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_certificate" model="ir.exports.line">
+            <field name="name">certificate</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_study_field" model="ir.exports.line">
+            <field name="name">study_field</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        <record id="hr_exports_line_pd_study_school" model="ir.exports.line">
+            <field name="name">study_school</field>
+            <field name="export_id" ref="hr_personal_data_export"/>
+        </record>
+        
+        <!-- Export Fiscal data Lines-->
+        <record id="hr_exports_line_fd_enrollment" model="ir.exports.line">
+            <field name="name">enrollment</field>
+            <field name="export_id" ref="hr_fiscal_data_export"/>
+        </record>
+        <record id="hr_exports_line_fd_complete_name" model="ir.exports.line">
+            <field name="name">complete_name</field>
+            <field name="export_id" ref="hr_fiscal_data_export"/>
+        </record>
+        <record id="hr_exports_line_fd_curp" model="ir.exports.line">
+            <field name="name">curp</field>
+            <field name="export_id" ref="hr_fiscal_data_export"/>
+        </record>
+        <record id="hr_exports_line_fd_rfc" model="ir.exports.line">
+            <field name="name">rfc</field>
+            <field name="export_id" ref="hr_fiscal_data_export"/>
+        </record>
+        <record id="hr_exports_line_fd_birthday" model="ir.exports.line">
+            <field name="name">birthday</field>
+            <field name="export_id" ref="hr_fiscal_data_export"/>
+        </record>
+        <record id="hr_exports_line_fd_birthday" model="ir.exports.line">
+            <field name="name">birthday</field>
+            <field name="export_id" ref="hr_fiscal_data_export"/>
+        </record>
+        <record id="hr_exports_line_fd_place_of_birth" model="ir.exports.line">
+            <field name="name">place_of_birth/name</field>
+            <field name="export_id" ref="hr_fiscal_data_export"/>
+        </record>
+        <record id="hr_exports_line_fd_country_of_birth" model="ir.exports.line">
+            <field name="name">country_of_birth/name</field>
+            <field name="export_id" ref="hr_fiscal_data_export"/>
+        </record>
+        
+        <!-- Export Contact data Lines-->
+        <record id="hr_exports_line_cd_enrollment" model="ir.exports.line">
+            <field name="name">enrollment</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_name" model="ir.exports.line">
+            <field name="name">complete_name</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_personal_email" model="ir.exports.line">
+            <field name="name">personal_email</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_personal_movile_phone" model="ir.exports.line">
+            <field name="name">personal_movile_phone</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_personal_phone" model="ir.exports.line">
+            <field name="name">personal_phone</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_km_home_work" model="ir.exports.line">
+            <field name="name">km_home_work</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_address_country_id" model="ir.exports.line">
+            <field name="name">address_home_id/country_id/name</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_address_city" model="ir.exports.line">
+            <field name="name">address_home_id/city</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_address_state_id" model="ir.exports.line">
+            <field name="name">address_home_id/state_id/name</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_address_zip" model="ir.exports.line">
+            <field name="name">address_home_id/zip</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_address_municipality_id" model="ir.exports.line">
+            <field name="name">address_home_id/municipality_id/name</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_address_street" model="ir.exports.line">
+            <field name="name">address_home_id/street</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        <record id="hr_exports_line_cd_address_street2" model="ir.exports.line">
+            <field name="name">address_home_id/street2</field>
+            <field name="export_id" ref="hr_contact_data_export"/>
+        </record>
+        
+         <!-- Export Contact data Lines-->
+        <record id="hr_exports_line_ed_enrollment" model="ir.exports.line">
+            <field name="name">enrollment</field>
+            <field name="export_id" ref="hr_emergency_data_export"/>
+        </record>
+        <record id="hr_exports_line_em_name" model="ir.exports.line">
+            <field name="name">complete_name</field>
+            <field name="export_id" ref="hr_emergency_data_export"/>
+        </record>
+        <record id="hr_exports_line_em_emergency_contact" model="ir.exports.line">
+            <field name="name">emergency_contact</field>
+            <field name="export_id" ref="hr_emergency_data_export"/>
+        </record>
+        <record id="hr_exports_line_em_emergency_phone" model="ir.exports.line">
+            <field name="name">emergency_phone</field>
+            <field name="export_id" ref="hr_emergency_data_export"/>
+        </record>
+        <record id="hr_exports_line_em_emergency_address" model="ir.exports.line">
+            <field name="name">emergency_address</field>
+            <field name="export_id" ref="hr_emergency_data_export"/>
+        </record>
+        <record id="hr_exports_line_em_blood_type" model="ir.exports.line">
+            <field name="name">blood_type</field>
+            <field name="export_id" ref="hr_emergency_data_export"/>
+        </record>
+        <record id="hr_exports_line_em_health_restrictions" model="ir.exports.line">
+            <field name="name">health_restrictions</field>
+            <field name="export_id" ref="hr_emergency_data_export"/>
+        </record>
+        
+        <!-- Export Bank data Lines-->
+        <record id="hr_exports_line_bd_enrollment" model="ir.exports.line">
+            <field name="name">enrollment</field>
+            <field name="export_id" ref="hr_bank_data_export"/>
+        </record>
+        <record id="hr_exports_line_bd_name" model="ir.exports.line">
+            <field name="name">complete_name</field>
+            <field name="export_id" ref="hr_bank_data_export"/>
+        </record>
+        <record id="hr_exports_line_bd_group_id" model="ir.exports.line">
+            <field name="name">group_id/name</field>
+            <field name="export_id" ref="hr_bank_data_export"/>
+        </record>
+        <record id="hr_exports_line_bd_bank_code" model="ir.exports.line">
+            <field name="name">bank_account_ids/bank_id/code</field>
+            <field name="export_id" ref="hr_bank_data_export"/>
+        </record>
+        <record id="hr_exports_line_bd_bank_name" model="ir.exports.line">
+            <field name="name">bank_account_ids/bank_id/name</field>
+            <field name="export_id" ref="hr_bank_data_export"/>
+        </record>
+        <record id="hr_exports_line_bd_bank_reference" model="ir.exports.line">
+            <field name="name">bank_account_ids/reference</field>
+            <field name="export_id" ref="hr_bank_data_export"/>
+        </record>
+        <record id="hr_exports_line_bd_bank_beneficiary" model="ir.exports.line">
+            <field name="name">bank_account_ids/beneficiary</field>
+            <field name="export_id" ref="hr_bank_data_export"/>
+        </record>
+        <record id="hr_exports_line_bd_bank_bank_account" model="ir.exports.line">
+            <field name="name">bank_account_ids/bank_account</field>
+            <field name="export_id" ref="hr_bank_data_export"/>
+        </record>
+        <record id="hr_exports_line_bd_bank_location_branch" model="ir.exports.line">
+            <field name="name">bank_account_ids/location_branch</field>
+            <field name="export_id" ref="hr_bank_data_export"/>
+        </record>
+        
+        <!-- Export INFONAVIT data Lines-->
+        <record id="hr_exports_line_infonavit_enrollment" model="ir.exports.line">
+            <field name="name">enrollment</field>
+            <field name="export_id" ref="hr_infonavit_data_export"/>
+        </record>
+        <record id="hr_exports_line_infonavit_name" model="ir.exports.line">
+            <field name="name">complete_name</field>
+            <field name="export_id" ref="hr_infonavit_data_export"/>
+        </record>
+        <record id="hr_exports_line_infonavit_credit_number" model="ir.exports.line">
+            <field name="name">infonavit_ids/infonavit_credit_number</field>
+            <field name="export_id" ref="hr_infonavit_data_export"/>
+        </record>
+        <record id="hr_exports_line_infonavit_type" model="ir.exports.line">
+            <field name="name">infonavit_ids/type</field>
+            <field name="export_id" ref="hr_infonavit_data_export"/>
+        </record>
+        <record id="hr_exports_line_infonavit_value" model="ir.exports.line">
+            <field name="name">infonavit_ids/value</field>
+            <field name="export_id" ref="hr_infonavit_data_export"/>
+        </record>
+        <record id="hr_exports_line_infonavit_date" model="ir.exports.line">
+            <field name="name">infonavit_ids/date</field>
+            <field name="export_id" ref="hr_infonavit_data_export"/>
+        </record>
+        <record id="hr_exports_line_infonavit_state" model="ir.exports.line">
+            <field name="name">infonavit_ids/state</field>
+            <field name="export_id" ref="hr_infonavit_data_export"/>
+        </record>
+   </data>
+</odoo>

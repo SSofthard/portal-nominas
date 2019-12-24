@@ -8,16 +8,17 @@ import pytz
 from datetime import date, datetime, timedelta
 from odoo.exceptions import UserError, ValidationError
 
-class reportHrInfonavitEmployee(models.TransientModel):
-    _name = 'report.payroll_mexico.template_infonavit_employee'
+class reportHrExpiredContracts(models.TransientModel):
+    _name = 'report.payroll_mexico.template_employee_history'
         
     @api.multi
     def _get_report_values(self, docids, data=None):
-        docs = self.env['hr.employee'].browse(data['docs_ids'])
+        print ('data')
+        print (data)
         return {
-            'doc_ids': docids,
-            'doc_model': 'hr.employee',
-            'docs': docs,
+            'doc_ids': '',
+            'doc_model': 'hr.employee.change.history',
+            'docs': '',
             'data': data,
         }
 
