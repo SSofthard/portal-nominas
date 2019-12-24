@@ -33,7 +33,7 @@ class WizardEmployeeCatalogs(models.TransientModel):
         list_curp = []
         list_rfc = []
         list_department = []
-        list_date_end = []
+        list_date_start = []
         contract=self.env['hr.contract']
         if self.contracting_regime:
             domain_regime = [('contracting_regime','=',self.contracting_regime)]
@@ -44,6 +44,8 @@ class WizardEmployeeCatalogs(models.TransientModel):
         if self.work_center_id:
             domain_work_center = [('employee_id.work_center_id', '=', self.work_center_id.id)]
         contract_ids=contract.search([('employee_id.group_id','=',self.group_id.id)] + domain_regime + domain_register + domain_work_center)
+        if not contract_ids:
+            raise UserError(_('No se encontro informacion para estos criterios de busqueda'))
         for i in contract_ids:
             code = (i.employee_id.enrollment)
             name = (i.employee_id.name)
@@ -51,16 +53,16 @@ class WizardEmployeeCatalogs(models.TransientModel):
             curp = (i.employee_id.curp)
             rfc = (i.employee_id.rfc)
             department = (i.employee_id.department_id.name)
-            date_end = (i.date_end)
+            date_start = (i.date_start)
             list_code.append(code)
             list_name.append(name)
             list_imss.append(imss)
             list_curp.append(curp)
             list_rfc.append(rfc)
             list_department.append(department)
-            list_date_end.append(date_end)
+            list_date_start.append(date_start)
         data['group'] = self.group_id.name
-        data['regime'] = self.contracting_regime
+        data['regime'] = dict(self._fields['contracting_regime']._description_selection(self.env)).get(self.contracting_regime)
         data['register'] = self.employer_register_id.employer_registry
         data['work_center'] = self.work_center_id.name
         data['code'] = list_code
@@ -69,7 +71,7 @@ class WizardEmployeeCatalogs(models.TransientModel):
         data['curp'] = list_curp
         data['rfc'] = list_rfc
         data['department'] = list_department
-        data['date_end'] = list_date_end
+        data['date_start'] = list_date_start
         return self.env.ref('payroll_mexico.report_employee_catalogs').report_action(self, data=data)
         
         

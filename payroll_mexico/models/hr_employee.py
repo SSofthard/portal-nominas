@@ -66,6 +66,7 @@ class Employee(models.Model):
                 # ~ complete_name += ' ' + name.mothers_last_name
             name.complete_name = name.name_get()[0][1]
 
+
     #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
     title = fields.Many2one('res.partner.title','Title')
