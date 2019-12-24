@@ -10,18 +10,11 @@
                 <group>
                     <group>
                          <field name="group_id"/>
+                         <field name="work_center_id"/>
                     </group>
                     <group>
-                        <field name="work_center_id"/>
                         <field name="employer_register_id"/>
-                    </group>
-                </group>
-                <group>
-                    <group>
-                        <field name="date_from"/>
-                    </group>
-                    <group>
-                        <field name="date_to"/>
+                        <field name="contracting_regime"/>
                     </group>
                 </group>
            <footer>

@@ -13,49 +13,49 @@
             <t t-call="web.internal_layout">
                 <t t-call="web.html_container">
                     <div class="page" style="font-size:12px">
-                        <h4 class="text-center">CATALOGOS DE EMPLEADOS.</h4>
+                        <h4 class="text-center">CATALOGOS DE EMPLEADOS</h4>
                         <br/>
                         <div>
                             <div class="row">
-                                <strong>GRUPO: </strong>
+                                <strong>GRUPO:&amp;nbsp; </strong>
+                                <p t-esc="data['group']"/>
+                            </div><div class="row">
+                                <strong>REGIMEN DE CONTRATACION:&amp;nbsp; </strong>
                                 <p t-esc="data['group']"/>
                             </div>
                             <div class="row">
-                                <strong>REGISTRO PATRONAL: </strong>
+                                <strong>REGISTRO PATRONAL:&amp;nbsp; </strong>
                                 <p t-esc="data['register']"/>
                             </div>
                             <div class="row">
-                                <strong>CENTRO DE TRABAJO: </strong>
+                                <strong>CENTRO DE TRABAJO:&amp;nbsp; </strong>
                                 <p t-esc="data['work_center']"/>
-                            </div>
-                            <div class="row">
-                                <strong>INGRESADO DESDE: </strong> <t t-esc="data['date_from']"/> <strong>HASTA: </strong> <t t-esc="data['date_to']"/>
                             </div>
                         </div>
                         <table class="table">
+                            <thead>
+                                <th colspan="2" class="text-center" >MATRICULA:</th>
+                                <th colspan="3" class="text-center" >NOMBRE</th>
+                                <th colspan="2" class="text-center" >N IMSS:</th>
+                                <th colspan="2" class="text-center" >CURP:</th>
+                                <th colspan="2" class="text-center" >RFC:</th>
+                                <th colspan="1" class="text-center" >DEPARTAMENTO:</th>
+                                <th colspan="2" class="text-center" >FECHA DE ALTA:</th>
+                            </thead>
                             <tbody>
-                                <table class="table table-condensed">
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">MATRICULA:</th>
-                                <th colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">NOMBRE</th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">N IMSS:</th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">CURP:</th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">RFC:</th>
-                                <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">DEPARTAMENTO:</th>
-                                <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; ">FECHA DE ALTA:</th>
                                 <t t-set="counter" t-value="0"/>
                                 <t t-foreach="data['code']" t-as="c">
                                     <tr>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="c"/></td>
-                                        <td colspan="3" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['name'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['imss'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['curp'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['rfc'][counter]"/></td>
-                                        <td colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['department'][counter]"/></td>
-                                        <td colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important; "><t t-esc="data['date_end'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="c"/></td>
+                                        <td colspan="3" class="text-center" ><t t-esc="data['name'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="data['imss'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="data['curp'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="data['rfc'][counter]"/></td>
+                                        <td colspan="1" class="text-center" ><t t-esc="data['department'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="data['date_end'][counter]"/></td>
                                     </tr>
                                     <t t-set="counter" t-value="counter+1" />
                                 </t>
-                                </table>
                             </tbody>
                         </table>
                     </div>
