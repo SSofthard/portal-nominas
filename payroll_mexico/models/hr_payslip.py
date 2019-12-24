@@ -490,4 +490,4 @@ class HrRuleInput(models.Model):
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', required=True)
-
+    input_id = fields.Many2one('hr.salary.rule', string='Salary Rule Input', required=False)
