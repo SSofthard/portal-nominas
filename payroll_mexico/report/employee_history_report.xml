@@ -41,43 +41,41 @@
                             </div>
                         </div>
                         <br/>
-                        <table class="table">
-                            <thead>
-                                <th colspan="3" class="text-center" >PUESTO DE TRABAJO</th>
-                                <th colspan="2" class="text-center" >EMPLEADOS ACTIVOS</th>
-                                <th colspan="2" class="text-center" >CANTIDAD DE ALTAS</th>
-                                <th colspan="2" class="text-center" >CANTIDAD DE BAJAS</th>
-                                <tr>
-                                    <th colspan="2" class="text-center" >EMPLEADO</th>
-                                    <th colspan="2" class="text-center" >FECHA DE ALTA</th>
-                                    <th colspan="2" class="text-center" >FECHA DE INICIO</th>
-                                    <th colspan="2" class="text-center" >FECHA DE FIN</th>
-                                    <th colspan="2" class="text-center" >STATUS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-set="counter" t-value="0"/>
-                                <t t-foreach="data['employee']" t-as="e">
+                        <t t-set="counter" t-value="0"/>
+                        <t t-foreach="data['job']" t-as="job">
+                            <table class="table">
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">PUESTO DE TRABAJO:</th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><t t-esc="job"/></th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS:</th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span>definir</span></th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE ALTAS:</th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span>definir</span></th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE BAJAS:</th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span>definir</span></th>
+                            </table>
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td colspan="3" class="text-center" ><t t-esc="data['job'][counter]"/></td>
-                                        <td colspan="2" class="text-center" ><span>definir</span></td>
-                                        <td colspan="2" class="text-center" ><span>definir</span></td>
-                                        <td colspan="2" class="text-center" ><span>definir</span></td>
+                                        <th colspan="2" class="text-center" >EMPLEADO</th>
+                                        <th colspan="2" class="text-center" >FECHA DE ALTA</th>
+                                        <th colspan="2" class="text-center" >FECHA DE INICIO</th>
+                                        <th colspan="2" class="text-center" >FECHA DE FIN</th>
+                                        <th colspan="2" class="text-center" >STATUS</th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     <tr>
-                                        <td colspan="2" class="text-center" ><t t-esc="e"/></td>
-                                        <td colspan="2" class="text-center" ><t t-esc="data['date_end'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="data['employee'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="data['date_start'][counter]"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="data['date_to'][counter]"/></td>
                                         <td colspan="2" class="text-center" ><span>definir</span></td>
                                         <td colspan="2" class="text-center" ><span>definir</span></td>
                                     </tr>
-                                    <t t-set="counter" t-value="counter+1" />
-                                </t>
-                            </tbody>
-                        </table>
-                        
-                        
-                        
+                                </tbody>
+                            </table>
+                            <br/>
+                        <t t-set="counter" t-value="counter+1" />
+                        </t>
                     </div>
                 </t>
             </t>

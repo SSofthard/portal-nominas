@@ -31,7 +31,7 @@ class wizardEmployeeHistory(models.TransientModel):
         list_employee = []
         list_job = []
         list_date = []
-        list_date_end = []
+        list_date_start = []
         history=self.env['hr.employee.change.history']
         if self.group_id:
             domain_group = [('contract_id.employee_id.group_id', '=', self.group_id.id)]
@@ -44,15 +44,17 @@ class wizardEmployeeHistory(models.TransientModel):
         if self.contracting_regime:
             domain_regime = [('contract_id.contracting_regime', '=', self.contracting_regime)]
         history_ids=history.search([('date_from','>=',date_from),('date_from','<=',date_to)] + domain_group + domain_work_center + domain_job + domain_register + domain_regime)
+        if not history_ids:
+            raise UserError(_('No se encontro informacion para estos criterios de busqueda'))
         for i in history_ids:
             employee = i.contract_id.employee_id.name
             job = i.contract_id.employee_id.job_id.name
             date = i.date_from
-            date_end = i.contract_id.date_end
+            date_start = i.contract_id.date_end
             list_employee.append(employee)
             list_job.append(job)
             list_date.append(date)
-            list_date_end.append(date_end)
+            list_date_start.append(date_start)
             print ('i')
             print (i)
             print ('i')
@@ -66,7 +68,7 @@ class wizardEmployeeHistory(models.TransientModel):
         data['employee']= list_employee
         data['job']= list_job
         data['date']= list_date
-        data['date_end']= list_date_end
+        data['date_start']= list_date_start
         return self.env.ref('payroll_mexico.report_employee_history').report_action(self, data=data)
 
     @api.multi
