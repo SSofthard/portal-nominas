@@ -75,14 +75,23 @@
                     <field name="reason_liquidation" attrs="{'required':[('settlement','!=',False)]}"/>
                     <field name="group_id"/>
                     <field name="settlemen_date" attrs="{'required':[('settlement','!=',False)]}"/>
-                    <field name="indemnify_employee"/>
-                    <field name="compensation_20"/>
                     <field name="payroll_month" invisible="1"/>
                     <field name="payroll_of_month" invisible="1"/>
                     <field name="payroll_type" invisible="1"/>
                     <field name="table_id" invisible="1"/>
                     <field name="settlement" invisible="1"/>
                 </group>
+                <group>
+					<group string="Compensation of law">
+						<field name="indemnify_employee"/>
+						<field name="compensation_20"/>
+					</group>
+					<group string="Agreement" attrs="{'invisible':[('indemnify_employee','!=',False)]}">
+						<field name="agreement_employee"/>
+						<field name="amount_agreement"/>
+					</group>
+				</group>
+                
                 <group>
 					<group string="Fechas del periodo laborado">
 						<field name="date_start"/>

@@ -228,10 +228,11 @@
                         <field name="infonavit_ids">
                             <form>
                                 <header>
-                                   <button name="action_active" states="draft" string="Activate" class="oe_highlight" type="object" groups="hr.group_hr_manager"/>
-                                   <button name="action_close" states="active" string="To close" class="oe_highlight" type="object" groups="hr.group_hr_manager"/>
-                                   <button name="action_reset" states="closed" string="To close" class="oe_highlight" type="object" groups="hr.group_hr_manager"/>
-                                    <field name="state" widget="statusbar" statusbar_visible="draft,active,close"/>
+                                   <button name="action_active" states="draft" string="Activate" class="oe_highlight" type="object" groups="hr.group_hr_user"/>
+                                   <button name="%(infonavit_change_history_wizard_action)d" states="active" string="Suspend" class="oe_highlight" type="action" groups="hr.group_hr_user" context="{'move_type':'discontinued'}"/>
+                                   <button name="%(infonavit_change_history_wizard_action)d" states="discontinued" string="Reboot" class="oe_highlight" type="action" groups="hr.group_hr_user" context="{'move_type':'reboot'}"/>
+                                   <button name="%(infonavit_change_history_wizard_action)d" states="discontinued,active" string="Close" class="oe_highlight" type="action" groups="hr.group_hr_user" context="{'move_type':'low_credit'}"/>
+                                   <field name="state" widget="statusbar" statusbar_visible="draft,active,close"/>
                                 </header>
                                 <group>
                                     <group>
@@ -243,10 +244,21 @@
                                         <field name="value"/>
                                         <field name="uma" attrs="{'invisible': [('type','!=','umas')]}"/>
                                     </group>
-                                    <group>
-                                        <field name="history_ids"/>
-                                    </group>
                                 </group>
+                                <group>
+									<field name="history_ids" readonly="1">
+										<form>
+											<group col="4">
+												<field name="date" />
+												<field name="move_type" />
+											</group>
+										</form>
+										<tree>
+											<field name="date" />
+											<field name="move_type" />
+										</tree>
+									</field>
+								</group>
                             </form>
                             <tree>
                                 <field name="infonavit_credit_number"/>

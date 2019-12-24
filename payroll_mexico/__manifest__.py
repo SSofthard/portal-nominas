@@ -18,6 +18,7 @@
         'wizard/wizard_employee_catalogs.xml',
         'wizard/employee_change_view.xml',
         'wizard/wizard_infonavit_employee.xml',
+        'wizard/infonavit_view.xml',
         'views/hr_employe_history_view.xml',
         'views/res_country_view.xml',
         'views/hr_employee_view.xml',
