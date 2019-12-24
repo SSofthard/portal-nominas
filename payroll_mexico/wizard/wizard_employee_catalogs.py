@@ -32,13 +32,12 @@ class WizardEmployeeCatalogs(models.TransientModel):
         list_imss = []
         list_curp = []
         list_rfc = []
+        list_job = []
         list_department = []
         list_date_start = []
         contract=self.env['hr.contract']
         if self.contracting_regime:
             domain_regime = [('contracting_regime','=',self.contracting_regime)]
-            print ('domain_regime')
-            print (domain_regime)
         if self.employer_register_id:
             domain_register = [('employee_id.employer_register_id', '=', self.employer_register_id.id)]
         if self.work_center_id:
@@ -52,6 +51,7 @@ class WizardEmployeeCatalogs(models.TransientModel):
             imss = (i.employee_id.ssnid)
             curp = (i.employee_id.curp)
             rfc = (i.employee_id.rfc)
+            job = (i.employee_id.job_id.name)
             department = (i.employee_id.department_id.name)
             date_start = (i.date_start)
             list_code.append(code)
@@ -59,6 +59,7 @@ class WizardEmployeeCatalogs(models.TransientModel):
             list_imss.append(imss)
             list_curp.append(curp)
             list_rfc.append(rfc)
+            list_job.append(job)
             list_department.append(department)
             list_date_start.append(date_start)
         data['group'] = self.group_id.name
@@ -70,6 +71,7 @@ class WizardEmployeeCatalogs(models.TransientModel):
         data['imss'] = list_imss
         data['curp'] = list_curp
         data['rfc'] = list_rfc
+        data['job'] = list_job
         data['department'] = list_department
         data['date_start'] = list_date_start
         return self.env.ref('payroll_mexico.report_employee_catalogs').report_action(self, data=data)
