@@ -22,6 +22,7 @@
                                 <th colspan="2" class="text-center" >N.S.S.:</th>
                                 <th colspan="2" class="text-center" >CURP:</th>
                                 <th colspan="2" class="text-center" >RFC:</th>
+                                <th colspan="2" class="text-center" >PUESTO DE TRABAJO:</th>
                                 <th colspan="1" class="text-center" >DEPARTAMENTO:</th>
                             </thead>
                             <tbody>
@@ -32,6 +33,7 @@
                                         <td colspan="2" class="text-center" ><t t-esc="o.ssnid"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="o.curp"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="o.rfc"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="o.job_id.name"/></td>
                                         <td colspan="1" class="text-center" ><t t-esc="o.department_id.name"/></td>
                                     </tr>
                                 </t>
