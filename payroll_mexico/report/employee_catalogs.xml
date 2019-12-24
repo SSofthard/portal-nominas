@@ -21,7 +21,7 @@
                                 <p t-esc="data['group']"/>
                             </div><div class="row">
                                 <strong>REGIMEN DE CONTRATACION:&amp;nbsp; </strong>
-                                <p t-esc="data['group']"/>
+                                <p t-esc="data['regime']"/>
                             </div>
                             <div class="row">
                                 <strong>REGISTRO PATRONAL:&amp;nbsp; </strong>
@@ -52,7 +52,7 @@
                                         <td colspan="2" class="text-center" ><t t-esc="data['curp'][counter]"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="data['rfc'][counter]"/></td>
                                         <td colspan="1" class="text-center" ><t t-esc="data['department'][counter]"/></td>
-                                        <td colspan="2" class="text-center" ><t t-esc="data['date_end'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="data['date_start'][counter]"/></td>
                                     </tr>
                                     <t t-set="counter" t-value="counter+1" />
                                 </t>
