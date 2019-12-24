@@ -33,8 +33,13 @@ class WizardExpiredContracts(models.TransientModel):
             '05':[9,10],
             '06':[11,12],
             }
+        
+        if not bimestre.get(self.start_bimester.split('/')[0]) or not bimestre.get(self.bimester_end.split('/')[0]):
+            raise ValidationError(_("Invalid bimester periods."))
+        
         month_start = bimestre[self.start_bimester.split('/')[0]][0]
         month_end = bimestre[self.bimester_end.split('/')[0]][1]
+        
         
         date_from="%s-%s-01" % (int(self.start_bimester.split('/')[1]), month_start)
         date_to="%s-%s-%s" % (int(self.bimester_end.split('/')[1]), month_end, calendar.monthrange(int(self.bimester_end.split('/')[1]), month_end)[1])
@@ -53,18 +58,27 @@ class WizardExpiredContracts(models.TransientModel):
         if not docs:
             raise ValidationError(_("No information was found with the specified data"))
         for employee in docs:
-            move_infonavit_high_credit = self.env['hr.infonavit.credit.history'].search([('infonavit_id.state','in',['active','discontinued','closed']),('move_type','=','high_credit'),('infonavit_id.employee_id','=',employee.id)]+domain_date,limit=1).date
-            move_infonavit_discontinued = self.env['hr.infonavit.credit.history'].search([('infonavit_id.state','in',['active','discontinued','closed']),('move_type','=','discontinued'),('infonavit_id.employee_id','=',employee.id)]+domain_date,limit=1).date
-            move_infonavit_reboot = self.env['hr.infonavit.credit.history'].search([('infonavit_id.state','in',['active','discontinued','closed']),('move_type','=','reboot'),('infonavit_id.employee_id','=',employee.id)]+domain_date,limit=1).date
-            move_infonavit_low_credit = self.env['hr.infonavit.credit.history'].search([('infonavit_id.state','in',['active','discontinued','closed']),('move_type','=','low_credit'),('infonavit_id.employee_id','=',employee.id)]+domain_date,limit=1).date
+            move_infonavit_high_credit = self.env['hr.infonavit.credit.history'].search([('infonavit_id.state','in',['active','discontinued','closed']),('move_type','=','high_credit'),('infonavit_id.employee_id','=',employee.id)]+domain_date,limit=1)
+            move_infonavit_discontinued = self.env['hr.infonavit.credit.history'].search([('infonavit_id.state','in',['active','discontinued','closed']),('move_type','=','discontinued'),('infonavit_id.employee_id','=',employee.id)]+domain_date,limit=1)
+            move_infonavit_reboot = self.env['hr.infonavit.credit.history'].search([('infonavit_id.state','in',['active','discontinued','closed']),('move_type','=','reboot'),('infonavit_id.employee_id','=',employee.id)]+domain_date,limit=1)
+            move_infonavit_low_credit = self.env['hr.infonavit.credit.history'].search([('infonavit_id.state','in',['active','discontinued','closed']),('move_type','=','low_credit'),('infonavit_id.employee_id','=',employee.id)]+domain_date,limit=1)
             if not move_infonavit_high_credit or not move_infonavit_discontinued or not move_infonavit_reboot or not move_infonavit_low_credit:
                 docs -= employee
-            credit[str(employee.id)] = [move_infonavit_high_credit,
-                                        move_infonavit_discontinued,
-                                        move_infonavit_reboot,
-                                        move_infonavit_low_credit,
-                                        move_infonavit_high_credit.infonavit_id.infonavit_credit_number
-                                        ]
+            else:
+                if move_infonavit_high_credit.infonavit_id.type == 'percentage':
+                    type = 'Porcentaje'
+                elif move_infonavit_high_credit.infonavit_id.type == 'umas':
+                    type = 'UMA'
+                else:
+                    type = 'Monto Fijo'
+                credit[str(employee.id)] = [move_infonavit_high_credit.date,
+                                            move_infonavit_discontinued.date,
+                                            move_infonavit_reboot.date,
+                                            move_infonavit_low_credit.date,
+                                            move_infonavit_high_credit.infonavit_id.infonavit_credit_number,
+                                            type,
+                                            move_infonavit_high_credit.infonavit_id.value,
+                                            ]
         
         credit_ids =  self.env['hr.infonavit.credit.history'].search([]+domain_date).mapped('infonavit_id')._ids
         data = {
