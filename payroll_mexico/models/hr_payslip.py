@@ -18,7 +18,7 @@ class HrPayslip(models.Model):
             ('extraordinary_payroll', 'Extraordinary Payroll')], 
             string='Payroll Type', 
             default="ordinary_payroll", 
-            required=True,
+            # required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
     payroll_month = fields.Selection([

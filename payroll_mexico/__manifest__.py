@@ -35,6 +35,7 @@
         'views/payroll_report_excel_view.xml',
         'views/hr_settlement.xml',
         'views/table_antiguedades_view.xml',
+        'views/hr_fees_settlement_view.xml',
         'security/ir.model.access.csv',
         #Reports
         'report/base_layout.xml',
