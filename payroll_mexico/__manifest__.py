@@ -60,6 +60,7 @@
         'data/payroll_data.xml',
         'data/data_rule_salary.xml',
         'data/data_isn.xml',
+        'data/data_ir_export_employee.xml',
         'data/res.country.state.municipality.csv',
         'data/res.municipality.zone.csv',
         # ~ 'data/data_hr_perceptions.xml',

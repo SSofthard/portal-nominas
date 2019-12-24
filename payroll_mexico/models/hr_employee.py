@@ -59,12 +59,12 @@ class Employee(models.Model):
     @api.onchange('complete_name')
     def _compute_complete_name(self):
         for name in self:
-            complete_name = name.name
-            if name.last_name: 
-                complete_name += ' ' + name.last_name
-            if name.last_name: 
-                complete_name += ' ' + name.mothers_last_name
-            name.complete_name = complete_name
+            # ~ complete_name = name.name
+            # ~ if name.last_name: 
+                # ~ complete_name += ' ' + name.last_name
+            # ~ if name.last_name: 
+                # ~ complete_name += ' ' + name.mothers_last_name
+            name.complete_name = name.name_get()[0][1]
 
     #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
