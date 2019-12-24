@@ -32,6 +32,8 @@ class HrPayslip(models.Model):
             string='Reason for liquidation', 
             required=False,
             states={'draft': [('readonly', False)]})
+    agreement_employee = fields.Boolean(string='Agreement with the employee')
+    amount_agreement = fields.Float('Amount of the agreement', required=False)
     indemnify_employee = fields.Boolean(string='Indemnify the employee')
     compensation_20 = fields.Boolean(string='I will pay the compensation of 20 days per year worked?')
     
@@ -42,33 +44,33 @@ class HrPayslip(models.Model):
     years_antiquity = fields.Integer(string='Antiquity', related="contract_id.years_antiquity")
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', related="contract_id.days_rest")
     
+    @api.onchange('complete_name')
+    def _compute_complete_name(self):
+        for name in self:
+            complete_name = name.name
+            if name.last_name: 
+                complete_name += ' ' + name.last_name
+            if name.last_name: 
+                complete_name += ' ' + name.mothers_last_name
+            name.complete_name = complete_name
+    
+    @api.onchange('indemnify_employee','agreement_employee')
+    def _compute_complete_name(self):
+        for settlement in self:
+            if settlement.indemnify_employee:
+                settlement.agreement_employee = False
+                settlement.amount_agreement = 0
+            else:
+                settlement.compensation_20 = False
+            if settlement.agreement_employee:
+                settlement.indemnify_employee = False
+                settlement.compensation_20 = False
+            else:
+                settlement.amount_agreement = 0
+            
     @api.multi
     def print_settlement_report(self):
-        # ~ payrolls = self.filtered(lambda s: s.state in ['close'])
         payroll_dic = {}
-        # ~ employees = []
-        # ~ total = 0
-        # ~ for payroll in payrolls:
-            # ~ payroll_dic['payroll_of_month'] = payroll.payroll_of_month
-            # ~ payroll_dic['date_large'] = '%s/%s/%s' %(payroll.date_end.strftime("%d"), payroll.date_end.strftime("%b").title(), payroll.date_end.strftime("%Y"))
-            # ~ company = payroll.mapped('slip_ids').mapped('company_id')
-            # ~ payroll_dic['rfc'] = company.rfc
-            # ~ payroll_dic['employer_registry'] = company.employer_register_ids.filtered(lambda r: r.state == 'valid').mapped('employer_registry')[0] or ''
-            # ~ for slip in payroll.slip_ids:
-                # ~ total += sum(slip.line_ids.filtered(lambda r: r.category_id.code == 'NET').mapped('total'))
-                # ~ employees.append({
-                    # ~ 'enrollment': slip.employee_id.enrollment,
-                    # ~ 'name': slip.employee_id.name_get()[0][1],
-                    # ~ 'fulltime': '?',
-                    # ~ 'office': '?',
-                    # ~ 'bank_key': slip.employee_id.get_bank().bank_id.code or '',
-                    # ~ 'bank': slip.employee_id.get_bank().bank_id.name or '',
-                    # ~ 'account': slip.employee_id.get_bank().bank_account or '',
-                    # ~ 'total': slip.line_ids.filtered(lambda r: r.category_id.code == 'NET').mapped('total')[0] or self.not_total(),
-                # ~ })
-            # ~ payroll_dic['employees'] = employees
-            # ~ payroll_dic['total_records'] = len(payroll.slip_ids)
-        # ~ payroll_dic['total'] = total
         data={
             'payroll_data':payroll_dic
             }
