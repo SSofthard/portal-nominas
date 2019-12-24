@@ -130,7 +130,7 @@ class HrPayslipRun(models.Model):
             all_lines = self.get_line_for_report()
             if all_lines:
                 for j, h in enumerate(self.prepare_header()):
-                    sheet.write(10, j, h['name'])
+                    sheet.write(10, j, h['name'], header_format)
                     sheet.set_column(10, j, h['larg'])
                     row = 10
                     row += 1
@@ -163,7 +163,7 @@ class HrPayslipRun(models.Model):
                     for j, h in enumerate(self.prepare_header()):
                         sheet.set_column(j, j, h['larg'])
                     
-        sheet.set_row(10, 40, header_format)
+        sheet.set_row(10, 40, )
         workbook.close()
         xlsx_data = output.getvalue()
         export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsx'})

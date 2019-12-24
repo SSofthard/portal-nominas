@@ -39,6 +39,13 @@ class InhabilityAbsenteeismReport(models.TransientModel):
     date_to = fields.Date(
         'End Date', index=True, copy=False, required=True,
         default=date.today())
+    contracting_regime = fields.Selection([
+        ('1', 'Assimilated to wages'),
+        ('2', 'Wages and salaries'),
+        ('3', 'Senior citizens'),
+        ('4', 'Pensioners'),
+        ('5', 'Free'),
+        ], string='Contracting Regime', default="2")
 
     @api.multi
     def report_print(self, data):
@@ -51,10 +58,13 @@ class InhabilityAbsenteeismReport(models.TransientModel):
             domain += [('employee_id.department_id','in',self.department_ids.ids)]
         if self.job_ids:
             domain += [('employee_id.department_id','in',self.job_ids.ids)]
+        if self.employer_register_id:
             domain += [('employee_id.employer_register_id','=',self.employer_register_id.id)]
+        if self.contracting_regime:
+            domain += [('contract_id.contracting_regime','=',self.contracting_regime)]
         leaves_ids = self.env['hr.leave'].search(domain)
         if not leaves_ids:
-            raise ValidationError(_('No se encontraron resultados, para los parámetros.'))
+            raise ValidationError(_('No se encontraron resultados, para los parámetros dados.'))
         employees_ids = leaves_ids.mapped('employee_id')
         for employee in employees_ids:
             leaves_data = []

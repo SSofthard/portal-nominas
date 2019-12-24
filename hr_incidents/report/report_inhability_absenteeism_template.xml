@@ -12,7 +12,7 @@
         <template id="inhability_absenteeism_report_view">
              <t t-call="web.html_container">
                 <t t-call="web.internal_layout">
-                    <div style="border-bottom: 2px solid black">
+                    <div style="border-bottom: 1px solid black">
                         <h4 class="text-center">Reporte de Incapacidades y Ausentismos</h4>
                         <h5 class="text-center">
                             <strong>De</strong>:
@@ -22,7 +22,7 @@
                         </h5>
                     </div>
                     <div class="page">
-                        <div>
+                        <div style="border-bottom: 1px solid black">
                             <t t-if="leaves_data['employer_register_id']">
                                 <strong>Registro patronal</strong>:
                                 <t t-esc="leaves_data['employer_register_id']"/>
@@ -38,8 +38,8 @@
                             
                         </div>
                             
-                        <table class="table table-sm o_main_table" style="font-size:8px;">
-                            <thead>
+                        <table class="table table-sm o_main_table" border="0" style="width:100%; font-size:8px;">
+                            <thead style="border-bottom: 1px solid black">
                                 <tr>
                                     <th class="text-left">Matrícula del trabajador</th>
                                     <th class="text-left">N.S.S.</th>
