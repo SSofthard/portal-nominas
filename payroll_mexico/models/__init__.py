@@ -12,6 +12,8 @@
 ##############################################################################
 
 
+from . import res_currency
+from . import payroll_report_excel
 from . import res_country
 from . import res_config_settings
 from . import hr_employee
