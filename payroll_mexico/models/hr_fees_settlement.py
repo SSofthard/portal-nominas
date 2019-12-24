@@ -2,6 +2,9 @@
 
 from datetime import datetime
 from pytz import timezone
+import io
+import base64
+
 
 import babel
 from odoo import api, fields, models, tools, _
@@ -57,7 +60,7 @@ class HrFeeSettlement(models.Model):
     ], string='Contracting Regime', required=True, default="2")
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True)
     fees_settlement_lines = fields.One2many(inverse_name='sheet_settlement_id', comodel_name='hr.fees.settlement.details',string='Detalles de liquidación de cuotas')
-    state = fields.Selection([('draft', 'Borrador'),('confirmed','Confirmado')])
+    state = fields.Selection([('draft', 'Borrador'),('confirmed','Confirmado')],copy=False, default='draft')
 
     @api.multi
     def get_values(self):
@@ -91,6 +94,42 @@ class HrFeeSettlement(models.Model):
 
 
         # for payslip_run_id in payslip_run_ids.mapped(''):
+    @api.multi
+    def action_confirm(self):
+        '''
+        Este metodo es para imprimir el txt de la liquidación que va a ser
+        '''
+        print ('action_confirm')
+        print ('action_confirm')
+        print ('action_confirm')
+        print ('action_confirm')
+        self.write({'state':'confirmed'})
+
+
+    def action_print_txt(self):
+        '''
+        Este metodo es para imprimir el txt de la liquidación que va a ser
+        '''
+        output = io.BytesIO()
+        print ('imprimir txt')
+        print ('imprimir txt')
+        print ('imprimir txt')
+        print ('imprimir txt')
+        f_name = 'Liquidacion de cuotas IMSS: Del %s al %s' % (self.date_start, self.date_end)
+        content = 'prueba\tprueba\n'
+        print (type(content))
+        data = base64.encodebytes(bytes(content, 'utf-8'))
+        export_id = self.env['hr.fees.settlement.report.txt'].create(
+            {'txt_file': data, 'file_name': f_name + '.txt'})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.fees.settlement.report.txt',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': export_id.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
 
 
 class HrFeeSettlementDetails(models.Model):

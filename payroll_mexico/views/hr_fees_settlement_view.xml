@@ -8,6 +8,8 @@
             <field name="arch" type="xml">
                 <form string="Liquidación de cuotas IMSS e Infonavit">
                     <header>
+                        <button name="action_print_txt" type="object" string="Imprimir txt" state="draft,confirmed"/>
+                        <button name="action_confirm" type="object" string="Confirmar Liquidación" state="draft"/>
                         <button name="get_values" type="object" string="Calcular liquidación" state="draft"/>
                         <field name="state" widget="statusbar" state="draft"/>
                     </header>
