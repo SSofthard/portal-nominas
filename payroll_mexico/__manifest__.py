@@ -29,6 +29,7 @@
         'views/hr_holidays.xml',
         'views/hr_isn_view.xml',
         'views/hr_payslip_run_view.xml',
+        'views/payroll_report_excel_view.xml',
         'views/hr_settlement.xml',
         'views/table_antiguedades_view.xml',
         'security/ir.model.access.csv',

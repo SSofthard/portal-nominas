@@ -11,7 +11,7 @@ import itertools
 
 from datetime import datetime, time, timedelta, date
 from xlsxwriter.workbook import Workbook
-from xlwt import easyxf
+from xlsxwriter.utility import xl_rowcol_to_cell
 
 from operator import itemgetter
 import operator
@@ -23,70 +23,37 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMA
 from datetime import datetime
 
 
-head = [ 
+class HrPayslipLine(models.Model):
+    _inherit = 'hr.salary.rule'
 
-        {'name': 'Clave', 'larg': 10, 'col': {}},
-        {'name': 'Nombre del trabajador', 'larg': 40, 'col': {}},
-        {'name': 'NSS', 'larg': 10, 'col': {}},
-        {'name': 'RFC', 'larg': 10, 'col': {}},
-        {'name': 'CURP', 'larg': 10, 'col': {}},
-        {'name': 'Fecha de Alta', 'larg': 15, 'col': {}},
-        {'name': 'Departamento', 'larg': 5, 'col': {}},
-        {'name': 'Tipo\nSalario', 'larg': 10, 'col': {}},
-        {'name': 'Salario\nDiario', 'larg': 10, 'col': {}},
-        {'name': 'SDI', 'larg': 10, 'col': {}},
-        {'name': 'Días\ntrabajados', 'larg': 5, 'col': {}},
-        {'name': 'Faltas', 'larg': 5, 'col': {}},
-        {'name': 'Sueldo', 'larg': 10, 'col': {}},
-        {'name': 'SUELDO', 'larg': 8, 'col': {}},
-        {'name': 'COMISIONES', 'larg': 10, 'col': {}},
-        {'name': 'HORAS\nEXTRAS\nDOBLES', 'larg': 10, 'col': {}},
-        {'name': 'AGUINALDO', 'larg': 10, 'col': {}},
-        {'name': 'HORAS\nEXTRAS\nTRIPLES', 'larg': 10, 'col': {}},
-        {'name': 'FONDO\nDE\nAHORRO\nPATRON*', 'larg': 10, 'col': {}},
-        {'name': 'PRESTAMO\nDEL\nFONDO', 'larg': 10, 'col': {}},
-        {'name': 'INTERESES\nDEL\nFONDO', 'larg': 10, 'col': {}},
-        {'name': 'VACACIONES', 'larg': 10, 'col': {}},
-        {'name': 'PRIMA\nVACACIONAL', 'larg': 10, 'col': {}},
-        {'name': 'REPARTO\nDE\nUTILIDADES', 'larg': 10, 'col': {}},
-        {'name': 'ALIMENTACION*', 'larg': 10, 'col': {}},
-        {'name': 'HABITACION*', 'larg': 10, 'col': {}},
-        {'name': 'DESPENSA*', 'larg': 10, 'col': {}},
-        {'name': 'PREMIOS\nDE\nASISTENCIA', 'larg': 10, 'col': {}},
-        {'name': 'PREMIOS\nDE\nPUNTUALIDAD', 'larg': 10, 'col': {}},
-        {'name': 'PRIMA\nDOMINICAL', 'larg': 10, 'col': {}},
-        {'name': 'SUBSIDIOS\nPOR\nINCAPACIDAD', 'larg': 10, 'col': {}},
-        {'name': 'COMPENSACION', 'larg': 10, 'col': {}},
-        {'name': 'INDEMNIZACION', 'larg': 10, 'col': {}},
-        {'name': 'PRIMA\nDE\nANTIGUEDAD', 'larg': 10, 'col': {}},
-        {'name': 'Total\nPercepciones', 'larg': 10, 'col': {}},
-        {'name': 'Total\nGravable', 'larg': 10, 'col': {}},
-        {'name': 'Total\nIMSS', 'larg': 10, 'col': {}},
-        {'name': 'Total\nISR', 'larg': 10, 'col': {}},
-        {'name': 'Subsidio\nEmpleo', 'larg': 10, 'col': {}},
-        {'name': 'ISR', 'larg': 10, 'col': {}},
-        {'name': 'IMSS', 'larg': 10, 'col': {}},
-        {'name': 'ANTICIPO\nDE\nNOMINA', 'larg': 10, 'col': {}},
-        {'name': 'PRESTAMO\nPERSONAL', 'larg': 10, 'col': {}},
-        {'name': 'FONDO\nDE\nAHORRO', 'larg': 10, 'col': {}},
-        {'name': 'ALIMENTACION', 'larg': 10, 'col': {}},
-        {'name': 'HABITACION', 'larg': 10, 'col': {}},
-        {'name': 'PENSION\nALIMENTICIA', 'larg': 10, 'col': {}},
-        {'name': 'SAR\nVOLUNTARIO', 'larg': 10, 'col': {}},
-        {'name': 'INFONAVIT\nVOLUNTARIO', 'larg': 10, 'col': {}},
-        {'name': 'CREDITO\nFONACOT', 'larg': 10, 'col': {}},
-        {'name': 'CREDITO\nINFONAVIT', 'larg': 10, 'col': {}},
-        {'name': 'SUBSIDIO\nPARA\nEL\nEMPLEO', 'larg': 10, 'col': {}},
-        {'name': 'IMPUESTO\nLOCAL', 'larg': 10, 'col': {}},
-        {'name': 'Total\nDeducciones', 'larg': 10, 'col': {}},
-        {'name': 'Total\nEfectivo', 'larg': 10, 'col': {}},
-        {'name': 'Total\nen\nEspecie', 'larg': 10, 'col': {}},
-        {'name': 'Neto\nPagado', 'larg': 10, 'col': {}},
-    ]
+    print_to_excel = fields.Boolean(string='Imprimir en excel?', default=False, 
+        help='Si está marcado indica que se se imprimiran los detalles en los reportes excel.')
 
 
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
+
+    def prepare_header(self):
+        header = [ 
+            {'sequence': 0.1, 'name': 'Clave', 'larg': 10, 'col': {}},
+            {'sequence': 0.2, 'name': 'Nombre del trabajador', 'larg': 40, 'sequence': 0.2, 'col': {}},
+            {'sequence': 0.3, 'name': 'NSS', 'larg': 10, 'col': {}},
+            {'sequence': 0.4, 'name': 'RFC', 'larg': 10, 'col': {}},
+            {'sequence': 0.5, 'name': 'CURP', 'larg': 10, 'col': {}},
+            {'sequence': 0.6, 'name': 'Fecha\nde\nAlta', 'larg': 15, 'col': {}},
+            {'sequence': 0.7, 'name': 'Departamento', 'larg': 5, 'col': {}},
+            {'sequence': 0.8, 'name': 'Tipo\nSalario', 'larg': 10, 'col': {}},
+        ]
+        rule_ids = self.estructure_id.rule_ids.filtered(lambda r: r.print_to_excel)
+        for rule in rule_ids:
+            header.append({
+                'sequence': rule.sequence,
+                'name': rule.name.replace(' ', '\n'), 
+                'larg': 10,
+                'code': rule.code,
+                'col': {'total_function': 'sum', 'total_row': 1},})
+        header_sort = sorted(header, key=lambda k: k['sequence'])
+        return header_sort
 
     @api.multi
     def action_print_report(self):
@@ -100,9 +67,11 @@ class HrPayslipRun(models.Model):
         left = workbook.add_format({'left': 1, 'top': 1, 'bold': True})
         right = workbook.add_format({'right': 1, 'top': 1})
         top = workbook.add_format({'top': 1})
-        currency_format = workbook.add_format({'num_format': num_format})
-        c_middle = workbook.add_format({'bold': True, 'top': 1, 'num_format': num_format})
-        report_format = workbook.add_format({'bold': True, 'font_size': 8, 'fg_color': '#CCCCFF','font_color':'#3341BE', 'font_name':'MS Sans Serif'})
+        currency_format = workbook.add_format({'num_format': num_format, 'bold': True, 'border': 1, 'top': 1, 'font_size': 8, 'align': 'center', 'valign': 'vcenter', 'fg_color': '#CCCCFF', 'font_color':'#3341BE', 'font_name':'MS Sans Serif'})
+        formula_format = workbook.add_format({'num_format': num_format, 'bold': True, 'border': 1, 'top': 1, 'font_size': 8, 'align': 'center', 'valign': 'vcenter', 'fg_color': '#CCCCFF', 'font_name':'MS Sans Serif'})
+        c_middle = workbook.add_format({'border': 1, 'bold': True, 'top': 1, 'num_format': num_format})
+        report_format2 = workbook.add_format({'border': 1, 'bold': True, 'font_size': 8, 'fg_color': '#CCCCFF','font_color':'#3341BE', 'font_name':'MS Sans Serif', 'align': 'center'})
+        report_format = workbook.add_format({'border': 1, 'bold': True, 'font_size': 8, 'fg_color': '#CCCCFF','font_color':'#3341BE', 'font_name':'MS Sans Serif'})
         rounding = self.env.user.company_id.currency_id.decimal_places or 2
         lang_code = self.env.user.lang or 'en_US'
         date_format = self.env['res.lang']._lang_get(lang_code).date_format
@@ -126,7 +95,7 @@ class HrPayslipRun(models.Model):
             if data is None or not data:
                 return 0.0
             else:
-                return self.company_currency_id.round(data) + 0.0
+                return company.currency_id.round(data) + 0.0
 
         def get_date_format(date):
             if date:
@@ -159,24 +128,42 @@ class HrPayslipRun(models.Model):
             _header_sheet(sheet)
             
             all_lines = self.get_line_for_report()
-            
-            row = 10
-            row += 1
-            start_row = row
-            for j, h in enumerate(head):
-                sheet.set_column(j, j, h['larg'])
-            table = []
-            for h in head:
-                col = {}
-                col['header'] = h['name']
-                col.update(h['col'])
-                table.append(col)
-            sheet.add_table(start_row - 1, 0, row + 1, len(head) - 1,
-                            {'total_row': 1,
-                             'columns': table,
-                             'style': 'Table Style Light 9',
-                            })
-            sheet.set_row(10, 40, header_format)
+            if all_lines:
+                for j, h in enumerate(self.prepare_header()):
+                    sheet.write(10, j, h['name'])
+                    sheet.set_column(10, j, h['larg'])
+                    row = 10
+                    row += 1
+                    start_row = row
+                    n = 0
+                    for i, line in enumerate(all_lines):
+                        i += row
+                        sheet.write(i, 0, line.get('enrollment', ''), report_format2) #Clave
+                        sheet.write(i, 1, line.get('employee_name', ''), report_format) #Nombre del trabajador
+                        sheet.write(i, 2, line.get('nss', '') or '-', report_format2) # NSS
+                        sheet.write(i, 3, line.get('rfc', '') or '-', report_format2) #RFC
+                        sheet.write(i, 4, line.get('curp', '') or '-', report_format2) #CURP
+                        sheet.write(i, 5, get_date_format(line.get('discharge_date', '') or '-'), report_format2) #Fecha de Alta
+                        sheet.write(i, 6, line.get('department', '') or '-', report_format2) #Departamento
+                        sheet.write(i, 7, line.get('salary_type', '') or '-', report_format2) #Tipo Salario
+                        col = 7
+                        col += 1
+                        for n, rule in enumerate(line['lines']):
+                            n += col
+                            if h.get('sequence', '') == rule.get('sequence', ''):
+                                sheet.write(i, n, _get_data_float(rule.get('total', '')) or '-', currency_format) # Montos
+                            start_range = xl_rowcol_to_cell(11, n)
+                            end_range = xl_rowcol_to_cell(len(all_lines) + 11, n)
+                            fila_formula = xl_rowcol_to_cell(len(all_lines) + 11 +1, n)
+                            formula = "=SUM({:s}:{:s})".format(start_range, end_range)
+                            sheet.write_formula(fila_formula, formula, formula_format, True) 
+                        col = n
+                    row = i
+                    
+                    for j, h in enumerate(self.prepare_header()):
+                        sheet.set_column(j, j, h['larg'])
+                    
+        sheet.set_row(10, 40, header_format)
         workbook.close()
         xlsx_data = output.getvalue()
         export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsx'})
@@ -190,13 +177,40 @@ class HrPayslipRun(models.Model):
         }
 
     def get_line_for_report(self):
-        payroll_dic = {}
+        payroll_data = {}
+        employee_data = []
+        rule_code = self.estructure_id.rule_ids.filtered(lambda r: r.print_to_excel)
         for payroll in self.slip_ids:
-            for line in payroll.line_ids:
-                print (line.code)
-                print (line.name)
-        
-        print (stop)
+            line_data = []
+            for rule in rule_code:
+                line_calc = payroll.line_ids.filtered(lambda line: line.code == rule.code)
+                if line_calc:
+                    line_data.append({
+                        'code': line_calc.code,
+                        'sequence': line_calc.sequence,
+                        'total': line_calc.total,
+                    })
+                else:
+                    line_data.append({
+                        'code': rule.code,
+                        'sequence': rule.sequence,
+                        'total': 0,
+                    })
+            line_data_sort = sorted(line_data, key=lambda k: k['sequence'])
+            employee_data.append({
+                'enrollment': payroll.employee_id.enrollment,
+                'employee_name': payroll.employee_id.name_get()[0][1],
+                'nss': payroll.employee_id.ssnid,
+                'rfc': payroll.employee_id.rfc,
+                'curp': payroll.employee_id.curp,
+                'discharge_date': payroll.contract_id.date_start,
+                'department': payroll.employee_id.department_id.name,
+                'salary_type': dict(payroll.employee_id._fields['salary_type']._description_selection(self.env)).get(payroll.employee_id.salary_type),
+                'wage': payroll.contract_id.wage,
+                'lines': line_data_sort,
+                
+            })
+        return employee_data
         
         
         
