@@ -54,6 +54,7 @@
         'report/infonavit_employee_report.xml',
         'report/report_employee.xml',
         'report/employee_history_report.xml',
+        'report/report_employee_catalogs .xml',
         'data/data.xml',
         'data/sequence_data.xml',
         # 'data/data_table_cfdi.xml',
