@@ -114,7 +114,7 @@ class HrFeeSettlement(models.Model):
         if self.payment_date:
             index_document=self.env['hr.table.index.consume.price'].search([('year','=',self.year),('month','=',self.month)]).value
             index_payment=self.env['hr.table.index.consume.price'].search([('year','=',self.payment_date.year),('month','=',self.payment_date.month)]).value
-            self.index_update = index_payment/index_document
+            self.index_update = index_payment/index_document if self.payment_type == '2' else 1
 
 
     @api.one
