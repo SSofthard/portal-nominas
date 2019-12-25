@@ -57,11 +57,11 @@ class Contract(models.Model):
         '''
         Esten metodo busca el salario integral fijo para agregarlo al formulario del empleado
         '''
-        contract = self
+        contracts = self
         print ('entre')
-        print (contract)
+        print (contracts)
         # ~ print (contract[1].employee_id.name)
-        if contract:
+        for contract in contracts:
             current_date  =  fields.Date.context_today(self)+timedelta(days=1)
             start_date_contract = contract.previous_contract_date or contract.date_start
             years_antiquity = contract.years_antiquity
@@ -80,7 +80,7 @@ class Contract(models.Model):
             print (integral_salary)
             print (integral_salary)
             print (integral_salary)
-            self.integral_salary = integral_salary
+            contract.integral_salary = integral_salary
 
     # def _get_variable_salary(self):
     #     '''

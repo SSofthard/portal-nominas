@@ -9,4 +9,5 @@ from . import payroll_report_excel
 from . import wizard_infonavit_employee
 from . import wizard_employee_history
 from . import infonavit_history
+from . import fees_settlement_report_txt
 

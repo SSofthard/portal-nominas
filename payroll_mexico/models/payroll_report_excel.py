@@ -166,6 +166,10 @@ class HrPayslipRun(models.Model):
         sheet.set_row(10, 40, header_format)
         workbook.close()
         xlsx_data = output.getvalue()
+        print (type(xlsx_data))
+        print (type(xlsx_data))
+        print (type(xlsx_data))
+        print (type(xlsx_data))
         export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsx'})
         return {
             'view_mode': 'form',

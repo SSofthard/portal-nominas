@@ -20,6 +20,7 @@
         'wizard/wizard_infonavit_employee.xml',
         'wizard/wizard_employee_history.xml',
         'wizard/infonavit_view.xml',
+        'wizard/fees_settlement_report_txt_view.xml',
         'views/hr_employe_history_view.xml',
         'views/res_country_view.xml',
         'views/hr_employee_view.xml',
@@ -35,6 +36,8 @@
         'views/payroll_report_excel_view.xml',
         'views/hr_settlement.xml',
         'views/table_antiguedades_view.xml',
+        'views/hr_fees_settlement_view.xml',
+        'views/hr_table_index_consume_price_view.xml',
         'security/ir.model.access.csv',
         #Reports
         'report/base_layout.xml',

@@ -30,5 +30,7 @@ from . import hr_isn
 from . import hr_payslip_run
 from . import hr_employe_history
 from . import table_antiguedades
+from . import hr_fees_settlement
+from . import hr_table_index_consume_price
 
 
