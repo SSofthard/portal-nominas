@@ -20,7 +20,7 @@
     
         <report id="report_infonavit_employee"
           string="Empleados con creditos infonavit"
-          model="wizard.expired.contracts" 
+          model="wizard.infonavit.employee" 
           report_type="qweb-pdf" 
           name="payroll_mexico.template_infonavit_employee"
           paperformat="payroll_mexico.paperformat_letter_landscape"
@@ -56,7 +56,6 @@
                                 <th colspan="5" class="text-center"><strong>Nombre</strong></th>
                                 <th colspan="4" class="text-center" ><strong>Clave / Ubicación</strong></th>
                                 <tr>
-                                    <th colspan="2" class="text-center" ><strong>Bim/Año</strong></th>
                                     <th colspan="1" class="text-center" ><strong>Crédito</strong></th>
                                     <th colspan="1" class="text-center" ><strong>S.D.I.</strong></th>
                                     <th colspan="1" class="text-center" ><strong>Tipo Desc.</strong></th>
@@ -67,30 +66,28 @@
                                     <th colspan="1" class="text-center" ><strong>Rein. Credit</strong></th>
                                     <th colspan="1" class="text-center" ><strong>Fecha Baja</strong></th>
                                 </tr>
-                                <t t-set="counter" t-value="1"/>
+                                <t t-set="counter" t-value="0"/>
                                 <t t-foreach="docs" t-as="o">
                                     <tr>
-                                        <td colspan="5" class="text-center"><span t-field="o.ssnid"/></td>
-                                        <td colspan="5" class="text-center"><span t-field="o.complete_name"/></td>
-                                        <td colspan="4" class="text-center"><span t-field="o.enrollment"/></td>
+                                        <td colspan="5" class="text-center"><strong><span t-field="o.ssnid"/></strong></td>
+                                        <td colspan="5" class="text-center"><strong><span t-field="o.complete_name"/></strong></td>
+                                        <td colspan="4" class="text-center"><strong><span t-field="o.enrollment"/></strong></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2" class="text-center"></td>
                                         <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][4]"/></td>
-                                        <td colspan="1" class="text-center"></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][8]"/></td>
                                         <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][5]"/></td>
                                         <td colspan="3" class="text-center"><span t-esc="data['credit'][str(o.id)][6]"/></td>
-                                        <td colspan="1" class="text-center"></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][7]" t-options="{'widget':'date'}"/></td>
                                         <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][0]" t-options="{'widget':'date'}"/></td>
                                         <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][1]" t-options="{'widget':'date'}"/></td>
                                         <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][2]" t-options="{'widget':'date'}"/></td>
-                                        <td colspan="1" class="text-center"></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][9]" t-options="{'widget':'date'}"/></td>
                                     </tr>
                                     <t t-set="counter" t-value="counter+1"/>
                                 </t>
                                 </table>
                             </tbody>
-<!--
                             <tfooter>
                                 <tr>
                                     <td colspan="7" class="text-right">Total trabajadores</td>
@@ -98,7 +95,6 @@
                                 </tr>
 
                             </tfooter>
--->
                         </table>
                     </div>
                 </t>

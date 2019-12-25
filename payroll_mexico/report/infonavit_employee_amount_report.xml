@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report id="report_infonavit_employee_amount"
+          string="Empleados con creditos infonavit (pagos y contribuciones)"
+          model="wizard.infonavit.employee" 
+          report_type="qweb-pdf" 
+          name="payroll_mexico.template_infonavit_employee_amount"
+          paperformat="payroll_mexico.paperformat_letter_landscape"
+         />
+         
+        <template id="template_infonavit_employee_amount" >
+            <t t-call="web.internal_layout">
+                <t t-call="web.html_container">
+                    <div class="page" style="font-size:12px">
+                        <h4 class="text-center">REPORTE INFONAVIT (PAGOS DE EMPLEADOS)</h4>
+                        <h6 class="text-center">Período: <span t-esc="data['start_bimester']"/> AL <span t-esc="data['bimester_end']"/></h6>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <table class="table" style="border-style: none;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><strong>GRUPO: </strong>
+                                <span t-esc="data['group']"/></td>
+                                    <td colspan="2"><strong>REGISTRO PATRONAL: </strong>
+                                <span t-esc="data['employer_register']"/></td>
+                                    <td colspan="2"><strong>CENTRO DE TRABAJO: </strong>
+                                <span t-esc="data['work_center']"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span t-esc="o"/>
+                        <table class="table" style="border-style: none;">
+                            <tbody>
+                                <table class="table" style="border-style: none;">
+									<th colspan="4" class="text-center"><strong>N.S.S.</strong></th>
+									<th colspan="4" class="text-center"><strong>Nombre</strong></th>
+									<th colspan="4" class="text-center" ><strong>Clave / Ubicación</strong></th>
+									<tr>
+										<th colspan="2" class="text-center" ><strong>Crédito</strong></th>
+										<th colspan="2" class="text-center" ><strong>Referencia</strong></th>
+										<th colspan="2" class="text-center" ><strong>Concepto</strong></th>
+										<th colspan="2" class="text-center" ><strong>Tipo Desc.</strong></th>
+										<th colspan="2" class="text-center" ><strong>Valor Desc.</strong></th>
+										<th colspan="2" class="text-center" ><strong>Descuentos del período.</strong></th>
+									</tr>
+									<t t-set="counter" t-value="0"/>
+									<t t-foreach="docs" t-as="o">
+										<tr>
+											<td colspan="4" class="text-center"><strong><span t-field="o.ssnid"/></strong></td>
+											<td colspan="4" class="text-center"><strong><span t-field="o.complete_name"/></strong></td>
+											<td colspan="4" class="text-center"><strong><span t-field="o.enrollment"/></strong></td>
+										</tr>
+										<t t-set="counter" t-value="counter+1"/>
+									</t>
+								</table>
+                            </tbody>
+                            <tfooter>
+                                <tr>
+                                    <td colspan="7" class="text-right">Total trabajadores</td>
+                                    <td colspan="2" class="text-right"><t t-esc="counter"/></td>
+                                </tr>
+
+                            </tfooter>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+        
+    </data>
+</odoo>
