@@ -86,7 +86,16 @@ class HrFeeSettlement(models.Model):
     percentage_total = fields.Float(string='Porcentaje total %')
     surcharge_amount = fields.Float(string='Monto de recargo')
 
+    @api.model
+    def write(self,vals):
+        '''
+        Se utiliza para guardar la fecha de pago
+        '''
+        if self.payment_type == '1':
+            vals['payment_date']=self.regulatory_payment_date
+        return super(HrFeeSettlement,self).write(vals)
 
+    @api.multi
     @api.onchange('payment_type')
     def onchange_payment_type(self):
         '''
@@ -94,11 +103,7 @@ class HrFeeSettlement(models.Model):
         los recargos y actualizaciones para el pago de la misma, tambien segun el tipo de pago se define la fecha de pago.
         '''
         if self.payment_type == '1':
-            payment_date = self.regulatory_payment_date
-        else:
-            print ('proceso de pago extemporaneo')
-            print ('proceso de pago extemporaneo')
-            print ('proceso de pago extemporaneo')
+            self.payment_date = self.regulatory_payment_date
 
     @api.one
     @api.depends('year', 'month', 'payment_date')
