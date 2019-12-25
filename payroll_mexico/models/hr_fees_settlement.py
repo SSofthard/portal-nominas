@@ -11,20 +11,28 @@ from odoo import api, fields, models, tools, _
 from datetime import date, datetime, time, timedelta
 from odoo.exceptions import UserError
 from odoo.osv import expression
+from odoo.addons import decimal_precision as dp
 
 
 class HrFeeSettlement(models.Model):
     _name = 'hr.fees.settlement'
 
-    @api.depends('fees_settlement_lines')
-    def _compute_values(self):
-        '''Este me'''
-
-
     #Columns
     name = fields.Char(string='Name')
-    year = fields.Integer(string='Periodo (Año)')
-    month = fields.Integer(string='Periodo (Mes)')
+    year = fields.Integer(string='Periodo (Año)', size=4)
+    month = fields.Selection([
+        (1,'Enero'),
+        (2,'Febrero'),
+        (3,'Marzo'),
+        (4,'Abril'),
+        (5,'Mayo'),
+        (6,'Junio'),
+        (7,'Julio'),
+        (8,'Agosto'),
+        (9,'Septiembre'),
+        (10,'Octubre'),
+        (11,'Noviembre'),
+        (12,'Diciembre')], required=True,string='Periodo (Mes)')
     cuota_fija = fields.Float(string='Cuota Fija', readonly=True, required=False,)
     exedente_3uma = fields.Float(string='Excedente', readonly=True, required=False,)
     prestaciones_en_dinero = fields.Float(string='Prestaciones en dinero', readonly=True, required=False,)
@@ -34,20 +42,26 @@ class HrFeeSettlement(models.Model):
     invalidez_vida = fields.Float(string='Invalidez y vida', readonly=True, required=False,)
     gps = fields.Float(string='Guarderías y Prestaciones Sociales', readonly=True, required=False,)
     actualizacion_imss = fields.Float(string='Actualización', readonly=True, required=False,)
+    subtotal_imss = fields.Float(string='Subtotal', readonly=True, required=False,)
+    total_imss = fields.Float(string='Total', readonly=True, required=False,)
     recargos_imss = fields.Float(string='Recargos', readonly=True, required=False,)
     retiro = fields.Float(string='Retiro', readonly=True, required=False,)
     cesantia = fields.Float(string='Cesantía en edad avanzada y vejez', readonly=True, required=False,)
     actualizacion_infonavit = fields.Float(string='Actualización Infonavit', readonly=True, required=False,)
     recargos_infonavit = fields.Float(string='Recargos Infonavit', readonly=True, required=False,)
+    subtotal_infonavit = fields.Float(string='Subtotal', readonly=True, required=False,)
+    total_infonavit = fields.Float(string='Total', readonly=True, required=False,)
     aportaciones_voluntarias = fields.Float(string='Aportaciones voluntarias', readonly=True, required=False,)
     aportaciones_complementarias = fields.Float(string='Aportaciones complementarias', readonly=False, required=False,)
     aportacion_patronal_sc = fields.Float(string='Aportación patronal sin credito', readonly=True, required=False,)
     aportacion_patronal_cc = fields.Float(string='Aportación patronal con credito', readonly=True, required=False,)
     amortizacion = fields.Float(string='Amortización', readonly=True, required=False,)
-    act_aport_amort = fields.Float(string='Actualización de Aportaciones y Amortizaciones', readonly=False, required=False,)
-    rec_aport_amort = fields.Float(string='Recargos de Aportaciones y Amortizaciones', readonly=False, required=False,)
+    act_aport_amort = fields.Float(string='Actualización de Aportaciones y Amortizaciones', readonly=True, required=False,)
+    rec_aport_amort = fields.Float(string='Recargos de Aportaciones y Amortizaciones', readonly=True, required=False,)
+    subtotal_aport_amort = fields.Float(string='Subtotal', readonly=True, required=False,)
+    total_aport_amort = fields.Float(string='Total', readonly=True, required=False,)
     multa = fields.Float(string='Multa', readonly=False, required=False,)
-    fundemex = fields.Float(string='Donativo FUNDEMEX', readonly=True, required=False,)
+    fundemex = fields.Float(string='Donativo FUNDEMEX', readonly=False, required=False,)
     date_start = fields.Date('Desde')
     date_end = fields.Date('Hasta')
     group_id = fields.Many2one(comodel_name='hr.group', string='Grupo / Empresa')
@@ -61,6 +75,58 @@ class HrFeeSettlement(models.Model):
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True)
     fees_settlement_lines = fields.One2many(inverse_name='sheet_settlement_id', comodel_name='hr.fees.settlement.details',string='Detalles de liquidación de cuotas')
     state = fields.Selection([('draft', 'Borrador'),('confirmed','Confirmado')],copy=False, default='draft')
+    payment_type = fields.Selection([('1', 'Pago Oportuno'), ('2', 'Pago Extemporaneo')], string='Tipo de pago', required=True)
+    payment_date = fields.Date(string='Fecha de pago')
+    regulatory_payment_date = fields.Date(string='Fecha de pago reglamentaria', compute='get_date_payment')
+    index_update = fields.Float(string='Indice de actualizacion', compute='get_index_update',  digits=dp.get_precision('Payroll Rate'))
+    subtotal = fields.Float(string='Total')
+    total = fields.Float(string='Total a pagar')
+    amount_total_update = fields.Float(string='Total a pagar')
+    percentage_mothly = fields.Float(string='Porcentaje mensual %', default=0.0147)
+    percentage_total = fields.Float(string='Porcentaje total %')
+    surcharge_amount = fields.Float(string='Monto de recargo')
+
+
+    @api.onchange('payment_type')
+    def onchange_payment_type(self):
+        '''
+        Este metodo se ejecuta cuando se cambia el tipo de pago de la liquidacion de cuotas, a traves de el se calcula
+        los recargos y actualizaciones para el pago de la misma, tambien segun el tipo de pago se define la fecha de pago.
+        '''
+        if self.payment_type == '1':
+            payment_date = self.regulatory_payment_date
+        else:
+            print ('proceso de pago extemporaneo')
+            print ('proceso de pago extemporaneo')
+            print ('proceso de pago extemporaneo')
+
+    @api.one
+    @api.depends('year', 'month', 'payment_date')
+    def get_index_update(self):
+        '''
+        Este metodo obtiene el indice de actualización basado en la fechas de la liquidación / la fecha de pago
+        '''
+        if self.payment_date:
+            index_document=self.env['hr.table.index.consume.price'].search([('year','=',self.year),('month','=',self.month)]).value
+            index_payment=self.env['hr.table.index.consume.price'].search([('year','=',self.payment_date.year),('month','=',self.payment_date.month)]).value
+            self.index_update = index_payment/index_document
+
+
+    @api.one
+    @api.depends('year','month')
+    def get_date_payment(self):
+        '''
+        Este metodo obtiene las fechas para el pago en caso de que el pago sea de tipo oportuno
+        '''
+        state = self.group_id.state_id
+        month_payment = self.month+1 if self.month != 12 else 1
+        year_payment = self.year if self.month != 12 else self.year+1
+        public_holidays_days = self.env['hr.days.public.holidays'].search([]).mapped('date')
+        # public_holidays_days = self.env['hr.days.public.holidays'].search([('state_ids', 'in', state._ids)]).mapped('date')
+        payment_date = date(year_payment, month_payment, 17)
+        while payment_date in public_holidays_days or payment_date.weekday() in [5,6]:
+            payment_date += timedelta(days=1)
+        self.regulatory_payment_date = payment_date
 
     @api.multi
     def get_values(self):
@@ -69,14 +135,9 @@ class HrFeeSettlement(models.Model):
         que se corre la liquidación de cuotas de IMSS
         '''
         self.fees_settlement_lines.unlink()
-        print('kdmkjsdnkjsndkjasndkjsadn')
         payslip_run_ids = self.env['hr.payslip.run'].search(
-            [('date_start', '>=', self.date_start), ('date_end', '<=', self.date_end)])
+            [('date_start', '>=', self.date_start), ('date_end', '<=', self.date_end),('contracting_regime', '=', 2)])
         employee_ids = payslip_run_ids.mapped('slip_ids.employee_id')
-        print(employee_ids)
-        print(employee_ids)
-        print(employee_ids)
-        print(employee_ids)
         self.fees_settlement_lines = self.fees_settlement_lines.get_values(payslip_run_ids)
         self.cuota_fija = sum(self.fees_settlement_lines.mapped('cuota_fija'))
         self.exedente_3uma = sum(self.fees_settlement_lines.mapped('exedente_3uma_patronal')) + sum(self.fees_settlement_lines.mapped('exedente_3uma_patronal'))
@@ -91,6 +152,56 @@ class HrFeeSettlement(models.Model):
         self.aportacion_patronal_cc = sum(self.fees_settlement_lines.mapped('aporte_patronal_cc'))
         self.amortizacion = sum(self.fees_settlement_lines.mapped('amortizacion'))
         self.gastos_medicos_pensionados = sum(self.fees_settlement_lines.mapped('gmp_patronal'))+sum(self.fees_settlement_lines.mapped('gmp_obrero'))
+        print ([
+            self.cuota_fija,
+            self.prestaciones_en_dinero,
+            self.riesgo_trabajo,
+            self.invalidez_vida,
+            self.gps,
+            self.retiro,
+            self.cesantia,
+            self.aportaciones_voluntarias,
+            self.aportacion_patronal_sc,
+            self.aportacion_patronal_cc,
+            self.amortizacion,
+            self.gastos_medicos_pensionados,
+        ])
+        self.subtotal_imss = sum([
+            self.cuota_fija,
+            self.exedente_3uma,
+            self.prestaciones_en_dinero,
+            self.gastos_medicos_pensionados,
+            self.riesgo_trabajo,
+            self.invalidez_vida,
+            self.gps,
+        ])
+        self.actualizacion_imss = self.subtotal_imss*self.index_update
+        self.recargos_imss = self.actualizacion_imss*(self.percentage_total/100)
+        self.total_imss = self.actualizacion_imss+self.recargos_imss
+        self.subtotal_infonavit = sum([
+            self.retiro,
+            self.cesantia,
+        ])
+        self.actualizacion_infonavit = self.subtotal_infonavit * self.index_update
+        self.recargos_infonavit = self.actualizacion_infonavit * (self.percentage_total / 100)
+        self.total_infonavit = self.actualizacion_infonavit + self.recargos_infonavit + self.aportaciones_voluntarias + self.aportaciones_complementarias
+        self.subtotal_aport_amort = sum([
+            self.aportacion_patronal_sc,
+            self.aportacion_patronal_cc,
+            self.amortizacion,
+        ])
+        self.act_aport_amort = self.subtotal_aport_amort * self.index_update
+        self.rec_aport_amort = self.act_aport_amort * (self.percentage_total / 100)
+        self.total_aport_amort = self.act_aport_amort+self.rec_aport_amort+self.multa+self.fundemex
+
+        self.amount_total_update = self.subtotal * self.index_update
+        interes_range = self.payment_date - self.regulatory_payment_date
+        interes_range = int((self.payment_date - self.regulatory_payment_date).days/30.40)
+        self.percentage_total = self.percentage_mothly*interes_range
+        self.surcharge_amount = self.subtotal*(self.percentage_total/100)
+        self.total = self.total_imss+self.total_infonavit+self.total_aport_amort
+
+
 
 
         # for payslip_run_id in payslip_run_ids.mapped(''):

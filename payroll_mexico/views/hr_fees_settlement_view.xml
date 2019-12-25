@@ -21,13 +21,19 @@
                             </h1>
                         </div>
                         <group>
-                            <group>
+                            <group col="2" string="Datos generales">
+                                <field name="group_id"/>
+                            </group>
+                            <group col="2" string="Datos generales">
                                 <field name="date_start"/>
                                 <field name="date_end"/>
                                 <field name="year"/>
                                 <field name="month"/>
+                                <field name="payment_type"/>
+                                <field name="payment_date" attrs="{'readonly':[('payment_type','=','1')]}"/>
+                                <field name="regulatory_payment_date"/>
                             </group>
-                            <group col="4" string="Para abono en cuenta del IMSS">
+                            <group string="Para abono en cuenta del IMSS">
                                 <field name="cuota_fija"/>
                                 <field name="exedente_3uma"/>
                                 <field name="prestaciones_en_dinero"/>
@@ -35,25 +41,39 @@
                                 <field name="riesgo_trabajo"/>
                                 <field name="invalidez_vida"/>
                                 <field name="gps"/>
+                                <field name="subtotal_imss"/>
                                 <field name="actualizacion_imss"/>
                                 <field name="recargos_imss"/>
+                                <field name="total_imss"/>
                             </group>
-                            <group col="4" string="Para abono en cuenta individual">
+                            <group string="Para abono en cuenta individual">
                                 <field name="retiro"/>
                                 <field name="cesantia"/>
+                                <field name="subtotal_infonavit"/>
                                 <field name="actualizacion_infonavit"/>
                                 <field name="recargos_infonavit"/>
                                 <field name="aportaciones_voluntarias"/>
                                 <field name="aportaciones_complementarias"/>
+                                <field name="total_infonavit"/>
                             </group>
-                            <group col="4" string="Para abono en cuenta del INFONAVIT">
+                            <group string="Para abono en cuenta del INFONAVIT">
                                 <field name="aportacion_patronal_sc"/>
                                 <field name="aportacion_patronal_cc"/>
                                 <field name="amortizacion"/>
+                                <field name="subtotal_aport_amort"/>
                                 <field name="act_aport_amort"/>
                                 <field name="rec_aport_amort"/>
                                 <field name="multa"/>
                                 <field name="fundemex"/>
+                                <field name="total_aport_amort"/>
+                            </group>
+                            <group col="1" string="Indices">
+                                <field name="index_update" readonly="True"/>
+                                <field name='percentage_mothly' readonly="True"/>
+                                <field name='percentage_total' readonly="True"/>
+                            </group>
+                            <group col="1" string="Total">
+                                <field name="total" readonly="True"/>
                             </group>
                         </group>
                             <notebook><page string="Detalles por empleado">
