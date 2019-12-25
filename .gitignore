@@ -98,6 +98,9 @@ ENV/
 .ropeproject
 
 # mkdocs documentation
+
+#Idea Files
+.idea/
 /site
 
 # mypy

@@ -2,6 +2,39 @@
 <odoo>
     <data>
 
+         <record id="view_hr_payroll_tax_details_filter" model="ir.ui.view">
+            <field name="name">view.hr.payroll.tax.details.view.filter</field>
+            <field name="model">hr.payroll.tax.details</field>
+            <field name="arch" type="xml">
+                <search string="Employee Change History">
+                    <field name="work_center_id" string="Centro de trabajo"/>
+                    <field name="payslip_run_id" string="Nomina"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="hr_payroll_tax_details_view_tree" model="ir.ui.view">
+            <field name="name">hr.payroll.tax.details.view.tree</field>
+            <field name="model">hr.payroll.tax.details</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="work_center_id"/>
+                    <field name="amount_untaxed"/>
+                    <field name="amount_tax"/>
+                    <field name="payslip_run_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_hr_payroll_tax_details_tree" model="ir.actions.act_window">
+            <field name="name">Detalles de Impuestos</field>
+            <field name="res_model">hr.payroll.tax.details</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="hr_payroll_tax_details_view_tree"/>
+            <field name="search_view_id" ref="view_hr_payroll_tax_details_filter"/>
+        </record>
+
         <record model="ir.ui.view" id="view_hr_payslip_run_mexico_form">
             <field name="name">view.hr.payslip.run.mexico.form</field>
             <field name="model">hr.payslip.run</field>
@@ -23,6 +56,11 @@
                 </xpath>
                 <xpath expr="//field[@name='name']" position="before">
                     <div class="oe_button_box" name="button_box">
+                        <button name="%(payroll_mexico.action_hr_payroll_tax_details_tree)d"
+                                string="Detalles de impuestos"
+                                icon="fa-money"
+                                type="action"
+                                class="oe_stat_button"/>
                         <button name="action_view_payslip"
                             class="oe_stat_button"
                             icon="fa-money"

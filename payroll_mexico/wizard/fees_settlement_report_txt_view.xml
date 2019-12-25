@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record id="view_fees_settlement_report_txt" model="ir.ui.view">
+            <field name="name">Descargar txt de liquidación</field>
+            <field name="model">hr.fees.settlement.report.txt</field>
+            <field name="arch" type="xml">
+                <form string="Descargar TXT liquicación">
+                    <div class="alert alert-info text-center" role="alert" style="margin-bottom:0px;">
+                        Se generado el reporte txt correctamente, proceda a descargarlo.
+                    </div>
+                    <group>
+                        <field name="txt_file" readonly="1" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button string="Cerrar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_hr_payslip_run_export_excel" model="ir.actions.act_window">
+            <field name="name">Reporte txt de liquidación</field>
+            <field name="view_id" ref="view_fees_settlement_report_txt"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="res_model">hr.fees.settlement.report.txt</field>
+            <field name="target">new</field>
+        </record>
+
+            
+   </data>
+</openerp>
