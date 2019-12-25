@@ -27,6 +27,7 @@
                 </group>
            <footer>
                 <button string="Export to PDF" name="report_print" type="object" default_focus="1" class="btn-primary"/>
+                <button string="Export to Excel" name="action_print_report_excel" type="object" default_focus="1" class="btn-primary"/>
                 <button string="Cancel" class="btn-default" special="cancel"/>
             </footer>
            </form>
