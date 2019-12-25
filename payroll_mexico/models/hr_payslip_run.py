@@ -81,6 +81,7 @@ class HrPayslipRun(models.Model):
     bonus_date = fields.Boolean('Bonus date', default=False)
     pay_bonus = fields.Boolean('Pay bonus?')
     pay_type = fields.Selection([('0','Efectivo'),('1','Especie')], string='Tipo de pago', default='0')
+    tax_detail_lines = fields.One2many(inverse_name='payslip_run_id', comodel_name='hr.payroll.tax.details', string='Detalles de impuestos')
 
     def print_payslip_run_details(self):
         '''
@@ -328,3 +329,13 @@ class HrPayslipRun(models.Model):
             payslip.worked_days_line_ids = worked_days_lines
             payslip.compute_sheet()
         return 
+
+class TaxDetails(models.Model):
+    _name='hr.payroll.tax.details'
+    _description='Detalles de impuestos para los procesamientos de nomina'
+
+    #Columns
+    work_center_id = fields.Many2one(comodel_name='hr.work.center',string='Centro de trabajo',required=False)
+    amount_untaxed = fields.Many2one(string='Base Imponible',required=False)
+    amount_tax = fields.Many2one(string='impuestos',required=False)
+    payslip_run_id = fields.Many2one(comodel_name='hr.payslip.run', string='Procesamiento de nomina')

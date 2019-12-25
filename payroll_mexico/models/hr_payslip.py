@@ -252,7 +252,7 @@ class HrPayslip(models.Model):
         '''
         Este metodo calcula el monto de impuesto para la nomina
         '''
-        self.amount_tax = self.env['hr.isn'].get_value_isn(self.payslip_run_id.group_id.state_id.id, self.subtotal_amount_untaxed, self.date_from.year)
+        self.amount_tax = self.env['hr.isn'].get_value_isn(self.employee_id.work_center_id.state_id.id, self.subtotal_amount_untaxed, self.date_from.year)
 
 
     @api.model
