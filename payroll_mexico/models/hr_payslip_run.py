@@ -267,22 +267,29 @@ class HrPayslipRun(models.Model):
         '''
         Este metodo calcula el monto de base imponible para la nomina a este monto se le calculara el impuesto
         '''
-        # lines_untaxed = self.slip_ids.mapped('line_ids').filtered(
-        #     lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
-        # self.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
         self.slip_ids.compute_amount_untaxed()
-        self.subtotal_amount_untaxed = sum(self.slip_ids.mapped('subtotal_amount_untaxed'))
-        self.get_tax_amount()
-
-    @api.multi
-    def get_tax_amount(self):
-        '''
-        Este metodo calcula el monto de impuesto para la nomina
-        '''
-
-        self.amount_tax = self.env['hr.isn'].get_value_isn(self.group_id.state_id.id,
-                                                           self.subtotal_amount_untaxed, self.date_start.year)
-        self._compute_acumulated_tax_amount()
+        self.tax_detail_lines.unlink()
+        dict_details={}
+        list_details=[]
+        for item in self.slip_ids.mapped('employee_id.work_center_id.id'):
+            dict_details[item] = {
+            'amount_untaxed': 0.0,
+            'amount_tax': 0.0,
+            }
+        for slip in self.slip_ids:
+            dict_details[slip.employee_id.work_center_id.id]['amount_untaxed'] += slip.subtotal_amount_untaxed
+            dict_details[slip.employee_id.work_center_id.id]['amount_tax'] += slip.amount_tax
+        for key in dict_details.keys():
+            vals = {
+                'work_center_id': key,
+                'amount_untaxed': dict_details[key]['amount_untaxed'],
+                'amount_tax':  dict_details[key]['amount_tax'],
+                'payslip_run_id': self.id,
+            }
+            list_details.append(vals)
+        self.tax_detail_lines = list_details
+        self.subtotal_amount_untaxed = sum(self.tax_detail_lines.mapped('amount_untaxed'))
+        self.amount_tax = sum(self.tax_detail_lines.mapped('amount_tax'))
 
     @api.multi
     def close_payslip_run(self):
@@ -336,6 +343,6 @@ class TaxDetails(models.Model):
 
     #Columns
     work_center_id = fields.Many2one(comodel_name='hr.work.center',string='Centro de trabajo',required=False)
-    amount_untaxed = fields.Many2one(string='Base Imponible',required=False)
-    amount_tax = fields.Many2one(string='impuestos',required=False)
+    amount_untaxed = fields.Float(string='Base Imponible',required=False)
+    amount_tax = fields.Float(string='Impuestos',required=False)
     payslip_run_id = fields.Many2one(comodel_name='hr.payslip.run', string='Procesamiento de nomina')
