@@ -9,7 +9,6 @@
           name="payroll_mexico.template_infonavit_employee_amount"
           paperformat="payroll_mexico.paperformat_letter_landscape"
          />
-         
         <template id="template_infonavit_employee_amount" >
             <t t-call="web.internal_layout">
                 <t t-call="web.html_container">
@@ -41,8 +40,7 @@
 									<th colspan="4" class="text-center" ><strong>Clave / Ubicación</strong></th>
 									<tr>
 										<th colspan="2" class="text-center" ><strong>Crédito</strong></th>
-										<th colspan="2" class="text-center" ><strong>Referencia</strong></th>
-										<th colspan="2" class="text-center" ><strong>Concepto</strong></th>
+										<th colspan="4" class="text-center" ><strong>Concepto</strong></th>
 										<th colspan="2" class="text-center" ><strong>Tipo Desc.</strong></th>
 										<th colspan="2" class="text-center" ><strong>Valor Desc.</strong></th>
 										<th colspan="2" class="text-center" ><strong>Descuentos del período.</strong></th>
@@ -54,6 +52,13 @@
 											<td colspan="4" class="text-center"><strong><span t-field="o.complete_name"/></strong></td>
 											<td colspan="4" class="text-center"><strong><span t-field="o.enrollment"/></strong></td>
 										</tr>
+									<tr>
+                                        <td colspan="2" class="text-center"><span t-esc="data['employee_dict'][str(o.id)]['credito']"/></td>
+                                        <td colspan="4" class="text-center"><span t-esc="data['employee_dict'][str(o.id)]['Concepto']"/></td>
+                                        <td colspan="2" class="text-center"><span t-esc="data['employee_dict'][str(o.id)]['tipo']"/></td>
+                                        <td colspan="2" class="text-center"><span t-esc="data['employee_dict'][str(o.id)]['valor']"/></td>
+                                        <td colspan="2" class="text-center"><span t-esc="data['employee_dict'][str(o.id)]['amount']"/></td>
+                                    </tr>
 										<t t-set="counter" t-value="counter+1"/>
 									</t>
 								</table>
@@ -63,7 +68,6 @@
                                     <td colspan="7" class="text-right">Total trabajadores</td>
                                     <td colspan="2" class="text-right"><t t-esc="counter"/></td>
                                 </tr>
-
                             </tfooter>
                         </table>
                     </div>

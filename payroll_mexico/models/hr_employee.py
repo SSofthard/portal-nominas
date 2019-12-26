@@ -717,6 +717,13 @@ class hrInfonavitCreditLine(models.Model):
             'infonavit_id':self.id,
             }
         self.env['hr.infonavit.credit.history'].create(vals)
+    
+    @api.model
+    def write(self, vals):
+        if vals.get('date'):
+            infonavit_history = self.env['hr.infonavit.credit.history'].search([('move_type','=','high_credit'),('infonavit_id','=',self.id)])
+            infonavit_history.date = vals['date']
+        return super(hrInfonavitCreditLine, self).write(vals)
 
 
             

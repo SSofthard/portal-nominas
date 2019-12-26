@@ -92,6 +92,38 @@ class WizardExpiredContracts(models.TransientModel):
             data['credit'] = credit
             return self.env.ref('payroll_mexico.report_infonavit_employee').report_action(list(docs._ids), data=data)
         elif self.report_type == '1':
+            employee_dict = {}
+            for employee in docs:
+                payslip_line=self.env['hr.payslip.line'].search([
+                                                        ('slip_id.employee_id','=',employee.id),
+                                                        ('slip_id.date_from','>=',date_from),
+                                                        ('slip_id.date_to','<=',date_to),
+                                                        ('salary_rule_id.code','in',['D094'])])
+                if not payslip_line:
+                    docs -= employee
+                else:
+                    amount = 0
+                    for slip in payslip_line:
+                        amount += slip.total
+                    move_infonavit_high_credit = self.env['hr.infonavit.credit.history'].search([('infonavit_id.state','in',['active','discontinued','closed']),
+                                                                                                 ('move_type','=','high_credit'),
+                                                                                                 ('infonavit_id.employee_id','=',employee.id),
+                                                                                                 ],limit=1)
+                    if move_infonavit_high_credit.infonavit_id.type == 'percentage':
+                        type = 'Porcentaje'
+                    elif move_infonavit_high_credit.infonavit_id.type == 'umas':
+                        type = 'UMA'
+                    else:
+                        type = 'Monto Fijo'
+                    payslip_line_dict = {
+                                'credito':move_infonavit_high_credit.infonavit_id.infonavit_credit_number,
+                                'Concepto':slip.salary_rule_id.name,
+                                'tipo':type,
+                                'valor':move_infonavit_high_credit.infonavit_id.value,
+                                'amount':amount,
+                                }
+                    employee_dict[employee.id]=payslip_line_dict
             data['docs_ids'] = docs._ids
+            data['employee_dict'] = employee_dict
             return self.env.ref('payroll_mexico.report_infonavit_employee_amount').report_action(list(docs._ids), data=data)
         
