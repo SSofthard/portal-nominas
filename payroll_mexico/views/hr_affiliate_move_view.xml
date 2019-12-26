@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_affiliate_move_view_tree" model="ir.ui.view">
+        <field name="name">hr.employee.affiliate.move.view.tree</field>
+        <field name="model">hr.employee.affiliate.move</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-success="state == 'open'" decoration-primary="state == 'done'" decoration-muted="state == 'cancel'">
+                <field name="employer_register_id"/>
+                <field name="type_move"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_employee_affiliate_move_view" model="ir.ui.view">
+        <field name="name">hr_employee_affiliate_move_view</field>
+        <field name="model">hr.employee.affiliate.move</field>
+        <field name="priority">5</field>
+        <field name="arch" type="xml">
+            <form string="Movimientos Afiliatorios">
+                <header>
+                    <button name="action_move_open" states="draft" string="Validar" type="object"/>
+                    <button name="action_print_txt" states="open" string="Generar TXT" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employer_register_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="date_from"/>
+                        </group>
+                        <group>
+                            <field name="type_move"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                </sheet>
+           </form>
+        </field>
+    </record>
+    
+    <record id="action_hr_employee_affiliate_move2" model="ir.actions.act_window">
+        <field name="name">Movimientos Afiliatorios</field>
+        <field name="res_model">hr.employee.affiliate.move</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="hr_employee_affiliate_move_view_tree"/>
+        <field name="context"></field>
+    </record>
+
+    <menuitem
+        name="Movimientos Afiliatorios"
+        id="hr_employee_affiliate_move_root"
+        action="action_hr_employee_affiliate_move2"
+        parent="hr.menu_hr_root"
+        sequence="90"
+    />
+<!--
+    <menuitem
+        name="Movimientos Afiliatorios"
+        id="menu_action_hr_employee_affiliate_move"
+        action="action_hr_employee_affiliate_move"
+        parent="hr_employee_affiliate_move_root"/>
+-->
+
+</odoo>
