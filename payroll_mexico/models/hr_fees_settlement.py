@@ -86,7 +86,7 @@ class HrFeeSettlement(models.Model):
     percentage_total = fields.Float(string='Porcentaje total %')
     surcharge_amount = fields.Float(string='Monto de recargo')
 
-    @api.model
+    @api.multi
     def write(self,vals):
         '''
         Se utiliza para guardar la fecha de pago
@@ -140,10 +140,27 @@ class HrFeeSettlement(models.Model):
         que se corre la liquidación de cuotas de IMSS
         '''
         self.fees_settlement_lines.unlink()
+        if self.payment_type == '2':
+            interes_range = self.payment_date - self.regulatory_payment_date
+            interes_range = int((self.payment_date - self.regulatory_payment_date).days / 30.40)
+            self.percentage_total = self.percentage_mothly * interes_range
+        else:
+            self.percentage_total = 0.0
+        payslip_run_rcv_ids = False
         payslip_run_ids = self.env['hr.payslip.run'].search(
             [('date_start', '>=', self.date_start), ('date_end', '<=', self.date_end),('contracting_regime', '=', 2)])
         employee_ids = payslip_run_ids.mapped('slip_ids.employee_id')
-        self.fees_settlement_lines = self.fees_settlement_lines.get_values(payslip_run_ids)
+        if self.month % 2 == 0:
+            date_start = date(self.year,self.month-1,1)
+            payslip_run_rcv_ids = self.env['hr.payslip.run'].search(
+                [('date_start', '>=', date_start), ('date_end', '<=', self.date_end),
+                 ('contracting_regime', '=', 2)])
+            employee_ids = employee_ids | payslip_run_rcv_ids.mapped('slip_ids.employee_id')
+            print (employee_ids)
+            print (employee_ids)
+            print (employee_ids)
+            print (employee_ids)
+        self.fees_settlement_lines = self.fees_settlement_lines.get_values(payslip_run_ids,payslip_run_rcv_ids)
         self.cuota_fija = sum(self.fees_settlement_lines.mapped('cuota_fija'))
         self.exedente_3uma = sum(self.fees_settlement_lines.mapped('exedente_3uma_patronal')) + sum(self.fees_settlement_lines.mapped('exedente_3uma_patronal'))
         self.prestaciones_en_dinero = sum(self.fees_settlement_lines.mapped('pd_patronal')) + sum(self.fees_settlement_lines.mapped('pd_obrero'))
@@ -200,25 +217,23 @@ class HrFeeSettlement(models.Model):
         self.total_aport_amort = self.act_aport_amort+self.rec_aport_amort+self.multa+self.fundemex
 
         self.amount_total_update = self.subtotal * self.index_update
-        interes_range = self.payment_date - self.regulatory_payment_date
-        interes_range = int((self.payment_date - self.regulatory_payment_date).days/30.40)
-        self.percentage_total = self.percentage_mothly*interes_range
-        self.surcharge_amount = self.subtotal*(self.percentage_total/100)
         self.total = self.total_imss+self.total_infonavit+self.total_aport_amort
 
 
+    @api.constrains('payment_date')
+    def constrain_date_payment(self):
+        '''
+        Constrain para validar fecha de pago
+        '''
+        if self.payment_date < self.regulatory_payment_date:
+            raise UserError('La fecha de pago no puede ser menor al los 17 días del mes siguiente al periodo a calcular')
 
 
-        # for payslip_run_id in payslip_run_ids.mapped(''):
     @api.multi
     def action_confirm(self):
         '''
         Este metodo es para imprimir el txt de la liquidación que va a ser
         '''
-        print ('action_confirm')
-        print ('action_confirm')
-        print ('action_confirm')
-        print ('action_confirm')
         self.write({'state':'confirmed'})
 
 
@@ -252,6 +267,7 @@ class HrFeeSettlementDetails(models.Model):
     _name = 'hr.fees.settlement.details'
 
     relaction_rule_IMSS = {
+        # IMSS
         'cuota_fija': 'UI112',
         'exedente_3uma_patronal': 'UI113',
         'exedente_3uma_obrero': 'UI114',
@@ -262,16 +278,24 @@ class HrFeeSettlementDetails(models.Model):
         'riesgos_trabajo': 'UI111',
         'iv_patronal': 'UI119',
         'iv_obrero': 'UI120',
+        'guarderia_ps': 'UI121',
+        # -------
         'sdi': 'UI003',
+
+    }
+
+    relaction_rule_Infonavit_RCV = {
+        # Infonavit
         'retiro': 'P100',
         'cesantia_vejez_patronal': 'UI123',
         'cesantia_vejez_obrero': 'UI124',
+        # -----------------
+        # RCV
         'aporte_patronal_sc': '',
         'aporte_patronal_cc': '',
         'amortizacion': 'D094',
         'aporte_voluntario_sar': 'D091',
         'aporte_voluntario_infonavit': 'D092',
-        'guarderia_ps': 'UI121',
     }
 
     #Columns
@@ -307,7 +331,7 @@ class HrFeeSettlementDetails(models.Model):
     sheet_settlement_id = fields.Many2one(comodel_name='hr.fees.settlement', string='Liquidación de cuotas')
 
     @api.multi
-    def get_values(self,payslip_run_ids):
+    def get_values(self,payslip_run_ids,payslip_run_rcv_ids=False):
         '''
         Este metodo busca particularmente para cada empleado los valores de las nominas dentro de periodo seleccionado.
         '''
@@ -317,7 +341,6 @@ class HrFeeSettlementDetails(models.Model):
             vals = {}
             print (employee_id)
             vals['employee_id'] = employee_id.id
-
             vals['incapacidades'] = sum(payslip_run_ids.mapped('slip_ids.worked_days_line_ids').filtered(
                     lambda line: line.payslip_id.employee_id.id == employee_id.id and line.code == 'F1').mapped('number_of_days'))
             vals['ausencias'] = sum(payslip_run_ids.mapped('slip_ids.worked_days_line_ids').filtered(
@@ -325,15 +348,19 @@ class HrFeeSettlementDetails(models.Model):
             for key in self.relaction_rule_IMSS.keys():
                 vals[key] = sum(payslip_run_ids.mapped('slip_ids.line_ids').filtered(
                     lambda line: line.employee_id.id == employee_id.id and line.code == self.relaction_rule_IMSS[key]).mapped('total'))
-            print (vals)
-            aporte_patronal_infonavit = sum(payslip_run_ids.mapped('slip_ids.line_ids').filtered(
+            if payslip_run_rcv_ids:
+                for key in self.relaction_rule_Infonavit_RCV.keys():
+                    vals[key] = sum(payslip_run_rcv_ids.mapped('slip_ids.line_ids').filtered(
+                        lambda line: line.employee_id.id == employee_id.id and line.code ==
+                                     self.relaction_rule_Infonavit_RCV[key]).mapped('total'))
+                aporte_patronal_infonavit = sum(payslip_run_rcv_ids.mapped('slip_ids.line_ids').filtered(
                     lambda line: line.employee_id.id == employee_id.id and line.code == 'UI128').mapped('total'))
-            if vals['amortizacion'] > 0:
-                vals['aporte_patronal_cc'] = aporte_patronal_infonavit
-            else:
-                vals['aporte_patronal_sc'] = aporte_patronal_infonavit
-
-
+                if vals['amortizacion'] > 0:
+                    vals['aporte_patronal_cc'] = aporte_patronal_infonavit
+                else:
+                    vals['aporte_patronal_sc'] = aporte_patronal_infonavit
             list_res.append(vals)
         print (list_res)
         return list_res
+
+
