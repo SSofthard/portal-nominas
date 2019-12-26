@@ -65,21 +65,9 @@ class Contract(models.Model):
             current_date  =  fields.Date.context_today(self)+timedelta(days=1)
             start_date_contract = contract.previous_contract_date or contract.date_start
             years_antiquity = contract.years_antiquity
-            print (years_antiquity)
             antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',contract.employee_id.group_id.antique_table.id)])
-            print (antiguedad)
-            days_holiday = antiguedad.vacaciones
             daily_salary = contract.wage / contract.employee_id.group_id.days if contract.employee_id.group_id.days else contract.wage / 30
-            bonus_holiday = ((daily_salary * days_holiday)*(antiguedad.prima_vac/100))/365
-            default_chirstmas_bonus_days = 15
-            factor_christmas_bonus = default_chirstmas_bonus_days \
-                if years_antiquity >= 1 else (15/365)*(current_date - (start_date_contract - timedelta(days=1))).days
-            christmas_bonus = (factor_christmas_bonus*daily_salary)/365
-            integral_salary =  daily_salary + bonus_holiday + christmas_bonus
-            print (integral_salary)
-            print (integral_salary)
-            print (integral_salary)
-            print (integral_salary)
+            integral_salary =  daily_salary + (daily_salary*(antiguedad.factor/100))
             contract.integral_salary = integral_salary
 
     # def _get_variable_salary(self):

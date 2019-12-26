@@ -8,12 +8,22 @@
             <field name="arch" type="xml">
                 <form string="Liquidación de cuotas IMSS e Infonavit">
                     <header>
+                        <widget name="attach_document" string="Adjuntar Documento" action="message_post" attrs="{'invisible': ['|', ('attachment_number', '&lt;', 1), ('id','=',False)]}"/>
+                        <widget name="attach_document" string="Adjuntar Documento" action="message_post" highlight="1" attrs="{'invisible': ['|',('attachment_number', '&gt;=', 1), ('id','=',False)]}"/>
                         <button name="action_print_txt" type="object" string="Imprimir txt" states="draft,confirmed"/>
                         <button name="action_confirm" type="object" string="Confirmar Liquidación" states="draft"/>
                         <button name="get_values" type="object" string="Calcular liquidación" states="draft"/>
                         <field name="state" widget="statusbar" state="draft"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        <button name="action_get_attachment_view"
+                                icon="fa-paperclip"
+                                type="object"
+                                class="oe_stat_button"
+                        ><field name="attachment_number" widget="statinfo" string="Documento(s)" options="{'reload_on_button': true}"/>
+                        </button>
+                        </div>
                         <div class="oe_title">
                             <label for="name"/>
                             <h1>
