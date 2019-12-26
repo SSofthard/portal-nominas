@@ -8,30 +8,42 @@
             <field name="arch" type="xml">
                 <form string="Liquidación de cuotas IMSS e Infonavit">
                     <header>
-                        <button name="action_print_txt" type="object" string="Imprimir txt" state="draft,confirmed"/>
-                        <button name="action_confirm" type="object" string="Confirmar Liquidación" state="draft"/>
-                        <button name="get_values" type="object" string="Calcular liquidación" state="draft"/>
+                        <widget name="attach_document" string="Adjuntar Documento" action="message_post" attrs="{'invisible': ['|', ('attachment_number', '&lt;', 1), ('id','=',False)]}"/>
+                        <widget name="attach_document" string="Adjuntar Documento" action="message_post" highlight="1" attrs="{'invisible': ['|',('attachment_number', '&gt;=', 1), ('id','=',False)]}"/>
+                        <button name="action_print_txt" type="object" string="Imprimir txt" states="draft,confirmed"/>
+                        <button name="action_confirm" type="object" string="Confirmar Liquidación" states="draft"/>
+                        <button name="get_values" type="object" string="Calcular liquidación" states="draft"/>
                         <field name="state" widget="statusbar" state="draft"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        <button name="action_get_attachment_view"
+                                icon="fa-paperclip"
+                                type="object"
+                                class="oe_stat_button"
+                        ><field name="attachment_number" widget="statinfo" string="Documento(s)" options="{'reload_on_button': true}"/>
+                        </button>
+                        </div>
                         <div class="oe_title">
                             <label for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
                         </div>
-                        <group>
-                            <group col="2" string="Datos generales">
+                        <group string="Datos generales">
+                            <group>
                                 <field name="group_id"/>
                                 <field name="employer_register_id"/>
                             </group>
-                            <group col="2" string="Datos generales">
+                            <group>
                                 <field name="year"/>
                                 <field name="month"/>
                                 <field name="payment_type"/>
                                 <field name="payment_date" attrs="{'readonly':[('payment_type','=','1')]}"/>
                                 <field name="regulatory_payment_date"/>
                             </group>
+                        </group>
+                        <group>
                             <group string="Para abono en cuenta del IMSS">
                                 <field name="cuota_fija"/>
                                 <field name="exedente_3uma"/>
@@ -155,7 +167,7 @@
             </field>
         </record>
 
-        <menuitem name="Liquidaciones de cuotas IMSS e Infonavit" id="hr_fees_settlement_menu" parent="menu_payroll_line_report_root" action="hr_fees_settlement_act_window"/>
+        <menuitem name="Liquidaciones de cuotas (IMSS)" id="hr_fees_settlement_menu" parent="hr_payroll.menu_hr_payroll_root" action="hr_fees_settlement_act_window"/>
 
     </data>
 </odoo>
