@@ -167,7 +167,7 @@
             </field>
         </record>
 
-        <menuitem name="Liquidaciones de cuotas IMSS e Infonavit" id="hr_fees_settlement_menu" parent="menu_payroll_line_report_root" action="hr_fees_settlement_act_window"/>
+        <menuitem name="Liquidaciones de cuotas (IMSS)" id="hr_fees_settlement_menu" parent="hr_payroll.menu_hr_payroll_root" action="hr_fees_settlement_act_window"/>
 
     </data>
 </odoo>
