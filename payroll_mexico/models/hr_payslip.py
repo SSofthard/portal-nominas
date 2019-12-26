@@ -18,7 +18,7 @@ class HrPayslip(models.Model):
             ('extraordinary_payroll', 'Extraordinary Payroll')], 
             string='Payroll Type', 
             default="ordinary_payroll", 
-            required=True,
+            # required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
     payroll_month = fields.Selection([
@@ -67,6 +67,7 @@ class HrPayslip(models.Model):
     move_infonacot_id = fields.Many2one('hr.credit.employee.account', string="FONACOT Move")
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
+    employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
     # ~ integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
 
     @api.depends('subtotal_amount_untaxed')
@@ -252,7 +253,7 @@ class HrPayslip(models.Model):
         '''
         Este metodo calcula el monto de impuesto para la nomina
         '''
-        self.amount_tax = self.env['hr.isn'].get_value_isn(self.payslip_run_id.group_id.state_id.id, self.subtotal_amount_untaxed, self.date_from.year)
+        self.amount_tax = self.env['hr.isn'].get_value_isn(self.employee_id.work_center_id.state_id.id, self.subtotal_amount_untaxed, self.date_from.year)
 
 
     @api.model

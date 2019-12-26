@@ -40,9 +40,10 @@ class Employee(models.Model):
     def name_get(self):
         result = []
         for employee in self:
-            name = '%s %s %s' %(employee.name.upper(), employee.last_name.upper() \
-                if employee.last_name else '', employee.mothers_last_name.upper() \
-                if employee.mothers_last_name else '')
+            name = '%s %s %s' %(
+                employee.name.upper() if employee.name else '', 
+                employee.last_name.upper() if employee.last_name else '', 
+                employee.mothers_last_name.upper() if employee.mothers_last_name else '')
             result.append((employee.id, name))
         return result
 
@@ -59,11 +60,6 @@ class Employee(models.Model):
     @api.onchange('complete_name')
     def _compute_complete_name(self):
         for name in self:
-            # ~ complete_name = name.name
-            # ~ if name.last_name: 
-                # ~ complete_name += ' ' + name.last_name
-            # ~ if name.last_name: 
-                # ~ complete_name += ' ' + name.mothers_last_name
             name.complete_name = name.name_get()[0][1]
 
 
@@ -691,11 +687,6 @@ class hrInfonavitCreditLine(models.Model):
     def action_active(self):
         for credit in self:
             infonavit = self.search([('employee_id', '=', self.employee_id.id),('state', '=', 'active')])
-            print (infonavit)
-            print (infonavit)
-            print (infonavit)
-            print (infonavit)
-            print (infonavit)
             if not infonavit:
                 credit.state = 'active'
                 self._set_to_history(date=credit.date, move_type='high_credit')
@@ -727,6 +718,13 @@ class hrInfonavitCreditLine(models.Model):
             'infonavit_id':self.id,
             }
         self.env['hr.infonavit.credit.history'].create(vals)
+    
+    @api.multi
+    def write(self, vals):
+        if vals.get('date'):
+            infonavit_history = self.env['hr.infonavit.credit.history'].search([('move_type','=','high_credit'),('infonavit_id','=',self.id)])
+            infonavit_history.date = vals['date']
+        return super(hrInfonavitCreditLine, self).write(vals)
 
 
             

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_table_index_consume_price_view_form_view" model="ir.ui.view">
+            <field name="name">hr.table.index.consume.price.view.form.view</field>
+            <field name="model">hr.table.index.consume.price</field>
+            <field name="arch" type="xml">
+                <form string="Indice de precios al consumidor">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="year"/>
+                            <h1>
+                                <field name="year" placeholder="Año"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="month"/>
+                                <field name="value"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_table_index_consume_price_tree_view" model="ir.ui.view">
+            <field name="name">hr.table.index.consume.price.view.tree</field>
+            <field name="model">hr.table.index.consume.price</field>
+            <field name="arch" type="xml">
+                <tree string="Indice de precios al consumidor" editable="top">
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_table_index_consume_price_search_view" model="ir.ui.view">
+            <field name="name">hr.table.index.consume.price.view.search</field>
+            <field name="model">hr.table.index.consume.price</field>
+            <field name="arch" type="xml">
+                <search string="Indice de precios al consumidor">
+                    <group expand="1" string="Group By">
+                        <filter string="Año" name="year" domain="[]"
+                                context="{'group_by':'year'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="hr_table_index_consume_price_act_window" model="ir.actions.act_window">
+            <field name="name">Indice de precios al consumidor</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.table.index.consume.price</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new Indice de precios al consumidor.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Indice de precios al consumidor" id="hr_table_index_consume_price_menu" parent="menu_setting_tables" action="hr_table_index_consume_price_act_window"/>
+
+    </data>
+</odoo>

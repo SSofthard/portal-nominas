@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_fees_settlement_form_view" model="ir.ui.view">
+            <field name="name">payroll_mexico.hr_fees_settlement.form</field>
+            <field name="model">hr.fees.settlement</field>
+            <field name="arch" type="xml">
+                <form string="Liquidación de cuotas IMSS e Infonavit">
+                    <header>
+                        <widget name="attach_document" string="Adjuntar Documento" action="message_post" attrs="{'invisible': ['|', ('attachment_number', '&lt;', 1), ('id','=',False)]}"/>
+                        <widget name="attach_document" string="Adjuntar Documento" action="message_post" highlight="1" attrs="{'invisible': ['|',('attachment_number', '&gt;=', 1), ('id','=',False)]}"/>
+                        <button name="action_print_txt" type="object" string="Imprimir txt" states="draft,confirmed"/>
+                        <button name="action_confirm" type="object" string="Confirmar Liquidación" states="draft"/>
+                        <button name="get_values" type="object" string="Calcular liquidación" states="draft"/>
+                        <field name="state" widget="statusbar" state="draft"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        <button name="action_get_attachment_view"
+                                icon="fa-paperclip"
+                                type="object"
+                                class="oe_stat_button"
+                        ><field name="attachment_number" widget="statinfo" string="Documento(s)" options="{'reload_on_button': true}"/>
+                        </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group string="Datos generales">
+                            <group>
+                                <field name="group_id"/>
+                                <field name="employer_register_id"/>
+                            </group>
+                            <group>
+                                <field name="year"/>
+                                <field name="month"/>
+                                <field name="payment_type"/>
+                                <field name="payment_date" attrs="{'readonly':[('payment_type','=','1')]}"/>
+                                <field name="regulatory_payment_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Para abono en cuenta del IMSS">
+                                <field name="cuota_fija"/>
+                                <field name="exedente_3uma"/>
+                                <field name="prestaciones_en_dinero"/>
+                                <field name="gastos_medicos_pensionados"/>
+                                <field name="riesgo_trabajo"/>
+                                <field name="invalidez_vida"/>
+                                <field name="gps"/>
+                                <field name="subtotal_imss"/>
+                                <field name="actualizacion_imss"/>
+                                <field name="recargos_imss"/>
+                                <field name="total_imss"/>
+                            </group>
+                            <group string="Para abono en cuenta individual">
+                                <field name="retiro"/>
+                                <field name="cesantia"/>
+                                <field name="subtotal_infonavit"/>
+                                <field name="actualizacion_infonavit"/>
+                                <field name="recargos_infonavit"/>
+                                <field name="aportaciones_voluntarias"/>
+                                <field name="aportaciones_complementarias"/>
+                                <field name="total_infonavit"/>
+                            </group>
+                            <group string="Para abono en cuenta del INFONAVIT">
+                                <field name="aportacion_patronal_sc"/>
+                                <field name="aportacion_patronal_cc"/>
+                                <field name="amortizacion"/>
+                                <field name="subtotal_aport_amort"/>
+                                <field name="act_aport_amort"/>
+                                <field name="rec_aport_amort"/>
+                                <field name="multa"/>
+                                <field name="fundemex"/>
+                                <field name="total_aport_amort"/>
+                            </group>
+                            <group col="1" string="Indices">
+                                <field name="index_update" readonly="True"/>
+                                <field name='percentage_mothly' readonly="True"/>
+                                <field name='percentage_total' readonly="True"/>
+                            </group>
+                            <group col="1" string="Total">
+                                <field name="total" readonly="True"/>
+                            </group>
+                        </group>
+                            <notebook><page string="Detalles por empleado">
+                                <field name="fees_settlement_lines">
+                                    <tree>
+                                        <field name="employee_id"/>
+                                        <field name="incapacidades" sum="Total incapacidades"/>
+                                        <field name="ausencias" sum="Total ausencias"/>
+                                        <field name="cuota_fija" sum=" Total Cuota Fija"/>
+                                        <field name="exedente_3uma_patronal" sum="Total excedente 3 uma (Patronal)"/>
+                                        <field name="exedente_3uma_obrero" sum="Total excedente 3 uma (Obrero)"/>
+                                        <field name="pd_patronal" sum="Total prestaciones de dinero (Patronal)"/>
+                                        <field name="pd_obrero" sum="Total prestaciones de dinero (Obrero)"/>
+                                        <field name="gmp_patronal" sum="Total gastos medicos pensionados (Patronal)"/>
+                                        <field name="gmp_obrero" sum="Total gastos medicos pensionados (Obrero)"/>
+                                        <field name="riesgos_trabajo" sum="Total riesgos de trabajo"/>
+                                        <field name="iv_patronal" sum="Total Invalidez y vida (Patronal)"/>
+                                        <field name="iv_obrero" sum="Total Invalidez y vida (Obrero)"/>
+                                        <field name="guarderia_ps" sum="Total Guarderia y Prestaciones sociales"/>
+                                        <field name="sdi" sum="Total salario diario integral"/>
+                                        <field name="retiro" sum="Total Retiro"/>
+                                        <field name="cesantia_vejez_patronal" sum="Total CV (Patronal)"/>
+                                        <field name="cesantia_vejez_obrero" sum="Total CV (Obrero)"/>
+                                        <field name="aporte_patronal_sc" sum="Total salario diario integral"/>
+                                        <field name="aporte_patronal_cc" sum="Total salario diario integral"/>
+                                        <field name="aporte_patronal_sc" sum="Total aporte patronal sin credito"/>
+                                        <field name="aporte_patronal_cc" sum="Total aporte patronal con credito"/>
+                                        <field name="amortizacion" sum="Total amortización"/>
+                                        <field name="aporte_voluntario_sar" sum="Total Aporte SAR"/>
+                                        <field name="aporte_voluntario_infonavit" sum="Total Aporte Infonavit"/>
+                                        <field name="suma_patronal" sum="Total patronal"/>
+                                        <field name="suma_obrero" sum="Total obrero"/>
+                                    </tree>
+                                </field>
+                                </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_fees_settlement_tree_view" model="ir.ui.view">
+            <field name="name">payroll_mexico.hr_fees_settlement.tree</field>
+            <field name="model">hr.fees.settlement</field>
+            <field name="arch" type="xml">
+                <tree string="Liquidación de cuotas IMSS e Infonavit">
+                    <field name="name"/>
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="cuota_fija"/>
+                    <field name="exedente_3uma"/>
+                    <field name="maternidad"/>
+                </tree>
+            </field>
+        </record>
+
+<!--        <record id="hr_fees_settlement_search_view" model="ir.ui.view">-->
+<!--            <field name="name">payroll_mexico.hr_fees_settlement.search</field>-->
+<!--            <field name="model">hr.fees.settlement</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search string="ModelTitle">-->
+<!--                    <group expand="1" string="Group By">-->
+<!--                        <filter string="Example Field" name="example_field" domain="[]"-->
+<!--                                context="{'group_by':'example_field'}"/>-->
+<!--                    </group>-->
+<!--                </search>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="hr_fees_settlement_act_window" model="ir.actions.act_window">
+            <field name="name">Liquidaciones de cuotas IMSS e Infonavit</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.fees.settlement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new Liquidaciones de cuotas IMSS e Infonavit.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Liquidaciones de cuotas (IMSS)" id="hr_fees_settlement_menu" parent="hr_payroll.menu_hr_payroll_root" action="hr_fees_settlement_act_window"/>
+
+    </data>
+</odoo>

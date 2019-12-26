@@ -8,14 +8,12 @@
             <form string="Employee Change History">
                 <sheet>
                     <group>
-                        <field name="type" invisible="1"/>
                         <group>
                             <field name="employee_id" readonly="1"/>
                             <field name="contract_id" readonly="1"/>
                         </group>
                         <group>
-                            <field name="job_id" attrs="{'required' : [('type', '=', 'job')], 'invisible': [('type','!=', 'job')]}"/>
-                            <field name="wage" attrs="{'required' : [('type', '=', 'wage')], 'invisible': [('type','!=', 'wage')]}"/>
+                            <field name="wage"/>
                             <field name="date_from"/>
                         </group>
                     </group>

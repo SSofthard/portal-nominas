@@ -2,16 +2,16 @@
 <openerp>
     <data>
         
-        <record id="view_hr_payslip_run_export_excel" model="ir.ui.view">
-            <field name="name">Reporte de Nómina Excel</field>
-            <field name="model">hr.payslip.run.export.excel</field>
+        <record id="view_fees_settlement_report_txt" model="ir.ui.view">
+            <field name="name">Descargar txt de liquidación</field>
+            <field name="model">hr.fees.settlement.report.txt</field>
             <field name="arch" type="xml">
-                <form string="Descargar Reporte de Nómina Excel">
+                <form string="Descargar TXT liquicación">
                     <div class="alert alert-info text-center" role="alert" style="margin-bottom:0px;">
-                        Se generado el Reporte Excel correctamente, proceda a descargarlo.
+                        Se generado el reporte txt correctamente, proceda a descargarlo.
                     </div>
                     <group>
-                        <field name="excel_file" readonly="1" filename="file_name"/>
+                        <field name="txt_file" readonly="1" filename="file_name"/>
                         <field name="file_name" invisible="1"/>
                     </group>
                     <footer>
@@ -22,11 +22,11 @@
         </record>
         
         <record id="action_hr_payslip_run_export_excel" model="ir.actions.act_window">
-            <field name="name">Reporte de Nómina Excel</field>
-            <field name="view_id" ref="view_hr_payslip_run_export_excel"/>
+            <field name="name">Reporte txt de liquidación</field>
+            <field name="view_id" ref="view_fees_settlement_report_txt"/>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="res_model">hr.payslip.run.export.excel</field>
+            <field name="res_model">hr.fees.settlement.report.txt</field>
             <field name="target">new</field>
         </record>
 
