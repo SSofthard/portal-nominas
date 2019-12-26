@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <report id="report_fee_settlement"
+			  string="Resumen de Liquidación"
+			  model="hr.fees.settlement"
+			  report_type="qweb-html"
+			  name="payroll_mexico.hr_fees_settlement_template"
+			  file="payroll_mexico.hr_fees_settlement_template"
+              menu="True"
+			 />
+
+        <template id="hr_fees_settlement_template" name="Resumen de liquidación de cuotas">
+             <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page" style="font-size:10px">
+                        <div class="col-sm-12">
+                            <center><h5>Resumen de Liquidación</h5></center>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <table class="table">
+                                <tbody>
+                                    <tr>    
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Registro Patronal:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong><span t-field="o.employer_register_id"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>R.F.C.:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.company_id.rfc"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Nombre o Razón Social:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.company_id"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Folio SUA:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.name"/></strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                       <th colspan="2" class="text-left">
+                                            <strong>DESCRIPCIÓN</strong>
+                                        </th>
+                                       <th colspan="2" class="text-center">
+                                            <strong>IMPORTE</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" class="text-left" style="border: white 1px solid;">
+                                             <strong>Para abono en cuenta del IMSS: </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                           Cuota Fija:
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.cuota_fija"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Excedente:
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.exedente_3uma"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Prestaciones en Dinero:
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.prestaciones_en_dinero"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Gastos Médicos Pensionados:
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.gastos_medicos_pensionados"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Riesgos de Trabajo:
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.riesgo_trabajo"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Invalidez y Vida:
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.invalidez_vida"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Guarderías y Prestaciones Sociales:
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.gps"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            <strong>SUBTOTAL</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.subtotal_imss"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Actualización
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-esc="o.actualizacion_imss"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Recargos
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.recargos_imss"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-right" style="border: white 1px solid;">
+                                            <strong>TOTAL</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>------------------------ </strong>
+                                        </td>
+                                        <td class="text-center" style="border: white 1px solid;">
+                                            <strong><span t-field="o.total_imss"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="text-left" style="border: white 1px solid;">
+                                             <strong>Para abono en cuenta individual: </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                           Retiro:
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.retiro"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Cesantía en Edad Avanzada y Vejez:
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.cesantia"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            <strong>SUBTOTAL</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.subtotal_infonavit"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Actualización
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-esc="o.actualizacion_infonavit"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Recargos
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.recargos_infonavit"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Aportaciones Voluntarias
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.aportaciones_voluntarias"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Aportaciones Complementarias
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.aportaciones_complementarias"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-right" style="border: white 1px solid;">
+                                            <strong>TOTAL</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>------------------------ </strong>
+                                        </td>
+                                        <td class="text-center" style="border: white 1px solid;">
+                                            <strong><span t-field="o.total_infonavit"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="text-left" style="border: white 1px solid;">
+                                             <strong>Para abono en cuenta del INFONAVIT: </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                           Aportación Patronal sin crédito
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.aportacion_patronal_sc"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Aportación Patronal con crédito
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.aportacion_patronal_cc"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Amortización
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-field="o.amortizacion"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            <strong>SUBTOTAL</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.subtotal_aport_amort"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Actualización de Aportaciones y Amortizaciones
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-esc="o.act_aport_amort"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Recargos de Aportaciones y Amortizaciones
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.rec_aport_amort"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Multa
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.multa"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            Donativo FUNDEMEX
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-esc="o.fundemex"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-left" style="border: white 1px solid;">
+                                            <strong>Total acreditados</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>--------------- </strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-esc="len(o.fees_settlement_lines.filtered(lambda line: line.amortizacion>0))"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-right" style="border: white 1px solid;">
+                                            <strong>TOTAL</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>------------------------ </strong>
+                                        </td>
+                                        <td class="text-center" style="border: white 1px solid;">
+                                            <strong><span t-field="o.total_aport_amort"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-right" style="border: white 1px solid;">
+                                            <h6><strong>TOTAL</strong></h6>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>------------------------ </strong>
+                                        </td>
+                                        <td class="text-center" style="border: white 1px solid;">
+                                            <h6><strong><span t-field="o.total_aport_amort"/></strong></h6>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+<!--                            <t t-set="sum_subs_empleo" t-value="0"/>-->
+<!--                            <t t-set="sum_subs_isr" t-value="0"/>-->
+<!--                            <t t-set="sum_IMSS" t-value="0"/>-->
+<!--                            <t t-set="sum_otras_deducciones" t-value="0"/>-->
+<!--                            <t t-set="sum_total_percepciones" t-value="0"/>-->
+<!--                            <t t-set="sum_otras_percepciones" t-value="0"/>-->
+<!--                            <t t-set="sum_sueldo" t-value="0"/>-->
+<!--                            <t t-set="c" t-value="0"/>-->
+<!--                            <table class="table table-condensed">-->
+<!--                                <tbody>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Clave</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center" colspan="3">-->
+<!--                                            <strong>Nombre del Trabajador</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Dias Trabajados</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Sueldo</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Otras percepciones</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Total percepciones</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Neto pagado</strong>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Total en especie</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Salario por hora</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Total IMSS</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Horas por día</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Total ISR</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Subs. Empleo</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Otra Deduc</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Total Deduc</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Total Efectivo</strong>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>N.S.S</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>RFC</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>CURP</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Sal.Diario</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>S.D.I.</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>D. Jornada</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>F. Alta</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>Tipo salario</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <strong>U.T. Laboradas</strong>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <t t-foreach="o.slip_ids" t-as="payslip">-->
+<!--                                        <tr>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-field="payslip.employee_id.enrollment"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center" colspan="3">-->
+<!--                                            <span t-esc="payslip.employee_id.name_get()[0][1]"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-field="payslip.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100').number_of_days"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <t t-set="sum_sueldo" t-value="sum_sueldo + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code == 'P001').mapped('total'))"/>-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code == 'P001').mapped('total'))-->
+<!--"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <t t-set="sum_otras_percepciones" t-value="sum_otras_percepciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code != 'P001').mapped('total'))"/>-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code != 'P001').mapped('total'))"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <t t-set="sum_total_percepciones" t-value="sum_total_percepciones + payslip.line_ids.filtered(lambda line: line.code == 'P195').total"/>-->
+<!--                                            <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'P195').total"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                               <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'T001').total"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                         <t t-set="WORK100" t-value="payslip.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100')"/>-->
+<!--                                         <t t-set="WORKHOUR" t-value="WORK100.number_of_hours/WORK100.number_of_days"/>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-esc="payslip.line_ids.filtered(lambda line: line.code == 'T001').total if o.pay_type == '1' else 0"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI002').total/WORKHOUR"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <t t-set="sum_IMSS" t-value="sum_IMSS+payslip.line_ids.filtered(lambda line: line.code == 'D002').total or 0"/>-->
+<!--                                           <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.code == 'D002').total or 0"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-esc="WORKHOUR"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <t t-set="sum_subs_isr" t-value="sum_subs_isr+payslip.line_ids.filtered(lambda line: line.code == 'UI105').total"/>-->
+<!--                                            <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'UI105').total"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <t t-set="sum_subs_empleo" t-value="sum_subs_empleo+payslip.line_ids.filtered(lambda line: line.code == 'P105').total"/>-->
+<!--                                            <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'P105').total"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <t t-set="sum_otras_deducciones" t-value="sum_otras_deducciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.code == '103').mapped('total'))"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.code == 'T001').total if o.pay_type == '0' else 0"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-field="payslip.employee_id.ssnid"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-field="payslip.employee_id.rfc"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-field="payslip.employee_id.curp"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                             <span t-field="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI002').total"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-field="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI003').total"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-field="payslip.employee_id.working_day_week"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--&lt;!&ndash;-->
+<!--                                            <span t-field="payslip.contract_id.previous_contract_date or payslip.contract_id.date_start"/>-->
+<!--&ndash;&gt;-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-field="payslip.employee_id.salary_type"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-field="payslip.contract_id.resource_calendar_id.turno"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    </t>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+                        </div>
+                        </div>
+<!--                        <div style="display:block;page-break-before:always;"/>-->
+<!--                        <div class="page" style="font-size:10px;">-->
+<!--                            <table class="table">-->
+<!--                                <tbody>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <strong>Registro Patronal:</strong>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-right" style="border: white 1px solid;">-->
+<!--                                            <strong>RFC:</strong>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                            <center><h5>Reporte de Nómina</h5></center>-->
+<!--                            <table class="table">-->
+<!--                                <tbody>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <strong>Nómina: </strong><span t-field="o.name"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            <strong>Clasificación: </strong>??????-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <strong>Rango de departamentos: </strong>?????-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <strong>Periodo de pago: </strong> Del <span t-field="o.date_start"/> al <span t-field="o.date_end"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <strong>Periodicidad: </strong> <span t-field="o.payroll_period"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                            <center><h6>Percepciones</h6></center>-->
+<!--                            <table class="table table-condensed">-->
+<!--                                <tbody>-->
+<!--                                    <t t-set="total_perceptions" t-value="0"/>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             P001-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            SUELDOS-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_sueldo"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             &#45;&#45;-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            OTRAS PERCEPCIONES-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_otras_percepciones"/>-->
+<!--                                        </td>-->
+<!--                                        <t t-set="total_perceptions" t-value="sum_sueldo+sum_otras_percepciones"/>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td colspan="2" class="text-right" style="border: white 1px solid;">-->
+<!--                                             Total percepciones-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="total_perceptions"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                            <center><h6>Deducciones</h6></center>-->
+<!--                            <table class="table table-condensed">-->
+<!--                                <tbody>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             D001-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            ISR-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_isr"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             D002-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            IMSS-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_IMSS"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             D100-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            SUBSIDIO PARA EL EMPLEO-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_empleo"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             &#45;&#45;-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            OTRAS DEDUCCIONES-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_otras_deducciones"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td colspan="2" class="text-right" style="border: white 1px solid;">-->
+<!--                                             Total deducciones-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_isr+sum_subs_isr+sum_IMSS+sum_otras_deducciones"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                            <center><h6>Totales</h6></center>-->
+<!--                            <table class="table table-condensed">-->
+<!--                                <tbody>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             Total efectivo-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '0' else 0"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             Neto Pagado-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total'))"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                        <tr>-->
+<!--                                         <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             Total gravable-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.salary_rule_id.payroll_tax).mapped('total'))"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                         <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             Subs. Empleo-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'P105').mapped('total'))"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                         <td class="text-right" style="border: white 1px solid;">-->
+<!--                                             Total en especie-->
+<!--                                        </td>-->
+<!--                                        <td class="text-left" style="border: white 1px solid;">-->
+<!--                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '1' else 0"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                            <p>Las percepciones marcadas con * se pagan en especie. </p>-->
+<!--                            <p>EL NETO PAGADO incluye el total en efectivo y el total en especie.</p>-->
+<!--                        </div>-->
+                    </t>
+                </t>
+            </t>
+
+
+        </template>
+    
+   </data>
+</odoo>
