@@ -14,12 +14,6 @@ class reportHrFeeSettlement(models.TransientModel):
     @api.multi
     def _get_report_values(self, docids, data=None):
         docs = self.env['hr.fees.settlement'].search([('id','in',docids)])
-        print (docids)
-        print (docids)
-        print (docids)
-        print (docs)
-        print (docs)
-        print (docs)
         return {
             'doc_ids': docids,
             'doc_model': 'hr.contract',

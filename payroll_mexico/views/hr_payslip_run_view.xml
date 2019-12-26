@@ -9,6 +9,7 @@
                 <search string="Employee Change History">
                     <field name="work_center_id" string="Centro de trabajo"/>
                     <field name="payslip_run_id" string="Nomina"/>
+<!--                    <filter name="payslip_run" string="Nomina" domain="[('payslip_run_id', '=', payslip_run_id)]"/>-->
                 </search>
             </field>
         </record>
@@ -18,7 +19,7 @@
             <field name="model">hr.payroll.tax.details</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="payslip_run_id" invisible="1"/>
+                    <field name="payslip_run_id" invisible="0"/>
                     <field name="work_center_id"/>
                     <field name="amount_untaxed"/>
                     <field name="amount_tax"/>
@@ -30,9 +31,10 @@
             <field name="name">Detalles de Impuestos</field>
             <field name="res_model">hr.payroll.tax.details</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,kanban,form</field>
-            <field name="view_id" ref="hr_payroll_tax_details_view_tree"/>
+            <field name="view_mode">tree</field>
             <field name="search_view_id" ref="view_hr_payroll_tax_details_filter"/>
+            <field name="view_id" ref="hr_payroll_tax_details_view_tree"/>
+            <field name="context">	{'default_payslip_run_id': active_id, 'search_default_payslip_run_id': active_id}</field>
         </record>
 
         <record model="ir.ui.view" id="view_hr_payslip_run_mexico_form">
@@ -56,11 +58,13 @@
                 </xpath>
                 <xpath expr="//field[@name='name']" position="before">
                     <div class="oe_button_box" name="button_box">
-                        <button name="%(payroll_mexico.action_hr_payroll_tax_details_tree)d"
+                        <button name="%(action_hr_payroll_tax_details_tree)d"
                                 string="Detalles de impuestos"
                                 icon="fa-money"
                                 type="action"
-                                class="oe_stat_button"/>
+                                class="oe_stat_button"
+                                context="{'default_payslip_run_id':id}"
+                        />
                         <button name="action_view_payslip"
                             class="oe_stat_button"
                             icon="fa-money"
