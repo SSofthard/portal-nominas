@@ -103,7 +103,7 @@ class HolidaysRequest(models.Model):
     inhability_classification_id = fields.Many2one('hr.leave.classification', "Classification")
     inhability_category_id = fields.Many2one('hr.leave.category', "Category")
     inhability_subcategory_id = fields.Many2one('hr.leave.subcategory', "Subcategory")
-    folio = fields.Char('Folio', required=True)
+    folio = fields.Char('Folio')
 
     @api.multi
     @api.onchange('type_inhability_id')
