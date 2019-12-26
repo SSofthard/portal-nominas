@@ -18,10 +18,10 @@
             <field name="model">hr.payroll.tax.details</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="payslip_run_id" invisible="1"/>
                     <field name="work_center_id"/>
                     <field name="amount_untaxed"/>
                     <field name="amount_tax"/>
-                    <field name="payslip_run_id"/>
                 </tree>
             </field>
         </record>
