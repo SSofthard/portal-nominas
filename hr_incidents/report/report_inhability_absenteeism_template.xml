@@ -12,7 +12,7 @@
         <template id="inhability_absenteeism_report_view">
              <t t-call="web.html_container">
                 <t t-call="web.internal_layout">
-                    <div style="border-bottom: 2px solid black">
+                    <div style="border-bottom: 1px solid black">
                         <h4 class="text-center">Reporte de Incapacidades y Ausentismos</h4>
                         <h5 class="text-center">
                             <strong>De</strong>:
@@ -22,25 +22,29 @@
                         </h5>
                     </div>
                     <div class="page">
-                        <div>
-                            <t t-if="leaves_data['employer_register_id']">
-                                <strong>Registro patronal</strong>:
-                                <t t-esc="leaves_data['employer_register_id']"/>
-                            </t>
-                            <t t-if="leaves_data['company']" class="text-center">
-                                <strong>Razón Social</strong>:
-                                <t t-esc="leaves_data['company']"/>
-                            </t>
-                            <t t-if="leaves_data['rfc']" class="text-rigth">
-                                <strong>R.F.C.</strong>:
-                                <t t-esc="leaves_data['rfc']"/>
-                            </t>
+                    <table class="table-sm" border="0" style="width:100%; font-size:9px; border-bottom: 1px solid black;" >
+                            <tr>
+                                <t t-if="leaves_data['employer_register_id']">
+                                    <td><strong>Registro patronal</strong>: </td>
+                                    <td class="text-left"><t t-esc="leaves_data['employer_register_id']"/></td>
+                                    
+                                </t>
+                                <t t-if="leaves_data['company']" class="text-center">
+                                    
+                                    <td><strong>Razón Social</strong>: </td>
+                                    <td class="text-left"><t t-esc="leaves_data['company']"/></td>
+                                </t>
+                                <t t-if="leaves_data['rfc']" class="text-rigth">
+                                    <td><strong>R.F.C.</strong>: </td>
+                                    <td class="text-left"><t t-esc="leaves_data['rfc']"/></td>
+                                </t>
+                            </tr>
                             
-                        </div>
+                        </table>
                             
-                        <table class="table table-sm o_main_table" style="font-size:8px;">
+                        <table class="table-sm" border="0" style="width:100%; font-size:8px;">
                             <thead>
-                                <tr>
+                                <tr style="border-top: 0px;">
                                     <th class="text-left">Matrícula del trabajador</th>
                                     <th class="text-left">N.S.S.</th>
                                     <th class="text-left">Nombre</th>
@@ -48,7 +52,7 @@
                                     <th class="text-left">CURP</th>
                                     <th class="text-left">Fecha de Ingreso</th>
                                 </tr>
-                                <tr>
+                                <tr class="border-black"  style="border-bottom: 1px solid black;">
                                     <th class="text-center">Tipo de Incidencia</th>
                                     <th class="text-center">Folio</th>
                                     <th class="text-center">Duración</th>
