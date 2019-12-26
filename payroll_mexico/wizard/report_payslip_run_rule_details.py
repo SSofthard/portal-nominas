@@ -9,8 +9,9 @@ class PayslipRunRuleDetails(models.TransientModel):
     _description = "Detalles de las reglas de negocio"
 
     #Columns
-    payslip_run_id = fields.Many2one('hr.payslip.run', index=True, string='Nomina')
+    payslip_run_id = fields.Many2one('hr.payslip.run', index=True, string='Nómina')
     rule_id = fields.Many2one('hr.salary.rule', index=True,  required=True, string='Regla de negocio')
+    # ~ employee_id = fields.Many2one('hr.employee', index=True,  required=True, string='Empleado')
 
     @api.multi
     @api.onchange('payslip_run_id')

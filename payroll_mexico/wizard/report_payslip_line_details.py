@@ -21,8 +21,8 @@ from odoo.exceptions import ValidationError, AccessError
 
 
 class PayslipLineDetails(models.TransientModel):
-    _name = "hr.payslip.line.details"
-    _description = "Detalles de las reglas de negocio"
+    _name = 'hr.payslip.line.details'
+    _description = 'Detalles de las reglas de negocio'
 
     #Columns
     date_from = fields.Date(
@@ -31,14 +31,15 @@ class PayslipLineDetails(models.TransientModel):
     date_to = fields.Date(
         'End Date', index=True, copy=False, required=True,
         default=date.today())
-    employee_id = fields.Many2one('hr.employee', "Employee")
+    employee_id = fields.Many2one('hr.employee', 'Employee')
     contracting_regime = fields.Selection([
         ('1', 'Assimilated to wages'),
         ('2', 'Wages and salaries'),
         ('3', 'Senior citizens'),
         ('4', 'Pensioners'),
         ('5', 'Free'),
-        ], string='Contracting Regime', default="2")
+        ], string='Contracting Regime', default='2')
+    rule_id = fields.Many2one('hr.salary.rule', index=True,  required=True, string='Regla de negocio')
 
     @api.multi
     def report_print(self, data):
@@ -51,6 +52,8 @@ class PayslipLineDetails(models.TransientModel):
             domain += [('employee_id','=',self.employee_id.id)]
         if self.contracting_regime:
             domain += [('slip_id.contract_id.contracting_regime','=',self.contracting_regime)]
+        if self.rule_id:
+            domain += [('salary_rule_id','=',self.rule_id.id)]
         line_ids = self.env['hr.payslip.line'].search(domain)
         if not line_ids:
             raise ValidationError(_('No se encontraron resultados, para los parámetros dados.'))

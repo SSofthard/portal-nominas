@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <report 
+            id="action_report_payroll_sumary"
+            string="Resumén de la Nómina"
+            model="hr.payslip" 
+            report_type="qweb-html"
+            file="payroll_mexico.report_payroll_sumary_template" 
+            name="payroll_mexico.report_payroll_sumary_template"
+            print_report_name="'Nómina_del_%s_%s' % (object.payroll_month, object.year)"
+        />
+
+        <template id="report_payroll_sumary_template">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div class="page" style="border: 2px solid black; font-size:10px;">
+                        <div style="margin-left: 10px; margin-top: 20px;">
+                            <div>
+                                <strong>
+                                    <span class="text-left">NÓMINA DEL MES DE</span>
+                                    <t t-esc="lines_data['payroll_month'].upper()"/>
+                                </strong>
+                            </div>
+                            <div style="color: #4F81BD;">
+                                <strong>
+                                    <span class="text-left"> NOMBRE</span>
+                                </strong>
+                            </div>
+                            <br/>
+                            <table class="table-sm" border="0" style="width:100%;">
+                                <thead>
+                                    <tr style="font-style: italic;">
+                                        <th style="color: #FFFFFF;" class="text-left">space</th>
+                                        <th class="text-left">SUELDOS Y SALARIOS</th>
+                                        <th class="text-left">IAS</th>
+                                        <th class="text-left">TOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="text-left">Sueldo Base (Informativo)</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['base_ss']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['base_ias']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['base_total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <th style="text-decoration: underline;">
+                                            <span class="text-left">FACTURACIÓN</span>
+                                        </th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <br/>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="text-left">Neto a percibir</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['neto_ss']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['neto_ias']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['neto_total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="text-left">(+) Impuesto Sobre Nóminas</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['isn_ss']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['isn_ias']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['isn_total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="text-left">(+) IMSS, RCV E INFONAVIT</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['imss_rcv_infonavit_ss']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['imss_rcv_infonavit_ias']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['imss_rcv_infonavit_total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="text-left">(+) Retención ISR</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['isr_ss']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['isr_ias']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['isr_total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="text-left">(+) Honorarios</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="text-left">(+) ????</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="text-left">(+) ????</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="text-left">(+) ????</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="text-left">(+) Otras Deducciones</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['isr_ss']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['isr_ias']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="lines_data['isr_total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+                                <div id="total" class="row" name="total">
+                                    <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                        <table class="table table-sm">
+                                            <tr class="border-black o_total" style="font-size:10px;">
+                                                <td><strong>Total</strong>: </td>
+    <!--
+                                                <td class="text-right">
+                                                    <t t-esc="lines_data['total']"
+                                                        t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                                </td>
+    -->
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>    
+             </t>
+        </template>
+        
+        
+    </data>
+</odoo>

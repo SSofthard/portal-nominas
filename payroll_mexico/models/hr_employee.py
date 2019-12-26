@@ -40,9 +40,10 @@ class Employee(models.Model):
     def name_get(self):
         result = []
         for employee in self:
-            name = '%s %s %s' %(employee.name.upper(), employee.last_name.upper() \
-                if employee.last_name else '', employee.mothers_last_name.upper() \
-                if employee.mothers_last_name else '')
+            name = '%s %s %s' %(
+                employee.name.upper() if employee.name else '', 
+                employee.last_name.upper() if employee.last_name else '', 
+                employee.mothers_last_name.upper() if employee.mothers_last_name else '')
             result.append((employee.id, name))
         return result
 
