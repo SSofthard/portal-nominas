@@ -5,15 +5,15 @@
         <field name="name">hr.employee.affiliate.movements.form.view</field>
         <field name="model">hr.employee.affiliate.movements</field>
         <field name="arch" type="xml">
-            <form string="Employee affiliate movements" edit="false" create="false" delete="false">
+            <form string="Employee affiliate movements" edit="false" create="false">
 				<header>
                         <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
                     </header>
                 <sheet>
                     <group>
-                        <field name="type" />
-                        <field name="date" />
                         <group>
+							 <field name="type" />
+							<field name="date" />
                             <field name="employee_id" readonly="1"/>
                             <field name="contract_id" readonly="1"/>
                         </group>
@@ -34,7 +34,7 @@
         <field name="model">hr.employee.affiliate.movements</field>
         <field name="priority">2</field>
         <field name="arch" type="xml">
-            <tree string="Employee affiliate movements" edit="false" create="false" delete="false">
+            <tree string="Employee affiliate movements" edit="false" create="false">
                 <field name="employee_id"/>
                 <field name="contract_id"/>
                 <field name="type"/>

@@ -35,7 +35,6 @@ class EmployeeAffiliateMovements(models.Model):
         ('draft', 'Draft'),
         ('generated', 'Generated'),
         ('approved', 'Approved'),
-        ('rejected', 'Rejected'),
     ], string='State', default = 'draft')
 
 class Contract(models.Model):
