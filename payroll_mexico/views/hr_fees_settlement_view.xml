@@ -20,18 +20,20 @@
                                 <field name="name"/>
                             </h1>
                         </div>
-                        <group>
-                            <group col="2" string="Datos generales">
+                        <group string="Datos generales">
+                            <group>
                                 <field name="group_id"/>
                                 <field name="employer_register_id"/>
                             </group>
-                            <group col="2" string="Datos generales">
+                            <group>
                                 <field name="year"/>
                                 <field name="month"/>
                                 <field name="payment_type"/>
                                 <field name="payment_date" attrs="{'readonly':[('payment_type','=','1')]}"/>
                                 <field name="regulatory_payment_date"/>
                             </group>
+                        </group>
+                        <group>
                             <group string="Para abono en cuenta del IMSS">
                                 <field name="cuota_fija"/>
                                 <field name="exedente_3uma"/>

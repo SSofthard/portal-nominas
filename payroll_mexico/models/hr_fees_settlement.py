@@ -114,6 +114,15 @@ class HrFeeSettlement(models.Model):
         if self.payment_date:
             index_document=self.env['hr.table.index.consume.price'].search([('year','=',self.year),('month','=',self.month)]).value
             index_payment=self.env['hr.table.index.consume.price'].search([('year','=',self.payment_date.year),('month','=',self.payment_date.month)]).value
+            if not index_document:
+                raise UserError('''No se encontraron valores en la tabla de indice nacional de precios al consumidor para el periodo que se desea calcular.
+                                    Por favor cargue los indices correspondientes al mes %s - %s.
+                ''' % (self.month, self.year))
+            if not index_payment:
+                raise UserError(
+                   '''No se encontraron valores en la tabla de indice nacional de precios al consumidor para el mes de pago indicado.
+                      Por favor cargue los indices correspondientes al mes %s - %s.  
+                   ''' % (dict(self._fields['month']._description_selection(self.env)).get(self.payment_date.month), self.payment_date.year))
             self.index_update = index_payment/index_document if self.payment_type == '2' else 1
 
 
