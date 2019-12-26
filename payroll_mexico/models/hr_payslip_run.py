@@ -82,6 +82,7 @@ class HrPayslipRun(models.Model):
     pay_bonus = fields.Boolean('Pay bonus?')
     pay_type = fields.Selection([('0','Efectivo'),('1','Especie')], string='Tipo de pago', default='0')
     tax_detail_lines = fields.One2many(inverse_name='payslip_run_id', comodel_name='hr.payroll.tax.details', string='Detalles de impuestos')
+    employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False, readonly=True)
 
     def print_payslip_run_details(self):
         '''

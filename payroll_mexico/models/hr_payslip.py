@@ -67,6 +67,7 @@ class HrPayslip(models.Model):
     move_infonacot_id = fields.Many2one('hr.credit.employee.account', string="FONACOT Move")
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
+    employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
     # ~ integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
 
     @api.depends('subtotal_amount_untaxed')
