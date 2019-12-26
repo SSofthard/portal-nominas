@@ -60,6 +60,8 @@
         'report/infonavit_employee_report.xml',
         'report/report_employee.xml',
         'report/employee_history_report.xml',
+        'report/infonavit_employee_amount_report.xml',
+        'report/fee_settlement_report.xml',
         'report/report_employee_catalogs.xml',
         'report/report_payroll_summary_template.xml',
         'data/data.xml',

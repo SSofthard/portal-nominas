@@ -23,6 +23,7 @@
                         <group>
                             <group col="2" string="Datos generales">
                                 <field name="group_id"/>
+                                <field name="employer_register_id"/>
                             </group>
                             <group col="2" string="Datos generales">
                                 <field name="year"/>

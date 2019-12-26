@@ -687,11 +687,6 @@ class hrInfonavitCreditLine(models.Model):
     def action_active(self):
         for credit in self:
             infonavit = self.search([('employee_id', '=', self.employee_id.id),('state', '=', 'active')])
-            print (infonavit)
-            print (infonavit)
-            print (infonavit)
-            print (infonavit)
-            print (infonavit)
             if not infonavit:
                 credit.state = 'active'
                 self._set_to_history(date=credit.date, move_type='high_credit')
@@ -723,6 +718,13 @@ class hrInfonavitCreditLine(models.Model):
             'infonavit_id':self.id,
             }
         self.env['hr.infonavit.credit.history'].create(vals)
+    
+    @api.multi
+    def write(self, vals):
+        if vals.get('date'):
+            infonavit_history = self.env['hr.infonavit.credit.history'].search([('move_type','=','high_credit'),('infonavit_id','=',self.id)])
+            infonavit_history.date = vals['date']
+        return super(hrInfonavitCreditLine, self).write(vals)
 
 
             
