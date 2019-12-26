@@ -5,7 +5,7 @@
         <field name="name">hr.employee.affiliate.move.view.tree</field>
         <field name="model">hr.employee.affiliate.move</field>
         <field name="arch" type="xml">
-            <tree decoration-info="state == 'draft'" decoration-success="state == 'open'" decoration-primary="state == 'done'" decoration-muted="state == 'cancel'">
+            <tree decoration-success="state == 'open'">
                 <field name="employer_register_id"/>
                 <field name="type_move"/>
                 <field name="date_from"/>
@@ -22,11 +22,17 @@
         <field name="arch" type="xml">
             <form string="Movimientos Afiliatorios">
                 <header>
-                    <button name="action_move_open" states="draft" string="Validar" type="object"/>
+                    <button name="action_move_open" states="draft" string="Validar" type="object" 
+                        confirm="Se aprobaran todos los movimientos afiliatorios seleccionados, luego de esto no se podrá modificar éste registro."/>
                     <button name="action_print_txt" states="open" string="Generar TXT" type="object"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open" />
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+                            <field string="Documentos" name="document_count" widget="statinfo"/>
+                        </button>
+                    </div>
                     <group>
                         <group>
                             <field name="employer_register_id" options="{'no_create': True, 'no_open': True}"/>
@@ -37,6 +43,12 @@
                             <field name="date_to"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page name="movements" string="Movimientos Afiliatorios">
+                            <newline/>
+                            <field name="movements_ids" nolabel="1"/>
+                        </page>
+                    </notebook>
                 </sheet>
            </form>
         </field>
@@ -52,18 +64,9 @@
     </record>
 
     <menuitem
-        name="Movimientos Afiliatorios"
-        id="hr_employee_affiliate_move_root"
-        action="action_hr_employee_affiliate_move2"
-        parent="hr.menu_hr_root"
-        sequence="90"
-    />
-<!--
-    <menuitem
-        name="Movimientos Afiliatorios"
+        name="Generar Movimientos Afiliatorios"
         id="menu_action_hr_employee_affiliate_move"
-        action="action_hr_employee_affiliate_move"
-        parent="hr_employee_affiliate_move_root"/>
--->
+        action="action_hr_employee_affiliate_move2"
+        parent="payroll_mexico.menu_hr_employee_affiliate_movements_root"/>
 
 </odoo>

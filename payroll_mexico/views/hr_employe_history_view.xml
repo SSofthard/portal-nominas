@@ -34,7 +34,7 @@
         <field name="model">hr.employee.affiliate.movements</field>
         <field name="priority">2</field>
         <field name="arch" type="xml">
-            <tree string="Employee affiliate movements" edit="false" create="false" delete="false">
+            <tree string="Employee affiliate movements">
                 <field name="employee_id"/>
                 <field name="contract_id"/>
                 <field name="type"/>
@@ -51,11 +51,16 @@
     </record>
     
     <menuitem
-            id="menu_hr_employee_affiliate_movements"
-            name="Affiliate movements"
-            action="employee_hr_employee_affiliate_movements_action"
-            parent="hr.menu_hr_root"
-            sequence="90"/>
+        id="menu_hr_employee_affiliate_movements_root"
+        name="Affiliate movements"
+        parent="hr.menu_hr_root"
+        sequence="90"/>
+    <menuitem
+        id="menu_hr_employee_affiliate_movements"
+        name="Affiliate movements"
+        action="employee_hr_employee_affiliate_movements_action"
+        parent="menu_hr_employee_affiliate_movements_root"
+        sequence="5"/>
     
     
     

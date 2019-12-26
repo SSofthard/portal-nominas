@@ -16,6 +16,21 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_incidents
+#: model:ir.ui.menu,name:hr_incidents.menu_hr_holidays_approvals
+msgid "Leaves"
+msgstr "Ausencias"
+
+#. module: hr_holidays
+#: model:ir.ui.menu,name:hr_holidays.menu_hr_holidays_approvals
+msgid "Leaves"
+msgstr "Ausencias"
+
+#. module: hr_holidays
+#: model:ir.model.fields,field_description:hr_holidays.field_hr_leave_allocation__number_of_days_display
+msgid "Duration (days)"
+msgstr "Duración (días)"
+
+#. module: hr_incidents
 #: model:ir.model.fields,help:hr_incidents.field_hr_leave_type__allocation_type
 msgid "	Corregido por HR: asignado por HR y no se puede omitir; los usuarios pueden solicitar hojas;	Solucionado por solicitud de asignación de recursos humanos +: asignado por recursos humanos y los usuarios pueden solicitar permisos y asignaciones;	Sin asignación: sin asignación por defecto, los usuarios pueden solicitar permisos libremente;"
 msgstr ""
