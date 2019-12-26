@@ -11,4 +11,5 @@ from . import wizard_employee_history
 from . import infonavit_history
 from . import fees_settlement_report_txt
 from . import report_payroll_summary
+from . import wizard_affiliate_move
 

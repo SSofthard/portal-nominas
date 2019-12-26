@@ -37,6 +37,16 @@ class EmployeeAffiliateMovements(models.Model):
         ('approved', 'Approved'),
     ], string='State', default = 'draft')
 
+    @api.multi
+    def unlink(self):
+        for movements in self:
+            print ('movements')
+            print ('movements')
+            print (movements)
+            print ('movements')
+            print ('movements')
+
+
 class Contract(models.Model):
     _inherit = 'hr.contract'
     
