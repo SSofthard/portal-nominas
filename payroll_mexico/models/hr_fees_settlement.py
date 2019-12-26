@@ -4,6 +4,7 @@ from datetime import datetime
 from pytz import timezone
 import io
 import base64
+import calendar
 
 
 import babel
@@ -19,7 +20,7 @@ class HrFeeSettlement(models.Model):
 
     #Columns
     name = fields.Char(string='Name')
-    year = fields.Integer(string='Periodo (Año)', size=4)
+    year = fields.Integer(string='Periodo (Año)', size=4, default=lambda self :fields.Date.context_today(self).year)
     month = fields.Selection([
         (1,'Enero'),
         (2,'Febrero'),
@@ -62,8 +63,6 @@ class HrFeeSettlement(models.Model):
     total_aport_amort = fields.Float(string='Total', readonly=True, required=False,)
     multa = fields.Float(string='Multa', readonly=False, required=False,)
     fundemex = fields.Float(string='Donativo FUNDEMEX', readonly=False, required=False,)
-    date_start = fields.Date('Desde')
-    date_end = fields.Date('Hasta')
     group_id = fields.Many2one(comodel_name='hr.group', string='Grupo / Empresa')
     contracting_regime = fields.Selection([
         ('1', 'Assimilated to wages'),
@@ -82,7 +81,7 @@ class HrFeeSettlement(models.Model):
     subtotal = fields.Float(string='Total')
     total = fields.Float(string='Total a pagar')
     amount_total_update = fields.Float(string='Total a pagar')
-    percentage_mothly = fields.Float(string='Porcentaje mensual %', default=0.0147)
+    percentage_mothly = fields.Float(string='Porcentaje mensual %', default=1.47)
     percentage_total = fields.Float(string='Porcentaje total %')
     surcharge_amount = fields.Float(string='Monto de recargo')
 
@@ -146,14 +145,17 @@ class HrFeeSettlement(models.Model):
             self.percentage_total = self.percentage_mothly * interes_range
         else:
             self.percentage_total = 0.0
+        date_start = date(self.year, self.month, 1)
+        last_day = calendar.monthrange(self.year,self.month)[1]
+        date_end = date(self.year,self.month,last_day)
         payslip_run_rcv_ids = False
         payslip_run_ids = self.env['hr.payslip.run'].search(
-            [('date_start', '>=', self.date_start), ('date_end', '<=', self.date_end),('contracting_regime', '=', 2)])
+            [('date_start', '>=', date_start), ('date_end', '<=', date_end),('contracting_regime', '=', 2)])
         employee_ids = payslip_run_ids.mapped('slip_ids.employee_id')
         if self.month % 2 == 0:
             date_start = date(self.year,self.month-1,1)
             payslip_run_rcv_ids = self.env['hr.payslip.run'].search(
-                [('date_start', '>=', date_start), ('date_end', '<=', self.date_end),
+                [('date_start', '>=', date_start), ('date_end', '<=', date_end),
                  ('contracting_regime', '=', 2)])
             employee_ids = employee_ids | payslip_run_rcv_ids.mapped('slip_ids.employee_id')
             print (employee_ids)
@@ -246,7 +248,7 @@ class HrFeeSettlement(models.Model):
         print ('imprimir txt')
         print ('imprimir txt')
         print ('imprimir txt')
-        f_name = 'Liquidacion de cuotas IMSS: Del %s al %s' % (self.date_start, self.date_end)
+        f_name = 'Liquidacion de cuotas IMSS: %s - %s' % (self.month, self.year)
         content = 'prueba\tprueba\n'
         print (type(content))
         data = base64.encodebytes(bytes(content, 'utf-8'))
@@ -326,8 +328,6 @@ class HrFeeSettlementDetails(models.Model):
     amortizacion = fields.Float(string='Amortización', readonly=True, required=False, )
     aporte_voluntario_sar = fields.Float(string='Aporte Voluntario', readonly=True, required=False, )
     aporte_voluntario_infonavit = fields.Float(string='Aporte Voluntario Infonavit', readonly=True, required=False, )
-    date_start = fields.Date('Start Date', related='sheet_settlement_id.date_start')
-    date_end = fields.Date('End Date', related='sheet_settlement_id.date_end')
     sheet_settlement_id = fields.Many2one(comodel_name='hr.fees.settlement', string='Liquidación de cuotas')
 
     @api.multi
