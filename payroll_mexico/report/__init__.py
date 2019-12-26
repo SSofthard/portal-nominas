@@ -6,4 +6,5 @@ from . import expired_contracts
 from . import employee_catalogs
 from . import infonavit_employee
 from . import employee_history
+from . import infonavit_employee_amount
 from . import fee_settlement_report

@@ -22,7 +22,8 @@ class GenerateRfcCompany(BaseGenerator):
         rfc = self.partial_data
         hc = self.homoclave(self.partial_data, complete_name)
         rfc += '%s' % hc
-        rfc += self.verification_number(rfc)
+        rfc += self.calc_check_digit(rfc)
+        # ~ rfc += self.verification_number(rfc)
         return rfc
     
     def remove_accents(self, s):
@@ -33,7 +34,15 @@ class GenerateRfcCompany(BaseGenerator):
                     if unicodedata.category(c) != 'Mn':
                         s = ''.join(s)
         return s
-
+     
+    _alphabet = u'0123456789ABCDEFGHIJKLMN&OPQRSTUVWXYZ Ñ'   
+     
+    def calc_check_digit(self,number):
+        number = ('   ' + number)[-12:]
+        check = sum(self._alphabet.index(n) * (13 - i) for i, n in enumerate(number))
+        return self._alphabet[(11 - check) % 11]   
+    
+    
     def homoclave(self, rfc, complete_name):
         nombre_numero = '0'
         summary = 0 
@@ -77,7 +86,6 @@ class GenerateRfcCompany(BaseGenerator):
         suma_numero = 0 
         suma_parcial = 0
         digito = None 
-        print (len(rfc))
 
         rfc3 = {
             'A':10, 'B':11, 'C':12, 'D':13, 'E':14, 'F':15, 'G':16, 'H':17, 'I':18,
@@ -93,17 +101,8 @@ class GenerateRfcCompany(BaseGenerator):
                 suma_numero = rfc3[letra if letra not in ('ñ','Ñ') else 'X']
                 suma_parcial += (suma_numero*(14-(count+1)))
 
-        print ('suma_numero')
-        print (suma_numero)
-        print ('suma_parcial')
-        print (suma_parcial)
         modulo = suma_parcial % 11
-        print ('modulo')
-        print (modulo)
         digito_parcial = (11-modulo)
-        print ('digito_parcial')
-        print ('digito_parcial')
-        print (digito_parcial)
         
         if modulo == 0:
             digito = '0'
@@ -112,7 +111,6 @@ class GenerateRfcCompany(BaseGenerator):
         else:
             digito = str(digito_parcial)
 
-        print (digito)
         return  digito
 
     def rfc_set(self, a, b):
@@ -151,7 +149,6 @@ class GenerateNSS(BaseGenerator):
             if birth_date <= year: 
                 birth_date += 100
             if birth_date  >  high_date:
-                print('Error: Se dio de alta antes de nacer.')
                 return False
         return self._is_luhn_valid()
 
@@ -175,9 +172,6 @@ class GenericGeneration(object):
     _data = {}
 
     def __init__(self, **kwargs):
-        print (kwargs)
-        print (kwargs)
-        print (kwargs)
         self._datos = kwargs
 
     @property
