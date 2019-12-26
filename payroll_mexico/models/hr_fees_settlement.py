@@ -20,6 +20,7 @@ class HrFeeSettlement(models.Model):
 
     #Columns
     name = fields.Char(string='Name')
+    employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal")
     year = fields.Integer(string='Periodo (Año)', size=4, default=lambda self :fields.Date.context_today(self).year)
     month = fields.Selection([
         (1,'Enero'),

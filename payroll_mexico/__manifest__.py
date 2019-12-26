@@ -58,6 +58,7 @@
         'report/report_employee.xml',
         'report/employee_history_report.xml',
         'report/report_employee_catalogs .xml',
+        'report/fee_settlement_report.xml',
         'data/data.xml',
         'data/sequence_data.xml',
         # 'data/data_table_cfdi.xml',
