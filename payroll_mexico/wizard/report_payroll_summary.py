@@ -134,6 +134,14 @@ class PayslipSummary(models.TransientModel):
         lines['isr_ias'] = isr_ias
         lines['isr_total'] = isr_ss + isr_ias
         
+        lines['other_ded_ss'] = other_ded_ss - imss_rcv_infonavit_ss
+        lines['other_ded_ias'] = other_ded_ias - imss_rcv_infonavit_ias
+        lines['other_ded_total'] = (other_ded_ss - imss_rcv_infonavit_ss) + (other_ded_ias - imss_rcv_infonavit_ias)
+        
+        lines['subtotal_ss'] = base_ss + neto_ss + isn_ss + imss_rcv_infonavit_ss + isr_ss + (other_ded_ss - imss_rcv_infonavit_ss)
+        lines['subtotal_ias'] = base_ias + neto_ias + isn_ias + imss_rcv_infonavit_ias + isr_ias + (other_ded_ias - imss_rcv_infonavit_ias)
+        lines['subtotal_total'] = lines.get('base_total') + lines.get('neto_total') +  lines.get('isn_total') +  lines.get('imss_rcv_infonavit_total') + lines.get('isr_total') + lines.get('other_ded_total')
+        
         lines['payroll_month'] = dict(self._fields['payroll_month']._description_selection(self.env)).get(self.payroll_month)
         data={
             'lines_data':lines

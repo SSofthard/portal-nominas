@@ -16,7 +16,7 @@
             <t t-call="web.html_container">
                 <t t-call="web.internal_layout">
                     <div class="page" style="border: 2px solid black; font-size:10px;">
-                        <div style="margin-left: 10px; margin-top: 20px;">
+                        <div style="margin-left: 10px; margin-top: 20px; margin-bottom: 40px; margin-right: 10px;">
                             <div>
                                 <strong>
                                     <span class="text-left">NÓMINA DEL MES DE</span>
@@ -25,7 +25,7 @@
                             </div>
                             <div style="color: #4F81BD;">
                                 <strong>
-                                    <span class="text-left"> NOMBRE</span>
+                                    <span class="text-left">NOMBRE</span>
                                 </strong>
                             </div>
                             <br/>
@@ -56,10 +56,10 @@
                                                 t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                         </td>
                                     </tr>
+                                    <br/>
                                     <tr>
-                                        <td></td>
-                                        <th style="text-decoration: underline;">
-                                            <span class="text-left">FACTURACIÓN</span>
+                                        <th class="text-right" style="text-decoration: underline;">
+                                            <span>FACTURACIÓN</span>
                                         </th>
                                         <td></td>
                                         <td></td>
@@ -153,37 +153,37 @@
                                             <span class="text-left">(+) Otras Deducciones</span>
                                         </td>
                                         <td class="text-left">
-                                            <t t-esc="lines_data['isr_ss']"
+                                            <t t-esc="lines_data['other_ded_ss']"
                                                 t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                         </td>
                                         <td class="text-left">
-                                            <t t-esc="lines_data['isr_ias']"
+                                            <t t-esc="lines_data['other_ded_ias']"
                                                 t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                         </td>
                                         <td class="text-left">
-                                            <t t-esc="lines_data['isr_total']"
+                                            <t t-esc="lines_data['other_ded_total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="text-left">(=) Subtotal</span>
+                                        </td>
+                                        <td class="text-left" style="border-top: 1px solid black;">
+                                            <t t-esc="lines_data['subtotal_ss']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left" style="border-top: 1px solid black;">
+                                            <t t-esc="lines_data['subtotal_ias']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left" style="border-top: 1px solid black;">
+                                            <t t-esc="lines_data['subtotal_total']"
                                                 t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="clearfix">
-                                <div id="total" class="row" name="total">
-                                    <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
-                                        <table class="table table-sm">
-                                            <tr class="border-black o_total" style="font-size:10px;">
-                                                <td><strong>Total</strong>: </td>
-    <!--
-                                                <td class="text-right">
-                                                    <t t-esc="lines_data['total']"
-                                                        t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                                </td>
-    -->
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </t>    
