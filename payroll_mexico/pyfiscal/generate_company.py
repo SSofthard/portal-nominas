@@ -26,13 +26,10 @@ class GenerateRfcCompany(BaseGenerator):
         return rfc
     
     def remove_accents(self, s):
+        trans_tab = dict.fromkeys(map(ord, u'\u0301\u0308'), None)
         if type(s) is str:
             s = u"%s" % s
-            if s not in ('ñ','Ñ'):
-                for c in unicodedata.normalize('NFD', s):
-                    if unicodedata.category(c) != 'Mn':
-                        s = ''.join(s)
-        return s
+        return ''.join((c for c in unicodedata.normalize('NFKC', unicodedata.normalize('NFKD', s).translate(trans_tab))))
 
     def homoclave(self, rfc, complete_name):
         nombre_numero = '0'
@@ -55,6 +52,7 @@ class GenerateRfcCompany(BaseGenerator):
         }
 
         # Recorrer el nombre y convertir las letras en su valor numérico.
+        
         for count in range(0, len(complete_name)):
             letra = self.remove_accents(complete_name[count])
             nombre_numero += self.rfc_set(str(rfc1[letra]),'00')
@@ -77,7 +75,6 @@ class GenerateRfcCompany(BaseGenerator):
         suma_numero = 0 
         suma_parcial = 0
         digito = None 
-        print (len(rfc))
 
         rfc3 = {
             'A':10, 'B':11, 'C':12, 'D':13, 'E':14, 'F':15, 'G':16, 'H':17, 'I':18,
@@ -93,17 +90,8 @@ class GenerateRfcCompany(BaseGenerator):
                 suma_numero = rfc3[letra if letra not in ('ñ','Ñ') else 'X']
                 suma_parcial += (suma_numero*(14-(count+1)))
 
-        print ('suma_numero')
-        print (suma_numero)
-        print ('suma_parcial')
-        print (suma_parcial)
         modulo = suma_parcial % 11
-        print ('modulo')
-        print (modulo)
         digito_parcial = (11-modulo)
-        print ('digito_parcial')
-        print ('digito_parcial')
-        print (digito_parcial)
         
         if modulo == 0:
             digito = '0'
@@ -112,7 +100,6 @@ class GenerateRfcCompany(BaseGenerator):
         else:
             digito = str(digito_parcial)
 
-        print (digito)
         return  digito
 
     def rfc_set(self, a, b):
@@ -175,9 +162,6 @@ class GenericGeneration(object):
     _data = {}
 
     def __init__(self, **kwargs):
-        print (kwargs)
-        print (kwargs)
-        print (kwargs)
         self._datos = kwargs
 
     @property
