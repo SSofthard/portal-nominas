@@ -15,14 +15,10 @@ class BaseGenerator(object):
         
     def parse_company(self, complete_name):
         self.complete_name = to_upper(complete_name)
-        print (self.complete_name)
         self.complete_name = remove_abbreviation_c(self.complete_name)
-        print (self.complete_name)
         # ~ self.complete_name = remove_names_c(self.complete_name)
-        print (self.complete_name)
         self.complete_name = remove_article_c(self.complete_name)
         self.complete_name = remove_signos_c(self.complete_name)
-        print (self.complete_name)
         self.complete_name = remove_precisions_c(self.complete_name)
         self.complete_name = cadena_numer_c(self.complete_name)
         self.complete_name = complete_name_c(self.complete_name)
