@@ -82,7 +82,7 @@ class HrPayslipRun(models.Model):
     pay_bonus = fields.Boolean('Pay bonus?')
     pay_type = fields.Selection([('0','Efectivo'),('1','Especie')], string='Tipo de pago', default='0')
     tax_detail_lines = fields.One2many(inverse_name='payslip_run_id', comodel_name='hr.payroll.tax.details', string='Detalles de impuestos')
-    employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False, readonly=True)
+    employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False, readonly=False)
 
     def print_payslip_run_details(self):
         '''
@@ -175,6 +175,11 @@ class HrPayslipRun(models.Model):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
         current_year = fields.Date.context_today(self).year
         payslips_current_month = self.search([('payroll_month','=',self.payroll_month)]).filtered(lambda sheet: sheet.date_start.year == current_year)
+        print (payslips_current_month)
+        print (payslips_current_month)
+        print (payslips_current_month)
+        print (payslips_current_month)
+        print (payslips_current_month)
         total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
         acumulated_subtotal_amount =  sum(payslips_current_month.mapped('subtotal_amount_untaxed'))
         payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated,
@@ -291,6 +296,13 @@ class HrPayslipRun(models.Model):
         self.tax_detail_lines = list_details
         self.subtotal_amount_untaxed = sum(self.tax_detail_lines.mapped('amount_untaxed'))
         self.amount_tax = sum(self.tax_detail_lines.mapped('amount_tax'))
+        print (88888)
+        print (88888)
+        print (88888)
+        print (88888)
+        print (88888)
+        print (88888)
+        self._compute_acumulated_tax_amount()
 
     @api.multi
     def close_payslip_run(self):

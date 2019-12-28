@@ -54,7 +54,7 @@
     
     <menuitem
         id="menu_hr_employee_affiliate_movements_root"
-        name="Affiliate movements"
+        name="Movimientos Afiliatorios"
         parent="hr.menu_hr_root"
         sequence="90"/>
     <menuitem
