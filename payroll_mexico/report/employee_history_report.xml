@@ -47,7 +47,7 @@
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">PUESTO DE TRABAJO:</th>
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><t t-esc="job"/></th>
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS:</th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span>definir</span></th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><t t-esc="data['active']"/></th>
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE ALTAS:</th>
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span>definir</span></th>
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE BAJAS:</th>
@@ -67,7 +67,7 @@
                                     <tr>
                                         <td colspan="2" class="text-center" ><t t-esc="data['employee'][counter]"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="data['date_start'][counter]"/></td>
-                                        <td colspan="2" class="text-center" ><t t-esc="data['date_to'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="data['date'][counter]"/></td>
                                         <td colspan="2" class="text-center" ><span>definir</span></td>
                                         <td colspan="2" class="text-center" ><span>definir</span></td>
                                     </tr>
