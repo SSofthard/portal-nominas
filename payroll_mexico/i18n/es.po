@@ -2126,7 +2126,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.ui.menu,name:payroll_mexico.menu_hr_employee_affiliate_movements
 msgid "Affiliate movements"
-msgstr ""
+msgstr "Movimientos Afiliatorios"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__age
