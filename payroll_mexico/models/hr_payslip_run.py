@@ -81,6 +81,8 @@ class HrPayslipRun(models.Model):
     bonus_date = fields.Boolean('Bonus date', default=False)
     pay_bonus = fields.Boolean('Pay bonus?')
     pay_type = fields.Selection([('0','Efectivo'),('1','Especie')], string='Tipo de pago', default='0')
+    tax_detail_lines = fields.One2many(inverse_name='payslip_run_id', comodel_name='hr.payroll.tax.details', string='Detalles de impuestos')
+    employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False, readonly=False)
 
     def print_payslip_run_details(self):
         '''
@@ -173,6 +175,11 @@ class HrPayslipRun(models.Model):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
         current_year = fields.Date.context_today(self).year
         payslips_current_month = self.search([('payroll_month','=',self.payroll_month)]).filtered(lambda sheet: sheet.date_start.year == current_year)
+        print (payslips_current_month)
+        print (payslips_current_month)
+        print (payslips_current_month)
+        print (payslips_current_month)
+        print (payslips_current_month)
         total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
         acumulated_subtotal_amount =  sum(payslips_current_month.mapped('subtotal_amount_untaxed'))
         payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated,
@@ -266,21 +273,35 @@ class HrPayslipRun(models.Model):
         '''
         Este metodo calcula el monto de base imponible para la nomina a este monto se le calculara el impuesto
         '''
-        # lines_untaxed = self.slip_ids.mapped('line_ids').filtered(
-        #     lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
-        # self.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
         self.slip_ids.compute_amount_untaxed()
-        self.subtotal_amount_untaxed = sum(self.slip_ids.mapped('subtotal_amount_untaxed'))
-        self.get_tax_amount()
-
-    @api.multi
-    def get_tax_amount(self):
-        '''
-        Este metodo calcula el monto de impuesto para la nomina
-        '''
-
-        self.amount_tax = self.env['hr.isn'].get_value_isn(self.group_id.state_id.id,
-                                                           self.subtotal_amount_untaxed, self.date_start.year)
+        self.tax_detail_lines.unlink()
+        dict_details={}
+        list_details=[]
+        for item in self.slip_ids.mapped('employee_id.work_center_id.id'):
+            dict_details[item] = {
+            'amount_untaxed': 0.0,
+            'amount_tax': 0.0,
+            }
+        for slip in self.slip_ids:
+            dict_details[slip.employee_id.work_center_id.id]['amount_untaxed'] += slip.subtotal_amount_untaxed
+            dict_details[slip.employee_id.work_center_id.id]['amount_tax'] += slip.amount_tax
+        for key in dict_details.keys():
+            vals = {
+                'work_center_id': key,
+                'amount_untaxed': dict_details[key]['amount_untaxed'],
+                'amount_tax':  dict_details[key]['amount_tax'],
+                'payslip_run_id': self.id,
+            }
+            list_details.append(vals)
+        self.tax_detail_lines = list_details
+        self.subtotal_amount_untaxed = sum(self.tax_detail_lines.mapped('amount_untaxed'))
+        self.amount_tax = sum(self.tax_detail_lines.mapped('amount_tax'))
+        print (88888)
+        print (88888)
+        print (88888)
+        print (88888)
+        print (88888)
+        print (88888)
         self._compute_acumulated_tax_amount()
 
     @api.multi
@@ -328,3 +349,13 @@ class HrPayslipRun(models.Model):
             payslip.worked_days_line_ids = worked_days_lines
             payslip.compute_sheet()
         return 
+
+class TaxDetails(models.Model):
+    _name='hr.payroll.tax.details'
+    _description='Detalles de impuestos para los procesamientos de nomina'
+
+    #Columns
+    work_center_id = fields.Many2one(comodel_name='hr.work.center',string='Centro de trabajo',required=False)
+    amount_untaxed = fields.Float(string='Base Imponible',required=False)
+    amount_tax = fields.Float(string='Impuestos',required=False)
+    payslip_run_id = fields.Many2one(comodel_name='hr.payslip.run', string='Procesamiento de nomina')

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e-201905\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-09 16:05+0000\n"
-"PO-Revision-Date: 2019-12-09 16:05+0000\n"
+"POT-Creation-Date: 2019-12-26 09:10+0000\n"
+"PO-Revision-Date: 2019-12-26 09:10+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -48,17 +48,12 @@ msgstr "Creado el"
 #. module: hr_structure_types
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_structure_types__display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Nombre a mostrar"
 
 #. module: hr_structure_types
 #: model:ir.model,name:hr_structure_types.model_hr_contract
 msgid "Employee Contract"
 msgstr "Contrato de empleado"
-
-#. module: hr_structure_types
-#: model:ir.model.fields,field_description:hr_structure_types.field_hr_payslip_run__group_id
-msgid "Empresa"
-msgstr ""
 
 #. module: hr_structure_types
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_payslip_employees__estructure_id
@@ -76,9 +71,9 @@ msgid "Generate payslips for all selected employees"
 msgstr "Generar las nóminas para todos los empleados seleccionados"
 
 #. module: hr_structure_types
-#: model:ir.model.fields,field_description:hr_structure_types.field_hr_payslip_employees__group_id
-msgid "Group"
-msgstr "Grupo"
+#: model:ir.model.fields,field_description:hr_structure_types.field_hr_payslip_run__group_id
+msgid "Grupo/Empresa"
+msgstr ""
 
 #. module: hr_structure_types
 #: model:ir.model.fields,field_description:hr_structure_types.field_hr_structure_types__id
@@ -121,6 +116,12 @@ msgid "Pensioners"
 msgstr "Pensionados"
 
 #. module: hr_structure_types
+#: code:addons/hr_structure_types/models/hr_payslip.py:45
+#, python-format
+msgid "Salary Slip of %s for %s"
+msgstr "Recibo de sueldo de %s para %s"
+
+#. module: hr_structure_types
 #: model:ir.model,name:hr_structure_types.model_hr_payroll_structure
 msgid "Salary Structure"
 msgstr "Estructura salarial"
@@ -159,7 +160,7 @@ msgid "Wages and salaries"
 msgstr "Sueldos y salarios"
 
 #. module: hr_structure_types
-#: code:addons/hr_structure_types/wizard/hr_payroll_payslips_by_employees.py:52
+#: code:addons/hr_structure_types/wizard/hr_payroll_payslips_by_employees.py:67
 #, python-format
 msgid "You must select employee(s) to generate payslip(s)."
 msgstr "Debe seleccionar empleados para generar las nominas"

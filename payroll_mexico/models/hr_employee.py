@@ -40,9 +40,10 @@ class Employee(models.Model):
     def name_get(self):
         result = []
         for employee in self:
-            name = '%s %s %s' %(employee.name.upper(), employee.last_name.upper() \
-                if employee.last_name else '', employee.mothers_last_name.upper() \
-                if employee.mothers_last_name else '')
+            name = '%s %s %s' %(
+                employee.name.upper() if employee.name else '', 
+                employee.last_name.upper() if employee.last_name else '', 
+                employee.mothers_last_name.upper() if employee.mothers_last_name else '')
             result.append((employee.id, name))
         return result
 
@@ -53,8 +54,15 @@ class Employee(models.Model):
         if name:
             domain = ['|',('enrollment', operator, name),('name', operator, name)]
         enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
-        return self.browse(enrollment).name_get()
-    
+        return self.browse(enrollment).name_get()\
+
+    @api.depends('name','last_name','mothers_last_name')
+    @api.onchange('complete_name')
+    def _compute_complete_name(self):
+        for name in self:
+            name.complete_name = name.name_get()[0][1]
+
+
     #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
     title = fields.Many2one('res.partner.title','Title')
@@ -149,6 +157,7 @@ class Employee(models.Model):
     # Register pattern
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
     contract_id = fields.Many2one('hr.contract', string='Contract', store=True)
+    complete_name = fields.Char(compute='_compute_complete_name', string='Nombre completo', store=True)
 
 
     _sql_constraints = [
@@ -198,6 +207,7 @@ class Employee(models.Model):
     def search_minimum_wage(self):
         for employee in self:
             zone = self.env['res.municipality.zone'].search([('municipality_id','=',employee.work_center_id.municipality_id.id)],limit=1)
+            print (zone)
             wage = self.env['table.minimum.wages'].search([],limit=1)
             wage_minimum = 0
             if zone.zone == 'freezone':
@@ -668,8 +678,10 @@ class hrInfonavitCreditLine(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('active', 'Active'),
+        ('discontinued', 'Discontinued'),
         ('closed', 'Closed'),
     ],default="draft")
+    history_ids = fields.One2many(inverse_name='infonavit_id', comodel_name='hr.infonavit.credit.history', string='Historico de cambios')
     
     @api.multi
     def action_active(self):
@@ -677,16 +689,58 @@ class hrInfonavitCreditLine(models.Model):
             infonavit = self.search([('employee_id', '=', self.employee_id.id),('state', '=', 'active')])
             if not infonavit:
                 credit.state = 'active'
+                self._set_to_history(date=credit.date, move_type='high_credit')
             else:
                 raise UserError(_("An active INFONAVIT credit already exists for the employee."))
             
-    @api.multi
-    def action_close(self):
+    def action_suspend(self, date):
+        for credit in self:
+            credit.state = 'discontinued'
+            credit._set_to_history(date=date, move_type='discontinued')\
+            
+    def action_reboot(self, date):
+        for credit in self:
+            credit.state = 'active'
+            credit._set_to_history(date=date, move_type='reboot')\
+
+    def action_close(self,date):
         for credit in self:
             credit.state = 'closed'
+            credit._set_to_history(date=date, move_type='low_credit')
+
+    def _set_to_history(self, date, move_type):
+        '''
+        Este metodo agrega al historico los cambios correspondientes al credito infonavit
+        '''
+        vals = {
+            'move_type': move_type,
+            'date': date,
+            'infonavit_id':self.id,
+            }
+        self.env['hr.infonavit.credit.history'].create(vals)
+    
+    @api.multi
+    def write(self, vals):
+        if vals.get('date'):
+            infonavit_history = self.env['hr.infonavit.credit.history'].search([('move_type','=','high_credit'),('infonavit_id','=',self.id)])
+            infonavit_history.date = vals['date']
+        return super(hrInfonavitCreditLine, self).write(vals)
+
+
             
-    
-    
+class hrInfonavitCreditHistory(models.Model):
+    _name='hr.infonavit.credit.history'
+    _order = "date desc"
+
+    infonavit_id = fields.Many2one(comodel_name='hr.infonavit.credit.line', string='INFONAVIT')
+    date = fields.Date("Date", required=True)
+    move_type = fields.Selection([
+        ('high_credit', 'High credit'),
+        ('discontinued', 'Discontinued'),
+        ('reboot', 'Reboot'),
+        ('low_credit', 'Low credit'),
+        ],'Move type')
+
 class hrWorkerHiringRegime(models.Model):
     _name = "hr.worker.hiring.regime"
     

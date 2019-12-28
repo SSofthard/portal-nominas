@@ -22,7 +22,8 @@ class GenerateRfcCompany(BaseGenerator):
         rfc = self.partial_data
         hc = self.homoclave(self.partial_data, complete_name)
         rfc += '%s' % hc
-        rfc += self.verification_number(rfc)
+        rfc += self.calc_check_digit(rfc)
+        # ~ rfc += self.verification_number(rfc)
         return rfc
     
     def remove_accents(self, s):
@@ -31,6 +32,14 @@ class GenerateRfcCompany(BaseGenerator):
             s = u"%s" % s
         return ''.join((c for c in unicodedata.normalize('NFKC', unicodedata.normalize('NFKD', s).translate(trans_tab))))
 
+    _alphabet = u'0123456789ABCDEFGHIJKLMN&OPQRSTUVWXYZ Ñ'   
+     
+    def calc_check_digit(self,number):
+        number = ('   ' + number)[-12:]
+        check = sum(self._alphabet.index(n) * (13 - i) for i, n in enumerate(number))
+        return self._alphabet[(11 - check) % 11]   
+    
+    
     def homoclave(self, rfc, complete_name):
         nombre_numero = '0'
         summary = 0 
@@ -138,7 +147,6 @@ class GenerateNSS(BaseGenerator):
             if birth_date <= year: 
                 birth_date += 100
             if birth_date  >  high_date:
-                print('Error: Se dio de alta antes de nacer.')
                 return False
         return self._is_luhn_valid()
 

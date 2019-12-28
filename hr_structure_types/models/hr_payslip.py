@@ -33,6 +33,7 @@ class HrPayslip(models.Model):
                 'payroll_of_month': run_data['payroll_of_month'],
                 'payroll_period': run_data['payroll_period'],
                 'table_id': run_data['table_id'][0],
+                'employer_register_id': run_data['employer_register_id'][0],
             }
         }
         if (not employee_id) or (not date_from) or (not date_to):

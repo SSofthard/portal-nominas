@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <report id="report_hr_employee"
+            model="hr.employee"
+            string="Plantilla del empleado"
+            report_type="qweb-pdf"
+            name="payroll_mexico.report_hr_employee_view" />
+
+        <template id="report_hr_employee_view">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page" style="font-size:12px">
+                            <div class="row">
+                                <div class="col-9">
+                                    <h1><span t-field="o.complete_name"/></h1>
+                                </div>
+                                <div  class="col-3">
+                                        <td align="center" valign="center">
+                                            <img t-if="o.image" t-att-src="image_data_uri(o.image)" style="max-height:85pt;max-width:90%"/>
+                                        </td>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <center><strong><h4>Informacion Privada</h4></strong></center>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong><h5>Ciudadanía e información adicional</h5></strong>
+                                    </div>
+
+                                    <div class="row">
+                                        <strong>Nacionalidad  (País):&amp;nbsp;</strong> <p t-field="o.country_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Nº identificación:&amp;nbsp;</strong>
+                                        <p t-field="o.identification_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Nº Pasaporte:&amp;nbsp;</strong>
+                                        <p t-field="o.passport_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Título:&amp;nbsp;</strong>
+                                        <p t-field="o.title"/>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="col-5">
+                                    <div class="row">
+                                        <strong><h5>Información de contacto</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Dirección Privada:&amp;nbsp;</strong>
+                                        <p t-field="o.address_home_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Email personal:&amp;nbsp;</strong>
+                                        <p t-field="o.personal_email"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Teléfono móvil personal:&amp;nbsp;</strong>
+                                        <p t-field="o.personal_movile_phone"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Teléfono personal:&amp;nbsp;</strong>
+                                        <p t-field="o.personal_phone"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Distancia trabajo a domicilio (Km):&amp;nbsp;</strong>
+                                        <p t-field="o.km_home_work"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong><h5>Información de emergencia</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Restricciones de salud:&amp;nbsp;</strong>
+                                        <p t-field="o.health_restrictions"/>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <strong><h5>En caso de emergencia contactar a:&amp;nbsp;</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Contacto de emergencia:&amp;nbsp;</strong>
+                                        <p t-field="o.emergency_contact"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Dirección de emergencia:&amp;nbsp;</strong>
+                                        <p t-field="o.emergency_address"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Teléfono de emergencia:&amp;nbsp;</strong>
+                                        <p t-field="o.emergency_phone"/>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="row">
+                                        <strong><h5>Estado</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                            <strong>Sexo:&amp;nbsp;</strong>
+                                            <p t-field="o.gender"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Estado civil:&amp;nbsp;</strong>
+                                        <p t-field="o.marital"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong><h5>Fecha de nacimiento</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Fecha de nacimiento:</strong>
+                                        <p t-field="o.birthday"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Edad:&amp;nbsp;</strong>
+                                        <p t-field="o.age"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Lugar de nacimiento:&amp;nbsp;</strong>
+                                        <p t-field="o.place_of_birth"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>País de nacimiento:&amp;nbsp;</strong>
+                                        <p t-field="o.country_of_birth"/>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="row">
+                                        <strong><h5>Información fiscal</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>RFC:&amp;nbsp;</strong>
+                                        <p t-field="o.rfc"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>CURP:&amp;nbsp;</strong>
+                                        <p t-field="o.curp"/>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <strong>Datos médicos:&amp;nbsp;</strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Tipo de sangre:&amp;nbsp;</strong>
+                                        <p t-field="o.blood_type"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong><h5>Permiso de trabajo</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Número de Visado:&amp;nbsp;</strong>
+                                        <p t-field="o.visa_no"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Número de permiso de trabajo:&amp;nbsp;</strong>
+                                        <p t-field="o.permit_no"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Fecha expiración visado:&amp;nbsp;</strong>
+                                        <p t-field="o.visa_expire"/>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="row">
+                                        <strong><h5>Educación</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Nivel de estudio:&amp;nbsp;</strong>
+                                        <p t-field="o.certificate"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Ámbito de estudio:&amp;nbsp;</strong>
+                                        <p t-field="o.study_field"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Escuela:&amp;nbsp;</strong>
+                                        <p t-field="o.study_school"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <center><strong><h4>Información del trabajo</h4></strong></center>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong><h5>Información de contacto</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Grupo/Empresa:&amp;nbsp;</strong>
+                                        <p t-field="o.group_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Centro de trabajo&amp;nbsp;:</strong>
+                                        <p t-field="o.work_center_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Correo-e del trabajo:&amp;nbsp;</strong>
+                                        <p t-field="o.work_email"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Móvil del trabajo:&amp;nbsp;</strong>
+                                        <p t-field="o.mobile_phone"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Teléfono trabajo:&amp;nbsp;</strong>
+                                        <p t-field="o.work_phone"/>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="row">
+                                        <strong><h5>Cargo</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Matrícula:&amp;nbsp;</strong>
+                                        <p t-field="o.enrollment"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Departamento:&amp;nbsp;</strong>
+                                        <p t-field="o.department_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Puesto de trabajo:&amp;nbsp;</strong>
+                                        <p t-field="o.job_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Título del trabajo:&amp;nbsp;</strong>
+                                        <p t-field="o.job_title"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Responsable:&amp;nbsp;</strong>
+                                        <p t-field="o.parent_id"/>
+                                    </div>
+                                    <div class="row" t-if="o.manager == True">
+                                        <strong>Es un director:&amp;nbsp;</strong> Si
+                                    </div>
+                                    <div class="row" t-if="o.manager == False">
+                                        <strong>Es un director:&amp;nbsp;</strong> No
+                                    </div>
+                                    <div class="row">
+                                        <strong>Horas laborales:&amp;nbsp;</strong>
+                                        <p t-field="o.resource_calendar_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Zona horaria:&amp;nbsp;</strong>
+                                        <p t-field="o.title"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <center><strong><h4>Información del HR</h4></strong></center>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong><h5>Datos de Nómina</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Tipo de salario:&amp;nbsp;</strong>
+                                        <p t-field="o.salary_type"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Jornada semanal:&amp;nbsp;</strong>
+                                        <p t-field="o.working_day_week"/>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="row">
+                                        <strong><h5>IMSS</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Registro Patronal:&amp;nbsp;</strong>
+                                        <p t-field="o.employer_register_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Nº Seguridad Social:&amp;nbsp;</strong>
+                                        <p t-field="o.ssnid"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Periodo de pago:&amp;nbsp;</strong>
+                                        <p t-field="o.payment_period_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong><h5>Pagos adicionales</h5></strong>
+                                    </div>
+                                    <div class="row" t-if="o.pay_holiday == True">
+                                        <strong>Pagar días festivos?:&amp;nbsp;</strong> Si
+                                    </div><div class="row" t-if="o.pay_holiday == False">
+                                        <strong>Pagar días festivos?:&amp;nbsp;</strong> No
+                                    </div>
+                                    <div class="row" t-if="o.pay_extra_hours == True">
+                                        <strong>Pagar horas extra?:&amp;nbsp;</strong> Si
+                                    </div>
+                                    <div class="row" t-if="o.pay_extra_hours == False">
+                                        <strong>Pagar horas extra?:&amp;nbsp;</strong> No
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <center><strong><h4>Familia</h4></strong></center>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong>Número de hijos:</strong>
+                                        <p t-field="o.children"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table " t-if="o.children >= 1">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Nombre</th>
+                                        <th class="text-center">Fecha de nacimiento</th>
+                                        <th class="text-center">Edad</th>
+                                        <th class="text-center">Relacion</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <t t-foreach="o.family_ids" t-as="fa">
+                                        <tr>
+                                            <td class="text-center">
+                                                <p t-field="fa.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="fa.birthday"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="fa.age"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="fa.relationship_id"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                             </table>
+                            <br/>
+                            <center><strong><h4>Compañias</h4></strong></center>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong>Compañía:&amp;nbsp;</strong>
+                                        <p t-field="o.company_id"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Compañía (asimilado):&amp;nbsp;</strong>
+                                        <p t-field="o.company_assimilated_id"/>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="row">
+                                        <strong>Sueldos y salarios brutos:&amp;nbsp;</strong>
+                                        <p t-field="o.wage_salaries_gross"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Salario bruto asimilado:&amp;nbsp;</strong>
+                                        <p t-field="o.assimilated_salary_gross"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Salario libre bruto:&amp;nbsp;</strong>
+                                        <p t-field="o.free_salary_gross"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <center><strong><h4>Información bancaria</h4></strong></center>
+                            <br/>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Banco</th>
+                                        <th class="text-center">Referencia</th>
+                                        <th class="text-center">Beneficiario</th>
+                                        <th class="text-center">Cuenta bancaria</th>
+                                        <th class="text-center">Ubicación / sucursal</th>
+                                        <th class="text-center">Predeterminado</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <t t-foreach="o.bank_account_ids" t-as="ban">
+                                        <tr>
+                                            <td class="text-center">
+                                                <p t-field="ban.bank_id"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="ban.reference"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="ban.beneficiary"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="ban.bank_account"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="ban.location_branch"/>
+                                            </td>
+                                            <td class="text-center" t-if="ban.predetermined == True">Si
+                                            </td>
+                                            <td class="text-center" t-if="ban.predetermined == False">No
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <center><strong><h4>INFONAVIT</h4></strong></center>
+                            <br/>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Número de crédito INFONAVIT</th>
+                                        <th class="text-center">Tipo</th>
+                                        <th class="text-center">Valor</th>
+                                        <th class="text-center">Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <t t-foreach="o.infonavit_ids" t-as="inf">
+                                        <tr>
+                                            <td class="text-center">
+                                                <p t-field="inf.infonavit_credit_number"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="inf.type"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="inf.value"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <p t-field="inf.date"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <center><strong><h4>Configuración RRHH</h4></strong></center>
+                            <br/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <strong><h5>Estado</h5></strong>
+                                    <div class="row">
+                                        <strong>Usuario OpenERP:</strong>
+                                        <p t-field="o.user_id"/>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <strong><h5>Servicio</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>ID de credencial</strong>
+                                        <p t-field="o.barcode"/>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="row">
+                                        <strong><h5>Ausencias</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Ausencias permitidas restantes</strong>
+                                        <p t-field="o.remaining_leaves"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <center><strong><h4>Credito Fonacot</h4></strong></center>
+                            <br/>
+                            <div class="row" t-if="o.fonacot_payroll == True">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <strong><h5>Datos generales</h5></strong>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Numero de prestamo:&amp;nbsp;</strong>
+                                        <p t-field="o.fonacot_credit_number"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Ultima deuda agregada:&amp;nbsp;</strong>
+                                        <p t-field="o.last_amount_update"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Deuda:&amp;nbsp;</strong>
+                                        <p t-field="o.fonacot_amount_debt"/>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Monto a descontar:&amp;nbsp;</strong>
+                                        <p t-field="o.ammount_discounted"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

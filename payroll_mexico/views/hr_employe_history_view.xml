@@ -1,6 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record id="hr_employee_affiliate_movements_form_view" model="ir.ui.view">
+        <field name="name">hr.employee.affiliate.movements.form.view</field>
+        <field name="model">hr.employee.affiliate.movements</field>
+        <field name="arch" type="xml">
+            <form string="Employee affiliate movements" edit="false" create="false">
+				<header>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                <sheet>
+                    <group>
+                        <group>
+							 <field name="type" />
+							<field name="date" />
+                            <field name="employee_id" readonly="1"/>
+                            <field name="contract_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="reason_liquidation" attrs="{'invisible': [('type','!=', 'low')]}"/>
+                            <field name="wage"/>
+                            <field name="salary_old" attrs="{'invisible': [('type','!=', 'salary_change')]}"/>
+                            <field name="salary" attrs="{'invisible': [('type','=', 'low')]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="hr_employee_affiliate_movements_tree" model="ir.ui.view">
+        <field name="name">hr.employee.affiliate.movements.tree</field>
+        <field name="model">hr.employee.affiliate.movements</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <tree string="Employee affiliate movements" edit="false" create="false">
+                <field name="employee_id"/>
+                <field name="contract_id"/>
+                <field name="type"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="employee_hr_employee_affiliate_movements_action" model="ir.actions.act_window">
+        <field name="name">Employee affiliate movements</field>
+        <field name="res_model">hr.employee.affiliate.movements</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="hr_employee_affiliate_movements_tree"/>
+    </record>
+    
+    <menuitem
+        id="menu_hr_employee_affiliate_movements_root"
+        name="Movimientos Afiliatorios"
+        parent="hr.menu_hr_root"
+        sequence="90"/>
+    <menuitem
+        id="menu_hr_employee_affiliate_movements"
+        name="Affiliate movements"
+        action="employee_hr_employee_affiliate_movements_action"
+        parent="menu_hr_employee_affiliate_movements_root"
+        sequence="5"/>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <!-- Add action entry in the Action fields contract for update -->
     <record id="hr_contract_view_form_change_history" model="ir.ui.view">
         <field name="name">hr.contract.view.form.change.history</field>
@@ -122,11 +224,13 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="priority">10</field>
         <field name="arch" type="xml">
+<!--
             <xpath expr="//sheet" position="before">
                 <header>
                     <button string="To register" name="to_register_employee" attrs="{'invisible': ['|',('contracts_count','&lt;',1),('register','=',True)]}" type="object" class="oe_highlight"/>
                 </header>
             </xpath>
+-->
             <xpath expr="//field[@name='name']" position="before">
                 <field name="register" invisible="True"/>
             </xpath>
