@@ -34,10 +34,12 @@
         <field name="model">hr.employee.affiliate.movements</field>
         <field name="priority">2</field>
         <field name="arch" type="xml">
-            <tree string="Employee affiliate movements" edit="false" create="false">
+            <tree string="Employee affiliate movements" edit="false" create="false" decoration-info="state == 'generated'" decoration-success="state == 'approved'" decoration-muted="state == 'draft'">
                 <field name="employee_id"/>
                 <field name="contract_id"/>
                 <field name="type"/>
+                <field name="state" invisible="1"/>
+                <button name="action_move_draft" string="No aprobado" states="generated" type="object" icon="fa-times-circle-o"/>
             </tree>
         </field>
     </record>
