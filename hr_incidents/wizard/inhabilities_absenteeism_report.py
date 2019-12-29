@@ -56,16 +56,35 @@ class InhabilityAbsenteeismReport(models.TransientModel):
         employee_data = {}
         
         self.ensure_one()
-        domain = [('employee_id.group_id','=',self.group_id.id),('request_date_from','>=',self.date_from),('request_date_to','<=',self.date_to)]
+        
+        domain = [('group_id','=',self.group_id.id),
+                ('request_date_from','>=',self.date_from),
+                ('request_date_to','<=',self.date_to),
+                ('state','=','validate')]
         if self.department_ids:
             domain += [('employee_id.department_id','in',self.department_ids.ids)]
         if self.job_ids:
-            domain += [('employee_id.department_id','in',self.job_ids.ids)]
+            domain += [('employee_id.job_id','in',self.job_ids.ids)]
         if self.employer_register_id:
             domain += [('employee_id.employer_register_id','=',self.employer_register_id.id)]
+        
+        Leaves = self.env['hr.leave']
+        Leaves2 = self.env['hr.leave']
         if self.contracting_regime:
-            domain += [('contract_id.contracting_regime','=',self.contracting_regime)]
-        leaves_ids = self.env['hr.leave'].search(domain)
+            employee_leaves = self.env['hr.leave'].search([
+                ('request_date_from','>=',self.date_from),
+                ('request_date_to','<=',self.date_to),
+                ('state','=','validate')])
+            contracts = self.env['hr.contract']
+            for emp in employee_leaves:
+                contract_id = contracts.search([
+                    ('employee_id','=',emp.employee_id.id),
+                    ('contracting_regime','=',self.contracting_regime),
+                    ('state','=','open')])
+                if contract_id:
+                    Leaves2 += emp
+        Leaves3 = Leaves.search(domain)
+        leaves_ids = self.env['hr.leave'].browse(list(Leaves3.ids + Leaves2.ids)).sorted(key='id')
         if not leaves_ids:
             raise ValidationError(_('No se encontraron resultados, para los parámetros dados.'))
         employees_ids = leaves_ids.mapped('employee_id')
@@ -92,9 +111,8 @@ class InhabilityAbsenteeismReport(models.TransientModel):
                 'rfc': employee.rfc,
                 'curp': employee.curp,
                 'date_admission': self.env['hr.contract'].search([('employee_id','=',employee.id),('contracting_regime','=','2')], limit=1).date_start or '',
-                'leave': leaves_data,
+                'leave': sorted(leaves_data, key=lambda k: k['request_date_from']),
             }
-        
         leaves['date_from'] = self.date_from
         leaves['date_to'] = self.date_to
         leaves['employer_register_id'] = self.employer_register_id.employer_registry.upper() if self.employer_register_id else ''
@@ -120,9 +138,24 @@ class InhabilityAbsenteeismReport(models.TransientModel):
             domain += [('employee_id.department_id','in',self.job_ids.ids)]
         if self.employer_register_id:
             domain += [('employee_id.employer_register_id','=',self.employer_register_id.id)]
+
+        Leaves = self.env['hr.leave']
+        Leaves2 = self.env['hr.leave']
         if self.contracting_regime:
-            domain += [('contract_id.contracting_regime','=',self.contracting_regime)]
-        leaves_ids = self.env['hr.leave'].search(domain)
+            employee_leaves = self.env['hr.leave'].search([
+                ('request_date_from','>=',self.date_from),
+                ('request_date_to','<=',self.date_to),
+                ('state','=','validate')])
+            contracts = self.env['hr.contract']
+            for emp in employee_leaves:
+                contract_id = contracts.search([
+                    ('employee_id','=',emp.employee_id.id),
+                    ('contracting_regime','=',self.contracting_regime),
+                    ('state','=','open')])
+                if contract_id:
+                    Leaves2 += emp
+        Leaves3 = Leaves.search(domain)
+        leaves_ids = self.env['hr.leave'].browse(list(Leaves3.ids + Leaves2.ids)).sorted(key='id')
         if not leaves_ids:
             raise ValidationError(_('No se encontraron resultados, para los parámetros dados.'))
         employees_ids = leaves_ids.mapped('employee_id')
@@ -139,7 +172,6 @@ class InhabilityAbsenteeismReport(models.TransientModel):
                         'rfc': employee.rfc,
                         'curp': employee.curp,
                         'date_admission': self.env['hr.contract'].search([('employee_id','=',employee.id),('contracting_regime','=','2')], limit=1).date_start or '',
-                        # ~ 'leave': leaves_data,
                         'type_inhability': leave.type_inhability_id.code,
                         'folio': leave.folio,
                         'duration': leave.number_of_days,
@@ -151,26 +183,15 @@ class InhabilityAbsenteeismReport(models.TransientModel):
                         'inhability_category_id': leave.inhability_category_id.name or '',
                         'inhability_subcategory_id': leave.inhability_subcategory_id.name or '',
                     })
-            employee_data[employee.id] = {
-                'enrollment': employee.enrollment,
-                'ssnid': employee.ssnid,
-                'name': employee.name_get()[0][1],
-                'rfc': employee.rfc,
-                'curp': employee.curp,
-                'date_admission': self.env['hr.contract'].search([('employee_id','=',employee.id),('contracting_regime','=','2')], limit=1).date_start or '',
-                'leave': leaves_data,
-            }
-        
-        # ~ leaves['date_from'] = self.date_from
-        # ~ leaves['date_to'] = self.date_to
-        # ~ leaves['employer_register_id'] = self.employer_register_id.employer_registry.upper() if self.employer_register_id else ''
-        # ~ leaves['company'] = self.employer_register_id.company_id.business_name
-        # ~ leaves['rfc'] = self.employer_register_id.company_id.rfc
-        # ~ leaves['total_employees'] = len(employees_ids)
-        # ~ leaves['employee_data'] = employee_data
-        # ~ data={
-            # ~ 'leaves_data':leaves
-        # ~ }
+            # ~ employee_data[employee.id] = {
+                # ~ 'enrollment': employee.enrollment,
+                # ~ 'ssnid': employee.ssnid,
+                # ~ 'name': employee.name_get()[0][1],
+                # ~ 'rfc': employee.rfc,
+                # ~ 'curp': employee.curp,
+                # ~ 'date_admission': self.env['hr.contract'].search([('employee_id','=',employee.id),('contracting_regime','=','2')], limit=1).date_start or '',
+                # ~ 'leave': leaves_data,
+            # ~ }
         return leaves_data
 
     def prepare_header(self):
@@ -256,16 +277,16 @@ class InhabilityAbsenteeismReport(models.TransientModel):
             
             all_lines = self.get_line_for_report()
             if all_lines:
+                employees = []
                 for j, h in enumerate(self.prepare_header()):
                     sheet.write(4, j, h['name'], header_format)
                     sheet.set_column(4, j, h['larg'])
                     row = 4
                     row += 1
                     start_row = row
-                    employees = []
                     for i, line in enumerate(all_lines):
-                        if line.get('employee_d', '') not in employees:
-                            employees.append(line.get('employee_d', ''))
+                        if line.get('employee_id', '') not in employees:
+                            employees.append(line.get('employee_id', ''))
                         i += row
                         sheet.write(i, 0, line.get('enrollment', ''), report_format2) #Matrícula del trabajador
                         sheet.write(i, 1, line.get('ssnid', '') or '-', report_format) #NSS

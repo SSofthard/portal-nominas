@@ -144,15 +144,21 @@ class Employee(models.Model):
     km_home_work = fields.Integer(string="Km home-work", groups="hr.group_hr_user")
     salary_type = fields.Selection([('0','Fijo'),('1','Variable'),('2','Mixto')],string="Tipo de salario", default='0')
     working_day_week = fields.Selection([('0','Completa'),
-                                         ('1','Trabaja un día'),
-                                         ('2','Mixto'),
-                                         ('3','Trabaja tres días'),
-                                         ('4','Trabaja cuatro días'),
-                                         ('5','Trabaja cinco días'),
-                                         ('6','Jornada reducida'),
-                                         ],
-                                        string="Jornada semanal",
-                                        default='0')
+                                    ('1','Trabaja un día'),
+                                    ('2','Mixto'),
+                                    ('3','Trabaja tres días'),
+                                    ('4','Trabaja cuatro días'),
+                                    ('5','Trabaja cinco días'),
+                                    ('6','Jornada reducida'),
+                                    ],
+                                    string="Jornada semanal",
+                                    default='0')
+    type_worker = fields.Selection([ ('1','Trab. permanente'),
+                                     ('2','Trab. Ev. Ciudad'),
+                                     ('3','Trab. Ev. Construcción'),
+                                     ('4','Eventual del campo'),
+                                     ],
+                                    string="Tipo de trabajador", default='1')
     # Fields Translate
     # Register pattern
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
@@ -520,7 +526,8 @@ class HrGroup(models.Model):
     state_id = fields.Many2one('res.country.state', string='State', required=True)
     bonus_days = fields.Float(string="Bonus days", required=True, default=15)
     antique_table = fields.Many2one('tablas.antiguedades', string='Antique table', required=True)
-    
+    percent_honorarium = fields.Float(required=True, digits=(16, 4), string='Porcentaje de honoraios')
+
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
     ]

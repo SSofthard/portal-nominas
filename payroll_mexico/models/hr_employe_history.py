@@ -11,10 +11,10 @@ class EmployeeAffiliateMovements(models.Model):
     contract_id = fields.Many2one('hr.contract', index=True, string='Contract')
     employee_id = fields.Many2one('hr.employee', index=True, string='Employee')
     type = fields.Selection([
-        ('high_reentry', 'High or reentry'),
-        ('salary_change', 'Salary change'),
-        ('low', 'low'),
-    ], string='Type', index=True)
+        ('08', 'High or reentry'),
+        ('07', 'Salary change'),
+        ('02', 'low'),
+    ], string='Type', index=True, default='08')
     date = fields.Date(string="Date")
     reason_liquidation = fields.Selection([
             ('1', 'TERMINACIÓN DE CONTRATO'),
@@ -37,14 +37,14 @@ class EmployeeAffiliateMovements(models.Model):
         ('approved', 'Approved'),
     ], string='State', default = 'draft')
 
+    def action_move_draft(self):
+        self.filtered(lambda mov: mov.state == 'generated').write({'state': 'draft'})
+
     @api.multi
     def unlink(self):
         for movements in self:
-            print ('movements')
-            print ('movements')
-            print (movements)
-            print ('movements')
-            print ('movements')
+            if movements.state not in ['draft']:
+                raise UserError(_('You cannot delete affiliate movements that are not in "Draft" status.'))
 
 
 class Contract(models.Model):
@@ -61,7 +61,7 @@ class Contract(models.Model):
             val = {
                 'contract_id':res.id,
                 'employee_id':res.employee_id.id,
-                'type':'high_reentry',
+                'type':'08',
                 'date':res.previous_contract_date or res.date_start,
                 'wage':res.wage,
                 'salary':res.integral_salary,
@@ -71,18 +71,16 @@ class Contract(models.Model):
         
     @api.multi
     def write(self, vals):
-        affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','high_reentry')])
+        affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08')])
         res= super(Contract, self).write(vals)
         if self.contracting_regime != '2':
-            if affiliate_movements and affiliate_movements.state not in ['draft','rejected']:
-                raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement sent or approved.'))
-            else:
-                affiliate_movements.unlink()
+            if affiliate_movements:
+                raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement.'))
         else:
             val = {
                 'contract_id':self.id,
                 'employee_id':self.employee_id.id,
-                'type':'high_reentry',
+                'type':'08',
                 'date':self.previous_contract_date or self.date_start,
                 'wage':self.wage,
                 'salary':self.integral_salary,
