@@ -18,10 +18,10 @@
                             <field name="contract_id" readonly="1"/>
                         </group>
                         <group>
-                            <field name="reason_liquidation" attrs="{'invisible': [('type','!=', 'low')]}"/>
+                            <field name="reason_liquidation" attrs="{'invisible': [('type','not in', ['02'])]}"/>
                             <field name="wage"/>
-                            <field name="salary_old" attrs="{'invisible': [('type','!=', 'salary_change')]}"/>
-                            <field name="salary" attrs="{'invisible': [('type','=', 'low')]}"/>
+                            <field name="salary_old" attrs="{'invisible': [('type','!=', '07')]}"/>
+                            <field name="salary" attrs="{'invisible': [('type','=', '02')]}"/>
                         </group>
                     </group>
                 </sheet>
