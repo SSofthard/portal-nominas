@@ -17,7 +17,7 @@ class irAttachment(models.Model):
 
 class HrEmployeeAffiliateMove(models.Model):
     _name = "hr.employee.affiliate.move"
-    _description = "Movimientos Afiliatorios"
+    _description = "Generar TXT Movimientos Afiliatorios"
 
     @api.multi
     def _document_count(self):
@@ -114,6 +114,7 @@ class HrEmployeeAffiliateMove(models.Model):
         content = ''
         for move in self.movements_ids.filtered(lambda mov: mov.state == 'generated'):
             if self.type_move == '08':
+                # TXT Para movimientos afiliatorios de Alta o Reingreso
                 content += '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n' %(self.employer_register_id.employer_registry.ljust(11),  # 1 Registro Patronal len(11)
                     move.employee_id.ssnid.ljust(11) if move.employee_id.ssnid else ' '.ljust(11),              # 2 Número de seguridad social len(11)
                     move.employee_id.last_name.ljust(27) if move.employee_id.last_name else ' '.ljust(27),      # 3 Primer apellido len(27)
@@ -135,9 +136,43 @@ class HrEmployeeAffiliateMove(models.Model):
                     '9'.ljust(1),                                                                               # 19 Identificador del formato len(1)
                 )
             if self.type_move == '07':
-                print (self.type_move)
+                # TXT Para movimientos afiliatorios de modificación de salarios
+                content += '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n' %(
+                    self.employer_register_id.employer_registry.ljust(11),                                      # 1 Registro Patronal len(11)
+                    move.employee_id.ssnid.ljust(11) if move.employee_id.ssnid else ' '.ljust(11),              # 2 Número de seguridad social len(11)
+                    move.employee_id.last_name.ljust(27) if move.employee_id.last_name else ' '.ljust(27),      # 3 Primer apellido len(27)
+                    move.employee_id.mothers_last_name.ljust(27) if move.employee_id.mothers_last_name else ' '.ljust(27),  # 4 Segundo apellido len(27)
+                    move.employee_id.name.ljust(27) if move.employee_id.name else ' '.ljust(27),                # 5 Nombre(s) len(27)
+                    str(move.salary).replace('.','').zfill(6),                                                  # 6 Salario base de cotización len(6)
+                    ' '.ljust(7),                                                                               # 7 Filler len(6)
+                    move.employee_id.salary_type if move.employee_id.salary_type else ' '.ljust(1),             # 8 Tipo de salario len(1)
+                    move.employee_id.working_day_week if move.employee_id.working_day_week else ' '.ljust(1),   # 9 Semana o jornada reducida len(1)
+                    move.date.strftime('%d%m%Y'),                                                               # 10 Fecha de movimiento len(8) (DDMMAAAA)
+                    ' '.ljust(5),                                                                               # 11 Filler len(5)
+                    move.type,                                                                                  # 12 Tipo de movimiento len(2)
+                    'Guia?'.ljust(5),                                                                           # 13 Guía - Número asignado por la Subdelegación len(5)
+                    move.employee_id.enrollment.ljust(10) if move.employee_id.enrollment else ' '.ljust(10),    # 14 Clave del trabajador len(10)
+                    ' '.ljust(1),                                                                               # 15 Filler len(1)
+                    move.employee_id.curp.ljust(18) if move.employee_id.curp else ' '.ljust(18),                # 16 Clave del trabajador len(18)
+                    '9'.ljust(1),                                                                               # 17 Identificador del formato len(1)
+                )
             if self.type_move == '02':
-                print (self.type_move)
+                # TXT Para movimientos afiliatorios de baja
+                content += '%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n' %(self.employer_register_id.employer_registry.ljust(11),  # 1 Registro Patronal len(11)
+                    move.employee_id.ssnid.ljust(11) if move.employee_id.ssnid else ' '.ljust(11),              # 2 Número de seguridad social len(11)
+                    move.employee_id.last_name.ljust(27) if move.employee_id.last_name else ' '.ljust(27),      # 3 Primer apellido len(27)
+                    move.employee_id.mothers_last_name.ljust(27) if move.employee_id.mothers_last_name else ' '.ljust(27),  # 4 Segundo apellido len(27)
+                    move.employee_id.name.ljust(27) if move.employee_id.name else ' '.ljust(27),                # 5 Nombre(s) len(27)
+                    '0'.zfill(15),                                                                              # 6 Filler (Ceros) len(15)
+                    move.date.strftime('%d%m%Y'),                                                               # 7 Fecha de movimiento len(8) (DDMMAAAA)
+                    ' '.ljust(5),                                                                               # 8 Filler len(6)
+                    move.type,                                                                                  # 9 Tipo de movimiento len(2)
+                    'Guia?'.ljust(5),                                                                           # 10 Guía - Número asignado por la Subdelegación len(5)
+                    move.employee_id.enrollment.ljust(10) if move.employee_id.enrollment else ' '.ljust(10),    # 11 Clave del trabajador len(10)
+                    move.reason_liquidation,                                                                    # 12 Causa de la baja len(1)
+                    ' '.ljust(18),                                                                              # 13 Filler len(18)
+                    '9'.ljust(1),                                                                               # 14 Identificador del formato len(1)
+                )
         data = base64.encodebytes(bytes(content, 'utf-8'))
         export_id = self.env['hr.employee.affiliate.export.txt'].create(
             {'txt_file': data, 'file_name': f_name + '.txt'})
