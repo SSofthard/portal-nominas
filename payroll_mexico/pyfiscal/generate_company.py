@@ -27,14 +27,11 @@ class GenerateRfcCompany(BaseGenerator):
         return rfc
     
     def remove_accents(self, s):
+        trans_tab = dict.fromkeys(map(ord, u'\u0301\u0308'), None)
         if type(s) is str:
             s = u"%s" % s
-            if s not in ('ñ','Ñ'):
-                for c in unicodedata.normalize('NFD', s):
-                    if unicodedata.category(c) != 'Mn':
-                        s = ''.join(s)
-        return s
-     
+        return ''.join((c for c in unicodedata.normalize('NFKC', unicodedata.normalize('NFKD', s).translate(trans_tab))))
+
     _alphabet = u'0123456789ABCDEFGHIJKLMN&OPQRSTUVWXYZ Ñ'   
      
     def calc_check_digit(self,number):
@@ -64,6 +61,7 @@ class GenerateRfcCompany(BaseGenerator):
         }
 
         # Recorrer el nombre y convertir las letras en su valor numérico.
+        
         for count in range(0, len(complete_name)):
             letra = self.remove_accents(complete_name[count])
             nombre_numero += self.rfc_set(str(rfc1[letra]),'00')

@@ -5,7 +5,7 @@
         <field name="name">hr.employee.affiliate.move.view.tree</field>
         <field name="model">hr.employee.affiliate.move</field>
         <field name="arch" type="xml">
-            <tree decoration-success="state == 'open'">
+            <tree decoration-success="state == 'waiting'">
                 <field name="employer_register_id"/>
                 <field name="type_move"/>
                 <field name="date_from"/>
@@ -22,10 +22,14 @@
         <field name="arch" type="xml">
             <form string="Movimientos Afiliatorios">
                 <header>
-                    <button name="action_move_open" states="draft" string="Validar" type="object" 
+<!--
+                    <button name="action_move_draft" states="waiting" string="Volver a Borrador" type="object"/>
+-->
+                    <button name="action_move_waiting" states="draft" string="Validar" type="object"/>
+                    <button name="action_move_approved" states="waiting" string="Validar" type="object" 
                         confirm="Se aprobaran todos los movimientos afiliatorios seleccionados, luego de esto no se podrá modificar éste registro."/>
-                    <button name="action_print_txt" states="open" string="Generar TXT" type="object"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open" />
+                    <button name="action_print_txt" states="waiting" string="Generar TXT" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting,approved" />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -43,6 +47,7 @@
                             <field name="date_to"/>
                         </group>
                     </group>
+                    <button name="get_movements" states="draft" string="Buscar Mov. Afiliatorios" type="object" class="btn-primary"/>
                     <notebook>
                         <page name="movements" string="Movimientos Afiliatorios">
                             <newline/>

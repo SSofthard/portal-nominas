@@ -42,6 +42,10 @@
         target="new"
        />
 
-    <menuitem name="Empleados con credito INFONAVIT" id="infonavit_employee_menu" action="action_wizard_infonavit_employee" parent="menu_payroll_line_report_root"/>
+    <menuitem
+        name="Empleados con credito INFONAVIT" 
+        id="infonavit_employee_menu" 
+        action="action_wizard_infonavit_employee" 
+        parent="payroll_mexico.menu_payroll_line_report_root"/>
 
 </odoo>

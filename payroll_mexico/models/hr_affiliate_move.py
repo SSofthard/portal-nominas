@@ -6,7 +6,7 @@ import base64
 from datetime import date, datetime, time, timedelta
 
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError, AccessError
+from odoo.exceptions import ValidationError, AccessError, UserError
 
 
 class irAttachment(models.Model):
@@ -48,10 +48,10 @@ class HrEmployeeAffiliateMove(models.Model):
     employer_register_id = fields.Many2one('res.employer.register', "Registro patronal",
     required=True, readonly=True, states={'draft': [('readonly', False)]})
     type_move = fields.Selection([
-        ('1', 'Altas y/o Reingresos'),
-        ('2', 'Bajas'),
-        ('3', 'Modificaciones'),
-        ], string='Movimiento afiliatorio', default="1", required=True,
+        ('08', 'Altas y/o Reingresos'),
+        ('07', 'Modificaciones'),
+        ('02', 'Bajas'),
+        ], string='Movimiento afiliatorio', required=True,
         readonly=True, states={'draft': [('readonly', False)]},)
     date_from = fields.Date(
         'Start Date', required=True, index=True, copy=False,
@@ -63,7 +63,8 @@ class HrEmployeeAffiliateMove(models.Model):
         readonly=True, states={'draft': [('readonly', False)]},)
     state = fields.Selection([
             ('draft','Draft'),
-            ('open', 'Open'),
+            ('waiting', 'Waiting Confirmation'),
+            ('approved', 'Approved'),
         ], string='Status', index=True, readonly=True, default='draft', copy=False)
     movements_ids = fields.Many2many('hr.employee.affiliate.movements',
         'hr_employee_affiliate_movements_rel', 'move_id', 'affiliate_movements_id',
@@ -71,33 +72,32 @@ class HrEmployeeAffiliateMove(models.Model):
         readonly=True, states={'draft': [('readonly', False)]},)
     document_count = fields.Integer(compute='_document_count', string='# Documentos')
 
-    @api.onchange('movements_ids')
-    def _onchange_movements_ids(self):
-        for move in self:
-            for movements in move.movements_ids:
-                movements.filtered(lambda mov: mov.state == 'draft').write({'state': 'generated'})
-            print (move.movements_ids)
-            print (move.movements_ids)
-            print (move.movements_ids)
-            print (move.movements_ids)
-    
-    # ~ @api.multi
-    # ~ def unlink(self):
-        # ~ for move in self:
-            # ~ for movements in move.movements_ids:
-                # ~ movements.write({'state': 'draft'})
-        # ~ if self.filtered(lambda r: r.invoice_id and r.invoice_id.state != 'draft'):
-            # ~ raise UserError(_('You can only delete an invoice line if the invoice is in draft state.'))
-        # ~ return super(AccountInvoiceLine, self).unlink()
+    def search_movements(self):
+        return self.env['hr.employee.affiliate.movements'].search([
+            ('type','=',self.type_move),
+            ('state','=','draft'),
+            ('employee_id.employer_register_id','=',self.employer_register_id.id),
+            ('date','>=',self.date_from),
+            ('date','<=',self.date_to),
+            ]).ids
+
+    @api.multi
+    def get_movements(self):
+        movements_ids = self.search_movements()
+        if movements_ids:
+            self.with_context(movements=True).movements_ids = [[6, 0, movements_ids]]
+            self.movements_ids.with_context(movements=True).write({'state': 'generated'})
+        else:
+            raise UserError(_('No se encontraron resultados, con la información dada.'))
 
     @api.multi
     def name_get(self):
         result = []
         for move in self:
-            type_move = u'{0}'.format(dict(move._fields['type_move']._description_selection(self.env)).get(move.type_move)),
+            type_move = dict(move._fields['type_move']._description_selection(move.env)).get(move.type_move)
             name = '%s %s %s-%s' %(
-                type_move,
                 move.employer_register_id.employer_registry,
+                type_move,
                 move.date_from,
                 move.date_to,)
             result.append((move.id, name))
@@ -109,19 +109,35 @@ class HrEmployeeAffiliateMove(models.Model):
         Este metodo es para imprimir el txt de los movimientso afiliatorios
         '''
         output = io.BytesIO()
-        print ('imprimir txt')
-        print ('imprimir txt')
-        print ('imprimir txt')
-        print ('imprimir txt')
-        f_name = 'Movimientos Afiliatorios: %s - %s' % (self.date_from, self.date_to)
+        type_move = dict(self._fields['type_move']._description_selection(self.env)).get(self.type_move)
+        f_name = 'Movimientos Afiliatorios de: %s %s - %s' % (type_move, self.date_from, self.date_to)
         content = ''
-        for move in self.movements_ids:
-            
-            content = '%s\t%s\t%s\t%s' %(self.employer_register_id.employer_registry,
-                move.employee_id.ssnid if move.employee_id.ssnid else 'JJJ',
-                move.employee_id.last_name if move.employee_id.last_name else 'JJJ',
-                move.employee_id.mothers_last_name if move.employee_id.mothers_last_name else 'JJJ',)
-        print (type(content))
+        for move in self.movements_ids.filtered(lambda mov: mov.state == 'generated'):
+            if self.type_move == '08':
+                content += '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n' %(self.employer_register_id.employer_registry.ljust(11),  # 1 Registro Patronal len(11)
+                    move.employee_id.ssnid.ljust(11) if move.employee_id.ssnid else ' '.ljust(11),              # 2 Número de seguridad social len(11)
+                    move.employee_id.last_name.ljust(27) if move.employee_id.last_name else ' '.ljust(27),      # 3 Primer apellido len(27)
+                    move.employee_id.mothers_last_name.ljust(27) if move.employee_id.mothers_last_name else ' '.ljust(27),  # 4 Segundo apellido len(27)
+                    move.employee_id.name.ljust(27) if move.employee_id.name else ' '.ljust(27),                # 5 Nombre(s) len(27)
+                    str(move.salary).replace('.','').zfill(6),                                                  # 6 Salario base de cotización len(6)
+                    ' '.ljust(6),                                                                               # 7 Filler len(6)
+                    move.employee_id.type_worker if move.employee_id.type_worker else ' '.ljust(1),             # 8 Tipo de trabajador len(1)
+                    move.employee_id.salary_type if move.employee_id.salary_type else ' '.ljust(1),             # 9 Tipo de salario len(1)
+                    move.employee_id.working_day_week if move.employee_id.working_day_week else ' '.ljust(1),   # 10 Semana o jornada reducida len(1)
+                    move.date.strftime('%d%m%Y'),                                                               # 11 Fecha de movimiento len(8) (DDMMAAAA)
+                    '??'.ljust(3),                                                                              # 12 Unidad de medicina familiar len(3)
+                    ' '.ljust(2),                                                                               # 13 Filler len(2)
+                    move.type,                                                                                  # 14 Tipo de movimiento len(2)
+                    'Guia?'.ljust(5),                                                                           # 15 Guía - Número asignado por la Subdelegación len(5)
+                    move.employee_id.enrollment.ljust(10) if move.employee_id.enrollment else ' '.ljust(10),    # 16 Clave del trabajador len(10)
+                    ' '.ljust(1),                                                                               # 17 Filler len(1)
+                    move.employee_id.curp.ljust(18) if move.employee_id.curp else ' '.ljust(18),                # 18 Clave del trabajador len(18)
+                    '9'.ljust(1),                                                                               # 19 Identificador del formato len(1)
+                )
+            if self.type_move == '07':
+                print (self.type_move)
+            if self.type_move == '02':
+                print (self.type_move)
         data = base64.encodebytes(bytes(content, 'utf-8'))
         export_id = self.env['hr.employee.affiliate.export.txt'].create(
             {'txt_file': data, 'file_name': f_name + '.txt'})
@@ -135,6 +151,25 @@ class HrEmployeeAffiliateMove(models.Model):
             'target': 'new',
         }
 
-    def action_move_open(self):
-        self.filtered(lambda mov: mov.state == 'draft').write({'state': 'open'})
+    def action_move_waiting(self):
+        self.filtered(lambda mov: mov.state == 'draft').write({'state': 'waiting'})
 
+    def action_move_draft(self):
+        move_draft = self.filtered(lambda mov: mov.state == 'waiting')
+        move_draft.write({'state': 'draft'})
+        move_draft.movements_ids.write({'state': 'draft'})
+        
+    def action_move_approved(self):
+        move_approved = self.filtered(lambda mov: mov.state == 'waiting')
+        move_approved.write({'state': 'approved'})
+        move_approved.movements_ids.filtered(lambda mov: mov.state == 'generated').write({'state': 'approved'})
+        move_cut = move_approved.movements_ids.filtered(lambda mov: mov.state == 'draft')
+        for cut in move_cut:
+            move_approved.movements_ids = [(3,cut.id,0)]
+
+    @api.multi
+    def write(self, values):
+        if not self.env.context.get('movements') and 'movements_ids' in values and self.state == 'draft':
+            no_validate_move = [x for x in self.search_movements() if x not in values.get('movements_ids')[0][2]]
+            self.env['hr.employee.affiliate.movements'].search([('id','in', no_validate_move)]).write({'state': 'draft'})
+        return super(HrEmployeeAffiliateMove, self).write(values)
