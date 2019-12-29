@@ -166,6 +166,7 @@
                                     domain="[('company_id','=',company_id)]"/>
                                 <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
                                 <field name="payment_period_id"/>
+                                <field name="type_worker"/>
                             </group>
                             <group string="Extra payments">
                                 <field name="pay_holiday" />
