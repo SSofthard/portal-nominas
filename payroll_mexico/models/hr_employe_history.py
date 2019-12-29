@@ -40,11 +40,8 @@ class EmployeeAffiliateMovements(models.Model):
     @api.multi
     def unlink(self):
         for movements in self:
-            print ('movements')
-            print ('movements')
-            print (movements)
-            print ('movements')
-            print ('movements')
+            if movements.state not in ['draft']:
+                raise UserError(_('You cannot delete affiliate movements that are not in "Draft" status.'))
 
 
 class Contract(models.Model):
@@ -74,10 +71,8 @@ class Contract(models.Model):
         affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','high_reentry')])
         res= super(Contract, self).write(vals)
         if self.contracting_regime != '2':
-            if affiliate_movements and affiliate_movements.state not in ['draft','rejected']:
-                raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement sent or approved.'))
-            else:
-                affiliate_movements.unlink()
+            if affiliate_movements:
+                raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement.'))
         else:
             val = {
                 'contract_id':self.id,
