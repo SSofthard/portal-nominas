@@ -35,7 +35,9 @@
                     <field name="rfc" />
                     <field name="ssnid" />
                     <field name="group_id" />
-                    <field name="work_center_id" />
+                    <field name="work_center_id" 
+                        context="{'show_address': 1}"
+                        options='{"always_reload": True, "highlight_first_line": True}'/>
                     <field name="employer_register_id" />
                 </xpath>
                 <xpath expr="//filter[@name='message_needaction']" position="after">
@@ -408,6 +410,11 @@
                             <field name="state_id" domain="[('country_id','=', country_id)]"/>
                             <field name="account_executive_id"/>
                             <field name="implant_id"/>
+                            <label for="percent_honorarium"/>
+                            <div>
+                                <field name="percent_honorarium" class="oe_inline" />
+                                <span class="o_form_label oe_inline">%</span>
+                            </div>
                         </group>
                         <group>
                             <field name="type" widget="selection"/>

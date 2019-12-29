@@ -3,16 +3,16 @@
     <data>
         
         <report 
-            id="action_report_payroll_sumary"
+            id="action_payroll_summary_report"
             string="Resumén de la Nómina"
             model="hr.payslip" 
             report_type="qweb-html"
-            file="payroll_mexico.report_payroll_sumary_template" 
-            name="payroll_mexico.report_payroll_sumary_template"
-            print_report_name="'Nómina_del_%s_%s' % (object.payroll_month, object.year)"
+            file="payroll_mexico.payroll_summary_report_template" 
+            name="payroll_mexico.payroll_summary_report_template"
+            print_report_name="'Resumen de Nómina periodo: %s_%s' % (object.payroll_month, object.year)"
         />
 
-        <template id="report_payroll_sumary_template">
+        <template id="payroll_summary_report_template">
             <t t-call="web.html_container">
                 <t t-call="web.internal_layout">
                     <div class="page" style="border: 2px solid black; font-size:10px;">
@@ -20,7 +20,7 @@
                             <div>
                                 <strong>
                                     <span class="text-left">NÓMINA DEL MES DE</span>
-                                    <t t-esc="lines_data['payroll_month'].upper()"/>
+                                    <t t-esc="payroll_data['payroll_month'].upper()"/>
                                 </strong>
                             </div>
                             <div style="color: #4F81BD;">
@@ -32,156 +32,443 @@
                             <table class="table-sm" border="0" style="width:100%;">
                                 <thead>
                                     <tr style="font-style: italic;">
-                                        <th style="color: #FFFFFF;" class="text-left">space</th>
-                                        <th class="text-left">SUELDOS Y SALARIOS</th>
+                                        <th class="text-center"></th>
+                                        <th class="text-rigth">SUELDOS Y SALARIOS</th>
                                         <th class="text-left">IAS</th>
+                                        <th class="text-left">LIBRE</th>
                                         <th class="text-left">TOTAL</th>
                                     </tr>
                                 </thead>
                                 <tbody class="sale_tbody">
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="text-left">Sueldo Base (Informativo)</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['base_ss']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['base_ias']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['base_total']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                    </tr>
-                                    <br/>
-                                    <tr>
-                                        <th class="text-right" style="text-decoration: underline;">
-                                            <span>FACTURACIÓN</span>
-                                        </th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <br/>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="text-left">Neto a percibir</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['neto_ss']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['neto_ias']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['neto_total']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="text-left">(+) Impuesto Sobre Nóminas</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['isn_ss']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['isn_ias']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['isn_total']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="text-left">(+) IMSS, RCV E INFONAVIT</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['imss_rcv_infonavit_ss']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['imss_rcv_infonavit_ias']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['imss_rcv_infonavit_total']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="text-left">(+) Retención ISR</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['isr_ss']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['isr_ias']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['isr_total']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="text-left">(+) Honorarios</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="text-left">(+) ????</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="text-left">(+) ????</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="text-left">(+) ????</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="text-left">(+) Otras Deducciones</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['other_ded_ss']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['other_ded_ias']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="lines_data['other_ded_total']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="text-left">(=) Subtotal</span>
-                                        </td>
-                                        <td class="text-left" style="border-top: 1px solid black;">
-                                            <t t-esc="lines_data['subtotal_ss']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left" style="border-top: 1px solid black;">
-                                            <t t-esc="lines_data['subtotal_ias']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                        <td class="text-left" style="border-top: 1px solid black;">
-                                            <t t-esc="lines_data['subtotal_total']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                        </td>
-                                    </tr>
+                                    <!-- Template Sueldos Y Salarios-->
+                                    <t t-if="payroll_data['regimen'] == '2'">
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">Sueldo Base (Informativo)</span>
+                                            </td>
+                                            <td class="text-rigth">
+                                                <t t-esc="payroll_data['base_salary']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['base_salary']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <th class="text-right" style="text-decoration: underline;">
+                                                <span>FACTURACIÓN</span>
+                                            </th>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">Neto a percibir</span>
+                                            </td>
+                                            <td>
+                                                <t t-esc="payroll_data['neto']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['neto']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) Impuesto Sobre Nóminas</span>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isn']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isn']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) IMSS, RCV E INFONAVIT</span>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['imss_rcv_infonavit']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['imss_rcv_infonavit']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) Retención ISR</span>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isr']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isr']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) Honorarios</span>
+                                            </td>
+                                            <td>
+                                                <t t-esc="payroll_data['honorarium']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['honorarium']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(=) Subtotal</span>
+                                            </td>
+                                            <td class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['subtotal']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['subtotal']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) IVA</span>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['iva']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(=) Total</span>
+                                            </td>
+                                            <td class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </t>
+                                    <!-- Template Asimilados a Salarios-->
+                                    <t t-if="payroll_data['regimen'] == '1'">
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">Sueldo Base (Informativo)</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-rigth">
+                                                <t t-esc="payroll_data['base_salary']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['base_salary']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <th class="text-right" style="text-decoration: underline;">
+                                                <span>FACTURACIÓN</span>
+                                            </th>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">Neto a percibir</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>
+                                                <t t-esc="payroll_data['neto']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['neto']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) Impuesto Sobre Nóminas</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isn']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isn']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) IMSS, RCV E INFONAVIT</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['imss_rcv_infonavit']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['imss_rcv_infonavit']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) Retención ISR</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isr']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isr']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) Honorarios</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>
+                                                <t t-esc="payroll_data['honorarium']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['honorarium']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(=) Subtotal</span>
+                                            </td>
+                                            <td></td>
+                                            <td class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['subtotal']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td></td>
+                                            <td class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['subtotal']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) IVA</span>
+                                            </td>
+                                            <td></td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['iva']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(=) Total</span>
+                                            </td>
+                                            <td></td>
+                                            <td class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </t>
+                                    <!-- Template Tipo de Nómina de LIBRES-->
+                                    <t t-if="payroll_data['regimen'] == '5'">
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">Sueldo Base (Informativo)</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-rigth">
+                                                <t t-esc="payroll_data['base_salary']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['base_salary']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <th class="text-right" style="text-decoration: underline;">
+                                                <span>FACTURACIÓN</span>
+                                            </th>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">Neto a percibir</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td>
+                                                <t t-esc="payroll_data['neto']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['neto']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) Impuesto Sobre Nóminas</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isn']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isn']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) IMSS, RCV E INFONAVIT</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['imss_rcv_infonavit']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['imss_rcv_infonavit']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) Retención ISR</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isr']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['isr']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) Honorarios</span>
+                                            </td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td>
+                                                <t t-esc="payroll_data['honorarium']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['honorarium']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(=) Subtotal</span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['subtotal']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['subtotal']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(+) IVA</span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-left">
+                                                <t t-esc="payroll_data['iva']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="text-left">(=) Total</span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </t>
                                 </tbody>
                             </table>
                         </div>

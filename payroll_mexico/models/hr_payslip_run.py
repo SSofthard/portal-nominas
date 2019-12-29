@@ -83,6 +83,19 @@ class HrPayslipRun(models.Model):
     pay_type = fields.Selection([('0','Efectivo'),('1','Especie')], string='Tipo de pago', default='0')
     tax_detail_lines = fields.One2many(inverse_name='payslip_run_id', comodel_name='hr.payroll.tax.details', string='Detalles de impuestos')
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False, readonly=False)
+    apply_honorarium = fields.Boolean('Cargar Honorarios?', default=False, readonly=True,
+        states={'draft': [('readonly', False)]})
+    iva_tax = fields.Float(required=True, digits=(16, 4), string='IVA', default=16.0000,
+        readonly=True, states={'draft': [('readonly', False)]})
+    iva_amount = fields.Float(required=True, digits=(16, 4), string='Importe del IVA',
+        readonly=True, states={'draft': [('readonly', False)]})
+    amount_honorarium = fields.Float(required=True, digits=(16, 4), string='Importe honorarios',
+        readonly=True, states={'draft': [('readonly', False)]})
+    apply_honorarium_on = fields.Selection([
+        ('net', 'Total Neto'),
+        ('gross', 'Total Bruto'),
+    ], string='Aplicar honorarios sobre', index=True, copy=False,
+        readonly=True, states={'draft': [('readonly', False)]})
 
     def print_payslip_run_details(self):
         '''
@@ -90,8 +103,64 @@ class HrPayslipRun(models.Model):
         '''
         return self.env.ref('payroll_mexico.report_payslip_run_template').report_action(self, {})
 
+    @api.onchange('apply_honorarium')
+    def onchange_apply_honorarium(self):
+        if not self.apply_honorarium:
+            self.apply_honorarium_on = False
+
     def not_total(self):
         raise ValidationError(_('Nose encontraron valores para totalizar en la categoría NETO.'))
+
+    @api.multi
+    def print_payroll_summary_report(self):
+        payroll_dic = {}
+        employees = []
+        total = 0
+        domain = [('slip_id.payslip_run_id','=', self.id)]
+        base_salary = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total'))
+        neto = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total'))
+        imss_rcv_infonavit = sum(self.env['hr.payslip.line'].search(domain + [('code','in', ('C001', 'D002', 'UI126', 'UI127', 'UI128'))]).mapped('total'))
+        isr = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D001')]).mapped('total'))
+        isn = self.amount_tax
+        honorarium = self.amount_honorarium
+        subtotal = base_salary + imss_rcv_infonavit + isr + isn + honorarium
+        iva = ((self.iva_tax / 100) * subtotal)
+        total = subtotal + iva
+        payroll_dic['regimen'] = self.contracting_regime
+        payroll_dic['payroll_month'] = dict(self._fields['payroll_month']._description_selection(self.env)).get(self.payroll_month)
+        payroll_dic['base_salary'] = base_salary
+        payroll_dic['neto'] = neto
+        payroll_dic['isn'] = isn
+        payroll_dic['imss_rcv_infonavit'] = imss_rcv_infonavit
+        payroll_dic['isr'] = isr
+        
+        payroll_dic['honorarium'] = honorarium
+        payroll_dic['subtotal'] = subtotal
+        payroll_dic['iva'] = iva
+        payroll_dic['total'] = total
+        data={
+            'payroll_data':payroll_dic
+            }
+        return self.env.ref('payroll_mexico.action_payroll_summary_report').report_action(self,data)       
+
+    @api.multi
+    def set_tax_iva_honorarium(self):
+        domain = [('slip_id.payslip_run_id','=', self.id)]
+        base_salary = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total')) #Gross
+        neto = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total')) #Net
+        imss_rcv_infonavit = sum(self.env['hr.payslip.line'].search(domain + [('code','in', ('C001', 'D002', 'UI126', 'UI127', 'UI128'))]).mapped('total'))
+        isr = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D001')]).mapped('total'))
+        isn = self.amount_tax
+        if self.apply_honorarium:
+            if self.group_id.percent_honorarium > 0:
+                self.amount_honorarium = (
+                    (self.group_id.percent_honorarium / 100) * neto if self.apply_honorarium_on == 'net' else base_salary)
+            else:
+                raise ValidationError(_("Para Cargar 'Honorarios' a la nómina establesca el valor del porcentaje al registro del 'Grupo/Empresa'."))
+        subtotal = base_salary + imss_rcv_infonavit + isr + isn + self.amount_honorarium
+        iva = ((self.iva_tax / 100) * subtotal)
+        if self.iva_tax > 0:
+            self.iva_amount = iva
 
     @api.multi
     def print_payroll_deposit_report(self):
@@ -175,11 +244,6 @@ class HrPayslipRun(models.Model):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
         current_year = fields.Date.context_today(self).year
         payslips_current_month = self.search([('payroll_month','=',self.payroll_month)]).filtered(lambda sheet: sheet.date_start.year == current_year)
-        print (payslips_current_month)
-        print (payslips_current_month)
-        print (payslips_current_month)
-        print (payslips_current_month)
-        print (payslips_current_month)
         total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
         acumulated_subtotal_amount =  sum(payslips_current_month.mapped('subtotal_amount_untaxed'))
         payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated,
@@ -296,12 +360,6 @@ class HrPayslipRun(models.Model):
         self.tax_detail_lines = list_details
         self.subtotal_amount_untaxed = sum(self.tax_detail_lines.mapped('amount_untaxed'))
         self.amount_tax = sum(self.tax_detail_lines.mapped('amount_tax'))
-        print (88888)
-        print (88888)
-        print (88888)
-        print (88888)
-        print (88888)
-        print (88888)
         self._compute_acumulated_tax_amount()
 
     @api.multi
