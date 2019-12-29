@@ -41,15 +41,10 @@ class EmployeeAffiliateMovements(models.Model):
         self.filtered(lambda mov: mov.state == 'generated').write({'state': 'draft'})
 
     @api.multi
-    def write(self, values):
-        print ('values')
-        print ('values')
-        print (values)
-        print ('values')
-        # ~ if not self.env.context.get('movements') and 'movements_ids' in values and self.state == 'draft':
-            # ~ no_validate_move = [x for x in self.search_movements() if x not in values.get('movements_ids')[0][2]]
-            # ~ self.env['hr.employee.affiliate.movements'].search([('id','in', no_validate_move)]).write({'state': 'draft'})
-        return super(EmployeeAffiliateMovements, self).write(values)
+    def unlink(self):
+        for movements in self:
+            if movements.state not in ['draft']:
+                raise UserError(_('You cannot delete affiliate movements that are not in "Draft" status.'))
 
 
 class Contract(models.Model):
@@ -79,10 +74,8 @@ class Contract(models.Model):
         affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08')])
         res= super(Contract, self).write(vals)
         if self.contracting_regime != '2':
-            if affiliate_movements and affiliate_movements.state not in ['draft','rejected']:
-                raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement sent or approved.'))
-            else:
-                affiliate_movements.unlink()
+            if affiliate_movements:
+                raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement.'))
         else:
             val = {
                 'contract_id':self.id,
