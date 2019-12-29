@@ -55,6 +55,8 @@
                     <button name="print_fault_report" string="Reporte de faltas" type="object" class="o_sale_print" attrs="{'invisible': [('payroll_type','!=','ordinary_payroll')]}"/>
                     <button name="%(payroll_mexico.action_payslip_run_rule_details)d" string="Reporte detalles de calculos" type="action" class="o_sale_print"/>
                     <button name="action_print_report" string="Reporte de Nómina Excel" type="object" class="o_sale_print"/>
+                    <button name="set_tax_iva_honorarium" string="Calcular IVA Honor" type="object" class="o_sale_print"/>
+                    <button name="print_payroll_summary_report" string="Resumen de Nómina" type="object" class="o_sale_print"/>
                 </xpath>
                 <xpath expr="//field[@name='name']" position="before">
                     <div class="oe_button_box" name="button_box">
@@ -95,6 +97,17 @@
                         <group col="4" string="Acumulados">
                             <field name="acumulated_subtotal_amount"/>
                             <field name="acumulated_amount_tax"/>
+                        </group>
+                        <group>
+                            <label for="iva_tax"/>
+                            <div>
+                                <field name="iva_tax" class="oe_inline" />
+                                <span class="o_form_label oe_inline">%</span>
+                            </div>
+                            <field name="iva_amount" attrs="{'invisible': ['|', '|', ('iva_tax','=', 0), ('iva_amount','=', 0), ('state','=', 'draft')]}"/>
+                            <field name="apply_honorarium"/>
+                            <field name="apply_honorarium_on" attrs="{'invisible': [('apply_honorarium','=', False)], 'required': [('apply_honorarium','=', True)]}"/>
+                            <field name="amount_honorarium" attrs="{'invisible': ['|', '|', ('apply_honorarium','=', False),('amount_honorarium','=', 0), ('state','=', 'draft')], 'required': [('apply_honorarium','=', True)]}"/>
                         </group>
                     </group>
                     <group col="4">
