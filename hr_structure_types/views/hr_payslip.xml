@@ -13,6 +13,10 @@
                 <attribute name="domain">[('structure_type_id','=',structure_type_id)]</attribute>
                 <attribute name="context">{'default_structure_type_id':structure_type_id}</attribute>
             </xpath>
+            
+            <xpath expr="//field[@name='line_ids']/tree" position="attributes">
+                <attribute name="limit">200</attribute>
+            </xpath>
       </field>
     </record>
     <record model="ir.ui.view" id="hr_payslip_mexico_inherit_form">
