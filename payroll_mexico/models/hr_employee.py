@@ -526,7 +526,8 @@ class HrGroup(models.Model):
     state_id = fields.Many2one('res.country.state', string='State', required=True)
     bonus_days = fields.Float(string="Bonus days", required=True, default=15)
     antique_table = fields.Many2one('tablas.antiguedades', string='Antique table', required=True)
-    
+    percent_honorarium = fields.Float(required=True, digits=(16, 4), string='Porcentaje de honoraios')
+
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
     ]
