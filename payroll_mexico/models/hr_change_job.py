@@ -6,15 +6,11 @@ from odoo.exceptions import UserError, ValidationError
 class ChangeOfJob(models.Model):
     _name = 'hr.change.job'
 
-    state = fields.Selection([
-            ('alta','Alta'),
-            ('baja','Baja'),
-            ('cambio','Cambio de puesto'),], string="state")
     contract_id = fields.Many2one('hr.contract',string='Contracto',store=True)
     employee_id = fields.Many2one('hr.employee',string="Employee")
     date_from = fields.Date(string='Desde')
-    job_before_id = fields.Many2one('hr.job', string='Puesto de trabajo anterior')
-    job_current_id = fields.Many2one('hr.job', string='Puesto de trabajo actual')
+    date_to = fields.Date(string='Hasta')
+    job_id = fields.Many2one('hr.job', string='Puesto de trabajo')
 
 class Contract(models.Model):
     _inherit = 'hr.contract'
@@ -33,12 +29,12 @@ class Contract(models.Model):
             }
             self.env['hr.employee.affiliate.movements'].create(val)
         change_job = {
-                'state': 'alta',
-                'contract_id': res.id,
                 'employee_id': res.employee_id.id,
+                'contract_id': res.id,
+                'job_id': res.job_id.id,
                 'date_from': res.date_start,
-                'job_before_id': '',
-                'job_current_id': res.job_id.id,
+                'date_to': False,
+                
         }
         self.env['hr.change.job'].create(change_job)
         return res

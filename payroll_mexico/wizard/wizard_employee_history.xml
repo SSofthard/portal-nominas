@@ -16,7 +16,7 @@
                         </group>
                         <group>
                             <field name="select_job" widget="radio"/>
-                            <field name="job_ids" widget="many2many_tags" attrs="{'invisible':[('select_job','=',False)]}"/>
+                            <field name="job_ids" widget="many2many_tags" attrs="{'invisible':[('select_job','!=','some')]}"/>
                             <field name="contracting_regime"/>
                         </group>
                         <group class="row">

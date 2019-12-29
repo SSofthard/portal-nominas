@@ -41,13 +41,66 @@
                             </div>
                         </div>
                         <br/>
-                        <t t-set="counter" t-value="0"/>
-                        <t t-foreach="data['job']" t-as="job">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">PUESTO DE TRABAJO:</th>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS (FECHA DE INICIO):</th>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS (FECHA DE FIN):</th>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE BAJAS:</th>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">TASA DE ROTACION:</th>
+                                </tr>
+                            </thead>
+                        <t t-foreach="docs.mapped('job_id')" t-as="o">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" class="text-center" ><span t-field="o.name"/></td>
+                                    <td colspan="2" class="text-center" ><span t-esc="len(docs.mapped('employee_id'))"/></td>
+                                    <td colspan="2" class="text-center" ><span>definir</span></td>
+                                    <td colspan="2" class="text-center" ><span>definir</span></td>
+                                    <td colspan="2" class="text-center" ><span>definir</span></td>
+                                </tr>
+                            </tbody>
+                        </t>
+                        </table>
+                        <br/>
+                    </div>
+<!--
+                    <div class="page" style="font-size:12px">
+                        <h5 class="text-center">ROTACION DE EMPLEADOS.</h5>
+                        <br/>
+                        <div>
+                            <div class="row">
+                                <strong>GRUPO:&amp;nbsp; </strong>
+                                <t t-esc="data['group']"/>
+                            </div>
+                            <div class="row">
+                                <strong>REGISTRO PATRONAL:&amp;nbsp; </strong>
+                                <t t-esc="data['register']"/>
+                            </div>
+                            <div class="row">
+                                <strong>CENTRO DE TRABAJO:&amp;nbsp; </strong>
+                                <t t-esc="data['work_center']"/>
+                            </div>
+                            <div class="row">
+                                <strong>PUESTO DE TRABAJO:&amp;nbsp; </strong>
+                                <t t-esc="data['job_ids']"/>
+                            </div>
+                            <div class="row">
+                                <strong>REGIMEN DE CONTRATACION:&amp;nbsp; </strong>
+                                <t t-esc="data['regime']"/>
+                            </div>
+                            <div class="row">
+                                <strong>DESDE:&amp;nbsp;</strong><t t-esc="data['date_from']"/>&amp;nbsp;<strong>HASTA:&amp;nbsp;</strong><t t-esc="data['date_to']"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <t t-foreach="docs.mapped('job_current_id')" t-as="o">
                             <table class="table">
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">PUESTO DE TRABAJO:</th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><t t-esc="job"/></th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span t-field="o.name"/></th>
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS:</th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><t t-esc="data['active']"/></th>
+                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span t-field="o.no_of_employee"/></th>
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE ALTAS:</th>
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span>definir</span></th>
                                     <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE BAJAS:</th>
@@ -63,20 +116,22 @@
                                         <th colspan="2" class="text-center" >STATUS</th>
                                     </tr>
                                 </thead>
+                             <t t-foreach="docs.mapped('employee_id')" t-as="e" >
                                 <tbody>
                                     <tr>
-                                        <td colspan="2" class="text-center" ><t t-esc="data['employee'][counter]"/></td>
-                                        <td colspan="2" class="text-center" ><t t-esc="data['date_start'][counter]"/></td>
-                                        <td colspan="2" class="text-center" ><t t-esc="data['date'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><span t-field="e.name"/></td>
+                                        <td colspan="2" class="text-center" ><span t-field="e.contract_ids.date_start"/></td>
+                                        <td colspan="2" class="text-center" ><span>definir</span></td>
                                         <td colspan="2" class="text-center" ><span>definir</span></td>
                                         <td colspan="2" class="text-center" ><span>definir</span></td>
                                     </tr>
                                 </tbody>
+                            </t>
                             </table>
                             <br/>
-                        <t t-set="counter" t-value="counter+1" />
                         </t>
                     </div>
+-->
                 </t>
             </t>
         </template>
