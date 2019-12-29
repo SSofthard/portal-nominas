@@ -27,6 +27,10 @@
       </field>
     </record>
     
+    <record id="hr_payroll.action_salary_rule_form" model="ir.actions.act_window">
+        <field name="limit">200</field>
+    </record>
+    
 
     
   </data>
