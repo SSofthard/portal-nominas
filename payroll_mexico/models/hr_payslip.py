@@ -178,6 +178,19 @@ class HrPayslip(models.Model):
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
             payslip.write({'line_ids': lines, 'number': number})
+            if payslip.settlement:
+                val = {
+                    'contract_id':payslip.contract_id.id,
+                    'employee_id':payslip.employee_id.id,
+                    'type':'02',
+                    'date': payslip.date_end,
+                    'wage':payslip.contract_id.wage,
+                    'salary':payslip.contract_id.integral_salary,
+                    'reason_liquidation':payslip.reason_liquidation,
+                    }
+                self.env['hr.employee.affiliate.movements'].create(val)
+                payslip.contract_id.state = 'close'
+                payslip.employee_id.active = False
         return True
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')

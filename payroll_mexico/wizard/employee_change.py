@@ -22,7 +22,7 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
             val = {
                 'contract_id':self.contract_id.id,
                 'employee_id':self.employee_id.id,
-                'type':'salary_change',
+                'type':'07',
                 'date': self.date_from,
                 'wage':self.wage,
                 'salary':self.contract_id.integral_salary,

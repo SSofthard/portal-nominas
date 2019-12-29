@@ -38,12 +38,11 @@
             <form string="Settlement">
             <header>
                 <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
-                <button string="Confirm" name="action_payslip_done" type="object" states="draft" class="oe_highlight"/>
-                <button string="Refund" name="refund_sheet" states="confirm,done" type='object' />
+                <button string="Confirm" name="action_payslip_done" type="object" states="draft" class="oe_highlight" confirm="Be sure to confirm the settlement / settlement process, once closed it cannot be opened again."/>
                 <button string="Set to Draft" name="action_payslip_draft" type="object" states="cancel"/>
                 <button string="Compute Sheet" name="compute_sheet" type="object" states="draft" class="oe_highlight"/>
                 <button string="Cancel Payslip" name="action_payslip_cancel" type="object" states="draft,hr_check,confirm,verify"/>
-                <button string="Report settlement" name="print_settlement_report" type="object" attrs="{'invisible':[('settlement','!=',True)]}"/>
+                <button string="Report settlement" name="print_settlement_report" type="object" states="draft,done"/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
             </header>
             <sheet>
