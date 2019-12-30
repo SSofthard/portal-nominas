@@ -15,7 +15,8 @@
                             <field name="work_center_id"/>
                         </group>
                         <group>
-                            <field name="job_ids" widget="many2many_tags"/>
+                            <field name="select_job" widget="radio"/>
+                            <field name="job_ids" widget="many2many_tags" attrs="{'invisible':[('select_job','!=','some')]}"/>
                             <field name="contracting_regime"/>
                         </group>
                         <group class="row">
@@ -53,3 +54,4 @@
 
     </data>
 </odoo>
+    

@@ -105,12 +105,12 @@
                     <field name="job_id" required="1" attrs="{'readonly':[('id', '!=', False),('job_id', '!=', False)]}"/>
                     <button
                         type="action"
-                        name="%(payroll_mexico.change_history_form_action)d"
+                        name="%(payroll_mexico.change_job_action)d"
                         class="btn-sm btn-link mb4 fa fa-history"
                         aria-label="Change Job Position"
                         title="Change Job Position"
                         attrs="{'invisible':[('id', '=', False)]}"
-                        context="{'default_type': 'job', 'default_employee_id': employee_id, 'default_contract_id': id}"
+                        context="{'default_employee_id': employee_id, 'default_contract_id': id, 'default_job_current_id': job_id}"
                     />
                 </div>
             </xpath>
