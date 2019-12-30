@@ -58,8 +58,6 @@ class Contract(models.Model):
         Esten metodo busca el salario integral fijo para agregarlo al formulario del empleado
         '''
         contracts = self
-        print ('entre')
-        print (contracts)
         # ~ print (contract[1].employee_id.name)
         for contract in contracts:
             current_date  =  fields.Date.context_today(self)+timedelta(days=1)

@@ -20,6 +20,7 @@
         'wizard/infonavit_view.xml',
         'wizard/fees_settlement_report_txt_view.xml',
         'wizard/wizard_affiliate_move_view.xml',
+        'wizard/employee_change_job_view.xml',
         'views/hr_employe_history_view.xml',
         'views/res_country_view.xml',
         'views/hr_employee_view.xml',

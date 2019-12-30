@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_change_job_wizard_view" model="ir.ui.view">
+        <field name="name">hr.employee.change.job.wizard.view</field>
+        <field name="model">hr.employee.change.job.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cambio de puesto de trabajo">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" readonly="1"/>
+                            <field name="contract_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="job_id"/>
+                            <field name="date_from"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <group>
+                        <span>
+                            <button string="Aceptar" type="object" class="oe_highlight" name="change_job"/>
+                            <button string="Cancel" class="oe_link" special="cancel" />
+                        </span>
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="change_job_action" model="ir.actions.act_window">
+        <field name="name">Cambio de puesto de trabajo</field>
+        <field name="res_model">hr.employee.change.job.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
