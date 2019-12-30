@@ -13,20 +13,17 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
     date_from = fields.Date(string="Start Date", default=fields.Date.today())
 
     def apply_change(self):
-        if self.contract_id.contracting_regime == '2': 
-            affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.contract_id.id),('type','=','salary_change'),('state','in',['draft','generated'])])
-            if affiliate_movements:
-                raise ValidationError(_('There is already an affiliate movement for salary change in draft or generated status, please check and if you want to generate a new one, delete the current one.'))
-            salary_old = self.contract_id.integral_salary
-            self.contract_id.wage = self.wage
-            val = {
-                'contract_id':self.contract_id.id,
-                'employee_id':self.employee_id.id,
-                'type':'07',
-                'date': self.date_from,
-                'wage':self.wage,
-                'salary':self.contract_id.integral_salary,
-                'salary_old':salary_old,
-                }
-            self.env['hr.employee.affiliate.movements'].create(val)
+        affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.contract_id.id),('type','=','07'),('state','in',['draft','generated']),('contracting_regime','in',['2'])])
+        if affiliate_movements:
+            raise ValidationError(_('There is already an affiliate movement for salary change in draft or generated status, please check and if you want to generate a new one, delete the current one.'))
+        self.contract_id.wage = self.wage
+        val = {
+            'contract_id':self.contract_id.id,
+            'employee_id':self.employee_id.id,
+            'type':'07',
+            'date': self.date_from,
+            'wage':self.wage,
+            'salary':self.contract_id.integral_salary,
+            }
+        self.env['hr.employee.affiliate.movements'].create(val)
         return True 

@@ -190,7 +190,6 @@ class HrPayslip(models.Model):
                     }
                 self.env['hr.employee.affiliate.movements'].create(val)
                 payslip.contract_id.state = 'close'
-                payslip.employee_id.active = False
         return True
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
