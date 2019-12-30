@@ -84,7 +84,7 @@
                                             <t t-esc="emp['curp']"/>
                                         </th>
                                         <th class="text-left">
-                                            <t t-esc="emp['date_admission']"/>
+                                            <t t-esc="emp['date_admission']" t-options='{"widget": "date"}'/>
                                         </th>
                                     </tr>
                                     <t t-foreach="emp['leave']" t-as="leave">
@@ -99,10 +99,10 @@
                                                 <t t-esc="leave['duration']"/>
                                             </td>
                                             <td class="text-center">
-                                                <t t-esc="leave['request_date_from']"/>
+                                                <t t-esc="leave['request_date_from']" t-options='{"widget": "date"}'/>
                                             </td>
                                             <td class="text-center">
-                                                <t t-esc="leave['request_date_to']"/>
+                                                <t t-esc="leave['request_date_to']" t-options='{"widget": "date"}'/>
                                             </td>
                                             <td class="text-center">
                                                 <t t-esc="leave['holiday_status_id']"/>

@@ -67,6 +67,7 @@ class HrPayslip(models.Model):
     move_infonacot_id = fields.Many2one('hr.credit.employee.account', string="FONACOT Move")
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
+    employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
     # ~ integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
 
     @api.depends('subtotal_amount_untaxed')
@@ -177,6 +178,19 @@ class HrPayslip(models.Model):
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
             payslip.write({'line_ids': lines, 'number': number})
+            if payslip.settlement:
+                val = {
+                    'contract_id':payslip.contract_id.id,
+                    'employee_id':payslip.employee_id.id,
+                    'type':'02',
+                    'date': payslip.date_end,
+                    'wage':payslip.contract_id.wage,
+                    'salary':payslip.contract_id.integral_salary,
+                    'reason_liquidation':payslip.reason_liquidation,
+                    }
+                self.env['hr.employee.affiliate.movements'].create(val)
+                payslip.contract_id.state = 'close'
+                payslip.employee_id.active = False
         return True
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')

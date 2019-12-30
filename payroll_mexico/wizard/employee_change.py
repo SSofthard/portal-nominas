@@ -9,41 +9,24 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
     #Columns
     employee_id = fields.Many2one('hr.employee', index=True, string='Employee')
     contract_id = fields.Many2one('hr.contract', index=True, string='Contract')
-    currency_id = fields.Many2one(string="Currency", related='contract_id.currency_id')
-    job_id = fields.Many2one('hr.job', index=True, string='Job Position')
-    wage = fields.Monetary('Wage', digits=(16, 2), help="Employee's monthly gross wage.")
+    wage = fields.Float('Wage', digits=(16, 2), help="Employee's monthly gross wage.")
     date_from = fields.Date(string="Start Date", default=fields.Date.today())
-    type = fields.Selection([
-        ('wage', 'Wage'),
-        ('job', 'Job Position'),
-        ('register', 'Register'),
-    ], string='Change History', index=True,
-        help="""* Type change'
-                \n* If the changue is wage, the type is \'Wage\'.
-                \n* If the changue is job then type is set to \'Job Position\'.""")
 
     def apply_change(self):
-        if self.type == 'job':
-            self.contract_id.write({'job_id': self.job_id.id})
-        if self.type == 'wage':
-            if self.wage > 0:
-                self.contract_id.write({'wage': self.wage})
-            else:
-                raise ValidationError(_("The salary cannot be negative."))
-        History = self.env['hr.employee.change.history']
-        domain = []
-        # ~ if self.type == 'job':
-            # ~ domain = [()]
-        history_id = History.search([('employee_id','=', self.employee_id.id),('contract_id','=',self.contract_id.id)], limit=1)
-        kwargs = {
-            'employee_id': self.employee_id.id,
-            'contract_id': self.contract_id.id,
-            'job_id': self.job_id.id if self.type == 'job' else self.contract_id.job_id.id,
-            'wage': self.wage if self.type == 'wage' else self.contract_id.wage,
-            'salary': self.contract_id.integral_salary,
-            'date_from': self.date_from,
-            'type': self.type,
-        }
-        kwargs['before_job_id'] = history_id.contract_id.job_id
-        history_id.write({'date_to': fields.Date.today()})
-        History.prepare_changes(**kwargs)
+        if self.contract_id.contracting_regime == '2': 
+            affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.contract_id.id),('type','=','salary_change'),('state','in',['draft','generated'])])
+            if affiliate_movements:
+                raise ValidationError(_('There is already an affiliate movement for salary change in draft or generated status, please check and if you want to generate a new one, delete the current one.'))
+            salary_old = self.contract_id.integral_salary
+            self.contract_id.wage = self.wage
+            val = {
+                'contract_id':self.contract_id.id,
+                'employee_id':self.employee_id.id,
+                'type':'07',
+                'date': self.date_from,
+                'wage':self.wage,
+                'salary':self.contract_id.integral_salary,
+                'salary_old':salary_old,
+                }
+            self.env['hr.employee.affiliate.movements'].create(val)
+        return True 

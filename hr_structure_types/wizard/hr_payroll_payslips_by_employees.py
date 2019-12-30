@@ -34,12 +34,14 @@ class HrPayslipEmployees(models.TransientModel):
             payslip_run = self.env['hr.payslip.run'].browse(active_id)
         contract=self.env['hr.contract']
         structure_type_id=self.estructure_id.structure_type_id.id
+        if payslip_run.contracting_regime == '2':
+            domain_employer_register = [('employer_register_id','=',payslip_run.employer_register_id.id)]
         domain=[
             ('structure_type_id','=',structure_type_id),
             ('employee_id.group_id','=',payslip_run.group_id.id),
             ('contracting_regime','=',self.contracting_regime)
             ]
-        employees=contract.search_read(domain,['employee_id','state'])
+        employees=contract.search_read(domain+domain_employer_register,['employee_id','state'])
         employee_ids=[]
         for employee in employees:
             if employee['state'] in ['open']:
@@ -57,7 +59,8 @@ class HrPayslipEmployees(models.TransientModel):
                                                                                                                         'payroll_month',
                                                                                                                         'payroll_of_month',
                                                                                                                         'payroll_period',
-                                                                                                                        'table_id'])
+                                                                                                                        'table_id',
+                                                                                                                        'employer_register_id'])
         from_date = run_data.get('date_start')
         to_date = run_data.get('date_end')
         if not data['employee_ids']:
@@ -85,8 +88,13 @@ class HrPayslipEmployees(models.TransientModel):
                 'payroll_of_month':slip_data['value'].get('payroll_of_month'),
                 'payroll_period':slip_data['value'].get('payroll_period'),
                 'table_id':slip_data['value'].get('table_id'),
+                'employer_register_id':slip_data['value'].get('employer_register_id'),
             }
             payslips += self.env['hr.payslip'].create(res)
             payslips.compute_sheet()
-        
+        self.env['hr.payslip.run'].browse(active_id).set_tax_iva_honorarium()
+        # ~ print (payslip_run_id)
+        # ~ print (payslip_run_id)
+        # ~ print (payslip_run_id.slip_ids)
+        # ~ print (payslip_run_id.slip)
         return {'type': 'ir.actions.act_window_close'}
