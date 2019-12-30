@@ -55,7 +55,7 @@
                     <button name="print_fault_report" string="Reporte de faltas" type="object" class="o_sale_print" attrs="{'invisible': [('payroll_type','!=','ordinary_payroll')]}"/>
                     <button name="%(payroll_mexico.action_payslip_run_rule_details)d" string="Reporte detalles de calculos" type="action" class="o_sale_print"/>
                     <button name="action_print_report" string="Reporte de Nómina Excel" type="object" class="o_sale_print"/>
-                    <button name="set_tax_iva_honorarium" string="Calcular IVA Honor" type="object" class="o_sale_print"/>
+                    <!-- <button name="set_tax_iva_honorarium" string="Calcular IVA & Honorarios" type="object" class="o_sale_print"/> -->
                     <button name="print_payroll_summary_report" string="Resumen de Nómina" type="object" class="o_sale_print"/>
                 </xpath>
                 <xpath expr="//field[@name='name']" position="before">
