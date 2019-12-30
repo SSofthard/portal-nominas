@@ -90,4 +90,62 @@
     </record>
 
 
+
+    <record id="wizard_employee_history" model="ir.ui.view">
+        <field name="name">wizard_employee_history.form</field>
+        <field name="model">wizard.employee.history</field>
+        <field name="priority">5</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="group_id"/>
+                        <field name="employer_register_id"/>
+                        <field name="work_center_id"/>
+                    </group>
+                    <group>
+                        <field name="select_job" widget="radio"/>
+                        <field name="job_ids" widget="many2many_tags" attrs="{'invisible':[('select_job','!=','some')]}"/>
+                        <field name="contracting_regime"/>
+                    </group>
+                    <group class="row">
+                        <field name="date_from"/>
+                    </group>
+                    <group class="row">
+                        <field name="date_to"/>
+                    </group>
+                </group>
+           <footer>
+                <button string="Imprimir" name="report_print" type="object" default_focus="1" class="btn-primary"/>
+                <button string="Cancel" class="btn-default" special="cancel"/>
+            </footer>
+       </form>
+        </field>
+    </record>
+
+    <act_window
+        id="action_wizard_employee_history_form"
+        name="Rotacion de empleados"
+        res_model="wizard.employee.history"
+        src_model="hr.change.job"
+        view_mode="form"
+        multi="True"
+        target="new"
+       />
+
+    <menuitem
+        id="menu_report_employee_rotation"
+        name="Rotacion de empleados"
+        parent="payroll_mexico.menu_report_contract"
+        action="action_wizard_employee_history_form"
+        groups="hr.group_hr_manager"
+        sequence="10"/>
+
+
+
+
+
+
+
+
 </odoo>
