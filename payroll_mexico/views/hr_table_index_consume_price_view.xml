@@ -18,6 +18,7 @@
                             <group>
                                 <field name="month"/>
                                 <field name="value"/>
+                                <field name="sucharge_fee"/>
                             </group>
                         </group>
                     </sheet>
@@ -33,6 +34,7 @@
                     <field name="year"/>
                     <field name="month"/>
                     <field name="value"/>
+                    <field name="sucharge_fee"/>
                 </tree>
             </field>
         </record>
