@@ -23,7 +23,6 @@
         'views/hr_employe_history_view.xml',
         'views/res_country_view.xml',
         'views/hr_employee_view.xml',
-        'wizard/wizard_employee_history.xml',
         'views/hr_contract.xml',
         'views/hr_contract_type.xml',
         'views/hr_payslip.xml',
@@ -40,7 +39,6 @@
         'views/table_antiguedades_view.xml',
         'views/hr_fees_settlement_view.xml',
         'views/hr_table_index_consume_price_view.xml',
-        'views/hr_affiliate_move_view.xml',
         'security/ir.model.access.csv',
         #Reports
         'report/base_layout.xml',

@@ -1,13 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+	
+	<menuitem
+        id="menu_hr_employee_affiliate_movements_root"
+        name="Movement History"
+        parent="hr.menu_hr_root"
+        sequence="90"/>
 
+    <record id="hr_change_job_form_view" model="ir.ui.view">
+        <field name="name">hr.change.job.form.view</field>
+        <field name="model">hr.change.job</field>
+        <field name="arch" type="xml">
+            <form string="Employee change job" edit="false" create="false">
+                <sheet>
+                    <group>
+                        <group>
+							<field name="contract_id" />
+							<field name="employee_id" />
+                        </group>
+                        <group>
+                            <field name="job_id" />
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <field name="contracting_regime" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="hr_change_job_tree" model="ir.ui.view">
+        <field name="name">hr.change.job.tree</field>
+        <field name="model">hr.change.job</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <tree string="Employee change job" edit="false" create="false">
+                <field name="employee_id"/>
+                <field name="contract_id"/>
+                <field name="job_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="contracting_regime" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="employeehr_change_job_action" model="ir.actions.act_window">
+        <field name="name">Employee change job</field>
+        <field name="res_model">hr.change.job</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="hr_change_job_tree"/>
+    </record>
+    
+     <menuitem
+        id="menu_employeehr_change_job"
+        name="Employee change job"
+        action="employeehr_change_job_action"
+        parent="menu_hr_employee_affiliate_movements_root"
+        sequence="10"/>
+    
     <record id="hr_employee_affiliate_movements_form_view" model="ir.ui.view">
         <field name="name">hr.employee.affiliate.movements.form.view</field>
         <field name="model">hr.employee.affiliate.movements</field>
         <field name="arch" type="xml">
             <form string="Employee affiliate movements" edit="false" create="false">
 				<header>
-                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}" invisible="context.get('invisible')"/>
                     </header>
                 <sheet>
                     <group>
@@ -20,10 +80,10 @@
                         <group>
                             <field name="reason_liquidation" attrs="{'invisible': [('type','not in', ['02'])]}"/>
                             <field name="wage"/>
-                            <field name="salary_old" attrs="{'invisible': [('type','!=', '07')]}"/>
                             <field name="salary" attrs="{'invisible': [('type','=', '02')]}"/>
                         </group>
                     </group>
+                    <field name="contracting_regime" invisible="1"/>
                 </sheet>
             </form>
         </field>
@@ -39,9 +99,19 @@
                 <field name="contract_id"/>
                 <field name="type"/>
                 <field name="state" invisible="1"/>
+                <field name="contracting_regime" invisible="1"/>
                 <button name="action_move_draft" string="No aprobado" states="generated" type="object" icon="fa-times-circle-o"/>
             </tree>
         </field>
+    </record>
+    
+    <record id="employee_hr_employee_history_movements_action" model="ir.actions.act_window">
+        <field name="name">Employee history movements</field>
+        <field name="res_model">hr.employee.affiliate.movements</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'invisible':True}</field>
+        <field name="view_id" ref="hr_employee_affiliate_movements_tree"/>
     </record>
     
     <record id="employee_hr_employee_affiliate_movements_action" model="ir.actions.act_window">
@@ -49,61 +119,25 @@
         <field name="res_model">hr.employee.affiliate.movements</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="domain">[('contracting_regime','in',['2'])]</field>
+        <field name="context">{'invisible':False}</field>
         <field name="view_id" ref="hr_employee_affiliate_movements_tree"/>
     </record>
     
+        
     <menuitem
-        id="menu_hr_employee_affiliate_movements_root"
-        name="Movimientos Afiliatorios"
-        parent="hr.menu_hr_root"
-        sequence="90"/>
+        id="menu_hr_employee_history_movements"
+        name="Movement History"
+        action="employee_hr_employee_history_movements_action"
+        parent="menu_hr_employee_affiliate_movements_root"
+        sequence="5"/>
+        
     <menuitem
         id="menu_hr_employee_affiliate_movements"
         name="Affiliate movements"
         action="employee_hr_employee_affiliate_movements_action"
         parent="menu_hr_employee_affiliate_movements_root"
-        sequence="5"/>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        sequence="15"/>
     
     <!-- Add action entry in the Action fields contract for update -->
     <record id="hr_contract_view_form_change_history" model="ir.ui.view">
@@ -118,12 +152,12 @@
                     <field name="job_id" required="1" attrs="{'readonly':[('id', '!=', False),('job_id', '!=', False)]}"/>
                     <button
                         type="action"
-                        name="%(payroll_mexico.change_history_form_action)d"
+                        name="%(payroll_mexico.change_job_action)d"
                         class="btn-sm btn-link mb4 fa fa-history"
                         aria-label="Change Job Position"
                         title="Change Job Position"
                         attrs="{'invisible':[('id', '=', False)]}"
-                        context="{'default_type': 'job', 'default_employee_id': employee_id, 'default_contract_id': id}"
+                        context="{'default_employee_id': employee_id, 'default_contract_id': id, 'default_job_current_id': job_id}"
                     />
                 </div>
             </xpath>
@@ -144,117 +178,66 @@
             </xpath>
         </field>
     </record>
-
-    <record id="view_employee_change_history_filter" model="ir.ui.view">
-        <field name="name">view.employee.change.history.filter</field>
-        <field name="model">hr.employee.change.history</field>
+	
+	 <record id="hr_employee_affiliate_move_view" model="ir.ui.view">
+        <field name="name">hr_employee_affiliate_move_view</field>
+        <field name="model">hr.employee.affiliate.move</field>
+        <field name="priority">5</field>
         <field name="arch" type="xml">
-            <search string="Employee Change History">
-                <field name="employee_id" string="Employee" filter_domain="[('employee_id','ilike',self)]"/>
-                <field name="contract_id" string="Contract" filter_domain="[('contract_id','ilike',self)]"/>
-                <field name="job_id" string="Job Position" filter_domain="[('job_id','ilike',self)]"/>
-                <field name="contracting_regime" string="Contracting Regime" filter_domain="[('contracting_regime','ilike',self)]"/>
-                <group col="8" colspan="4" expand="0" string="Group By">
-                    <filter string="Type Changue" name="type" context="{'group_by':'type'}"/>
-                    <filter string="Employee" name="employee_id" context="{'group_by':'employee_id'}"/>
-                    <filter string="Contract" name="contract_id" context="{'group_by':'contract_id'}"/>
-                    <filter string="Contracting Regime" name="contracting_regime" context="{'group_by':'contracting_regime'}"/>
-                    <filter string="Start Date" name="date_from" domain="[]" context="{'group_by':'date_from'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <record id="employee_change_history_tree" model="ir.ui.view">
-        <field name="name">hr.employee.change.history.tree</field>
-        <field name="model">hr.employee.change.history</field>
-        <field name="priority">2</field>
-        <field name="arch" type="xml">
-            <tree string="Employee Change History" edit="false" create="false" delete="false">
-                <field name="employee_id"/>
-                <field name="contract_id"/>
-                <field name="job_id"/>
-                <field name="wage"/>
-                <field name="salary"/>
-                <field name="date_from"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="hr_employee_change_history_form_view" model="ir.ui.view">
-        <field name="name">hr.employee.change.history.form.view</field>
-        <field name="model">hr.employee.change.history</field>
-        <field name="arch" type="xml">
-            <form string="Employee Change History" edit="false" create="false" delete="false">
+            <form string="Movimientos Afiliatorios">
+                <header>
+<!--
+                    <button name="action_move_draft" states="waiting" string="Volver a Borrador" type="object"/>
+-->
+                    <button name="action_move_waiting" states="draft" string="Validar" type="object"/>
+                    <button name="action_move_approved" states="waiting" string="Validar" type="object" 
+                        confirm="Se aprobaran todos los movimientos afiliatorios seleccionados, luego de esto no se podrá modificar éste registro."/>
+                    <button name="action_print_txt" states="waiting" string="Generar TXT" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting,approved" />
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+                            <field string="Documentos" name="document_count" widget="statinfo"/>
+                        </button>
+                    </div>
                     <group>
-                        <field name="type" invisible="1"/>
                         <group>
-                            <field name="employee_id" readonly="1"/>
-                            <field name="contract_id" readonly="1"/>
-                        </group>
-                        <group>
-                            <field name="job_id" attrs="{'required' : [('type', '=', 'job')], 'invisible': [('type','!=', 'job')]}"/>
-                            <field name="wage" attrs="{'required' : [('type', '=', 'wage')], 'invisible': [('type','!=', 'wage')]}"/>
-                            <field name="salary"/>
+                            <field name="employer_register_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="date_from"/>
                         </group>
+                        <group>
+                            <field name="type_move"/>
+                            <field name="date_to"/>
+                        </group>
                     </group>
+                    <button name="get_movements" states="draft" string="Buscar Mov. Afiliatorios" type="object" class="btn-primary"/>
+                    <notebook>
+                        <page name="movements" string="Movimientos Afiliatorios">
+                            <newline/>
+                            <field name="movements_ids" nolabel="1"/>
+                        </page>
+                    </notebook>
                 </sheet>
-            </form>
+           </form>
         </field>
     </record>
-
-    <record id="employee_change_history_action" model="ir.actions.act_window">
-        <field name="name">Employee Change History</field>
-        <field name="res_model">hr.employee.change.history</field>
+    
+    <record id="action_hr_employee_affiliate_move2" model="ir.actions.act_window">
+        <field name="name">Movimientos Afiliatorios</field>
+        <field name="res_model">hr.employee.affiliate.move</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="employee_change_history_tree"/>
-    </record>
-    
-    <act_window name="Employee Change History"
-        context="{'search_default_type': 1, 'search_default_date_from': 1}"
-        domain="[('employee_id','=',active_id)]"
-        res_model="hr.employee.change.history"
-        src_model="hr.employee"
-        id="action_change_history"/>
-    
-    <record id="hr_view_employee_form_change_history" model="ir.ui.view">
-        <field name="name">hr.contract.view.form.change.history</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_form"/>
-        <field name="priority">10</field>
-        <field name="arch" type="xml">
-<!--
-            <xpath expr="//sheet" position="before">
-                <header>
-                    <button string="To register" name="to_register_employee" attrs="{'invisible': ['|',('contracts_count','&lt;',1),('register','=',True)]}" type="object" class="oe_highlight"/>
-                </header>
-            </xpath>
--->
-            <xpath expr="//field[@name='name']" position="before">
-                <field name="register" invisible="True"/>
-            </xpath>
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="%(payroll_mexico.action_change_history)d"
-                    type="action"
-                    class="oe_stat_button"
-                    icon="fa-list-alt"
-                    aria-label="Change History"
-                    title="Change History"
-                    >
-                    <field name="history_count" widget="statinfo" string="Change History" help="Employee Change History"/>
-                </button>
-            </xpath>
-        </field>
+        <field name="view_id" ref="hr_employee_affiliate_move_view_tree"/>
+        <field name="context"></field>
     </record>
 
     <menuitem
-            id="menu_employee_change_history_action"
-            name="Employee Change History"
-            action="employee_change_history_action"
-            parent="hr.menu_human_resources_configuration"
-            sequence="140"/>
+        name="TXT Movimientos Afiliatorios"
+        id="menu_action_hr_employee_affiliate_move"
+        action="action_hr_employee_affiliate_move2"
+        parent="payroll_mexico.menu_hr_employee_affiliate_movements_root"
+        sequence="20"/>
+
     
 </odoo>

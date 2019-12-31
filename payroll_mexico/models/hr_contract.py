@@ -58,9 +58,6 @@ class Contract(models.Model):
         Esten metodo busca el salario integral fijo para agregarlo al formulario del empleado
         '''
         contracts = self
-        print ('entre')
-        print (contracts)
-        # ~ print (contract[1].employee_id.name)
         for contract in contracts:
             current_date  =  fields.Date.context_today(self)+timedelta(days=1)
             start_date_contract = contract.previous_contract_date or contract.date_start
@@ -106,8 +103,8 @@ class Contract(models.Model):
     group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
-    # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False)
-
+    # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False)                
+    
     @api.multi
     def get_all_structures(self,struct_id):
         """
@@ -256,9 +253,6 @@ class Contract(models.Model):
         antiquity = self.env['tablas.antiguedades.line'].search([('form_id','=',self.employee_id.group_id.antique_table.id),('antiguedad','=',years_antiquity)],limit=1)
         return antiquity.prima_vac
         
-    # ~ def old_cousin(self):
-        # ~ antiquity = self.env['tablas.antiguedades.line'].search([('form_id','=',self.employee_id.group_id.antique_table.id),('antiguedad','=',years_antiquity)],limit=1)
-        # ~ return antiquity.
 
 class CalendarResource(models.Model):
     _inherit = 'resource.calendar'

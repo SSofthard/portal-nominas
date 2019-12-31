@@ -224,13 +224,7 @@ class Employee(models.Model):
 
     @api.model
     def create(self, vals):
-        # ~ if vals.get('enrollment', _('/')) == _('/'):
-            # ~ vals['enrollment'] = self.env['ir.sequence'].next_by_code('Employee') or _('/')
         res = super(Employee, self).create(vals)
-        # ~ name = res.group_id.name[0:3].upper()
-        # ~ if res.department_id:
-            # ~ name += '-'+res.department_id.name.upper()[0:3]
-        # ~ res.enrollment = name+'-'+res.enrollment
         
         res.post()
         return res
@@ -247,24 +241,6 @@ class Employee(models.Model):
         address = self.company_id.partner_id.address_get(['default'])
         self.address_id = address['default'] if address else False
         self.employer_register_id = False
-
-    # ~ @api.onchange('ssnid')
-    # ~ def _check_social_security_number_length(self):
-        # ~ if self.ssnid:
-            # ~ if len(self.ssnid) != 11:
-                # ~ raise UserError(_('The length of the social security number is incorrect'))
-    
-    # ~ @api.onchange('rfc')
-    # ~ def _check_rfc_length(self):
-        # ~ if self.rfc:
-            # ~ if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
-                # ~ raise UserError(_('RFC length is incorrect'))
-                
-    # ~ @api.onchange('curp')
-    # ~ def _check_curp_length(self):
-        # ~ if self.curp:
-            # ~ if len(self.curp) != 18:
-                # ~ raise UserError(_('CURP length is incorrect'))
     
     @api.multi
     def calculate_salary_scheme(self):

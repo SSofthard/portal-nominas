@@ -190,7 +190,19 @@ class HrPayslip(models.Model):
                     }
                 self.env['hr.employee.affiliate.movements'].create(val)
                 payslip.contract_id.state = 'close'
-                payslip.employee_id.active = False
+                history = self.env['hr.change.job'].search([('employee_id', '=', self.employee_id.id),('contract_id', '=', self.contract_id.id)], limit=1)
+                history.date_to = self.date_end
+                if self.contract_id.contracting_regime == '2':
+                    infonavit = self.env['hr.infonavit.credit.line'].search([('employee_id', '=', self.employee_id.id),('state', 'in', ['active','draft','discontinued'])], limit=1)
+                    if infonavit:
+                        infonavit.state = 'closed'
+                        val_infonavit = {
+                            'move_type': 'low_credit',
+                            'date': self.date_end,
+                            'infonavit_id':infonavit.id,
+                            }
+                        self.env['hr.infonavit.credit.history'].create(val_infonavit)
+                   
         return True
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')

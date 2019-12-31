@@ -44,7 +44,8 @@ class HrPayslipRun(models.Model):
             {'sequence': 0.7, 'name': 'Departamento', 'larg': 5, 'col': {}},
             {'sequence': 0.8, 'name': 'Tipo\nSalario', 'larg': 10, 'col': {}},
         ]
-        rule_ids = self.estructure_id.rule_ids.filtered(lambda r: r.print_to_excel)
+        domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
+        rule_ids = self.env['hr.payslip.line'].search(domain).mapped('salary_rule_id')
         for rule in rule_ids:
             header.append({
                 'sequence': rule.sequence,
@@ -140,18 +141,18 @@ class HrPayslipRun(models.Model):
                         i += row
                         sheet.write(i, 0, line.get('enrollment', ''), report_format2) #Clave
                         sheet.write(i, 1, line.get('employee_name', ''), report_format) #Nombre del trabajador
-                        sheet.write(i, 2, line.get('nss', '') or '-', report_format2) # NSS
-                        sheet.write(i, 3, line.get('rfc', '') or '-', report_format2) #RFC
-                        sheet.write(i, 4, line.get('curp', '') or '-', report_format2) #CURP
-                        sheet.write(i, 5, get_date_format(line.get('discharge_date', '') or '-'), report_format2) #Fecha de Alta
-                        sheet.write(i, 6, line.get('department', '') or '-', report_format2) #Departamento
-                        sheet.write(i, 7, line.get('salary_type', '') or '-', report_format2) #Tipo Salario
+                        sheet.write(i, 2, line.get('nss', '') , report_format2) # NSS
+                        sheet.write(i, 3, line.get('rfc', '') , report_format2) #RFC
+                        sheet.write(i, 4, line.get('curp', '') , report_format2) #CURP
+                        sheet.write(i, 5, get_date_format(line.get('discharge_date', '') ), report_format2) #Fecha de Alta
+                        sheet.write(i, 6, line.get('department', '') , report_format2) #Departamento
+                        sheet.write(i, 7, line.get('salary_type', '') , report_format2) #Tipo Salario
                         col = 7
                         col += 1
                         for n, rule in enumerate(line['lines']):
                             n += col
                             if h.get('sequence', '') == rule.get('sequence', ''):
-                                sheet.write(i, n, _get_data_float(rule.get('total', '')) or '-', currency_format) # Montos
+                                sheet.write(i, n, _get_data_float(rule.get('total', '')) , currency_format) # Montos
                             start_range = xl_rowcol_to_cell(11, n)
                             end_range = xl_rowcol_to_cell(len(all_lines) + 11, n)
                             fila_formula = xl_rowcol_to_cell(len(all_lines) + 11 +1, n)
@@ -179,13 +180,16 @@ class HrPayslipRun(models.Model):
     def get_line_for_report(self):
         payroll_data = {}
         employee_data = []
-        rule_code = self.estructure_id.rule_ids.filtered(lambda r: r.print_to_excel)
+        domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
+        rule_code = self.env['hr.payslip.line'].search(domain).mapped('salary_rule_id')
+        # ~ rule_code = self.estructure_id.rule_ids.filtered(lambda r: r.print_to_excel)
         for payroll in self.slip_ids:
             line_data = []
             for rule in rule_code:
-                line_calc = payroll.line_ids.filtered(lambda line: line.code == rule.code)
+                line_calc = payroll.line_ids.filtered(lambda line: line.code == rule.code and line.total != 0)
                 if line_calc:
                     line_data.append({
+                        'name': line_calc.name,
                         'code': line_calc.code,
                         'sequence': line_calc.sequence,
                         'total': line_calc.total,

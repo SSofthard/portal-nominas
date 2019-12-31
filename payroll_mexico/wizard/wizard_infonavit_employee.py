@@ -9,7 +9,7 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.exceptions import UserError, ValidationError
 
 
-class WizardExpiredContracts(models.TransientModel):
+class wizardInfonavitEmployee(models.TransientModel):
     _name = "wizard.infonavit.employee"
 
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", required=False)

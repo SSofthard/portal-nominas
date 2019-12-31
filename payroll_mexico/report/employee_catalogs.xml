@@ -39,6 +39,7 @@
                                 <th colspan="2" class="text-center" >N IMSS:</th>
                                 <th colspan="2" class="text-center" >CURP:</th>
                                 <th colspan="2" class="text-center" >RFC:</th>
+                                <th colspan="2" class="text-center" >PUESTO DE TRABAJO:</th>
                                 <th colspan="1" class="text-center" >DEPARTAMENTO:</th>
                                 <th colspan="2" class="text-center" >FECHA DE ALTA:</th>
                             </thead>
@@ -51,6 +52,7 @@
                                         <td colspan="2" class="text-center" ><t t-esc="data['imss'][counter]"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="data['curp'][counter]"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="data['rfc'][counter]"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="data['job'][counter]"/></td>
                                         <td colspan="1" class="text-center" ><t t-esc="data['department'][counter]"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="data['date_start'][counter]"/></td>
                                     </tr>

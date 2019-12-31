@@ -13,12 +13,12 @@ class reportHrExpiredContracts(models.TransientModel):
         
     @api.multi
     def _get_report_values(self, docids, data=None):
+        docs = self.env['hr.change.job'].search([('id', 'in', data['history_ids'])])
         print ('data')
         print (data)
         return {
-            'doc_ids': '',
-            'doc_model': 'hr.employee.change.history',
-            'docs': '',
+            'doc_ids': docs._ids,
+            'doc_model': 'hr.change.job',
+            'docs': docs,
             'data': data,
         }
-
