@@ -164,6 +164,7 @@ class GenerateCURP(BaseGenerator):
         else: 
             raise AttributeError("No such attribute: state_code")
 
+        
         lastname = self.get_consonante(self.last_name)
         mslastname = self.get_consonante(self.mother_last_name)
         name = self.get_consonante(self.complete_name)
