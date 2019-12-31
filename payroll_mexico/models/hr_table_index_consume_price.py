@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+from odoo.addons import decimal_precision as dp
 
 
 class ModelName (models.Model):
@@ -20,7 +21,7 @@ class ModelName (models.Model):
                             (11,'Noviembre'),
                             (12,'Diciembre'),
                         ],string='Mes')
-    value = fields.Float(string = 'Valor')
+    value = fields.Float(string = 'Valor', digits=dp.get_precision('Payroll Rate'))
 
     
 
