@@ -83,10 +83,6 @@ class Contract(models.Model):
     code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
     type_id = fields.Many2one(string="Type Contract")
     type_contract = fields.Selection(string="Type", related="type_id.type", invisible=True)
-    productivity_bonus = fields.Float('Productivity bonus', required=False)
-    attendance_bonus = fields.Float('Attendance bonus', required=False)
-    punctuality_bonus = fields.Float('Punctuality Bonds', required=False)
-    social_security = fields.Float('Social security', required=False)
     company_id = fields.Many2one('res.company', default = ['employee_id','=', False])
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
@@ -103,8 +99,9 @@ class Contract(models.Model):
     group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
-    # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False)                
-    
+    # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False) 
+       
+        
     @api.multi
     def get_all_structures(self,struct_id):
         """
@@ -254,6 +251,30 @@ class Contract(models.Model):
         return antiquity.prima_vac
         
 
+class FixedConcepts(models.Model):
+    _name = 'hr.fixed.concepts'
+    
+    type = fields.Selection([
+        ('1', 'Punctuality bonus'),
+        ('2', 'Attendance bonus'),
+        ('3', 'Pantry'),
+        ('4', 'Saving Fund'),
+        ], string='Type', required=True)
+    type_application = fields.Selection([
+        ('1', 'Percentage'),
+        ('2', 'Monetary'),
+        ('3', 'Times SM'),
+        ], string='Type', required=True)
+    amount = fields.Float('Amount', required=True)
+        
+    pay_holiday = fields.Boolean('Pay holiday?', default=False, help="If checked, holidays are paid to the employee")   
+    
+    roductivity_bonus_amount = fields.Float('Productivity bonus', required=False)
+    attendance_bonus_amount = fields.Float('Attendance bonus', required=False)
+    punctuality_bonus_amount = fields.Float('Punctuality Bonds', required=False) 
+
+    
+    
 class CalendarResource(models.Model):
     _inherit = 'resource.calendar'
 
