@@ -51,13 +51,13 @@
                                     <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">TASA DE ROTACION:</th>
                                 </tr>
                             </thead>
-                        <t t-foreach="docs.mapped('job_id')" t-as="o">
+                        <t t-foreach="history_id.mapped('job_id')" t-as="o">
                             <tbody>
                                 <tr>
                                     <td colspan="2" class="text-center" ><span t-field="o.name"/></td>
-                                    <td colspan="2" class="text-center" ><span t-esc="len(docs.mapped('employee_id'))"/></td>
-                                    <td colspan="2" class="text-center" ><span>definir</span></td>
-                                    <td colspan="2" class="text-center" ><span>definir</span></td>
+                                    <td colspan="2" class="text-center" ><span t-esc="len(docs.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/></td>
+                                    <td colspan="2" class="text-center" ><span t-esc="len(history_date.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/></td>
+                                    <td colspan="2" class="text-center" ><span t-esc="len(history_low.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/></td>
                                     <td colspan="2" class="text-center" ><span>definir</span></td>
                                 </tr>
                             </tbody>
