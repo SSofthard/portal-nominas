@@ -49,7 +49,6 @@ class BaseGenerator(object):
     def initials_name(self, complete_name, last_name, mother_last_name):
         complete_name = remove_names(complete_name)
         ini_last_name = last_name[0:1] if last_name[0:1] not in KEYWORDS.keys() else KEYWORDS[last_name[0:1]] # Initial last name
-        
         if mother_last_name is None:
             ini_mothlast_name = 'X'
         else:
