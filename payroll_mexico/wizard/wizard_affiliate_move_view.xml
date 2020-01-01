@@ -2,31 +2,74 @@
 <odoo>
     
     <record id="view_hr_employee_affiliate_export_txt" model="ir.ui.view">
-            <field name="name">Reporte Movimientos Afiliatorios</field>
-            <field name="model">hr.employee.affiliate.export.txt</field>
-            <field name="arch" type="xml">
-                <form string="Descargar Reporte Movimientos Afiliatorios">
-                    <div class="alert alert-info text-center" role="alert" style="margin-bottom:0px;">
-                        Se generado el Reporte TXT correctamente, proceda a descargarlo.
-                    </div>
-                    <group>
-                        <field name="txt_file" readonly="1" filename="file_name"/>
-                        <field name="file_name" invisible="1"/>
-                    </group>
-                    <footer>
-                        <button string="Cerrar" class="oe_link" special="cancel" />
-                    </footer>
-                </form>
-            </field>
-        </record>
-        
-        <record id="action_view_hr_employee_affiliate_export_txt" model="ir.actions.act_window">
-            <field name="name">Reporte Movimientos Afiliatorios</field>
-            <field name="view_id" ref="view_hr_employee_affiliate_export_txt"/>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="res_model">hr.employee.affiliate.export.txt</field>
-            <field name="target">new</field>
-        </record>
-        
+        <field name="name">Reporte Movimientos Afiliatorios</field>
+        <field name="model">hr.employee.affiliate.export.txt</field>
+        <field name="arch" type="xml">
+            <form string="Descargar TXT Movimientos Afiliatorios">
+                <div class="alert alert-info text-center" role="alert" style="margin-bottom:0px;">
+                    Se generado el Reporte TXT correctamente, proceda a descargarlo.
+                </div>
+                <group>
+                    <field name="txt_file" readonly="1" filename="file_name"/>
+                    <field name="file_name" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Cerrar" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_view_hr_employee_affiliate_export_txt" model="ir.actions.act_window">
+        <field name="name">Reporte Movimientos Afiliatorios</field>
+        <field name="view_id" ref="view_hr_employee_affiliate_export_txt"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="res_model">hr.employee.affiliate.export.txt</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <!-- JJ Vista de Reporte PDF de Movimientos Afiliatorios -->
+    <record id="view_hr_employee_affiliate_movements_report" model="ir.ui.view">
+        <field name="name">view.hr.employee.affiliate.movements.report</field>
+        <field name="model">hr.employee.affiliate.movements.report</field>
+        <field name="arch" type="xml">
+            <form string="Reporte Movimientos Afiliatorios">
+                <group col="4">
+                    <field name="employer_register_id" options="{'no_create': True}"/>
+                    <field name="group_id" options="{'no_create': True}"/>
+                </group>
+                <group>
+                    <field name="department_ids" options="{'no_create': True}" widget="many2many_tags" />
+                    <field name="job_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                </group>
+                <group col="4">
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button string="Export to PDF" name="report_print" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cerrar" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_employee_affiliate_movements_report" model="ir.actions.act_window">
+        <field name="name">Consulta de Movimientos Afiliatorios</field>
+        <field name="view_id" ref="view_hr_employee_affiliate_movements_report"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="res_model">hr.employee.affiliate.movements.report</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem 
+        name="Reporte Movimientos Afiliatorios"
+        action="payroll_mexico.action_hr_employee_affiliate_movements_report" 
+        id="menu_action_hr_employee_affiliate_movements_report" 
+        parent="payroll_mexico.menu_hr_employee_affiliate_movements_root" 
+        sequence="30"/>
+
 </odoo>

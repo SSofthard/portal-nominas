@@ -86,7 +86,7 @@ class InhabilityAbsenteeismReport(models.TransientModel):
         Leaves3 = Leaves.search(domain)
         leaves_ids = self.env['hr.leave'].browse(list(Leaves3.ids + Leaves2.ids)).sorted(key='id')
         if not leaves_ids:
-            raise ValidationError(_('No se encontraron resultados, para los parámetros dados.'))
+            raise ValidationError(_('No se encontró información con los datos proporcionados.'))
         employees_ids = leaves_ids.mapped('employee_id')
         for employee in employees_ids:
             leaves_data = []
@@ -157,7 +157,7 @@ class InhabilityAbsenteeismReport(models.TransientModel):
         Leaves3 = Leaves.search(domain)
         leaves_ids = self.env['hr.leave'].browse(list(Leaves3.ids + Leaves2.ids)).sorted(key='id')
         if not leaves_ids:
-            raise ValidationError(_('No se encontraron resultados, para los parámetros dados.'))
+            raise ValidationError(_('No se encontró información con los datos proporcionados.'))
         employees_ids = leaves_ids.mapped('employee_id')
         leaves_data = []
         for employee in employees_ids:

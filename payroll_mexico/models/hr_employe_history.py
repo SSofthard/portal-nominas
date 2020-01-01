@@ -230,7 +230,7 @@ class HrEmployeeAffiliateMove(models.Model):
             self.with_context(movements=True).movements_ids = [[6, 0, movements_ids]]
             self.movements_ids.with_context(movements=True).write({'state': 'generated'})
         else:
-            raise UserError(_('No se encontraron resultados, con la información dada.'))
+            raise UserError(_('No se encontró información con los datos proporcionados.'))
 
     @api.multi
     def name_get(self):

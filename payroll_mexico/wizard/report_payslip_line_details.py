@@ -27,10 +27,10 @@ class PayslipLineDetails(models.TransientModel):
     #Columns
     date_from = fields.Date(
         'Start Date', index=True, copy=False, required=True,
-        default=date.today())
+        default=lambda self: fields.Date.to_string(date.today().replace(day=1)))
     date_to = fields.Date(
         'End Date', index=True, copy=False, required=True,
-        default=date.today())
+        default=lambda self: fields.Date.to_string((datetime.now() + relativedelta(months=+1, day=1, days=-1)).date()),)
     employee_id = fields.Many2one('hr.employee', 'Employee')
     contracting_regime = fields.Selection([
         ('1', 'Assimilated to wages'),
@@ -56,7 +56,7 @@ class PayslipLineDetails(models.TransientModel):
             domain += [('salary_rule_id','=',self.rule_id.id)]
         line_ids = self.env['hr.payslip.line'].search(domain)
         if not line_ids:
-            raise ValidationError(_('No se encontraron resultados, para los parámetros dados.'))
+            raise ValidationError(_('No se encontró información con los datos proporcionados.'))
         employees_ids = line_ids.mapped('employee_id')
         line_data = []
         total = 0

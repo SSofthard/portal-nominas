@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <report 
+            id="action_affiliate_movements_report"
+            string="Movimientos afiliatorios"
+            model="hr.payslip" 
+            report_type="qweb-html"
+            file="payroll_mexico.affiliate_movements_report_template" 
+            name="payroll_mexico.affiliate_movements_report_template"
+            print_report_name="'Movimientos afiliatorios: %s_%s' % (object.date_from, object.date_to)"
+        />
+        <template id="affiliate_movements_report_template">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div style="border-bottom: 2px solid black">
+                        <h5 class="text-center">CONSULTA DE MOVIMIENTOS AFILIATORIOS</h5>
+                        <h6 class="text-center">
+                            <strong>De</strong>:
+                            <t t-esc="move_data['date_from']" t-options='{"widget": "date"}'/>
+                            <strong>A</strong>:
+                            <t t-esc="move_data['date_to']" t-options='{"widget": "date"}'/>
+                        </h6>
+                        <h6 class="text-center">
+                            <strong>Grupo/Empresa</strong>:
+                            <t t-esc="move_data['group']"/>
+                        </h6>
+                    </div>
+                    <div class="page" style="font-size:10px;">
+                        <table class="table-sm" border="0" style="width:100%;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid black;">
+                                    <th class="text-left">Clave del trabajador</th>
+                                    <th class="text-left">Tipo Movimiento</th>
+                                    <th class="text-left">N.S.S.</th>
+                                    <th class="text-left">Fecha de Mov.</th>
+                                    <th class="text-left">Nombre del trabajador</th>
+                                    <th class="text-left">Motivo de Baja</th>
+                                    <th class="text-left">R.F.C.</th>
+                                    <th class="text-left">SDI</th>
+                                    <th class="text-left">Tipo de Trabajador</th>
+                                    <th class="text-left">Fecha Ingreso</th>
+                                    <th class="text-left">Fecha Termino</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="move_data['datas']" t-as="move">
+                                    <tr>
+                                        <td class="text-left">
+                                            <t t-esc="move['enrollment']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['type_move']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['ssnid']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['move_date']" t-options='{"widget": "date"}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['employee_name']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['reason_liquidation']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['rfc']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['sdi']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['type_employee']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['date_admission']" t-options='{"widget": "date"}'/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="move['date_end']" t-options='{"widget": "date"}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div class="clearfix">
+                            <div id="total" class="row" name="total">
+                                <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                    <table class="table-sm" border="0" style="width:100%;">
+                                        <tr class="border-black o_total">
+                                            <td><strong>Total de Trabajadores</strong>: </td>
+                                            <td class="text-right">
+                                                <t t-esc="move_data['total_employee']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Total de Mov. Alta o Reingreso</strong>: </td>
+                                            <td class="text-right">
+                                                <t t-esc="move_data['count_high']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Total de Mov. Modif. Salario</strong>: </td>
+                                            <td class="text-right">
+                                                <t t-esc="move_data['count_change']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Total de Mov. Baja</strong>: </td>
+                                            <td class="text-right">
+                                                <t t-esc="move_data['count_low']"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>    
+             </t>
+        </template>
+        
+    </data>
+</odoo>
