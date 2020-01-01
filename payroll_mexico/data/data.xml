@@ -112,8 +112,8 @@
         <field name="vacaciones">6</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">4.5205</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_1" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -121,8 +121,8 @@
         <field name="vacaciones">6</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">4.5205</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_2" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -130,8 +130,8 @@
         <field name="vacaciones">8</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">4.6575</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_3" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -139,8 +139,8 @@
         <field name="vacaciones">10</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">4.7945</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_4" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -148,8 +148,8 @@
         <field name="vacaciones">12</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">4.9315</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_5" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -157,8 +157,8 @@
         <field name="vacaciones">14</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.0685</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_6" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -166,8 +166,8 @@
         <field name="vacaciones">14</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.0685</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_7" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -175,8 +175,8 @@
         <field name="vacaciones">14</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.0685</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_8" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -184,8 +184,8 @@
         <field name="vacaciones">14</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.0685</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_9" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -193,8 +193,8 @@
         <field name="vacaciones">14</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.0685</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_10" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -202,8 +202,8 @@
         <field name="vacaciones">16</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.2055</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_11" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -211,8 +211,8 @@
         <field name="vacaciones">16</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.2055</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_12" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -220,8 +220,8 @@
         <field name="vacaciones">16</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.2055</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_13" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -229,8 +229,8 @@
         <field name="vacaciones">16</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.2055</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_14" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -238,8 +238,8 @@
         <field name="vacaciones">16</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.2055</field>
     </record>
+
     <record id="hr_tabla_antiguedades_item_15" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
@@ -247,7 +247,6 @@
         <field name="vacaciones">18</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.3425</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_16" model="tablas.antiguedades.line">
@@ -257,7 +256,6 @@
         <field name="vacaciones">18</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.3425</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_17" model="tablas.antiguedades.line">
@@ -267,7 +265,6 @@
         <field name="vacaciones">18</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.3425</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_18" model="tablas.antiguedades.line">
@@ -277,7 +274,6 @@
         <field name="vacaciones">18</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.3425</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_19" model="tablas.antiguedades.line">
@@ -287,7 +283,6 @@
         <field name="vacaciones">18</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.3425</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_20" model="tablas.antiguedades.line">
@@ -297,7 +292,6 @@
         <field name="vacaciones">20</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.4795</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_21" model="tablas.antiguedades.line">
@@ -307,7 +301,6 @@
         <field name="vacaciones">20</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.4795</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_22" model="tablas.antiguedades.line">
@@ -317,7 +310,6 @@
         <field name="vacaciones">20</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.4795</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_23" model="tablas.antiguedades.line">
@@ -327,7 +319,6 @@
         <field name="vacaciones">20</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.4795</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_24" model="tablas.antiguedades.line">
@@ -337,7 +328,6 @@
         <field name="vacaciones">20</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.4795</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_25" model="tablas.antiguedades.line">
@@ -347,7 +337,6 @@
         <field name="vacaciones">22</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.6164</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_25" model="tablas.antiguedades.line">
@@ -357,7 +346,6 @@
         <field name="vacaciones">22</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.6164</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_26" model="tablas.antiguedades.line">
@@ -367,7 +355,6 @@
         <field name="vacaciones">22</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.6164</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_27" model="tablas.antiguedades.line">
@@ -377,7 +364,6 @@
         <field name="vacaciones">22</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.6164</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_28" model="tablas.antiguedades.line">
@@ -387,7 +373,6 @@
         <field name="vacaciones">22</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.6164</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_29" model="tablas.antiguedades.line">
@@ -397,7 +382,6 @@
         <field name="vacaciones">22</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.6164</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_30" model="tablas.antiguedades.line">
@@ -407,7 +391,6 @@
         <field name="vacaciones">24</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.7534</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_31" model="tablas.antiguedades.line">
@@ -417,7 +400,6 @@
         <field name="vacaciones">24</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.7534</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_32" model="tablas.antiguedades.line">
@@ -427,7 +409,6 @@
         <field name="vacaciones">24</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.7534</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_33" model="tablas.antiguedades.line">
@@ -437,9 +418,7 @@
         <field name="vacaciones">24</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.7534</field>
     </record>
-
 
     <record id="hr_tabla_antiguedades_item_34" model="tablas.antiguedades.line">
         <field name="name">Tabla de antiguedades</field>
@@ -448,7 +427,6 @@
         <field name="vacaciones">24</field>
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
-        <field name="factor">5.7534</field>
     </record>
 
    </data>
