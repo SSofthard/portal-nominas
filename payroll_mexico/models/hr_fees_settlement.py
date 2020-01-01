@@ -335,6 +335,29 @@ class HrFeeSettlementDetails(models.Model):
         'aporte_voluntario_infonavit': 'D092',
     }
 
+    def _compute_totals(self):
+        '''
+        Este metodo calcula los totales de la cedula de autodeterminacion
+        '''
+        self.suma_obrero_imss = sum(
+            [
+                self.exedente_3uma_obrero,
+                self.pd_obrero,
+                self.gmp_obrero,
+                self.iv_obrero,
+            ]
+        )
+        self.suma_patronal_imss = sum(
+            [
+                self.cuota_fija,
+                self.exedente_3uma_patronal,
+                self.pd_patronal,
+                self.riesgos_trabajo,
+                self.iv_patronal,
+                self.guarderia_ps,
+            ]
+        )
+
     #Columns
     year = fields.Integer(string='Periodo (Año)')
     month = fields.Integer(string='Periodo (Mes)')
@@ -352,8 +375,8 @@ class HrFeeSettlementDetails(models.Model):
     iv_patronal = fields.Float(string='Invalidez y vida', readonly=True, required=False, )
     iv_obrero = fields.Float(string='Invalidez y vida', readonly=True, required=False, )
     guarderia_ps = fields.Float(string='Guarderia y Prestaciones sociales', readonly=True, required=False, )
-    suma_patronal = fields.Float(string='Total patronal', readonly=True, required=False, )
-    suma_obrero = fields.Float(string='Total obrero', readonly=True, required=False, )
+    suma_patronal_imss = fields.Float(string='Total patronal', readonly=True, required=False, compute='_compute_totals')
+    suma_obrero_imss = fields.Float(string='Total obrero', readonly=True, required=False, )
     sdi = fields.Float(string='Salario Diario Integral', readonly=True, required=False, )
     retiro = fields.Float(string='Retiro', readonly=True, required=False, )
     cesantia_vejez_patronal = fields.Float(string='Cesantía Vejez (Patronal)', readonly=True, required=False, )

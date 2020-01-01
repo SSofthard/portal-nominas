@@ -52,7 +52,10 @@ def remove_names(name):
     name = name.split()
     data = []
     if len(name) > 1:
-        [data.append(n) for n in name if n not in NAMES]
+        for n in name:
+            if n in NAMES:
+                data.append(name[1])
+                break
     else:
         data += name
     return data[0]
@@ -74,7 +77,7 @@ def search_consonant(word):
 
     if word:
         length = len(word)
-        length = length-1
+        # ~ length = length-1
         data = word[1:length]
 
     for item in data:
@@ -84,7 +87,24 @@ def search_consonant(word):
         elif get_consonant(item):
             consonant = item
             break
+        else:
+            consonant = 'X'
     return consonant
+
+def remove_signos_c(name):
+    "Remove article."
+    signos = (
+        '.', '. ', ', ',',',':',';','/','*','+','-',
+    )
+    sig = name.split()
+    for item in signos:
+        for i in sig:
+            if item in i:
+                name = name.replace(item, 'X')
+            else:
+                name = name
+    data=name
+    return data
 
 def get_consonant(consonant):
     "Get consonant."
@@ -92,7 +112,7 @@ def get_consonant(consonant):
         'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N',
         'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'
     )
-
+    
     for item in consonants:
         if item == consonant:
             return True
@@ -103,17 +123,29 @@ def search_vowel(last_name):
     "Search for paternal surname vowel."
     size = len(last_name) - 1
     last_name = last_name[1:size]
+    if not last_name:
+        vocal = 'X'
+        return vocal
 
     vocal = ''
+    signos = (
+        '.', '. ', ', ',',',':',';','/','*','+','-',
+    )
     for v in last_name:
-        if get_vocal(vocal=v):
+        if v in signos:
+            vocal = 'X'
+            break
+        elif get_vocal(vocal=v):
             vocal = v
             break
+        else:
+            vocal = 'X'
+    
     return vocal
 
 def get_vocal(vocal):
     "Get vocal."
-    vowels = ('A', 'E', 'I', 'O', 'U', 'Á', 'É', 'Í', 'Ó', 'Ú')
+    vowels = ('A', 'E', 'I', 'O', 'U', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ü')
 
     for v in vowels:
         if v == vocal:

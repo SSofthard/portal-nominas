@@ -115,8 +115,8 @@
                                         <field name="amortizacion" sum="Total amortización"/>
                                         <field name="aporte_voluntario_sar" sum="Total Aporte SAR"/>
                                         <field name="aporte_voluntario_infonavit" sum="Total Aporte Infonavit"/>
-                                        <field name="suma_patronal" sum="Total patronal"/>
-                                        <field name="suma_obrero" sum="Total obrero"/>
+                                        <field name="suma_patronal_imss" sum="Total patronal"/>
+                                        <field name="suma_obrero_imss" sum="Total obrero"/>
                                     </tree>
                                 </field>
                                 </page>
