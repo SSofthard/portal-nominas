@@ -96,6 +96,15 @@ class HrPayslipRun(models.Model):
         ('gross', 'Total Bruto'),
     ], string='Aplicar honorarios sobre', index=True, copy=False,
         readonly=True, states={'draft': [('readonly', False)]})
+    year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
+
+    @api.one
+    @api.depends('date_start')
+    def _ge_year_period(self):
+        '''
+        Este metodo obtiene el valor para el campo año basado en las fecha date_from de la nomina
+        '''
+        self.year = self.date_start.year
 
     def print_payslip_run_details(self):
         '''
