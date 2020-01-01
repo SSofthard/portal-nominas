@@ -5,7 +5,7 @@
         <report 
             id="action_affiliate_movements_report"
             string="Movimientos afiliatorios"
-            model="hr.payslip" 
+            model="hr.employee.affiliate.movements" 
             report_type="qweb-html"
             file="payroll_mexico.affiliate_movements_report_template" 
             name="payroll_mexico.affiliate_movements_report_template"

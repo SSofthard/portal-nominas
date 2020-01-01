@@ -221,7 +221,7 @@ class HrPayslipRun(models.Model):
                                         inhability += wl.number_of_days
                                     if leave.time_type == 'leave':
                                         absenteeism += wl.number_of_days
-                                    total += inhability + absenteeism
+                        total += inhability + absenteeism
                         if total > 0:
                             fault_data.append({
                                 'enrollment': employee.enrollment,
