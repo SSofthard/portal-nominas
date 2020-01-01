@@ -100,8 +100,9 @@ class Contract(models.Model):
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
     # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False) 
-       
-        
+    
+    fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
+    
     @api.multi
     def get_all_structures(self,struct_id):
         """
@@ -254,6 +255,7 @@ class Contract(models.Model):
 class FixedConcepts(models.Model):
     _name = 'hr.fixed.concepts'
     
+    contract_id = fields.Many2one('hr.contract', 'Contract')
     type = fields.Selection([
         ('1', 'Punctuality bonus'),
         ('2', 'Attendance bonus'),
@@ -264,15 +266,18 @@ class FixedConcepts(models.Model):
         ('1', 'Percentage'),
         ('2', 'Monetary'),
         ('3', 'Times SM'),
-        ], string='Type', required=True)
+        ], string='Type aplication', required=True)
     amount = fields.Float('Amount', required=True)
-        
-    pay_holiday = fields.Boolean('Pay holiday?', default=False, help="If checked, holidays are paid to the employee")   
+    faults = fields.Boolean('Faults', help="If you select this option this perception will not be taken into account in the event that the employee incurred a fault.")
+    justified_fault = fields.Boolean('Justified fault', help="If you select this option this perception will not be taken into account in the event that the employee incurred a justified fault.")
+    permission_with_enjoyment = fields.Boolean('Permission with enjoyment', help="If you select this option this perception will not be taken into account in the event that the employee incurred a permission with enjoyment.")
+    permission_without_enjoyment = fields.Boolean('Permission without enjoyment', help="If you select this option this perception will not be taken into account in the event that the employee incurred a permission without enjoyment.")
+    disabilities = fields.Boolean('Disabilities', help="If you select this option this perception will not be taken into account in the event that the employee incurred a disabilities.")
+    holidays = fields.Boolean('Holidays', help="If you select this option this perception will not be taken into account in the event that the employee incurred a disabilities.")
     
-    roductivity_bonus_amount = fields.Float('Productivity bonus', required=False)
-    attendance_bonus_amount = fields.Float('Attendance bonus', required=False)
-    punctuality_bonus_amount = fields.Float('Punctuality Bonds', required=False) 
-
+    _sql_constraints = [
+        ('type_uniq', 'unique (type,contract_id)', "Verify the assignment of fixed concepts for this contract, you are trying to assign the same concept twice.!"),
+        ]
     
     
 class CalendarResource(models.Model):
