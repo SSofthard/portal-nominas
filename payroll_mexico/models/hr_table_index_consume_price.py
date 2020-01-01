@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from odoo import fields, models, api
+from odoo.addons import decimal_precision as dp
 
 
 class ModelName (models.Model):
@@ -20,7 +23,8 @@ class ModelName (models.Model):
                             (11,'Noviembre'),
                             (12,'Diciembre'),
                         ],string='Mes')
-    value = fields.Float(string = 'Valor')
+    value = fields.Float(string = 'Valor', digits=dp.get_precision('Payroll Rate'))
+    sucharge_fee = fields.Float(string = 'Interes de recargo del mes', digits=dp.get_precision('Payroll Rate'))
 
     
 

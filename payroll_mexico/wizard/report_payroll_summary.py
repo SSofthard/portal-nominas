@@ -55,7 +55,7 @@ class PayslipSummary(models.TransientModel):
                 ]
         line_ids = self.env['hr.payslip.line'].search(domain)
         if not line_ids:
-            raise ValidationError(_('No se encontraron resultados, para los parámetros dados.'))
+            raise ValidationError(_('No se encontró información con los datos proporcionados.'))
         # ~ employees_ids = line_ids.mapped('employee_id')
         isn = []
         total = 0
