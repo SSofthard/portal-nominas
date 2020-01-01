@@ -13,18 +13,18 @@ class reportHrExpiredContracts(models.TransientModel):
         
     @api.multi
     def _get_report_values(self, docids, data=None):
-        docs = self.env['hr.change.job'].search([('id', 'in', data['history_ids'])])
-        history_id = self.env['hr.change.job'].search([('id', 'in', data['history_id'])])
-        history_date = self.env['hr.change.job'].search([('id', 'in', data['history_ids_date_to'])])
-        history_low = self.env['hr.change.job'].search([('id', 'in', data['history_ids_low'])])
-        print ('docs')
-        print (docs)
+        docs = self.env['hr.job'].search([('id', 'in', data['job_ids'])])
+        change_ids = self.env['hr.change.job'].search([('id', 'in', data['change_ids'])])
+        start_ids = self.env['hr.change.job'].search([('id', 'in', data['start_ids'])])
+        end_ids = self.env['hr.change.job'].search([('id', 'in', data['end_ids'])])
+        low_ids = self.env['hr.change.job'].search([('id', 'in', data['low_ids'])])
         return {
             'doc_ids': docs._ids,
-            'doc_model': 'hr.change.job',
+            'doc_model': 'hr.job',
             'docs': docs,
-            'history_id': history_id,
-            'history_date': history_date,
-            'history_low': history_low,
+            'change_ids': change_ids,
+            'start_ids': start_ids,
+            'end_ids': end_ids,
+            'low_ids': low_ids,
             'data': data,
         }

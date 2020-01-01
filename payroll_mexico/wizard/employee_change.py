@@ -74,37 +74,33 @@ class wizardEmployeeHistory(models.TransientModel):
 
     @api.multi
     def report_print(self,data):
-        domain_group = []
-        domain_work_center = []
         domain_job = []
-        domain_register = []
-        domain_regime = []
+        domain = []
         date_from = self.date_from
         date_to = self.date_to
-        history=self.env['hr.change.job']
+        change_job=self.env['hr.change.job']
         if self.group_id:
-            domain_group = [('employee_id.group_id', '=', self.group_id.id)]
+            domain += [('employee_id.group_id', '=', self.group_id.id)]
         if self.work_center_id:
-            domain_work_center = [('employee_id.work_center_id', '=', self.work_center_id.id)]
-        if self.job_ids:
-            domain_job = [('job_id', 'in', self.job_ids.ids)]
+            domain += [('employee_id.work_center_id', '=', self.work_center_id.id)]
+        if self.job_ids and self.select_job == 'some':
+            domain += [('job_id', 'in', self.job_ids.ids)]
+            domain_job += [('id', 'in', self.job_ids.ids)]
         if self.employer_register_id:
-            domain_register = [('employee_id.employer_register_id', '=', self.employer_register_id.id)]
+            domain += [('employee_id.employer_register_id', '=', self.employer_register_id.id)]
         if self.contracting_regime:
-            domain_regime = [('contract_id.contracting_regime', '=', self.contracting_regime)]
-        # ~ for i in self.job_ids:
-        history_id=history.search( domain_group + domain_work_center + domain_job + domain_register + domain_regime)
-        history_ids=history.search([('date_from','<=',date_from),('date_to','=',False)] + domain_group + domain_work_center + domain_job + domain_register + domain_regime)
-        history_ids_date_to=history.search([('date_to','<=',date_to)] + domain_group + domain_work_center + domain_job + domain_register + domain_regime)
-        history_ids_low=history.search([('date_to','>=',date_from),('date_to','<=',date_to)] + domain_group + domain_work_center + domain_job + domain_register + domain_regime)
-        print ('history_id')
-        print (history_id)
+            domain += [('contract_id.contracting_regime', '=', self.contracting_regime)]
+        job_ids = self.env['hr.job'].search(domain_job).ids
+        change_ids=change_job.search(domain)
+        start_ids=change_job.search([('date_from','<=',date_from),'|',('date_to','>=',date_from),('date_to','=',False)] + domain)
+        end_ids=change_job.search([('date_from','<=',date_to),'|',('date_to','>=',date_to),('date_to','=',False)] + domain)
+        low_ids=change_job.search([('date_to','>=',date_from),('date_to','<=',date_to)] + domain)
         data={
-            'history_id': history_id._ids,
-            'history_ids': history_ids._ids,
-            'history_ids_date_to': history_ids_date_to._ids,
-            'history_ids_low': history_ids_low._ids,
-            'job_ids': ', '.join([x.name for x in self.job_ids]),
+            'change_ids': change_ids._ids,
+            'start_ids': start_ids._ids,
+            'end_ids': end_ids._ids,
+            'low_ids': low_ids._ids,
+            'job_ids': job_ids,
             'date_from': date_from,
             'date_to': date_to,
             'register': self.employer_register_id.employer_registry,
