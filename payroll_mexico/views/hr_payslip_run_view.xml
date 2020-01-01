@@ -118,6 +118,7 @@
                         <field name="payroll_month"/>
                         <field name="payroll_of_month"/>
                         <field name="payroll_period"/>
+                        <field name="year"/>
                         <field name="pay_type"/>
                         <field name="pay_bonus" attrs="{'invisible': [('bonus_date','!=',True)]}"/>
                         <field name="table_id" invisible="1"/>
