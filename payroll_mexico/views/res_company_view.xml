@@ -23,6 +23,7 @@
                                         />
                                     </div>
                                     <field name="rfc" widget="mask" data-inputmask="'mask': 'AAA999999&amp;&amp;&amp;', 'greedy' : false"/>
+                                    <field name="tax_regime"/>
                                 
                                 </group>
                                 <group string="Notarial Data">

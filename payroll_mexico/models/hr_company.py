@@ -33,6 +33,30 @@ class Company(models.Model):
     power_attorney_ids = fields.One2many('company.power.attorney','company_id', "Power Attorney", required=True)
     country_id = fields.Many2one('res.country', compute='_compute_address', inverse='_inverse_country', string="Country", default=lambda self: self.env.user.company_id.country_id.id)
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    tax_regime = fields.Selection(
+        selection=[('601', _('General de Ley Personas Morales')),
+                   ('603', _('Personas Morales con Fines no Lucrativos')),
+                   ('605', _('Sueldos y Salarios e Ingresos Asimilados a Salarios')),
+                   ('606', _('Arrendamiento')),
+                   ('608', _('Demás ingresos')),
+                   ('609', _('Consolidación')),
+                   ('610', _('Residentes en el Extranjero sin Establecimiento Permanente en México')),
+                   ('611', _('Ingresos por Dividendos (socios y accionistas)')),
+                   ('612', _('Personas Físicas con Actividades Empresariales y Profesionales')),
+                   ('614', _('Ingresos por intereses')),
+                   ('616', _('Sin obligaciones fiscales')),
+                   ('620', _('Sociedades Cooperativas de Producción que optan por diferir sus ingresos')),
+                   ('621', _('Incorporación Fiscal')),
+                   ('622', _('Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras')),
+                   ('623', _('Opcional para Grupos de Sociedades')),
+                   ('624', _('Coordinados')),
+                   ('628', _('Hidrocarburos')),
+                   ('607', _('Régimen de Enajenación o Adquisición de Bienes')),
+                   ('629', _('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales')),
+                   ('630', _('Enajenación de acciones en bolsa de valores')),
+                   ('615', _('Régimen de los ingresos por obtención de premios')),],
+        string=_('Tax regime'), 
+    )
  
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),

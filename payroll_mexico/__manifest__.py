@@ -65,6 +65,7 @@
         'report/report_affiliate_movements_template.xml',
         'report/report_payroll_receipt_template.xml',
         'report/fee_imss_employee_report.xml',
+        'report/report_payroll_cfdi.xml',
         'data/data.xml',
         'data/sequence_data.xml',
         # 'data/data_table_cfdi.xml',

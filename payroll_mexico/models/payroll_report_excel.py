@@ -186,6 +186,7 @@ class HrPayslipRun(models.Model):
         for payroll in self.slip_ids:
             line_data = []
             for rule in rule_code:
+                
                 line_calc = payroll.line_ids.filtered(lambda line: line.code == rule.code and line.total != 0)
                 if line_calc:
                     line_data.append({
