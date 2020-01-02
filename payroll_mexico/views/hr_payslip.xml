@@ -71,7 +71,8 @@
                     <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
                 </xpath> 
                 <xpath expr="//header" position="inside">
-                    <button string="Recibo de Pago" name="print_payroll_receipt" type="object" states="draft" class="oe_sale"/>
+                    <button string="Recibo de Nómina" name="print_payroll_receipt" type="object" states="draft" class="oe_sale"/>
+                    <button string="Recibo de Nómina Timbrado" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
                 </xpath> 
                 <xpath expr="//button[@name='refund_sheet']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -300,7 +301,12 @@
                 }
             </field>
         </record>
-        
+
+        <!-- Domain en Action Nóminas del empleado -->
+        <record id="hr_payroll.action_view_hr_payslip_form" model="ir.actions.act_window">
+            <field name="domain">[('settlement', '=', False)]</field>
+        </record>
+
         <menuitem
             name="Nóminas del empleado"
             id="menu_view_hr_payslip_refactor"
