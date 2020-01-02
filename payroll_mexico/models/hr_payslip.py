@@ -70,8 +70,6 @@ class HrPayslip(models.Model):
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
-    # ~ integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
-    
     # ~ CFDI
     
     way_pay = fields.Selection([
@@ -117,12 +115,14 @@ class HrPayslip(models.Model):
             required=False,
             readonly=True)
     fiscal_folio = fields.Char(string='Fiscal Folio')
-    
+    year = fields.Integer(string='Año', related='payslip_run_id.year', store=True)
+    integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
 
+    @api.one
     @api.depends('subtotal_amount_untaxed')
     def _compute_integral_variable_salary(self):
         '''Este metodo se utiliza para el cálculo de salario diario integral variable'''
-        perception_types = ['001','002','007','010','019','020','021','022']
+        perception_types = ['002','007','010','019','020','021','022']
         days_factor = {
                        'daily':1,
                        'weekly':7,
@@ -137,32 +137,32 @@ class HrPayslip(models.Model):
         factor_days = (self.employee_id.group_id.days/30)*days_factor[self.payroll_period]
         self.integral_variable_salary = total_perception/factor_days
 
-    # ~ def get_total_perceptions_to_sv(self, lines):
-        # ~ '''
-        # ~ Este metodo permite consultar si la regla aplica según los criterios de evaluación por ley
-        # ~ '''
-        # ~ vals=[]
-        # ~ for line in lines:
-            # ~ if line.salary_rule_id.type_perception == '010':
-                # ~ print ('''cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
-                        # ~ Seguro Social, de ser así la cantidad que rebase integrará''')
-                # ~ proporcion_percepcion = line.amount/self.contract.salary_var
-                # ~ if proporcion_percepcion > 0.1:
-                    # ~ restante = (line.amount - (self.contract.salary_var*0.1))*line.quantity
-                    # ~ vals.append(restante)
-            # ~ if line.salary_rule_id.type_perception == '019':
-                # ~ print ('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
-                        # ~ exceda de tres horas diarias ni de tres veces en una semana''')
-                # ~ vals.append(line.total)
-            # ~ if line.salary_rule_id.type_perception == '007':
-                # ~ print ('''si su importe no rebasa el 40% del SMGVDF, de lo contrario el excedente se integrará''')
-                # ~ minimum_salary = self.company_id.municipality_id.get_salary_min(self.date_from)
-                # ~ if line.amount > (minimum_salary*0.40):
-                    # ~ restante = (line.amount - (minimum_salary*0.40))*line.quantity
-                    # ~ vals.append(restante)
-            # ~ else:
-                # ~ vals.append(line.total)
-        # ~ return sum(vals)
+    def get_total_perceptions_to_sv(self, lines):
+         '''
+         Este metodo permite consultar si la regla aplica según los criterios de evaluación por ley
+         '''
+         vals=[]
+         for line in lines:
+             if line.salary_rule_id.type_perception == '010':
+                 print ('''cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
+                        ~ Seguro Social, de ser así la cantidad que rebase integrará''')
+                 proporcion_percepcion = line.amount/self.contract.salary_var
+                 if proporcion_percepcion > 0.1:
+                     restante = (line.amount - (self.contract.salary_var*0.1))*line.quantity
+                     vals.append(restante)
+             if line.salary_rule_id.type_perception == '019':
+                 print ('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
+                         exceda de tres horas diarias ni de tres veces en una semana''')
+                 vals.append(line.total)
+             if line.salary_rule_id.type_perception == '007':
+                 print ('''si su importe no rebasa el 40% del SMGVDF, de lo contrario el excedente se integrará''')
+                 minimum_salary = self.company_id.municipality_id.get_salary_min(self.date_from)
+                 if line.amount > (minimum_salary*0.40):
+                     restante = (line.amount - (minimum_salary*0.40))*line.quantity
+                     vals.append(restante)
+             else:
+                 vals.append(line.total)
+         return sum(vals)
 
     @api.multi
     def print_payroll_cfdi(self):

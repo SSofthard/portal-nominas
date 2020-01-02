@@ -28,6 +28,7 @@
         'views/hr_payslip.xml',
         'wizard/wizard_infonavit_employee.xml',
         'wizard/report_payroll_summary_view.xml',
+        'wizard/wizard_compute_sdi_vars.xml',
         'views/res_company_view.xml',
         'views/table_settings.xml',
         'views/res_config_settings_views.xml',
