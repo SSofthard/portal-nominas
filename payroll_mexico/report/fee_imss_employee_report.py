@@ -26,6 +26,10 @@ class reportHrFeeSettlement(models.TransientModel):
         print (docs)
         print (docs)
         print (docs)
+        date_settlement = date(docs.year, docs.month, 1)
+        data['uma'] = self.env['table.uma'].search([('year', '=', docs.year)])
+        data['salary_min'] = docs.mapped('employer_register_id').municipality_id.get_salary_min(date_settlement)
+        data['prima_rt'] = docs.mapped('employer_register_id').risk_factor_ids.filtered(lambda line: line.date_from <= date_settlement and line.date_to >= date_settlement)
         return {
             'doc_ids': docids,
             'doc_model': 'hr.contract',
@@ -53,6 +57,8 @@ class reportHrFeeSettlementBimothly(models.TransientModel):
         print (docs)
         print (docs)
         print (docs)
+        data['uma'] = self.env['table.uma'].search([('year','=',docs.year)])
+        data['salary_min'] = docs.mapped('employer_register_id').municipality_id.get_salary_min(date(docs.year,docs.month,1))
         return {
             'doc_ids': docids,
             'doc_model': 'hr.contract',
