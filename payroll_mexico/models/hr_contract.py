@@ -95,14 +95,14 @@ class Contract(models.Model):
         ], string='Contracting Regime', required=True, default="2")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
-    integral_salary= fields.Float("Integral Salary", compute='_get_integral_salary', copy=False)
+    integral_salary= fields.Float(string="SDI", compute='_get_integral_salary', copy=False, store=True)
     group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
     # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False) 
     
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
-    
+
     @api.multi
     def get_all_structures(self,struct_id):
         """
