@@ -77,6 +77,7 @@
         'data/data_ir_export_employee.xml',
         'data/res.country.state.municipality.csv',
         'data/res.municipality.zone.csv',
+        'data/data_delegacion.xml',
         # ~ 'data/data_hr_perceptions.xml',
         
     ],
