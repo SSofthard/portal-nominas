@@ -26,9 +26,10 @@
               paperformat="payroll_mexico.paperformat_letter_landscape"
 			 />
 
-<!--        Plantilla Mensual IMSS-->
+<!--        Plantilla de Cedula de autoacreditación Bimestral-->
 
-        <template id="hr_fees_employees_bimonthly" name="Resumen de liquidación de cuotas">
+
+        <template id="hr_fees_employees_bimonthly" name="Resumen de liquidación de cuotas Bimestral">
              <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.internal_layout">
@@ -36,7 +37,7 @@
                         <div class="col-sm-12">
                             <center><h5>Cedula de autodeterminación de cuotas</h5></center>
                             <br/>
-                            <center><h6>Periodo <span t-esc="'%s-%s' % (o.month,o.year)"/></h6></center>
+                            <center><h6>Bimestre <span t-esc="'%s-%s' % (int(o.month/2),o.year)"/></h6></center>
                             <br/>
                             <center><h6><span t-field="o.month"/></h6></center>
                             <br/>
@@ -493,9 +494,9 @@
             </t>
         </template>
 
-<!--        Plantilla de Cedula de autoacreditación Bimestral-->
+<!--        Plantilla Bimestrar IMSS-->
 
-        <template id="hr_fees_imss_employees_bimonthly" name="Resumen de liquidación de cuotas Bimestral">
+        <template id="hr_fees_imss_employees" name="Resumen de liquidación de cuotas">
              <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.internal_layout">
@@ -503,7 +504,7 @@
                         <div class="col-sm-12">
                             <center><h5>Cedula de autodeterminación de cuotas</h5></center>
                             <br/>
-                            <center><h6>Bimestre <span t-esc="'%s-%s' % (int(o.month/2),o.year)"/></h6></center>
+                            <center><h6>Periodo <span t-esc="'%s-%s' % (o.month,o.year)"/></h6></center>
                             <br/>
                             <center><h6><span t-field="o.month"/></h6></center>
                             <br/>
