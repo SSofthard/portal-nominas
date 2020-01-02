@@ -59,6 +59,7 @@ class reportHrFeeSettlementBimothly(models.TransientModel):
         print (docs)
         data['uma'] = self.env['table.uma'].search([('year','=',docs.year)])
         data['salary_min'] = docs.mapped('employer_register_id').municipality_id.get_salary_min(date(docs.year,docs.month,1))
+        data['table_settings'] = self.env['table.settings'].search([('year','=',docs.year)])
         return {
             'doc_ids': docids,
             'doc_model': 'hr.contract',

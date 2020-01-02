@@ -128,7 +128,7 @@
                                             <strong>Aportación Patronal:</strong>
                                         </td>
                                         <td class="text-right" style="border: white 1px solid;">
-                                            5%
+                                          <span t-field="data['table_settings'].infonavit_contribution"/>%
                                         </td>
                                     </tr>
                                 </tbody>
