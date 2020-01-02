@@ -71,10 +71,6 @@
                     <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
                 </xpath> 
                 <xpath expr="//header" position="inside">
-<!--
-                    <button string="Recibo de Nómina" name="print_payroll_receipt" type="object" states="draft" class="oe_sale"/>
-                    <button string="Recibo de Nómina Timbrado" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
--->
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
                     <button string="Generar CFDI" name="print_payroll_cfdi" type="object" class="oe_sale"/>
                 </xpath> 

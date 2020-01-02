@@ -92,7 +92,7 @@ class HrPayslipEmployees(models.TransientModel):
             }
             payslips += self.env['hr.payslip'].create(res)
             payslips.compute_sheet()
-        self.env['hr.payslip.run'].browse(active_id).set_tax_iva_honorarium()
+        self.env['hr.payslip.run'].search([('id','=',active_id)]).set_tax_iva_honorarium()
         # ~ print (payslip_run_id)
         # ~ print (payslip_run_id)
         # ~ print (payslip_run_id.slip_ids)

@@ -494,7 +494,7 @@ class HrGroup(models.Model):
         ('3', 'Clase III'),
         ('4', 'Clase IV'),
         ('5', 'Clase V'),
-        ], string='Job risk', required=True)
+        ], string='Job risk', required=False)
     days = fields.Float("Days", required=True)
     risk_factor_ids = fields.One2many('hr.group.risk.factor','group_id', string="Factor de riesgo anual")
     country_id = fields.Many2one('res.country', string='Country', store=True,

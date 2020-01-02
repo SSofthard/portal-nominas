@@ -45,7 +45,7 @@ class HrPayslipRun(models.Model):
             {'sequence': 0.8, 'name': 'Tipo\nSalario', 'larg': 10, 'col': {}},
         ]
         domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
-        rule_ids = self.env['hr.payslip.line'].search(domain).mapped('salary_rule_id')
+        rule_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.salary_rule_id.print_to_excel == True).mapped('salary_rule_id')
         for rule in rule_ids:
             header.append({
                 'sequence': rule.sequence,
@@ -55,6 +55,46 @@ class HrPayslipRun(models.Model):
                 'col': {'total_function': 'sum', 'total_row': 1},})
         header_sort = sorted(header, key=lambda k: k['sequence'])
         return header_sort
+
+    def get_line_for_report(self):
+        payroll_data = {}
+        employee_data = []
+        domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
+        rule_code = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.salary_rule_id.print_to_excel == True).mapped('salary_rule_id')
+        # ~ rule_code = self.estructure_id.rule_ids.filtered(lambda r: r.print_to_excel)
+        for payroll in self.slip_ids:
+            line_data = []
+            for rule in rule_code:
+                
+                line_calc = payroll.line_ids.filtered(lambda line: line.code == rule.code and line.total != 0 and line.salary_rule_id.print_to_excel == True)
+                if line_calc:
+                    line_data.append({
+                        'name': line_calc.name,
+                        'code': line_calc.code,
+                        'sequence': line_calc.sequence,
+                        'total': line_calc.total,
+                    })
+                else:
+                    line_data.append({
+                        'code': rule.code,
+                        'sequence': rule.sequence,
+                        'total': 0,
+                    })
+            line_data_sort = sorted(line_data, key=lambda k: k['sequence'])
+            employee_data.append({
+                'enrollment': payroll.employee_id.enrollment,
+                'employee_name': payroll.employee_id.name_get()[0][1],
+                'nss': payroll.employee_id.ssnid,
+                'rfc': payroll.employee_id.rfc,
+                'curp': payroll.employee_id.curp,
+                'discharge_date': payroll.contract_id.date_start,
+                'department': payroll.employee_id.department_id.name,
+                'salary_type': dict(payroll.employee_id._fields['salary_type']._description_selection(self.env)).get(payroll.employee_id.salary_type),
+                'wage': payroll.contract_id.wage,
+                'lines': line_data_sort,
+                
+            })
+        return employee_data
 
     @api.multi
     def action_print_report(self):
@@ -177,46 +217,3 @@ class HrPayslipRun(models.Model):
             'target': 'new',
         }
 
-    def get_line_for_report(self):
-        payroll_data = {}
-        employee_data = []
-        domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
-        rule_code = self.env['hr.payslip.line'].search(domain).mapped('salary_rule_id')
-        # ~ rule_code = self.estructure_id.rule_ids.filtered(lambda r: r.print_to_excel)
-        for payroll in self.slip_ids:
-            line_data = []
-            for rule in rule_code:
-                
-                line_calc = payroll.line_ids.filtered(lambda line: line.code == rule.code and line.total != 0)
-                if line_calc:
-                    line_data.append({
-                        'name': line_calc.name,
-                        'code': line_calc.code,
-                        'sequence': line_calc.sequence,
-                        'total': line_calc.total,
-                    })
-                else:
-                    line_data.append({
-                        'code': rule.code,
-                        'sequence': rule.sequence,
-                        'total': 0,
-                    })
-            line_data_sort = sorted(line_data, key=lambda k: k['sequence'])
-            employee_data.append({
-                'enrollment': payroll.employee_id.enrollment,
-                'employee_name': payroll.employee_id.name_get()[0][1],
-                'nss': payroll.employee_id.ssnid,
-                'rfc': payroll.employee_id.rfc,
-                'curp': payroll.employee_id.curp,
-                'discharge_date': payroll.contract_id.date_start,
-                'department': payroll.employee_id.department_id.name,
-                'salary_type': dict(payroll.employee_id._fields['salary_type']._description_selection(self.env)).get(payroll.employee_id.salary_type),
-                'wage': payroll.contract_id.wage,
-                'lines': line_data_sort,
-                
-            })
-        return employee_data
-        
-        
-        
-        

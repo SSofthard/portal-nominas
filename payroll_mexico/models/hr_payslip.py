@@ -454,7 +454,7 @@ class HrPayslip(models.Model):
                             'infonavit_id':infonavit.id,
                             }
                         self.env['hr.infonavit.credit.history'].create(val_infonavit)
-                   
+            payslip.payslip_run_id.set_tax_iva_honorarium()
         return True
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
