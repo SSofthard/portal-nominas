@@ -31,6 +31,7 @@ class TableUma(models.Model):
 class TableMinimumWages(models.Model):
     _name = 'table.minimum.wages'
     _order = 'date desc'
+    _rec_name = "id"
     
     date = fields.Date('Validity', required=True)
     zone_a = fields.Float('Zone A')
