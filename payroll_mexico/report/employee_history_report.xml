@@ -13,7 +13,8 @@
             <t t-call="web.internal_layout">
                 <t t-call="web.html_container">
                     <div class="page" style="font-size:12px">
-                        <h5 class="text-center">ROTACION DE EMPLEADOS.</h5>
+                        <h5 class="text-center">ROTACIÓN DE EMPLEADOS</h5>
+                        <h6 class="text-center">Período: <span t-esc="data['date_from']" t-options="{'widget':'date'}"/> AL <span t-esc="data['date_to']" t-options="{'widget':'date'}"/></h6>
                         <br/>
                         <div>
                             <div class="row">
@@ -29,112 +30,75 @@
                                 <t t-esc="data['work_center']"/>
                             </div>
                             <div class="row">
-                                <strong>PUESTO DE TRABAJO:&amp;nbsp; </strong>
-                                <t t-esc="data['job_ids']"/>
-                            </div>
-                            <div class="row">
                                 <strong>REGIMEN DE CONTRATACION:&amp;nbsp; </strong>
                                 <t t-esc="data['regime']"/>
-                            </div>
-                            <div class="row">
-                                <strong>DESDE:&amp;nbsp;</strong><t t-esc="data['date_from']"/>&amp;nbsp;<strong>HASTA:&amp;nbsp;</strong><t t-esc="data['date_to']"/>
                             </div>
                         </div>
                         <br/>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">PUESTO DE TRABAJO:</th>
-                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS (FECHA DE INICIO):</th>
-                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS (FECHA DE FIN):</th>
-                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE BAJAS:</th>
-                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">TASA DE ROTACION:</th>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">PUESTO DE TRABAJO</th>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS (INICIO DEL PERÍODO)</th>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS (FIN DEL PERÍODO)</th>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE BAJAS</th>
+                                    <th colspan="2" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">TASA DE ROTACIÓN</th>
                                 </tr>
                             </thead>
-                        <t t-foreach="history_id.mapped('job_id')" t-as="o">
+                        <t t-foreach="docs" t-as="o">
                             <tbody>
                                 <tr>
+                                    <t t-set="start" t-value="len(start_ids.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/>
+                                    <t t-set="end" t-value="len(end_ids.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/>
+                                    <t t-set="low" t-value="len(low_ids.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/>
+                                    <t t-if="start > 0 or end > 0" t-set="index" t-value="low/((start+end)/2)*100"/>
                                     <td colspan="2" class="text-center" ><span t-field="o.name"/></td>
-                                    <td colspan="2" class="text-center" ><span t-esc="len(docs.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/></td>
-                                    <td colspan="2" class="text-center" ><span t-esc="len(history_date.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/></td>
-                                    <td colspan="2" class="text-center" ><span t-esc="len(history_low.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/></td>
-                                    <td colspan="2" class="text-center" ><span>definir</span></td>
+                                    <td colspan="2" class="text-center" ><span t-esc="start"/></td>
+                                    <td colspan="2" class="text-center" ><span t-esc="end"/></td>
+                                    <td colspan="2" class="text-center" ><span t-esc="low"/></td>
+                                    <td colspan="2" class="text-center" ><span t-if="start > 0 or end > 0" t-esc="index"/><span t-if="start == 0 and end == 0">Sin datos</span></td>
                                 </tr>
                             </tbody>
                         </t>
                         </table>
                         <br/>
                     </div>
-<!--
-                    <div class="page" style="font-size:12px">
-                        <h5 class="text-center">ROTACION DE EMPLEADOS.</h5>
-                        <br/>
-                        <div>
-                            <div class="row">
-                                <strong>GRUPO:&amp;nbsp; </strong>
-                                <t t-esc="data['group']"/>
-                            </div>
-                            <div class="row">
-                                <strong>REGISTRO PATRONAL:&amp;nbsp; </strong>
-                                <t t-esc="data['register']"/>
-                            </div>
-                            <div class="row">
-                                <strong>CENTRO DE TRABAJO:&amp;nbsp; </strong>
-                                <t t-esc="data['work_center']"/>
-                            </div>
-                            <div class="row">
-                                <strong>PUESTO DE TRABAJO:&amp;nbsp; </strong>
-                                <t t-esc="data['job_ids']"/>
-                            </div>
-                            <div class="row">
-                                <strong>REGIMEN DE CONTRATACION:&amp;nbsp; </strong>
-                                <t t-esc="data['regime']"/>
-                            </div>
-                            <div class="row">
-                                <strong>DESDE:&amp;nbsp;</strong><t t-esc="data['date_from']"/>&amp;nbsp;<strong>HASTA:&amp;nbsp;</strong><t t-esc="data['date_to']"/>
-                            </div>
-                        </div>
-                        <br/>
-                        <t t-foreach="docs.mapped('job_current_id')" t-as="o">
-                            <table class="table">
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">PUESTO DE TRABAJO:</th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span t-field="o.name"/></th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">EMPLEADOS ACTIVOS:</th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span t-field="o.no_of_employee"/></th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE ALTAS:</th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span>definir</span></th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;">CANTIDAD DE BAJAS:</th>
-                                    <th colspan="1" class="text-center" style="border: 1px !important; border-style: solid !important; border-color: #000000; color:#000000 !important;"><span>definir</span></th>
-                            </table>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2" class="text-center" >EMPLEADO</th>
-                                        <th colspan="2" class="text-center" >FECHA DE ALTA</th>
-                                        <th colspan="2" class="text-center" >FECHA DE INICIO</th>
-                                        <th colspan="2" class="text-center" >FECHA DE FIN</th>
-                                        <th colspan="2" class="text-center" >STATUS</th>
-                                    </tr>
-                                </thead>
-                             <t t-foreach="docs.mapped('employee_id')" t-as="e" >
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2" class="text-center" ><span t-field="e.name"/></td>
-                                        <td colspan="2" class="text-center" ><span t-field="e.contract_ids.date_start"/></td>
-                                        <td colspan="2" class="text-center" ><span>definir</span></td>
-                                        <td colspan="2" class="text-center" ><span>definir</span></td>
-                                        <td colspan="2" class="text-center" ><span>definir</span></td>
-                                    </tr>
-                                </tbody>
-                            </t>
-                            </table>
-                            <br/>
-                        </t>
-                    </div>
--->
+                    <t t-call="payroll_mexico.template_change_job_detaill"/>
                 </t>
             </t>
         </template>
         
+        <template id="template_change_job_detaill" >
+            <div class="page" style="font-size:12px">
+                <h5 class="text-center">MOVIMIENTOS DE PUESTOS DE TRABAJO</h5>
+                <h6 class="text-center">Período: <span t-esc="data['date_from']" t-options="{'widget':'date'}"/> AL <span t-esc="data['date_to']" t-options="{'widget':'date'}"/></h6>
+                <br/>
+                <br/>
+                <t t-foreach="docs" t-as="o">
+                    <th colspan="8" class="text-center" ><strong>PUESTO DE TRABAJO: </strong><span t-field="o.name"/></th>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th colspan="2" class="text-center" >EMPLEADO</th>
+                                <th colspan="2" class="text-center" >CONTRATO</th>
+                                <th colspan="2" class="text-center" >FECHA DE INICIO EN EL PUESTO</th>
+                                <th colspan="2" class="text-center" >FECHA DE FIN EN EL PUESTO</th>
+                            </tr>
+                        </thead>
+                         <t t-foreach="change_ids.filtered(lambda r: r.job_id == o)" t-as="e" >
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" class="text-center" ><span t-field="e.employee_id.name"/></td>
+                                    <td colspan="2" class="text-center" ><span t-field="e.contract_id.name"/></td>
+                                    <td colspan="2" class="text-center" ><span t-field="e.date_from"/></td>
+                                    <td colspan="2" class="text-center" ><span t-field="e.date_to"/></td>
+                                </tr>
+                            </tbody>
+                        </t>
+                    </table>
+                    <br/>
+                </t>
+            </div>
+        </template>
     </data>
 </odoo>

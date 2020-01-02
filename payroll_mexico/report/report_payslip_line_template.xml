@@ -5,11 +5,12 @@
         <report 
             id="action_report_payslip_line"
             string="Detalles de la Nómina"
-            model="hr.payslip" 
+            model="hr.payslip.run" 
             report_type="qweb-html"
             file="payroll_mexico.report_payslip_line_template" 
             name="payroll_mexico.report_payslip_line_template"
             print_report_name="'Nómina - %s' % (object.employee_id.name)"
+            menu="False"
         />
         
         <template id="report_payslip_line_template">

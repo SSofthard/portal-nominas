@@ -503,6 +503,7 @@ class HrGroup(models.Model):
     bonus_days = fields.Float(string="Bonus days", required=True, default=15)
     antique_table = fields.Many2one('tablas.antiguedades', string='Antique table', required=True)
     percent_honorarium = fields.Float(required=True, digits=(16, 4), string='Porcentaje de honoraios')
+    savings_fund_percentage = fields.Float(required=True, digits=(16, 4), string='Savings fund percentage')
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),

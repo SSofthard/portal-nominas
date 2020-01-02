@@ -5,7 +5,7 @@ from datetime import date
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-
+from odoo.addons import decimal_precision as dp
 from odoo.addons.payroll_mexico.pyfiscal.generate_company import GenerateRfcCompany
 
 
@@ -33,6 +33,30 @@ class Company(models.Model):
     power_attorney_ids = fields.One2many('company.power.attorney','company_id', "Power Attorney", required=True)
     country_id = fields.Many2one('res.country', compute='_compute_address', inverse='_inverse_country', string="Country", default=lambda self: self.env.user.company_id.country_id.id)
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    tax_regime = fields.Selection(
+        selection=[('601', _('General de Ley Personas Morales')),
+                   ('603', _('Personas Morales con Fines no Lucrativos')),
+                   ('605', _('Sueldos y Salarios e Ingresos Asimilados a Salarios')),
+                   ('606', _('Arrendamiento')),
+                   ('608', _('Demás ingresos')),
+                   ('609', _('Consolidación')),
+                   ('610', _('Residentes en el Extranjero sin Establecimiento Permanente en México')),
+                   ('611', _('Ingresos por Dividendos (socios y accionistas)')),
+                   ('612', _('Personas Físicas con Actividades Empresariales y Profesionales')),
+                   ('614', _('Ingresos por intereses')),
+                   ('616', _('Sin obligaciones fiscales')),
+                   ('620', _('Sociedades Cooperativas de Producción que optan por diferir sus ingresos')),
+                   ('621', _('Incorporación Fiscal')),
+                   ('622', _('Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras')),
+                   ('623', _('Opcional para Grupos de Sociedades')),
+                   ('624', _('Coordinados')),
+                   ('628', _('Hidrocarburos')),
+                   ('607', _('Régimen de Enajenación o Adquisición de Bienes')),
+                   ('629', _('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales')),
+                   ('630', _('Enajenación de acciones en bolsa de valores')),
+                   ('615', _('Régimen de los ingresos por obtención de premios')),],
+        string=_('Tax regime'), 
+    )
  
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),
@@ -56,14 +80,42 @@ class employerRegister(models.Model):
     _name = 'res.employer.register'
     _rec_name='employer_registry'
     
+    def _default_country(self):
+        country_id = self.env['res.country'].search([('code','=','MX')], limit=1)
+        return country_id
+
+    
     company_id = fields.Many2one('res.company', "Company")
     employer_registry = fields.Char("Employer Registry", copy=False, required=True)
     electronic_signature = fields.Many2many('ir.attachment', string="Electronic Signature", required=True)
     validity_signature = fields.Date("Validity of Signature", required=True, copy=False)
+    
+    delegacion_id = fields.Many2one('res.company.delegacion', "Delegacion", required=True)
+    subdelegacion_id = fields.Many2one('res.company.subdelegacion', "Sub-Delegacion", required=True)
+    economic_activity = fields.Char("Economic activity", copy=False, required=True)
     state = fields.Selection([
         ('valid', 'Valid'),
         ('timed_out', 'Timed out'),
         ('revoked', 'Revoked'),],default="valid")
+    geographic_area = fields.Selection([
+        ('1', 'General Minimum Wages'),
+        ('2', 'Northern border'),], 'Geographic area',required=True)
+    risk_factor_ids = fields.One2many('res.group.risk.factor','employer_id', string="Factor de riesgo anual")
+    job_risk = fields.Selection([
+        ('1', 'Clase I'),
+        ('2', 'Clase II'),
+        ('3', 'Clase III'),
+        ('4', 'Clase IV'),
+        ('5', 'Clase V'),
+        ], string='Job risk', required=True)
+    subcide_reimbursement_agreement = fields.Boolean("Subcide reimbursement agreement")
+    country_id = fields.Many2one('res.country', default=_default_country, string="Country")
+    city = fields.Char(string="City")
+    state_id = fields.Many2one('res.country.state', string="Fed. State")
+    zip = fields.Char(string="ZIP")
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    street = fields.Char(string="Street")
+    street2 = fields.Char(string="Street 2")
 
     @api.multi
     def action_revoked(self):
@@ -75,7 +127,33 @@ class employerRegister(models.Model):
         for employer in self:
             employer.state = 'timed_out'
 
+class HrGroupRiskFactor(models.Model):
+    _name = "res.group.risk.factor"
+    _description="Annual Risk Factor"
+    
+    employer_id = fields.Many2one('res.employer.register', string="group")
+    risk_factor = fields.Float(string="Risk Factor", required=True, digits=dp.get_precision('Risk'))
+    date_from = fields.Date(string="Start Date", required=True)
+    date_to = fields.Date(string="End Date", required=True)
 
+
+class companyDelegacion(models.Model):
+
+    _name = 'res.company.delegacion'
+    
+    name = fields.Char('Delegacion', required=True)
+    code = fields.Char('Code', required=True)
+    subdelegacion_ids = fields.One2many('res.company.subdelegacion', 'delegacion_id', 'Sub-Delegacion')
+    
+class companySubDelegacion(models.Model):
+
+    _name = 'res.company.subdelegacion'
+    
+    delegacion_id = fields.Many2one('res.company.delegacion', "Delegacion")
+    name = fields.Char('Sub-Delegacion', required=True)
+    code = fields.Char('Code', required=True)
+    
+    
 class companyPartner(models.Model):
 
     _name = 'res.company.partner'

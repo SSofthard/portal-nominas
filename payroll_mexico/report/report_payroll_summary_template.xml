@@ -5,11 +5,12 @@
         <report 
             id="action_payroll_summary_report"
             string="Resumén de la Nómina"
-            model="hr.payslip" 
+            model="hr.payslip.run" 
             report_type="qweb-html"
             file="payroll_mexico.payroll_summary_report_template" 
             name="payroll_mexico.payroll_summary_report_template"
             print_report_name="'Resumen de Nómina periodo: %s_%s' % (object.payroll_month, object.year)"
+            menu="False"
         />
 
         <template id="payroll_summary_report_template">

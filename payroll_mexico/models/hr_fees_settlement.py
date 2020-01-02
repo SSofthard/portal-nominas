@@ -335,6 +335,7 @@ class HrFeeSettlementDetails(models.Model):
         'aporte_voluntario_infonavit': 'D092',
     }
 
+    @api.one
     def _compute_totals(self):
         '''
         Este metodo calcula los totales de la cedula de autodeterminacion

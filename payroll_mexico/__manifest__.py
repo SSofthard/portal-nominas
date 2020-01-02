@@ -28,6 +28,7 @@
         'views/hr_payslip.xml',
         'wizard/wizard_infonavit_employee.xml',
         'wizard/report_payroll_summary_view.xml',
+        'wizard/wizard_compute_sdi_vars.xml',
         'views/res_company_view.xml',
         'views/table_settings.xml',
         'views/res_config_settings_views.xml',
@@ -66,6 +67,7 @@
         'report/report_payroll_receipt_template.xml',
         'report/report_payroll_receipt_timbrado_template.xml',
         'report/fee_imss_employee_report.xml',
+        'report/report_payroll_cfdi.xml',
         'data/data.xml',
         'data/sequence_data.xml',
         # 'data/data_table_cfdi.xml',
@@ -77,6 +79,7 @@
         'data/data_ir_export_employee.xml',
         'data/res.country.state.municipality.csv',
         'data/res.municipality.zone.csv',
+        'data/data_delegacion.xml',
         # ~ 'data/data_hr_perceptions.xml',
         
     ],
