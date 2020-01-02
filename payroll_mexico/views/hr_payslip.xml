@@ -315,7 +315,12 @@
                 }
             </field>
         </record>
-        
+
+        <!-- Domain en Action Nóminas del empleado -->
+        <record id="hr_payroll.action_view_hr_payslip_form" model="ir.actions.act_window">
+            <field name="domain">[('settlement', '=', False)]</field>
+        </record>
+
         <menuitem
             name="Nóminas del empleado"
             id="menu_view_hr_payslip_refactor"

@@ -15,6 +15,7 @@ class EmployeeAffiliateMovements(models.Model):
 
     contract_id = fields.Many2one('hr.contract', index=True, string='Contract')
     employee_id = fields.Many2one('hr.employee', index=True, string='Employee')
+    group_id = fields.Many2one('hr.group', "Grupo/Empresa", store=True, related='employee_id.group_id')
     type = fields.Selection([
         ('08', 'Alta o Reingreso'),
         ('07', 'Cambio de salario'),
@@ -46,7 +47,7 @@ class EmployeeAffiliateMovements(models.Model):
         ('3', 'Senior citizens'),
         ('4', 'Pensioners'),
         ('5', 'Free'),
-        ], string='Contracting Regime', related="contract_id.contracting_regime")
+        ], string='Contracting Regime', related="contract_id.contracting_regime", store=True)
 
     def action_move_draft(self):
         self.filtered(lambda mov: mov.state == 'generated').write({'state': 'draft'})
@@ -57,6 +58,7 @@ class EmployeeAffiliateMovements(models.Model):
             if movements.state not in ['draft']:
                 raise UserError(_('You cannot delete affiliate movements that are not in "Draft" status.'))
         return super(EmployeeAffiliateMovements, self).unlink()
+
 
 class ChangeOfJob(models.Model):
     _name = 'hr.change.job'
@@ -75,6 +77,7 @@ class ChangeOfJob(models.Model):
         ('4', 'Pensioners'),
         ('5', 'Free'),
         ], string='Contracting Regime', related="contract_id.contracting_regime")
+
 
 class Contract(models.Model):
     _inherit = 'hr.contract'

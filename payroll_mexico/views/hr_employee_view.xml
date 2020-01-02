@@ -35,9 +35,7 @@
                     <field name="rfc" />
                     <field name="ssnid" />
                     <field name="group_id" />
-                    <field name="work_center_id" 
-                        context="{'show_address': 1}"
-                        options='{"always_reload": True, "highlight_first_line": True}'/>
+                    <field name="work_center_id"/>
                     <field name="employer_register_id" />
                 </xpath>
                 <xpath expr="//filter[@name='message_needaction']" position="after">
@@ -88,7 +86,9 @@
                 </xpath> 
                 <xpath expr="//field[@name='work_email']" position="before">
                     <field name="group_id"/>
-                    <field name="work_center_id" context="{'default_group_id': group_id}"
+                    <field name="work_center_id" 
+                        context="{'show_address': 1, 'default_group_id': group_id}"
+                        options='{"always_reload": True, "highlight_first_line": True}'
                         domain="[('group_id','=',group_id)]"/>
                 </xpath> 
                 <xpath expr="//field[@name='birthday']" position="after">
