@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import babel
+
 from datetime import datetime
 from pytz import timezone
+from .tool_convert_numbers_letters import numero_to_letras
 
-import babel
 from odoo import api, fields, models, tools, _
 from datetime import date, datetime, time, timedelta
 from odoo.exceptions import UserError, ValidationError
@@ -114,6 +116,71 @@ class HrPayslip(models.Model):
             # ~ else:
                 # ~ vals.append(line.total)
         # ~ return sum(vals)
+
+    @api.multi
+    def print_payroll_receipt(self):
+        payroll_dic = {}
+        lines = []
+        domain = [('slip_id','=', self.id)]
+        sd = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI002')]).mapped('total'))
+        sdi = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI003')]).mapped('total'))
+        total_percep = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total'))
+        total_ded = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D103')]).mapped('total'))
+        total = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total'))
+        line_ids = self.env['hr.payslip.line'].search(domain + [('appears_on_payslip','=', True), ('total','!=', 0)])
+        for line in line_ids:
+            if line.category_id.code == 'PERCEPCIONES':
+                lines.append({
+                    'code': line.code,
+                    'name': line.name,
+                    'quantity': line.quantity,
+                    'total': line.total,
+                    'type': 'PERCEPCIONES',
+                })
+            if line.category_id.code == 'DED':
+                lines.append({
+                    'code': line.code,
+                    'name': line.name,
+                    'quantity': line.quantity,
+                    'total': line.total,
+                    'type': 'DED',
+                })
+        payroll_dic['name'] = self.employee_id.complete_name
+        payroll_dic['ssnid'] = self.employee_id.ssnid
+        payroll_dic['rfc'] = self.employee_id.rfc
+        payroll_dic['curp'] = self.employee_id.curp
+        payroll_dic['date_from'] = self.date_from
+        payroll_dic['date_to'] = self.date_to
+        payroll_dic['payroll_period'] = dict(self._fields['payroll_period']._description_selection(self.env)).get(self.payroll_period).upper()
+        payroll_dic['no_period'] = self.payroll_of_month
+        payroll_dic['paid_days'] = abs(self.date_from - self.date_to).days
+        payroll_dic['sd'] = sd
+        payroll_dic['sdi'] = sdi
+        payroll_dic['total_percep'] = total_percep
+        payroll_dic['total_ded'] = total_ded
+        payroll_dic['total'] = total
+        payroll_dic['total_word'] = numero_to_letras(abs(total)) or 00
+        payroll_dic['decimales'] =  str(round(total, 2)).split('.')[1] or 00
+        payroll_dic['company'] = self.company_id.name.upper() or ''
+        payroll_dic['lines'] = lines
+        # Buscar Faltas
+        leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
+        total_faults = 0
+        absenteeism = 0
+        inhability = 0
+        for leave in leave_type:
+            for wl in self.worked_days_line_ids:
+                if leave.code == wl.code:
+                    if leave.time_type == 'inability':
+                        inhability += wl.number_of_days
+                    if leave.time_type == 'leave':
+                        absenteeism += wl.number_of_days
+        total_faults += inhability + absenteeism
+        payroll_dic['faults'] = total_faults
+        data={
+            'payroll_data':payroll_dic
+            }
+        return self.env.ref('payroll_mexico.action_payroll_receipt_report').report_action(self,data)      
 
     @api.multi
     def _compute_payroll_tax_count(self):

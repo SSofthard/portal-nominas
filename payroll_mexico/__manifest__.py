@@ -63,6 +63,7 @@
         'report/report_employee_catalogs.xml',
         'report/report_payroll_summary_template.xml',
         'report/report_affiliate_movements_template.xml',
+        'report/report_payroll_receipt_template.xml',
         'report/fee_imss_employee_report.xml',
         'data/data.xml',
         'data/sequence_data.xml',
