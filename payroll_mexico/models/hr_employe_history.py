@@ -16,9 +16,9 @@ class EmployeeAffiliateMovements(models.Model):
     contract_id = fields.Many2one('hr.contract', index=True, string='Contract')
     employee_id = fields.Many2one('hr.employee', index=True, string='Employee')
     type = fields.Selection([
-        ('08', 'High or reentry'),
-        ('07', 'Salary change'),
-        ('02', 'low'),
+        ('08', 'Alta o Reingreso'),
+        ('07', 'Cambio de salario'),
+        ('02', 'Baja'),
     ], string='Type', index=True, default='08')
     date = fields.Date(string="Date")
     reason_liquidation = fields.Selection([

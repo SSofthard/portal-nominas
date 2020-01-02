@@ -48,9 +48,9 @@
                         <t t-foreach="docs" t-as="o">
                             <tbody>
                                 <tr>
-                                    <t t-set="start" t-value="len(start_ids.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/>
-                                    <t t-set="end" t-value="len(end_ids.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/>
-                                    <t t-set="low" t-value="len(low_ids.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/>
+                                    <t t-set="start" t-value="len(start_ids.filtered(lambda job: job.job_id == o))"/>
+                                    <t t-set="end" t-value="len(end_ids.filtered(lambda job: job.job_id == o))"/>
+                                    <t t-set="low" t-value="len(low_ids.filtered(lambda job: job.job_id == o))"/>
                                     <t t-if="start > 0 or end > 0" t-set="index" t-value="low/((start+end)/2)*100"/>
                                     <td colspan="2" class="text-center" ><span t-field="o.name"/></td>
                                     <td colspan="2" class="text-center" ><span t-esc="start"/></td>

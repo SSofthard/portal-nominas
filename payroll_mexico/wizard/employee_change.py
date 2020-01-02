@@ -95,6 +95,8 @@ class wizardEmployeeHistory(models.TransientModel):
         start_ids=change_job.search([('date_from','<=',date_from),'|',('date_to','>=',date_from),('date_to','=',False)] + domain)
         end_ids=change_job.search([('date_from','<=',date_to),'|',('date_to','>=',date_to),('date_to','=',False)] + domain)
         low_ids=change_job.search([('date_to','>=',date_from),('date_to','<=',date_to)] + domain)
+        print (low_ids)
+        print (start_ids)
         data={
             'change_ids': change_ids._ids,
             'start_ids': start_ids._ids,
