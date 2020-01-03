@@ -243,10 +243,10 @@ class Employee(models.Model):
                     employee.enrollment = new_enrollment
         return True
         
-    def search_minimum_wage(self):
+    def search_minimum_wage(self,date):
         for employee in self:
             zone = self.env['res.municipality.zone'].search([('municipality_id','=',employee.work_center_id.municipality_id.id)],limit=1)
-            wage = self.env['table.minimum.wages'].search([],limit=1)
+            wage = self.env['table.minimum.wages'].search([('date','<=',date)],limit=1)
             wage_minimum = 0
             if zone.zone == 'freezone':
                 wage_minimum = wage.border_crossing
