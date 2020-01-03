@@ -505,7 +505,23 @@ class HrPayslip(models.Model):
             worked_days_lines += worked_days_lines.new(r)
         self.worked_days_line_ids = worked_days_lines
         self.payroll_month = str(date_from.month)
-        self.table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
+        table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
+        print (table_id)
+        print (table_id)
+        print (table_id)
+        print (table_id)
+        print (table_id)
+        print (table_id)
+        print (table_id)
+        if not table_id:
+            title = _("Aviso!")
+            message = 'Debe configurar una tabla de configuracion para el año del periodo de la nómina.'
+            warning = {
+                'title': title,
+                'message': message
+            }
+            self.update({'date_end': False})
+            return {'warning': warning}
         return
         
     def search_inputs(self):
