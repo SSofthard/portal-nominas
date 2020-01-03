@@ -26,6 +26,39 @@ class Job(models.Model):
     
     code = fields.Char("Code", copy=False, required=True)
 
+    _sql_constraints = [
+        ('code_uniq', 'unique(code, company_id, department_id)', 'El código del puesto de trabajo debe ser único por departamento en la empresa!'),
+    ]
+
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|',('code', operator, name),('name', operator, name)]
+        code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(code).name_get()
+
+
+class Department(models.Model):
+    _inherit = "hr.department"
+
+    code = fields.Char("Clave", copy=False, required=True)
+
+    _sql_constraints = [
+        ('code_uniq', 'unique(code, company_id)', 'La clave del departamento debe ser único por departamento en la empresa!'),
+    ]
+
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|',('code', operator, name),('name', operator, name)]
+        code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(code).name_get()
+
+
 class Employee(models.Model):
     _inherit = "hr.employee"
     
@@ -54,7 +87,7 @@ class Employee(models.Model):
         if name:
             domain = ['|',('enrollment', operator, name),('name', operator, name)]
         enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
-        return self.browse(enrollment).name_get()\
+        return self.browse(enrollment).name_get()
 
     @api.depends('name','last_name','mothers_last_name')
     @api.onchange('complete_name')
@@ -225,7 +258,6 @@ class Employee(models.Model):
     @api.model
     def create(self, vals):
         res = super(Employee, self).create(vals)
-        
         res.post()
         return res
     

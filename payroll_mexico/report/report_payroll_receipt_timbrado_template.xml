@@ -16,11 +16,20 @@
             <t t-call="web.html_container">
                 <t t-call="web.internal_layout">
                     <div class="page" style="font-size:10px;">
+                        <style type="text/css">
+                            .table-condensed > body {
+                                background-color: #E9ECEF !important;
+                            }
+                            .table-condensed > thead {
+                                background-color: #ABAFAF;
+                            }
+                        </style>
+                        
                         <div>
                             <h6 class="text-center">RECIBO DE NÓMINA</h6>
                         </div>
                         <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
-                            <tr style="border-bottom: 0px;">
+                            <tr style="border-bottom: 0px; background-color: lavender;">
                                 <td><strong>Nombre Del Trabajador:</strong></td>
                                 <td></td>
                                 <td><strong>SD: </strong>
@@ -79,12 +88,61 @@
                                 </td>
                             </tr>
                         </table>
-                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
-                            <tr>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+                            <tr style="background-color: #ABAFAF;">
                                 <th class="text-center">Percepciones:</th>
                                 <th class="text-center">Deducciones:</th>
                             </tr>
                         </table>
+                        <div class="row" name="lines">
+                            <div class="col-xs-4 pull-left">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">CVE</th>
+                                            <th class="text-center">Descripción</th>
+                                            <th class="text-center">UNID</th>
+                                            <th class="text-center">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="payroll_data['lines']" t-as="line">
+                                            <tr>
+                                                <td class="text-center"><span t-esc="line['code']"/></td>
+                                                <td><span t-esc="line['name']"/></td>
+                                                <td class="text-center"><span t-esc="line['quantity']"/></td>
+                                                <td class="text-right"><span t-esc="line['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-xs-4 pull-right">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">CVE</th>
+                                            <th class="text-center">Descripción</th>
+                                            <th class="text-center">UNID</th>
+                                            <th class="text-center">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="payroll_data['line_ded']" t-as="line_ded">
+                                            <tr>
+                                                <td class="text-center"><span t-esc="line_ded['code']"/></td>
+                                                <td><span t-esc="line_ded['name']"/></td>
+                                                <td class="text-center"><span t-esc="line_ded['quantity']"/></td>
+                                                <td class="text-right"><span t-esc="line_ded['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+<!--
                         <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
                             <thead>
                                 <tr>
@@ -172,8 +230,9 @@
                                 </tr>
                             </tbody>
                         </table>
+-->
                         <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
-                            <tr>
+                            <tr style="background-color: #ABAFAF;">
                                 <th class="text-center">Folio Fiscal:</th>
                                 <th class="text-center">Num. Serie Certificado SAT:</th>
                             </tr>
