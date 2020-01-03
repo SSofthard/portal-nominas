@@ -81,8 +81,8 @@
                         </table>
                         <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
                             <tr>
-                                <th class="text-center">Percepciones:</th>
-                                <th class="text-center">Deducciones:</th>
+                                <th class="text-center" colpsan="10">Percepciones:</th>
+                                <th class="text-center" colpsan="2">Deducciones:</th>
                             </tr>
                         </table>
                         <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
@@ -132,10 +132,11 @@
                                     <td class="text-right"><span t-esc="payroll_data['total_percep']"
                                                   t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
                                     <td></td>
-                                    <td></td>
                                     <th class="text-center">Total de Deducciones</th>
                                     <td class="text-right"><span t-esc="payroll_data['total_ded']"
                                                   t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                    <td></td>
+                                     <td></td>
                                 </tr>
                                 <tr class="border-black o_subtotal" style="">
                                     <td></td>

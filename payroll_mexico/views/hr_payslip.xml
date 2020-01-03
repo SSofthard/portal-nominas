@@ -127,13 +127,13 @@
                    </page>
                    <page string="CFDI">
 					   <group>
-							<group string="Data CFDI">
+							<group string="Datos CFDI">
 								<field name="way_pay"/>
-								<field name="type_voucher"/>
+								<field name="type_voucher" string="Tipo de comprobante"/>
 								<field name="payment_method"/>
 								<field name="cfdi_use"/>
 							 </group>
-							<group string="Invoice detail">
+							<group string="Detalles">
 								<field name="fiscal_folio"/>
 								<field name="invoice_status"/>
 							 </group>

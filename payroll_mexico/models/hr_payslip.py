@@ -83,13 +83,13 @@ class HrPayslip(models.Model):
     type_voucher = fields.Selection([
             ('N', 'Payroll'),
             ], 
-            string='Type of voucher', 
+            string='Tipo', 
             default="N",
             required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
     payment_method = fields.Selection([
-            ('PUE', 'Payment in a single exhibition'),
+            ('PUE', 'Pago en una sola exhibición'),
             ], 
             string='Payment method', 
             default="PUE",
@@ -99,7 +99,7 @@ class HrPayslip(models.Model):
     cfdi_use = fields.Selection([
             ('P01', 'To define'),
             ], 
-            string='Cfdi use', 
+            string='Uso CFDI', 
             default="P01",
             required=True,
             readonly=True,

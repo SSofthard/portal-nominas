@@ -213,7 +213,6 @@ class Employee(models.Model):
     def search_minimum_wage(self):
         for employee in self:
             zone = self.env['res.municipality.zone'].search([('municipality_id','=',employee.work_center_id.municipality_id.id)],limit=1)
-            print (zone)
             wage = self.env['table.minimum.wages'].search([],limit=1)
             wage_minimum = 0
             if zone.zone == 'freezone':
