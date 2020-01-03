@@ -325,7 +325,7 @@
         <menuitem
             name="Nóminas del empleado"
             id="menu_view_hr_payslip_refactor"
-            action="view_hr_inputs_deductions_action"
+            action="hr_payroll.action_view_hr_payslip_form"
             parent="hr_payroll.menu_hr_payroll_root" sequence="5"/>
         <menuitem 
             name="Nóminas del empleado"

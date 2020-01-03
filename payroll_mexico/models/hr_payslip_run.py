@@ -116,6 +116,38 @@ class HrPayslipRun(models.Model):
     def onchange_apply_honorarium(self):
         if not self.apply_honorarium:
             self.apply_honorarium_on = False
+            self.amount_honorarium = False
+
+    @api.onchange('apply_honorarium_on')
+    def onchange_apply_honorarium_on(self):
+        if self.apply_honorarium_on:
+            self.set_tax_iva_honorarium()
+
+    @api.onchange('iva_tax')
+    def onchange_iva_tax(self):
+        if self.iva_tax:
+            self.set_tax_iva_honorarium()
+
+    @api.multi
+    def set_tax_iva_honorarium(self):
+        domain = [('slip_id.payslip_run_id','=', self.id)]
+        base_salary = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total')) #Gross
+        neto = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total')) #Net
+        imss_rcv_infonavit = sum(self.env['hr.payslip.line'].search(domain + [('code','in', ('C001', 'D002', 'UI126', 'UI127', 'UI128'))]).mapped('total'))
+        isr = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D001')]).mapped('total'))
+        isn = self.amount_tax
+        if self.apply_honorarium:
+            if self.group_id.percent_honorarium > 0:
+                if self.apply_honorarium_on == 'net':
+                    self.amount_honorarium = ((self.group_id.percent_honorarium / 100) * neto)
+                if self.apply_honorarium_on == 'gross':
+                    self.amount_honorarium = ((self.group_id.percent_honorarium / 100) * base_salary)
+            else:
+                raise ValidationError(_("Para Cargar 'Honorarios' a la nómina establesca el valor del porcentaje al registro del 'Grupo/Empresa'."))
+        subtotal = neto + imss_rcv_infonavit + isr + isn + self.amount_honorarium
+        iva = ((self.iva_tax / 100) * subtotal)
+        if self.iva_tax > 0:
+            self.iva_amount = iva
 
     def not_total(self):
         raise ValidationError(_('Nose encontraron valores para totalizar en la categoría NETO.'))
@@ -151,25 +183,6 @@ class HrPayslipRun(models.Model):
             'payroll_data':payroll_dic
             }
         return self.env.ref('payroll_mexico.action_payroll_summary_report').report_action(self,data)       
-
-    @api.multi
-    def set_tax_iva_honorarium(self):
-        domain = [('slip_id.payslip_run_id','=', self.id)]
-        base_salary = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total')) #Gross
-        neto = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total')) #Net
-        imss_rcv_infonavit = sum(self.env['hr.payslip.line'].search(domain + [('code','in', ('C001', 'D002', 'UI126', 'UI127', 'UI128'))]).mapped('total'))
-        isr = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D001')]).mapped('total'))
-        isn = self.amount_tax
-        if self.apply_honorarium:
-            if self.group_id.percent_honorarium > 0:
-                self.amount_honorarium = (
-                    (self.group_id.percent_honorarium / 100) * neto if self.apply_honorarium_on == 'net' else base_salary)
-            else:
-                raise ValidationError(_("Para Cargar 'Honorarios' a la nómina establesca el valor del porcentaje al registro del 'Grupo/Empresa'."))
-        subtotal = neto + imss_rcv_infonavit + isr + isn + self.amount_honorarium
-        iva = ((self.iva_tax / 100) * subtotal)
-        if self.iva_tax > 0:
-            self.iva_amount = iva
 
     @api.multi
     def print_payroll_deposit_report(self):
