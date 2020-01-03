@@ -80,6 +80,7 @@
         'data/res.country.state.municipality.csv',
         'data/res.municipality.zone.csv',
         'data/data_delegacion.xml',
+        'data/data_sector_economico.xml',
         # ~ 'data/data_hr_perceptions.xml',
         
     ],

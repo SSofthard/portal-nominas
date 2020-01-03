@@ -116,6 +116,9 @@ class employerRegister(models.Model):
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
+    sector_economico_id = fields.Many2one('res.company.sector_economico', 
+                    "Fracción de RT", 
+                    required=False)
 
     @api.multi
     def action_revoked(self):
@@ -204,7 +207,6 @@ class branchOffices(models.Model):
     
     company_id = fields.Many2one('res.company', "Company", required=False)
     partner_id = fields.Many2one('res.partner', "Branch Offices", required=True, copy=False)
-
 
 class bankDetailsCompany(models.Model):
     _name = "bank.account.company"
@@ -354,3 +356,11 @@ class Partner(models.Model):
     def onchange_state_id(self):
         if self.state_id:
             self.municipality_id = False
+
+
+class companySectorEconomico(models.Model):
+
+    _name = 'res.company.sector_economico'
+    
+    name = fields.Char('Sector Economico', required=True)
+    code = fields.Char('Código', required=True)
