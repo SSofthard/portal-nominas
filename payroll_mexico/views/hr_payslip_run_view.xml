@@ -113,7 +113,9 @@
                     <group col="4">
                         <field name="estructure_id"/>
                         <field name="contracting_regime"/>
-                        <field name="employer_register_id" attrs="{'invisible': [('contracting_regime','!=','2')],'required': [('contracting_regime','=','2')]}"/>
+                        <field name="employer_register_id" 
+                        domain="[('state','=','valid')]"
+                        attrs="{'invisible': [('contracting_regime','!=','2')],'required': [('contracting_regime','=','2')]}"/>
                         <field name="payroll_type" attrs="{'invisible': [('state','=','draft')]}"/>
                         <field name="payroll_month"/>
                         <field name="payroll_of_month"/>

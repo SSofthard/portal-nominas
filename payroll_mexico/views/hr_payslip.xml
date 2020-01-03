@@ -96,7 +96,7 @@
                     <field name="payroll_of_month"/>
                     <field name="payroll_period"/>
                     <field name="group_id"/>
-                    <field name="employer_register_id"/>
+                    <field name="employer_register_id" domain="[('state','=','valid')]"/>
                     <field name="table_id" invisible="1"/>
                 </xpath> 
                 <xpath expr="//notebook/page[1]" position="after">
