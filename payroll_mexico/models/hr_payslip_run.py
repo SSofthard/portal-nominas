@@ -336,6 +336,9 @@ class HrPayslipRun(models.Model):
             return
         date_from = self.date_start
         date_to = self.date_end
+        table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
+        # ~ if not table_id:
+            # ~ return {}
         self.table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
         self.payroll_month = str(date_from.month)
         date1 =datetime.strptime(str(str(date_from.year)+'-12-01'), DEFAULT_SERVER_DATE_FORMAT).date()
