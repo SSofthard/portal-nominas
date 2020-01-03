@@ -228,7 +228,9 @@
                     </div>
                     <group>
                         <group>
-                            <field name="employer_register_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="employer_register_id" 
+                            domain="[('state','=','valid')]"
+                            options="{'no_create': True, 'no_open': True}"/>
                             <field name="date_from"/>
                         </group>
                         <group>

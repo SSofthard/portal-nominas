@@ -190,7 +190,7 @@
                             </group>
                             <group string="IMSS">
                                 <field name="employer_register_id" context="{'default_company_id': company_id}"
-                                    domain="[('company_id','=',company_id)]"/>
+                                    domain="[('company_id','=',company_id),('state','=','valid')]"/>
                                 <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
                                 <field name="payment_period_id"/>
                                 <field name="type_worker"/>

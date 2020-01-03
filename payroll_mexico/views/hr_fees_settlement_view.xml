@@ -33,7 +33,7 @@
                         <group string="Datos generales">
                             <group>
                                 <field name="group_id"/>
-                                <field name="employer_register_id"/>
+                                <field name="employer_register_id" domain="[('state','=','valid')]"/>
                             </group>
                             <group>
                                 <field name="year"/>
