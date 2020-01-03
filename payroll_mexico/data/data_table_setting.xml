@@ -192,6 +192,13 @@
             <field name="zone_c">0</field>
             <field name="border_crossing">176.72</field>
         </record>
+        <record id="table_minimum_wages_24" model="table.minimum.wages">
+            <field name="date">2020-01-01</field>
+            <field name="zone_a">123.22</field>
+            <field name="zone_b">0</field>
+            <field name="zone_c">0</field>
+            <field name="border_crossing">185.56</field>
+        </record>
         
         
 <!--
