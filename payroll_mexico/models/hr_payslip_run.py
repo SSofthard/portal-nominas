@@ -125,21 +125,28 @@ class HrPayslipRun(models.Model):
 
     @api.onchange('iva_tax')
     def onchange_iva_tax(self):
-        if self.iva_tax:
+        if self.iva_tax > 0:
             self.set_tax_iva_honorarium()
+        else:
+            self.iva_amount = 0
 
-    @api.multi
     def set_tax_iva_honorarium(self):
         domain = [('slip_id.payslip_run_id','=', self.id)]
-        base_salary = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total')) #Gross
-        neto = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total')) #Net
-        imss_rcv_infonavit = sum(self.env['hr.payslip.line'].search(domain + [('code','in', ('C001', 'D002', 'UI126', 'UI127', 'UI128'))]).mapped('total'))
-        isr = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D001')]).mapped('total'))
+        base_salary = 0
+        neto = 0
+        imss_rcv_infonavit = 0
+        isr = 0
+        for payroll in self:
+            for slip in payroll.slip_ids:
+                base_salary += sum(slip.line_ids.filtered(lambda l: l.code == 'P195').mapped('total'))
+                neto += sum(slip.line_ids.filtered(lambda l: l.code == 'T001').mapped('total'))
+                imss_rcv_infonavit += sum(slip.line_ids.filtered(lambda l: l.code in ('C001', 'D002', 'UI126', 'UI127', 'UI128')).mapped('total'))
+                isr += sum(slip.line_ids.filtered(lambda l: l.code == 'D001').mapped('total'))
         isn = self.amount_tax
         if self.apply_honorarium:
             if self.group_id.percent_honorarium > 0:
                 if self.apply_honorarium_on == 'net':
-                    self.amount_honorarium = ((self.group_id.percent_honorarium / 100) * neto)
+                    self.amount_honorarium = (self.group_id.percent_honorarium / 100) * neto
                 if self.apply_honorarium_on == 'gross':
                     self.amount_honorarium = ((self.group_id.percent_honorarium / 100) * base_salary)
             else:
