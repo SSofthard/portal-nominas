@@ -21,6 +21,31 @@
                 </xpath>
             </field>
         </record>
+        <!-- hr.department -->
+        <record id="hr_department_inherit" model="ir.ui.view">
+            <field name="name">hr.department.inherit.view</field>
+            <field name="model">hr.department</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" placeholder="Clave"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_department_filter_inherit" model="ir.ui.view">
+            <field name="name">view.department.filter.inherit</field>
+            <field name="model">hr.department</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_department_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" string="Clave"
+                       filter_domain="[('code','ilike',self)]"/>
+                </xpath>
+            </field>
+        </record>
         
         <record id="hr_mployee_inherit_search" model="ir.ui.view">
             <field name="name">hr.employee.inherit.search</field>
@@ -575,6 +600,88 @@
         <menuitem
             id="account.menu_finance"
             active="False"/>
-          
+        
+        <!-- Dirección de los empleados form-->
+        <record id="view_partner_employee_address_form" model="ir.ui.view">
+            <field name="name">res.partner.view.form.private</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="300"/>
+            <field name="arch" type="xml">
+                <form string="Private Address Form">
+                    <sheet>
+                        <field name="type" invisible="1"/>
+                        <label for="name" class="oe_editonly"/>
+                        <field name="name" required="0"/>
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div>
+                                    <div class="o_address_format">
+                                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                        <field name="city" placeholder="City" class="o_address_city"/>
+                                        <field name="state_id" class="o_address_state" placeholder="State" 
+                                            domain="[('country_id','=',country_id)]" options='{"no_open": True}'/>
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                        <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
+                                            domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    </div>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="phone" widget="phone"/>
+                                <field name="mobile" widget="phone"/>
+                                <field name="email"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Dirección de los empleados tree-->
+        <record id="view_partner_employee_address_tree" model="ir.ui.view">
+            <field name="name">view.partner.employee.address.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Dirección">
+                    <field name="name"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                    <field name="municipality_id"/>
+                    <field name="city"/>
+                    <field name="street"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action Dirección de los empleados form-->
+        <record id="action_partner_employee_address_form" model="ir.actions.act_window">
+            <field name="name">Employees</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_partner_employee_address_form"/>
+            <field name="domain">[('employee','=',1)]</field>
+            <field name="context">{'default_customer':0, 'default_supplier':0 , 'default_employee':1}</field>
+            <field name="filter" eval="True"/>
+        </record>
+        <!-- Action Dirección de los empleados tree-->
+        <record id="action_partner_employee_address_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_partner_employee_address_tree"/>
+            <field name="act_window_id" ref="action_partner_employee_address_form"/>
+        </record>
+        <!-- Menu Dirección de los empleados tree-->
+        <menuitem
+            id="menu_action_partner_employee_address_tree"
+            name="Dirección"
+            action="action_partner_employee_address_form"
+            parent="hr.menu_human_resources_configuration"
+            groups="hr.group_hr_manager"
+            sequence="140"/>
+        
     </data>
 </odoo>

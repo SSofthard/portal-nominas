@@ -168,6 +168,7 @@ class HrPayslip(models.Model):
     def print_payroll_cfdi(self):
         payroll_dic = {}
         lines = []
+        line_ded = []
         domain = [('slip_id','=', self.id)]
         sd = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI002')]).mapped('total'))
         sdi = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI003')]).mapped('total'))
@@ -182,10 +183,11 @@ class HrPayslip(models.Model):
                     'name': line.name,
                     'quantity': line.quantity,
                     'total': line.total,
+                    'exempt': 0,
                     'type': 'PERCEPCIONES',
                 })
             if line.category_id.code == 'DED':
-                lines.append({
+                line_ded.append({
                     'code': line.code,
                     'name': line.name,
                     'quantity': line.quantity,
@@ -202,16 +204,17 @@ class HrPayslip(models.Model):
         payroll_dic['date_to'] = self.date_to
         payroll_dic['payroll_period'] = dict(self._fields['payroll_period']._description_selection(self.env)).get(self.payroll_period).upper()
         payroll_dic['no_period'] = self.payroll_of_month
-        payroll_dic['paid_days'] = 15
+        payroll_dic['paid_days'] = abs(self.date_from - self.date_to).days
         payroll_dic['sd'] = sd
         payroll_dic['sdi'] = sdi
         payroll_dic['total_percep'] = total_percep
         payroll_dic['total_ded'] = total_ded
         payroll_dic['total'] = total
         payroll_dic['total_word'] = numero_to_letras(abs(total)) or 00
-        payroll_dic['decimales'] =  str(round(total, 2)).split('.')[1] or 00
+        payroll_dic['decimales'] =  str(round(float(total), 2)).split('.')[1] or 00
         payroll_dic['company'] = self.company_id.name.upper() or ''
         payroll_dic['lines'] = lines
+        payroll_dic['line_ded'] = line_ded
         payroll_dic['bank'] = bank_account.bank_id.name
         payroll_dic['bank_account'] = bank_account.bank_account
         # Buscar Faltas
@@ -239,6 +242,7 @@ class HrPayslip(models.Model):
     def print_payroll_receipt(self):
         payroll_dic = {}
         lines = []
+        line_ded = []
         domain = [('slip_id','=', self.id)]
         sd = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI002')]).mapped('total'))
         sdi = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI003')]).mapped('total'))
@@ -256,7 +260,7 @@ class HrPayslip(models.Model):
                     'type': 'PERCEPCIONES',
                 })
             if line.category_id.code == 'DED':
-                lines.append({
+                line_ded.append({
                     'code': line.code,
                     'name': line.name,
                     'quantity': line.quantity,
@@ -278,9 +282,10 @@ class HrPayslip(models.Model):
         payroll_dic['total_ded'] = total_ded
         payroll_dic['total'] = total
         payroll_dic['total_word'] = numero_to_letras(abs(total)) or 00
-        payroll_dic['decimales'] =  str(round(total, 2)).split('.')[1] or 00
+        payroll_dic['decimales'] =  str(round(float(total), 2)).split('.')[1] or 00
         payroll_dic['company'] = self.company_id.name.upper() or ''
         payroll_dic['lines'] = lines
+        payroll_dic['line_ded'] = line_ded
         # Buscar Faltas
         leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
         total_faults = 0
@@ -296,14 +301,16 @@ class HrPayslip(models.Model):
         total_faults += inhability + absenteeism
         payroll_dic['faults'] = total_faults
         data={
-            'payroll_data':payroll_dic
+            'payroll_data':payroll_dic,
+            'docs_ids':self.id,
             }
         return self.env.ref('payroll_mexico.action_payroll_receipt_report').with_context({'active_model': 'hr.payslip'}).report_action(self,data)      
 
     @api.multi
     def print_payroll_receipt_timbrado(self):
         payroll_dic = {}
-        lines = []
+        line_percep = []
+        line_ded = []
         domain = [('slip_id','=', self.id)]
         sd = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI002')]).mapped('total'))
         sdi = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI003')]).mapped('total'))
@@ -314,7 +321,7 @@ class HrPayslip(models.Model):
         line_ids = self.env['hr.payslip.line'].search(domain + [('appears_on_payslip','=', True), ('total','!=', 0)])
         for line in line_ids:
             if line.category_id.code == 'PERCEPCIONES':
-                lines.append({
+                line_percep.append({
                     'code': line.code,
                     'name': line.name,
                     'quantity': line.quantity,
@@ -322,7 +329,7 @@ class HrPayslip(models.Model):
                     'type': 'PERCEPCIONES',
                 })
             if line.category_id.code == 'DED':
-                lines.append({
+                line_ded.append({
                     'code': line.code,
                     'name': line.name,
                     'quantity': line.quantity,
@@ -347,7 +354,8 @@ class HrPayslip(models.Model):
         payroll_dic['total_word'] = numero_to_letras(abs(total)) or 00
         payroll_dic['decimales'] =  str(round(total, 2)).split('.')[1] or 00
         payroll_dic['company'] = self.company_id.name.upper() or ''
-        payroll_dic['lines'] = lines
+        payroll_dic['lines'] = line_percep
+        payroll_dic['line_ded'] = line_ded
         # Buscar Faltas
         leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
         total_faults = 0

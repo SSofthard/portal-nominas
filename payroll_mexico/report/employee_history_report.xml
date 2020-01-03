@@ -88,7 +88,7 @@
                          <t t-foreach="change_ids.filtered(lambda r: r.job_id == o)" t-as="e" >
                             <tbody>
                                 <tr>
-                                    <td colspan="2" class="text-center" ><span t-field="e.employee_id.name"/></td>
+                                    <td colspan="2" class="text-center" ><span t-field="e.employee_id.complete_name"/></td>
                                     <td colspan="2" class="text-center" ><span t-field="e.contract_id.name"/></td>
                                     <td colspan="2" class="text-center" ><span t-field="e.date_from"/></td>
                                     <td colspan="2" class="text-center" ><span t-field="e.date_to"/></td>
