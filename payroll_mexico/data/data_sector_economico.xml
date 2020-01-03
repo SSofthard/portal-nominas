@@ -1,0 +1,1120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">  
+		
+<!--
+		sector economico
+-->
+		
+		<record id="sector_economico_1" model="res.company.sector_economico">
+			<field name="name">AGRICULTURA</field>
+			<field name="code">011</field>
+		</record>
+		<record id="sector_economico_2" model="res.company.sector_economico">
+			<field name="name">CRIA Y EXPLOTACION DE GANADO Y OTRAS CLASES DE ANIMALES</field>
+			<field name="code">021</field>
+		</record>
+		<record id="sector_economico_3" model="res.company.sector_economico">
+			<field name="name">EXPLOT.BOSQUES MAD.EXTRAC.PRODS.FORESTAL NO MAD.Y SERVS</field>
+			<field name="code">031</field>
+		</record>
+		<record id="sector_economico_4" model="res.company.sector_economico">
+			<field name="name">PESCA DE ALTURA Y COSTERA</field>
+			<field name="code">041</field>
+			
+		</record>
+		<record id="sector_economico_5" model="res.company.sector_economico">
+			<field name="name">PESCA EN AGUAS INTERIORES</field>
+			<field name="code">042</field>
+			
+		</record>
+		<record id="sector_economico_6" model="res.company.sector_economico">
+			<field name="name">ACUICULTURA</field>
+			<field name="code">043</field>
+			
+		</record>
+		<record id="sector_economico_7" model="res.company.sector_economico">
+			<field name="name">TRABAJOS DE BUCEO</field>
+			<field name="code">044</field>
+			
+		</record>
+		<record id="sector_economico_8" model="res.company.sector_economico">
+			<field name="name">CAZA</field>
+			<field name="code">050</field>
+		</record>
+		<record id="sector_economico_9" model="res.company.sector_economico">
+			<field name="name">EXTRAC.Y BEN.CARBON MIN.GRAF.Y MIN.NO METAL.MINAS PROFU</field>
+			<field name="code">111</field>
+		</record>
+		<record id="sector_economico_10" model="res.company.sector_economico">
+			<field name="name">BENEFICIO DE MINERALES NO METALICOS</field>
+			<field name="code">112</field>
+		</record>
+		<record id="sector_economico_11" model="res.company.sector_economico">
+			<field name="name">EXTRACCION Y BENEFICIO DE AZUFRE</field>
+			<field name="code">113</field>
+		</record>
+		<record id="sector_economico_12" model="res.company.sector_economico">
+			<field name="name">EXTRAC.Y BEN.MINERALES NO METAL.EN MINAS CIELO ABIERTO</field>
+			<field name="code">114</field>
+		</record>
+		<record id="sector_economico_13" model="res.company.sector_economico">
+			<field name="name">EXPLORACION Y EXTRACCION DE PETROLEO CRUDO Y GAS NATURA</field>
+			<field name="code">121</field>
+		</record>
+		<record id="sector_economico_14" model="res.company.sector_economico">
+			<field name="name">EXTRAC.BENEFICIO MIN.METALICOS EN MINAS DE PROFUNDIDAD</field>
+			<field name="code">131</field>
+		</record>
+		<record id="sector_economico_15" model="res.company.sector_economico">
+			<field name="name">BENEFICIO DE MINERALES METALICOS</field>
+			<field name="code">132</field>
+		</record>
+		<record id="sector_economico_16" model="res.company.sector_economico">
+			<field name="name">EXTRAC.BENEFICIO MIN.METALICOS EN MINAS A CIELO ABIERTO</field>
+			<field name="code">133</field>
+		</record>
+		<record id="sector_economico_17" model="res.company.sector_economico">
+			<field name="name">EXPLOTACION Y/O BENEFICIO DE YACIMIENTOS DE SAL</field>
+			<field name="code">141</field>
+		</record>
+		<record id="sector_economico_18" model="res.company.sector_economico">
+			<field name="name">ELAB.PREP.PRODS.ALIMENTICIOS FRUT.Y LEG.CONSV.ENV.EMPAC</field>
+			<field name="code">201</field>
+		</record>
+		<record id="sector_economico_19" model="res.company.sector_economico">
+			<field name="name">BENEFICIO DE OTROS GRANOS, FABRICACION Y ENVASADO</field>
+			<field name="code">202</field>
+		</record>
+		<record id="sector_economico_20" model="res.company.sector_economico">
+			<field name="name">PRODUCCION DE AZUCAR</field>
+			<field name="code">203</field>
+		</record>
+		<record id="sector_economico_21" model="res.company.sector_economico">
+			<field name="name">MATANZA DE GANADO Y AVES</field>
+			<field name="code">204</field>
+		</record>
+		<record id="sector_economico_22" model="res.company.sector_economico">
+			<field name="name">ELAB.PREP.CONSV.ENV.Y/O EMPAC.DE CARNES Y SUS DERIVADOS</field>
+			<field name="code">205</field>
+		</record>
+		<record id="sector_economico_23" model="res.company.sector_economico">
+			<field name="name">ELAB.PREP.CONSV.ENV.Y/O EMPAC.DE PRODUCTOS LACTEOS</field>
+			<field name="code">206</field>
+		</record>
+		<record id="sector_economico_24" model="res.company.sector_economico">
+			<field name="name">ELAB.PREP.CONSV.ENV.EMPAC.PESCADOS PRODS. MARIN</field>
+			<field name="code">207</field>
+		</record>
+		<record id="sector_economico_25" model="res.company.sector_economico">
+			<field name="name">ELABORACION DE PRODUCTOS A BASE DE CEREALES</field>
+			<field name="code">208</field>
+		</record>
+		<record id="sector_economico_26" model="res.company.sector_economico">
+			<field name="name">ELAB.CHOCOLATES DULCES CONFIT.JARAB.CONCENT.COLOR P/ALI</field>
+			<field name="code">209</field>
+		</record>
+		<record id="sector_economico_27" model="res.company.sector_economico">
+			<field name="name">ELABORACION DE ALIMENTOS PARA ANIMALES</field>
+			<field name="code">2010</field>
+		</record>
+		<record id="sector_economico_28" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE ACEITES Y GRASAS VEGETALES ALIMENTICIAS</field>
+			<field name="code">2011</field>
+		</record>
+		<record id="sector_economico_29" model="res.company.sector_economico">
+			<field name="name">FAB.ALMIDONES,FECULAS,LEVADURAS,MALTA Y PRODS.SIMILARES</field>
+			<field name="code">2012</field>
+		</record>
+		<record id="sector_economico_30" model="res.company.sector_economico">
+			<field name="name">ELAB.PREP.ENV.Y/O EMPAC.DE OTROS PRODUCTOS ALIMENTICIOS</field>
+			<field name="code">2013</field>
+		</record>
+		<record id="sector_economico_31" model="res.company.sector_economico">
+			<field name="name">ELAB.PREP.ENV.EMPAC.PRODS.ALIMENTICIOS S/MAQ.NI EQ.MOTO</field>
+			<field name="code">2014</field>
+		</record>
+		<record id="sector_economico_32" model="res.company.sector_economico">
+			<field name="name">FAB.PRODS.A BASE CEREALES C/PROC.CONTINUOS AUTOMATIZADO</field>
+			<field name="code">2015</field>
+		</record>
+		<record id="sector_economico_33" model="res.company.sector_economico">
+			<field name="name">FAB.HARINAS Y PRODS.DE MOLINO A BASE DE CEREALES LEGUMI</field>
+			<field name="code">2016</field>
+		</record>
+		<record id="sector_economico_34" model="res.company.sector_economico">
+			<field name="name">ELABORACION Y/O ENVASE DE BEBIDAS ALCOHOLICAS</field>
+			<field name="code">211</field>
+		</record>
+		<record id="sector_economico_35" model="res.company.sector_economico">
+			<field name="name">ELABORACION DE CERVEZA Y MALTA</field>
+			<field name="code">212</field>
+		</record>
+		<record id="sector_economico_36" model="res.company.sector_economico">
+			<field name="name">ELAB.Y/O ENVASE REFRESCOS AGUAS GASEOSAS Y PURIFICADAS</field>
+			<field name="code">213</field>
+		</record>
+		<record id="sector_economico_37" model="res.company.sector_economico">
+			<field name="name">BENEFICIO Y/O FABRICACION DE PRODUCTOS DE TABACO</field>
+			<field name="code">220</field>
+		</record>
+		<record id="sector_economico_38" model="res.company.sector_economico">
+			<field name="name">FAB.PREP.HILADO,TEJIDO ACAB.TEXTILES DE FIBRAS BLANDAS</field>
+			<field name="code">231</field>
+		</record>
+		<record id="sector_economico_39" model="res.company.sector_economico">
+			<field name="name">TRABS.BLANQ.TEN.ESTAMP.IMPERM.ACAB.HIL.TEJ.FIBR.BLANDAS</field>
+			<field name="code">232</field>
+		</record>
+		<record id="sector_economico_40" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE TEJIDOS Y ARTICULOS DE PUNTO</field>
+			<field name="code">233</field>
+		</record>
+		<record id="sector_economico_41" model="res.company.sector_economico">
+			<field name="name">FAB.PREP.HILADO,TEJIDO ACABADO TEXTILES DE FIBRAS DURAS</field>
+			<field name="code">234</field>
+		</record>
+		<record id="sector_economico_42" model="res.company.sector_economico">
+			<field name="name">TRABS.DE HILADOS Y/O TEJIDOS SIN MAQ.NI EQUIPO MOTORIZA</field>
+			<field name="code">235</field>
+		</record>
+		<record id="sector_economico_43" model="res.company.sector_economico">
+			<field name="name">FAB.TEJIDOS FIBRAS BLANDAS C/TELARES AUTOM.S/LANZADERA</field>
+			<field name="code">236</field>
+		</record>
+		<record id="sector_economico_44" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE HILADOS CON MAQUINAS DE TURBINA.</field>
+			<field name="code">237</field>
+		</record>
+		<record id="sector_economico_45" model="res.company.sector_economico">
+			<field name="name">CONFECCION DE PRENDAS DE VESTIR A LA MEDIDA</field>
+			<field name="code">241</field>
+		</record>
+		<record id="sector_economico_46" model="res.company.sector_economico">
+			<field name="name">CONFECCION DE PRENDAS DE VESTIR</field>
+			<field name="code">242</field>
+		</record>
+		<record id="sector_economico_47" model="res.company.sector_economico">
+			<field name="name">OTROS ARTICULOS CONFECCIONADOS C/TEXTILES Y MATS.DIVERS</field>
+			<field name="code">243</field>
+		</record>
+		<record id="sector_economico_48" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE CALZADO CON MAQUINARIA Y/O EQ.MOTORIZADO</field>
+			<field name="code">251</field>
+		</record>
+		<record id="sector_economico_49" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE CALZADO SIN MAQUINARIA NI EQ. MOTORIZADO</field>
+			<field name="code">252</field>
+		</record>
+		<record id="sector_economico_50" model="res.company.sector_economico">
+			<field name="name">CURTIDO Y ACABADO DE CUERO Y PIEL</field>
+			<field name="code">253</field>
+		</record>
+		<record id="sector_economico_51" model="res.company.sector_economico">
+			<field name="name">MANUF.ARTICULOS CUERO,PIEL Y SUCEDANEOS FORMA ARTESANAL</field>
+			<field name="code">254</field>
+		</record>
+		<record id="sector_economico_52" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE ARTICULOS DE CUERO,PIEL Y SUCEDANEOS</field>
+			<field name="code">255</field>
+		</record>
+		<record id="sector_economico_53" model="res.company.sector_economico">
+			<field name="name">CURTIDO ACAB.CUERO,PIEL C/USO EXCLU.MAQ.Y/O EQ.MOTORIZA</field>
+			<field name="code">256</field>
+		</record>
+		<record id="sector_economico_54" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PRODUCTOS DE ASERRADERO</field>
+			<field name="code">261</field>
+		</record>
+		<record id="sector_economico_55" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE ARTICULOS Y ACCESORIOS DE MADERA</field>
+			<field name="code">262</field>
+		</record>
+		<record id="sector_economico_56" model="res.company.sector_economico">
+			<field name="name">MANUF.ARTICULOS DE CORCHO,PALMA,VARA,CARRIZO MIMBRE</field>
+			<field name="code">263</field>
+		</record>
+		<record id="sector_economico_57" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE ARTS.DE CORCHO,PALMA,VARA,CARRIZO MIMBRE</field>
+			<field name="code">264</field>
+		</record>
+		<record id="sector_economico_58" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O REPARACION DE MUEBLES DE MADERA Y SUS PARTES</field>
+			<field name="code">271</field>
+		</record>
+		<record id="sector_economico_59" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PAPEL Y/O CARTON Y SUS DERIVADO</field>
+			<field name="code">281</field>
+		</record>
+		<record id="sector_economico_60" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE ARTICULOS A BASE DE PAPEL Y/O CARTON</field>
+			<field name="code">282</field>
+		</record>
+		<record id="sector_economico_61" model="res.company.sector_economico">
+			<field name="name">INDUSTRIAS EDITORIAL,IMPRESION,ENCUADER.Y ACTVS.CONEXAS</field>
+			<field name="code">291</field>
+		</record>
+		<record id="sector_economico_62" model="res.company.sector_economico">
+			<field name="name">FAB.SUBSTANCIAS QUIMICAS E INDUSTRIALES EXCEPTO ABONOS</field>
+			<field name="code">301</field>
+		</record>
+		<record id="sector_economico_63" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE ABONOS, FERTILIZANTES Y PLAGUICIDAS</field>
+			<field name="code">302</field>
+		</record>
+		<record id="sector_economico_64" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE RESINAS SINTETICAS Y PLASTIFICANTES</field>
+			<field name="code">303</field>
+		</record>
+		<record id="sector_economico_65" model="res.company.sector_economico">
+			<field name="name">INDUSTRIA DE LAS PINTURAS</field>
+			<field name="code">304</field>
+		</record>
+		<record id="sector_economico_66" model="res.company.sector_economico">
+			<field name="name">INDUSTRIAS QUIMICO FARMACEUTICAS Y DE MEDICAMENTOS</field>
+			<field name="code">305</field>
+		</record>
+		<record id="sector_economico_67" model="res.company.sector_economico">
+			<field name="name">FAB.PRODS.QUIMICOS P/LIMPIEZA Y AROMATIZANTES AMBIENTAL</field>
+			<field name="code">307</field>
+		</record>
+		<record id="sector_economico_68" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PERFUMES Y COSMETICOS</field>
+			<field name="code">308</field>
+		</record>
+		<record id="sector_economico_69" model="res.company.sector_economico">
+			<field name="name">FAB.ACEITES GRASAS VEGETAL ANIMAL NO COMEST.P/USOS INDS</field>
+			<field name="code">309</field>
+		</record>
+	
+		<record id="sector_economico_70" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE VELAS, VELADORAS Y SIMILARES</field>
+			<field name="code">3010</field>
+		</record>
+		<record id="sector_economico_71" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE CERILLOS</field>
+			<field name="code">3012</field>
+		</record>
+		<record id="sector_economico_72" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE EXPLOSIVOS Y FUEGOS ARTIFICIALES</field>
+			<field name="code">3013</field>
+		</record>
+		<record id="sector_economico_73" model="res.company.sector_economico">
+			<field name="name">OTROS PRODUCTOS DE LAS INDUSTRIAS QUIMICAS CONEXAS</field>
+			<field name="code">3014</field>
+		</record>
+		<record id="sector_economico_74" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE FIBRAS ARTIFICIALES Y SINTETICAS</field>
+			<field name="code">3016</field>
+		</record>
+		<record id="sector_economico_75" model="res.company.sector_economico">
+			<field name="name">REFINACION DE PETROLEO CRUDO Y PETROQUIMICA BASICA</field>
+			<field name="code">311</field>
+		</record>
+		<record id="sector_economico_76" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE LUBRICANTES Y ADITIVOS</field>
+			<field name="code">312</field>
+		</record>
+		<record id="sector_economico_77" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PRODUCTOS A BASE ASFALTO Y SUS MEZCLAS</field>
+			<field name="code">313</field>
+		</record>
+		<record id="sector_economico_78" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PRODUCTOS DE HULE</field>
+			<field name="code">321</field>
+		</record>
+		<record id="sector_economico_79" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PRODUCTOS DE PLASTICO</field>
+			<field name="code">322</field>
+		</record>
+		<record id="sector_economico_80" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PRODUCTOS DE LATEX</field>
+			<field name="code">323</field>
+		</record>
+		<record id="sector_economico_81" model="res.company.sector_economico">
+			<field name="name">MANUFACTURA DE ARTICULOS DE ALFARERIA Y CERAMICA</field>
+			<field name="code">331</field>
+		</record>
+		<record id="sector_economico_82" model="res.company.sector_economico">
+			<field name="name">FAB.MUEBLES SANITARIOS,LOZA,PORCELANA ARTS.REFRACTARIOS</field>
+			<field name="code">332</field>
+		</record>
+		<record id="sector_economico_83" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE VIDRIO Y/O PRODUCTOS DE VIDRIO</field>
+			<field name="code">333</field>
+		</record>
+		<record id="sector_economico_84" model="res.company.sector_economico">
+			<field name="name">FABRICACION PRODUCTOS DE ARCILLA PARA LA CONSTRUCCION</field>
+			<field name="code">335</field>
+		</record>
+		<record id="sector_economico_85" model="res.company.sector_economico">
+			<field name="name">FABRICACION PRODUCTOS DE ARCILLA PARA LA CONSTRUCCION</field>
+			<field name="code">336</field>
+		</record>
+		<record id="sector_economico_86" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PRODUCTOS A BASE DE ASBESTO</field>
+			<field name="code">337</field>
+		</record>
+		<record id="sector_economico_87" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PRODUCTOS ABRASIVOS</field>
+			<field name="code">338</field>
+		</record>
+		<record id="sector_economico_88" model="res.company.sector_economico">
+			<field name="name">FAB.GRANITO ARTIFICIAL PRODS.DE MARMOL Y OTRAS PIEDRAS</field>
+			<field name="code">339</field>
+		</record>
+		<record id="sector_economico_89" model="res.company.sector_economico">
+			<field name="name">FAB.DE PRODUCTOS Y PARTES PRECONSTRUIDAS DE CONCRETO</field>
+			<field name="code">3310</field>
+		</record>
+		<record id="sector_economico_90" model="res.company.sector_economico">
+			<field name="name">FAB.DE AZULEJOS CON PROCESOS CONTINUOS AUTOMATIZADOS</field>
+			<field name="code">3312</field>
+		</record>
+		<record id="sector_economico_91" model="res.company.sector_economico">
+			<field name="name">FAB.VIDRIO Y/O PRODS.VIDRIO C/PROC.CONTINUOS AUTOMATIZA</field>
+			<field name="code">3313</field>
+		</record>
+		<record id="sector_economico_92" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE PRODUCTOS DE ASBESTO-CEMENTO</field>
+			<field name="code">3315</field>
+		</record>
+		<record id="sector_economico_93" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE CEMENTO</field>
+			<field name="code">3316</field>
+		</record>
+		<record id="sector_economico_94" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE CONCRETO PREMEZCLADO</field>
+			<field name="code">3317</field>
+		</record>
+		<record id="sector_economico_95" model="res.company.sector_economico">
+			<field name="name">INDS.BASICAS DEL HIERRO ACERO Y METALES NO FERROSOS</field>
+			<field name="code">341</field>
+		</record>
+		<record id="sector_economico_96" model="res.company.sector_economico">
+			<field name="name">IND.BAS.HIERRO,ACERO Y MET.NO FERR.C/PROC.AUTOMATIZADO</field>
+			<field name="code">342</field>
+		</record>
+		<record id="sector_economico_97" model="res.company.sector_economico">
+			<field name="name">FAB.UTENSILIOS AGRIC. HERRAM.Y ARTS.FERRET.Y CERRAJERIA</field>
+			<field name="code">351</field>
+		</record>
+		<record id="sector_economico_98" model="res.company.sector_economico">
+			<field name="name">FAB.REP.PUERTAS,VENT.CORT.MET.Y OTROS TRABS.DE HERRERIA</field>
+			<field name="code">352</field>
+		</record>
+		<record id="sector_economico_99" model="res.company.sector_economico">
+			<field name="name">FAB. ENSAMBLE Y/O REP. MUEBLES METALICOS Y SUS PARTES</field>
+			<field name="code">353</field>
+		</record>
+		<record id="sector_economico_100" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O REP.ESTRUCS.METAL.TANQUES,CALDERAS Y SIMILARES</field>
+			<field name="code">354</field>
+		</record>
+		<record id="sector_economico_101" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE ENVASES METALICOS, CORCHOLATAS Y TAPAS</field>
+			<field name="code">355</field>
+		</record>
+		<record id="sector_economico_102" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE ALAMBRES Y OTROS PRODUCTOS DE ALAMBRE</field>
+			<field name="code">356</field>
+		</record>
+		<record id="sector_economico_103" model="res.company.sector_economico">
+			<field name="name">TRABAJOS DE TRATAMIENTOS TERMICOS Y GALVANOPLASTIA</field>
+			<field name="code">357</field>
+		</record>
+		<record id="sector_economico_104" model="res.company.sector_economico">
+			<field name="name">FAB.AGUJAS,ALFIL.CIERRES,BOTONES Y NAVAJAS P/RASURAR</field>
+			<field name="code">358</field>
+		</record>
+		<record id="sector_economico_105" model="res.company.sector_economico">
+			<field name="name">FAB.BATERIAS DE COCINA,CUCHARAS,CUCHILLOS Y TENEDORES</field>
+			<field name="code">359</field>
+		</record>
+		<record id="sector_economico_106" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE OTROS PRODUCTOS METALICOS MAQUINADO</field>
+			<field name="code">3510</field>
+		</record>
+		<record id="sector_economico_107" model="res.company.sector_economico">
+			<field name="name">TRAT.TERM.Y GALVANOPLASTIA C/PROC. CONT. AUTOMATIZADOS</field>
+			<field name="code">3511</field>
+		</record>
+		<record id="sector_economico_108" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.MAQ. EQ.IMPLEM.P/LABORES AGROPECUARIAS</field>
+			<field name="code">361</field>
+		</record>
+		<record id="sector_economico_109" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.MAQ.EQ.IMPLEM.USO COMUN VARIAS INDUSTRIAS</field>
+			<field name="code">362</field>
+		</record>
+		<record id="sector_economico_110" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.MAQ.EQ.IMPLEM.P/INDS.CONSTRUC.EXTRAC.ETC</field>
+			<field name="code">363</field>
+		</record>
+		<record id="sector_economico_111" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.MAQ.COSER,OFICINA,COMPUTO Y SUS PARTES</field>
+			<field name="code">364</field>
+		</record>
+		<record id="sector_economico_112" model="res.company.sector_economico">
+			<field name="name">REPARACION Y/O ENSAMBLE DE MAQUINAS DE COSER Y OFICINA</field>
+			<field name="code">365</field>
+		</record>
+		<record id="sector_economico_113" model="res.company.sector_economico">
+			<field name="name">FAB. PARTES Y PIEZAS SUELTAS P/MAQ. Y EQUIPO EN GENERAL</field>
+			<field name="code">366</field>
+		</record>
+		<record id="sector_economico_114" model="res.company.sector_economico">
+			<field name="name">REP.Y/O MANTENIMIENTO DE MAQ.Y EQUIPO EN GENERAL</field>
+			<field name="code">367</field>
+		</record>
+		<record id="sector_economico_115" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.DE MAQ.EQ.P/GENER.Y TRANSF.ENERGIA ELEC</field>
+			<field name="code">371</field>
+		</record>
+		<record id="sector_economico_116" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.EQ.Y APARATOS RADIO,T.V. Y COMUNICACIONES</field>
+			<field name="code">372</field>
+		</record>
+		<record id="sector_economico_117" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O GRAB.DISCOS CINTAS MAG.P/SONIDOS IMAG.Y DATOS</field>
+			<field name="code">373</field>
+		</record>
+		<record id="sector_economico_118" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.APARATOS ELEC.Y SUS PARTES P/USO DOMESTIC</field>
+			<field name="code">374</field>
+		</record>
+		<record id="sector_economico_119" model="res.company.sector_economico">
+			<field name="name">FAB.RECONSTRUCCION Y/O ENSAMB.ACUMULADORES ELECTRICOS</field>
+			<field name="code">375</field>
+		</record>
+		<record id="sector_economico_120" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAMB.PILAS(SECAS)COMP.ELEC.Y ELECTRONI.DIVERS</field>
+			<field name="code">376</field>
+		</record>
+		<record id="sector_economico_121" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAMB.LAMP.(FOCOS)TUBOS VACIO P/ALUMBRADO ELEC</field>
+			<field name="code">377</field>
+		</record>
+		<record id="sector_economico_122" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE CONDUCTORES ELECTRICOS</field>
+			<field name="code">378</field>
+		</record>
+		<record id="sector_economico_123" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.APARATOS,ACCS.ELEC.O ELECTRONI.P/EMP.ETC.</field>
+			<field name="code">379</field>
+		</record>
+		<record id="sector_economico_124" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE LUMINARIAS Y ANUNCIOS LUMINOSOS</field>
+			<field name="code">3710</field>
+		</record>
+		<record id="sector_economico_125" model="res.company.sector_economico">
+			<field name="name">FAB.EN SERIE O C/PROC.CONT.DE ACUMULADORES ELECTRICOS</field>
+			<field name="code">3711</field>
+		</record>
+		<record id="sector_economico_126" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAMB.REFRIG.ESTUF.LAVAD.SECAD.Y OTROS L/BLANC</field>
+			<field name="code">3712</field>
+		</record>
+		<record id="sector_economico_127" model="res.company.sector_economico">
+			<field name="name">FABRICACION Y/O ENSAMBLE DE AERONAVES</field>
+			<field name="code">381</field>
+		</record>
+		<record id="sector_economico_128" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.DE CARROCERIAS P/VEHICULOS DE TRANSPORTE</field>
+			<field name="code">382</field>
+		</record>
+		<record id="sector_economico_129" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.PART.Y ACCS.P/AUTOS.AUTOB.CAM.MOTOC.Y BIC</field>
+			<field name="code">383</field>
+		</record>
+		<record id="sector_economico_130" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.PART.P/SIST.ELEC.DE VEHICULOS AUTOMOVILES</field>
+			<field name="code">384</field>
+		</record>
+		<record id="sector_economico_131" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAMBLE BICICLETAS Y OTROS VEHICULOS DE PEDAL</field>
+			<field name="code">385</field>
+		</record>
+		<record id="sector_economico_132" model="res.company.sector_economico">
+			<field name="name">FAB.ENSAM.Y/O REP.CARROS FFCC.EQ.FERROVIARIO Y SUS PART</field>
+			<field name="code">386</field>
+		</record>
+		<record id="sector_economico_133" model="res.company.sector_economico">
+			<field name="name">FABRICACION,ENSAMBLE Y/O REPARACION DE EMBARCACIONES</field>
+			<field name="code">387</field>
+		</record>
+		<record id="sector_economico_134" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.AUTOS, AUTOBUSES,CAMIONES Y MOTOCICLETAS</field>
+			<field name="code">388</field>
+		</record>
+		<record id="sector_economico_135" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.DE MOTORES P/AUTOS,AUTOBUSES Y CAMIONES</field>
+			<field name="code">389</field>
+		</record>
+		<record id="sector_economico_136" model="res.company.sector_economico">
+			<field name="name">FAB.CONJ.MECANICOS Y PART.P/AUTO,AUTOB,CAMIONES Y MOTOC</field>
+			<field name="code">3810</field>
+		</record>
+		<record id="sector_economico_137" model="res.company.sector_economico">
+			<field name="name">FAB.ENSAM.Y/O REP.DE EQ.APAR.CIENT.PROF.E INSTR.MED.CON</field>
+			<field name="code">390</field>
+		</record>
+		<record id="sector_economico_138" model="res.company.sector_economico">
+			<field name="name">FAB.ENSAM.Y/O REP.APAR.INSTR.Y ACCS.OPTICA Y FOTOGRAFIA</field>
+			<field name="code">391</field>
+		</record>
+		<record id="sector_economico_139" model="res.company.sector_economico">
+			<field name="name">FAB.MONT.Y/O ENSAM.RELOJES,JOYAS,ARTS.ORFEB.Y FANTASIA</field>
+			<field name="code">392</field>
+		</record>
+		<record id="sector_economico_140" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.INSTR.MUSI.JUGUETES Y ARTS.DEP.C/MAQ.O EQ</field>
+			<field name="code">394</field>
+		</record>
+		<record id="sector_economico_141" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.INSTR.MUSI.JUGUETES Y ARTS.DEP.S/MAQ.NI E</field>
+			<field name="code">395</field>
+		</record>
+		<record id="sector_economico_142" model="res.company.sector_economico">
+			<field name="name">FABRICACION DE LAPICES,GOMAS,PLUMAS Y BOLIGRAFOS</field>
+			<field name="code">396</field>
+		</record>
+		<record id="sector_economico_143" model="res.company.sector_economico">
+			<field name="name">TALLERES DE MECANICA DENTAL</field>
+			<field name="code">397</field>
+		</record>
+		<record id="sector_economico_144" model="res.company.sector_economico">
+			<field name="name">FAB.Y/O ENSAM.ARMAS FUEGO PORT.CARTU.MUNICIONES,ACCS</field>
+			<field name="code">398</field>
+		</record>
+		<record id="sector_economico_145" model="res.company.sector_economico">
+			<field name="name">FAB.ENSAM.Y/O REP.OTROS ARTS.MANUF.NO CLAS.ANT.S/MAQ.EQ</field>
+			<field name="code">399</field>
+		</record>
+		<record id="sector_economico_146" model="res.company.sector_economico">
+			<field name="name">FAB.ENSAM.Y/O REP.OTROS ARTS.MANUF.NO CLAS.ANT.C/MAQ.EQ</field>
+			<field name="code">3910</field>
+		</record>
+		<record id="sector_economico_147" model="res.company.sector_economico">
+			<field name="name">CONSTRUCCION DE EDIFICACIONES; EXCEPTO OBRA PUBLICA</field>
+			<field name="code">411</field>
+		</record>
+		<record id="sector_economico_148" model="res.company.sector_economico">
+			<field name="name">CONST. DE OBRAS DE INFRAESTRUCTURA Y EDIF.EN OBRA PUB</field>
+			<field name="code">412</field>
+		</record>
+		<record id="sector_economico_149" model="res.company.sector_economico">
+			<field name="name">INSTAL.SANITARIAS ELECT.DE GAS Y DE AIRE ACONDICIONADO</field>
+			<field name="code">421</field>
+		</record>
+		<record id="sector_economico_150" model="res.company.sector_economico">
+			<field name="name">INSTAL.Y REP.ASCENS,ESCALERAS ELECTRO.OTROS EQ.P/TRANSP</field>
+			<field name="code">422</field>
+		</record>
+		<record id="sector_economico_151" model="res.company.sector_economico">
+			<field name="name">INSTAL.VENTANERIA,HERRERIA,CANCELERIA,VIDRIOS Y CRISTAL</field>
+			<field name="code">423</field>
+		</record>
+		<record id="sector_economico_152" model="res.company.sector_economico">
+			<field name="name">OTROS SERVS.INSTAL.ACAB.O REMOD.OBRAS DE CONSTRUCCION</field>
+			<field name="code">424</field>
+		</record>
+		<record id="sector_economico_153" model="res.company.sector_economico">
+			<field name="name">GENERACION, TRANSMISION Y DISTRIB. DE ENERGIA ELECTRIC.</field>
+			<field name="code">500</field>
+		</record>
+		<record id="sector_economico_154" model="res.company.sector_economico">
+			<field name="name">CAPTACION Y SUMINISTRO DE AGUA POTABLE Y TRATADA</field>
+			<field name="code">510</field>
+		</record>
+		<record id="sector_economico_154" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTAS.MENUDEO ALIMENTOS,BEBIDAS Y/O PRODS.TAB</field>
+			<field name="code">611</field>
+		</record>
+		<record id="sector_economico_155" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE ALIMENTOS,BEBIDAS Y/O PRODS.TAB.S/TRANSP</field>
+			<field name="code">612</field>
+		</record>
+		<record id="sector_economico_156" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE ALIMENTOS,BEBIDAS Y/O PRODS.TAB.C/TRANSP</field>
+			<field name="code">613</field>
+		</record>
+		<record id="sector_economico_157" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA E INTRODUCCION DE ANIMALES VIVOS</field>
+			<field name="code">614</field>
+		</record>
+		<record id="sector_economico_158" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTA.MENUDEO PRENDAS Y ACCS.VESTIR Y ARTS.CONF</field>
+			<field name="code">621</field>
+		</record>
+		<record id="sector_economico_159" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA PRENDAS Y ACCS.VESTIR Y ARTS.P/CONF.S/TRANS</field>
+			<field name="code">622</field>
+		</record>
+		<record id="sector_economico_160" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA PRENDAS Y ACCS.VESTIR Y ARTS.P/CONF.C/TRANS</field>
+			<field name="code">623</field>
+		</record>
+		<record id="sector_economico_161" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTA.MENUDEO ARTICULOS DE USO PERSONAL</field>
+			<field name="code">624</field>
+		</record>
+		<record id="sector_economico_162" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE ARTICULOS DE USO PERSONAL S/TRANSPORTE</field>
+			<field name="code">625</field>
+		</record>
+		<record id="sector_economico_163" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE ARTICULOS DE USO PERSONAL C/TRANSPORT</field>
+			<field name="code">626</field>
+		</record>
+		<record id="sector_economico_164" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTAS.MENU.MEDIC.PRODS.FARM.QUIM-FARM.Y PERFUM</field>
+			<field name="code">627</field>
+		</record>
+		<record id="sector_economico_165" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA MEDIC.PRODS.FARM.QUIM-FARM.PERFUM.S/TRANSP</field>
+			<field name="code">628</field>
+		</record>
+		<record id="sector_economico_166" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA MEDIC.PRODS.FARM.QUIM-FARM.PERFUM.C/TRANSP</field>
+			<field name="code">629</field>
+		</record>
+		<record id="sector_economico_167" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTA.MENUDEO PAPELERIA,UTILES ESC.Y OFNA.ETC</field>
+			<field name="code">6210</field>
+		</record>
+		<record id="sector_economico_168" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA PAPELERIA,UTILES ESC.OFNA.ETC.S/TRANSPORTE</field>
+			<field name="code">6211</field>
+		</record>
+		<record id="sector_economico_169" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA PAPELERIA,UTILES ESC.OFNA.ETC.C/TRANSPORTE</field>
+			<field name="code">6212</field>
+		</record>
+		<record id="sector_economico_170" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTA.MENU.MAQ.MUEB.APAR.INSTR.P/HOGAR REF.ACCS</field>
+			<field name="code">631</field>
+		</record>
+		<record id="sector_economico_171" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.MAQ.MUEB.APAR.INSTR.P/HOGAR REF.ACCS.S/TRANS</field>
+			<field name="code">632</field>
+		</record>
+		<record id="sector_economico_172" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.MAQ.MUEB.APAR.INSTR.P/HOGAR C/TRANSP.O INSTA</field>
+			<field name="code">633</field>
+		</record>
+		<record id="sector_economico_173" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTA.MENUDEO DE OTROS ARTICULOS PARA EL HOGAR</field>
+			<field name="code">634</field>
+		</record>
+		<record id="sector_economico_174" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE OTROS ARTICULOS PARA EL HOGAR S/TRANSP</field>
+			<field name="code">635</field>
+		</record>
+		<record id="sector_economico_175" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.OTROS ARTS.P/HOGAR C/TRANSP.Y/O SERVS.INSTAL</field>
+			<field name="code">636</field>
+		</record>
+		<record id="sector_economico_176" model="res.company.sector_economico">
+			<field name="name">SUPERMERCADOS,TIENDAS AUTOSERV. Y DEPTOS.ESPECIALIZADOS</field>
+			<field name="code">641</field>
+		</record>
+		<record id="sector_economico_177" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA,ENVASADO Y/O DISTR.GASES P/USO DOMEST.IND.MED</field>
+			<field name="code">651</field>
+		</record>
+		<record id="sector_economico_178" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE LUBRICANTES Y ADITIVOS SIN TRANSPORTE</field>
+			<field name="code">652</field>
+		</record>
+		<record id="sector_economico_179" model="res.company.sector_economico">
+			<field name="name">ESTACIONES VTA.GASOL.DIESEL Y C/VTA.LUBRI.ADIT.C/TRANSP</field>
+			<field name="code">653</field>
+		</record>
+		<record id="sector_economico_180" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE LENA, CARBON VEGETAL Y MINERAL</field>
+			<field name="code">654</field>
+		</record>
+		<record id="sector_economico_181" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VENTAS MENUDEO MATERIAS PRIMAS AGROPECUARIAS</field>
+			<field name="code">661</field>
+		</record>
+		<record id="sector_economico_182" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA MATERIAS PRIMAS AGROPECUARIAS S/TRANSPORTE</field>
+			<field name="code">662</field>
+		</record>
+		<record id="sector_economico_183" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA MATERIAS PRIMAS AGROPECUARIAS C/TRANSPORTE</field>
+			<field name="code">663</field>
+		</record>
+		<record id="sector_economico_184" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.MATS.P/CONSTRUC.S/TRANSP.NI PREP.DE MERCANCIA</field>
+			<field name="code">664</field>
+		</record>
+		<record id="sector_economico_185" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.MATS.P/CONSTRUC.C/TRANSP.Y/O PREP.MERCANCIAS</field>
+			<field name="code">665</field>
+		</record>
+		<record id="sector_economico_186" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.MAT.ELEC.PINTURAS Y PRODS.TLAPALERIA S/TRANSP</field>
+			<field name="code">666</field>
+		</record>
+		<record id="sector_economico_187" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.MAT.ELEC.PINTURAS Y PRODS.TLAPALERIA C/TRANSP</field>
+			<field name="code">667</field>
+		</record>
+		<record id="sector_economico_188" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.VIDRIO PLANO,CRIST.ESPEJOS S/TRANSP.NI INSTAL</field>
+			<field name="code">668</field>
+		</record>
+		<record id="sector_economico_189" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.VIDRIO PLANO,CRIST.ESPEJOS C/TRANSP.O INSTAL.</field>
+			<field name="code">669</field>
+		</record>
+		<record id="sector_economico_190" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.FERTILIZANTES,PLAGUIC.Y PRODS.QUIM.S/TRANSP</field>
+			<field name="code">6610</field>
+		</record>
+		<record id="sector_economico_191" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.FERTILIZANTES,PLAGUIC.Y PRODS.QUIM.C/TRANSP.</field>
+			<field name="code">6611</field>
+		</record>
+		<record id="sector_economico_192" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA PIELES,CUEROS,OTROS ARTS.PELETERIA S/TRANSP</field>
+			<field name="code">6612</field>
+		</record>
+		<record id="sector_economico_193" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA PIELES,CUEROS,OTROS ARTS.PELETERIA C/TRANSP</field>
+			<field name="code">6613</field>
+		</record>
+		<record id="sector_economico_194" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE PAPEL Y CARTON NUEVOS,SIN TRANSPORT</field>
+			<field name="code">6614</field>
+		</record>
+		<record id="sector_economico_195" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE PAPEL Y CARTON NUEVOS,CON TRANSPORTE</field>
+			<field name="code">6615</field>
+		</record>
+		<record id="sector_economico_196" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE CHATARRA FIERRO VIEJO Y DESPERDICIOS GRA</field>
+			<field name="code">6616</field>
+		</record>
+		<record id="sector_economico_197" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE EXPLOSIVOS Y PRODUCTOS DE PIROTECNIA</field>
+			<field name="code">6617</field>
+		</record>
+		<record id="sector_economico_198" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VENTAS MENU.REF.Y ACCS.P/MAQ.Y/O EQ.PRODC.BIE</field>
+			<field name="code">671</field>
+		</record>
+		<record id="sector_economico_199" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.MAQ.EQ.REF.Y/O ACCS.P/PRODC.BIENES S/TRANSP</field>
+			<field name="code">672</field>
+		</record>
+		<record id="sector_economico_200" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.MAQ.EQ.REF.ACCS.P/PRODC.BIE.C/TRANSP.REP.MANT</field>
+			<field name="code">673</field>
+		</record>
+		<record id="sector_economico_201" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA.MAQ.EQ.REF.ACCS.P/PRODC.BIE.C/SERVS.INSTAL</field>
+			<field name="code">674</field>
+		</record>
+		<record id="sector_economico_202" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTAS.MENUDEO EQ.MOB PART.ACCS.P/SERVS.Y COMER</field>
+			<field name="code">675</field>
+		</record>
+		<record id="sector_economico_203" model="res.company.sector_economico">
+			<field name="name">COMPRAVTA.EQ.MOB.PART.ACCS.P/SERVS.Y COMERCIO S/TRANSP.</field>
+			<field name="code">676</field>
+		</record>
+		<record id="sector_economico_204" model="res.company.sector_economico">
+			<field name="name">C/VTA.EQ.MOB.PART.P/SERVS.Y COMER.C/TRANSP.O INSTAL.REP</field>
+			<field name="code">677</field>
+		</record>
+		<record id="sector_economico_205" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTAS.MENUDEO APAR.E INSTR.P/USOS CIENTIFICOS</field>
+			<field name="code">678</field>
+		</record>
+		<record id="sector_economico_205" model="res.company.sector_economico">
+			<field name="name">C/VTA.APARATOS E INSTR.P/USOS CIENTIFICOS S/TRANSPORTE</field>
+			<field name="code">679</field>
+		</record>
+		<record id="sector_economico_206" model="res.company.sector_economico">
+			<field name="name">C/VTA.APAR.INSTR.P/USOS CIENTIFICOS C/TRANSP.O INSTAL.</field>
+			<field name="code">6710</field>
+		</record>
+		<record id="sector_economico_207" model="res.company.sector_economico">
+			<field name="name">C/VTA.EQ.COMPUTO Y PERIFERICOS C/SERVS.INSTAL.REP.MANT</field>
+			<field name="code">6711</field>
+		</record>
+		<record id="sector_economico_208" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS VTAS.MENUDEO REF.ACCS.PART.P/EQ.DE TRANSPORTE</field>
+			<field name="code">681</field>
+		</record>
+		<record id="sector_economico_209" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA EQ.TRANSP.REF.ACCS.O PARTES S/TRANSPORTE</field>
+			<field name="code">682</field>
+		</record>
+		<record id="sector_economico_210" model="res.company.sector_economico">
+			<field name="name">C/VTA.EQ.TRANSP.REF.ACCS.O PART.C/TRANSP.O INSTAL.REP</field>
+			<field name="code">683</field>
+		</record>
+		<record id="sector_economico_211" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA DE BIENES INMUEBLES</field>
+			<field name="code">691</field>
+		</record>
+		<record id="sector_economico_212" model="res.company.sector_economico">
+			<field name="name">EXPENDIOS DE VTAS.MENUDEO ARTS.DIVERSOS NO CLASIFICADOS</field>
+			<field name="code">692</field>
+		</record>
+		<record id="sector_economico_213" model="res.company.sector_economico">
+			<field name="name">COMPRAVENTA ARTS.DIVERSOS NO CLASIFICADOS S/TRANSPORTE</field>
+			<field name="code">693</field>
+		</record>
+		<record id="sector_economico_214" model="res.company.sector_economico">
+			<field name="name">C/VTA.ARTS.DIVERSOS NO CLAS.C/TRANSP.O INSTAL.REP.MANT</field>
+			<field name="code">694</field>
+		</record>
+		<record id="sector_economico_215" model="res.company.sector_economico">
+			<field name="name">TRANSPORTE DE PASAJEROS</field>
+			<field name="code">711</field>
+		</record>
+		<record id="sector_economico_216" model="res.company.sector_economico">
+			<field name="name">TRANSPORTE DE CARGA</field>
+			<field name="code">712</field>
+		</record>
+		<record id="sector_economico_217" model="res.company.sector_economico">
+			<field name="name">TRANSPORTE FERROVIARIO Y ELECTRICO</field>
+			<field name="code">713</field>
+		</record>
+		<record id="sector_economico_218" model="res.company.sector_economico">
+			<field name="name">TRANSP.MARITIMO NAVEG.INT.C/SERVS.DIVERS.O EN PLATAFORM</field>
+			<field name="code">721</field>
+		</record>
+		<record id="sector_economico_219" model="res.company.sector_economico">
+			<field name="name">SERVS.VINCULADOS C/TRANSP.AGUA O SUPERV.MANT.PLATAFORM</field>
+			<field name="code">722</field>
+		</record>
+		<record id="sector_economico_220" model="res.company.sector_economico">
+			<field name="name">TRANSPORTE AEREO</field>
+			<field name="code">730</field>
+		</record>
+		<record id="sector_economico_221" model="res.company.sector_economico">
+			<field name="name">ADMON.VIAS COMUNICACION TERMINALES Y SERVS.AUXILIARES</field>
+			<field name="code">740</field>
+		</record>
+		<record id="sector_economico_222" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ALMACENAMIENTO Y/O REFRIGERACION</field>
+			<field name="code">751</field>
+		</record>
+		<record id="sector_economico_223" model="res.company.sector_economico">
+			<field name="name">SERVS.S/TRANSP.AGEN.GEST.ADUANAL EQUIPAJ.VIAJES Y TURIS</field>
+			<field name="code">752</field>
+		</record>
+		<record id="sector_economico_224" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE GRUA Y EMERGENCIA PARA VEHICULOS</field>
+			<field name="code">753</field>
+		</record>
+		<record id="sector_economico_225" model="res.company.sector_economico">
+			<field name="name">SERVS.ALQUILER AERONAVES,CARROS FFCC.Y TRANSP.ACUATICOS</field>
+			<field name="code">754</field>
+		</record>
+		<record id="sector_economico_226" model="res.company.sector_economico">
+			<field name="name">SERVS.C/TRANSP.A/GEST.ADUANAL,MENSAJ./PAQUETERIA Y OTRA</field>
+			<field name="code">755</field>
+		</record>
+		<record id="sector_economico_227" model="res.company.sector_economico">
+			<field name="name">COMUNICACIONES</field>
+			<field name="code">760</field>
+		</record>
+		<record id="sector_economico_228" model="res.company.sector_economico">
+			<field name="name">INSTITUCIONES DE CREDITO, SEGUROS Y FIANZAS</field>
+			<field name="code">810</field>
+		</record>
+		<record id="sector_economico_229" model="res.company.sector_economico">
+			<field name="name">SERVS. COLATERALES A INST. FINANCIERAS Y DE SEGUROS</field>
+			<field name="code">820</field>
+		</record>
+		<record id="sector_economico_230" model="res.company.sector_economico">
+			<field name="name">SERVS. RELACIONADOS CON INMUEBLES</field>
+			<field name="code">830</field>
+		</record>
+		<record id="sector_economico_231" model="res.company.sector_economico">
+			<field name="name">SERVICIOS PROFESIONALES Y TECNICOS</field>
+			<field name="code">841</field>
+		</record>
+		<record id="sector_economico_232" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE INSTALACION DE MAQUINARIA Y EQUIPO EN GRAL</field>
+			<field name="code">843</field>
+		</record>
+		<record id="sector_economico_233" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE PROTECCION Y CUSTODIA</field>
+			<field name="code">844</field>
+		</record>
+		<record id="sector_economico_234" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE LABORATORIO PARA LA INDUSTRIA EN GENERAL</field>
+			<field name="code">845</field>
+		</record>
+		<record id="sector_economico_235" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ALQUILER DE MAQUINARIA Y EQUIPO AGRICOLA</field>
+			<field name="code">851</field>
+		</record>
+		<record id="sector_economico_236" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ALQ. DE MAQ. Y EQ. P/CONSTRUC.C/OPERADORES</field>
+			<field name="code">852</field>
+		</record>
+		<record id="sector_economico_236" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ALQ. DE MAQ. Y EQ. P/CONSTRUC.S/OPERADORES</field>
+			<field name="code">853</field>
+		</record>
+		<record id="sector_economico_237" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ALQUILER DE EQUIPO Y MOBILIARIO A EMPRESAS</field>
+			<field name="code">854</field>
+		</record>
+		<record id="sector_economico_238" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ALQUILER PARA EL PUBLICO EN GENERAL</field>
+			<field name="code">855</field>
+		</record>
+		<record id="sector_economico_239" model="res.company.sector_economico">
+			<field name="name">SERVS.DE ALQUILER O RENTA AUTOMOVILES,BICICLETAS,MOTOC.</field>
+			<field name="code">856</field>
+		</record>
+		<record id="sector_economico_240" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ALOJAMIENTO TEMPORAL</field>
+			<field name="code">860</field>
+		</record>
+		<record id="sector_economico_241" model="res.company.sector_economico">
+			<field name="name">PREPARACION Y SERVICIOS DE ALIMENTOS</field>
+			<field name="code">871</field>
+		</record>
+		<record id="sector_economico_242" model="res.company.sector_economico">
+			<field name="name">PREPARACION Y SERVICIOS DE BEBIDAS ALCOHOLICAS</field>
+			<field name="code">872</field>
+		</record>
+		<record id="sector_economico_243" model="res.company.sector_economico">
+			<field name="name">SERVICIOS RECREATIVOS</field>
+			<field name="code">881</field>
+		</record>
+		<record id="sector_economico_244" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ESPARCIMIENTO</field>
+			<field name="code">882</field>
+		</record>
+		<record id="sector_economico_245" model="res.company.sector_economico">
+			<field name="name">HIPODROMOS,GALGODROMOS,PALENQUES,PLAZA DE TOROS Y SIMI.</field>
+			<field name="code">883</field>
+		</record>
+		<record id="sector_economico_246" model="res.company.sector_economico">
+			<field name="name">SERVS. DE CENTROS NOCTURNOS,SALONES DE BAILES Y CASINOS</field>
+			<field name="code">884</field>
+		</record>
+		<record id="sector_economico_247" model="res.company.sector_economico">
+			<field name="name">PROMOCION Y MONT.DE EXPOSICION DE PINTURA Y ESCULTURA</field>
+			<field name="code">885</field>
+		</record>
+		<record id="sector_economico_248" model="res.company.sector_economico">
+			<field name="name">CIRCOS Y JUEGOS ELECTROMECANICOS</field>
+			<field name="code">886</field>
+		</record>
+		<record id="sector_economico_249" model="res.company.sector_economico">
+			<field name="name">SERVS.REP.LAV/ENG.VERIF.CONTAMIN.EST.VEHICULOS Y HOJALT</field>
+			<field name="code">891</field>
+		</record>
+		<record id="sector_economico_250" model="res.company.sector_economico">
+			<field name="name">SERVS.REP.ARTS.USO DOMEST.Y PERSON.S/MAQ.NI EQ.MOTORIZA</field>
+			<field name="code">892</field>
+		</record>
+		<record id="sector_economico_251" model="res.company.sector_economico">
+			<field name="name">SERVS.REP.ARTS.USO DOMEST.Y PERSON.C/MAQ.O EQ.MOTORIZA</field>
+			<field name="code">893</field>
+		</record>
+		<record id="sector_economico_252" model="res.company.sector_economico">
+			<field name="name">SERVICIOS PARA EL ASEO PERSONAL Y SANITARIOS</field>
+			<field name="code">894</field>
+		</record>
+		<record id="sector_economico_253" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE PELUQUERIA Y SALONES DE BELLEZA</field>
+			<field name="code">895</field>
+		</record>
+		<record id="sector_economico_254" model="res.company.sector_economico">
+			<field name="name">SERVS.DE ASEO Y LIMPIEZA S/MAQUINARIA NI EQ.MOTORIZADO</field>
+			<field name="code">896</field>
+		</record>
+		<record id="sector_economico_255" model="res.company.sector_economico">
+			<field name="name">SERVS.DE ASEO Y LIMPIEZA C/MAQUINARIA Y/O EQ.MOTORIZADO</field>
+			<field name="code">897</field>
+		</record>
+		<record id="sector_economico_256" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE LIMPIEZA DE VENTANAS Y FACHADAS</field>
+			<field name="code">898</field>
+		</record>
+		<record id="sector_economico_257" model="res.company.sector_economico">
+			<field name="name">SERVS. DE FUMIGACION DESINFECCION Y CONTROL DE PLAGAS.</field>
+			<field name="code">899</field>
+		</record>
+		<record id="sector_economico_258" model="res.company.sector_economico">
+			<field name="name">AEROTECNIA AGRICOLA</field>
+			<field name="code">8910</field>
+		</record>
+		<record id="sector_economico_259" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE REVELADO FOTOGRAFICO</field>
+			<field name="code">8911</field>
+		</record>
+		<record id="sector_economico_260" model="res.company.sector_economico">
+			<field name="name">INHUMACIONES Y SERVICIOS CONEXOS</field>
+			<field name="code">8912</field>
+		</record>
+		<record id="sector_economico_261" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DOMESTICOS</field>
+			<field name="code">8913</field>
+		</record>
+		<record id="sector_economico_262" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ESTACIONAMIENTO Y/O PENSION PARA VEHICULOS</field>
+			<field name="code">8914</field>
+		</record>
+		<record id="sector_economico_263" model="res.company.sector_economico">
+			<field name="name">SERVS.DE ENSENANZA ACADEM.CAPAC.INVEST.Y DIF.CULTURAL</field>
+			<field name="code">911</field>
+		</record>
+		<record id="sector_economico_264" model="res.company.sector_economico">
+			<field name="name">SERVICIOS MEDICOS</field>
+			<field name="code">921</field>
+		</record>
+		<record id="sector_economico_265" model="res.company.sector_economico">
+			<field name="name">SERVICIOS MEDICOS PARAMEDICOS Y AUXILIARES</field>
+			<field name="code">922</field>
+		</record>
+		<record id="sector_economico_266" model="res.company.sector_economico">
+			<field name="name">SERVICIOS DE ASISTENCIA SOCIAL</field>
+			<field name="code">923</field>
+		</record>
+		<record id="sector_economico_267" model="res.company.sector_economico">
+			<field name="name">SERVICIOS VETERINARIOS Y AUXILIARES</field>
+			<field name="code">924</field>
+		</record>
+		<record id="sector_economico_268" model="res.company.sector_economico">
+			<field name="name">ASOCS.Y ORGANIZACIONES COMER.PROF.CIV.LABOR Y POLITICAS</field>
+			<field name="code">931</field>
+		</record>
+		<record id="sector_economico_269" model="res.company.sector_economico">
+			<field name="name">ORGANIZACIONES RELIGIOSAS</field>
+			<field name="code">933</field>
+		</record>
+		<record id="sector_economico_270" model="res.company.sector_economico">
+			<field name="name">SERVICIOS GENERALES DE LA ADMINISTRACION PUBLICA</field>
+			<field name="code">941</field>
+		</record>
+		<record id="sector_economico_271" model="res.company.sector_economico">
+			<field name="name">SEGURIDAD PUBLICA</field>
+			<field name="code">942</field>
+		</record>
+		<record id="sector_economico_272" model="res.company.sector_economico">
+			<field name="name">SEGURIDAD SOCIAL</field>
+			<field name="code">943</field>
+		</record>
+		<record id="sector_economico_273" model="res.company.sector_economico">
+			<field name="name">SERV. DE ORGANIZACIONES INTERNAC.Y OTROS ORGS.EXTRATERR</field>
+			<field name="code">990</field>
+		</record>
+		
+   </data>
+</odoo>
