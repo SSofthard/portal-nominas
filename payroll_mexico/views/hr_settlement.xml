@@ -93,8 +93,10 @@
                 
                 <group>
 					<group string="Fechas del periodo laborado">
+						<field name="previous_contract_date" attrs="{'invisible':[('type_contract','!=','with_seniority')]}"/>
 						<field name="date_start"/>
 						<field name="date_end"/>
+						<field name="type_contract" invisible="1"/>
 					</group>
 					<group string="Antiguedad">
 						<field name="years_antiquity"/>

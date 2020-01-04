@@ -36,12 +36,14 @@ class HrPayslip(models.Model):
     indemnify_employee = fields.Boolean(string='Indemnify the employee')
     compensation_20 = fields.Boolean(string='I will pay the compensation of 20 days per year worked?')
     
+    previous_contract_date = fields.Date('Previous Contract Date', related="contract_id.previous_contract_date", help="Start date of the previous contract for antiquity.")
     date_start = fields.Date('Start Date', required=True, default=fields.Date.today,
         help="Start date of the contract.", related="contract_id.date_start")
     date_end = fields.Date('End Date',
         help="End date of the contract", related="contract_id.date_end")
     years_antiquity = fields.Integer(string='Antiquity', related="contract_id.years_antiquity")
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', related="contract_id.days_rest")
+    type_contract = fields.Selection(string='Tipo de contrato', related="contract_id.type_id.type")
     
     @api.onchange('complete_name')
     def _compute_complete_name(self):
