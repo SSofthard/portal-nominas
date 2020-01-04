@@ -97,32 +97,6 @@ class HrPayslipRun(models.Model):
     ], string='Aplicar honorarios sobre', index=True, copy=False,
         readonly=True, states={'draft': [('readonly', False)]})
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
-    name = fields.Char(default='/', readonly=True, required=False)
-
-    @api.model
-    def create(self, vals):
-        '''
-        Este metodo genera el sequece para el procesamiento de nomina
-        '''
-        code_group = self.env['hr.group'].browse([vals['group_id']])
-        sequence = self.env['ir.sequence'].search([('code','=','payslip.run.%s' % (code_group.code))])
-        if not len(sequence):
-            sequence = self._generate_sequence(code_group)
-        vals['name'] = self.env['ir.sequence'].next_by_code(sequence.code)
-        return super(HrPayslipRun, self).create(vals)
-
-    def _generate_sequence(self, code_group):
-        '''
-        Este metodo permite crear las secuencias pertenecientes a la permutacion de la mercaderia, con las divisiones
-        y los proveedores
-        :return:
-        '''
-        sequence_data=self.env['ir.sequence'].create({'prefix': '%s-' % code_group.code,
-                                        'padding': 5,
-                                        'implementation': 'no_gap',
-                                        'code': 'payslip.run.%s' % (code_group),
-                                        'name': 'Procesamiento de nómina'})
-        return sequence_data
 
     @api.one
     @api.depends('date_start')
