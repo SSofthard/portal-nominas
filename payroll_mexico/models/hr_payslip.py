@@ -426,7 +426,11 @@ class HrPayslip(models.Model):
     def compute_sheet(self):
         for payslip in self:
             if not payslip.settlement:
-                number = payslip.number or self.env['ir.sequence'].next_by_code('salary.slip')
+                code_group = payslip.group_id.code
+                sequence = self.env['ir.sequence'].search([('code', '=', 'salary.slip.%s' % (code_group))])
+                if not len(sequence):
+                    sequence = payslip._generate_sequence(code_group)
+                number = payslip.number or self.env['ir.sequence'].next_by_code(sequence.code)
             else:
                 number = payslip.number or self.env['ir.sequence'].next_by_code('salary.settlement')
             payslip.search_inputs()
@@ -465,6 +469,19 @@ class HrPayslip(models.Model):
                         self.env['hr.infonavit.credit.history'].create(val_infonavit)
             payslip.payslip_run_id.set_tax_iva_honorarium()
         return True
+
+    def _generate_sequence(self, code_group):
+        '''
+        Este metodo permite crear las secuencias pertenecientes a la permutacion de la mercaderia, con las divisiones
+        y los proveedores
+        :return:
+        '''
+        sequence_data=self.env['ir.sequence'].create({'prefix': '%s-' % code_group,
+                                        'padding': 5,
+                                        'implementation': 'no_gap',
+                                        'code': 'salary.slip.%s' % (code_group),
+                                        'name': 'Procesamiento de nómina'})
+        return sequence_data
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
     def onchange_employee(self):
