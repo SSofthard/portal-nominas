@@ -33,6 +33,10 @@ class HrPayslipLine(models.Model):
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
 
+    def test_print_report(self):
+        for slip in self:
+            slip.slip_ids.print_payroll_receipt()
+        
     def prepare_header(self):
         header = [ 
             {'sequence': 0.1, 'name': 'Clave', 'larg': 10, 'col': {}},

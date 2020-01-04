@@ -3,71 +3,34 @@
     <data>
         
         <report 
-            id="action_payroll_cfdi_report"
-            string="Recibo de Nómina CFDI"
+            id="action_payroll_cfdi_report" 
             model="hr.payslip" 
+            string="Recibo de Nómina CFDI"
             report_type="qweb-html"
-            file="payroll_mexico.payroll_cfdi_report_template" 
-            name="payroll_mexico.payroll_cfdi_report_template"
-            print_report_name="'Nómina CFDI: %s' % (object.employee_id.name)"
-            menu="False"
+            name="payroll_mexico.payroll_cfdi_report_template" 
+            file="payroll_mexico.payroll_cfdi_report_template"
+            print_report_name="'Nómina CFDI - %s' % (object.employee_id.name)"
+            menu="True"
         />
-        <template id="payroll_cfdi_report_template">
-            <t t-call="web.html_container">
-                <t t-call="web.internal_layout">
-                    <div class="page" style="font-size:9px;">
-                         <t t-foreach="docs" t-as="o">
+        
+        <template id="payroll_cfdi_report_document">
+            <t t-call="payroll_mexico.external_layout_payroll_cfdi">
+                <t t-set="o" t-value="doc.with_context(lang=doc.company_id.partner_id.lang)" />
+                <t t-set="payroll" t-value="data['payroll_data'][str(o.id)]" />
+                <div class="page" style="font-size:9px;">
+                         
                             <!--Nombre del reporte-->
                             <div>
                                 <h6 class="text-center">COMPROBANTE FISCAL DIGITAL POR INTERNET</h6>
                                 <h6 class="text-center">RECIBO DE NÓMINA</h6>
                             </div>
-                            <!--Datos de la compañía-->
-                            <table class="table-sm" style="width:100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                                <tr style="border-bottom: 0px; background-color: lavender;">
-                                    <td><strong>EMISOR:</strong>
-                                        <span t-field="o.company_id.business_name" />
-                                    </td>
-                                    <td><strong>RFC:</strong>
-                                        <span t-field="o.company_id.rfc" />
-                                    </td>
-                                    <td><strong>REGISTRO PATRONAL:</strong>
-                                        <span t-field="o.employer_register_id.employer_registry" />
-                                    </td>
-                                    <td><strong>RÉGIMEN:</strong>
-                                        <span t-field="o.company_id.tax_regime"/>
-                                    </td>
-                                    <td><strong>TIPO DE COMPROBANTE:</strong>
-                                        <span t-field="o.type_voucher"/>
-                                    </td>
-                                </tr>
-                                <tr style="border-bottom: 0px; background-color: lavender;">
-                                    <td>
-                                        <strong>RECIBO: </strong>
-                                        <span t-field="o.number" />
-                                    </td>
-                                    <td>
-                                        <strong>FOLIO FISCAL: </strong>
-                                    </td>
-                                    <td>
-                                        <strong>N° de Serie del Certificado del CSD: </strong>
-                                    </td>
-                                    <td>
-                                        <strong>LUGAR DE EXPEDIACIÓN: </strong>
-                                    </td>
-                                    <td>
-                                        <strong>Fecha y hora de emisión: </strong>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
-                                <tr style="border-bottom: 0px; background-color: lavender;">
+                            <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D;">
+                                <tr style="border-bottom: 0px; background-color: #ABAFAF;">
                                     <td><strong>Clave:</strong></td>
                                     <td><strong>Nombre Del Trabajador:</strong></td>
                                     <td></td>
                                     <td><strong>SD: </strong>
-                                        <t t-esc="payroll_data['sd']"
-                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        <t t-esc="payroll[0]['sd']"/>
                                     </td> 
                                     <td><strong>NSS:</strong></td>
                                     <td><strong>RFC:</strong></td>
@@ -75,27 +38,27 @@
                                 </tr>
                                 <tr>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['enrollment']"/>
+                                        <span t-field="o.employee_id.enrollment"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['name']"/>
+                                        <span t-field="o.employee_id.complete_name"/>
                                     </td>
                                     <td></td>
                                     <td><strong>SDI: </strong>
-                                        <t t-esc="payroll_data['sdi']"
+                                        <t t-esc="payroll[0]['sdi']"
                                             t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                     </td> 
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['ssnid']"/>
+                                        <span t-field="o.employee_id.ssnid"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['rfc']"/>
+                                        <span t-field="o.employee_id.rfc"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['curp']"/>
+                                        <span t-field="o.employee_id.curp"/>
                                     </td>
                                 </tr>
-                                <tr style="border-bottom: 0px; background-color: lavender;">
+                                <tr style="border-bottom: 0px;">
                                     <td><strong>Puesto:</strong></td>
                                     <td><strong>Departamento:</strong></td>
                                     <td><strong>Uso CFDI:</strong></td>
@@ -104,7 +67,7 @@
                                     <td><strong>RIESGO DE PUESTO:</strong></td>
                                     <td></td>
                                 </tr>
-                                <tr style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                                <tr style="border-bottom: 1px solid #00A09D; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D;">
                                     <td class="text-left">
                                         <span t-field="o.employee_id.job_id.name" />
                                     </td>
@@ -114,12 +77,17 @@
                                     <td><span t-field="o.cfdi_use" /></td>
                                     <td></td> 
                                     <td class="text-left">
-                                        <span t-field="o.contract_id.date_start" />
+                                        <t t-if="o.contract_id.previous_contract_date">
+                                            <span t-field="o.contract_id.previous_contract_date"/>
+                                        </t>
+                                        <t t-else ="">
+                                            <span t-field="o.contract_id.date_start"/>
+                                        </t>
                                     </td>
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                <tr style="border-bottom: 0px; background-color: lavender;">
+                                <tr style="border-bottom: 0px;">
                                     <td><strong>Período Calculado:</strong></td>
                                     <td></td>
                                     <td><strong>Fecha de Pago:</strong></td>
@@ -130,26 +98,26 @@
                                 </tr>
                                 <tr>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['date_from']" t-options='{"widget": "date"}'/>
+                                        <span t-field="o.date_from" t-options='{"widget": "date"}'/>
                                         <span>a</span>
-                                        <t t-esc="payroll_data['date_to']" t-options='{"widget": "date"}'/>
+                                        <span t-field="o.date_to" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td></td>
                                     <td><strong></strong></td>
                                     <td>
-                                        <t t-esc="payroll_data['payroll_period']"/>
+                                        <t t-esc="payroll[0]['payroll_period']"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['no_period']"/>
+                                        <span t-field="o.payroll_of_month"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['paid_days']"/>
+                                        <t t-esc="payroll[0]['paid_days']"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['faults']"/>
+                                        <t t-esc="payroll[0]['faults']"/>
                                     </td>
                                 </tr>
-                                <tr style="border-bottom: 0px; background-color: lavender;">
+                                <tr style="border-bottom: 0px;">
                                     <td><strong>Metodo de pago:</strong></td>
                                     <td></td>
                                     <td><strong>Forma de pago:</strong></td>
@@ -158,33 +126,33 @@
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                <tr style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                                <tr style="border-bottom: 1px solid #00A09D; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D;">
                                     <td class="text-left">
                                         <span t-field="o.payment_method" />
                                     </td>
                                     <td></td>
                                     <td><span t-field="o.way_pay" /></td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['bank_account']"/>
+                                        <t t-esc="payroll[0]['bank_account']"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['bank']"/>
+                                        <t t-esc="payroll[0]['bank']"/>
                                     </td>
                                    <td></td>
                                     <td></td>
                                 </tr>
                             </table>
-                            <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
-                                <tr style="background-color: lavender;">
+                            <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D;">
+                                <tr style="background-color: #ABAFAF;">
                                     <th class="text-center">Percepciones:</th>
                                     <th class="text-center">Deducciones:</th>
                                 </tr>
                             </table>
                             <div class="row" name="lines">
                                 <div class="col-6">
-                                    <table class="table-sm" style="width:100%; border-left: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D;">
                                         <thead>
-                                            <tr style="background-color: lavender;">
+                                            <tr>
                                                 <th class="text-center">CVE</th>
                                                 <th class="text-center">Descripción</th>
                                                 <th class="text-center">UNID</th>
@@ -193,7 +161,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <t t-foreach="payroll_data['lines']" t-as="line">
+                                            <t t-foreach="payroll[0]['lines']" t-as="line">
                                                 <tr>
                                                     <td class="text-center"><span t-esc="line['code']"/></td>
                                                     <td><span t-esc="line['name']"/></td>
@@ -208,9 +176,9 @@
                                     </table>
                                 </div>
                                 <div class="col-6">
-                                    <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-right: 1px solid #00A09D;">
                                         <thead>
-                                            <tr style="background-color: lavender;">
+                                            <tr>
                                                 <th class="text-center">CVE</th>
                                                 <th class="text-center">Descripción</th>
                                                 <th class="text-center">UNID</th>
@@ -218,7 +186,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <t t-foreach="payroll_data['line_ded']" t-as="line_ded">
+                                            <t t-foreach="payroll[0]['line_ded']" t-as="line_ded">
                                                 <tr>
                                                     <td class="text-center"><span t-esc="line_ded['code']"/></td>
                                                     <td><span t-esc="line_ded['name']"/></td>
@@ -234,26 +202,26 @@
                             <!-- Subtotales -->
                             <div class="row" name="lines">
                                 <div class="col-6">
-                                    <table class="table-sm" style="width:100%; border-left: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D;">
                                         <tbody>
-                                            <tr style="background-color: lavender;">
+                                            <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <th class="text-center">Total de Percepciones</th>
-                                                <td class="text-right"><span t-esc="payroll_data['total_percep']"
+                                                <td class="text-right"><span t-esc="payroll[0]['total_percep']"
                                                           t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="col-6">
-                                    <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-right: 1px solid #00A09D;">
                                         <tbody>
-                                            <tr style="background-color: lavender;">
+                                            <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <th class="text-center">Total de Deducciones</th>
-                                                <td class="text-right"><span t-esc="payroll_data['total_ded']"
+                                                <td class="text-right"><span t-esc="payroll[0]['total_ded']"
                                                           t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
                                             </tr>
                                         </tbody>
@@ -261,21 +229,21 @@
                                 </div>
                             </div>
                             <!--Total-->
-                            <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
-                                <tr style="background-color: lavender;">
+                            <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
+                                <tr>
                                     <th class="text-right"></th>
                                     <th class="text-right">Total a Pagar:</th>
-                                    <th class="text-right"><span t-esc="payroll_data['total']"
+                                    <th class="text-right"><span t-esc="payroll[0]['total']"
                                                           t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
                                 </tr>
                             </table>
                             <div class="row">
                                 <div class="col-9">
-                                    <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D;">
                                         <tr class="text-justify">
                                             <td>
-                                                <strong>RECIBÍ DE <span t-esc="payroll_data['company']"/> LA CANTIDAD DE <span t-esc="payroll_data['total_word']"/> PESOS
-                                                <span t-esc="payroll_data['decimales']"/>/100 M.N. MISMAS QUE CUBREN LAS PERCEPCIONES QUE ME CORRESPONDEN EN EL PERIODO INDICADO, NO EXISTIENDO NINGUN ADEUDO,
+                                                <strong>RECIBÍ DE <span t-esc="payroll[0]['company']"/> LA CANTIDAD DE <span t-esc="payroll[0]['total_word']"/> PESOS
+                                                <span t-esc="payroll[0]['decimales']"/>/100 M.N. MISMAS QUE CUBREN LAS PERCEPCIONES QUE ME CORRESPONDEN EN EL PERIODO INDICADO, NO EXISTIENDO NINGUN ADEUDO,
                                                 POR PARTE DE LA EMPRESA PARA EL SUSCRITO, PUES ESTOY TOTALMENTE PAGADO DE MIS SALARIOS Y PRESTACIONES DEVENGADAS HASTA LA FECHA.
                                                 PAGO EN UNA SOLA EXHIBICIÓN. ESTA ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI.</strong>
                                             </td>
@@ -283,7 +251,7 @@
                                     </table>
                                 </div>
                                 <div class="col-3 text-center">
-                                    <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-right: 1px solid #00A09D;">
                                         <tr class="text-center">
                                             <td style="color: #FFFFFF">-</td>
                                         </tr>
@@ -293,7 +261,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
+                            <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
                                 <tbody>
                                     <tr class="border-black o_subtotal" style="">
                                         <th class="text-left">Sello Digital CFDI:</th>
@@ -310,60 +278,21 @@
                             <div class="text-center">
                                 <span>COPIA PATRÓN</span>
                             </div>
-                         </t>    
-                    </div>
-                    <div class="page" style="font-size:9px; page-break-before:always;">
-                         <t t-foreach="docs" t-as="o">
+                        </div>
+                        <div class="page" style="font-size:9px; page-break-before:always;">
+                         
                             <!--Nombre del reporte-->
                             <div>
                                 <h6 class="text-center">COMPROBANTE FISCAL DIGITAL POR INTERNET</h6>
                                 <h6 class="text-center">RECIBO DE NÓMINA</h6>
                             </div>
-                            <!--Datos de la compañía-->
-                            <table class="table-sm" style="width:100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                                <tr style="border-bottom: 0px; background-color: lavender;">
-                                    <td><strong>EMISOR:</strong>
-                                        <span t-field="o.company_id.business_name" />
-                                    </td>
-                                    <td><strong>RFC:</strong>
-                                        <span t-field="o.company_id.rfc" />
-                                    </td>
-                                    <td><strong>REGISTRO PATRONAL:</strong>
-                                        <span t-field="o.employer_register_id.employer_registry" />
-                                    </td>
-                                    <td><strong>RÉGIMEN:</strong>
-                                        <span t-field="o.company_id.tax_regime"/>
-                                    </td>
-                                    <td><strong>TIPO DE COMPROBANTE:</strong>
-                                        <span t-field="o.type_voucher"/>
-                                    </td>
-                                </tr>
-                                <tr style="border-bottom: 0px; background-color: lavender;">
-                                    <td>
-                                        <strong>RECIBO: </strong>
-                                        <span t-field="o.number" />
-                                    </td>
-                                    <td>
-                                        <strong>FOLIO FISCAL: </strong>
-                                    </td>
-                                    <td>
-                                        <strong>N° de Serie del Certificado del CSD: </strong>
-                                    </td>
-                                    <td>
-                                        <strong>LUGAR DE EXPEDIACIÓN: </strong>
-                                    </td>
-                                    <td>
-                                        <strong>Fecha y hora de emisión: </strong>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
-                                <tr style="border-bottom: 0px; background-color: lavender;">
+                            <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D;">
+                                <tr style="border-bottom: 0px; background-color: #ABAFAF;">
                                     <td><strong>Clave:</strong></td>
                                     <td><strong>Nombre Del Trabajador:</strong></td>
                                     <td></td>
                                     <td><strong>SD: </strong>
-                                        <t t-esc="payroll_data['sd']"
+                                        <t t-esc="payroll[0]['sd']"
                                             t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                     </td> 
                                     <td><strong>NSS:</strong></td>
@@ -372,27 +301,27 @@
                                 </tr>
                                 <tr>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['enrollment']"/>
+                                        <span t-field="o.employee_id.enrollment"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['name']"/>
+                                        <span t-field="o.employee_id.complete_name"/>
                                     </td>
                                     <td></td>
                                     <td><strong>SDI: </strong>
-                                        <t t-esc="payroll_data['sdi']"
+                                        <t t-esc="payroll[0]['sdi']"
                                             t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                     </td> 
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['ssnid']"/>
+                                        <span t-field="o.employee_id.ssnid"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['rfc']"/>
+                                        <span t-field="o.employee_id.rfc"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['curp']"/>
+                                        <span t-field="o.employee_id.curp"/>
                                     </td>
                                 </tr>
-                                <tr style="border-bottom: 0px; background-color: lavender;">
+                                <tr style="border-bottom: 0px;">
                                     <td><strong>Puesto:</strong></td>
                                     <td><strong>Departamento:</strong></td>
                                     <td><strong>Uso CFDI:</strong></td>
@@ -401,7 +330,7 @@
                                     <td><strong>RIESGO DE PUESTO:</strong></td>
                                     <td></td>
                                 </tr>
-                                <tr style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                                <tr style="border-bottom: 1px solid #00A09D; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D;">
                                     <td class="text-left">
                                         <span t-field="o.employee_id.job_id.name" />
                                     </td>
@@ -411,12 +340,17 @@
                                     <td><span t-field="o.cfdi_use" /></td>
                                     <td></td> 
                                     <td class="text-left">
-                                        <span t-field="o.contract_id.date_start" />
+                                        <t t-if="o.contract_id.previous_contract_date">
+                                            <span t-field="o.contract_id.previous_contract_date"/>
+                                        </t>
+                                        <t t-else ="">
+                                            <span t-field="o.contract_id.date_start"/>
+                                        </t>
                                     </td>
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                <tr style="border-bottom: 0px; background-color: lavender;">
+                                <tr style="border-bottom: 0px;">
                                     <td><strong>Período Calculado:</strong></td>
                                     <td></td>
                                     <td><strong>Fecha de Pago:</strong></td>
@@ -427,26 +361,26 @@
                                 </tr>
                                 <tr>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['date_from']" t-options='{"widget": "date"}'/>
+                                        <span t-field="o.date_from" t-options='{"widget": "date"}'/>
                                         <span>a</span>
-                                        <t t-esc="payroll_data['date_to']" t-options='{"widget": "date"}'/>
+                                        <span t-field="o.date_to" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td></td>
                                     <td><strong></strong></td>
                                     <td>
-                                        <t t-esc="payroll_data['payroll_period']"/>
+                                        <t t-esc="payroll[0]['payroll_period']"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['no_period']"/>
+                                        <span t-field="o.payroll_of_month"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['paid_days']"/>
+                                        <t t-esc="payroll[0]['paid_days']"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['faults']"/>
+                                        <t t-esc="payroll[0]['faults']"/>
                                     </td>
                                 </tr>
-                                <tr style="border-bottom: 0px; background-color: lavender;">
+                                <tr style="border-bottom: 0px;">
                                     <td><strong>Metodo de pago:</strong></td>
                                     <td></td>
                                     <td><strong>Forma de pago:</strong></td>
@@ -455,33 +389,33 @@
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                <tr style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                                <tr style="border-bottom: 1px solid #00A09D; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D;">
                                     <td class="text-left">
                                         <span t-field="o.payment_method" />
                                     </td>
                                     <td></td>
                                     <td><span t-field="o.way_pay" /></td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['bank_account']"/>
+                                        <t t-esc="payroll[0]['bank_account']"/>
                                     </td>
                                     <td class="text-left">
-                                        <t t-esc="payroll_data['bank']"/>
+                                        <t t-esc="payroll[0]['bank']"/>
                                     </td>
                                    <td></td>
                                     <td></td>
                                 </tr>
                             </table>
-                            <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
-                                <tr style="background-color: lavender;">
+                            <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D;">
+                                <tr style="background-color: #ABAFAF;">
                                     <th class="text-center">Percepciones:</th>
                                     <th class="text-center">Deducciones:</th>
                                 </tr>
                             </table>
                             <div class="row" name="lines">
                                 <div class="col-6">
-                                    <table class="table-sm" style="width:100%; border-left: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D;">
                                         <thead>
-                                            <tr style="background-color: lavender;">
+                                            <tr>
                                                 <th class="text-center">CVE</th>
                                                 <th class="text-center">Descripción</th>
                                                 <th class="text-center">UNID</th>
@@ -490,7 +424,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <t t-foreach="payroll_data['lines']" t-as="line">
+                                            <t t-foreach="payroll[0]['lines']" t-as="line">
                                                 <tr>
                                                     <td class="text-center"><span t-esc="line['code']"/></td>
                                                     <td><span t-esc="line['name']"/></td>
@@ -505,9 +439,9 @@
                                     </table>
                                 </div>
                                 <div class="col-6">
-                                    <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-right: 1px solid #00A09D;">
                                         <thead>
-                                            <tr style="background-color: lavender;">
+                                            <tr>
                                                 <th class="text-center">CVE</th>
                                                 <th class="text-center">Descripción</th>
                                                 <th class="text-center">UNID</th>
@@ -515,7 +449,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <t t-foreach="payroll_data['line_ded']" t-as="line_ded">
+                                            <t t-foreach="payroll[0]['line_ded']" t-as="line_ded">
                                                 <tr>
                                                     <td class="text-center"><span t-esc="line_ded['code']"/></td>
                                                     <td><span t-esc="line_ded['name']"/></td>
@@ -531,26 +465,26 @@
                             <!-- Subtotales -->
                             <div class="row" name="lines">
                                 <div class="col-6">
-                                    <table class="table-sm" style="width:100%; border-left: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D;">
                                         <tbody>
-                                            <tr style="background-color: lavender;">
+                                            <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <th class="text-center">Total de Percepciones</th>
-                                                <td class="text-right"><span t-esc="payroll_data['total_percep']"
+                                                <td class="text-right"><span t-esc="payroll[0]['total_percep']"
                                                           t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="col-6">
-                                    <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-right: 1px solid #00A09D;">
                                         <tbody>
-                                            <tr style="background-color: lavender;">
+                                            <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <th class="text-center">Total de Deducciones</th>
-                                                <td class="text-right"><span t-esc="payroll_data['total_ded']"
+                                                <td class="text-right"><span t-esc="payroll[0]['total_ded']"
                                                           t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
                                             </tr>
                                         </tbody>
@@ -558,21 +492,21 @@
                                 </div>
                             </div>
                             <!--Total-->
-                            <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
-                                <tr style="background-color: lavender;">
+                            <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
+                                <tr>
                                     <th class="text-right"></th>
                                     <th class="text-right">Total a Pagar:</th>
-                                    <th class="text-right"><span t-esc="payroll_data['total']"
+                                    <th class="text-right"><span t-esc="payroll[0]['total']"
                                                           t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
                                 </tr>
                             </table>
                             <div class="row">
                                 <div class="col-9">
-                                    <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D;">
                                         <tr class="text-justify">
                                             <td>
-                                                <strong>RECIBÍ DE <span t-esc="payroll_data['company']"/> LA CANTIDAD DE <span t-esc="payroll_data['total_word']"/> PESOS
-                                                <span t-esc="payroll_data['decimales']"/>/100 M.N. MISMAS QUE CUBREN LAS PERCEPCIONES QUE ME CORRESPONDEN EN EL PERIODO INDICADO, NO EXISTIENDO NINGUN ADEUDO,
+                                                <strong>RECIBÍ DE <span t-esc="payroll[0]['company']"/> LA CANTIDAD DE <span t-esc="payroll[0]['total_word']"/> PESOS
+                                                <span t-esc="payroll[0]['decimales']"/>/100 M.N. MISMAS QUE CUBREN LAS PERCEPCIONES QUE ME CORRESPONDEN EN EL PERIODO INDICADO, NO EXISTIENDO NINGUN ADEUDO,
                                                 POR PARTE DE LA EMPRESA PARA EL SUSCRITO, PUES ESTOY TOTALMENTE PAGADO DE MIS SALARIOS Y PRESTACIONES DEVENGADAS HASTA LA FECHA.
                                                 PAGO EN UNA SOLA EXHIBICIÓN. ESTA ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI.</strong>
                                             </td>
@@ -580,7 +514,7 @@
                                     </table>
                                 </div>
                                 <div class="col-3 text-center">
-                                    <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <table class="table-sm" style="width:100%; border-right: 1px solid #00A09D;">
                                         <tr class="text-center">
                                             <td style="color: #FFFFFF">-</td>
                                         </tr>
@@ -590,7 +524,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
+                            <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
                                 <tbody>
                                     <tr class="border-black o_subtotal" style="">
                                         <th class="text-left">Sello Digital CFDI:</th>
@@ -607,10 +541,17 @@
                             <div class="text-center">
                                 <span>COPIA EMPLEADO</span>
                             </div>
-                         </t>    
-                    </div>
-                </t>    
-             </t>
+                        </div>
+                
+            </t>
+        </template>
+        
+        <template id="payroll_cfdi_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="payroll_mexico.payroll_cfdi_report_document" t-lang="doc.company_id.partner_id.lang"/>
+                </t>
+            </t>
         </template>
         
     </data>
