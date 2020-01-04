@@ -5,11 +5,12 @@
         <report 
             id="action_payroll_summary_report"
             string="Resumén de la Nómina"
-            model="hr.payslip" 
+            model="hr.payslip.run" 
             report_type="qweb-html"
             file="payroll_mexico.payroll_summary_report_template" 
             name="payroll_mexico.payroll_summary_report_template"
             print_report_name="'Resumen de Nómina periodo: %s_%s' % (object.payroll_month, object.year)"
+            menu="False"
         />
 
         <template id="payroll_summary_report_template">
@@ -31,7 +32,7 @@
                             <br/>
                             <table class="table-sm" border="0" style="width:100%;">
                                 <thead>
-                                    <tr style="font-style: italic;">
+                                    <tr style="font-style: italic; background-color: #ABAFAF;">
                                         <th class="text-center"></th>
                                         <th class="text-rigth">SUELDOS Y SALARIOS</th>
                                         <th class="text-left">IAS</th>
@@ -58,7 +59,7 @@
                                             </td>
                                         </tr>
                                         <br/>
-                                        <tr>
+                                        <tr style="background-color: #ABAFAF;">
                                             <th class="text-right" style="text-decoration: underline;">
                                                 <span>FACTURACIÓN</span>
                                             </th>
@@ -151,8 +152,8 @@
                                                 <t t-esc="payroll_data['subtotal']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                             </td>
-                                            <td></td>
-                                            <td></td>
+                                            <td style="border-top: 1px solid black;">0.00</td>
+                                            <td style="border-top: 1px solid black;">0.00</td>
                                             <td class="text-left" style="border-top: 1px solid black;">
                                                 <t t-esc="payroll_data['subtotal']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
@@ -166,21 +167,27 @@
                                                 <t t-esc="payroll_data['iva']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                             </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
                                             <td class="text-left">
-                                                <span class="text-left">(=) Total</span>
-                                            </td>
-                                            <td class="text-left" style="border-top: 1px solid black;">
-                                                <t t-esc="payroll_data['total']"
+                                                <t t-esc="payroll_data['iva']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                             </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left">
+                                                <span class="text-left">(=) Total</span>
+                                            </th>
+                                            <th class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </th>
+                                            <th style="border-top: 1px solid black;">0.00</th>
+                                            <th style="border-top: 1px solid black;">0.00</th>
+                                            <th class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </th>
                                         </tr>
                                     </t>
                                     <!-- Template Asimilados a Salarios-->
@@ -201,14 +208,14 @@
                                             </td>
                                         </tr>
                                         <br/>
-                                        <tr>
+                                        <tr style="background-color: #ABAFAF;">
                                             <th class="text-right" style="text-decoration: underline;">
                                                 <span>FACTURACIÓN</span>
                                             </th>
-                                            <td>0.00</td>
-                                            <td>0.00</td>
-                                            <td>0.00</td>
-                                            <td>0.00</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         <br/>
                                         <tr>
@@ -290,12 +297,12 @@
                                             <td class="text-left">
                                                 <span class="text-left">(=) Subtotal</span>
                                             </td>
-                                            <td></td>
+                                            <td style="border-top: 1px solid black;">0.00</td>
                                             <td class="text-left" style="border-top: 1px solid black;">
                                                 <t t-esc="payroll_data['subtotal']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                             </td>
-                                            <td></td>
+                                            <td style="border-top: 1px solid black;">0.00</td>
                                             <td class="text-left" style="border-top: 1px solid black;">
                                                 <t t-esc="payroll_data['subtotal']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
@@ -305,25 +312,31 @@
                                             <td class="text-left">
                                                 <span class="text-left">(+) IVA</span>
                                             </td>
-                                            <td></td>
+                                            <td>0.00</td>
                                             <td class="text-left">
                                                 <t t-esc="payroll_data['iva']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                             </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
+                                            <td>0.00</td>
                                             <td class="text-left">
-                                                <span class="text-left">(=) Total</span>
-                                            </td>
-                                            <td></td>
-                                            <td class="text-left" style="border-top: 1px solid black;">
-                                                <t t-esc="payroll_data['total']"
+                                                <t t-esc="payroll_data['iva']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                             </td>
-                                            <td></td>
-                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left">
+                                                <span class="text-left">(=) Total</span>
+                                            </th>
+                                            <th style="border-top: 1px solid black;">0.00</th>
+                                            <th class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </th>
+                                            <th style="border-top: 1px solid black;">0.00</th>
+                                            <th class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </th>
                                         </tr>
                                     </t>
                                     <!-- Template Tipo de Nómina de LIBRES-->
@@ -344,14 +357,14 @@
                                             </td>
                                         </tr>
                                         <br/>
-                                        <tr>
+                                        <tr style="background-color: #ABAFAF;">
                                             <th class="text-right" style="text-decoration: underline;">
                                                 <span>FACTURACIÓN</span>
                                             </th>
-                                            <td>0.00</td>
-                                            <td>0.00</td>
-                                            <td>0.00</td>
-                                            <td>0.00</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         <br/>
                                         <tr>
@@ -433,8 +446,8 @@
                                             <td class="text-left">
                                                 <span class="text-left">(=) Subtotal</span>
                                             </td>
-                                            <td></td>
-                                            <td></td>
+                                            <td style="border-top: 1px solid black;">0.00</td>
+                                            <td style="border-top: 1px solid black;">0.00</td>
                                             <td class="text-left" style="border-top: 1px solid black;">
                                                 <t t-esc="payroll_data['subtotal']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
@@ -448,25 +461,31 @@
                                             <td class="text-left">
                                                 <span class="text-left">(+) IVA</span>
                                             </td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
                                             <td class="text-left">
                                                 <t t-esc="payroll_data['iva']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                             </td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
                                             <td class="text-left">
-                                                <span class="text-left">(=) Total</span>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="text-left" style="border-top: 1px solid black;">
-                                                <t t-esc="payroll_data['total']"
+                                                <t t-esc="payroll_data['iva']"
                                                     t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                             </td>
-                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left">
+                                                <span class="text-left">(=) Total</span>
+                                            </th>
+                                            <th style="border-top: 1px solid black;">0.00</th>
+                                            <th style="border-top: 1px solid black;">0.00</th>
+                                            <th class="text-left" style="border-top: 1px solid black;">
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </th>
+                                            <th class="text-left" style="border-top: 1px solid black; margin-left: 1px;">
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </th>
                                         </tr>
                                     </t>
                                 </tbody>

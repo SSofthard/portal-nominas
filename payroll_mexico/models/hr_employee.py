@@ -26,6 +26,39 @@ class Job(models.Model):
     
     code = fields.Char("Code", copy=False, required=True)
 
+    _sql_constraints = [
+        ('code_uniq', 'unique(code, company_id, department_id)', 'El código del puesto de trabajo debe ser único por departamento en la empresa!'),
+    ]
+
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|',('code', operator, name),('name', operator, name)]
+        code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(code).name_get()
+
+
+class Department(models.Model):
+    _inherit = "hr.department"
+
+    code = fields.Char("Clave", copy=False, required=True)
+
+    _sql_constraints = [
+        ('code_uniq', 'unique(code, company_id)', 'La clave del departamento debe ser único por departamento en la empresa!'),
+    ]
+
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|',('code', operator, name),('name', operator, name)]
+        code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(code).name_get()
+
+
 class Employee(models.Model):
     _inherit = "hr.employee"
     
@@ -54,7 +87,7 @@ class Employee(models.Model):
         if name:
             domain = ['|',('enrollment', operator, name),('name', operator, name)]
         enrollment = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
-        return self.browse(enrollment).name_get()\
+        return self.browse(enrollment).name_get()
 
     @api.depends('name','last_name','mothers_last_name')
     @api.onchange('complete_name')
@@ -210,11 +243,10 @@ class Employee(models.Model):
                     employee.enrollment = new_enrollment
         return True
         
-    def search_minimum_wage(self):
+    def search_minimum_wage(self,date):
         for employee in self:
             zone = self.env['res.municipality.zone'].search([('municipality_id','=',employee.work_center_id.municipality_id.id)],limit=1)
-            print (zone)
-            wage = self.env['table.minimum.wages'].search([],limit=1)
+            wage = self.env['table.minimum.wages'].search([('date','<=',date)],limit=1)
             wage_minimum = 0
             if zone.zone == 'freezone':
                 wage_minimum = wage.border_crossing
@@ -225,7 +257,6 @@ class Employee(models.Model):
     @api.model
     def create(self, vals):
         res = super(Employee, self).create(vals)
-        
         res.post()
         return res
     
@@ -494,7 +525,7 @@ class HrGroup(models.Model):
         ('3', 'Clase III'),
         ('4', 'Clase IV'),
         ('5', 'Clase V'),
-        ], string='Job risk', required=True)
+        ], string='Job risk', required=False)
     days = fields.Float("Days", required=True)
     risk_factor_ids = fields.One2many('hr.group.risk.factor','group_id', string="Factor de riesgo anual")
     country_id = fields.Many2one('res.country', string='Country', store=True,

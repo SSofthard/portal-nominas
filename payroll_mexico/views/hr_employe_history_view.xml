@@ -60,7 +60,31 @@
         action="employeehr_change_job_action"
         parent="menu_hr_employee_affiliate_movements_root"
         sequence="10"/>
-    
+
+    <record id="hr_employee_affiliate_movements_view_filter" model="ir.ui.view">
+            <field name="name">hr.employee.affiliate.movements.view.filter</field>
+            <field name="model">hr.employee.affiliate.movements</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <search string="Buscar Movimientos Afiliatorios">
+                    <field name="employee_id" string="Empleado" filter_domain="[('employee_id','ilike',self)]"/>
+                    <field name="group_id" string="Grupo/Empresa" filter_domain="[('group_id','ilike',self)]"/>
+                    <field name="contract_id" string="Contrato" filter_domain="[('contract_id','ilike',self)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Empleado" name="group_empleado" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter name="group_id" string="Grupo/Empresa" domain="[]" context="{'group_by':'group_id'}"/>
+                        <filter name="contract_id" string="Contrato" domain="[]" context="{'group_by':'contract_id'}"/>
+                        <filter name="type" string="Tipo de Movimiento" domain="[]" context="{'group_by':'type'}"/>
+                        <filter name="reason_liquidation" string="Reason for liquidation" domain="[]" context="{'group_by':'reason_liquidation'}"/>
+                        <filter name="contracting_regime" string="Contracting Regime" domain="[]" context="{'group_by':'contracting_regime'}"/>
+                        <filter name="state" string="State" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Move Date" name="date_move" domain="[]" context="{'group_by':'date'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
     <record id="hr_employee_affiliate_movements_form_view" model="ir.ui.view">
         <field name="name">hr.employee.affiliate.movements.form.view</field>
         <field name="model">hr.employee.affiliate.movements</field>
@@ -96,6 +120,7 @@
         <field name="arch" type="xml">
             <tree string="Employee affiliate movements" edit="false" create="false" decoration-info="state == 'generated'" decoration-success="state == 'approved'" decoration-muted="state == 'draft'">
                 <field name="employee_id"/>
+                <field name="group_id"/>
                 <field name="contract_id"/>
                 <field name="type"/>
                 <field name="state" invisible="1"/>
@@ -203,7 +228,9 @@
                     </div>
                     <group>
                         <group>
-                            <field name="employer_register_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="employer_register_id" 
+                            domain="[('state','=','valid')]"
+                            options="{'no_create': True, 'no_open': True}"/>
                             <field name="date_from"/>
                         </group>
                         <group>

@@ -71,7 +71,9 @@
                     <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
                 </xpath> 
                 <xpath expr="//header" position="inside">
-                    <button string="Recibo de Pago" name="print_payroll_receipt" type="object" states="draft" class="oe_sale"/>
+                    <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
+                    <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
+                    <button string="Generar CFDI" name="print_payroll_cfdi" type="object" class="oe_sale"/>
                 </xpath> 
                 <xpath expr="//button[@name='refund_sheet']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -95,7 +97,7 @@
                     <field name="payroll_of_month"/>
                     <field name="payroll_period"/>
                     <field name="group_id"/>
-                    <field name="employer_register_id"/>
+                    <field name="employer_register_id" domain="[('state','=','valid')]"/>
                     <field name="table_id" invisible="1"/>
                 </xpath> 
                 <xpath expr="//notebook/page[1]" position="after">
@@ -123,6 +125,20 @@
                         <div colspan="4">
                             <field name="note" placeholder="Add an internal note..."/>
                         </div>
+                   </page>
+                   <page string="CFDI">
+					   <group>
+							<group string="Datos CFDI">
+								<field name="way_pay"/>
+								<field name="type_voucher" string="Tipo de comprobante"/>
+								<field name="payment_method"/>
+								<field name="cfdi_use"/>
+							 </group>
+							<group string="Detalles">
+								<field name="fiscal_folio"/>
+								<field name="invoice_status"/>
+							 </group>
+					   </group>
                    </page>
                 </xpath> 
             </field>
@@ -300,11 +316,16 @@
                 }
             </field>
         </record>
-        
+
+        <!-- Domain en Action Nóminas del empleado -->
+        <record id="hr_payroll.action_view_hr_payslip_form" model="ir.actions.act_window">
+            <field name="domain">[('settlement', '=', False)]</field>
+        </record>
+
         <menuitem
             name="Nóminas del empleado"
             id="menu_view_hr_payslip_refactor"
-            action="view_hr_inputs_deductions_action"
+            action="hr_payroll.action_view_hr_payslip_form"
             parent="hr_payroll.menu_hr_payroll_root" sequence="5"/>
         <menuitem 
             name="Nóminas del empleado"

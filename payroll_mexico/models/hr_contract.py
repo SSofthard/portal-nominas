@@ -83,7 +83,7 @@ class Contract(models.Model):
     code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
     type_id = fields.Many2one(string="Type Contract")
     type_contract = fields.Selection(string="Type", related="type_id.type", invisible=True)
-    company_id = fields.Many2one('res.company', default = ['employee_id','=', False])
+    company_id = fields.Many2one('res.company', default = ['employee_id','=', False], required=True)
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
     contracting_regime = fields.Selection([
@@ -250,6 +250,10 @@ class Contract(models.Model):
             years_antiquity = 1
         antiquity = self.env['tablas.antiguedades.line'].search([('form_id','=',self.employee_id.group_id.antique_table.id),('antiguedad','=',years_antiquity)],limit=1)
         return antiquity.prima_vac
+    
+    def search_antique_table_bonus(self):
+        antique = self.env['tablas.antiguedades.line'].search([('form_id','=',self.employee_id.group_id.antique_table.id),('antiguedad','=',self.years_antiquity)],limit=1)
+        return antique*aguinaldo
         
 
 class FixedConcepts(models.Model):

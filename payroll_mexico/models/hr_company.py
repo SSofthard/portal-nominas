@@ -33,6 +33,30 @@ class Company(models.Model):
     power_attorney_ids = fields.One2many('company.power.attorney','company_id', "Power Attorney", required=True)
     country_id = fields.Many2one('res.country', compute='_compute_address', inverse='_inverse_country', string="Country", default=lambda self: self.env.user.company_id.country_id.id)
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    tax_regime = fields.Selection(
+        selection=[('601', _('General de Ley Personas Morales')),
+                   ('603', _('Personas Morales con Fines no Lucrativos')),
+                   ('605', _('Sueldos y Salarios e Ingresos Asimilados a Salarios')),
+                   ('606', _('Arrendamiento')),
+                   ('608', _('Demás ingresos')),
+                   ('609', _('Consolidación')),
+                   ('610', _('Residentes en el Extranjero sin Establecimiento Permanente en México')),
+                   ('611', _('Ingresos por Dividendos (socios y accionistas)')),
+                   ('612', _('Personas Físicas con Actividades Empresariales y Profesionales')),
+                   ('614', _('Ingresos por intereses')),
+                   ('616', _('Sin obligaciones fiscales')),
+                   ('620', _('Sociedades Cooperativas de Producción que optan por diferir sus ingresos')),
+                   ('621', _('Incorporación Fiscal')),
+                   ('622', _('Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras')),
+                   ('623', _('Opcional para Grupos de Sociedades')),
+                   ('624', _('Coordinados')),
+                   ('628', _('Hidrocarburos')),
+                   ('607', _('Régimen de Enajenación o Adquisición de Bienes')),
+                   ('629', _('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales')),
+                   ('630', _('Enajenación de acciones en bolsa de valores')),
+                   ('615', _('Régimen de los ingresos por obtención de premios')),],
+        string=_('Tax regime'), 
+    )
  
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),
@@ -92,6 +116,9 @@ class employerRegister(models.Model):
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
+    sector_economico_id = fields.Many2one('res.company.sector_economico', 
+                    "Fracción de RT", 
+                    required=False)
 
     @api.multi
     def action_revoked(self):
@@ -180,7 +207,6 @@ class branchOffices(models.Model):
     
     company_id = fields.Many2one('res.company', "Company", required=False)
     partner_id = fields.Many2one('res.partner', "Branch Offices", required=True, copy=False)
-
 
 class bankDetailsCompany(models.Model):
     _name = "bank.account.company"
@@ -330,3 +356,11 @@ class Partner(models.Model):
     def onchange_state_id(self):
         if self.state_id:
             self.municipality_id = False
+
+
+class companySectorEconomico(models.Model):
+
+    _name = 'res.company.sector_economico'
+    
+    name = fields.Char('Sector Economico', required=True)
+    code = fields.Char('Código', required=True)

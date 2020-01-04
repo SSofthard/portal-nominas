@@ -70,6 +70,51 @@ class HrPayslip(models.Model):
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
+    # ~ CFDI
+    
+    way_pay = fields.Selection([
+            ('99', '99 - Por Definir'),
+            ], 
+            string='way to pay', 
+            default="99",
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
+    type_voucher = fields.Selection([
+            ('N', 'Payroll'),
+            ], 
+            string='Tipo', 
+            default="N",
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
+    payment_method = fields.Selection([
+            ('PUE', 'Pago en una sola exhibición'),
+            ], 
+            string='Payment method', 
+            default="PUE",
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
+    cfdi_use = fields.Selection([
+            ('P01', 'To define'),
+            ], 
+            string='Uso CFDI', 
+            default="P01",
+            required=True,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
+    invoice_status = fields.Selection([
+            ('factura_no_generada', 'Factura no generada'),
+            ('factura_correcta', 'Factura correcta'),
+            ('problemas_factura', 'Problemas con la factura'),
+            ('problemas_cancelada', 'Factura cancelada'),
+            ], 
+            string='Invoice Status', 
+            default="factura_no_generada",
+            required=False,
+            readonly=True)
+    fiscal_folio = fields.Char(string='Fiscal Folio')
     year = fields.Integer(string='Año', related='payslip_run_id.year', store=True)
     integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
 
@@ -120,9 +165,84 @@ class HrPayslip(models.Model):
          return sum(vals)
 
     @api.multi
+    def print_payroll_cfdi(self):
+        payroll_dic = {}
+        lines = []
+        line_ded = []
+        domain = [('slip_id','=', self.id)]
+        sd = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI002')]).mapped('total'))
+        sdi = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI003')]).mapped('total'))
+        total_percep = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total'))
+        total_ded = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D103')]).mapped('total'))
+        total = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total'))
+        line_ids = self.env['hr.payslip.line'].search(domain + [('appears_on_payslip','=', True), ('total','!=', 0)])
+        for line in line_ids:
+            if line.category_id.code == 'PERCEPCIONES':
+                lines.append({
+                    'code': line.code,
+                    'name': line.name,
+                    'quantity': line.quantity,
+                    'total': line.total,
+                    'exempt': 0,
+                    'type': 'PERCEPCIONES',
+                })
+            if line.category_id.code == 'DED':
+                line_ded.append({
+                    'code': line.code,
+                    'name': line.name,
+                    'quantity': line.quantity,
+                    'total': line.total,
+                    'type': 'DED',
+                })
+        bank_account=self.env['bank.account.employee'].search([('employee_id','=', self.employee_id.id),('predetermined','=', True)])
+        payroll_dic['name'] = self.employee_id.complete_name
+        payroll_dic['enrollment'] = self.employee_id.enrollment
+        payroll_dic['ssnid'] = self.employee_id.ssnid
+        payroll_dic['rfc'] = self.employee_id.rfc
+        payroll_dic['curp'] = self.employee_id.curp
+        payroll_dic['date_from'] = self.date_from
+        payroll_dic['date_to'] = self.date_to
+        payroll_dic['payroll_period'] = dict(self._fields['payroll_period']._description_selection(self.env)).get(self.payroll_period).upper()
+        payroll_dic['no_period'] = self.payroll_of_month
+        payroll_dic['paid_days'] = abs(self.date_from - self.date_to).days
+        payroll_dic['sd'] = sd
+        payroll_dic['sdi'] = sdi
+        payroll_dic['total_percep'] = total_percep
+        payroll_dic['total_ded'] = total_ded
+        payroll_dic['total'] = total
+        payroll_dic['total_word'] = numero_to_letras(abs(total)) or 00
+        payroll_dic['decimales'] =  str(round(float(total), 2)).split('.')[1] or 00
+        payroll_dic['company'] = self.company_id.name.upper() or ''
+        payroll_dic['lines'] = lines
+        payroll_dic['line_ded'] = line_ded
+        payroll_dic['bank'] = bank_account.bank_id.name
+        payroll_dic['bank_account'] = bank_account.bank_account
+        # Buscar Faltas
+        leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
+        total_faults = 0
+        absenteeism = 0
+        inhability = 0
+        for leave in leave_type:
+            for wl in self.worked_days_line_ids:
+                if leave.code == wl.code:
+                    if leave.time_type == 'inability':
+                        inhability += wl.number_of_days
+                    if leave.time_type == 'leave':
+                        absenteeism += wl.number_of_days
+        total_faults += inhability + absenteeism
+        payroll_dic['faults'] = total_faults
+        data={
+            'payroll_data':payroll_dic,
+            'docs_ids':self.id,
+            }
+        
+        return self.env.ref('payroll_mexico.action_payroll_cfdi_report').report_action(self,data) 
+    
+    @api.multi
     def print_payroll_receipt(self):
         payroll_dic = {}
         lines = []
+        line_ded = []
         domain = [('slip_id','=', self.id)]
         sd = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI002')]).mapped('total'))
         sdi = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI003')]).mapped('total'))
@@ -140,7 +260,7 @@ class HrPayslip(models.Model):
                     'type': 'PERCEPCIONES',
                 })
             if line.category_id.code == 'DED':
-                lines.append({
+                line_ded.append({
                     'code': line.code,
                     'name': line.name,
                     'quantity': line.quantity,
@@ -162,9 +282,80 @@ class HrPayslip(models.Model):
         payroll_dic['total_ded'] = total_ded
         payroll_dic['total'] = total
         payroll_dic['total_word'] = numero_to_letras(abs(total)) or 00
-        payroll_dic['decimales'] =  str(round(total, 2)).split('.')[1] or 00
+        payroll_dic['decimales'] =  str(round(float(total), 2)).split('.')[1] or 00
         payroll_dic['company'] = self.company_id.name.upper() or ''
         payroll_dic['lines'] = lines
+        payroll_dic['line_ded'] = line_ded
+        # Buscar Faltas
+        leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
+        total_faults = 0
+        absenteeism = 0
+        inhability = 0
+        for leave in leave_type:
+            for wl in self.worked_days_line_ids:
+                if leave.code == wl.code:
+                    if leave.time_type == 'inability':
+                        inhability += wl.number_of_days
+                    if leave.time_type == 'leave':
+                        absenteeism += wl.number_of_days
+        total_faults += inhability + absenteeism
+        payroll_dic['faults'] = total_faults
+        data={
+            'payroll_data':payroll_dic,
+            'docs_ids':self.id,
+            }
+        return self.env.ref('payroll_mexico.action_payroll_receipt_report').with_context({'active_model': 'hr.payslip'}).report_action(self,data)      
+
+    @api.multi
+    def print_payroll_receipt_timbrado(self):
+        payroll_dic = {}
+        line_percep = []
+        line_ded = []
+        domain = [('slip_id','=', self.id)]
+        sd = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI002')]).mapped('total'))
+        sdi = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI003')]).mapped('total'))
+        sub_caused = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P105')]).mapped('total'))
+        total_percep = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total'))
+        total_ded = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D103')]).mapped('total'))
+        total = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total'))
+        line_ids = self.env['hr.payslip.line'].search(domain + [('appears_on_payslip','=', True), ('total','!=', 0)])
+        for line in line_ids:
+            if line.category_id.code == 'PERCEPCIONES':
+                line_percep.append({
+                    'code': line.code,
+                    'name': line.name,
+                    'quantity': line.quantity,
+                    'total': line.total,
+                    'type': 'PERCEPCIONES',
+                })
+            if line.category_id.code == 'DED':
+                line_ded.append({
+                    'code': line.code,
+                    'name': line.name,
+                    'quantity': line.quantity,
+                    'total': line.total,
+                    'type': 'DED',
+                })
+        payroll_dic['name'] = self.employee_id.complete_name
+        payroll_dic['ssnid'] = self.employee_id.ssnid
+        payroll_dic['rfc'] = self.employee_id.rfc
+        payroll_dic['curp'] = self.employee_id.curp
+        payroll_dic['date_from'] = self.date_from
+        payroll_dic['date_to'] = self.date_to
+        payroll_dic['payroll_period'] = dict(self._fields['payroll_period']._description_selection(self.env)).get(self.payroll_period).upper()
+        payroll_dic['no_period'] = self.payroll_of_month
+        payroll_dic['paid_days'] = abs(self.date_from - self.date_to).days
+        payroll_dic['sd'] = sd
+        payroll_dic['sdi'] = sdi
+        payroll_dic['sub_caused'] = sub_caused
+        payroll_dic['total_percep'] = total_percep
+        payroll_dic['total_ded'] = total_ded
+        payroll_dic['total'] = total
+        payroll_dic['total_word'] = numero_to_letras(abs(total)) or 00
+        payroll_dic['decimales'] =  str(round(total, 2)).split('.')[1] or 00
+        payroll_dic['company'] = self.company_id.name.upper() or ''
+        payroll_dic['lines'] = line_percep
+        payroll_dic['line_ded'] = line_ded
         # Buscar Faltas
         leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
         total_faults = 0
@@ -182,7 +373,7 @@ class HrPayslip(models.Model):
         data={
             'payroll_data':payroll_dic
             }
-        return self.env.ref('payroll_mexico.action_payroll_receipt_report').report_action(self,data)      
+        return self.env.ref('payroll_mexico.action_payroll_receipt_timbrado_report').with_context({'active_model': 'hr.payslip'}).report_action(self,data)      
 
     @api.multi
     def _compute_payroll_tax_count(self):
@@ -271,7 +462,7 @@ class HrPayslip(models.Model):
                             'infonavit_id':infonavit.id,
                             }
                         self.env['hr.infonavit.credit.history'].create(val_infonavit)
-                   
+            payslip.payslip_run_id.set_tax_iva_honorarium()
         return True
     
     @api.onchange('employee_id', 'date_from', 'date_to','contract_id')
@@ -314,7 +505,16 @@ class HrPayslip(models.Model):
             worked_days_lines += worked_days_lines.new(r)
         self.worked_days_line_ids = worked_days_lines
         self.payroll_month = str(date_from.month)
-        self.table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
+        table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
+        if not table_id:
+            title = _("Aviso!")
+            message = 'Debe configurar una tabla de configuracion para el año del periodo de la nómina.'
+            warning = {
+                'title': title,
+                'message': message
+            }
+            self.update({'date_end': False})
+            return {'warning': warning}
         return
         
     def search_inputs(self):

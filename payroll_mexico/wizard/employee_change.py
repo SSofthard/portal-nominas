@@ -65,7 +65,6 @@ class wizardEmployeeHistory(models.TransientModel):
                     ('some','Algunos')],string="Buscar por puesto de trabajo", default='all')
     employer_register_id = fields.Many2one('res.employer.register',"Registro Patronal",required=False)
     contracting_regime = fields.Selection([
-            ('0',''),
             ('1','Assimilated to wages'),
             ('2','Wages and salaries'),
             ('3','Senior citizens'),

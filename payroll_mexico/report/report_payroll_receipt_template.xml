@@ -8,13 +8,13 @@
             <field name="format">A5</field>
             <field name="page_height">0</field>
             <field name="page_width">0</field>
-            <field name="orientation">Landscape</field>
+            <field name="orientation">Portrait</field>
             <field name="margin_top">25</field>
             <field name="margin_bottom">10</field>
             <field name="margin_left">1</field>
             <field name="margin_right">1</field>
             <field name="header_line" eval="False" />
-            <field name="header_spacing">20</field>
+            <field name="header_spacing">15</field>
             <field name="dpi">90</field>
         </record>
         
@@ -26,17 +26,16 @@
             file="payroll_mexico.payroll_receipt_report_template" 
             name="payroll_mexico.payroll_receipt_report_template"
             paperformat="paperformat_payroll_receipt"
-            print_report_name="'Movimientos afiliatorios: %s' % (object.employee_id.name)"
+            print_report_name="'Nómina: %s' % (object.employee_id)"
+            menu="False"
         />
+
         <template id="payroll_receipt_report_template">
             <t t-call="web.html_container">
                 <t t-call="web.internal_layout">
                     <div class="page" style="font-size:9px;">
-                        <div>
-                            <h6 class="text-center">RECIBO DE NÓMINA</h6>
-                        </div>
                         <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
-                            <tr style="border-bottom: 0px;">
+                            <tr style="border-bottom: 0px; background-color: lavender;">
                                 <td><strong>Nombre Del Trabajador:</strong></td>
                                 <td></td>
                                 <td><strong>SD: </strong>
@@ -66,7 +65,7 @@
                                     <t t-esc="payroll_data['curp']"/>
                                 </td>
                             </tr>
-                            <tr style="border-bottom: 0px;">
+                            <tr style="border-bottom: 0px; background-color: lavender;">
                                 <td><strong>Período Calculado:</strong></td>
                                 <td></td>
                                 <td><strong>Tipo de Pago:</strong></td>
@@ -95,79 +94,109 @@
                                 </td>
                             </tr>
                         </table>
-                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
-                            <tr>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+                            <tr style="background-color: lavender;">
                                 <th class="text-center">Percepciones:</th>
                                 <th class="text-center">Deducciones:</th>
                             </tr>
                         </table>
-                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">CVE</th>
-                                    <th class="text-center">Descripción</th>
-                                    <th class="text-center">UNID</th>
-                                    <th class="text-center">Importe</th>
-                                    <th class="text-center">CVE</th>
-                                    <th class="text-center">Descripción</th>
-                                    <th class="text-center">UNID</th>
-                                    <th class="text-center">Importe</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="payroll_data['lines']" t-as="line">
-                                    <tr>
-                                        <t t-if="line['type'] == 'PERCEPCIONES'">
-                                            <td class="text-center"><span t-esc="line['code']"/></td>
-                                            <td><span t-esc="line['name']"/></td>
-                                            <td class="text-center"><span t-esc="line['quantity']"/></td>
-                                            <td class="text-right"><span t-esc="line['total']"
-                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                        <div class="row" name="lines">
+                            <div class="col-6">
+                                <table class="table-sm" style="width:100%; border-left: 1px solid black;">
+                                    <thead>
+                                        <tr style="background-color: lavender;">
+                                            <th class="text-center">CVE</th>
+                                            <th class="text-center">Descripción</th>
+                                            <th class="text-center">UNID</th>
+                                            <th class="text-center">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="payroll_data['lines']" t-as="line">
+                                            <tr>
+                                                <td class="text-center"><span t-esc="line['code']"/></td>
+                                                <td><span t-esc="line['name']"/></td>
+                                                <td class="text-center"><span t-esc="line['quantity']"/></td>
+                                                <td class="text-right"><span t-esc="line['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
                                         </t>
-                                        <t t-if="line['type'] == 'DED'">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="text-center"><span t-esc="line['code']"/></td>
-                                            <td><span t-esc="line['name']"/></td>
-                                            <td class="text-center"><span t-esc="line['quantity']"/></td>
-                                            <td class="text-right"><span t-esc="line['total']"
-                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <thead>
+                                        <tr style="background-color: lavender;">
+                                            <th class="text-center">CVE</th>
+                                            <th class="text-center">Descripción</th>
+                                            <th class="text-center">UNID</th>
+                                            <th class="text-center">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="payroll_data['line_ded']" t-as="line_ded">
+                                            <tr>
+                                                <td class="text-center"><span t-esc="line_ded['code']"/></td>
+                                                <td><span t-esc="line_ded['name']"/></td>
+                                                <td class="text-center"><span t-esc="line_ded['quantity']"/></td>
+                                                <td class="text-right"><span t-esc="line_ded['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
                                         </t>
-                                    </tr>
-                                </t>
-                                <tr class="border-black o_subtotal" style="">
-                                    <td></td>
-                                    <td></td>
-                                    <th class="text-center">Total de Percepciones</th>
-                                    <td class="text-right"><span t-esc="payroll_data['total_percep']"
-                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
-                                    <td></td>
-                                    <td></td>
-                                    <th class="text-center">Total de Deducciones</th>
-                                    <td class="text-right"><span t-esc="payroll_data['total_ded']"
-                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
-                                </tr>
-                                <tr class="border-black o_subtotal" style="">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <th class="text-center">Total a Pagar</th>
-                                    <td class="text-right"><span t-esc="payroll_data['total']"
-                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
-                                </tr>
-                            </tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Subtotales -->
+                        <div class="row" name="lines">
+                            <div class="col-6">
+                                <table class="table-sm" style="width:100%; border-left: 1px solid black;">
+                                    <tbody>
+                                        <tr style="background-color: lavender;">
+                                            <td></td>
+                                            <td></td>
+                                            <th class="text-center">Total de Percepciones</th>
+                                            <td class="text-right"><span t-esc="payroll_data['total_percep']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <tbody>
+                                        <tr style="background-color: lavender;">
+                                            <td></td>
+                                            <td></td>
+                                            <th class="text-center">Total de Deducciones</th>
+                                            <td class="text-right"><span t-esc="payroll_data['total_ded']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--Total-->
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
+                            <tr style="background-color: lavender;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <th class="text-right">Total a Pagar:</th>
+                                <th class="text-right"><span t-esc="payroll_data['total']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
+                            </tr>
                         </table>
-                        <tr>
-                            <div class="border-black o_subtotal" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+                        <tr class="border-black o_subtotal">
+                            <div class="text-justify" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; border-top: 1px solid black;">
                                 <strong>RECIBÍ DE <span t-esc="payroll_data['company']"/> LA CANTIDAD DE <span t-esc="payroll_data['total_word']"/> PESOS
                                     <span t-esc="payroll_data['decimales']"/>/100 M.N. MISMAS QUE CUBREN LAS PERCEPCIONES QUE ME CORRESPONDEN EN EL PERIODO INDICADO, NO EXISTIENDO NINGUN ADEUDO,
                                     POR PARTE DE LA EMPRESA PARA EL SUSCRITO, PUES ESTOY TOTALMENTE PAGADO DE MIS SALARIOS Y PRESTACIONES DEVENGADAS HASTA LA FECHA.
@@ -176,27 +205,21 @@
                         </tr>
                         <br/>
                         <br/>
-                        <div class="text-center" >
-                            <div id="sing" class="text-center" name="sing">
-                                <div class="text-center">
-                                    <table class="table-sm" border="0" style="width:100%;">
-                                        <tr class="text-center" style="">
-                                            <td><strong>_________________________________________________________</strong></td>
-                                        </tr>
-                                        <tr class="text-center" style="">
-                                            <td><strong>FIRMA DEL TRABAJADOR</strong></td>
-                                        </tr>
-                                    </table>
-                                </div>
+                        <div class="row">
+                            <div id="sing" class="col-4 offset-4 text-center" name="sing">
+                                <table class="table-sm" border="0" style="width:100%;">
+                                    <tr class="border-black text-center">
+                                        <td><strong>FIRMA DEL TRABAJADOR</strong></td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
+                    <!-- Copia de recibo-->
                     <div class="page" style="font-size:9px; page-break-before:always">
-                        <div>
-                            <h6 class="text-center">RECIBO DE NÓMINA</h6>
-                        </div>
+                        
                         <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
-                            <tr style="border-bottom: 0px;">
+                            <tr style="border-bottom: 0px; background-color: lavender;">
                                 <td><strong>Nombre Del Trabajador:</strong></td>
                                 <td></td>
                                 <td><strong>SD: </strong>
@@ -226,7 +249,7 @@
                                     <t t-esc="payroll_data['curp']"/>
                                 </td>
                             </tr>
-                            <tr style="border-bottom: 0px;">
+                            <tr style="border-bottom: 0px; background-color: lavender;">
                                 <td><strong>Período Calculado:</strong></td>
                                 <td></td>
                                 <td><strong>Tipo de Pago:</strong></td>
@@ -255,79 +278,109 @@
                                 </td>
                             </tr>
                         </table>
-                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
-                            <tr>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+                            <tr style="background-color: lavender;">
                                 <th class="text-center">Percepciones:</th>
                                 <th class="text-center">Deducciones:</th>
                             </tr>
                         </table>
-                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">CVE</th>
-                                    <th class="text-center">Descripción</th>
-                                    <th class="text-center">UNID</th>
-                                    <th class="text-center">Importe</th>
-                                    <th class="text-center">CVE</th>
-                                    <th class="text-center">Descripción</th>
-                                    <th class="text-center">UNID</th>
-                                    <th class="text-center">Importe</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="payroll_data['lines']" t-as="line">
-                                    <tr>
-                                        <t t-if="line['type'] == 'PERCEPCIONES'">
-                                            <td class="text-center"><span t-esc="line['code']"/></td>
-                                            <td><span t-esc="line['name']"/></td>
-                                            <td class="text-center"><span t-esc="line['quantity']"/></td>
-                                            <td class="text-right"><span t-esc="line['total']"
-                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                        <div class="row" name="lines">
+                            <div class="col-6">
+                                <table class="table-sm" style="width:100%; border-left: 1px solid black;">
+                                    <thead>
+                                        <tr style="background-color: lavender;">
+                                            <th class="text-center">CVE</th>
+                                            <th class="text-center">Descripción</th>
+                                            <th class="text-center">UNID</th>
+                                            <th class="text-center">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="payroll_data['lines']" t-as="line">
+                                            <tr>
+                                                <td class="text-center"><span t-esc="line['code']"/></td>
+                                                <td><span t-esc="line['name']"/></td>
+                                                <td class="text-center"><span t-esc="line['quantity']"/></td>
+                                                <td class="text-right"><span t-esc="line['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
                                         </t>
-                                        <t t-if="line['type'] == 'DED'">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="text-center"><span t-esc="line['code']"/></td>
-                                            <td><span t-esc="line['name']"/></td>
-                                            <td class="text-center"><span t-esc="line['quantity']"/></td>
-                                            <td class="text-right"><span t-esc="line['total']"
-                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <thead>
+                                        <tr style="background-color: lavender;">
+                                            <th class="text-center">CVE</th>
+                                            <th class="text-center">Descripción</th>
+                                            <th class="text-center">UNID</th>
+                                            <th class="text-center">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="payroll_data['line_ded']" t-as="line_ded">
+                                            <tr>
+                                                <td class="text-center"><span t-esc="line_ded['code']"/></td>
+                                                <td><span t-esc="line_ded['name']"/></td>
+                                                <td class="text-center"><span t-esc="line_ded['quantity']"/></td>
+                                                <td class="text-right"><span t-esc="line_ded['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
                                         </t>
-                                    </tr>
-                                </t>
-                                <tr class="border-black o_subtotal" style="">
-                                    <td></td>
-                                    <td></td>
-                                    <th class="text-center">Total de Percepciones</th>
-                                    <td class="text-right"><span t-esc="payroll_data['total_percep']"
-                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
-                                    <td></td>
-                                    <td></td>
-                                    <th class="text-center">Total de Deducciones</th>
-                                    <td class="text-right"><span t-esc="payroll_data['total_ded']"
-                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
-                                </tr>
-                                <tr class="border-black o_subtotal" style="">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <th class="text-center">Total a Pagar</th>
-                                    <td class="text-right"><span t-esc="payroll_data['total']"
-                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
-                                </tr>
-                            </tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Subtotales -->
+                        <div class="row" name="lines">
+                            <div class="col-6">
+                                <table class="table-sm" style="width:100%; border-left: 1px solid black;">
+                                    <tbody>
+                                        <tr style="background-color: lavender;">
+                                            <td></td>
+                                            <td></td>
+                                            <th class="text-center">Total de Percepciones</th>
+                                            <td class="text-right"><span t-esc="payroll_data['total_percep']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table class="table-sm" style="width:100%; border-right: 1px solid black;">
+                                    <tbody>
+                                        <tr style="background-color: lavender;">
+                                            <td></td>
+                                            <td></td>
+                                            <th class="text-center">Total de Deducciones</th>
+                                            <td class="text-right"><span t-esc="payroll_data['total_ded']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--Total-->
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
+                            <tr style="background-color: lavender;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <th class="text-right">Total a Pagar:</th>
+                                <th class="text-right"><span t-esc="payroll_data['total']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
+                            </tr>
                         </table>
-                        <tr>
-                            <div class="border-black o_subtotal" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+                        <tr class="border-black o_subtotal">
+                            <div class="text-justify" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; border-top: 1px solid black;">
                                 <strong>RECIBÍ DE <span t-esc="payroll_data['company']"/> LA CANTIDAD DE <span t-esc="payroll_data['total_word']"/> PESOS
                                     <span t-esc="payroll_data['decimales']"/>/100 M.N. MISMAS QUE CUBREN LAS PERCEPCIONES QUE ME CORRESPONDEN EN EL PERIODO INDICADO, NO EXISTIENDO NINGUN ADEUDO,
                                     POR PARTE DE LA EMPRESA PARA EL SUSCRITO, PUES ESTOY TOTALMENTE PAGADO DE MIS SALARIOS Y PRESTACIONES DEVENGADAS HASTA LA FECHA.
@@ -336,18 +389,13 @@
                         </tr>
                         <br/>
                         <br/>
-                        <div class="text-center">
-                            <div id="sing" class="text-center" name="sing">
-                                <div class="text-center">
-                                    <table class="table-sm" border="0" style="width:100%;">
-                                        <tr class="text-center" style="">
-                                            <td><strong>_________________________________________________________</strong></td>
-                                        </tr>
-                                        <tr class="text-center" style="">
-                                            <td><strong>FIRMA DEL TRABAJADOR</strong></td>
-                                        </tr>
-                                    </table>
-                                </div>
+                        <div class="row">
+                            <div id="sing" class="col-4 offset-4 text-center" name="sing">
+                                <table class="table-sm" border="0" style="width:100%;">
+                                    <tr class="border-black text-center">
+                                        <td><strong>FIRMA DEL TRABAJADOR</strong></td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
