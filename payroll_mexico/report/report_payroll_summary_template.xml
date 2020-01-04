@@ -20,7 +20,7 @@
                         <div style="margin-left: 10px; margin-top: 20px; margin-bottom: 40px; margin-right: 10px;">
                             <div>
                                 <strong>
-                                    <span class="text-left">NÓMINA DEL MES DE</span>
+                                    <span class="text-left" >NÓMINA DEL MES DE</span>
                                     <t t-esc="payroll_data['payroll_month'].upper()"/>
                                 </strong>
                             </div>

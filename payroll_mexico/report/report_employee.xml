@@ -25,12 +25,12 @@
                             </div>
                             <br/>
                             <br/>
-                            <center><strong><h4>Informacion Privada</h4></strong></center>
+                            <center><strong><h4 style="background-color: #ABAFAF;">Informacion Privada</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h5>Ciudadanía e información adicional</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Ciudadanía e información adicional</h5></strong>
                                     </div>
 
                                     <div class="row">
@@ -52,7 +52,7 @@
                                 <br/>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h5>Información de contacto</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Información de contacto</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Dirección Privada:&amp;nbsp;</strong>
@@ -80,7 +80,7 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h5>Información de emergencia</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Información de emergencia</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Restricciones de salud:&amp;nbsp;</strong>
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h5>Estado</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Estado</h5></strong>
                                     </div>
                                     <div class="row">
                                             <strong>Sexo:&amp;nbsp;</strong>
@@ -121,7 +121,7 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h5>Fecha de nacimiento</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Fecha de nacimiento</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Fecha de nacimiento:</strong>
@@ -142,7 +142,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h5>Información fiscal</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Información fiscal</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>RFC:&amp;nbsp;</strong>
@@ -166,7 +166,7 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h5>Permiso de trabajo</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Permiso de trabajo</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Número de Visado:&amp;nbsp;</strong>
@@ -183,7 +183,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h5>Educación</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Educación</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Nivel de estudio:&amp;nbsp;</strong>
@@ -201,12 +201,12 @@
                             </div>
                             <br/>
                             <br/>
-                            <center><strong><h4>Información del trabajo</h4></strong></center>
+                            <center><strong><h4 style="background-color: #ABAFAF;">Información del trabajo</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h5>Información de contacto</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Información de contacto</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Grupo/Empresa:&amp;nbsp;</strong>
@@ -231,7 +231,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h5>Cargo</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Cargo</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Matrícula:&amp;nbsp;</strong>
@@ -270,12 +270,12 @@
                                 </div>
                             </div>
                             <br/>
-                            <center><strong><h4>Información del HR</h4></strong></center>
+                            <center><strong><h4 style="background-color: #ABAFAF;">Información del HR</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h5>Datos de Nómina</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Datos de Nómina</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Tipo de salario:&amp;nbsp;</strong>
@@ -288,7 +288,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h5>IMSS</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">IMSS</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Registro Patronal:&amp;nbsp;</strong>
@@ -308,7 +308,7 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h5>Pagos adicionales</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Pagos adicionales</h5></strong>
                                     </div>
                                     <div class="row" t-if="o.pay_holiday == True">
                                         <strong>Pagar días festivos?:&amp;nbsp;</strong> Si
@@ -324,9 +324,12 @@
                                 </div>
                             </div>
                             <br/>
-                            <center><strong><h4>Familia</h4></strong></center>
+                            <center><strong><h4 style="background-color: #ABAFAF;">Familia</h4></strong></center>
                             <br/>
-                            <div class="row">
+                            <div class="row; aling-center" t-if="o.children == 0">
+                                <center><h5>Sin resultados que mostrar</h5></center>
+                            </div>
+                            <div class="row" t-if="o.children >= 1">
                                 <div class="col-7">
                                     <div class="row">
                                         <strong>Número de hijos:</strong>
@@ -334,6 +337,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <table class="table " t-if="o.children >= 1">
                                 <thead>
                                     <tr>
@@ -363,7 +367,7 @@
                                 </tbody>
                              </table>
                             <br/>
-                            <center><strong><h4>Compañias</h4></strong></center>
+                            <center><strong><h4 style="background-color: #ABAFAF;">Compañias</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
@@ -392,9 +396,12 @@
                                 </div>
                             </div>
                             <br/>
-                            <center><strong><h4>Información bancaria</h4></strong></center>
+                            <center><strong><h4 style="background-color: #ABAFAF;">Información bancaria</h4></strong></center>
                             <br/>
-                            <table class="table">
+                            <div class="row; aling-center" t-if="not o.bank_account_ids">
+                                <center><h5>Sin resultados que mostrar</h5></center>
+                            </div>
+                            <table class="table" t-if="o.bank_account_ids ">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Banco</th>
@@ -432,9 +439,12 @@
                                 </tbody>
                             </table>
                             <br/>
-                            <center><strong><h4>INFONAVIT</h4></strong></center>
+                            <center><strong><h4 style="background-color: #ABAFAF;">INFONAVIT</h4></strong></center>
                             <br/>
-                            <table class="table">
+                            <div class="row; aling-center" t-if="not o.infonavit_ids">
+                                <center><h5>Sin resultados que mostrar</h5></center>
+                            </div>
+                            <table class="table" t-if="o.infonavit_ids">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Número de crédito INFONAVIT</th>
@@ -463,18 +473,18 @@
                                 </tbody>
                             </table>
                             <br/>
-                            <center><strong><h4>Configuración RRHH</h4></strong></center>
+                            <center><strong><h4 style="background-color: #ABAFAF;">Configuración RRHH</h4></strong></center>
                             <br/>
                             <div class="row">
                                 <div class="col-7">
-                                    <strong><h5>Estado</h5></strong>
+                                    <strong><h5 style="background-color: #ABAFAF;">Estado</h5></strong>
                                     <div class="row">
                                         <strong>Usuario OpenERP:</strong>
                                         <p t-field="o.user_id"/>
                                     </div>
                                     <br/>
                                     <div class="row">
-                                        <strong><h5>Servicio</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Servicio</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>ID de credencial</strong>
@@ -483,7 +493,7 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
-                                        <strong><h5>Ausencias</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Ausencias</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Ausencias permitidas restantes</strong>
@@ -492,12 +502,15 @@
                                 </div>
                             </div>
                             <br/>
-                            <center><strong><h4>Credito Fonacot</h4></strong></center>
+                            <center><strong><h4 style="background-color: #ABAFAF;">Credito Fonacot</h4></strong></center>
                             <br/>
+                            <div class="row; aling-center" t-if="o.fonacot_payroll == False">
+                                <center><h5>Sin resultados que mostrar</h5></center>
+                            </div>
                             <div class="row" t-if="o.fonacot_payroll == True">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong><h5>Datos generales</h5></strong>
+                                        <strong><h5 style="background-color: #ABAFAF;">Datos generales</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Numero de prestamo:&amp;nbsp;</strong>

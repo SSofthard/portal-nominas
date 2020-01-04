@@ -18,7 +18,7 @@
                     <div class="page" style="font-size:9px;">
                          <t t-foreach="docs" t-as="o">
                             <!--Nombre del reporte-->
-                            <div>
+                            <div style="background-color: #ABAFAF;">
                                 <h6 class="text-center">COMPROBANTE FISCAL DIGITAL POR INTERNET</h6>
                                 <h6 class="text-center">RECIBO DE NÓMINA</h6>
                             </div>

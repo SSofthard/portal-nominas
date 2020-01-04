@@ -7,7 +7,7 @@
     "website" : "",
     "description": "Module that adapts Mexico's own characteristics of the human resources process.",
     'summary': "Module that adapts Mexico's own characteristics of the human resources process.",
-    "depends": ['base','account','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry'],
+    "depends": ['base','account','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry','web'],
     "data": [
         'wizard/payroll_report_excel_view.xml',
         'wizard/report_payslip_line_details_view.xml',
@@ -42,6 +42,7 @@
         'views/hr_table_index_consume_price_view.xml',
         'security/ir.model.access.csv',
         #Reports
+        
         'report/base_layout.xml',
         'report/report_payslip_line_template.xml',
         'report/indeterminate_contract_without_seniority.xml',
@@ -68,6 +69,7 @@
         'report/report_payroll_receipt_timbrado_template.xml',
         'report/fee_imss_employee_report.xml',
         'report/report_payroll_cfdi.xml',
+        'report/report_template.xml',
         'data/data.xml',
         'data/sequence_data.xml',
         # 'data/data_table_cfdi.xml',

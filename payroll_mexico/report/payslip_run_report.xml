@@ -28,7 +28,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h5>Reporte de Nómina</h5></center>
+                            <center><h5 style="background-color: #ABAFAF;">Reporte de Nómina</h5></center>
                             <table class="table">
                                 <tbody>
                                     <tr>
@@ -261,7 +261,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h5>Reporte de Nómina</h5></center>
+                            <center><h5 style="background-color: #ABAFAF;">Reporte de Nómina</h5></center>
                             <table class="table">
                                 <tbody>
                                     <tr>
@@ -328,7 +328,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h6>Deducciones</h6></center>
+                            <center><h6 style="background-color: #ABAFAF;">Deducciones</h6></center>
                             <table class="table table-condensed">
                                 <tbody>
                                     <tr>
@@ -385,7 +385,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h6>Totales</h6></center>
+                            <center><h6 style="background-color: #ABAFAF;">Totales</h6></center>
                             <table class="table table-condensed">
                                 <tbody>
                                     <tr>

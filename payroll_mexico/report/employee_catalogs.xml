@@ -13,7 +13,7 @@
             <t t-call="web.internal_layout">
                 <t t-call="web.html_container">
                     <div class="page" style="font-size:12px">
-                        <h4 class="text-center">CATALOGOS DE EMPLEADOS</h4>
+                        <h4 class="text-center" style="background-color: #ABAFAF;">CATALOGOS DE EMPLEADOS</h4>
                         <br/>
                         <div>
                             <div class="row">
