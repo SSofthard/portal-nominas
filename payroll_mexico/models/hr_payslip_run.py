@@ -98,6 +98,7 @@ class HrPayslipRun(models.Model):
         readonly=True, states={'draft': [('readonly', False)]})
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
     generated = fields.Boolean('Generated', default=False)
+    group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
 
     @api.one
     @api.depends('date_start')

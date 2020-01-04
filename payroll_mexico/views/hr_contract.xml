@@ -58,6 +58,13 @@
                 <xpath expr="//field[@name='name']" position="attributes">
                     <attribute name="placeholder">Name Contract</attribute>
                 </xpath>
+                <xpath expr="//field[@name='struct_id']" position="after">
+					<field name="structure_type_id" required="1"/>
+				</xpath>
+				<xpath expr="//field[@name='struct_id']" position="attributes">
+					<attribute name="required">0</attribute>
+					<attribute name="invisible">1</attribute>
+				</xpath>
                 <xpath expr="//group[@name='main_info']" position="after">
 					<group>
 						<field name="integral_salary" string="SDI"/>

@@ -91,6 +91,17 @@
 					<attribute name="create">0</attribute>
 					<attribute name="edit">0</attribute>
 				</xpath>
+				<xpath expr="//field[@name='contract_id']" position="after">
+					<field name="structure_type_id" />
+				</xpath>
+				<xpath expr="//field[@name='struct_id']" position="attributes">
+					<attribute name="domain">[('structure_type_id','=',structure_type_id)]</attribute>
+					<attribute name="context">{'default_structure_type_id':structure_type_id}</attribute>
+				</xpath>
+            
+            <xpath expr="//field[@name='line_ids']/tree" position="attributes">
+                <attribute name="limit">200</attribute>
+            </xpath>
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="payroll_type"/>
                     <field name="payroll_month"/>

@@ -102,6 +102,8 @@ class Contract(models.Model):
     # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False) 
     
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
+    
+    structure_type_id = fields.Many2one('hr.structure.types', string="Structure Types")
 
     @api.multi
     def get_all_structures(self,struct_id):
