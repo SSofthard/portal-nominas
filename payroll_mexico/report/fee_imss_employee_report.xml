@@ -35,7 +35,7 @@
                     <t t-call="web.internal_layout">
                         <div class="page" style="font-size:10px">
                         <div class="col-sm-12">
-                            <center><h5>Cedula de autodeterminación de cuotas</h5></center>
+                            <center><h5 style="background-color: #ABAFAF;">Cedula de autodeterminación de cuotas</h5></center>
                             <br/>
                             <center><h6>Bimestre <span t-esc="'%s-%s' % (int(o.month/2),o.year)"/></h6></center>
                             <br/>
