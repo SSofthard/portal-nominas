@@ -21,3 +21,9 @@ class StructureTypes(models.Model):
                                 'structure_type_id',
                                 string="Structure")
 
+
+class HrPayrollStructure(models.Model):
+     _inherit = 'hr.payroll.structure'
+
+     #Columns
+     structure_type_id = fields.Many2one('hr.structure.types',string="Structure Types")

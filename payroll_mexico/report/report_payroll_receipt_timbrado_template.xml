@@ -26,7 +26,7 @@
                         </style>
                         
                         <div>
-                            <h6 class="text-center">RECIBO DE NÓMINA</h6>
+                            <h6 class="text-center" style="background-color: #ABAFAF;">RECIBO DE NÓMINA</h6>
                         </div>
                         <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
                             <tr style="border-bottom: 0px; background-color: lavender;">
@@ -88,6 +88,7 @@
                                 </td>
                             </tr>
                         </table>
+
                         <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
                             <tr style="background-color: #ABAFAF;">
                                 <th class="text-center">Percepciones:</th>
@@ -190,10 +191,11 @@
                                     <td class="text-right"><span t-esc="payroll_data['total_percep']"
                                                   t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
                                     <td></td>
-                                    <td></td>
                                     <th class="text-center">Total de Deducciones</th>
                                     <td class="text-right"><span t-esc="payroll_data['total_ded']"
                                                   t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                    <td></td>
+                                     <td></td>
                                 </tr>
                                 <tr class="border-black o_subtotal" style="">
                                     <td></td>
@@ -254,7 +256,7 @@
                             </tbody>
                         </table>
                         <br/>
-                        <div class="text-center">
+                        <div class="text-center" style="background-color: #ABAFAF;">
                             <span>COPIA PATRÓN</span>
                         </div>
                     </div>

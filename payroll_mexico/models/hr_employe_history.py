@@ -17,9 +17,9 @@ class EmployeeAffiliateMovements(models.Model):
     employee_id = fields.Many2one('hr.employee', index=True, string='Employee')
     group_id = fields.Many2one('hr.group', "Grupo/Empresa", store=True, related='employee_id.group_id')
     type = fields.Selection([
-        ('08', 'High or reentry'),
-        ('07', 'Salary change'),
-        ('02', 'low'),
+        ('08', 'Alta o Reingreso'),
+        ('07', 'Cambio de salario'),
+        ('02', 'Baja'),
     ], string='Type', index=True, default='08')
     date = fields.Date(string="Date")
     reason_liquidation = fields.Selection([
@@ -77,6 +77,22 @@ class ChangeOfJob(models.Model):
         ('4', 'Pensioners'),
         ('5', 'Free'),
         ], string='Contracting Regime', related="contract_id.contracting_regime")
+    low_reason = fields.Selection([
+            ('1', 'TERMINACIÓN DE CONTRATO'),
+            ('2', 'SEPARACIÓN VOLUNTARIA'),
+            ('3', 'ABANDONO DE EMPLEO'),
+            ('4', 'DEFUNCIÓN'),
+            ('7', 'AUSENTISMOS'),
+            ('8', 'RESICIÓN DE CONTRATO'),
+            ('9', 'JUBILACIÓN'),
+            ('A', 'PENSIÓN'),
+            ('5', 'CLAUSURA'),
+            ('6', 'OTROS'),
+            ('10', 'CAMBIO DE PUESTO'),
+            ], 
+            string='Razón de la baja', 
+            required=False,
+            states={'draft': [('readonly', False)]})
 
 
 class Contract(models.Model):

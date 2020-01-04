@@ -97,6 +97,8 @@ class HrPayslipRun(models.Model):
     ], string='Aplicar honorarios sobre', index=True, copy=False,
         readonly=True, states={'draft': [('readonly', False)]})
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
+    generated = fields.Boolean('Generated', default=False)
+    group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
 
     @api.one
     @api.depends('date_start')
@@ -343,6 +345,16 @@ class HrPayslipRun(models.Model):
             return
         date_from = self.date_start
         date_to = self.date_end
+        table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
+        if not table_id:
+            title = _("Aviso!")
+            message = 'Debe configurar una tabla de configuracion para el año del periodo de la nómina.'
+            warning = {
+                'title': title,
+                'message': message
+            }
+            self.update({'date_end': False})
+            return {'warning': warning}
         self.table_id = self.env['table.settings'].search([('year','=',int(date_from.year))],limit=1).id
         self.payroll_month = str(date_from.month)
         date1 =datetime.strptime(str(str(date_from.year)+'-12-01'), DEFAULT_SERVER_DATE_FORMAT).date()
@@ -428,6 +440,14 @@ class HrPayslipRun(models.Model):
     
     def recalculate_payroll(self):
         for payslip in self.slip_ids:
+            # ~ vals={
+                # ~ 'date_from':,
+                # ~ 'date_to':,
+                # ~ 'table_id':,
+                # ~ '':,
+                # ~ '':,
+                # ~ '':,
+            # ~ }
             worked_days_line_ids = payslip.get_worked_day_lines(payslip.contract_id, payslip.date_from, payslip.date_to)
             worked_days_lines = payslip.worked_days_line_ids.browse([])
             payslip.worked_days_line_ids = []

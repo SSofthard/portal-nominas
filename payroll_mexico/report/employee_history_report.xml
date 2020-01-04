@@ -13,7 +13,7 @@
             <t t-call="web.internal_layout">
                 <t t-call="web.html_container">
                     <div class="page" style="font-size:12px">
-                        <h5 class="text-center">ROTACIÓN DE EMPLEADOS</h5>
+                        <h5 class="text-center" style="background-color: #ABAFAF;">ROTACIÓN DE EMPLEADOS</h5>
                         <h6 class="text-center">Período: <span t-esc="data['date_from']" t-options="{'widget':'date'}"/> AL <span t-esc="data['date_to']" t-options="{'widget':'date'}"/></h6>
                         <br/>
                         <div>
@@ -48,15 +48,15 @@
                         <t t-foreach="docs" t-as="o">
                             <tbody>
                                 <tr>
-                                    <t t-set="start" t-value="len(start_ids.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/>
-                                    <t t-set="end" t-value="len(end_ids.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/>
-                                    <t t-set="low" t-value="len(low_ids.mapped('employee_id').filtered(lambda employee: employee.job_id == o))"/>
-                                    <t t-if="start > 0 or end > 0" t-set="index" t-value="low/((start+end)/2)*100"/>
+                                    <t t-set="start" t-value="len(start_ids.filtered(lambda job: job.job_id == o))"/>
+                                    <t t-set="end" t-value="len(end_ids.filtered(lambda job: job.job_id == o))"/>
+                                    <t t-set="low" t-value="len(low_ids.filtered(lambda job: job.job_id == o))"/>
+                                    <t t-if="start > 0 or end > 0" t-set="index" t-value="'{0:.2f}'.format(low/((start+end)/2)*100)"/>
                                     <td colspan="2" class="text-center" ><span t-field="o.name"/></td>
                                     <td colspan="2" class="text-center" ><span t-esc="start"/></td>
                                     <td colspan="2" class="text-center" ><span t-esc="end"/></td>
                                     <td colspan="2" class="text-center" ><span t-esc="low"/></td>
-                                    <td colspan="2" class="text-center" ><span t-if="start > 0 or end > 0" t-esc="index"/><span t-if="start == 0 and end == 0">Sin datos</span></td>
+                                    <td colspan="2" class="text-center" ><span t-if="start > 0 or end > 0" t-esc="index"/>%<span t-if="start == 0 and end == 0">Sin datos</span></td>
                                 </tr>
                             </tbody>
                         </t>
@@ -70,7 +70,7 @@
         
         <template id="template_change_job_detaill" >
             <div class="page" style="font-size:12px">
-                <h5 class="text-center">MOVIMIENTOS DE PUESTOS DE TRABAJO</h5>
+                <h5 class="text-center" style="background-color: #ABAFAF;">MOVIMIENTOS DE PUESTOS DE TRABAJO</h5>
                 <h6 class="text-center">Período: <span t-esc="data['date_from']" t-options="{'widget':'date'}"/> AL <span t-esc="data['date_to']" t-options="{'widget':'date'}"/></h6>
                 <br/>
                 <br/>
@@ -83,15 +83,17 @@
                                 <th colspan="2" class="text-center" >CONTRATO</th>
                                 <th colspan="2" class="text-center" >FECHA DE INICIO EN EL PUESTO</th>
                                 <th colspan="2" class="text-center" >FECHA DE FIN EN EL PUESTO</th>
+                                <th colspan="2" class="text-center" >MOTIVO DE LA BAJA</th>
                             </tr>
                         </thead>
                          <t t-foreach="change_ids.filtered(lambda r: r.job_id == o)" t-as="e" >
                             <tbody>
                                 <tr>
-                                    <td colspan="2" class="text-center" ><span t-field="e.employee_id.name"/></td>
+                                    <td colspan="2" class="text-center" ><span t-field="e.employee_id.complete_name"/></td>
                                     <td colspan="2" class="text-center" ><span t-field="e.contract_id.name"/></td>
                                     <td colspan="2" class="text-center" ><span t-field="e.date_from"/></td>
                                     <td colspan="2" class="text-center" ><span t-field="e.date_to"/></td>
+                                    <td colspan="2" class="text-center" ><span t-field="e.low_reason"/></td>
                                 </tr>
                             </tbody>
                         </t>

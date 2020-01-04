@@ -41,7 +41,7 @@ class EmployeeChangeJobWizard(models.TransientModel):
         self.contract_id.job_id = self.job_id.id
         self.employee_id.job_id = self.job_id.id
         history = self.env['hr.change.job'].search([('employee_id', '=', self.employee_id.id),('contract_id', '=', self.contract_id.id)], limit=1)
-        history.write({'date_to': self.date_from})
+        history.write({'date_to': self.date_from, 'low_reason':'10'})
         change_job = {
                 'employee_id': self.employee_id.id,
                 'contract_id': self.contract_id.id,
@@ -65,7 +65,6 @@ class wizardEmployeeHistory(models.TransientModel):
                     ('some','Algunos')],string="Buscar por puesto de trabajo", default='all')
     employer_register_id = fields.Many2one('res.employer.register',"Registro Patronal",required=False)
     contracting_regime = fields.Selection([
-            ('0',''),
             ('1','Assimilated to wages'),
             ('2','Wages and salaries'),
             ('3','Senior citizens'),

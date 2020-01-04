@@ -71,9 +71,7 @@
                     <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
                 </xpath> 
                 <xpath expr="//header" position="inside">
-<!--
                     <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
--->
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
                     <button string="Generar CFDI" name="print_payroll_cfdi" type="object" class="oe_sale"/>
                 </xpath> 
@@ -93,13 +91,24 @@
 					<attribute name="create">0</attribute>
 					<attribute name="edit">0</attribute>
 				</xpath>
+				<xpath expr="//field[@name='contract_id']" position="after">
+					<field name="structure_type_id" />
+				</xpath>
+				<xpath expr="//field[@name='struct_id']" position="attributes">
+					<attribute name="domain">[('structure_type_id','=',structure_type_id)]</attribute>
+					<attribute name="context">{'default_structure_type_id':structure_type_id}</attribute>
+				</xpath>
+            
+            <xpath expr="//field[@name='line_ids']/tree" position="attributes">
+                <attribute name="limit">200</attribute>
+            </xpath>
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="payroll_type"/>
                     <field name="payroll_month"/>
                     <field name="payroll_of_month"/>
                     <field name="payroll_period"/>
                     <field name="group_id"/>
-                    <field name="employer_register_id"/>
+                    <field name="employer_register_id" domain="[('state','=','valid')]"/>
                     <field name="table_id" invisible="1"/>
                 </xpath> 
                 <xpath expr="//notebook/page[1]" position="after">
@@ -130,13 +139,13 @@
                    </page>
                    <page string="CFDI">
 					   <group>
-							<group string="Data CFDI">
+							<group string="Datos CFDI">
 								<field name="way_pay"/>
-								<field name="type_voucher"/>
+								<field name="type_voucher" string="Tipo de comprobante"/>
 								<field name="payment_method"/>
 								<field name="cfdi_use"/>
 							 </group>
-							<group string="Invoice detail">
+							<group string="Detalles">
 								<field name="fiscal_folio"/>
 								<field name="invoice_status"/>
 							 </group>

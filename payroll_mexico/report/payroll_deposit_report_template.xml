@@ -13,7 +13,7 @@
         <template id="report_payroll_deposit_report_template" name="Payroll Deposit Report">
             <t t-call="web.html_container">
                 <t t-call="web.internal_layout">
-                    <h4 align="center"><b>Payroll Deposit Report</b></h4>
+                    <h4 align="center" style="background-color: #ABAFAF;"><b>Payroll Deposit Report</b></h4>
                     <div class="page" >
                         <div class="oe_structure"/>
                         <h5>

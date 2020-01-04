@@ -7,7 +7,7 @@
     "website" : "",
     "description": "Module that adapts Mexico's own characteristics of the human resources process.",
     'summary': "Module that adapts Mexico's own characteristics of the human resources process.",
-    "depends": ['base','account','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry'],
+    "depends": ['base','account','hr_attendance','hr_payroll','resource','hr_holidays','hr','employee_documents_expiry','web'],
     "data": [
         'wizard/payroll_report_excel_view.xml',
         'wizard/report_payslip_line_details_view.xml',
@@ -20,11 +20,13 @@
         'wizard/infonavit_view.xml',
         'wizard/fees_settlement_report_txt_view.xml',
         'wizard/wizard_affiliate_move_view.xml',
+        'wizard/hr_payroll_payslips_by_employees.xml',
         'views/hr_employe_history_view.xml',
         'views/res_country_view.xml',
         'views/hr_employee_view.xml',
         'views/hr_contract.xml',
         'views/hr_contract_type.xml',
+        'views/structure_type_views.xml',
         'views/hr_payslip.xml',
         'wizard/wizard_infonavit_employee.xml',
         'wizard/report_payroll_summary_view.xml',
@@ -42,6 +44,7 @@
         'views/hr_table_index_consume_price_view.xml',
         'security/ir.model.access.csv',
         #Reports
+        
         'report/base_layout.xml',
         'report/report_payslip_line_template.xml',
         'report/indeterminate_contract_without_seniority.xml',
@@ -68,6 +71,7 @@
         'report/report_payroll_receipt_timbrado_template.xml',
         'report/fee_imss_employee_report.xml',
         'report/report_payroll_cfdi.xml',
+        'report/report_template.xml',
         'data/data.xml',
         'data/sequence_data.xml',
         # 'data/data_table_cfdi.xml',
@@ -80,6 +84,7 @@
         'data/res.country.state.municipality.csv',
         'data/res.municipality.zone.csv',
         'data/data_delegacion.xml',
+        'data/data_inpc.xml',
         'data/data_sector_economico.xml',
         # ~ 'data/data_hr_perceptions.xml',
         

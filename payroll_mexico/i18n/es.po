@@ -4598,7 +4598,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fixed_concepts__disabilities
 msgid "Disabilities"
-msgstr "Discapacidades"
+msgstr "Incapacidad"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:111
@@ -10910,7 +10910,7 @@ msgstr "Tipo de percepción"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__type_voucher
 msgid "Type of voucher"
-msgstr "Tipo de bono"
+msgstr "Tipo de comprobante"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/payroll_report_excel.py:122

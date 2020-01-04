@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">  
+		
+<!--
+		INPC table
+-->
+        <record id="hr_inpc_1" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">1</field>
+            <field name="value">103.108</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_2" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">2</field>
+            <field name="value">103.079</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_3" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">3</field>
+            <field name="value">103.476</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_4" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">4</field>
+            <field name="value">103.531</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_5" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">5</field>
+            <field name="value">103.233</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_6" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">6</field>
+            <field name="value">103.299</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_7" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">7</field>
+            <field name="value">103.687</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_8" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">8</field>
+            <field name="value">103.67</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_9" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">9</field>
+            <field name="value">103.942</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_10" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">10</field>
+            <field name="value">104.503</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+        <record id="hr_inpc_11" model="hr.table.index.consume.price">
+            <field name="year">2019</field>
+            <field name="month">11</field>
+            <field name="value">105.346</field>
+            <field name="sucharge_fee">1.47</field>
+        </record>
+
+   </data>
+</odoo>

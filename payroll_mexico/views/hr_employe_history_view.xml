@@ -22,6 +22,7 @@
                             <field name="job_id" />
                             <field name="date_from"/>
                             <field name="date_to"/>
+                            <field name="low_reason"/>
                         </group>
                     </group>
                     <field name="contracting_regime" invisible="1"/>
@@ -41,6 +42,7 @@
                 <field name="job_id"/>
                 <field name="date_from"/>
                 <field name="date_to"/>
+                <field name="low_reason"/>
                 <field name="contracting_regime" invisible="1"/>
             </tree>
         </field>
@@ -228,7 +230,9 @@
                     </div>
                     <group>
                         <group>
-                            <field name="employer_register_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="employer_register_id" 
+                            domain="[('state','=','valid')]"
+                            options="{'no_create': True, 'no_open': True}"/>
                             <field name="date_from"/>
                         </group>
                         <group>
