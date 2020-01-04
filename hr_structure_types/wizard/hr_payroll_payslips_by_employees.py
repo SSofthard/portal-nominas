@@ -53,8 +53,9 @@ class HrPayslipEmployees(models.TransientModel):
         payslips = self.env['hr.payslip']
         [data] = self.read()
         active_id = self.env.context.get('active_id')
+        payslip_run = self.env['hr.payslip.run'].search([('id','=',active_id)])
         if active_id:
-            [run_data] = self.env['hr.payslip.run'].browse(active_id).read(['date_start', 'date_end', 'credit_note','struct_id',
+            [run_data] = payslip_run.browse(active_id).read(['date_start', 'date_end', 'credit_note','struct_id',
                                                                                                                         'payroll_type',
                                                                                                                         'payroll_month',
                                                                                                                         'payroll_of_month',
@@ -92,9 +93,6 @@ class HrPayslipEmployees(models.TransientModel):
             }
             payslips += self.env['hr.payslip'].create(res)
             payslips.compute_sheet()
-        self.env['hr.payslip.run'].search([('id','=',active_id)]).set_tax_iva_honorarium()
-        # ~ print (payslip_run_id)
-        # ~ print (payslip_run_id)
-        # ~ print (payslip_run_id.slip_ids)
-        # ~ print (payslip_run_id.slip)
+        payslip_run.set_tax_iva_honorarium()
+        payslip_run.generated = True
         return {'type': 'ir.actions.act_window_close'}

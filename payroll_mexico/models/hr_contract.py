@@ -253,7 +253,7 @@ class Contract(models.Model):
     
     def search_antique_table_bonus(self):
         antique = self.env['tablas.antiguedades.line'].search([('form_id','=',self.employee_id.group_id.antique_table.id),('antiguedad','=',self.years_antiquity)],limit=1)
-        return antique*aguinaldo
+        return antique.aguinaldo
         
 
 class FixedConcepts(models.Model):

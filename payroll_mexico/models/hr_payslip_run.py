@@ -97,6 +97,7 @@ class HrPayslipRun(models.Model):
     ], string='Aplicar honorarios sobre', index=True, copy=False,
         readonly=True, states={'draft': [('readonly', False)]})
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
+    generated = fields.Boolean('Generated', default=False)
 
     @api.one
     @api.depends('date_start')
@@ -438,6 +439,14 @@ class HrPayslipRun(models.Model):
     
     def recalculate_payroll(self):
         for payslip in self.slip_ids:
+            # ~ vals={
+                # ~ 'date_from':,
+                # ~ 'date_to':,
+                # ~ 'table_id':,
+                # ~ '':,
+                # ~ '':,
+                # ~ '':,
+            # ~ }
             worked_days_line_ids = payslip.get_worked_day_lines(payslip.contract_id, payslip.date_from, payslip.date_to)
             worked_days_lines = payslip.worked_days_line_ids.browse([])
             payslip.worked_days_line_ids = []

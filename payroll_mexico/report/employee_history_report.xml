@@ -83,6 +83,7 @@
                                 <th colspan="2" class="text-center" >CONTRATO</th>
                                 <th colspan="2" class="text-center" >FECHA DE INICIO EN EL PUESTO</th>
                                 <th colspan="2" class="text-center" >FECHA DE FIN EN EL PUESTO</th>
+                                <th colspan="2" class="text-center" >MOTIVO DE LA BAJA</th>
                             </tr>
                         </thead>
                          <t t-foreach="change_ids.filtered(lambda r: r.job_id == o)" t-as="e" >
@@ -92,6 +93,7 @@
                                     <td colspan="2" class="text-center" ><span t-field="e.contract_id.name"/></td>
                                     <td colspan="2" class="text-center" ><span t-field="e.date_from"/></td>
                                     <td colspan="2" class="text-center" ><span t-field="e.date_to"/></td>
+                                    <td colspan="2" class="text-center" ><span t-field="e.low_reason"/></td>
                                 </tr>
                             </tbody>
                         </t>
