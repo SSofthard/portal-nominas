@@ -129,6 +129,19 @@ class employerRegister(models.Model):
     def action_timed_out(self):
         for employer in self:
             employer.state = 'timed_out'
+    
+    def get_risk_factor(self, date_factor):
+        risk_factor = 0.0
+        for group in self:
+            if group.risk_factor_ids:
+                factor_ids = group.risk_factor_ids.filtered(
+                    lambda factor: date_factor >= factor.date_from \
+                    and date_factor <= factor.date_to)
+                if factor_ids:
+                    risk_factor = factor_ids.mapped('risk_factor')
+                else:
+                    risk_factor = 0.0
+        return risk_factor
 
 class HrGroupRiskFactor(models.Model):
     _name = "res.group.risk.factor"

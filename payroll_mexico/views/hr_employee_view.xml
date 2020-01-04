@@ -449,7 +449,6 @@
                         <group>
                             <field name="type" widget="selection"/>
                             <field name="days"/>
-                            <field name="bonus_days"/>
                             <field name="antique_table"/>
                         </group>
                     </group>

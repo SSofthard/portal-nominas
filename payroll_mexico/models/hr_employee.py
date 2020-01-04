@@ -519,19 +519,10 @@ class HrGroup(models.Model):
         ('governmental', 'Proporción 30,4'),
         ('private', 'Base 30 días mensuales'),
         ], string='type', required=True)
-    job_risk = fields.Selection([
-        ('1', 'Clase I'),
-        ('2', 'Clase II'),
-        ('3', 'Clase III'),
-        ('4', 'Clase IV'),
-        ('5', 'Clase V'),
-        ], string='Job risk', required=False)
     days = fields.Float("Days", required=True)
-    risk_factor_ids = fields.One2many('hr.group.risk.factor','group_id', string="Factor de riesgo anual")
     country_id = fields.Many2one('res.country', string='Country', store=True,
         default=lambda self: self.env['res.company']._company_default_get().country_id)
     state_id = fields.Many2one('res.country.state', string='State', required=True)
-    bonus_days = fields.Float(string="Bonus days", required=True, default=15)
     antique_table = fields.Many2one('tablas.antiguedades', string='Antique table', required=True)
     percent_honorarium = fields.Float(required=True, digits=(16, 4), string='Porcentaje de honoraios')
     savings_fund_percentage = fields.Float(required=True, digits=(16, 4), string='Savings fund percentage')
@@ -624,29 +615,6 @@ class HrGroup(models.Model):
                 new_prefix = self._get_sequence_prefix(vals['code'])
                 group.sequence_id.write({'prefix': new_prefix})
         return super(HrGroup, self).write(vals)
-
-    def get_risk_factor(self, date_factor):
-        risk_factor = 0.0
-        for group in self:
-            if group.risk_factor_ids:
-                factor_ids = group.risk_factor_ids.filtered(
-                    lambda factor: date_factor >= factor.date_from \
-                    and date_factor <= factor.date_to)
-                if factor_ids:
-                    risk_factor = factor_ids.mapped('risk_factor')
-                else:
-                    risk_factor = 0.0
-        return risk_factor
-        
-
-class HrGroupRiskFactor(models.Model):
-    _name = "hr.group.risk.factor"
-    _description="Annual Risk Factor"
-    
-    group_id = fields.Many2one('hr.group', string="group")
-    risk_factor = fields.Float(string="Risk Factor", required=True, digits=dp.get_precision('Risk'))
-    date_from = fields.Date(string="Start Date", required=True)
-    date_to = fields.Date(string="End Date", required=True)
 
 
 class hrFamilyBurden(models.Model):

@@ -95,7 +95,8 @@ class wizardInfonavitEmployee(models.TransientModel):
             employee_dict = {}
             for employee in docs:
                 payslip_line=self.env['hr.payslip.line'].search([
-                                                        ('slip_id.employee_id','=',employee.id),
+                                                        ('slip_id.employee_id','=',employee.id), 
+                                                        ('slip_id.state','in',['done']),
                                                         ('slip_id.date_from','>=',date_from),
                                                         ('slip_id.date_to','<=',date_to),
                                                         ('salary_rule_id.code','in',['D094'])])
@@ -123,6 +124,8 @@ class wizardInfonavitEmployee(models.TransientModel):
                                 'amount':amount,
                                 }
                     employee_dict[employee.id]=payslip_line_dict
+            if not docs:
+                raise ValidationError(_("No information was found with the specified data"))
             data['docs_ids'] = docs._ids
             data['employee_dict'] = employee_dict
             return self.env.ref('payroll_mexico.report_infonavit_employee_amount').report_action(list(docs._ids), data=data)
