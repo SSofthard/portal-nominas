@@ -18,8 +18,8 @@
                         <br/><strong>RFC</strong>:
                         <t t-esc="payroll_data['rfc']"/>
                     </h6>
-                    <h5 align="center"><b>Detalles de Cálculos Salarial</b></h5>
-                    <h6 align="center">
+                    <h5 align="center" style="background-color: #ABAFAF;"><b>Detalles de Cálculos Salarial</b></h5>
+                    <h6 align="center" >
                         <strong>Regla de negocio</strong>:
                         <t t-esc="payroll_data['rule']"/>
                     </h6>
