@@ -247,7 +247,7 @@ class HrPayslip(models.Model):
         payroll = {}
         data = {}
         for payslip in self:
-            payroll[payslip.id] += payslip.data_payroll_report(),
+            payroll[payslip.id] = payslip.data_payroll_report(),
         data={
             'payroll_data': payroll,
             'docids': self.ids,

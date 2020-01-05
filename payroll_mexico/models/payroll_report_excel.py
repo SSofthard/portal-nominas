@@ -26,6 +26,8 @@ from datetime import datetime
 class HrPayslipLine(models.Model):
     _inherit = 'hr.salary.rule'
 
+    generated = fields.Boolean(string='generated en excel?', default=False, 
+        help='Si está marcado indica que se se imprimiran los detalles en los reportes excel.')
     print_to_excel = fields.Boolean(string='Imprimir en excel?', default=False, 
         help='Si está marcado indica que se se imprimiran los detalles en los reportes excel.')
 
