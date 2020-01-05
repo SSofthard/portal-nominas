@@ -74,6 +74,7 @@
             <xpath expr="//group" position="after">
                 <group>
                     <group>
+                        <field name="generated" invisible="True"/>
                         <field name="group_id" required="1" attrs="{'readonly': [('generated','=',True)]}"/>
                     </group>
                 </group>
