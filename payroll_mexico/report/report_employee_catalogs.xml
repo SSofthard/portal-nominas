@@ -5,7 +5,7 @@
         <report id="report_employee_catalogs_general" 
           string="Catalogo de empleados" 
           model="hr.employee" 
-          report_type="qweb-pdf" 
+          report_type="qweb-html" 
           name="payroll_mexico.template_employee_catalogs_general" 
          /> 
          
@@ -16,7 +16,7 @@
                         <h4 class="text-center" style="background-color: #ABAFAF;">CATALOGOS DE EMPLEADOS</h4>
                         <br/>
                         <table class="table">
-                            <thead>
+                            <thead style="background-color: #ABAFAF;">
                                 <th colspan="2" class="text-center" >MATRICULA:</th>
                                 <th colspan="3" class="text-center" >NOMBRE</th>
                                 <th colspan="2" class="text-center" >N.S.S.:</th>

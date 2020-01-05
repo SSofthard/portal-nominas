@@ -5,7 +5,7 @@
         <report id="report_hr_employee"
             model="hr.employee"
             string="Plantilla del empleado"
-            report_type="qweb-pdf"
+            report_type="qweb-html"
             name="payroll_mexico.report_hr_employee_view" />
 
         <template id="report_hr_employee_view">
@@ -29,7 +29,7 @@
                             <br/>
                             <div class="row">
                                 <div class="col-7">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Ciudadanía e información adicional</h5></strong>
                                     </div>
 
@@ -51,7 +51,7 @@
                                 </div>
                                 <br/>
                                 <div class="col-5">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Información de contacto</h5></strong>
                                     </div>
                                     <div class="row">
@@ -79,7 +79,7 @@
                             <br/>
                             <div class="row">
                                 <div class="col-7">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Información de emergencia</h5></strong>
                                     </div>
                                     <div class="row">
@@ -88,7 +88,7 @@
                                     </div>
                                     <br/>
                                     <div class="row">
-                                        <strong><h5>En caso de emergencia contactar a:&amp;nbsp;</h5></strong>
+                                        <strong><h5 >En caso de emergencia contactar a:&amp;nbsp;</h5></strong>
                                     </div>
                                     <div class="row">
                                         <strong>Contacto de emergencia:&amp;nbsp;</strong>
@@ -104,7 +104,7 @@
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Estado</h5></strong>
                                     </div>
                                     <div class="row">
@@ -120,7 +120,7 @@
                             <br/>
                             <div class="row">
                                 <div class="col-7">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Fecha de nacimiento</h5></strong>
                                     </div>
                                     <div class="row">
@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                    <div class="row">
+                                    <div class="row; aling-centercargo{}">
                                         <strong><h5 style="background-color: #ABAFAF;">Información fiscal</h5></strong>
                                     </div>
                                     <div class="row">
@@ -165,7 +165,7 @@
                             <br/>
                             <div class="row">
                                 <div class="col-7">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Permiso de trabajo</h5></strong>
                                     </div>
                                     <div class="row">
@@ -182,7 +182,7 @@
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Educación</h5></strong>
                                     </div>
                                     <div class="row">
@@ -205,7 +205,7 @@
                             <br/>
                             <div class="row">
                                 <div class="col-7">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Información de contacto</h5></strong>
                                     </div>
                                     <div class="row">
@@ -230,7 +230,7 @@
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Cargo</h5></strong>
                                     </div>
                                     <div class="row">
@@ -274,7 +274,7 @@
                             <br/>
                             <div class="row">
                                 <div class="col-7">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Datos de Nómina</h5></strong>
                                     </div>
                                     <div class="row">
@@ -287,7 +287,7 @@
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">IMSS</h5></strong>
                                     </div>
                                     <div class="row">
@@ -307,7 +307,7 @@
                             <br/>
                             <div class="row">
                                 <div class="col-7">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Pagos adicionales</h5></strong>
                                     </div>
                                     <div class="row" t-if="o.pay_holiday == True">
@@ -332,15 +332,15 @@
                             <div class="row" t-if="o.children >= 1">
                                 <div class="col-7">
                                     <div class="row">
-                                        <strong>Número de hijos:</strong>
+                                        <strong>Número de hijos: </strong>
                                         <p t-field="o.children"/>
                                     </div>
                                 </div>
                             </div>
                             
                             <table class="table " t-if="o.children >= 1">
-                                <thead>
-                                    <tr>
+                                <thead style="background-color: #ABAFAF;">
+                                    <tr >
                                         <th class="text-center">Nombre</th>
                                         <th class="text-center">Fecha de nacimiento</th>
                                         <th class="text-center">Edad</th>
@@ -402,7 +402,7 @@
                                 <center><h5>Sin resultados que mostrar</h5></center>
                             </div>
                             <table class="table" t-if="o.bank_account_ids ">
-                                <thead>
+                                <thead style="background-color: #ABAFAF;">
                                     <tr>
                                         <th class="text-center">Banco</th>
                                         <th class="text-center">Referencia</th>
@@ -445,7 +445,7 @@
                                 <center><h5>Sin resultados que mostrar</h5></center>
                             </div>
                             <table class="table" t-if="o.infonavit_ids">
-                                <thead>
+                                <thead style="background-color: #ABAFAF;">
                                     <tr>
                                         <th class="text-center">Número de crédito INFONAVIT</th>
                                         <th class="text-center">Tipo</th>
@@ -483,7 +483,7 @@
                                         <p t-field="o.user_id"/>
                                     </div>
                                     <br/>
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Servicio</h5></strong>
                                     </div>
                                     <div class="row">
@@ -492,7 +492,7 @@
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Ausencias</h5></strong>
                                     </div>
                                     <div class="row">
@@ -509,7 +509,7 @@
                             </div>
                             <div class="row" t-if="o.fonacot_payroll == True">
                                 <div class="col-7">
-                                    <div class="row">
+                                    <div class="row; aling-center">
                                         <strong><h5 style="background-color: #ABAFAF;">Datos generales</h5></strong>
                                     </div>
                                     <div class="row">

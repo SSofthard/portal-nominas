@@ -24,15 +24,38 @@
             </div>
             <div t-if="company.logo or company.report_header" class="row zero_min_height">
                 <div class="col-12">
-                    <div style="border-bottom: 1px solid black; background-color: #ABAFAF;"/>
+                    <hr style="color: #ABAFAF;" size="12" />
                 </div>
             </div>
+            <div class="row">
+                <div class="col-4" name="company_address">
+                    <strong>
+                        <div t-field="company.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                        />
+                    </strong>
+                </div>
+                <div class="col-4" >
+                    <strong><ul class="list-inline mb4">
+                        <li t-if="company.rfc" class="list-inline-item">RFC: <span t-field="company.rfc"/></li>
+                    </ul></strong>
+                </div>
+                <div class="col-4" >
+                    <strong><ul class="list-inline mb4">
+                        <li t-if="company.tax_regime" class="list-inline-item">RÉGIMEN: <span t-field="company.tax_regime"/></li>
+                    </ul></strong>
+                </div>
+            </div>
+            
         </div>
         <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
           <t t-raw="0"/>
         </div>
         <div class="footer">
             <div class="row">
+                <div class="col-12">
+                    <hr style="color: #ABAFAF;" size="12" />
+                </div>
 
                 <div class="col-12 text-center mt64" style="color:blue" >
                     <ul class="list-inline">
