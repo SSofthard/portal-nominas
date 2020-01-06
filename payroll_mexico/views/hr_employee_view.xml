@@ -455,12 +455,25 @@
                     <notebook>
                         <page name="group_sequence" string="Group Sequence">
                             <group>
-                                <group>
+                                <group string="Matricula de empleados">
                                     <field name="code"/>
                                     <label for="sequence_number_next"/>
                                     <div>
                                         <field name="sequence_number_next" attrs="{'readonly': 1}" style="padding-right: 1.0em"/>
                                         <field name="sequence_id" options="{'no_open': True}"
+                                               attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="group_sequence" string="Secuencia para nominas">
+                            <group>
+                                <group string="Correlativo de Nóminas">
+                                    <field name="code_payslip"/>
+                                    <label for="sequence_payslip_number_next"/>
+                                    <div>
+                                        <field name="sequence_payslip_number_next" attrs="{'readonly': 1}" style="padding-right: 1.0em"/>
+                                        <field name="sequence_payslip_id" options="{'no_open': True}"
                                                attrs="{'readonly': 1}" groups="base.group_no_one"/>
                                     </div>
                                 </group>

@@ -374,11 +374,8 @@ class HrPayslip(models.Model):
     def compute_sheet(self):
         for payslip in self:
             if not payslip.settlement:
-                code_group = payslip.group_id.code
-                sequence = self.env['ir.sequence'].search([('code', '=', 'salary.slip.%s' % (code_group))])
-                if not len(sequence):
-                    sequence = payslip._generate_sequence(code_group)
-                number = payslip.number or self.env['ir.sequence'].next_by_code(sequence.code)
+                sequence = payslip.group_id.sequence_payslip_id
+                number = payslip.number or sequence.next_by_id()
             else:
                 number = payslip.number or self.env['ir.sequence'].next_by_code('salary.settlement')
             payslip.search_inputs()

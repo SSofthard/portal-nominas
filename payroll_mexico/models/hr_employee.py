@@ -449,8 +449,9 @@ class Employee(models.Model):
         '''
         Este metodo calcula el monto adeudado según el estado de cuenta de FONACOT
         '''
-        total_credit,total_debit = sum(line.credit for line in self.lines_fonacot),sum(line.debit for line in self.lines_fonacot)
-        self.fonacot_amount_debt = total_credit - total_debit
+        for employee in self:
+            total_credit,total_debit = sum(line.credit for line in employee.lines_fonacot),sum(line.debit for line in employee.lines_fonacot)
+            employee.fonacot_amount_debt = total_credit - total_debit
 
     
 class paymentPeriod(models.Model):
@@ -526,6 +527,11 @@ class HrGroup(models.Model):
     antique_table = fields.Many2one('tablas.antiguedades', string='Antique table', required=True)
     percent_honorarium = fields.Float(required=True, digits=(16, 4), string='Porcentaje de honoraios')
     savings_fund_percentage = fields.Float(required=True, digits=(16, 4), string='Savings fund percentage')
+    sequence_payslip_id = fields.Many2one(comodel_name='ir.sequence', string='Secuencia correlativo de Nómina')
+    sequence_payslip_number_next = fields.Integer(string='Próximo Número (Correlativo de Nómina)',
+                                                  compute='_compute_seq_number_next',
+                                                  inverse='_inverse_seq_number_next')
+    code_payslip = fields.Char(string='Código corto (Correlativo de Nómina)', store=True, readonly=False)
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
@@ -536,6 +542,7 @@ class HrGroup(models.Model):
         if self.name:
             if len(self.name) >= 3:
                 self.code = self.name[0:3].upper()
+                self.code_payslip = self.name[0:3].upper()
             else:
                 raise UserError(_('The group name must contain three or more characters.'))
 
@@ -566,9 +573,12 @@ class HrGroup(models.Model):
         for group in self:
             if group.sequence_id:
                 sequence = group.sequence_id._get_current_sequence()
+                sequence_payslip = group.sequence_payslip_id._get_current_sequence()
                 group.sequence_number_next = sequence.number_next_actual
+                group.sequence_payslip_number_next = sequence_payslip.number_next_actual
             else:
                 group.sequence_number_next = 1
+                group.sequence_payslip_number_next = 1
 
     @api.multi
     def _inverse_seq_number_next(self):
@@ -578,6 +588,9 @@ class HrGroup(models.Model):
             if group.sequence_id and group.sequence_number_next:
                 sequence = group.sequence_id._get_current_sequence()
                 sequence.sudo().number_next = group.sequence_number_next
+            if group.sequence_payslip_id_id and group.sequence_payslip_number_next:
+                sequence_payslip = group.sequence_payslip_id._get_current_sequence()
+                sequence_payslip.sudo().number_next = group.sequence_payslip_number_next
 
     @api.model
     def _get_sequence_prefix(self, code):
@@ -600,10 +613,26 @@ class HrGroup(models.Model):
         return seq
 
     @api.model
+    def _create_sequence_payslip(self, vals):
+        """ Create new no_gap entry sequence for every new Group"""
+        prefix = self._get_sequence_prefix(vals['code_payslip'])
+        seq_name = _('Group: ') + vals['code_payslip'] + ' ' + _(vals['name'])
+        seq = {
+            'name': _('%s Sequence') % seq_name,
+            'implementation': 'no_gap',
+            'prefix': prefix,
+            'padding': 6,
+            'number_increment': 1,
+        }
+        seq = self.env['ir.sequence'].create(seq)
+        return seq
+
+    @api.model
     def create(self, vals):
         # We just need to create the relevant sequences according to the chosen options
         if not vals.get('sequence_id'):
-            vals.update({'sequence_id': self.sudo()._create_sequence(vals).id})
+            vals.update({'sequence_id': self.sudo()._create_sequence(vals).id,
+                         'sequence_payslip_id': self.sudo()._create_sequence_payslip(vals).id})
         return super(HrGroup, self).create(vals)
 
     @api.multi
