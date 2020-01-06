@@ -6,7 +6,7 @@
             model="hr.employee"
             string="Plantilla del empleado"
             report_type="qweb-html"
-            name="payroll_mexico.report_hr_employee" />
+            name="payroll_mexico.report_hr_employee_template" />
 
         <template id="report_hr_employee_document">
             <t t-call="web.internal_layout">
@@ -578,7 +578,7 @@
             </t>
         </template>
         
-        <template id="report_hr_employee">
+        <template id="report_hr_employee_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <t t-call="payroll_mexico.report_hr_employee_document" t-lang="doc.company_id.partner_id.lang"/>
