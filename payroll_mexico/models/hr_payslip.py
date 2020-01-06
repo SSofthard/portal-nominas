@@ -168,13 +168,14 @@ class HrPayslip(models.Model):
                  vals.append(line.total)
          return sum(vals)
 
-    @api.multi
-    def print_payroll_cfdi(self):
+    def data_payroll_report(self):
         payroll_dic = {}
         lines = []
         line_ded = []
         domain = [('slip_id','=', self.id)]
+        # Salario diario
         sd = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI002')]).mapped('total'))
+        #Salrio diario integral
         sdi = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI003')]).mapped('total'))
         total_percep = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total'))
         total_ded = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D103')]).mapped('total'))
@@ -199,16 +200,7 @@ class HrPayslip(models.Model):
                     'type': 'DED',
                 })
         bank_account=self.env['bank.account.employee'].search([('employee_id','=', self.employee_id.id),('predetermined','=', True)])
-        payroll_dic['name'] = self.employee_id.complete_name
-        payroll_dic['enrollment'] = self.employee_id.enrollment
-        payroll_dic['ssnid'] = self.employee_id.ssnid
-        payroll_dic['rfc'] = self.employee_id.rfc
-        payroll_dic['curp'] = self.employee_id.curp
-        payroll_dic['date_from'] = self.date_from
-        payroll_dic['date_to'] = self.date_to
         payroll_dic['payroll_period'] = dict(self._fields['payroll_period']._description_selection(self.env)).get(self.payroll_period).upper()
-        payroll_dic['no_period'] = self.payroll_of_month
-        payroll_dic['paid_days'] = abs(self.date_from - self.date_to).days
         payroll_dic['sd'] = sd
         payroll_dic['sdi'] = sdi
         payroll_dic['total_percep'] = total_percep
@@ -226,6 +218,8 @@ class HrPayslip(models.Model):
         total_faults = 0
         absenteeism = 0
         inhability = 0
+        diasimss = sum(self.worked_days_line_ids.filtered(lambda r: r.code == 'DIASIMSS').mapped('number_of_days'))
+        payroll_dic['paid_days'] = diasimss #abs(self.date_from - self.date_to).days
         for leave in leave_type:
             for wl in self.worked_days_line_ids:
                 if leave.code == wl.code:
@@ -235,78 +229,28 @@ class HrPayslip(models.Model):
                         absenteeism += wl.number_of_days
         total_faults += inhability + absenteeism
         payroll_dic['faults'] = total_faults
+        return payroll_dic
+
+    @api.multi
+    def print_payroll_cfdi(self):
+        payroll = {}
+        for payslip in self:
+            payroll[payslip.id] = payslip.data_payroll_report(),
         data={
-            'payroll_data':payroll_dic,
-            'docs_ids':self.id,
+            'payroll_data': payroll,
+            'docids': self.ids,
             }
-        
-        return self.env.ref('payroll_mexico.action_payroll_cfdi_report').report_action(self,data) 
-    
+        return self.env.ref('payroll_mexico.action_payroll_cfdi_report').report_action(self, data) 
+
     @api.multi
     def print_payroll_receipt(self):
-        payroll_dic = {}
-        lines = []
-        line_ded = []
-        domain = [('slip_id','=', self.id)]
-        sd = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI002')]).mapped('total'))
-        sdi = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'UI003')]).mapped('total'))
-        total_percep = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'P195')]).mapped('total'))
-        total_ded = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'D103')]).mapped('total'))
-        total = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total'))
-        line_ids = self.env['hr.payslip.line'].search(domain + [('appears_on_payslip','=', True), ('total','!=', 0)])
-        for line in line_ids:
-            if line.category_id.code == 'PERCEPCIONES':
-                lines.append({
-                    'code': line.code,
-                    'name': line.name,
-                    'quantity': line.quantity,
-                    'total': line.total,
-                    'type': 'PERCEPCIONES',
-                })
-            if line.category_id.code == 'DED':
-                line_ded.append({
-                    'code': line.code,
-                    'name': line.name,
-                    'quantity': line.quantity,
-                    'total': line.total,
-                    'type': 'DED',
-                })
-        payroll_dic['name'] = self.employee_id.complete_name
-        payroll_dic['ssnid'] = self.employee_id.ssnid
-        payroll_dic['rfc'] = self.employee_id.rfc
-        payroll_dic['curp'] = self.employee_id.curp
-        payroll_dic['date_from'] = self.date_from
-        payroll_dic['date_to'] = self.date_to
-        payroll_dic['payroll_period'] = dict(self._fields['payroll_period']._description_selection(self.env)).get(self.payroll_period).upper()
-        payroll_dic['no_period'] = self.payroll_of_month
-        payroll_dic['paid_days'] = abs(self.date_from - self.date_to).days
-        payroll_dic['sd'] = sd
-        payroll_dic['sdi'] = sdi
-        payroll_dic['total_percep'] = total_percep
-        payroll_dic['total_ded'] = total_ded
-        payroll_dic['total'] = total
-        payroll_dic['total_word'] = numero_to_letras(abs(total)) or 00
-        payroll_dic['decimales'] =  str(round(float(total), 2)).split('.')[1] or 00
-        payroll_dic['company'] = self.company_id.name.upper() or ''
-        payroll_dic['lines'] = lines
-        payroll_dic['line_ded'] = line_ded
-        # Buscar Faltas
-        leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
-        total_faults = 0
-        absenteeism = 0
-        inhability = 0
-        for leave in leave_type:
-            for wl in self.worked_days_line_ids:
-                if leave.code == wl.code:
-                    if leave.time_type == 'inability':
-                        inhability += wl.number_of_days
-                    if leave.time_type == 'leave':
-                        absenteeism += wl.number_of_days
-        total_faults += inhability + absenteeism
-        payroll_dic['faults'] = total_faults
+        payroll = {}
+        data = {}
+        for payslip in self:
+            payroll[payslip.id] = payslip.data_payroll_report(),
         data={
-            'payroll_data':payroll_dic,
-            'docs_ids':self.id,
+            'payroll_data': payroll,
+            'docids': self.ids,
             }
         return self.env.ref('payroll_mexico.action_payroll_receipt_report').with_context({'active_model': 'hr.payslip'}).report_action(self,data)      
 

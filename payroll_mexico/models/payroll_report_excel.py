@@ -26,6 +26,8 @@ from datetime import datetime
 class HrPayslipLine(models.Model):
     _inherit = 'hr.salary.rule'
 
+    generated = fields.Boolean(string='generated en excel?', default=False, 
+        help='Si está marcado indica que se se imprimiran los detalles en los reportes excel.')
     print_to_excel = fields.Boolean(string='Imprimir en excel?', default=False, 
         help='Si está marcado indica que se se imprimiran los detalles en los reportes excel.')
 
@@ -33,6 +35,10 @@ class HrPayslipLine(models.Model):
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
 
+    def test_print_report(self):
+        for slip in self:
+            slip.slip_ids.print_payroll_receipt()
+        
     def prepare_header(self):
         header = [ 
             {'sequence': 0.1, 'name': 'Clave', 'larg': 10, 'col': {}},
