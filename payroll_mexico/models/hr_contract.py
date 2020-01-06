@@ -48,8 +48,8 @@ class Contract(models.Model):
             date_end = self.date_end + timedelta(days=1)
         date_start_contract =  self.previous_contract_date or self.date_start
         days_antiquity = (date_end - date_start_contract).days
-        years_antiquity = int(days_antiquity/365.25)
-        days_rest = int(days_antiquity%365.25)
+        years_antiquity = int(days_antiquity/365)
+        days_rest = int(days_antiquity%365)
         self.years_antiquity = years_antiquity
         self.days_rest = days_rest
 
