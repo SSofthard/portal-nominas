@@ -449,8 +449,9 @@ class Employee(models.Model):
         '''
         Este metodo calcula el monto adeudado según el estado de cuenta de FONACOT
         '''
-        total_credit,total_debit = sum(line.credit for line in self.lines_fonacot),sum(line.debit for line in self.lines_fonacot)
-        self.fonacot_amount_debt = total_credit - total_debit
+        for employee in self:
+            total_credit,total_debit = sum(line.credit for line in employee.lines_fonacot),sum(line.debit for line in employee.lines_fonacot)
+            employee.fonacot_amount_debt = total_credit - total_debit
 
     
 class paymentPeriod(models.Model):
