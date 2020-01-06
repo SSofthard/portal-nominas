@@ -75,7 +75,7 @@
         <field name="target">new</field>
     </record>
 
-	    <record id="hr_employee_affiliate_move_view_tree" model="ir.ui.view">
+    <record id="hr_employee_affiliate_move_view_tree" model="ir.ui.view">
         <field name="name">hr.employee.affiliate.move.view.tree</field>
         <field name="model">hr.employee.affiliate.move</field>
         <field name="arch" type="xml">

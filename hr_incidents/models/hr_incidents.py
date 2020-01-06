@@ -11,9 +11,8 @@ from odoo.osv import expression
 from odoo.tools.translate import _
 from odoo.tools.float_utils import float_round
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
-from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY
+from odoo.addons.resource.models.resource import float_to_time, datetime_to_string, string_to_datetime, HOURS_PER_DAY
 from odoo.addons.resource.models.resource import Intervals
-from odoo.addons.resource.models.resource import float_to_time
 
 
 class HolidaysType(models.Model):
@@ -211,13 +210,13 @@ class CalendarLeaves(models.Model):
 
     time_type = fields.Selection(selection_add=[('inability', 'Incapacidad')])
 
-def string_to_datetime(value):
-    """ Convert the given string value to a datetime in UTC. """
-    return utc.localize(fields.Datetime.from_string(value))
+# ~ def string_to_datetime(value):
+    # ~ """ Convert the given string value to a datetime in UTC. """
+    # ~ return utc.localize(fields.Datetime.from_string(value))
 
-def datetime_to_string(dt):
-    """ Convert the given datetime (converted in UTC) to a string value. """
-    return fields.Datetime.to_string(dt.astimezone(utc))
+# ~ def datetime_to_string(dt):
+    # ~ """ Convert the given datetime (converted in UTC) to a string value. """
+    # ~ return fields.Datetime.to_string(dt.astimezone(utc))
 
 class ResourceCalendar(models.Model):
     _inherit = "resource.calendar"
