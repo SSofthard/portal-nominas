@@ -22,18 +22,16 @@
                             </t>
                             <t t-esc="payroll_data['payroll_of_month']"/>
                         </h5>
-                        <h5>
+                        <h6>
                             <t>
-                                <span>Rango de trabajadores:</span>
+                                <span>Período: </span><t t-esc="payroll_data['date_large']"/>
                             </t>
-                        </h5>
-                        <table class="table table-sm o_main_table" style="font-size:8px;">
+                        </h6>
+                        <table class="table table-sm o_main_table" style="font-size:9px;">
                             <thead>
                                 <tr>
                                     <th class="text-center">Clave</th>
                                     <th class="text-left">Nombre del trabajador</th>
-                                    <th class="text-center">J. Completa</th>
-                                    <th class="text-center">Sucursal</th>
                                     <th class="text-center">Clave</th>
                                     <th class="text-center">Nombre banco</th>
                                     <th class="text-center">No. de cuenta</th>
@@ -50,22 +48,17 @@
                                             <t t-esc="employee['name']"/>
                                         </td>
                                         <td class="text-center">
-                                            <t t-esc="employee['fulltime']"/>
-                                        </td>
-                                        <td class="text-left">
-                                            <t t-esc="employee['office']"/>
-                                        </td>
-                                        <td class="text-right">
                                             <t t-esc="employee['bank_key']"/>
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-center">
                                             <t t-esc="employee['bank']"/>
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-center">
                                             <t t-esc="employee['account']"/>
                                         </td>
                                         <td class="text-right">
-                                            <t t-esc="employee['total']"/>
+                                            <t t-esc="employee['total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                         </td>
                                     </tr>
                                 </t>
@@ -78,7 +71,8 @@
                                         <tr class="border-black o_total" style="font-size:9px;">
                                             <td><strong>Total</strong></td>
                                             <td class="text-right">
-                                                <t t-esc="payroll_data['total']"/>
+                                                <t t-esc="payroll_data['total']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                             </td>
                                         </tr>
                                     </table>
