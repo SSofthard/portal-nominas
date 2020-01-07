@@ -24,7 +24,7 @@
                     </div>
                     <br/>
                     <br/>
-                    <center><strong><h4 style="background-color: #ABAFAF;">Informacion Privada</h4></strong></center>
+                    <center><strong><h5 style="background-color: #ABAFAF;">Informacion Privada</h5></strong></center>
                     <div class="row">
                         <div class="col-7">
                             <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
@@ -206,246 +206,308 @@
                             </table>
                         </div>
                     </div>
-                    <br/>
                     <div class="row">
                         <div class="col-7">
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">Permiso de trabajo</h6></strong>
-                            </div>
-                            <div class="row">
-                                <strong>Número de Visado:&amp;nbsp;</strong>
-                                <p t-field="o.visa_no"/>
-                            </div>
-                            <div class="row">
-                                <strong>Número de permiso de trabajo:&amp;nbsp;</strong>
-                                <p t-field="o.permit_no"/>
-                            </div>
-                            <div class="row">
-                                <strong>Fecha expiración visado:&amp;nbsp;</strong>
-                                <p t-field="o.visa_expire"/>
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
+                                <tr class="text-center">
+                                    <td>
+                                        <strong><h6 style="background-color: #ABAFAF;">Permiso de trabajo</h6></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Número de Visado: </strong> <span t-field="o.visa_no"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Número de permiso de trabajo: </strong> <span t-field="o.permit_no"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Fecha expiración visado: </strong> <span t-field="o.visa_expire"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="col-5">
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">Educación</h6></strong>
-                            </div>
-                            <div class="row">
-                                <strong>Nivel de estudio:&amp;nbsp;</strong>
-                                <p t-field="o.certificate"/>
-                            </div>
-                            <div class="row">
-                                <strong>Ámbito de estudio:&amp;nbsp;</strong>
-                                <p t-field="o.study_field"/>
-                            </div>
-                            <div class="row">
-                                <strong>Escuela:&amp;nbsp;</strong>
-                                <p t-field="o.study_school"/>
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
+                                <tr class="text-center">
+                                    <td>
+                                        <strong><h6 style="background-color: #ABAFAF;">Educación</h6></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Nivel de estudio: </strong> <span t-field="o.certificate"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Ámbito de estudio: </strong> <span t-field="o.study_field"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Escuela:&amp;nbsp;</strong> <span t-field="o.study_school"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <br/>
-                    <br/>
-                    <center><strong><h4 style="background-color: #ABAFAF;">Información del trabajo</h4></strong></center>
-                    <br/>
+                    <center><strong><h5 style="background-color: #ABAFAF;">Información del trabajo</h5></strong></center>
                     <div class="row">
                         <div class="col-7">
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">Información de contacto</h6></strong>
-                            </div>
-                            <div class="row">
-                                <strong>Grupo/Empresa:&amp;nbsp;</strong>
-                                <p t-field="o.group_id"/>
-                            </div>
-                            <div class="row">
-                                <strong>Centro de trabajo&amp;nbsp;:</strong>
-                                <p t-field="o.work_center_id"/>
-                            </div>
-                            <div class="row">
-                                <strong>Correo-e del trabajo:&amp;nbsp;</strong>
-                                <p t-field="o.work_email"/>
-                            </div>
-                            <div class="row">
-                                <strong>Móvil del trabajo:&amp;nbsp;</strong>
-                                <p t-field="o.mobile_phone"/>
-                            </div>
-                            <div class="row">
-                                <strong>Teléfono trabajo:&amp;nbsp;</strong>
-                                <p t-field="o.work_phone"/>
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
+                                <tr class="text-center">
+                                    <td>
+                                        <strong><h6 style="background-color: #ABAFAF;">Información de contacto</h6></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Grupo/Empresa: </strong> <span t-field="o.group_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Centro de trabajo: </strong><span t-field="o.work_center_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Correo-e del trabajo: </strong> <span t-field="o.work_email"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Móvil del trabajo: </strong> <span t-field="o.mobile_phone"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Teléfono trabajo: </strong> <span t-field="o.work_phone"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="col-5">
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">Cargo</h6></strong>
-                            </div>
-                            <div class="row">
-                                <strong>Matrícula:&amp;nbsp;</strong>
-                                <p t-field="o.enrollment"/>
-                            </div>
-                            <div class="row">
-                                <strong>Departamento:&amp;nbsp;</strong>
-                                <p t-field="o.department_id"/>
-                            </div>
-                            <div class="row">
-                                <strong>Puesto de trabajo:&amp;nbsp;</strong>
-                                <p t-field="o.job_id"/>
-                            </div>
-                            <div class="row">
-                                <strong>Título del trabajo:&amp;nbsp;</strong>
-                                <p t-field="o.job_title"/>
-                            </div>
-                            <div class="row">
-                                <strong>Responsable:&amp;nbsp;</strong>
-                                <p t-field="o.parent_id"/>
-                            </div>
-                            <div class="row" t-if="o.manager == True">
-                                <strong>Es un director:&amp;nbsp;</strong> Si
-                            </div>
-                            <div class="row" t-if="o.manager == False">
-                                <strong>Es un director:&amp;nbsp;</strong> No
-                            </div>
-                            <div class="row">
-                                <strong>Horas laborales:&amp;nbsp;</strong>
-                                <p t-field="o.resource_calendar_id"/>
-                            </div>
-                            <div class="row">
-                                <strong>Zona horaria:&amp;nbsp;</strong>
-                                <p t-field="o.title"/>
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
+                                <tr class="text-center">
+                                    <td>
+                                        <strong><h6 style="background-color: #ABAFAF;">Cargo</h6></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Matrícula: </strong> <span t-field="o.enrollment"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Departamento: </strong> <span t-field="o.department_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Puesto de trabajo: </strong> <span t-field="o.job_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Título del trabajo: </strong> <span t-field="o.job_title"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Responsable: </strong> <span t-field="o.parent_id"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="o.manager == True">
+                                    <td>
+                                        <strong>Es un director: </strong> Si
+                                    </td>
+                                </tr>
+                                <tr t-if="o.manager == False">
+                                    <td>
+                                        <strong>Es un director: </strong> No
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Horas laborales: </strong> <span t-field="o.resource_calendar_id"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <br/>
-                    <center><strong><h4 style="background-color: #ABAFAF;">Información del HR</h4></strong></center>
+                    <center><strong><h5 style="background-color: #ABAFAF;">Información del HR</h5></strong></center>
                     <br/>
                     <div class="row">
                         <div class="col-7">
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">Datos de Nómina</h6></strong>
-                            </div>
-                            <div class="row">
-                                <strong>Tipo de salario:&amp;nbsp;</strong>
-                                <p t-field="o.salary_type"/>
-                            </div>
-                            <div class="row">
-                                <strong>Jornada semanal:&amp;nbsp;</strong>
-                                <p t-field="o.working_day_week"/>
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
+                                <tr class="text-center">
+                                    <td>
+                                        <strong><h6 style="background-color: #ABAFAF;">Datos de Nómina</h6></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Tipo de salario: </strong> <span t-field="o.salary_type"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Jornada semanal: </strong> <span t-field="o.working_day_week"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="col-5">
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">IMSS</h6></strong>
-                            </div>
-                            <div class="row">
-                                <strong>Registro Patronal:&amp;nbsp;</strong>
-                                <p t-field="o.employer_register_id"/>
-                            </div>
-                            <div class="row">
-                                <strong>Nº Seguridad Social:&amp;nbsp;</strong>
-                                <p t-field="o.ssnid"/>
-                            </div>
-                            <div class="row">
-                                <strong>Periodo de pago:&amp;nbsp;</strong>
-                                <p t-field="o.payment_period_id"/>
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
+                                <tr class="text-center">
+                                    <td>
+                                        <strong><h6 style="background-color: #ABAFAF;">IMSS</h6></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Registro Patronal: </strong> <span t-field="o.employer_register_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Nº Seguridad Social: </strong> <span t-field="o.ssnid"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Periodo de pago: </strong> <span t-field="o.payment_period_id"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <br/>
                     <div class="row">
                         <div class="col-7">
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">Pagos adicionales</h6></strong>
-                            </div>
-                            <div class="row" t-if="o.pay_holiday == True">
-                                <strong>Pagar días festivos?:&amp;nbsp;</strong> Si
-                            </div><div class="row" t-if="o.pay_holiday == False">
-                                <strong>Pagar días festivos?:&amp;nbsp;</strong> No
-                            </div>
-                            <div class="row" t-if="o.pay_extra_hours == True">
-                                <strong>Pagar horas extra?:&amp;nbsp;</strong> Si
-                            </div>
-                            <div class="row" t-if="o.pay_extra_hours == False">
-                                <strong>Pagar horas extra?:&amp;nbsp;</strong> No
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
+                                <tr class="text-center">
+                                    <td>
+                                        <strong><h6 style="background-color: #ABAFAF;">Pagos adicionales</h6></strong>
+                                    </td>
+                                </tr>
+                                <tr t-if="o.pay_holiday == True">
+                                    <td>
+                                        <strong>Pagar días festivos?: </strong> Si
+                                    </td>
+                                </tr>
+                                <tr t-if="o.pay_holiday == False">
+                                    <td>
+                                        <strong>Pagar días festivos?: </strong> No
+                                    </td>
+                                </tr>
+                                <tr t-if="o.pay_extra_hours == True">
+                                    <td>
+                                        <strong>Pagar horas extra?: </strong> Si
+                                    </td>
+                                </tr>
+                                <tr t-if="o.pay_extra_hours == False">
+                                    <td>
+                                        <strong>Pagar horas extra?: </strong> No
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <br/>
-                    <center><strong><h4 style="background-color: #ABAFAF;">Familia</h4></strong></center>
+                    <center><strong><h5 style="background-color: #ABAFAF;">Familia</h5></strong></center>
                     <br/>
-                    <div class="row; aling-center" t-if="o.children == 0">
+                    <div class="row; text-center" t-if="len(o.family_ids) == 0">
                         <center><h6>Sin resultados que mostrar</h6></center>
                     </div>
                     <div class="row" t-if="o.children >= 1">
                         <div class="col-7">
-                            <div class="row">
-                                <strong>Número de hijos: </strong>
-                                <p t-field="o.children"/>
-                            </div>
+                            <tr>
+                                <td>
+                                    <strong>Número de hijos: </strong> <span t-field="o.children"/>
+                                </td>
+                            </tr>
                         </div>
                     </div>
                     
-                    <table class="table " t-if="o.children >= 1">
-                        <thead style="background-color: #ABAFAF;">
-                            <tr >
-                                <th class="text-center">Nombre</th>
-                                <th class="text-center">Fecha de nacimiento</th>
-                                <th class="text-center">Edad</th>
-                                <th class="text-center">Relacion</th>
+                    <table class="table-sm" t-if="len(o.family_ids) >= 1" border="0" style="width:100%; line-height: 8px;">
+                        <tr style="background-color: #ABAFAF;">
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Fecha de nacimiento</th>
+                            <th class="text-center">Edad</th>
+                            <th class="text-center">Relacion</th>
+                        </tr>
+                        <t t-foreach="o.family_ids" t-as="fa" style="width:100%; line-height: 8px;">
+                            <tr>
+                                <td class="text-center">
+                                    <p t-field="fa.name"/>
+                                </td>
+                                <td class="text-center">
+                                    <p t-field="fa.birthday"/>
+                                </td>
+                                <td class="text-center">
+                                    <p t-field="fa.age"/>
+                                </td>
+                                <td class="text-center">
+                                    <p t-field="fa.relationship_id"/>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody >
-                            <t t-foreach="o.family_ids" t-as="fa">
-                                <tr>
-                                    <td class="text-center">
-                                        <p t-field="fa.name"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <p t-field="fa.birthday"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <p t-field="fa.age"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <p t-field="fa.relationship_id"/>
-                                    </td>
-                                </tr>
-                            </t>
-                        </tbody>
+                        </t>
                      </table>
                     <br/>
-                    <center><strong><h4 style="background-color: #ABAFAF;">Compañias</h4></strong></center>
+                    <center><strong><h5 style="background-color: #ABAFAF;">Compañías</h5></strong></center>
                     <br/>
                     <div class="row">
                         <div class="col-7">
-                            <div class="row">
-                                <strong>Compañía:&amp;nbsp;</strong>
-                                <p t-field="o.company_id"/>
-                            </div>
-                            <div class="row">
-                                <strong>Compañía (asimilado):&amp;nbsp;</strong>
-                                <p t-field="o.company_assimilated_id"/>
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
+                                <tr>
+                                    <td>
+                                        <strong>Compañía: </strong> <span t-field="o.company_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Compañía (asimilado): </strong> <span t-field="o.company_assimilated_id"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="col-5">
-                            <div class="row">
-                                <strong>Sueldos y salarios brutos:&amp;nbsp;</strong>
-                                <p t-field="o.wage_salaries_gross"/>
-                            </div>
-                            <div class="row">
-                                <strong>Salario bruto asimilado:&amp;nbsp;</strong>
-                                <p t-field="o.assimilated_salary_gross"/>
-                            </div>
-                            <div class="row">
-                                <strong>Salario libre bruto:&amp;nbsp;</strong>
-                                <p t-field="o.free_salary_gross"/>
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;">
+                                <tr>
+                                    <td>
+                                        <strong>Sueldos y salarios brutos: </strong> <span t-field="o.wage_salaries_gross"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Salario bruto asimilado: </strong> <span t-field="o.assimilated_salary_gross"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Salario libre bruto: </strong> <span t-field="o.free_salary_gross"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <br/>
-                    <center><strong><h4 style="background-color: #ABAFAF;">Información bancaria</h4></strong></center>
+                    <center><strong><h5 style="background-color: #ABAFAF;">Información bancaria</h5></strong></center>
                     <br/>
                     <div class="row; aling-center" t-if="not o.bank_account_ids">
                         <center><h6>Sin resultados que mostrar</h6></center>
                     </div>
-                    <table class="table" t-if="o.bank_account_ids ">
+                    <table class="table-sm" border="0" style="width:100%; line-height: 8px;" t-if="o.bank_account_ids">
                         <thead style="background-color: #ABAFAF;">
                             <tr>
                                 <th class="text-center">Banco</th>
@@ -483,12 +545,12 @@
                         </tbody>
                     </table>
                     <br/>
-                    <center><strong><h4 style="background-color: #ABAFAF;">INFONAVIT</h4></strong></center>
+                    <center><strong><h5 style="background-color: #ABAFAF;">INFONAVIT</h5></strong></center>
                     <br/>
                     <div class="row; aling-center" t-if="not o.infonavit_ids">
                         <center><h6>Sin resultados que mostrar</h6></center>
                     </div>
-                    <table class="table" t-if="o.infonavit_ids">
+                    <table class="table-sm" border="0" style="width:100%; line-height: 8px;" t-if="o.infonavit_ids">
                         <thead style="background-color: #ABAFAF;">
                             <tr>
                                 <th class="text-center">Número de crédito INFONAVIT</th>
@@ -517,61 +579,78 @@
                         </tbody>
                     </table>
                     <br/>
-                    <center><strong><h4 style="background-color: #ABAFAF;">Configuración RRHH</h4></strong></center>
+                    <center><strong><h5 style="background-color: #ABAFAF;">Configuración RRHH</h5></strong></center>
                     <br/>
                     <div class="row">
                         <div class="col-7">
-                            <strong><h6 style="background-color: #ABAFAF;">Estado</h6></strong>
-                            <div class="row">
-                                <strong>Usuario OpenERP:</strong>
-                                <p t-field="o.user_id"/>
-                            </div>
+                            <center><strong><h6 style="border-bottom: 1px solid #ABAFAF;">Estado</h6></strong></center>
+                            <tr>
+                                <td>
+                                    <strong>Usuario del Sistema:</strong> <span t-field="o.user_id"/>
+                                </td>
+                            </tr>
                             <br/>
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">Servicio</h6></strong>
-                            </div>
-                            <div class="row">
-                                <strong>ID de credencial</strong>
-                                <p t-field="o.barcode"/>
-                            </div>
+                            <tr class="text-center">
+                                <td>
+                                    <center><strong><h6 style="border-bottom: 1px solid #ABAFAF;">Servicio</h6></strong></center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>ID de credencial</strong> <span t-field="o.barcode"/>
+                                </td>
+                            </tr>
                         </div>
                         <div class="col-5">
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">Ausencias</h6></strong>
-                            </div>
-                            <div class="row">
-                                <strong>Ausencias permitidas restantes</strong>
-                                <p t-field="o.remaining_leaves"/>
-                            </div>
+                            <tr class="text-center">
+                                <td>
+                                    <center><strong><h6 style="border-bottom: 1px solid #ABAFAF;">Ausencias</h6></strong></center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Ausencias permitidas restantes</strong> <span t-field="o.remaining_leaves"/>
+                                </td>
+                            </tr>
                         </div>
                     </div>
                     <br/>
-                    <center><strong><h4 style="background-color: #ABAFAF;">Credito Fonacot</h4></strong></center>
-                    <br/>
-                    <div class="row; aling-center" t-if="o.fonacot_payroll == False">
+                    <center><strong><h5 style="background-color: #ABAFAF;">Crédito Fonacot</h5></strong></center>
+                    <div class="row; text-center" t-if="not o.lines_fonacot">
                         <center><h6>Sin resultados que mostrar</h6></center>
                     </div>
-                    <div class="row" t-if="o.fonacot_payroll == True">
+                    <div class="row">
                         <div class="col-7">
-                            <div class="row; aling-center">
-                                <strong><h6 style="background-color: #ABAFAF;">Datos generales</h6></strong>
-                            </div>
-                            <div class="row">
-                                <strong>Numero de prestamo:&amp;nbsp;</strong>
-                                <p t-field="o.fonacot_credit_number"/>
-                            </div>
-                            <div class="row">
-                                <strong>Ultima deuda agregada:&amp;nbsp;</strong>
-                                <p t-field="o.last_amount_update"/>
-                            </div>
-                            <div class="row">
-                                <strong>Deuda:&amp;nbsp;</strong>
-                                <p t-field="o.fonacot_amount_debt"/>
-                            </div>
-                            <div class="row">
-                                <strong>Monto a descontar:&amp;nbsp;</strong>
-                                <p t-field="o.ammount_discounted"/>
-                            </div>
+                            <table class="table-sm" border="0" style="width:100%; line-height: 8px;" t-if="o.lines_fonacot or o.fonacot_credit_number">
+                                <tr class="aling-center">
+                                    <td>
+                                        <strong><h6 style="background-color: #ABAFAF;">Datos generales</h6></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Numero de prestamo: </strong><span t-field="o.fonacot_credit_number"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Ultima deuda agregada: </strong> <span t-field="o.last_amount_update"
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Deuda: </strong> <span t-field="o.fonacot_amount_debt"
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Monto a descontar: </strong> <span t-field="o.ammount_discounted"
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
