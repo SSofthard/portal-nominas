@@ -88,10 +88,20 @@ class HrIncidentsImport(models.TransientModel):
                         value = sheet.cell_value(row , 3)
                         is_float = value % 1 != 0.0
                         amount = pycompat.text_type(value) if is_float else pycompat.text_type(int(value))
+                        # Add date for type perception double and triple overtime
+                        date_overtime = None
+                        if key in ('003','005'):
+                            if not sheet.cell_value(row , 4):
+                                raise UserError(_('Está agregando Horas Extras, Es Requerido Indicar la Fecha. Fila %s, Clave %s.') % (row, key))
+                            is_datetime = sheet.cell_value(row , 4) % 1 != 0.0
+                            dt = datetime(*xlrd.xldate.xldate_as_tuple(sheet.cell_value(row , 4), book.datemode))
+                            date_overtime = dt.strftime(DEFAULT_SERVER_DATETIME_FORMAT) if is_datetime else dt.strftime(DEFAULT_SERVER_DATE_FORMAT)
+                                
                         perceptions.append(
                                         {'employee_id': employee_id, 
                                         'input_id': rule_input_id,
                                         'amount': amount,
+                                        'date_overtime': date_overtime,
                                         'type': 'perception',}
                                         )
                     if sheet.cell_value(row, 1) == 'D':
@@ -180,7 +190,9 @@ class HrIncidentsImport(models.TransientModel):
         else:
             rule_input_id = rule_input.search([('code', '=', str(value))])
             if not rule_input_id:
-                raise UserError('No results were found for the key %s, in row %s.' % (str(value), str(row+1)))
+                raise UserError('No se encontraron entradas con del código %s, en fila %s.' % (str(value), str(row+1)))
+            if len(rule_input_id) > 1:
+                raise UserError('Tiene más de una entrada con el mismo código, esto no es permitido. Verifique! Código %s, en fila %s.' % (str(value), str(row+1)))
             else:
                 return rule_input_id.id
 

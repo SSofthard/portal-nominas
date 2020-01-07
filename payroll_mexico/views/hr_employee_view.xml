@@ -443,11 +443,6 @@
                                 <field name="percent_honorarium" class="oe_inline" />
                                 <span class="o_form_label oe_inline">%</span>
                             </div>
-                            <label for="savings_fund_percentage"/>
-                            <div>
-                                <field name="savings_fund_percentage" class="oe_inline" />
-                                <span class="o_form_label oe_inline">%</span>
-                            </div>
                         </group>
                         <group>
                             <field name="type" widget="selection"/>

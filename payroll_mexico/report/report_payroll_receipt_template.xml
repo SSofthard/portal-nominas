@@ -22,7 +22,7 @@
             id="action_payroll_receipt_report"
             string="Recibo de Nómina"
             model="hr.payslip" 
-            report_type="qweb-pdf"
+            report_type="qweb-html"
             file="payroll_mexico.payroll_receipt_report_template" 
             name="payroll_mexico.payroll_receipt_report_template"
             print_report_name="'Nómina: %s' % (object.employee_id)"
