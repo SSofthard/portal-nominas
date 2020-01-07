@@ -34,6 +34,17 @@ class EmployeeAffiliateMovements(models.Model):
             ('5', 'CLAUSURA'),
             ('6', 'OTROS')], 
             string='Reason for liquidation')
+    origin_move = fields.Selection([
+            ('371', 'REVISIÓN POR ART. 18'),
+            ('373', 'VISITA INTEGRAL ART. 46'),
+            ('374', 'REVISIÓN DE GABINETE ART. 48'),
+            ('375', 'REVISIÓN POR ART. 12 A'),
+            ('376', 'VISITA ESPECÍFICA ART. 46'),
+            ('397', 'REVISIÓN ÁGIL ART. 17'),
+            ('400', 'DISPOSITIVOS MAGNÉTICOS (REINTEGROS, MODIFICACIONES DE SALARIOS Y BAJAS)'),
+            ('405', 'CORRECIÓN POR INVITACIÓN, CORRECIÓN ESPONTÁNEA SATICA O SATICB.'),
+            ('406', 'PROGRAMA DE DICTAMEN (OBLIGADO Y VOLUNTARIO) PROCEDIMIENTO DE REVISIÓN INTERNA (RO Y RV).'),
+            ], default = '400' ,string='Origen del movimiento')
     wage = fields.Float('Wage', digits=(16, 2), help="Employee's monthly gross wage.")
     salary   = fields.Float('SDI', digits=(16, 2), help="SDI")
     state = fields.Selection([
@@ -275,6 +286,7 @@ class HrEmployeeAffiliateMove(models.Model):
         content = ''
         for move in self.movements_ids.filtered(lambda mov: mov.state == 'generated'):
             if self.type_move == '08':
+                origin_move = move.employee_id.employer_register_id.subdelegacion_id.code + move.origin_move
                 # TXT Para movimientos afiliatorios de Alta o Reingreso
                 content += '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n' %(self.employer_register_id.employer_registry.ljust(11),  # 1 Registro Patronal len(11)
                     move.employee_id.ssnid.ljust(11) if move.employee_id.ssnid else ' '.ljust(11),              # 2 Número de seguridad social len(11)
@@ -290,7 +302,7 @@ class HrEmployeeAffiliateMove(models.Model):
                     '??'.ljust(3),                                                                              # 12 Unidad de medicina familiar len(3)
                     ' '.ljust(2),                                                                               # 13 Filler len(2)
                     move.type,                                                                                  # 14 Tipo de movimiento len(2)
-                    'Guia?'.ljust(5),                                                                           # 15 Guía - Número asignado por la Subdelegación len(5)
+                    origin_move if len(origin_move) == 5 else '0'.zfill(5),                                     # 15 Guía - Número asignado por la Subdelegación len(5)
                     move.employee_id.enrollment.ljust(10) if move.employee_id.enrollment else ' '.ljust(10),    # 16 Clave del trabajador len(10)
                     ' '.ljust(1),                                                                               # 17 Filler len(1)
                     move.employee_id.curp.ljust(18) if move.employee_id.curp else ' '.ljust(18),                # 18 Clave del trabajador len(18)
@@ -298,6 +310,7 @@ class HrEmployeeAffiliateMove(models.Model):
                 )
             if self.type_move == '07':
                 # TXT Para movimientos afiliatorios de modificación de salarios
+                origin_move = move.employee_id.employer_register_id.subdelegacion_id.code + move.origin_move
                 content += '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n' %(
                     self.employer_register_id.employer_registry.ljust(11),                                      # 1 Registro Patronal len(11)
                     move.employee_id.ssnid.ljust(11) if move.employee_id.ssnid else ' '.ljust(11),              # 2 Número de seguridad social len(11)
@@ -311,7 +324,7 @@ class HrEmployeeAffiliateMove(models.Model):
                     move.date.strftime('%d%m%Y'),                                                               # 10 Fecha de movimiento len(8) (DDMMAAAA)
                     ' '.ljust(5),                                                                               # 11 Filler len(5)
                     move.type,                                                                                  # 12 Tipo de movimiento len(2)
-                    'Guia?'.ljust(5),                                                                           # 13 Guía - Número asignado por la Subdelegación len(5)
+                    origin_move if len(origin_move) == 5 else '0'.zfill(5),                                     # 13 Guía - Número asignado por la Subdelegación len(5)
                     move.employee_id.enrollment.ljust(10) if move.employee_id.enrollment else ' '.ljust(10),    # 14 Clave del trabajador len(10)
                     ' '.ljust(1),                                                                               # 15 Filler len(1)
                     move.employee_id.curp.ljust(18) if move.employee_id.curp else ' '.ljust(18),                # 16 Clave del trabajador len(18)
@@ -319,16 +332,17 @@ class HrEmployeeAffiliateMove(models.Model):
                 )
             if self.type_move == '02':
                 # TXT Para movimientos afiliatorios de baja
+                origin_move = move.employee_id.employer_register_id.subdelegacion_id.code + move.origin_move
                 content += '%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n' %(self.employer_register_id.employer_registry.ljust(11),  # 1 Registro Patronal len(11)
                     move.employee_id.ssnid.ljust(11) if move.employee_id.ssnid else ' '.ljust(11),              # 2 Número de seguridad social len(11)
                     move.employee_id.last_name.ljust(27) if move.employee_id.last_name else ' '.ljust(27),      # 3 Primer apellido len(27)
                     move.employee_id.mothers_last_name.ljust(27) if move.employee_id.mothers_last_name else ' '.ljust(27),  # 4 Segundo apellido len(27)
                     move.employee_id.name.ljust(27) if move.employee_id.name else ' '.ljust(27),                # 5 Nombre(s) len(27)
-                    '0'.zfill(15),                                                                              # 6 Filler (Ceros) len(15)
+                    '0'.zfill(15),                                                                              # 6 Filler (Ceros) len(6)
                     move.date.strftime('%d%m%Y'),                                                               # 7 Fecha de movimiento len(8) (DDMMAAAA)
                     ' '.ljust(5),                                                                               # 8 Filler len(6)
                     move.type,                                                                                  # 9 Tipo de movimiento len(2)
-                    'Guia?'.ljust(5),                                                                           # 10 Guía - Número asignado por la Subdelegación len(5)
+                    origin_move if len(origin_move) == 5 else '0'.zfill(5),                                     # 10 Guía - Número asignado por la Subdelegación len(5)
                     move.employee_id.enrollment.ljust(10) if move.employee_id.enrollment else ' '.ljust(10),    # 11 Clave del trabajador len(10)
                     move.reason_liquidation,                                                                    # 12 Causa de la baja len(1)
                     ' '.ljust(18),                                                                              # 13 Filler len(18)
