@@ -165,6 +165,8 @@ class Employee(models.Model):
     fonacot_payroll = fields.Boolean(string='¿Descontar Fonacot en nómina?')
     lines_fonacot = fields.One2many(inverse_name='employee_id', comodel_name='hr.credit.employee.account')
     work_center_id = fields.Many2one('hr.work.center', "Work Center", required=False)
+    umf = fields.Char(string='Unidad Medicina Familiar', size=3,
+        help="Código de tres dígitos de la clínica de adscripción del asegurado.")
     # Fields Translate
     spouse_complete_name = fields.Char(string="Spouse Complete Name", groups="hr.group_hr_user")
     spouse_birthdate = fields.Date(string="Spouse Birthdate", groups="hr.group_hr_user")
@@ -266,6 +268,21 @@ class Employee(models.Model):
         if 'group_id' in vals:
             self.post()
         return res
+    
+    @api.onchange('umf')
+    def _onchange_umf(self):
+        warning = {}
+        title = False
+        message = False
+        if self.umf and len(self.umf) != 3:
+            title = _("Aviso para Unidad de Medicina Familiar")
+            message = 'El valor debe ser de Tres (3) dígitos'
+            warning = {
+                'title': title,
+                'message': message
+            }
+            self.umf = False
+            return {'warning': warning}
     
     @api.onchange('company_id')
     def _onchange_company(self):

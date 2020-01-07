@@ -299,7 +299,7 @@ class HrEmployeeAffiliateMove(models.Model):
                     move.employee_id.salary_type if move.employee_id.salary_type else ' '.ljust(1),             # 9 Tipo de salario len(1)
                     move.employee_id.working_day_week if move.employee_id.working_day_week else ' '.ljust(1),   # 10 Semana o jornada reducida len(1)
                     move.date.strftime('%d%m%Y'),                                                               # 11 Fecha de movimiento len(8) (DDMMAAAA)
-                    '??'.ljust(3),                                                                              # 12 Unidad de medicina familiar len(3)
+                    move.employee_id.umf if len(move.employee_id.umf) == 3 else '0'.zfill(3),                   # 12 Unidad de medicina familiar len(3)
                     ' '.ljust(2),                                                                               # 13 Filler len(2)
                     move.type,                                                                                  # 14 Tipo de movimiento len(2)
                     origin_move if len(origin_move) == 5 else '0'.zfill(5),                                     # 15 Guía - Número asignado por la Subdelegación len(5)

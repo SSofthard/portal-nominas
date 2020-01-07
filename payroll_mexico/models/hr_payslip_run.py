@@ -201,7 +201,7 @@ class HrPayslipRun(models.Model):
         total = 0
         for payroll in payrolls:
             payroll_dic['payroll_of_month'] = payroll.payroll_of_month
-            payroll_dic['date_large'] = '%s/%s/%s' %(payroll.date_end.strftime("%d"), payroll.date_end.strftime("%b").title(), payroll.date_end.strftime("%Y"))
+            payroll_dic['date_large'] = '%s a %s' %(payroll.date_start.strftime("%d/%b/%Y").title(), payroll.date_end.strftime("%d/%b/%Y").title())
             company = payroll.mapped('slip_ids').mapped('company_id')
             payroll_dic['rfc'] = company.rfc
             payroll_dic['employer_registry'] = company.employer_register_ids.filtered(lambda r: r.state == 'valid').mapped('employer_registry')[0] or ''
@@ -210,8 +210,6 @@ class HrPayslipRun(models.Model):
                 employees.append({
                     'enrollment': slip.employee_id.enrollment,
                     'name': slip.employee_id.name_get()[0][1],
-                    'fulltime': '?',
-                    'office': '?',
                     'bank_key': slip.employee_id.get_bank().bank_id.code or '',
                     'bank': slip.employee_id.get_bank().bank_id.name or '',
                     'account': slip.employee_id.get_bank().bank_account or '',
