@@ -92,23 +92,52 @@
 					<attribute name="edit">0</attribute>
 				</xpath>
 				<xpath expr="//field[@name='contract_id']" position="after">
-					<field name="structure_type_id" />
+					<field name="structure_type_id" readonly="1" />
 				</xpath>
 				<xpath expr="//field[@name='struct_id']" position="attributes">
 					<attribute name="domain">[('structure_type_id','=',structure_type_id)]</attribute>
 					<attribute name="context">{'default_structure_type_id':structure_type_id}</attribute>
+					<attribute name="readonly">1</attribute>
+				</xpath>
+            
+				<xpath expr="//field[@name='employee_id']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='contract_id']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='date_from']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='date_to']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='number']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='name']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='worked_days_line_ids']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='input_line_ids']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='line_ids']" position="attributes">
+					<attribute name="readonly">1</attribute>
 				</xpath>
             
             <xpath expr="//field[@name='line_ids']/tree" position="attributes">
                 <attribute name="limit">200</attribute>
             </xpath>
                 <xpath expr="//field[@name='name']" position="after">
-                    <field name="payroll_type"/>
-                    <field name="payroll_month"/>
-                    <field name="payroll_of_month"/>
-                    <field name="payroll_period"/>
-                    <field name="group_id"/>
-                    <field name="employer_register_id" domain="[('state','=','valid')]"/>
+                    <field name="payroll_type" readonly="1"/>
+                    <field name="payroll_month" readonly="1"/>
+                    <field name="payroll_of_month" readonly="1"/>
+                    <field name="payroll_period" readonly="1"/>
+                    <field name="group_id" readonly="1"/>
+                    <field name="employer_register_id" domain="[('state','=','valid')]" readonly="1"/>
                     <field name="table_id" invisible="1"/>
                 </xpath> 
                 <xpath expr="//notebook/page[1]" position="after">
@@ -120,8 +149,8 @@
                     <page string="Miscellaneous">
                         <group>
                             <group string="Miscellaneous">
-                                <field name="company_id" groups="base.group_multi_company"/>
-                                <field name="payslip_run_id" domain="[('state','=','draft')]"/>
+                                <field name="company_id" groups="base.group_multi_company" invisible="1"/>
+                                <field name="payslip_run_id" domain="[('state','=','draft')]" invisible="1"/>
                                 <field name="subtotal_amount_untaxed"/>
                                  <field name="amount_tax"/>
                                  <field name="integral_salary"/>
@@ -140,14 +169,14 @@
                    <page string="CFDI">
 					   <group>
 							<group string="Datos CFDI">
-								<field name="way_pay"/>
-								<field name="type_voucher" string="Tipo de comprobante"/>
-								<field name="payment_method"/>
-								<field name="cfdi_use"/>
+								<field name="way_pay" readonly="1"/>
+								<field name="type_voucher" string="Tipo de comprobante" readonly="1"/>
+								<field name="payment_method" readonly="1"/>
+								<field name="cfdi_use" readonly="1"/>
 							 </group>
 							<group string="Detalles">
-								<field name="fiscal_folio"/>
-								<field name="invoice_status"/>
+								<field name="fiscal_folio" readonly="1"/>
+								<field name="invoice_status" readonly="1"/>
 							 </group>
 					   </group>
                    </page>

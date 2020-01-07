@@ -579,42 +579,7 @@
                         </tbody>
                     </table>
                     <br/>
-                    <center><strong><h5 style="background-color: #ABAFAF;">Configuración RRHH</h5></strong></center>
-                    <br/>
-                    <div class="row">
-                        <div class="col-7">
-                            <center><strong><h6 style="border-bottom: 1px solid #ABAFAF;">Estado</h6></strong></center>
-                            <tr>
-                                <td>
-                                    <strong>Usuario del Sistema:</strong> <span t-field="o.user_id"/>
-                                </td>
-                            </tr>
-                            <br/>
-                            <tr class="text-center">
-                                <td>
-                                    <center><strong><h6 style="border-bottom: 1px solid #ABAFAF;">Servicio</h6></strong></center>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>ID de credencial</strong> <span t-field="o.barcode"/>
-                                </td>
-                            </tr>
-                        </div>
-                        <div class="col-5">
-                            <tr class="text-center">
-                                <td>
-                                    <center><strong><h6 style="border-bottom: 1px solid #ABAFAF;">Ausencias</h6></strong></center>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>Ausencias permitidas restantes</strong> <span t-field="o.remaining_leaves"/>
-                                </td>
-                            </tr>
-                        </div>
-                    </div>
-                    <br/>
+
                     <center><strong><h5 style="background-color: #ABAFAF;">Crédito Fonacot</h5></strong></center>
                     <div class="row; text-center" t-if="not o.lines_fonacot">
                         <center><h6>Sin resultados que mostrar</h6></center>
