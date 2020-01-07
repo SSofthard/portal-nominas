@@ -172,7 +172,9 @@
                               </group>
                               <group>
                                   <field name="input_id" domain="[('type','=',context.get('type_input'))]" options='{"no_create": True}'/>
+                                  <field name="date_overtime" attrs="{'invisible': [('code', 'not in', ['P003','P005'])],'required': [('code', 'in', ['P003','P005'])]}"/>
                                   <field name="amount"/>
+                                  <field name="code" invisible="1"/>
                               </group>
                           </group>
                       </sheet>
