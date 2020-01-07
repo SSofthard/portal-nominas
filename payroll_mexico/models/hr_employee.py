@@ -526,7 +526,6 @@ class HrGroup(models.Model):
     state_id = fields.Many2one('res.country.state', string='State', required=True)
     antique_table = fields.Many2one('tablas.antiguedades', string='Antique table', required=True)
     percent_honorarium = fields.Float(required=True, digits=(16, 4), string='Porcentaje de honoraios')
-    savings_fund_percentage = fields.Float(required=True, digits=(16, 4), string='Savings fund percentage')
     sequence_payslip_id = fields.Many2one(comodel_name='ir.sequence', string='Secuencia correlativo de Nómina')
     sequence_payslip_number_next = fields.Integer(string='Próximo Número (Correlativo de Nómina)',
                                                   compute='_compute_seq_number_next',

@@ -777,6 +777,7 @@ class HrInputs(models.Model):
     payslip = fields.Boolean('Payroll?')
     amount = fields.Float('Amount', states={'paid': [('readonly', True)]}, digits=(16, 2))
     input_id = fields.Many2one('hr.rule.input', string='Input', required=True, states={'paid': [('readonly', True)]})
+    code = fields.Char(string='Code', related="input_id.code")
     state = fields.Selection([
         ('approve', 'Approved'),
         ('paid', 'Reported on payroll')], string='Status', readonly=True, default='approve')
@@ -784,6 +785,7 @@ class HrInputs(models.Model):
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, states={'paid': [('readonly', True)]}, store=True)
     group_id = fields.Many2one('hr.group', "Group", related= 'employee_id.group_id', readonly=True, states={'paid': [('readonly', True)]}, store=True)
+    date_overtime = fields.Date('Fecha')
 
     @api.multi
     def name_get(self):
