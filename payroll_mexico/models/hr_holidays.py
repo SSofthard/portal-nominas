@@ -31,6 +31,12 @@ class Holidays(models.Model):
                 }
         self.remaining_days = name
 
+    @api.onchange('employee_id')
+    def onchange_employee_id(self):
+        '''
+        Este metodo agrega el contrato al formulario
+        '''
+        self.contract_id = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('contracting_regime','=',2),('state','=','open')])
 
     @api.multi
     def action_validate(self):
@@ -73,7 +79,7 @@ class Holidays(models.Model):
         cfdi_record = self.env['tablas.antiguedades.line'].search(
             [('antiguedad', '=', self.contract_id.years_antiquity),('form_id','=',self.employee_id.group_id.antique_table.id)])
         amount_bonus = ((self.contract_id.wage/30)*self.number_of_days_display) * cfdi_record.prima_vac / 100
-        self.holidays_bonus =  amount_bonus
+        self.holidays_bonus = amount_bonus
 
     #Columns
     holidays_bonus = fields.Float(compute='_compute_bonus', string='Holidays total bonus')

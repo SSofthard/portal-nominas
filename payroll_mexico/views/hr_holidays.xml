@@ -101,6 +101,7 @@
                             </group>
                             <group name="col_right">
                                 <field name="employee_id" invisible="0"/>
+                                <field name="contract_id" invisible="0" domain="[('employee_id','=',employee_id),('contracting_regime','=',2),('state','=','open')]"/>
                                 <field name="department_id" groups="hr_holidays.group_hr_holidays_user" invisible="0"/>
                                 <field name="holidays_bonus" invisible="0"/>
                             </group>
