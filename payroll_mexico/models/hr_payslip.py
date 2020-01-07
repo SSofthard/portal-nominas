@@ -523,6 +523,7 @@ class HrPayslip(models.Model):
             day_to = datetime.combine(fields.Date.from_string(date_to), time.max)
             # compute leave days
             leaves = {}
+            total_leave_days=0
             calendar = contract.resource_calendar_id
             tz = timezone(calendar.tz)
             day_leave_intervals = contract.employee_id.list_leaves(day_from, day_to,
@@ -545,6 +546,7 @@ class HrPayslip(models.Model):
                 )
                 if work_hours:
                     current_leave_struct['number_of_days'] += hours / work_hours
+                total_leave_days = current_leave_struct['number_of_days']
 
             # compute worked days
             work_data = contract.employee_id.get_work_days_data(day_from, day_to,
@@ -620,7 +622,7 @@ class HrPayslip(models.Model):
                 'name': _("Normal Working Days paid at 100%"),
                 'sequence': 1,
                 'code': 'WORK100',
-                'number_of_days': work_data['days'],
+                'number_of_days': cant_days - total_leave_days,
                 'number_of_hours': work_data['hours'],
                 'contract_id': contract.id,
             }

@@ -102,13 +102,6 @@
                             <group name="col_right">
                                 <field name="employee_id" invisible="0"/>
                                 <field name="department_id" groups="hr_holidays.group_hr_holidays_user" invisible="0"/>
-                                <field name="prorate_lines" invisible="0" readonly="False">
-                                    <tree editable="botton" delete="false" create="false">
-                                        <field name="contract_id" readonly="True"/>
-                                        <field name="holidays_bonus" readonly="True"/>
-                                        <field name="input_id" readonly="False"/>
-                                    </tree>
-                                </field>
                                 <field name="holidays_bonus" invisible="0"/>
                             </group>
                             <group name="col_right">
@@ -212,6 +205,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='time_type']" position="after">
                     <field name="is_holidays"/>
+                    <field name="input_type"/>
                 </xpath>
             </field>
         </record>

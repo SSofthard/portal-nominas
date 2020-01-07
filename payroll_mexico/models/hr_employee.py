@@ -197,6 +197,9 @@ class Employee(models.Model):
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
     contract_id = fields.Many2one('hr.contract', string='Contract', store=True)
     complete_name = fields.Char(compute='_compute_complete_name', string='Nombre completo', store=True)
+    payment_holidays_bonus = fields.Selection([(0, 'Pagar al vencimiento de las vacaciones'),
+                                               (1, 'Pagar con el disfrute de las vacaciones')],
+                                              string='Pago de prima vacacional')
 
 
     _sql_constraints = [
