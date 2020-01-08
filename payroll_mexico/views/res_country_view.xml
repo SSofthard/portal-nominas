@@ -2,6 +2,60 @@
 <odoo>
     <data>
         
+        <!-- Search Colonia -->
+        <record id="view_country_state_suburb_filter" model="ir.ui.view">
+            <field name="name">view.country.state.suburb.filter</field>
+            <field name="model">res.municipality.suburb</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Colonia">
+                   <field name="name"
+                       filter_domain="[('name','ilike',self)]"/>
+                   <field name="code"
+                       filter_domain="[('code','ilike',self)]"/>
+                   <field name="municipality_id" string="Municipio" 
+                    filter_domain="[('municipality_id','ilike', self)]"/>
+                   <group expand="0" name="group_by" string="Agrupar por">
+                       <filter name="municipality_id" string="Municipio" domain="[]" context="{'group_by' : 'municipality_id'}" />
+                   </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Colonia tree view-->
+        <record id="view_country_state_suburb_tree" model="ir.ui.view">
+            <field name="name">res.municipality.suburb.tree</field>
+            <field name="model">res.municipality.suburb</field>
+            <field name="arch" type="xml">
+                <tree string="Colonia">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="municipality_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_country_state_suburb_form" model="ir.ui.view">
+            <field name="name">res.municipality.suburb.form</field>
+            <field name="model">res.municipality.suburb</field>
+            <field name="arch" type="xml">
+                <form string="Colonia">
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="municipality_id" options='{"no_open": True}'/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_country_state_suburb" model="ir.actions.act_window">
+            <field name="name">Colonias</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.municipality.suburb</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_country_state_suburb_tree"/>
+        </record>
+        
         <!-- Search Municipality -->
         <record id="view_country_state_municipality_filter" model="ir.ui.view">
             <field name="name">view.country.state.municipality.filter</field>
@@ -25,7 +79,7 @@
             <field name="name">res.country.state.municipality.tree</field>
             <field name="model">res.country.state.municipality</field>
             <field name="arch" type="xml">
-                <tree string="State">
+                <tree string="Municipio">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="state_id"/>
@@ -37,7 +91,7 @@
             <field name="name">res.country.state.municipality.form</field>
             <field name="model">res.country.state.municipality</field>
             <field name="arch" type="xml">
-                <form string="State">
+                <form string="Municipio">
                     <group>
                         <field name="name"/>
                         <field name="code"/>

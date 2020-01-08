@@ -33,6 +33,7 @@ class Company(models.Model):
     power_attorney_ids = fields.One2many('company.power.attorney','company_id', "Power Attorney", required=True)
     country_id = fields.Many2one('res.country', compute='_compute_address', inverse='_inverse_country', string="Country", default=lambda self: self.env.user.company_id.country_id.id)
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     tax_regime = fields.Selection(
         selection=[('601', _('General de Ley Personas Morales')),
                    ('603', _('Personas Morales con Fines no Lucrativos')),
@@ -74,6 +75,11 @@ class Company(models.Model):
     def onchange_state_id(self):
         if self.state_id:
             self.municipality_id = False
+            
+    @api.onchange('municipality_id')
+    def onchange_municipality_id(self):
+        if self.municipality_id:
+            self.suburb_id = False
 
 
 class employerRegister(models.Model):
@@ -338,6 +344,7 @@ class Partner(models.Model):
     branch_offices = fields.Boolean(string='Branch Offices?', copy=False)
     country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
 
     @api.multi
     def _display_address(self, without_company=False):
