@@ -17,6 +17,8 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
         if affiliate_movements:
             raise ValidationError(_('There is already an affiliate movement for salary change in draft or generated status, please check and if you want to generate a new one, delete the current one.'))
         self.contract_id.wage = self.wage
+        integral_salary = self.contract_id._calculate_integral_salary()
+        self.contract_id.integral_salary = integral_salary
         val = {
             'contract_id':self.contract_id.id,
             'employee_id':self.employee_id.id,

@@ -53,31 +53,6 @@ class Contract(models.Model):
         self.years_antiquity = years_antiquity
         self.days_rest = days_rest
 
-    def _get_integral_salary(self):
-        '''
-        Esten metodo busca el salario integral fijo para agregarlo al formulario del empleado
-        '''
-        contracts = self
-        for contract in contracts:
-            current_date  =  fields.Date.context_today(self)+timedelta(days=1)
-            start_date_contract = contract.previous_contract_date or contract.date_start
-            years_antiquity = contract.years_antiquity
-            antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',contract.employee_id.group_id.antique_table.id)])
-            daily_salary = contract.wage / contract.employee_id.group_id.days if contract.employee_id.group_id.days else contract.wage / 30
-            integral_salary =  daily_salary + (daily_salary*(antiguedad.factor/100))
-            contract.integral_salary = integral_salary
-
-    # def _get_variable_salary(self):
-    #     '''
-    #     Este metodo buscara los salarios variables de las nominas y calculara el valor para agregarlo al empleado
-    #     '''
-    #     current_date = fields.Date.context_today(self)
-    #     current_month = current_date.month
-    #     date_start = date(current_date.year, current_month-2, 1)
-    #     date_end = current_date
-    #     payslips = self.env['hr.payslip'].search([('date_from','>=',date_start),('date_to','<=',date_end)])
-    #     self.salary_var = sum(payslips.mapped('integral_variable_salary'))/len(payslips)
-
 
     #Columns
     code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
@@ -95,11 +70,10 @@ class Contract(models.Model):
         ], string='Contracting Regime', required=True, default="2")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
-    integral_salary= fields.Float(string="SDI", compute='_get_integral_salary', copy=False, store=True)
+    integral_salary= fields.Float(string="SDI", copy=False)
     group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
-    # ~ salary_var= fields.Float("Salary Variable", compute='_get_variable_salary', copy=False) 
     
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
     
@@ -226,6 +200,23 @@ class Contract(models.Model):
                 days = (date2 - date_from).days
             else:
                 days = (date_to - date_from).days
+        
+        worked_days = self.env['hr.payslip.worked_days']
+        days_discount = sum(worked_days.search([('payslip_id.employee_id','=',self.employee_id.id),
+                                            ('code','in',['F01','F04']),
+                                            ('payslip_id.year','=',str(date_payroll.year)),
+                                            ('payslip_id.state','in',['done']),
+                                            ('payslip_id.payroll_type','in',['ordinary_payroll'])]).mapped('number_of_days'))
+        
+        days = days - days_discount
+        if days < 0:
+            days = 0
+        print (days)
+        print (days)
+        print (days)
+        print (days)
+        print (days)
+        print (days)
         return days
 
     def holiday_calculation_finiquito(self,date_payroll):
@@ -256,6 +247,25 @@ class Contract(models.Model):
     def search_antique_table_bonus(self):
         antique = self.env['tablas.antiguedades.line'].search([('form_id','=',self.employee_id.group_id.antique_table.id),('antiguedad','=',self.years_antiquity)],limit=1)
         return antique.aguinaldo
+    
+    def _calculate_integral_salary(self):
+        current_date  =  fields.Date.context_today(self)+timedelta(days=1)
+        start_date_contract = self.previous_contract_date or self.date_start
+        years_antiquity = self.years_antiquity
+        antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',self.employee_id.group_id.antique_table.id)])
+        daily_salary = self.wage / self.employee_id.group_id.days if self.employee_id.group_id.days else self.wage / 30
+        daily_salary = float("{0:.4f}".format(daily_salary))
+        integral_salary =  daily_salary + (daily_salary*(antiguedad.factor/100))
+        return float("{0:.4f}".format(integral_salary))
+        
+    def _get_integral_salary(self):
+        '''
+        Esten metodo busca el salario integral fijo para agregarlo al formulario del contrato
+        '''
+        contracts = self
+        for contract in contracts:
+            if contract.contracting_regime == '2':
+                contract.integral_salary = contract._calculate_integral_salary()
         
 
 class FixedConcepts(models.Model):

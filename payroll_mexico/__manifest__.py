@@ -81,7 +81,7 @@
         # 'data/data_table_cfdi.xml',
         'data/data_table_setting.xml',
         'data/res.bank.csv',
-        'data/payroll_data.xml',
+        # ~ 'data/payroll_data.xml',
         'data/data_rule_salary.xml',
         'data/data_isn.xml',
         'data/data_ir_export_employee.xml',

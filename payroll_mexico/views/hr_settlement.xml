@@ -66,11 +66,12 @@
                     <div>
                         <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
                     </div>
-                    <field name="contract_id" domain="[('employee_id','=',employee_id),('state','in',['close'])]" context="{'default_employee_id': employee_id}"/>
+                    <field name="contract_id" domain="[('employee_id','=',employee_id),('state','in',['close']),('contracting_regime','in',['2'])]" context="{'default_employee_id': employee_id}"/>
                     <field name="structure_type_id" />
                     <field name="number"/>
                     <field name="struct_id" attrs="{'required':[('contract_id','!=',False)]}" domain="[('structure_type_id','=',structure_type_id),('settlement','=',True)]" context="{'default_structure_type_id':structure_type_id}"/>
                     <field name="name" string="Nombre del finiquito"/>
+                    <field name="employer_register_id"/>
                     <field name="payroll_period"/>
                     <field name="reason_liquidation" attrs="{'required':[('settlement','!=',False)]}"/>
                     <field name="group_id"/>
@@ -78,7 +79,7 @@
                     <field name="payroll_month" invisible="1"/>
                     <field name="payroll_of_month" invisible="1"/>
                     <field name="payroll_type" invisible="1"/>
-                    <field name="table_id" invisible="1"/>
+                    <field name="table_id" invisible="0"/>
                     <field name="settlement" invisible="1"/>
                 </group>
                 <group>
@@ -152,7 +153,7 @@
                    </page>
                     <page string="Salary Computation" >
                         <field name="line_ids" colspan="4" nolabel="1">
-                            <tree string="Settlemen Structure" editable="bottom" decoration-info="total == 0">
+                            <tree string="Settlemen Structure" editable="bottom" decoration-info="total == 0" limit="200">
                                 <field name="name"/>
                                 <field name="code"/>
                                 <field name="category_id"/>

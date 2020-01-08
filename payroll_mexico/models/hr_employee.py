@@ -164,7 +164,7 @@ class Employee(models.Model):
     last_amount_update = fields.Float(string='Ultima deuda agregada')
     fonacot_payroll = fields.Boolean(string='¿Descontar Fonacot en nómina?')
     lines_fonacot = fields.One2many(inverse_name='employee_id', comodel_name='hr.credit.employee.account')
-    work_center_id = fields.Many2one('hr.work.center', "Work Center", required=False)
+    work_center_id = fields.Many2one('hr.work.center', "Work Center", required=True)
     umf = fields.Char(string='Unidad Medicina Familiar', size=3,
         help="Código de tres dígitos de la clínica de adscripción del asegurado.")
     # Fields Translate
@@ -221,6 +221,8 @@ class Employee(models.Model):
             for bank in employee.bank_account_ids:
                 if bank.predetermined:
                     return bank
+                else:
+                    return employee.bank_account_ids[0]
 
     @api.constrains('ssnid','rfc','curp')
     def validate_ssnid(self):
@@ -320,10 +322,14 @@ class Employee(models.Model):
                 table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
                 days = employee.group_id.days
                 
+                if not employee.employer_register_id:
+                    raise UserError(_('Por favor seleccione un registro patronal'))
+                
                 # ~ calculation of wages and salaries
                 
                 daily_salary = employee.wage_salaries/days
-                minimum_integration_factor = 1.0452
+                antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',0),('form_id','=',self.group_id.antique_table.id)])
+                minimum_integration_factor = float("{0:.4f}".format((antiguedad.factor/100) + 1)) 
                 
                 integrated_daily_wage = daily_salary * minimum_integration_factor
                 salary = daily_salary*days
@@ -343,7 +349,7 @@ class Employee(models.Model):
                     if salary > tsub.lim_inf and salary < tsub.lim_sup:
                         employment_subsidy = tsub.s_mensual
                 total_perceptions = salary+employment_subsidy
-                risk_factor = employee.group_id.get_risk_factor(today)[0]
+                risk_factor = employee.employer_register_id.get_risk_factor(today)[0]
                 work_irrigation = (integrated_daily_wage * risk_factor * days)/100
                 uma = table_id.uma_id.daily_amount
                 benefits_kind_fixed_fee_pattern = (uma*table_id.em_fixed_fee*days)/100
@@ -375,6 +381,7 @@ class Employee(models.Model):
                 fixed_fee_assimilated = 0
                 applicable_percentage_assimilated = 0
                 applicable_percentage_assimilated = 0
+                lower_limit_assimilated = 0
                 for table in table_id.isr_monthly_ids:
                     if salary_assimilated > table.lim_inf and salary_assimilated < table.lim_sup:
                         lower_limit_assimilated = table.lim_inf
@@ -422,7 +429,7 @@ class Employee(models.Model):
                 raise UserError(_('The employee has currently open contracts.'))
             if not employee.company_id:
                 raise UserError(_('You must select a company for the salary and salary contract.'))
-            if not employee.company_assimilated_id:
+            if not employee.company_assimilated_id and employee.assimilated_salary_gross > 0:
                 raise UserError(_('You must select a company for the salary-like contract.'))
             if employee.wage_salaries_gross > 0:
                 val = {
@@ -551,6 +558,7 @@ class HrGroup(models.Model):
                                                   compute='_compute_seq_number_next',
                                                   inverse='_inverse_seq_number_next')
     code_payslip = fields.Char(string='Código corto (Correlativo de Nómina)', store=True, readonly=False)
+    pay_three_days_disability = fields.Boolean(string='Pagar 3 dias de incapacidad')
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
@@ -797,6 +805,7 @@ class HrWorkCenters(models.Model):
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
     active = fields.Boolean(default=True)
+    
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'The work center name must be unique !'),
         ('code_uniq', 'code (name)', 'The work center code must be unique !')

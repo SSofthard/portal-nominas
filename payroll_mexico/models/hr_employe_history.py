@@ -116,6 +116,8 @@ class Contract(models.Model):
     @api.model
     def create(self, vals):
         res = super(Contract, self).create(vals)
+        integral_salary = res._calculate_integral_salary()
+        res.write({'integral_salary':integral_salary}, create=True)
         val = {
             'contract_id':res.id,
             'employee_id':res.employee_id.id,
@@ -137,41 +139,42 @@ class Contract(models.Model):
         return res
         
     @api.multi
-    def write(self, vals):
+    def write(self, vals, create=None):
         affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','=','2')])
         res= super(Contract, self).write(vals)
-        if self.contracting_regime != '2':
-            if affiliate_movements:
-                raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement.'))
+        if not create:
+            if self.contracting_regime != '2':
+                if affiliate_movements:
+                    raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement.'))
+                else:
+                    affiliate_movements_other = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','in',['1','3','4','5'])])
+                    val = {
+                        'contract_id':self.id,
+                        'employee_id':self.employee_id.id,
+                        'type':'08',
+                        'date':self.previous_contract_date or self.date_start,
+                        }
+                    if affiliate_movements_other:
+                        affiliate_movements_other.write(val)
+                    else:
+                        val['wage'] = self.wage
+                        val['salary'] = self.integral_salary
+                        self.env['hr.employee.affiliate.movements'].create(val)
             else:
-                affiliate_movements_other = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','in',['1','3','4','5'])])
                 val = {
                     'contract_id':self.id,
                     'employee_id':self.employee_id.id,
                     'type':'08',
                     'date':self.previous_contract_date or self.date_start,
                     }
-                if affiliate_movements_other:
-                    affiliate_movements_other.write(val)
+                if affiliate_movements:
+                    if affiliate_movements.state in ['approved']:
+                        raise UserError(_('You cannot change the date of discharge of a contract with approved sharpening motion.'))
+                    affiliate_movements.write(val)
                 else:
                     val['wage'] = self.wage
                     val['salary'] = self.integral_salary
                     self.env['hr.employee.affiliate.movements'].create(val)
-        else:
-            val = {
-                'contract_id':self.id,
-                'employee_id':self.employee_id.id,
-                'type':'08',
-                'date':self.previous_contract_date or self.date_start,
-                }
-            if affiliate_movements:
-                if affiliate_movements.state in ['approved']:
-                    raise UserError(_('You cannot change the date of discharge of a contract with approved sharpening motion.'))
-                affiliate_movements.write(val)
-            else:
-                val['wage'] = self.wage
-                val['salary'] = self.integral_salary
-                self.env['hr.employee.affiliate.movements'].create(val)
         return res
 
     @api.constrains('wage')
@@ -299,10 +302,10 @@ class HrEmployeeAffiliateMove(models.Model):
                     move.employee_id.salary_type if move.employee_id.salary_type else ' '.ljust(1),             # 9 Tipo de salario len(1)
                     move.employee_id.working_day_week if move.employee_id.working_day_week else ' '.ljust(1),   # 10 Semana o jornada reducida len(1)
                     move.date.strftime('%d%m%Y'),                                                               # 11 Fecha de movimiento len(8) (DDMMAAAA)
-                    move.employee_id.umf if len(move.employee_id.umf) == 3 else '0'.zfill(3),                   # 12 Unidad de medicina familiar len(3)
+                    move.employee_id.umf if move.employee_id.umf and len(move.employee_id.umf) == 3 else '0'.zfill(3),  # 12 Unidad de medicina familiar len(3)
                     ' '.ljust(2),                                                                               # 13 Filler len(2)
                     move.type,                                                                                  # 14 Tipo de movimiento len(2)
-                    origin_move if len(origin_move) == 5 else '0'.zfill(5),                                     # 15 Guía - Número asignado por la Subdelegación len(5)
+                    origin_move if origin_move and len(origin_move) == 5 else '0'.zfill(5),                     # 15 Guía - Número asignado por la Subdelegación len(5)
                     move.employee_id.enrollment.ljust(10) if move.employee_id.enrollment else ' '.ljust(10),    # 16 Clave del trabajador len(10)
                     ' '.ljust(1),                                                                               # 17 Filler len(1)
                     move.employee_id.curp.ljust(18) if move.employee_id.curp else ' '.ljust(18),                # 18 Clave del trabajador len(18)
@@ -324,7 +327,7 @@ class HrEmployeeAffiliateMove(models.Model):
                     move.date.strftime('%d%m%Y'),                                                               # 10 Fecha de movimiento len(8) (DDMMAAAA)
                     ' '.ljust(5),                                                                               # 11 Filler len(5)
                     move.type,                                                                                  # 12 Tipo de movimiento len(2)
-                    origin_move if len(origin_move) == 5 else '0'.zfill(5),                                     # 13 Guía - Número asignado por la Subdelegación len(5)
+                    origin_move if origin_move and len(origin_move) == 5 else '0'.zfill(5),                     # 13 Guía - Número asignado por la Subdelegación len(5)
                     move.employee_id.enrollment.ljust(10) if move.employee_id.enrollment else ' '.ljust(10),    # 14 Clave del trabajador len(10)
                     ' '.ljust(1),                                                                               # 15 Filler len(1)
                     move.employee_id.curp.ljust(18) if move.employee_id.curp else ' '.ljust(18),                # 16 Clave del trabajador len(18)
@@ -342,12 +345,14 @@ class HrEmployeeAffiliateMove(models.Model):
                     move.date.strftime('%d%m%Y'),                                                               # 7 Fecha de movimiento len(8) (DDMMAAAA)
                     ' '.ljust(5),                                                                               # 8 Filler len(6)
                     move.type,                                                                                  # 9 Tipo de movimiento len(2)
-                    origin_move if len(origin_move) == 5 else '0'.zfill(5),                                     # 10 Guía - Número asignado por la Subdelegación len(5)
+                    origin_move if origin_move and len(origin_move) == 5 else '0'.zfill(5),                     # 10 Guía - Número asignado por la Subdelegación len(5)
                     move.employee_id.enrollment.ljust(10) if move.employee_id.enrollment else ' '.ljust(10),    # 11 Clave del trabajador len(10)
                     move.reason_liquidation,                                                                    # 12 Causa de la baja len(1)
                     ' '.ljust(18),                                                                              # 13 Filler len(18)
                     '9'.ljust(1),                                                                               # 14 Identificador del formato len(1)
                 )
+        if content == '':
+            raise UserError(_('Los movimientos afiliatorios deben estar en estatus "Generado" para generar un TXT.'))
         data = base64.encodebytes(bytes(content, 'utf-8'))
         export_id = self.env['hr.employee.affiliate.export.txt'].create(
             {'txt_file': data, 'file_name': f_name + '.txt'})

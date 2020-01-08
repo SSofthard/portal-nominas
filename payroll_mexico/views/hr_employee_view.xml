@@ -449,6 +449,7 @@
                             <field name="type" widget="selection"/>
                             <field name="days"/>
                             <field name="antique_table"/>
+                            <field name="pay_three_days_disability"/>
                         </group>
                     </group>
                     <notebook>

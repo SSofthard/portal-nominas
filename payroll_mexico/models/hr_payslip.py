@@ -121,7 +121,16 @@ class HrPayslip(models.Model):
                                     'hr.structure.types',
                                     related="contract_id.structure_type_id",
                                     string="Structure Types")
-
+    year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
+    
+    @api.one
+    @api.depends('date_from')
+    def _ge_year_period(self):
+        '''
+        Este metodo obtiene el valor para el campo año basado en las fecha date_from de la nomina
+        '''
+        self.year = self.date_from.year
+    
     @api.one
     @api.depends('subtotal_amount_untaxed')
     def _compute_integral_variable_salary(self):
@@ -478,6 +487,8 @@ class HrPayslip(models.Model):
             }
             self.update({'date_end': False})
             return {'warning': warning}
+        self.table_id = table_id
+        self.employer_register_id = employee.employer_register_id.id
         return
         
     def search_inputs(self):
@@ -524,6 +535,7 @@ class HrPayslip(models.Model):
             # compute leave days
             leaves = {}
             total_leave_days=0
+            hours_leave_days=0
             calendar = contract.resource_calendar_id
             tz = timezone(calendar.tz)
             day_leave_intervals = contract.employee_id.list_leaves(day_from, day_to,
@@ -546,8 +558,14 @@ class HrPayslip(models.Model):
                 )
                 if work_hours:
                     current_leave_struct['number_of_days'] += hours / work_hours
-                total_leave_days = current_leave_struct['number_of_days']
-
+                if holiday.holiday_status_id.code in ['F08'] or not holiday.holiday_status_id.unpaid:
+                    if contract.employee_id.group_id.pay_three_days_disability  and holiday.holiday_status_id.time_type == 'inability':
+                        if float(current_leave_struct['number_of_days']) > 3:
+                            total_leave_days += hours / work_hours
+                            hours_leave_days += hours
+                    else:
+                        total_leave_days += hours / work_hours
+                        hours_leave_days += hours
             # compute worked days
             work_data = contract.employee_id.get_work_days_data(day_from, day_to,
                                                                 calendar=contract.resource_calendar_id, contract=contract)
@@ -591,13 +609,14 @@ class HrPayslip(models.Model):
                 cant_days = payroll_periods_days[period]*(days_factor/30)
             else:
                 cant_days = (to_full - from_full).days*(days_factor/30)
-
+            if cant_days < 0:
+                cant_days = 0
             cant_days_IMSS = {
                 'name': _("Días a cotizar en la nómina"),
                 'sequence': 1,
                 'code': 'DIASIMSS',
                 'number_of_days': cant_days,
-                'number_of_hours': 0,
+                'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day),
                 'contract_id': contract.id,
             }
             if contract.employee_id.pay_holiday:
@@ -623,7 +642,7 @@ class HrPayslip(models.Model):
                 'sequence': 1,
                 'code': 'WORK100',
                 'number_of_days': cant_days - total_leave_days,
-                'number_of_hours': work_data['hours'] - current_leave_struct['number_of_hours'],
+                'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day) - hours_leave_days,
                 'contract_id': contract.id,
             }
             res.append(count_days_weeks)
