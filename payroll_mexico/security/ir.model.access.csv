@@ -26,8 +26,6 @@ access_tablas_cfdi,tablas_cfdi,model_tablas_antiguedades,hr.group_hr_user,1,1,1,
 access_tablas_cfdi6,tablas_cfdi6,model_tablas_antiguedades_line,hr.group_hr_user,1,1,1,1
 acces_inputs_user,Inputs_user,model_hr_inputs,hr_payroll.group_hr_payroll_user,1,1,1,0
 acces_inuts_manager,Inputs_user,model_hr_inputs,hr_payroll.group_hr_payroll_manager,1,1,1,1
-acces_holidays_prorate_wizard_user,holidays_prorate_wizard_user,model_hr_holidays_prorate,hr.group_hr_user,1,1,1,1
-acces_holidays_prorate_wizard_manager,holidays_prorate_wizard_manager,model_hr_holidays_prorate,base.group_erp_manager,1,1,1,1
 acces_table_uma_user,table.uma,model_table_uma,hr.group_hr_user,1,1,1,1
 acces_table_minimum_wages_user,table.minimum.wages,model_table_minimum_wages,hr.group_hr_user,1,1,1,1
 acces_table_settings_user,table.settings,model_table_settings,hr.group_hr_user,1,1,1,1

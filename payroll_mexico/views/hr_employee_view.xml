@@ -200,6 +200,9 @@
                                 <field name="pay_holiday" />
                                 <field name="pay_extra_hours" />
                             </group>
+                            <group string="Prima vacacional">
+                                <field nolabel="True" name="payment_holidays_bonus" widget="radio"/>
+                            </group>
                         </group>
                     </page>
                     <page name="bank_information" string="Bank Information" groups="hr.group_hr_user">
