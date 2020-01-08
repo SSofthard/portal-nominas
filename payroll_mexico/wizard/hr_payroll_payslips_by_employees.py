@@ -57,13 +57,17 @@ class HrPayslipEmployees(models.TransientModel):
         active_id = self.env.context.get('active_id')
         payslip_run = self.env['hr.payslip.run'].search([('id','=',active_id)])
         if active_id:
-            [run_data] = payslip_run.browse(active_id).read(['date_start', 'date_end', 'credit_note','struct_id',
-                                                                                                                        'payroll_type',
-                                                                                                                        'payroll_month',
-                                                                                                                        'payroll_of_month',
-                                                                                                                        'payroll_period',
-                                                                                                                        'table_id',
-                                                                                                                        'employer_register_id'])
+            [run_data] = payslip_run.browse(active_id).read(['date_start', 
+                                                             'date_end', 
+                                                             'credit_note',
+                                                             'struct_id',
+                                                             'payroll_type',
+                                                             'payroll_month',
+                                                             'payroll_of_month',
+                                                             'payroll_period',
+                                                             'table_id',
+                                                             'employer_register_id',
+                                                             ])
         from_date = run_data.get('date_start')
         to_date = run_data.get('date_end')
         if not data['employee_ids']:

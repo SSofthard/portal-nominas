@@ -200,6 +200,23 @@ class Contract(models.Model):
                 days = (date2 - date_from).days
             else:
                 days = (date_to - date_from).days
+        
+        worked_days = self.env['hr.payslip.worked_days']
+        days_discount = sum(worked_days.search([('payslip_id.employee_id','=',self.employee_id.id),
+                                            ('code','in',['F01','F04']),
+                                            ('payslip_id.year','=',str(date_payroll.year)),
+                                            ('payslip_id.state','in',['done']),
+                                            ('payslip_id.payroll_type','in',['ordinary_payroll'])]).mapped('number_of_days'))
+        
+        days = days - days_discount
+        if days < 0:
+            days = 0
+        print (days)
+        print (days)
+        print (days)
+        print (days)
+        print (days)
+        print (days)
         return days
 
     def holiday_calculation_finiquito(self,date_payroll):

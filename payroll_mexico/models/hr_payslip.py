@@ -121,7 +121,16 @@ class HrPayslip(models.Model):
                                     'hr.structure.types',
                                     related="contract_id.structure_type_id",
                                     string="Structure Types")
-
+    year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
+    
+    @api.one
+    @api.depends('date_from')
+    def _ge_year_period(self):
+        '''
+        Este metodo obtiene el valor para el campo año basado en las fecha date_from de la nomina
+        '''
+        self.year = self.date_from.year
+    
     @api.one
     @api.depends('subtotal_amount_untaxed')
     def _compute_integral_variable_salary(self):
@@ -478,6 +487,8 @@ class HrPayslip(models.Model):
             }
             self.update({'date_end': False})
             return {'warning': warning}
+        self.table_id = table_id
+        self.employer_register_id = employee.employer_register_id.id
         return
         
     def search_inputs(self):
@@ -598,7 +609,8 @@ class HrPayslip(models.Model):
                 cant_days = payroll_periods_days[period]*(days_factor/30)
             else:
                 cant_days = (to_full - from_full).days*(days_factor/30)
-
+            if cant_days < 0:
+                cant_days = 0
             cant_days_IMSS = {
                 'name': _("Días a cotizar en la nómina"),
                 'sequence': 1,

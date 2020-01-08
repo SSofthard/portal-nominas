@@ -138,7 +138,7 @@ class employerRegister(models.Model):
                     lambda factor: date_factor >= factor.date_from \
                     and date_factor <= factor.date_to)
                 if factor_ids:
-                    risk_factor = factor_ids.mapped('risk_factor')
+                    risk_factor = factor_ids.mapped('risk_factor')[0]
                 else:
                     risk_factor = 0.0
         return risk_factor

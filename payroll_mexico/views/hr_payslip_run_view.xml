@@ -132,9 +132,9 @@
                         <field name="year" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="pay_type" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="pay_bonus" attrs="{'invisible': [('bonus_date','!=',True)]}"/>
-                        <field name="table_id" invisible="1"/>
+                        <field name="table_id" invisible="0"/>
                         <field name="bonus_date" invisible="1"/>
-                        <field name="generated" readonly="1"/>
+                        <field name="generated" readonly="1" invisible="1"/>
                     </group>
                     <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('bonus_date','=',False)]}">
 						You can select the option "Pay bonus?" to take into account for this nomination the calculation of the bonuses.
