@@ -332,16 +332,6 @@
                                 <field name="clearance_factor"/>
                                 <field name="factor_ptu"/>
                             </group>
-                            <group>
-                                <field name="ex_pantry_voucher_factor"/>
-                                <field name="ex_holiday_bonus_factor"/>
-                                <field name="ex_bonus_factor"/>
-                                <field name="ex_savings_fund_factor"/>
-                                <field name="ex_extra_time_factor"/>
-                                <field name="ex_sunday_prime_factor"/>
-                                <field name="ex_clearance_factor"/>
-                                <field name="ex_factor_ptu"/>
-                            </group>
                         </group>
                     </page>
                     <page string="IMSS/INFONAVIT">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-  <template id="assets_backend" inherit_id="web.assets_backend">
+  <template id="hr_public_holidays.assets_backend" inherit_id="web.assets_backend">
     <xpath expr="." position="inside">
       <script type="text/javascript" src="/hr_public_holidays/static/src/js/public_holiday_bookmark.js"/>
     </xpath>
