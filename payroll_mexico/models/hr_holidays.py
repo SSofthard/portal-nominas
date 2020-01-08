@@ -44,7 +44,21 @@ class Holidays(models.Model):
         Este metodo ejecutará el metodo de validacón del super y agregará la prima vacacional a las entradas de nomina.
         :return:
         '''
+        print (self.holiday_status_id.is_holidays)
+        print (self.holiday_status_id.is_holidays)
+        print (self.holiday_status_id.is_holidays)
+        print (self.holiday_status_id.is_holidays)
+        print (self.holiday_status_id.is_holidays)
+        print ('self.contract_id.employee_id.payment_holidays_bonus')
+        print (self.contract_id.employee_id.payment_holidays_bonus)
+        print (self.contract_id.name)
         if self.holiday_status_id.is_holidays and self.contract_id.employee_id.payment_holidays_bonus:
+            print ('estoy enrando')
+            print ('estoy enrando')
+            print ('estoy enrando')
+            print ('estoy enrando')
+            print ('estoy enrando')
+            print ('estoy enrando')
             inputs_obj = self.env['hr.inputs']
             self.send_bonus_holidays(self.contract_id)
         return super(Holidays, self).action_validate()

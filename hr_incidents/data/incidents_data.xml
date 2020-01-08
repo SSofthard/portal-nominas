@@ -3,49 +3,57 @@
     <data noupdate="0">  
 		<record id="leave_type_1" model="hr.leave.type">
             <field name="name">Incapacidad Por Enfermedad General</field>
-            <field name="code">F1</field>
+            <field name="code">F01</field>
             <field name="color_name">red</field>
 			<field name="allocation_type">no</field>
 			<field name="time_type">inability</field>
         </record>
 		<record id="leave_type_2" model="hr.leave.type">
             <field name="name">Incapacidad Por Riesgo de Trabajo</field>
-            <field name="code">F2</field>
+            <field name="code">F02</field>
             <field name="color_name">blue</field>
             <field name="allocation_type">no</field>
             <field name="time_type">inability</field>
         </record>
 		<record id="leave_type_3" model="hr.leave.type">
             <field name="name">Incapacidad Por Maternidad</field>
-            <field name="code">F3</field>
+            <field name="code">F03</field>
             <field name="color_name">lightgreen</field>
             <field name="allocation_type">no</field>
             <field name="time_type">inability</field>
         </record>
 		<record id="leave_type_4" model="hr.leave.type">
             <field name="name">Falta Injustificada</field>
-            <field name="code">F4</field>
+            <field name="code">F04</field>
             <field name="color_name">lightblue</field>
             <field name="allocation_type">no</field>
         </record>
         <record id="leave_type_5" model="hr.leave.type">
             <field name="name">Falta Justificada</field>
-            <field name="code">F5</field>
+            <field name="code">F05</field>
             <field name="color_name">lightyellow</field>
             <field name="allocation_type">no</field>
         </record>
         <record id="leave_type_20" model="hr.leave.type">
             <field name="name">Permiso con gose de sueldo</field>
-            <field name="code">F20</field>
+            <field name="code">F06</field>
             <field name="unpaid">True</field>
             <field name="color_name">fuchsia</field>
             <field name="allocation_type">no</field>
         </record>
         <record id="leave_type_21" model="hr.leave.type">
             <field name="name">Permiso sin gose de sueldo</field>
-            <field name="code">F21</field>
+            <field name="code">F07</field>
             <field name="color_name">golden</field>
             <field name="allocation_type">no</field>
         </record>
+        <record id="leave_type_22" model="hr.leave.type">
+		<field name="name">Vacaciones</field>
+		<field name="code">F08</field>
+		<field name="color_name">lavender</field>
+		<field name="unpaid">True</field>
+		<field name="is_holidays">True</field>
+		<field name="allocation_type">fixed</field>
+	</record>
    </data>
 </odoo>
