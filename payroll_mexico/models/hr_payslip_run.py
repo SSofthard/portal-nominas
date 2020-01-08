@@ -210,9 +210,9 @@ class HrPayslipRun(models.Model):
                 employees.append({
                     'enrollment': slip.employee_id.enrollment,
                     'name': slip.employee_id.name_get()[0][1],
-                    'bank_key': slip.employee_id.get_bank().bank_id.code or '',
-                    'bank': slip.employee_id.get_bank().bank_id.name or '',
-                    'account': slip.employee_id.get_bank().bank_account or '',
+                    'bank_key': slip.employee_id.get_bank().bank_id.code if slip.employee_id.get_bank() else '',
+                    'bank': slip.employee_id.get_bank().bank_id.name if slip.employee_id.get_bank() else '',
+                    'account': slip.employee_id.get_bank().bank_account if slip.employee_id.get_bank() else '',
                     'total': slip.line_ids.filtered(lambda r: r.category_id.code == 'NET').mapped('total')[0] or self.not_total(),
                 })
             payroll_dic['employees'] = employees
