@@ -221,6 +221,8 @@ class Employee(models.Model):
             for bank in employee.bank_account_ids:
                 if bank.predetermined:
                     return bank
+                else:
+                    return employee.bank_account_ids[0]
 
     @api.constrains('ssnid','rfc','curp')
     def validate_ssnid(self):
