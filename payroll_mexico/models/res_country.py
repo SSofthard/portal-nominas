@@ -44,6 +44,7 @@ class StateMunicipality(models.Model):
     code = fields.Char('Code', size=5, required=True, 
         help='Municipality code in max. five chars.')
     zone_ids = fields.One2many('res.municipality.zone', 'municipality_id', string='Zones')
+    suburb_ids = fields.One2many('res.municipality.suburb', 'municipality_id', string='Colonias')
     active = fields.Boolean(default=True)
 
     def get_salary_min(self, date):
@@ -53,3 +54,17 @@ class StateMunicipality(models.Model):
         zone = 'border_crossing' if self.env['res.municipality.zone'].search([('municipality_id','=',self.id)]).zone == 'freezone' else 'zone_a'
         salary = getattr(self.env['table.minimum.wages'].search([('date','<=',date)],order='date DESC', limit=1),zone)
         return salary
+
+
+class StateMunicipalitySuburb(models.Model):
+    _name = 'res.municipality.suburb'
+    _description="Colonia"
+
+    municipality_id = fields.Many2one('res.country.state.municipality', 'Municipio',
+        help='Municipio')
+    name = fields.Char('Nombre', required=True, 
+        help='Nombre de la colonia')
+    code = fields.Char('Código', size=5, required=True, 
+        help='Codigo corto de la colonia max. cinco carácteres.')
+    active = fields.Boolean(default=True)
+

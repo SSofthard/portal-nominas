@@ -193,6 +193,12 @@
                             </group>
                         </page>
                 </page>
+                <xpath expr="//field[@name='social_github']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='social_instagram']" position="attributes">
+                    <attribute name="string">Cuenta de Instagram</attribute>
+                </xpath>
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="code" placeholder="Code"/>
                 </xpath>
@@ -221,6 +227,8 @@
                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                         <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
                             domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
                         <field name="street" placeholder="Street..." class="o_address_street"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                     </div>
@@ -240,6 +248,9 @@
                     <field name="notary_public" invisible="1"/>
                     <field name="partner_company" invisible="1"/>
                     <field name="branch_offices" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='function']" position="before">
                     <field name="notary_public_number" attrs="{'invisible': [('public_notary','=', False)],'required': [('public_notary','=', True)],}"/>
@@ -269,6 +280,8 @@
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                         <field name="municipality_id" placeholder="Municipality" class="o_address_country" options='{"no_open": True, "no_create": True}'
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('state_id','=',state_id)]"/>
+                        <field name="suburb_id" placeholder="Colonia" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('municipality_id','=',municipality_id)]"/>
                         <field name="street" placeholder="Street..." class="o_address_street"
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"
@@ -284,6 +297,8 @@
                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                         <field name="municipality_id" placeholder="Municipality" class="o_address_country"
                             domain="[('state_id','=',state_id)]" options='{"no_open": True, "no_create": True}'/>
+                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
                         <field name="street" placeholder="Street..." class="o_address_street"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                     </div>
@@ -314,6 +329,8 @@
                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                         <field name="municipality_id" placeholder="Municipality" class="o_address_country"
                             domain="[('state_id','=',state_id)]" options='{"no_open": True, "no_create": True}'/>
+                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
                         <field name="street" placeholder="Street..." class="o_address_street"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                     </div>
@@ -344,6 +361,8 @@
                         <field name="state_id" domain="[('country_id','=',country_id)]" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                         <field name="municipality_id" class="o_address_street" placeholder="Municipality" domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
                         <field name="street" placeholder="Street..." class="o_address_street"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                     </div>
@@ -373,6 +392,8 @@
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                         <field name="municipality_id" placeholder="Municipality" class="o_address_country" options='{"no_open": True, "no_create": True}'
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('state_id','=',state_id)]" />
+                        <field name="suburb_id" placeholder="Colonia" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('municipality_id','=',municipality_id)]" />
                     </div>
                 </xpath>
             </field>
