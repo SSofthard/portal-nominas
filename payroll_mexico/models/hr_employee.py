@@ -320,10 +320,14 @@ class Employee(models.Model):
                 table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
                 days = employee.group_id.days
                 
+                if not employee.employer_register_id:
+                    raise UserError(_('Por favor seleccione un registro patronal'))
+                
                 # ~ calculation of wages and salaries
                 
                 daily_salary = employee.wage_salaries/days
-                minimum_integration_factor = 1.0452
+                antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',0),('form_id','=',self.group_id.antique_table.id)])
+                minimum_integration_factor = float("{0:.4f}".format((antiguedad.factor/100) + 1)) 
                 
                 integrated_daily_wage = daily_salary * minimum_integration_factor
                 salary = daily_salary*days
@@ -343,7 +347,13 @@ class Employee(models.Model):
                     if salary > tsub.lim_inf and salary < tsub.lim_sup:
                         employment_subsidy = tsub.s_mensual
                 total_perceptions = salary+employment_subsidy
-                risk_factor = employee.group_id.get_risk_factor(today)[0]
+                risk_factor = employee.employer_register_id.get_risk_factor(today)[0]
+                print (risk_factor)
+                print (risk_factor)
+                print (risk_factor)
+                print (risk_factor)
+                print (risk_factor)
+                print (risk_factor)
                 work_irrigation = (integrated_daily_wage * risk_factor * days)/100
                 uma = table_id.uma_id.daily_amount
                 benefits_kind_fixed_fee_pattern = (uma*table_id.em_fixed_fee*days)/100
@@ -375,6 +385,7 @@ class Employee(models.Model):
                 fixed_fee_assimilated = 0
                 applicable_percentage_assimilated = 0
                 applicable_percentage_assimilated = 0
+                lower_limit_assimilated = 0
                 for table in table_id.isr_monthly_ids:
                     if salary_assimilated > table.lim_inf and salary_assimilated < table.lim_sup:
                         lower_limit_assimilated = table.lim_inf
@@ -422,7 +433,7 @@ class Employee(models.Model):
                 raise UserError(_('The employee has currently open contracts.'))
             if not employee.company_id:
                 raise UserError(_('You must select a company for the salary and salary contract.'))
-            if not employee.company_assimilated_id:
+            if not employee.company_assimilated_id and employee.assimilated_salary_gross > 0:
                 raise UserError(_('You must select a company for the salary-like contract.'))
             if employee.wage_salaries_gross > 0:
                 val = {
@@ -798,6 +809,7 @@ class HrWorkCenters(models.Model):
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
     active = fields.Boolean(default=True)
+    
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'The work center name must be unique !'),
         ('code_uniq', 'code (name)', 'The work center code must be unique !')

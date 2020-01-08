@@ -116,6 +116,8 @@ class Contract(models.Model):
     @api.model
     def create(self, vals):
         res = super(Contract, self).create(vals)
+        integral_salary = res._calculate_integral_salary()
+        res.write({'integral_salary':integral_salary}, create=True)
         val = {
             'contract_id':res.id,
             'employee_id':res.employee_id.id,
@@ -137,41 +139,42 @@ class Contract(models.Model):
         return res
         
     @api.multi
-    def write(self, vals):
+    def write(self, vals, create=None):
         affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','=','2')])
         res= super(Contract, self).write(vals)
-        if self.contracting_regime != '2':
-            if affiliate_movements:
-                raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement.'))
+        if not create:
+            if self.contracting_regime != '2':
+                if affiliate_movements:
+                    raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement.'))
+                else:
+                    affiliate_movements_other = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','in',['1','3','4','5'])])
+                    val = {
+                        'contract_id':self.id,
+                        'employee_id':self.employee_id.id,
+                        'type':'08',
+                        'date':self.previous_contract_date or self.date_start,
+                        }
+                    if affiliate_movements_other:
+                        affiliate_movements_other.write(val)
+                    else:
+                        val['wage'] = self.wage
+                        val['salary'] = self.integral_salary
+                        self.env['hr.employee.affiliate.movements'].create(val)
             else:
-                affiliate_movements_other = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','in',['1','3','4','5'])])
                 val = {
                     'contract_id':self.id,
                     'employee_id':self.employee_id.id,
                     'type':'08',
                     'date':self.previous_contract_date or self.date_start,
                     }
-                if affiliate_movements_other:
-                    affiliate_movements_other.write(val)
+                if affiliate_movements:
+                    if affiliate_movements.state in ['approved']:
+                        raise UserError(_('You cannot change the date of discharge of a contract with approved sharpening motion.'))
+                    affiliate_movements.write(val)
                 else:
                     val['wage'] = self.wage
                     val['salary'] = self.integral_salary
                     self.env['hr.employee.affiliate.movements'].create(val)
-        else:
-            val = {
-                'contract_id':self.id,
-                'employee_id':self.employee_id.id,
-                'type':'08',
-                'date':self.previous_contract_date or self.date_start,
-                }
-            if affiliate_movements:
-                if affiliate_movements.state in ['approved']:
-                    raise UserError(_('You cannot change the date of discharge of a contract with approved sharpening motion.'))
-                affiliate_movements.write(val)
-            else:
-                val['wage'] = self.wage
-                val['salary'] = self.integral_salary
-                self.env['hr.employee.affiliate.movements'].create(val)
         return res
 
     @api.constrains('wage')
