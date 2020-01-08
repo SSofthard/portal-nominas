@@ -539,7 +539,7 @@ result = grabable</field>
         </record>
 
          <record id="hr_salary_rule_P010" model="hr.salary.rule">
-            <field name="name">PRIMA VACACIONAL (1)</field>
+            <field name="name">PRIMA VACACIONAL</field>
             <field name="code">P010</field>
             <field name="type">perception</field>
             <field name="type_perception">021</field>

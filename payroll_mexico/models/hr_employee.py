@@ -553,6 +553,7 @@ class HrGroup(models.Model):
                                                   compute='_compute_seq_number_next',
                                                   inverse='_inverse_seq_number_next')
     code_payslip = fields.Char(string='Código corto (Correlativo de Nómina)', store=True, readonly=False)
+    pay_three_days_disability = fields.Boolean(string='Pagar 3 dias de incapacidad')
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),

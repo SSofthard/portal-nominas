@@ -51,10 +51,10 @@
                         </button>
                 </xpath>
                 <xpath expr="//field[@name='date_start']" position="attributes">
-                    <attribute name="attrs">{'readonly':[('generated','=',True)]}</attribute>
+                    <attribute name="attrs">{'readonly': [('generated','=',True)]}</attribute>
                 </xpath> 
                 <xpath expr="//field[@name='date_end']" position="attributes">
-                    <attribute name="attrs">{'readonly':[('generated','=',True)]}</attribute>
+                    <attribute name="attrs">{'readonly': [('generated','=',True)]}</attribute>
                 </xpath> 
                 <xpath expr="//header" position="inside">
 <!--

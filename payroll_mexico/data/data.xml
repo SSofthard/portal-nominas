@@ -428,6 +428,9 @@
         <field name="prima_vac">25</field>
         <field name="aguinaldo">15</field>
     </record>
-
+    
+<!--
+    Vacaciones
+-->
    </data>
 </odoo>
