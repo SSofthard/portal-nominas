@@ -623,7 +623,7 @@ class HrPayslip(models.Model):
                 'sequence': 1,
                 'code': 'WORK100',
                 'number_of_days': cant_days - total_leave_days,
-                'number_of_hours': work_data['hours'],
+                'number_of_hours': work_data['hours'] - current_leave_struct['number_of_hours'],
                 'contract_id': contract.id,
             }
             res.append(count_days_weeks)

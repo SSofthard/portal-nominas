@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_layout_mex_credentialing" model="report.layout.credential">
+            <field name="view_id" ref="external_layout_credentialing_01"/>
+            <field name="image">/payroll_mexico/static/img/preview_credentaling_01.png</field>
+            <field name="pdf">/payroll_mexico/static/pdf/preview_credentaling_01.pdf</field>
+        </record>
+        <record id="report_layout_mex_credentialing_2" model="report.layout.credential">
+            <field name="view_id" ref="external_layout_credentialing_02"/>
+            <field name="image">/payroll_mexico/static/img/preview_credentaling_02.png</field>
+            <field name="pdf">/payroll_mexico/static/pdf/preview_credentaling_02.pdf</field>
+        </record>
+        <record id="report_layout_mex_credentialing_3" model="report.layout.credential">
+            <field name="view_id" ref="external_layout_credentialing_03"/>
+            <field name="image">/payroll_mexico/static/img/preview_credentaling_03.png</field>
+            <field name="pdf">/payroll_mexico/static/pdf/preview_credentaling_03.pdf</field>
+        </record>
+        <record id="report_layout_mex_credentialing_4" model="report.layout.credential">
+            <field name="view_id" ref="external_layout_credentialing_04"/>
+            <field name="image">/payroll_mexico/static/img/preview_credentaling_04.png</field>
+            <field name="pdf">/payroll_mexico/static/pdf/preview_credentaling_04.pdf</field>
+        </record>
+    </data>
+</odoo>
