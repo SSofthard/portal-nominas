@@ -6066,7 +6066,7 @@ msgstr "Aportación al INFONAVIT (%)"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__infonavit_ids
 msgid "INFONAVIT credit"
-msgstr "Crédito INFONAVIT"
+msgstr " Crédito INFONAVIT"
 
 #. module: payroll_mexico
 #: model:ir.actions.act_window,name:payroll_mexico.action_tree_hr_isn
