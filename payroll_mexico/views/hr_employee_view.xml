@@ -194,6 +194,7 @@
                                 <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
                                 <field name="payment_period_id"/>
                                 <field name="type_worker"/>
+                                <field name="umf"/>
                             </group>
                             <group string="Extra payments">
                                 <field name="pay_holiday" />

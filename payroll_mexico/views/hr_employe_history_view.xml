@@ -80,6 +80,7 @@
                         <filter name="type" string="Tipo de Movimiento" domain="[]" context="{'group_by':'type'}"/>
                         <filter name="reason_liquidation" string="Reason for liquidation" domain="[]" context="{'group_by':'reason_liquidation'}"/>
                         <filter name="contracting_regime" string="Contracting Regime" domain="[]" context="{'group_by':'contracting_regime'}"/>
+                        <filter name="origin_move" string="Origen del movimiento" domain="[]" context="{'group_by':'origin_move'}"/>
                         <filter name="state" string="State" domain="[]" context="{'group_by':'state'}"/>
                         <filter string="Move Date" name="date_move" domain="[]" context="{'group_by':'date'}"/>
                     </group>
@@ -98,7 +99,7 @@
                 <sheet>
                     <group>
                         <group>
-							 <field name="type" />
+                            <field name="type" />
 							<field name="date" />
                             <field name="employee_id" readonly="1"/>
                             <field name="contract_id" readonly="1"/>
@@ -107,6 +108,7 @@
                             <field name="reason_liquidation" attrs="{'invisible': [('type','not in', ['02'])]}"/>
                             <field name="wage"/>
                             <field name="salary" attrs="{'invisible': [('type','=', '02')]}"/>
+                            <field name="origin_move"/>
                         </group>
                     </group>
                     <field name="contracting_regime" invisible="1"/>

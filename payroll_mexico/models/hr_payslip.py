@@ -787,7 +787,7 @@ class HrInputs(models.Model):
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, states={'paid': [('readonly', True)]}, store=True)
     group_id = fields.Many2one('hr.group', "Group", related= 'employee_id.group_id', readonly=True, states={'paid': [('readonly', True)]}, store=True)
-    date_overtime = fields.Date('Fecha')
+    date_overtime = fields.Date('Fecha', readonly=True, states={'paid': [('readonly', True)]})
 
     @api.multi
     def name_get(self):
