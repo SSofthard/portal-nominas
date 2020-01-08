@@ -19,6 +19,7 @@
         'wizard/infonavit_view.xml',
         'wizard/fees_settlement_report_txt_view.xml',
         'wizard/hr_payroll_payslips_by_employees.xml',
+        'wizard/wizard_credentialing.xml',
         'views/res_country_view.xml',
         'views/hr_employee_view.xml',
         'wizard/wizard_affiliate_move_view.xml',
@@ -42,6 +43,7 @@
         'views/table_antiguedades_view.xml',
         'views/hr_fees_settlement_view.xml',
         'views/hr_table_index_consume_price_view.xml',
+        'views/assets.xml',
         'security/ir.model.access.csv',
         #Reports
         
@@ -72,6 +74,8 @@
         'report/fee_imss_employee_report.xml',
         'report/report_payroll_cfdi.xml',
         'report/report_template.xml',
+        'report/report_layout_credentaling.xml',
+        'report/report_credentaling.xml',
         'data/data.xml',
         'data/sequence_data.xml',
         # 'data/data_table_cfdi.xml',
@@ -86,6 +90,7 @@
         'data/data_delegacion.xml',
         'data/data_inpc.xml',
         'data/data_sector_economico.xml',
+        'data/report_layout.xml',
         # ~ 'data/data_hr_perceptions.xml',
         
     ],
