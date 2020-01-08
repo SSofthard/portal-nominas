@@ -211,12 +211,6 @@ class Contract(models.Model):
         days = days - days_discount
         if days < 0:
             days = 0
-        print (days)
-        print (days)
-        print (days)
-        print (days)
-        print (days)
-        print (days)
         return days
 
     def holiday_calculation_finiquito(self,date_payroll):
