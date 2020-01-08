@@ -164,7 +164,7 @@ class Employee(models.Model):
     last_amount_update = fields.Float(string='Ultima deuda agregada')
     fonacot_payroll = fields.Boolean(string='¿Descontar Fonacot en nómina?')
     lines_fonacot = fields.One2many(inverse_name='employee_id', comodel_name='hr.credit.employee.account')
-    work_center_id = fields.Many2one('hr.work.center', "Work Center", required=False)
+    work_center_id = fields.Many2one('hr.work.center', "Work Center", required=True)
     umf = fields.Char(string='Unidad Medicina Familiar', size=3,
         help="Código de tres dígitos de la clínica de adscripción del asegurado.")
     # Fields Translate
@@ -350,12 +350,6 @@ class Employee(models.Model):
                         employment_subsidy = tsub.s_mensual
                 total_perceptions = salary+employment_subsidy
                 risk_factor = employee.employer_register_id.get_risk_factor(today)[0]
-                print (risk_factor)
-                print (risk_factor)
-                print (risk_factor)
-                print (risk_factor)
-                print (risk_factor)
-                print (risk_factor)
                 work_irrigation = (integrated_daily_wage * risk_factor * days)/100
                 uma = table_id.uma_id.daily_amount
                 benefits_kind_fixed_fee_pattern = (uma*table_id.em_fixed_fee*days)/100
