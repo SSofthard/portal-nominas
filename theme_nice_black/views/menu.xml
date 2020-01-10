@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+<!-- separate first level dropdown from the others to avoid nested dropdown -->
+<t t-extend="webclient_login">
+    <t t-jquery=".o_home_menu_background">$(this).addClass("dropdown-menu-right");</t>
+</t>
+
+<t t-extend="HomeMenu">
+    <t t-jquery=".o_home_menu" t-operation="replace">
+        <div class="text-center">
+            <p>Jeison</p>
+        </div>
+<!--
+        <t t-call="website.layout">
+            <div id="wrap">
+                <script>
+                    $(document).ready(function() {
+                        $('.o_home_menu_background').hide()
+                    });
+                </script>
+            </div>
+        </t>
+-->
+    </t>
+</t>
+
+
+<!--
+<t t-extend="FormSelection">
+    <t t-jquery=".dropdown-menu.state">$(this).hide("dropdown-menu-right");</t>
+</t>
+-->
+
+</templates>
