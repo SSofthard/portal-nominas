@@ -12,7 +12,7 @@
             'report/hr_public_holidays_report.xml',
             "data/mail_template.xml",
             "data/ir_config_parameter.xml",
-            'templates/assets.xml',
+            # ~ 'templates/assets.xml',
             "wizard/hr_public_holidays_wizard_view.xml",
             "wizard/hr_public_holidays_email.xml",
             "views/public_holidays_view.xml",
