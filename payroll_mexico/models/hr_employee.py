@@ -224,16 +224,16 @@ class Employee(models.Model):
                 else:
                     return employee.bank_account_ids[0]
 
-    @api.constrains('ssnid','rfc','curp')
-    def validate_ssnid(self):
-        for record in self:
-            if record.ssnid and len(record.ssnid) != 11:
-                raise UserError(_('The length of the social security number is incorrect'))
-            # ~ if record.rfc:
-                # ~ if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
-                    # ~ raise UserError(_('RFC length is incorrect'))
-            if record.curp and len(record.curp) != 18:
-                raise UserError(_('CURP length is incorrect'))
+    # ~ @api.constrains('ssnid','rfc','curp')
+    # ~ def validate_ssnid(self):
+        # ~ for record in self:
+            # ~ if record.ssnid and len(record.ssnid) != 11:
+                # ~ raise UserError(_('The length of the social security number is incorrect'))
+            # ~ # if record.rfc:
+                # ~ # if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
+                    # ~ # raise UserError(_('RFC length is incorrect'))
+            # ~ if record.curp and len(record.curp) != 18:
+                # ~ raise UserError(_('CURP length is incorrect'))
     
     @api.multi
     def post(self):
