@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+      <template id="assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script src="/theme_nice_black/static/src/css/style.scss"></script>
+            <script src="/theme_nice_black/static/src/js/menu.js"></script>
+            
+            <script src="/theme_nice_black/static/src/js/animations.js"></script>
+        </xpath>
+        
+        <xpath expr="//link[@href='/web/static/src/scss/home_menu.scss']" position="replace">
+            <link type="text/scss" href="/theme_nice_black/static/src/css/globalstyles.css" rel="stylesheet"/>
+        </xpath>
+        <xpath expr="//link[@href='/web_enterprise/static/src/scss/home_menu_layout.scss']" position="replace">
+        </xpath>
+        
+    </template>
+
+    <template id="asset_frontend" inherit_id="website.assets_frontend" name="Theme Hub Fronteeeeeend">
+      <xpath expr="." position="inside">
+        <!-- Personal CSS-->
+        <link href="/theme_nice_black/static/src/css/animate.css" rel="stylesheet"/>
+        <link href="/theme_nice_black/static/src/css/globalstyles.css" rel="stylesheet"/>
+        <link href="/theme_nice_black/static/src/css/homestyles.css" rel="stylesheet" />
+        <!-- Personal JS-->
+        <script src="/theme_nice_black/static/src/js/jquery.vide.js"></script>
+        <script src="/theme_nice_black/static/src/js/homescripts.js"></script>
+        <script src="/theme_nice_black/static/src/js/animations.js"></script>
+      </xpath>
+    </template>
+    
+    <template id="customize_footer_style_1" inherit_id="website.footer_custom" active="True">
+        <xpath expr="//section[hasclass('s_text_block')]" position="replace"></xpath>
+    </template>
+    
+    <template id="customize_header_style_2" inherit_id="portal.frontend_layout" active="True">
+        <xpath expr="//div[@id='wrapwrap']/header" position="replace"></xpath>
+    </template>
+    
+    <template id="customize_language_selector" inherit_id="website.language_selector" active="True">
+        <xpath expr="//ul[hasclass('js_language_selector')]" position="replace"></xpath>
+    </template>
+    
+    <template id="customize_navbar" inherit_id="website.layout" active="True">
+        <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace"></xpath>
+    </template>
+    
+    <template id="customize_brand_promotion" inherit_id="website.brand_promotion" active="True">
+        <xpath expr="//div[hasclass('o_brand_promotion')]" position="replace"></xpath>
+    </template>
+    
+    <template id="customize_layout_footer_copyright" inherit_id="website.layout_footer_copyright" active="True">
+        <xpath expr="//div[hasclass('o_footer_copyright')]" position="replace">
+            <div class="o_footer_copyright" t-ignore="true" t-if="not no_footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-white text-center">
+                            <span>Copyright &amp;copy;</span> <span t-field="res_company.name" itemprop="name">Company name</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    
+  </data>
+</odoo>
