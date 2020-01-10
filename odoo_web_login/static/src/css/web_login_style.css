@@ -73,9 +73,11 @@ body, html {
 	text-align: center;
 }
 
+/*
 .o_database_list select option {
 	background-color: #95A5A6;
 }
+*/
 
 .o_database_list input:focus,
 .o_database_list select:focus {
