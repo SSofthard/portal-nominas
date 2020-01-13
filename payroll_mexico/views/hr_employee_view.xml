@@ -529,6 +529,11 @@
                         </div>
                         <group>
                             <group>
+                                <field name="colonia"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
                                 <field name="group_id"/>
                             </group>
                             <group>
@@ -564,6 +569,7 @@
                 <tree string="Work Centers">
                     <field name="name"/>
                     <field name="code"/>
+                    <field name="colonia"/>
                     <field name="group_id"/>
                     <field name="active"/>
                 </tree>
