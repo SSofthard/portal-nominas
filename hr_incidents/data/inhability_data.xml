@@ -117,6 +117,11 @@
             <field name="classification_ids" eval="[(6, 0, [ref('classification_C002'),
                 ref('classification_C003'),ref('classification_C004'),])]"/>
         </record>
+        <record id="inhability_type_4" model="hr.leave.inhability">
+            <field name="name">Licencia por cuidados médicos de hijos diagnosticados con cáncer.</field>
+            <field name="code">4</field>
+            <field name="classification_ids" eval="[(6, 0, [ref('classification_C001')])]"/>
+        </record>
         
    </data>
 </odoo>

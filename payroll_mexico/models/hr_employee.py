@@ -213,6 +213,16 @@ class Employee(models.Model):
         ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
 
+    @api.constrains('bank_account_ids')
+    def validate_predetermined(self):
+        predetermined=[]
+        for record in self.bank_account_ids:
+            if record.predetermined==True:
+                predetermined.append(record.predetermined)
+                if len(predetermined)>1:
+                    raise ValidationError(_('Advertencia!!! \
+                            Solo debe existir una cuenta predeterminada'))
+    
     def get_bank(self):
         bank_ids = []
         for employee in self:
@@ -224,16 +234,16 @@ class Employee(models.Model):
                 else:
                     return employee.bank_account_ids[0]
 
-    @api.constrains('ssnid','rfc','curp')
-    def validate_ssnid(self):
-        for record in self:
-            if record.ssnid and len(record.ssnid) != 11:
-                raise UserError(_('The length of the social security number is incorrect'))
-            # ~ if record.rfc:
-                # ~ if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
-                    # ~ raise UserError(_('RFC length is incorrect'))
-            if record.curp and len(record.curp) != 18:
-                raise UserError(_('CURP length is incorrect'))
+    # ~ @api.constrains('ssnid','rfc','curp')
+    # ~ def validate_ssnid(self):
+        # ~ for record in self:
+            # ~ if record.ssnid and len(record.ssnid) != 11:
+                # ~ raise UserError(_('The length of the social security number is incorrect'))
+            # ~ # if record.rfc:
+                # ~ # if sum(list(map(lambda x : len(x),  (list(filter(lambda x : x != '', self.rfc.split('_'))))))) != 13:
+                    # ~ # raise UserError(_('RFC length is incorrect'))
+            # ~ if record.curp and len(record.curp) != 18:
+                # ~ raise UserError(_('CURP length is incorrect'))
     
     @api.multi
     def post(self):
@@ -501,9 +511,9 @@ class bankDetailsEmployee(models.Model):
         ('inactive', 'Inactive'),
     ],default="active")
     
-    _sql_constraints = [
-        ('predetermined_uniq', 'unique (employee_id,predetermined)', "There is already a default account number for this employee.!"),
-    ]
+    # ~ _sql_constraints = [
+        # ~ ('predetermined_uniq', 'unique (employee_id,predetermined)', "There is already a default account number for this employee.!"),
+    # ~ ]
 
     @api.multi
     def action_active(self):
@@ -796,6 +806,7 @@ class HrWorkCenters(models.Model):
 
     name = fields.Char("Name", copy=False, required=True)
     code = fields.Char("code", copy=False, required=True)
+    colonia = fields.Char("Colonia", copy=False, required=False)
     group_id = fields.Many2one('hr.group', string="Group")
     country_id = fields.Many2one('res.country', default=_default_country, string="Country")
     city = fields.Char(string="City")
