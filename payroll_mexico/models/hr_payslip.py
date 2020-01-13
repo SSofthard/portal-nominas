@@ -122,6 +122,162 @@ class HrPayslip(models.Model):
                                     related="contract_id.structure_type_id",
                                     string="Structure Types")
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
+    invoice_date = fields.Datetime(string = "Invoice date", readonly=True)
+    
+    
+    def to_json(self):
+        perceptions = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id)])
+        
+        type_perception = dict(self.env['hr.salary.rule']._fields.get('type_perception').selection)
+        perceptions_dict = {}
+        
+        for p in perceptions:
+            perceptions_dict[p.id] = {
+                                'type': '001',
+                                'key': '001',
+                                'concept': 'Sueldos, Salarios Rayas y Jornales',
+                                'amount_e': 12500.0,
+                            }
+        
+        print (type_perception)
+        print (perceptions)
+        print (perceptions)
+        print (perceptions)
+        print (perceptions)
+        
+        
+        data = {
+            'certificate': '',
+            'serie': 'VAU',
+            'number': 'ABC456',
+            'date_invoice_tz': '2016-06-01T06:07:08',
+            'payment_policy': self.way_pay,
+            'certificate_number': '????????',
+            'subtotal': 100.0,
+            'discount_amount': 10.0,
+            'currency': 'MXN',
+            'rate': '1',
+            'amount_total': 90.0,
+            'document_type': self.type_voucher,
+            'emitter_zip': '37205',
+            'cfdi_related_type': '01',
+            'cfdi_related': [{'uuid': '61C47F1C-B9A6-4E99-ABFD-C967E07D476E'}],
+            'emitter_rfc': 'VAU111017CG9',
+            'emitter_name': 'Vauxoo SA de CV',
+            'emitter_fiscal_position': '601',
+            'receiver_rfc': 'ECI0006019E0',
+            'receiver_name': 'Some Customer SC',
+            'receiver_reg_trib': '0000000000000',
+            'receiver_use_cfdi': 'G03',
+            'invoice_lines': [{
+                'price_unit': 50.0,
+                'subtotal_wo_discount': 50.0,
+                'discount': 10.0,
+            }],
+            'taxes': {
+                'total_transferred': '0.00',
+                'total_withhold': '0.00',
+            },
+            'payroll': {
+                'type': 'O',
+                'payment_date': '2017-01-15',
+                'date_from': '2017-01-01',
+                'date_to': '2017-01-15',
+                'number_of_days': "15",
+                'curp_emitter': '',
+                'employer_register': '1203256',
+                'vat_emitter': 'AAA010101AAA',
+                'date_start': '2017-01-01',
+                'seniority_emp': 'P0W',
+                'curp_emp': 'PUXB571021HNELXR00',
+                'nss_emp': '123456789236958',
+                'contract_type': '01',
+                'emp_syndicated': 'No',
+                'working_day': '01',
+                'emp_regimen_type': '02',
+                'no_emp': '1',
+                'departament': 'Research & Development',
+                'emp_job': 'Experienced Developer',
+                'emp_risk': '1',
+                'payment_periodicity': '01',
+                'emp_bank': '012',
+                'emp_account': '1234567890',
+                'emp_base_salary': 5000.0,
+                'emp_diary_salary': 1000.0,
+                'emp_state': 'GUA',
+                'total_compensation': 0.0,
+                'total_retirement': 0.0,
+                'total_salaries': 13000.0,
+                'total_taxed': 500.0,
+                'total_exempt': 12500.0,
+                'total_perceptions': 13000.0,
+                'perceptions': [{
+                    'type': '001',
+                    'key': '001',
+                    'concept': 'Sueldos, Salarios Rayas y Jornales',
+                    'amount_e': 12500.0,
+                }, {
+                    'type': '005',
+                    'key': '005',
+                    'concept': 'Fondo de Ahorro',
+                    'amount_g': 200.0,
+                }, {
+                    'type': '019',
+                    'key': '019',
+                    'concept': 'Horas extra',
+                    'amount_g': 300.0,
+                    'extra_hours': [{
+                        'days': 3,
+                        'type': '01',
+                        'amount': 300.0,
+                        'hours': 3,
+                    }],
+                }],
+                'total_deductions': 2400.0,
+                'total_other_deductions': 400.0,
+                'show_total_taxes_withheld': True,
+                'total_taxes_withheld': 2000.0,
+                'deductions': [{
+                    'type': '001',
+                    'key': '001',
+                    'concept': 'Seguridad social',
+                    'amount': 300.0,
+                }, {
+                    'type': '002',
+                    'key': '002',
+                    'concept': 'ISR',
+                    'amount': 2000.0,
+                }, {
+                    'type': '006',
+                    'key': '006',
+                    'concept': 'Descuento por incapacidad',
+                    'amount': 100.0,
+                }],
+                'inabilities': [{
+                    'days': 3,
+                    'type': '02',
+                    'amount': 100.0,
+                }],
+                'total_other': 300.0,
+                'other_payments': [{
+                    'type': '003',
+                    'key': '003',
+                    'concept': 'Viaticos - entregados al trabajador',
+                    'amount': 300,
+                }],
+            },
+        }
+        return data
+    
+    @api.multi
+    def action_cfdi_nomina_generate(self):
+        for payslip in self:
+            if payslip.invoice_date == False:
+                payslip.invoice_date = datetime.now()
+            
+            values = payslip.to_json()
+                
+        return True
     
     @api.one
     @api.depends('date_from')
@@ -239,7 +395,7 @@ class HrPayslip(models.Model):
         total_faults += inhability + absenteeism
         payroll_dic['faults'] = total_faults
         return payroll_dic
-
+    
     @api.multi
     def print_payroll_cfdi(self):
         payroll = {}
@@ -781,11 +937,23 @@ class HrSalaryRule(models.Model):
                    ('021', 'Cuotas obrero patronales')],
         string=_('Type of deduction'),
     )
+    type_other_payment = fields.Selection(
+        selection=[('001', 'Reintegro de ISR pagado en exceso'), 
+                   ('002', 'Subsidio para el empleo'), 
+                   ('003', 'Viáticos.'),
+                   ('004', 'Apliación de saldo a favor por compensación anual'), 
+                   ('005', 'Reintegro de ISR retenido en exceso de ejercicio anterior'),
+                   ('999', 'Cuotas obrero patronales')],
+        string=_('Otros Pagos'),
+    )
+
     
     type = fields.Selection([
         ('not_apply', 'Does not apply'),
         ('perception', 'Perception'),
-        ('deductions', 'Deductions')], string='Type', default="not_apply")
+        ('deductions', 'Deductions'),
+        ('other_payment', 'Otros Pagos')
+        ], string='Type', default="not_apply")
     payroll_tax = fields.Boolean('Apply payroll tax?', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
     settlement = fields.Boolean(string='Settlement structure?')
     
