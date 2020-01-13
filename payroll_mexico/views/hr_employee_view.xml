@@ -1,0 +1,705 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        
+        <menuitem
+            id="menu_job_position_configuration"
+            name="Job position"
+            action="hr.action_hr_job"
+            parent="hr.menu_human_resources_configuration"
+            groups="hr.group_hr_manager"
+            sequence="100"/>
+        
+        <record id="hr_job_inherit" model="ir.ui.view">
+            <field name="name">hr.job.inherit.view</field>
+            <field name="model">hr.job</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" placeholder="Code"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- hr.department -->
+        <record id="hr_department_inherit" model="ir.ui.view">
+            <field name="name">hr.department.inherit.view</field>
+            <field name="model">hr.department</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" placeholder="Clave"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_department_filter_inherit" model="ir.ui.view">
+            <field name="name">view.department.filter.inherit</field>
+            <field name="model">hr.department</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_department_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" string="Clave"
+                       filter_domain="[('code','ilike',self)]"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="hr_mployee_inherit_search" model="ir.ui.view">
+            <field name="name">hr.employee.inherit.search</field>
+            <field name="model">hr.employee</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='job_id']" position="after">
+                    <field name="enrollment" />
+                    <field name="complete_name" />
+                    <field name="curp" />
+                    <field name="rfc" />
+                    <field name="ssnid" />
+                    <field name="group_id" />
+                    <field name="work_center_id"/>
+                    <field name="employer_register_id" />
+                </xpath>
+                <xpath expr="//filter[@name='message_needaction']" position="after">
+                    <filter string="Contratos vencidos (hoy)" name="exipred_today_employee" domain="[('contract_ids.date_end','=',context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos vencidos 7 (dias)" name="exipred_7_days_employee" domain="[('contract_ids.date_end','&gt;=',(context_today()-relativedelta(days=7)).strftime('%Y-%m-%d')),('contract_ids.date_end','&lt;',time.strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos vencidos 15 (dias)" name="exipred_15_days_employee" domain="[('contract_ids.date_end','&gt;=',(context_today()-relativedelta(days=15)).strftime('%Y-%m-%d')),('contract_ids.date_end','&lt;',time.strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos vencidos 30 (dias)" name="exipred_30_days_employee" domain="[('contract_ids.date_end','&gt;=',(context_today()-relativedelta(days=30)).strftime('%Y-%m-%d')),('contract_ids.date_end','&lt;',time.strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Contratos por vencerse 7 (dias)" name="exipred_7_days_after_employee" domain="[('contract_ids.date_end','&gt;',time.strftime('%Y-%m-%d')),('contract_ids.date_end','&lt;=',(context_today()+relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos por vencerse 15 (dias)" name="exipred_15_days_after_employee" domain="[('contract_ids.date_end','&gt;',time.strftime('%Y-%m-%d')),('contract_ids.date_end','&lt;=',(context_today()+relativedelta(days=15)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos por vencerse 30 (dias)" name="exipred_30_days_after_employee" domain="[('contract_ids.date_end','&gt;',time.strftime('%Y-%m-%d')),('contract_ids.date_end','&lt;=',(context_today()+relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Nuevos Ingresos 7 (dias)" name="new_revenue_7_days_employee" domain="[('contract_ids.date_start','&gt;',time.strftime('%Y-%m-%d')),('contract_ids.date_start','&lt;=',(context_today()+relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Nuevos Ingresos 15 (dias)" name="new_revenue_15_days_employee" domain="[('contract_ids.date_start','&gt;',time.strftime('%Y-%m-%d')),('contract_ids.date_start','&lt;=',(context_today()+relativedelta(days=15)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Nuevos Ingresos 30 (dias)" name="new_revenue_30_days_employee" domain="[('contract_ids.date_start','&gt;',time.strftime('%Y-%m-%d')),('contract_ids.date_start','&lt;=',(context_today()+relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                </xpath>
+                <xpath expr="//filter[@name='group_company']" position="before">
+                    <filter name="group" string="Group" domain="[]" context="{'group_by':'group_id'}"/>
+                    <filter name="work_center" string="Work Center" domain="[]" context="{'group_by':'work_center_id'}"/>
+                    <filter name="employer_register" string="Registro Patronal" domain="[]" context="{'group_by':'employer_register_id'}"/>
+                </xpath>
+            </field>
+        </record>
+            
+        <record model="ir.ui.view" id="hr_employee_inherit_form">
+            <field name="name">hr_employee_inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <div>
+                        <div class="o_row">
+                            <field name="last_name" placeholder="Last Name"/>
+                            <field name="mothers_last_name" placeholder="Mother's Last Name"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="o_row">
+                            <field name="complete_name" invisible="1"/>
+                        </div>
+                    </div>
+                </xpath>
+                <!-- Remove field work_location & address_id-->
+                <field name="work_location" position="replace"/>
+                <xpath expr="//field[@name='address_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='work_email']" position="before">
+                    <field name="group_id"/>
+                    <field name="work_center_id" 
+                        context="{'show_address': 1, 'default_group_id': group_id}"
+                        options='{"always_reload": True, "highlight_first_line": True}'
+                        domain="[('group_id','=',group_id)]"/>
+                </xpath> 
+                <xpath expr="//field[@name='birthday']" position="after">
+                    <field name="age"/>
+                </xpath> 
+                <xpath expr="//field[@name='country_of_birth']" position="attributes">
+                    <attribute name="string">Country of Birth</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='place_of_birth']" position="attributes">
+                    <attribute name="domain">[('country_id', '=', country_of_birth)]</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='passport_id']" position="after">
+                    <field name="title"/>
+                </xpath> 
+                <xpath expr="//page[@name='personal_information']/group/group[4]" position="after">
+                    <group name="fical_info" string="Fiscal Information">
+                        <label for="rfc"/>
+                        <div class="o_row">
+                            <field name="rfc" widget="mask" data-inputmask="'mask': 'AAAA999999&amp;&amp;&amp;', 'greedy' : false"/>
+                            <button
+                                type="object"
+                                name="get_rfc_curp_data"
+                                class="btn-sm btn-link mb4 fa fa-cogs"
+                                aria-label="Generate RFC &amp; CURP"
+                                title="Generate RFC &amp; CURP"
+                                context="{'field_name': 'rfc'}"
+                            />
+                        </div>
+                        <field name="curp" widget="mask" data-inputmask="'mask': '&amp;', 'repeat': 18, 'greedy' : false"/>
+                    </group>
+                </xpath> 
+                <xpath expr="//page[@name='personal_information']/group/group[3]" position="after">
+                    <group name="emergency_info" string="Emergency information">
+                        <field name="health_restrictions" placeholder="Health Restrictions"/>
+                        <h3>In case of emergency contact:</h3>
+                        <field name="emergency_contact" placeholder="Name emergency contact"/>
+                        <field name="emergency_address"/>
+                        <field name="emergency_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                    </group>
+                </xpath> 
+                <xpath expr="//field[@name='address_home_id']" position="after">
+                    <field name="personal_email"/>
+                    <field name="personal_movile_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                    <field name="personal_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="before">
+                     <field name="enrollment" placeholder="Enrollment"/>
+                </xpath>
+                <xpath expr="//group[@name='work_permit']" position="after">
+                   <group string="Medical data">
+                        <field name="blood_type"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='mobile_phone']" position="replace">
+                    <field name="mobile_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                </xpath>
+                <xpath expr="//field[@name='work_phone']" position="replace">
+                    <field name="work_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
+                </xpath>
+                <field name="company_id" position="replace"/>
+                <field name="children" position="replace"/>
+                <field name="emergency_contact" position="replace"/>
+                <field name="emergency_phone" position="replace"/>
+                <field name="google_drive_link" position="replace"/>
+                <xpath expr="//field[@name='coach_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//page[@name='personal_information']" position="after">
+                    <page name="rh_information" string="RH Information" groups="hr.group_hr_user">
+                        <group>
+                            <group string="Datos de Nómina">
+                                <field name="salary_type"/>
+                                <field name="working_day_week"/>
+                            </group>
+                            <group string="IMSS">
+                                <field name="employer_register_id" context="{'default_company_id': company_id}"
+                                    domain="[('company_id','=',company_id),('state','=','valid')]"/>
+                                <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
+                                <field name="payment_period_id"/>
+                                <field name="type_worker"/>
+                                <field name="umf"/>
+                            </group>
+                            <group string="Extra payments">
+                                <field name="pay_holiday" />
+                                <field name="pay_extra_hours" />
+                            </group>
+                            <group string="Prima vacacional">
+                                <field nolabel="True" name="payment_holidays_bonus" widget="radio"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page name="bank_information" string="Bank Information" groups="hr.group_hr_user">
+                        <field name="bank_account_ids" context="{'default_beneficiary': name +' '+ last_name +' '+mothers_last_name }">
+                            <form>
+                                <header>
+                                    <button name="action_active" states="inactive" string="Active" class="oe_highlight" type="object"/>
+                                    <button name="action_inactive" states="active" string="Inactive" class="oe_highlight" type="object"/>
+                                    <field name="state" widget="statusbar" statusbar_visible="active,inactive"/>
+                                </header>
+                                <group col="4">
+                                    <field name="bank_id" />
+                                    <field name="beneficiary" />
+                                    <field name="reference" />
+                                    <field name="bank_account" />
+                                    <field name="location_branch" />
+                                    <field name="predetermined" />
+                                </group>
+                            </form>
+                            <tree>
+                                <field name="bank_id" />
+                                <field name="reference" />
+                                <field name="beneficiary" />
+                                <field name="bank_account" />
+                                <field name="location_branch" />
+                                <field name="predetermined" />
+                                <field name="state" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="family" string="Family" groups="hr.group_hr_user">
+                        <group>
+                            <group col="4">
+                                <field name="children" widget="mask" data-inputmask="'mask': '9', 'repeat': 2, 'greedy' : false"/>
+                            </group>
+                        </group>
+                        <field name="family_ids">
+                            <form>
+                                <group col="4">
+                                    <field name="name" />
+                                    <field name="birthday" />
+                                    <field name="age" />
+                                    <field name="relationship_id" />
+                                </group>
+                            </form>
+                            <tree editable="botton">
+                                <field name="name" />
+                                <field name="birthday" />
+                                <field name="age" />
+                                <field name="relationship_id" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="infonavit" string="INFONAVIT" groups="hr.group_hr_user">
+                        <field name="infonavit_ids">
+                            <form>
+                                <header>
+                                   <button name="action_active" states="draft" string="Activate" class="oe_highlight" type="object" groups="hr.group_hr_user"/>
+                                   <button name="%(infonavit_change_history_wizard_action)d" states="active" string="Suspend" class="oe_highlight" type="action" groups="hr.group_hr_user" context="{'move_type':'discontinued'}"/>
+                                   <button name="%(infonavit_change_history_wizard_action)d" states="discontinued" string="Reboot" class="oe_highlight" type="action" groups="hr.group_hr_user" context="{'move_type':'reboot'}"/>
+                                   <button name="%(infonavit_change_history_wizard_action)d" states="discontinued,active" string="Close" class="oe_highlight" type="action" groups="hr.group_hr_user" context="{'move_type':'low_credit'}"/>
+                                   <field name="state" widget="statusbar" statusbar_visible="draft,active,close"/>
+                                </header>
+                                <group>
+                                    <group>
+                                        <field name="infonavit_credit_number" />
+                                        <field name="date" />
+                                    </group>
+                                    <group>
+                                        <field name="type" />
+                                        <field name="value"/>
+                                        <field name="uma" attrs="{'invisible': [('type','!=','umas')]}"/>
+                                    </group>
+                                </group>
+                                <group>
+									<field name="history_ids" readonly="1">
+										<form>
+											<group col="4">
+												<field name="date" />
+												<field name="move_type" />
+											</group>
+										</form>
+										<tree>
+											<field name="date" />
+											<field name="move_type" />
+										</tree>
+									</field>
+								</group>
+                            </form>
+                            <tree>
+                                <field name="infonavit_credit_number"/>
+                                <field name="type" />
+                                <field name="value" />
+                                <field name="date" />
+                                <field name="state" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="companies" string="Companies" groups="hr.group_hr_user">
+                        <group>
+                            <group>
+                                <field name="type_salary" widget="radio"/>
+                            </group>
+                            <group>
+                                <field name="monthly_salary"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="wage_salaries"/>
+                                <field name="assimilated_salary" readonly="1"/>
+                                <field name="free_salary"/>
+                                <button name="calculate_salary_scheme" string="Calculate" class="oe_highlight" type="object" groups="hr.group_hr_user"/>
+                            </group>
+                            <group>
+                                <field name="wage_salaries_gross" />
+                                <field name="assimilated_salary_gross" />
+                                <field name="free_salary_gross" />
+                            </group>
+                            <group>
+                                <field name="company_id" options='{"no_open": True, "no_create": True}'/>
+                                <field name="company_assimilated_id" options='{"no_open": True, "no_create": True}'/>
+                                <button name="%(action_hr_employee_contract)d" string="Generate contracts" class="oe_highlight" type="action" groups="hr.group_hr_user"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Credito Fonacot">
+                        <separator string="Datos generales"/>
+                        <group>
+                            <group>
+                                <field name="fonacot_payroll" string="¿Descontar en nómina?"/>
+                                <field name="fonacot_credit_number"/>
+                                <field name="last_amount_update"/>
+                                <field name="fonacot_amount_debt"/>
+                                <field name="ammount_discounted"/>
+                                <button name="%(action_update_fonacot)d" string="Actualizar Deuda" class="oe_highlight" type="action" groups="hr.group_hr_user"/>
+                                <field name="lines_fonacot" string="Movimientos">
+                                    <tree editable="True">
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="credit"/>
+                                        <field name="debit"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+
+
+                    </page>
+
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="hr_contract.hr_hr_employee_view_form2" model="ir.ui.view">
+            <field name="name">hr.hr.employee.view.form2</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//button[@name='toggle_active']" position="before">
+                        <button name="%(hr_contract.act_hr_employee_2_hr_contract)d"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            type="action"
+                            groups="hr.group_hr_manager">
+                            <field name="contracts_count" widget="statinfo" string="Contracts"/>
+                        </button>
+                    </xpath>
+                    <xpath expr="//field[@name='coach_id']" position="after">
+                        <field name="manager" groups="base.group_no_one"/>
+                    </xpath>
+                    <xpath expr="//group[@name='active_group']" position="after">
+                        <group string="Current Contract" invisible="1">
+                            <field name="medic_exam" string="Medical Exam"/>
+                            <field name="vehicle"/>
+                        </group>
+                    </xpath>
+                    <xpath expr="//field[@name='bank_account_id']" position="replace">
+                        <field name="bank_account_id" invisible="1" context="{'display_partner':True}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+                
+        <menuitem
+            id="menu_report_contract"
+            name="Informes"
+            parent="hr.menu_hr_root"
+            groups="hr.group_hr_manager"
+            sequence="5"/>
+            
+        <menuitem
+            id="menu_report_expired_contract"
+            name="Contratos vencidos"
+            parent="menu_report_contract"
+            action="action_wizard_expired_contracts"
+            groups="hr.group_hr_manager"
+            sequence="5"/>
+            
+        <menuitem
+            id="menu_report_employee_catalogs"
+            name="Catalago de empleados"
+            parent="menu_report_contract"
+            action="action_wizard_employee_catalogs"
+            groups="hr.group_hr_manager"
+            sequence="5"/>
+        
+        <record model="ir.ui.view" id="view_res_bank_inherit_form">
+            <field name="name">res_bank_inherit</field>
+            <field name="model">res.bank</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="business_name"/>
+                    <field name="clabe"/>
+                    <field name="code"/>
+                </xpath> 
+            </field>
+        </record>
+        
+        <record id="view_hr_group_form" model="ir.ui.view">
+            <field name="name">hr.group.form</field>
+            <field name="model">hr.group</field>
+            <field name="arch" type="xml">
+                <form string="Group">
+                    <field name="country_id" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="state_id" domain="[('country_id','=', country_id)]"/>
+                            <field name="account_executive_id"/>
+                            <field name="implant_id"/>
+                            <label for="percent_honorarium"/>
+                            <div>
+                                <field name="percent_honorarium" class="oe_inline" />
+                                <span class="o_form_label oe_inline">%</span>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="type" widget="selection"/>
+                            <field name="days"/>
+                            <field name="antique_table"/>
+                            <field name="pay_three_days_disability"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="group_sequence" string="Group Sequence">
+                            <group>
+                                <group string="Matricula de empleados">
+                                    <field name="code"/>
+                                    <label for="sequence_number_next"/>
+                                    <div>
+                                        <field name="sequence_number_next" attrs="{'readonly': 1}" style="padding-right: 1.0em"/>
+                                        <field name="sequence_id" options="{'no_open': True}"
+                                               attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="group_sequence" string="Secuencia para nominas">
+                            <group>
+                                <group string="Correlativo de Nóminas">
+                                    <field name="code_payslip"/>
+                                    <label for="sequence_payslip_number_next"/>
+                                    <div>
+                                        <field name="sequence_payslip_number_next" attrs="{'readonly': 1}" style="padding-right: 1.0em"/>
+                                        <field name="sequence_payslip_id" options="{'no_open': True}"
+                                               attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+        <record id="view_hr_group_tree" model="ir.ui.view">
+            <field name="name">hr.group.tree</field>
+            <field name="model">hr.group</field>
+            <field name="arch" type="xml">
+                <tree string="Group">
+                    <field name="name"/>
+                    <field name="implant_id"/>
+                    <field name="account_executive_id"/>
+                    <field name="days"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_hr_group" model="ir.actions.act_window">
+            <field name="name">Group</field>
+            <field name="res_model">hr.group</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p>
+                Let's create a Group.
+              </p>
+            </field>
+        </record>
+        <menuitem
+            id="menu_group_configuration"
+            name="Group"
+            action="action_hr_group"
+            parent="hr.menu_human_resources_configuration"
+            groups="hr.group_hr_manager"
+            sequence="110"/>
+
+        <!-- Viewa Work Center-->
+        <record id="view_hr_work_center_form" model="ir.ui.view">
+            <field name="name">hr.work.center.form</field>
+            <field name="model">hr.work.center</field>
+            <field name="arch" type="xml">
+                <form string="Work Center">
+                    <sheet>
+                        <div class="oe_title">  
+                            <h1><field name="name" placeholder="Name"/></h1>   
+                        </div>
+                        <div class="oe_title">  
+                            <h1><field name="code" placeholder="Code"/></h1>   
+                        </div>
+                        <group>
+                            <group>
+                                <field name="colonia"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="group_id"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State" 
+                                        domain="[('country_id','=',country_id)]" options='{"no_open": True}'/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
+                                        domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                </div>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_hr_work_center_tree" model="ir.ui.view">
+            <field name="name">hr.work.center.tree</field>
+            <field name="model">hr.work.center</field>
+            <field name="arch" type="xml">
+                <tree string="Work Centers">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="colonia"/>
+                    <field name="group_id"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_hr_work_center" model="ir.actions.act_window">
+            <field name="name">Work Centers</field>
+            <field name="res_model">hr.work.center</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_work_center_tree"/>
+        </record>
+        
+        <menuitem
+            id="wmenu_action_hr_work_center"
+            name="Work Centers"
+            action="action_hr_work_center"
+            parent="hr.menu_human_resources_configuration"
+            sequence="130"/>
+            
+<!--
+            view country
+-->
+          
+          <record model="ir.ui.view" id="view_res_country_inherit_form">
+            <field name="name">res_country_inherit</field>
+            <field name="model">res.country</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="base.view_country_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="nationality"/>
+                </xpath> 
+            </field>
+          </record>
+          
+          <menuitem id="menu_address" name="Address" parent="base.menu_custom" sequence="60"/>
+          <menuitem
+            id="menu_country_configuration"
+            name="Countries"
+            action="base.action_country"
+            parent="menu_address"
+            sequence="10"/>
+            
+        <menuitem
+            id="account.menu_finance"
+            active="False"/>
+        
+        <!-- Dirección de los empleados form-->
+        <record id="view_partner_employee_address_form" model="ir.ui.view">
+            <field name="name">res.partner.view.form.private</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="300"/>
+            <field name="arch" type="xml">
+                <form string="Private Address Form">
+                    <sheet>
+                        <field name="type" invisible="1"/>
+                        <label for="name" class="oe_editonly"/>
+                        <field name="name" required="0"/>
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div>
+                                    <div class="o_address_format">
+                                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                        <field name="city" placeholder="City" class="o_address_city"/>
+                                        <field name="state_id" class="o_address_state" placeholder="State" 
+                                            domain="[('country_id','=',country_id)]" options='{"no_open": True}'/>
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                        <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
+                                            domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    </div>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="phone" widget="phone"/>
+                                <field name="mobile" widget="phone"/>
+                                <field name="email"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Dirección de los empleados tree-->
+        <record id="view_partner_employee_address_tree" model="ir.ui.view">
+            <field name="name">view.partner.employee.address.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Dirección">
+                    <field name="name"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                    <field name="municipality_id"/>
+                    <field name="city"/>
+                    <field name="street"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action Dirección de los empleados form-->
+        <record id="action_partner_employee_address_form" model="ir.actions.act_window">
+            <field name="name">Employees</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_partner_employee_address_form"/>
+            <field name="domain">[('employee','=',1)]</field>
+            <field name="context">{'default_customer':0, 'default_supplier':0 , 'default_employee':1}</field>
+            <field name="filter" eval="True"/>
+        </record>
+        <!-- Action Dirección de los empleados tree-->
+        <record id="action_partner_employee_address_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_partner_employee_address_tree"/>
+            <field name="act_window_id" ref="action_partner_employee_address_form"/>
+        </record>
+        <!-- Menu Dirección de los empleados tree-->
+        <menuitem
+            id="menu_action_partner_employee_address_tree"
+            name="Dirección"
+            action="action_partner_employee_address_form"
+            parent="hr.menu_human_resources_configuration"
+            groups="hr.group_hr_manager"
+            sequence="140"/>
+        
+    </data>
+</odoo>

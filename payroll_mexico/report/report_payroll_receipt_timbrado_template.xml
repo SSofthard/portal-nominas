@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <report 
+            id="action_payroll_receipt_timbrado_report"
+            string="Recibo de Nómina"
+            model="hr.payslip" 
+            report_type="qweb-html"
+            file="payroll_mexico.payroll_receipt_timbrado_report_template" 
+            name="payroll_mexico.payroll_receipt_timbrado_report_template"
+            print_report_name="'Recibo de nómina: %s' % (object.number)"
+        />
+
+        <template id="payroll_receipt_timbrado_report_template">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div class="page" style="font-size:10px;">
+                        <style type="text/css">
+                            .table-condensed > body {
+                                background-color: #E9ECEF !important;
+                            }
+                            .table-condensed > thead {
+                                background-color: #ABAFAF;
+                            }
+                        </style>
+                        
+                        <div>
+                            <h6 class="text-center" style="background-color: #ABAFAF;">RECIBO DE NÓMINA</h6>
+                        </div>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
+                            <tr style="border-bottom: 0px; background-color: lavender;">
+                                <td><strong>Nombre Del Trabajador:</strong></td>
+                                <td></td>
+                                <td><strong>SD: </strong>
+                                    <t t-esc="payroll_data['sd']"
+                                        t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td> 
+                                <td><strong>NSS:</strong></td>
+                                <td><strong>RFC:</strong></td>
+                                <td><strong>CURP:</strong></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['name']"/>
+                                </td>
+                                <td></td>
+                                <td><strong>SDI: </strong>
+                                    <t t-esc="payroll_data['sdi']"
+                                        t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td> 
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['ssnid']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['rfc']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['curp']"/>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 0px;">
+                                <td><strong>Período Calculado:</strong></td>
+                                <td></td>
+                                <td><strong>Tipo de Pago:</strong></td>
+                                <td><strong>Número de Período:</strong></td>
+                                <td><strong>Días Pagados:</strong></td>
+                                <td><strong>Faltas:</strong></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['date_from']" t-options='{"widget": "date"}'/>
+                                    <span>a</span>
+                                    <t t-esc="payroll_data['date_to']" t-options='{"widget": "date"}'/>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <t t-esc="payroll_data['payroll_period']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['no_period']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['paid_days']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['faults']"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+                            <tr style="background-color: #ABAFAF;">
+                                <th class="text-center">Percepciones:</th>
+                                <th class="text-center">Deducciones:</th>
+                            </tr>
+                        </table>
+                        <div class="row" name="lines">
+                            <div class="col-xs-4 pull-left">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">CVE</th>
+                                            <th class="text-center">Descripción</th>
+                                            <th class="text-center">UNID</th>
+                                            <th class="text-center">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="payroll_data['lines']" t-as="line">
+                                            <tr>
+                                                <td class="text-center"><span t-esc="line['code']"/></td>
+                                                <td><span t-esc="line['name']"/></td>
+                                                <td class="text-center"><span t-esc="line['quantity']"/></td>
+                                                <td class="text-right"><span t-esc="line['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-xs-4 pull-right">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">CVE</th>
+                                            <th class="text-center">Descripción</th>
+                                            <th class="text-center">UNID</th>
+                                            <th class="text-center">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="payroll_data['line_ded']" t-as="line_ded">
+                                            <tr>
+                                                <td class="text-center"><span t-esc="line_ded['code']"/></td>
+                                                <td><span t-esc="line_ded['name']"/></td>
+                                                <td class="text-center"><span t-esc="line_ded['quantity']"/></td>
+                                                <td class="text-right"><span t-esc="line_ded['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+<!--
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">CVE</th>
+                                    <th class="text-center">Descripción</th>
+                                    <th class="text-center">UNID</th>
+                                    <th class="text-center">Importe</th>
+                                    <th class="text-center">CVE</th>
+                                    <th class="text-center">Descripción</th>
+                                    <th class="text-center">UNID</th>
+                                    <th class="text-center">Importe</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="payroll_data['lines']" t-as="line">
+                                    <tr>
+                                        <t t-if="line['type'] == 'PERCEPCIONES'">
+                                            <td class="text-center"><span t-esc="line['code']"/></td>
+                                            <td><span t-esc="line['name']"/></td>
+                                            <td class="text-center"><span t-esc="line['quantity']"/></td>
+                                            <td class="text-right"><span t-esc="line['total']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </t>
+                                        <t t-if="line['type'] == 'DED'">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-center"><span t-esc="line['code']"/></td>
+                                            <td><span t-esc="line['name']"/></td>
+                                            <td class="text-center"><span t-esc="line['quantity']"/></td>
+                                            <td class="text-right"><span t-esc="line['total']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <tr class="border-black o_subtotal" style="">
+                                    <td></td>
+                                    <td></td>
+                                    <th class="text-center">Total de Percepciones</th>
+                                    <td class="text-right"><span t-esc="payroll_data['total_percep']"
+                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                    <td></td>
+                                    <th class="text-center">Total de Deducciones</th>
+                                    <td class="text-right"><span t-esc="payroll_data['total_ded']"
+                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                    <td></td>
+                                     <td></td>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="">
+                                    <td></td>
+                                    <th class="text-rigth"><span>Subsidio Causado: </span>
+                                    </th>
+                                    <td class="text-left">
+                                        <span t-esc="payroll_data['sub_caused']"
+                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <th colspan="2" class="text-center">Total a Pagar</th>
+                                    <td class="text-right"><span t-esc="payroll_data['total']"
+                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="">
+                                    <td colspan="5">
+                                        <div style="width:100%; border-right: 1px solid black;">
+                                            <strong><justify>RECIBÍ DE <span t-esc="payroll_data['company']"/> LA CANTIDAD DE <span t-esc="payroll_data['total_word']"/> PESOS
+                                                <span t-esc="payroll_data['decimales']"/>/100 M.N. MISMAS QUE CUBREN LAS PERCEPCIONES QUE ME CORRESPONDEN EN EL PERIODO INDICADO, NO EXISTIENDO NINGUN ADEUDO,
+                                                POR PARTE DE LA EMPRESA PARA EL SUSCRITO, PUES ESTOY TOTALMENTE PAGADO DE MIS SALARIOS Y PRESTACIONES DEVENGADAS HASTA LA FECHA.
+                                                PAGO EN UNA SOLA EXHIBICIÓN. ESTA ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI.</justify></strong>
+                                        </div>
+                                    </td>
+                                    <td colspan="3">
+                                        <table class="table-sm" border="0" style="width:100%;">
+                                            <br/>
+                                            <br/>
+                                            <tr class="text-center">
+                                                <td><strong>FIRMA DEL TRABAJADOR</strong></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+-->
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
+                            <tr style="background-color: #ABAFAF;">
+                                <th class="text-center">Folio Fiscal:</th>
+                                <th class="text-center">Num. Serie Certificado SAT:</th>
+                            </tr>
+                        </table>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
+                            <tbody>
+                                <tr class="border-black o_subtotal" style="">
+                                    <th class="text-left">Sello Digital CFDI:</th>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="">
+                                    <th class="text-left">Cadena Original Certificado SAT:</th>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="">
+                                    <th class="text-left">Sello Digital SAT:</th>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="border-bottom: 1px solid black;">
+                                    <th rowspan="2" class="text-left">Fecha y hora certificación:</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div class="text-center" style="background-color: #ABAFAF;">
+                            <span>COPIA PATRÓN</span>
+                        </div>
+                    </div>
+                    <div class="page" style="font-size:10px; page-break-before:always">
+                        <div>
+                            <h6 class="text-center">RECIBO DE NÓMINA</h6>
+                        </div>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black;">
+                            <tr style="border-bottom: 0px;">
+                                <td><strong>Nombre Del Trabajador:</strong></td>
+                                <td></td>
+                                <td><strong>SD: </strong>
+                                    <t t-esc="payroll_data['sd']"
+                                        t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td> 
+                                <td><strong>NSS:</strong></td>
+                                <td><strong>RFC:</strong></td>
+                                <td><strong>CURP:</strong></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['name']"/>
+                                </td>
+                                <td></td>
+                                <td><strong>SDI: </strong>
+                                    <t t-esc="payroll_data['sdi']"
+                                        t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td> 
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['ssnid']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['rfc']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['curp']"/>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 0px;">
+                                <td><strong>Período Calculado:</strong></td>
+                                <td></td>
+                                <td><strong>Tipo de Pago:</strong></td>
+                                <td><strong>Número de Período:</strong></td>
+                                <td><strong>Días Pagados:</strong></td>
+                                <td><strong>Faltas:</strong></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['date_from']" t-options='{"widget": "date"}'/>
+                                    <span>a</span>
+                                    <t t-esc="payroll_data['date_to']" t-options='{"widget": "date"}'/>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <t t-esc="payroll_data['payroll_period']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['no_period']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['paid_days']"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="payroll_data['faults']"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
+                            <tr>
+                                <th class="text-center">Percepciones:</th>
+                                <th class="text-center">Deducciones:</th>
+                            </tr>
+                        </table>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">CVE</th>
+                                    <th class="text-center">Descripción</th>
+                                    <th class="text-center">UNID</th>
+                                    <th class="text-center">Importe</th>
+                                    <th class="text-center">CVE</th>
+                                    <th class="text-center">Descripción</th>
+                                    <th class="text-center">UNID</th>
+                                    <th class="text-center">Importe</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="payroll_data['lines']" t-as="line">
+                                    <tr>
+                                        <t t-if="line['type'] == 'PERCEPCIONES'">
+                                            <td class="text-center"><span t-esc="line['code']"/></td>
+                                            <td><span t-esc="line['name']"/></td>
+                                            <td class="text-center"><span t-esc="line['quantity']"/></td>
+                                            <td class="text-right"><span t-esc="line['total']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </t>
+                                        <t t-if="line['type'] == 'DED'">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-center"><span t-esc="line['code']"/></td>
+                                            <td><span t-esc="line['name']"/></td>
+                                            <td class="text-center"><span t-esc="line['quantity']"/></td>
+                                            <td class="text-right"><span t-esc="line['total']"
+                                                      t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <tr class="border-black o_subtotal" style="">
+                                    <td></td>
+                                    <td></td>
+                                    <th class="text-center">Total de Percepciones</th>
+                                    <td class="text-right"><span t-esc="payroll_data['total_percep']"
+                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                    <td></td>
+                                    <td></td>
+                                    <th class="text-center">Total de Deducciones</th>
+                                    <td class="text-right"><span t-esc="payroll_data['total_ded']"
+                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="">
+                                    <td></td>
+                                    <th class="text-left"><span>Subsidio Causado: </span>
+                                        <span t-esc="payroll_data['sub_caused']"
+                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <th colspan="2" class="text-center">Total a Pagar</th>
+                                    <td class="text-right"><span t-esc="payroll_data['total']"
+                                                  t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="">
+                                    <td colspan="5">
+                                        <div style="width:100%; border-right: 1px solid black;">
+                                            <strong><justify>RECIBÍ DE <span t-esc="payroll_data['company']"/> LA CANTIDAD DE <span t-esc="payroll_data['total_word']"/> PESOS
+                                                <span t-esc="payroll_data['decimales']"/>/100 M.N. MISMAS QUE CUBREN LAS PERCEPCIONES QUE ME CORRESPONDEN EN EL PERIODO INDICADO, NO EXISTIENDO NINGUN ADEUDO,
+                                                POR PARTE DE LA EMPRESA PARA EL SUSCRITO, PUES ESTOY TOTALMENTE PAGADO DE MIS SALARIOS Y PRESTACIONES DEVENGADAS HASTA LA FECHA.
+                                                PAGO EN UNA SOLA EXHIBICIÓN. ESTA ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI.</justify></strong>
+                                        </div>
+                                    </td>
+                                    <td colspan="3">
+                                        <table class="table-sm" border="0" style="width:100%;">
+                                            <br/>
+                                            <br/>
+                                            <tr class="text-center">
+                                                <td><strong>FIRMA DEL TRABAJADOR</strong></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black;">
+                            <tr>
+                                <th class="text-center">Folio Fiscal:</th>
+                                <th class="text-center">Num. Serie Certificado SAT:</th>
+                            </tr>
+                        </table>
+                        <table class="table-sm" style="width:100%; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;">
+                            <tbody>
+                                <tr class="border-black o_subtotal" style="">
+                                    <th class="text-left">Sello Digital CFDI:</th>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="">
+                                    <th class="text-left">Cadena Original Certificado SAT:</th>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="">
+                                    <th class="text-left">Sello Digital SAT:</th>
+                                </tr>
+                                <tr class="border-black o_subtotal" style="">
+                                    <th rowspan="2" class="text-left">Fecha y hora certificación:</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div class="text-center">
+                            <span>COPIA EMPLEADO</span>
+                        </div>
+                    </div>
+                </t>    
+             </t>
+        </template>
+        
+    </data>
+</odoo>

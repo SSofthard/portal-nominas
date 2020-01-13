@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_expense_classification_employee,hr.expense.classification,model_hr_expense_classification,base.group_user,1,1,1,1
+access_hr_expense_classification_user,hr.expense.classification.user,model_hr_expense_classification,hr_expense.group_hr_expense_user,1,1,1,1
+access_hr_expense_classification_manager,hr.expense.classification.manager,model_hr_expense_classification,hr_expense.group_hr_expense_manager,1,1,1,1
+access_hr_expense_payment_employee,hr.expense.payment,model_hr_expense_payment,base.group_user,1,1,1,1
+access_hr_expense_payment_user,hr.expense.payment.user,model_hr_expense_payment,hr_expense.group_hr_expense_user,1,1,1,1
+access_hr_expense_payment_manager,hr.expense.payment.manager,model_hr_expense_payment,hr_expense.group_hr_expense_manager,1,1,1,1
+access_hr_tab_expenses_user,hr.tab.expenses.user,model_hr_tab_expenses,hr_expense.group_hr_expense_user,1,1,1,1
+access_hr_tab_expenses_manager,hr.tab.expenses.manager,model_hr_tab_expenses,hr_expense.group_hr_expense_manager,1,1,1,1
+access_hr_tab_expenses_lines_user,hr.tab.expenses.lines.user,model_hr_tab_expenses_lines,hr_expense.group_hr_expense_user,1,1,1,1
+access_hr_tab_expenses_lines_manager,hr.tab.expenses.lines.manager,model_hr_tab_expenses_lines,hr_expense.group_hr_expense_manager,1,1,1,1

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_publck_holidays_form" model="ir.ui.view">
+            <field name="name">Public Holidays form</field>
+            <field name="model">hr.public.holidays</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Public Holidays">
+                <header>
+                    <button type="action" name="%(action_hr_public_holidays_wizard)d" class="oe_highlight" string="Multiple Public Holidays" attrs="{'invisible': [('state', '!=', 'draft')]}"/>   
+                    <button type="action"  name="%(action_hr_public_holidays_email)d" class="oe_highlight" string="Send by e-mail" attrs="{'invisible': [('state', '!=', 'done')]}"/>   
+                    <button name="button_approve" type="object" string="Approve" class="oe_highlight" groups="hr_holidays.group_hr_holidays_manager" attrs="{'invisible': [('state', '!=', 'draft')]}"/>   
+                    <button name="button_draft" type="object" string="Back to draft" class="oe_highlight" groups="hr_holidays.group_hr_holidays_manager" attrs="{'invisible': [('state', '!=', 'done')]}"/>   
+                    <button name="%(report_hr_public_holiday)d" type="action" string="Print" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'done')]}"/>   
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group> 
+                            <field name="year"/>
+                            <field name="country_id"/>
+                        </group>
+                        <group> 
+                            <field name="company_id"/>
+                            <field name="date_from"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Public Holidays">
+                            <field name="days_public_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="days"/>
+                                    <field name="country_id" invisible = "1"/>
+                                    <field name="state_ids" widget="many2many_tags" domain="[('country_id','=',country_id)]"/>
+                                </tree>
+                            </field>
+                        </page> 
+                    </notebook>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <record id="view_hr_publck_holidays_tree" model="ir.ui.view">
+            <field name="name">Public Holidays tree</field>
+            <field name="model">hr.public.holidays</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Public Holidays">
+                    <field name="year"/>
+                    <field name="company_id"/>
+                    <field name="date_from"/>
+                    <field name="date_end"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="public_holidays_action" model="ir.actions.act_window">
+                <field name="name">Public Holidays</field>
+                <field name="res_model">hr.public.holidays</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="public_holidays_menu" name="Public Holidays" parent="hr_holidays.menu_hr_holidays_root" sequence="10" />
+        <menuitem id="hr_public_holidays_menu" name="Public Holidays Year" parent="public_holidays_menu"   action="public_holidays_action" sequence="20" />
+
+        <record id="view_hr_days_public_holidays_form" model="ir.ui.view">
+            <field name="name">Days Public Holidays form</field>
+            <field name="model">hr.days.public.holidays</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Public Holidays" create="0" edit="0">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="days"/>
+                        <field name="country_id"/>
+                        <field name="state_ids" domain="[('country_id','=',country_id)]"/>
+                    </group>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <record id="view_hr_days_public_holidays_tree" model="ir.ui.view">
+            <field name="name">Days Public Holidays tree</field>
+            <field name="model">hr.days.public.holidays</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Public Holidays" create="0" edit="0">
+                   <field name="name"/>
+                    <field name="date"/>
+                    <field name="days"/>
+                    <field name="country_id"/>
+                    <field name="state_ids"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_hr_days_publck_holidays" model="ir.ui.view">
+            <field name="name">view_calendar_hr_publck_holidays</field>
+            <field name="model">hr.days.public.holidays</field>
+            <field name="arch" type="xml">
+                <calendar date_start="date" mode="month">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+        
+        <record id="hr_days_public_holidays_action" model="ir.actions.act_window">
+                <field name="name">Days Public Holidays</field>
+                <field name="res_model">hr.days.public.holidays</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">calendar,tree,form</field>
+        </record>
+
+    <menuitem 
+        id="hr_days_public_holidays_menu" 
+        name="Public Holidays Days" 
+        parent="public_holidays_menu"   
+        action="hr_days_public_holidays_action" 
+        sequence="15" />
+
+    </data>
+</odoo>

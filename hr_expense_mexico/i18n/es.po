@@ -1,0 +1,2351 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* hr_expense_mexico
+#	* hr_expense
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e-201905\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-08 00:49+0000\n"
+"PO-Revision-Date: 2020-01-08 00:49+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.product_product_expense_form_view
+msgid "<i class=\"text-muted oe_edit_only\">Use [Reference] as a subject prefix for incoming receipts</i>"
+msgstr "<i class=\"text-muted oe_edit_only\">Use [Referencia] como prefijo para recibos entrantes</i>"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:49
+#, python-format
+msgid "<p>Approve the report here.</p><p>Tip: if you refuse, don’t forget to give the reason thanks to the hereunder message tool</p>"
+msgstr "<p>Aprueba el informe aquí.</p><p>Consejo: si te niegas, no olvides dar el motivo gracias a la herramienta de mensajes que se incluye a continuación.</p>"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:41
+#, python-format
+msgid "<p>Click on <b> Action Create Report </b> to submit selected expenses to your manager</p>"
+msgstr "<p>Haga clic en <b> Acción Crear informe </b> para enviar los gastos seleccionados a su gerente</p>"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:32
+#, python-format
+msgid "<p>Click on <b> Create Report </b> to create the report.</p>"
+msgstr "<p> Haga clic en <b> Crear informe </b> para crear el informe.</p>"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:23
+#, python-format
+msgid "<p>Once your <b> Expense </b> is ready, you can save it.</p>"
+msgstr "<p>Una vez que su <b> Gasto </b> esté listo, puede guardarlo.</p>"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:36
+#, python-format
+msgid "<p>Select expenses to submit them to your manager</p>"
+msgstr "<p>Seleccione gastos para enviar a su responsable</p>"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:53
+#, python-format
+msgid "<p>The accountant receive approved expense reports.</p><p>He can post journal entries in one click if taxes and accounts are right.</p>"
+msgstr "<p>El contable recibe informes de gasto aprobados.</p><p>Él puede contabilizar asientos en un click si los impuestos y las cuentas están bien.</p>"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>AUDIENCIA DE O.A.P PAGADORA: </strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>DEPENDENCIA O CUSURSAL: </strong>"
+msgstr ""
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "<strong>Date:</strong>"
+msgstr "<strong>Fecha: </strong>"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "<strong>Description:</strong>"
+msgstr "<strong>Descripción:</strong>"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>EXP. NUM.: </strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "<strong>El monto entregado es mayor que el monto estimado por día. Justifíquelo en el campo de notas!</strong>"
+msgstr ""
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "<strong>Employee:</strong>"
+msgstr "<strong>Empleado:</strong>"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "<strong>Expenses items</strong>"
+msgstr "<strong>Gastos</strong>"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>FECHA DE ATENCION DE ASUNTO: </strong>"
+msgstr "<strong>FECHA DE ATENCIÓN DE ASUNTO: </strong>"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>FOLIO: </strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>IMPORTE RECIBIDO:</strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>LUGAR: </strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>NOMBRE COMPLETO EMPLEADO: </strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>NUM. MATRICULA: </strong>"
+msgstr "<strong>NUM. MATRÍCULA: </strong>"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "<strong>Payment By:</strong>"
+msgstr "<strong>Pagado Por:</strong>"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>SALDO A FAVOR:</strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>SALDO EN CONTRA:</strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>STATUS ABOGADO EJECUTOR: </strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>TIPO DE ASUSTO: </strong>"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>TOTAL GASTOS:</strong>"
+msgstr ""
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "<strong>Total</strong>"
+msgstr ""
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "<strong>Validated By:</strong>"
+msgstr "<strong>Validado por:</strong>"
+
+#. modules: hr_expense_mexico
+#: code:addons/hr_expense_mexico/wizards/hr_expense_sheet_register_payment.py:49
+#, python-format
+msgid "A payment of %s %s with the reference <a href='/mail/view?%s'>%s</a> related to your expense %s has been made."
+msgstr "Se ha registrado un pago de %s %s con la referencia <a href='/mail/view?%s'>%s</a> relacionado a su gasto %s."
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.wizard_add_tags_documents
+msgid "ADD"
+msgstr "Guardar"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__account_id
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.product_product_expense_form_view
+msgid "Accounting"
+msgstr "Contabilidad"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_needaction
+msgid "Action Needed"
+msgstr "Acción requerida"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__activity_ids
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__activity_state
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__activity_state
+msgid "Activity State"
+msgstr "Estado de la actividad"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.mail_activity_type_action_config_hr_expense
+#: model:ir.ui.menu,name:hr_expense.hr_expense_menu_config_activity_type
+msgid "Activity Types"
+msgstr "Tipos de actividad"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+msgid "Actual expense sheets, not the refused ones"
+msgstr "Hojas de gasto reales, no las rechazadas"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:158
+#, python-format
+msgid "Add a new expense,"
+msgstr "Agregar un nuevo gasto,"
+
+#. module: hr_expense_mexico
+#: model:ir.actions.act_window,name:hr_expense_mexico.action_wizard_add_tag_document
+msgid "Add tag to document"
+msgstr "Agregar etiqueta al documento"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.wizard_add_tags_documents
+msgid "Add tags and folder"
+msgstr "Agregar etiquetas y directorios"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,classification:0
+msgid "Alimentos"
+msgstr ""
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_hr_expense_sheet_all_all
+msgid "All Expense Reports"
+msgstr "Todos los informes de gastos"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.hr_expense_actions_all
+msgid "All Expenses"
+msgstr "Todos los Gastos"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_he_expense_payment_tree
+msgid "Amount"
+msgstr "Importe"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__amount_delivered
+msgid "Amount Delivered"
+msgstr "Monto entregado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__amount_difference
+msgid "Amount Difference"
+msgstr "Diferencia"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__amount_payment
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__payment_ids
+msgid "Amount Payment"
+msgstr "Monto pagado"
+
+#. module: hr_expense
+#: model:ir.model.fields,help:hr_expense.field_hr_expense__account_id
+msgid "An expense account is expected"
+msgstr "Se espera una cuenta de gastos"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__analytic_account_id
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+msgid "Analytic Account"
+msgstr "Cuenta analítica"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__analytic_tag_ids
+msgid "Analytic Tags"
+msgstr "Etiquetas analíticas"
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
+msgid "Approve"
+msgstr "Aprobar"
+
+#. modules: hr_expense_mexico
+#: model:mail.message.subtype,name:hr_expense.mt_expense_approved
+#: selection:hr.expense,state:0
+#: selection:hr.expense.sheet,state:0
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Approved Expenses"
+msgstr "Gastos aprobados"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_form
+msgid "Attach Document"
+msgstr "Adjuntar documento"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:27
+#, python-format
+msgid "Attach your receipt here."
+msgstr "Adjunte su recibo aquí."
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_attachment_count
+msgid "Attachment Count"
+msgstr "Conteo de archivos adjuntos"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__paying_hearing
+msgid "Audencia de O.A.P pagadora"
+msgstr ""
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__bank_journal_id
+msgid "Bank Journal"
+msgstr "Diario del banco"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__reference
+msgid "Bill Reference"
+msgstr "Referencia Factura"
+
+#. modules: hr_expense_mexico
+#: selection:hr.expense,state:0
+msgid "Borrador"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "CODE"
+msgstr "CLAVE"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "COMPROBACION DE GASTOS Y VIATICOS"
+msgstr "COMPROBACIóN DE GASTOS Y VIÁTICOS"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "CONCEPTO"
+msgstr ""
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__can_reset
+msgid "Can Reset"
+msgstr "Puede restablecer"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_product_product__can_be_expensed
+#: model:ir.model.fields,field_description:hr_expense.field_product_template__can_be_expensed
+msgid "Can be Expensed"
+msgstr "Puede ser un gasto"
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.refused_expense_wizard
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.wizard_add_tags_documents
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. modules: hr_expense_mexico
+#: selection:hr.expense.sheet,state:0
+msgid "Canceled"
+msgstr "Cancelado"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__qty_days
+msgid "Cantidad de días"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__total_by_day
+msgid "Cantidad estimada"
+msgstr ""
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "Certified honest and conform,<br/>(Date and signature).<br/><br/>"
+msgstr "Certifica que los datos son ciertos,<br/>(Fecha y firma).<br/><br/>"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__writeoff_label
+msgid "Change label of the counterpart that will hold the payment difference"
+msgstr "Cambiar la etiqueta de la contraparte que mantendrá la diferencia de pago"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
+msgid "Check Again"
+msgstr "Volver a comprobar"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__classification
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
+msgid "Classification"
+msgstr "Clasificación"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Close"
+msgstr "Cerrar"
+
+#. modules: hr_expense_mexico
+#: selection:hr.expense.sheet,state:0
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_method_code
+msgid "Code"
+msgstr "Código"
+
+#. modules: hr_expense_mexico
+#: selection:hr.expense,payment_mode:0
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__company_id
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Company"
+msgstr "Compañía"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__company_id
+msgid "Company related to this journal"
+msgstr "Compañía relacionada con este diario"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__completed
+msgid "Completed"
+msgstr "Completado"
+
+#. module: hr_expense
+#: model:ir.model,name:hr_expense.model_res_config_settings
+msgid "Config Settings"
+msgstr "Opciones de Configuración"
+
+#. module: hr_expense
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_configuration
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Confirmed Expenses"
+msgstr "Gastos confirmados"
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses__expense_tab_lines
+msgid "Costos estimados"
+msgstr ""
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__date
+msgid "Create Date"
+msgstr "Fecha de Creación"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_form
+msgid "Create Report"
+msgstr "Crear informe"
+
+#. module: hr_expense
+#: model_terms:ir.actions.act_window,help:hr_expense.action_request_approve_expense_sheet
+#: model_terms:ir.actions.act_window,help:hr_expense.action_request_to_pay_expense_sheet
+#: model_terms:ir.actions.act_window,help:hr_expense.action_request_to_post_expense_sheet
+#: model_terms:ir.actions.act_window,help:hr_expense.hr_expense_actions_all
+#: model_terms:ir.actions.act_window,help:hr_expense.hr_expense_actions_my_unsubmitted
+msgid "Create a new expense"
+msgstr "Crea un nuevo gasto"
+
+#. module: hr_expense
+#: model_terms:ir.actions.act_window,help:hr_expense.hr_expense_product
+msgid "Create a new expense category"
+msgstr "Crear una nueva categoría de gastos."
+
+#. module: hr_expense
+#: model_terms:ir.actions.act_window,help:hr_expense.action_hr_expense_sheet_all_all
+#: model_terms:ir.actions.act_window,help:hr_expense.action_hr_expense_sheet_all_to_pay
+#: model_terms:ir.actions.act_window,help:hr_expense.action_hr_expense_sheet_all_to_post
+#: model_terms:ir.actions.act_window,help:hr_expense.action_hr_expense_sheet_my_all
+msgid "Create a new expense report"
+msgstr "Crear nuevo informe de gastos"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__create_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__create_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses__create_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__create_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_refused_expense_wizard__create_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__create_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__create_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses__create_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__create_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_refused_expense_wizard__create_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__currency_id
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,partner_type:0
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_he_expense_payment_tree
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Customer Payments"
+msgstr "Pagos de cliente"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "DESCRIPCION"
+msgstr "DESCRIPCIÓN"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__accounting_date
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Date"
+msgstr "Fecha"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__date_checking
+msgid "Date Checking"
+msgstr "Fecha de comprobación"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__date_invoice
+msgid "Date invoice"
+msgstr "Fecha de Factura"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__date_request
+msgid "Date request"
+msgstr "Fecha de solicitud"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_res_config_settings__expense_alias_prefix
+msgid "Default Alias Name for Expenses"
+msgstr "Alias por defecto para gastos"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__department_id
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Department"
+msgstr "Departamento"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__dependency_or_branch
+msgid "Dependencia o sucursal"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_tab_expenses_form
+msgid "Descripción de tabulador"
+msgstr ""
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__name
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses__name
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Description"
+msgstr "Descripción"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__address_dest_id
+msgid "Dest Address"
+msgstr "Dirección de destino"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__destination_account_id
+msgid "Destination Account"
+msgstr "Cuenta de destino"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__address_to
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__address_to_complete
+msgid "Destino"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__writeoff_account_id
+msgid "Difference Account"
+msgstr "Cuenta diferencial"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_tab_expenses_form
+msgid "Direccion"
+msgstr "Dirección"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__display_name
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__display_name
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses__display_name
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__display_name
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_refused_expense_wizard__display_name
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__estimate_viatics
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_res_partner__estimate_viatics
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_res_users__estimate_viatics
+msgid "Do you want to estimate viatics?"
+msgstr "¿Quieres estimar viáticos?"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__document_type
+msgid "Document Type"
+msgstr "Tipo de documento"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_form
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_form
+msgid "Documents"
+msgstr "Documentos"
+
+#. modules: hr_expense_mexico
+#: selection:hr.expense.payment,state:0
+#: selection:hr.expense.sheet,state:0
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_sheet_register_payment_view_form
+msgid "Draft Payment"
+msgstr "Pago en borrador"
+
+#. module: hr_expense_mexico
+#: code:addons/hr_expense_mexico/models/hr_expense.py:217
+#, python-format
+msgid "El monto entregado debe ser mayor a 0."
+msgstr ""
+
+#. module: hr_expense_mexico
+#: code:addons/hr_expense_mexico/models/hr_expense.py:46
+#, python-format
+msgid "El monto subtotal del gasto debe ser mayor a 0."
+msgstr ""
+
+#. module: hr_expense_mexico
+#: code:addons/hr_expense_mexico/models/hr_expense.py:44
+#, python-format
+msgid "El monto total del gasto debe ser mayor a 0."
+msgstr ""
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
+msgid "Email Alias"
+msgstr "Pseudónimo de correo"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
+msgid "Emails"
+msgstr "Correos electrónicos"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__employee_id
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_register_payment_inherit_view_form
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: hr_expense
+#: selection:hr.expense,payment_mode:0
+msgid "Employee (to reimburse)"
+msgstr "Empleado (a reembolsar)"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_approved_expense
+msgid "Employee Expenses"
+msgstr "Gastos del empleado"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__address_id
+msgid "Employee Home Address"
+msgstr "Dirección particular"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__proceedings
+msgid "Expediente Nro."
+msgstr ""
+
+#. modules: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_expense
+msgid "Expense"
+msgstr "Gasto"
+
+#. module: hr_expense
+#: model:mail.activity.type,name:hr_expense.mail_act_expense_approval
+msgid "Expense Approval"
+msgstr "Aprobación de gastos"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+msgid "Expense Date"
+msgstr "Fecha del gasto"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__journal_id
+msgid "Expense Journal"
+msgstr "Diario de gasto"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__expense_line_ids
+msgid "Expense Lines"
+msgstr "Líneas de gastos"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.hr_expense_product
+#: model:ir.ui.menu,name:hr_expense.menu_hr_product
+#: model_terms:ir.ui.view,arch_db:hr_expense.product_product_expense_form_view
+msgid "Expense Products"
+msgstr "Productos de gasto"
+
+#. module: hr_expense
+#: model:ir.model,name:hr_expense.model_hr_expense_refuse_wizard
+msgid "Expense Refuse Reason Wizard"
+msgstr "Asistente de motivo de rechazo de gastos"
+
+#. modules: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_expense_sheet_register_payment_wizard
+msgid "Expense Register Payment Wizard"
+msgstr "Registro de Pago"
+
+#. modules: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_expense_sheet
+msgid "Expense Report"
+msgstr "Informe de Gastos"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_sheet__state
+msgid "Expense Report State"
+msgstr "Estado del Informe de Gastos"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__name
+msgid "Expense Report Summary"
+msgstr "Resumen del informe de gastos"
+
+#. module: hr_expense
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_report
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_department_view_kanban
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_tree
+msgid "Expense Reports"
+msgstr "Informes de Gastos"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_hr_expense_sheet_department_filtered
+msgid "Expense Reports Analysis"
+msgstr "Análisis de Informes de Gastos"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_hr_expense_sheet_all_to_pay
+msgid "Expense Reports To Pay"
+msgstr "Informes de gastos a pagar"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_hr_expense_sheet_all_to_post
+msgid "Expense Reports To Post"
+msgstr "Informes de gastos a contabilizar"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_hr_expense_sheet_all_to_approve
+#: model:ir.actions.act_window,name:hr_expense.action_hr_expense_sheet_department_to_approve
+msgid "Expense Reports to Approve"
+msgstr "Informes de Gastos por aprobar"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_employee__expense_manager_id
+msgid "Expense Responsible"
+msgstr "Responsable del gasto"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_refuse_wizard_view_form
+msgid "Expense refuse reason"
+msgstr "Motivo de rechazo del gasto"
+
+#. module: hr_expense
+#: model:mail.message.subtype,description:hr_expense.mt_expense_approved
+msgid "Expense report approved"
+msgstr "Informe de Gastos aprobado"
+
+#. module: hr_expense
+#: model:mail.message.subtype,description:hr_expense.mt_expense_paid
+msgid "Expense report paid"
+msgstr "Informe de gastos pagado"
+
+#. module: hr_expense
+#: model:mail.message.subtype,description:hr_expense.mt_expense_refused
+msgid "Expense report refused"
+msgstr "Informe de gastos rechazado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__sheet_id
+msgid "Expense sheet"
+msgstr "Informe de viáticos"
+
+#. module: hr_expense
+#: model:ir.model.fields,help:hr_expense.field_account_move_line__expense_id
+msgid "Expense where the move line come from"
+msgstr "Gasto originario del apunte contable"
+
+#. module: hr_expense
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_root
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_employee_view_form_inherit_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_form
+#: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_expenses_tree
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+#: model:product.product,name:hr_expense.product_product_fixed_cost
+#: model:product.template,name:hr_expense.product_product_fixed_cost_product_template
+msgid "Expenses"
+msgstr "Gastos"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.hr_expense_action
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_all_expenses
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_graph
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_pivot
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_graph
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_pivot
+msgid "Expenses Analysis"
+msgstr "Análisis de gastos"
+
+#. module: hr_expense
+#: model:ir.actions.report,name:hr_expense.action_report_hr_expense_sheet
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "Expenses Report"
+msgstr "Informes de Gastos"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_department__expense_sheets_to_approve_count
+msgid "Expenses Reports to Approve"
+msgstr "Informes de gastos por aprobar"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Expenses by Date"
+msgstr "Gastos por fecha"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Expenses in Draft"
+msgstr "Gastos en borrador"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:575
+#, python-format
+msgid "Expenses must be paid by the same entity (Company or employee)."
+msgstr "Los gastos deben ser pagados por la misma entidad (empresa o empleado)"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:630
+#, python-format
+msgid "Expenses must have an expense journal specified to generate accounting entries."
+msgstr "Los gastos deben tener un diario de gastos establecido para generar entradas contables."
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Expenses of Your Team Member"
+msgstr "Gastos de los miembros de su equipo"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Expenses to Invoice"
+msgstr "Gastos para facturar"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.account_journal_dashboard_kanban_view_inherit_hr_expense
+msgid "Expenses to Process"
+msgstr "Gastos a procesar"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__is_refused
+msgid "Explicitely Refused by manager or acccountant"
+msgstr "Explícitamente rechazado por el responsable o por contabilidad"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "FECHA"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__facet_id
+msgid "Facet"
+msgstr "Faceta"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__folio
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
+msgid "Folio"
+msgstr ""
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Seguidores (Canales)"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Empresas)"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Former Employees"
+msgstr "Empleados anteriores"
+
+#. module: hr_expense
+#: model_terms:ir.actions.act_window,help:hr_expense.action_approved_expense
+#: model_terms:ir.actions.act_window,help:hr_expense.action_unsubmitted_expense
+msgid "From here the accountant will be able to approve as well as refuse the expenses which are verified by the HR Manager."
+msgstr "Desde aquí el contable podrá aprobar o rechazar los gastos verificados por el gestor de Recursos Humanos."
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Future Activities"
+msgstr "Actividades futuras"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.product_product_expense_form_view
+msgid "General Information"
+msgstr "Información General"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: hr_expense
+#: model:ir.model,name:hr_expense.model_hr_department
+msgid "HR Department"
+msgstr "Departamento Recursos Humanos"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__is_multiple_currency
+msgid "Handle lines with different currencies"
+msgstr "Manejar líneas con diferentes monedas."
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__has_invoices
+msgid "Has Invoices"
+msgstr "Tiene facturas"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__hide_payment_method
+msgid "Hide Payment Method"
+msgstr "Ocultar método de pago"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,classification:0
+msgid "Hospedaje"
+msgstr ""
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_refuse_wizard__hr_expense_ids
+msgid "Hr Expense"
+msgstr "Gastos RRHH"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_refuse_wizard__hr_expense_sheet_id
+msgid "Hr Expense Sheet"
+msgstr "Hoja gastos RRHH"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__iva_amount
+msgid "I.V.A."
+msgstr ""
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__id
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__id
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses__id
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__id
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_refused_expense_wizard__id
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__id
+msgid "ID"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "IMPORTE"
+msgstr ""
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__message_unread
+msgid "If checked new messages require your attention."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.sheet,payment_type_res:0
+#: selection:hr.expense.sheet.register.payment.wizard,payment_type:0
+msgid "Inbound"
+msgstr "Recibir Dinero"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Inbound Payment"
+msgstr "Pago recibido"
+
+#. module: hr_expense_mexico
+#: model:ir.actions.act_window,name:hr_expense_mexico.action_hr_expense_sheet_all_sheets
+msgid "Informes de Viaticos"
+msgstr "Informes de Viáticos"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,payment_type:0
+msgid "Internal Transfer"
+msgstr "Transferencia interna"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,document_type:0
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__invoice_ids
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__reconciled_invoice_ids
+msgid "Invoices whose journal items have been reconciled with this payment's."
+msgstr "Facturas cuyos artículos del diario se han conciliado con los de este pago."
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_is_follower
+msgid "Is Follower"
+msgstr "Es un seguidor"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__is_older
+msgid "Is older"
+msgstr "Es mayor"
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Journal"
+msgstr "Diario"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__account_move_id
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__move_name
+msgid "Journal Entry Name"
+msgstr "Nombre del Asiento contable"
+
+#. module: hr_expense
+#: model:ir.model,name:hr_expense.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunte contable"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__writeoff_label
+msgid "Journal Item Label"
+msgstr "Etiqueta de apunte contable."
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,payment_difference_handling:0
+msgid "Keep open"
+msgstr "Mantener abierto"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification____last_update
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment____last_update
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses____last_update
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines____last_update
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_refused_expense_wizard____last_update
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__write_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__write_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses__write_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__write_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_refused_expense_wizard__write_uid
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__write_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__write_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses__write_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__write_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_refused_expense_wizard__write_date
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Late Activities"
+msgstr "Actividades tardías"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_res_config_settings__use_mailgateway
+#: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
+msgid "Let your employees record expenses by email"
+msgstr "Permitir a los empleados registrar gastos por email"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Luego de cerrar la hoja de viaticos no podrá agregar mas gastos. ¿Esta seguro de que desea cerrar la hoja de viaticos?."
+msgstr "Luego de cerrar la hoja de viáticos no podrá agregar mas gastos. ¿Esta seguro de que desea cerrar la hoja de viáticos?."
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Adjuntos principales"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__user_id
+#: model:res.groups,name:hr_expense.group_hr_expense_manager
+msgid "Manager"
+msgstr "Responsable"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:61
+#, python-format
+msgid "Managers can get all reports to approve from this menu."
+msgstr "Los responsables pueden acceder a todos los informes por aprobar desde este menú."
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__payment_method_id
+msgid "Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+"Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"
+"Check: Pay bill by check and print it from Odoo.\n"
+"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo, you are suggested to reconcile the transaction with the batch deposit.To enable batch deposit, module account_batch_payment must be installed.\n"
+"SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. To enable sepa credit transfer, module account_sepa must be installed "
+msgstr "Manual: Reciba pagos en efectivo, cheque o cualquier otro método fuera de Odoo.\n"
+"Electrónico: se le paga automáticamente a través de un adquirente de pago solicitando una transacción en una tarjeta guardada por el cliente al comprar o suscribirse en línea (token de pago).\n"
+"Cheque: Pague la factura con cheque e imprímala desde Odoo.\n"
+"Depósito por lotes: Envuelva varios cheques de clientes a la vez generando un depósito por lotes para enviar a su banco. Al codificar el extracto bancario en Odoo, se le sugiere que concilie la transacción con el depósito por lotes. Para habilitar el depósito por lotes, se debe instalar el módulo account_batch_payment.\n"
+"Transferencia de crédito SEPA: Pague la factura de un archivo de transferencia de crédito SEPA que envíe a su banco. Para habilitar la transferencia de crédito sepa, se debe instalar el módulo account_sepa"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,payment_difference_handling:0
+msgid "Mark invoice as fully paid"
+msgstr "Marcar la factura como totalmente pagada"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__communication
+msgid "Memo"
+msgstr "Circular"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Envío de Mensaje"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Monto Entregado"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Monto comprobado"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__amount_per_day
+msgid "Monto estimado por día"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__move_line_ids
+msgid "Move Line"
+msgstr "Registro de movimiento"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__move_reconciled
+msgid "Move Reconciled"
+msgstr "Movimientos conciliados"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__multi
+msgid "Multi"
+msgstr ""
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_hr_expense_sheet_my_all
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_sheet_my_reports
+msgid "My Expense Reports"
+msgstr "Mis informes de gastos"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.hr_expense_actions_my_unsubmitted
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_my_expenses
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_my_expenses_to_submit
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+msgid "My Expenses"
+msgstr "Mis gastos"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "My Reports"
+msgstr "Mis informes"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+msgid "My Team Expenses"
+msgstr "Gastos de mi equipo"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "My Team Reports"
+msgstr "Informes de mi equipo"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_classification__name
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:186
+#, python-format
+msgid "New Expense Report"
+msgstr "Nuevo informe de gastos"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__activity_date_deadline
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Siguiente plazo de actividad"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__activity_summary
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumen de la siguiente actividad"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__activity_type_id
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__activity_type_id
+msgid "Next Activity Type"
+msgstr "Siguiente tipo de actividad"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:244
+#, python-format
+msgid "No Expense account found for the product %s (or for its category), please configure one."
+msgstr "No se ha encontrado una cuenta de gasto para el producto %s (o para su categoría), por favor, configure una."
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:261
+#, python-format
+msgid "No Home Address found for the employee %s, please configure one."
+msgstr "No se encontró la dirección particular para el empleado %s, por favor especifique una."
+
+#. module: hr_expense
+#: model_terms:ir.actions.act_window,help:hr_expense.action_approved_expense
+msgid "No approved employee expenses"
+msgstr "No hay gastos de empleados aprobados."
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:257
+#: code:addons/hr_expense/models/hr_expense.py:374
+#, python-format
+msgid "No credit account found for the %s journal, please configure one."
+msgstr "No se ha encontrado una cuenta de Haber para el diario %s (o para su categoría). Por favor, configure una."
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.actions.act_window,help:hr_expense_mexico.action_hr_expense_sheet_all_sheets
+msgid "No expense reports to approve"
+msgstr "No hay informes de gastos para aprobar"
+
+#. module: hr_expense_mexico
+#: code:addons/hr_expense_mexico/models/hr_expense.py:51
+#, python-format
+msgid "No puede agregar gastos a un informe de viaticos cerrado."
+msgstr "No puede agregar gastos a un informe de viáticos cerrado."
+
+#. module: hr_expense
+#: model_terms:ir.actions.act_window,help:hr_expense.action_unsubmitted_expense
+msgid "No unreported employee expenses"
+msgstr "Sin gastos de empleados no declarados"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "No."
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__payment_token_id
+msgid "Note that tokens from acquirers set to only authorize transactions (instead of capturing the amount) are not available."
+msgstr "Tenga en cuenta que los tokens de los adquirentes establecidos para autorizar sólo las transacciones (en lugar de capturar la cantidad) no están disponibles."
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__note
+msgid "Notes"
+msgstr "Notas"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__description
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_form
+msgid "Notes..."
+msgstr "Notas..."
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de acciones"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__attachment_number
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__attachment_number
+msgid "Number of Attachments"
+msgstr "Número de adjuntos"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_has_error_counter
+msgid "Number of error"
+msgstr "Número de error"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensajes que requieren una acción"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de envío"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensajes no leidos"
+
+#. module: hr_expense
+#: model:res.groups,name:hr_expense.group_hr_expense_user
+msgid "Officer"
+msgstr "Oficial"
+
+#. module: hr_expense
+#: model_terms:ir.actions.act_window,help:hr_expense.action_hr_expense_sheet_all_all
+#: model_terms:ir.actions.act_window,help:hr_expense.action_hr_expense_sheet_all_to_pay
+#: model_terms:ir.actions.act_window,help:hr_expense.action_hr_expense_sheet_all_to_post
+#: model_terms:ir.actions.act_window,help:hr_expense.action_hr_expense_sheet_my_all
+#: model_terms:ir.actions.act_window,help:hr_expense.action_request_approve_expense_sheet
+#: model_terms:ir.actions.act_window,help:hr_expense.action_request_to_pay_expense_sheet
+#: model_terms:ir.actions.act_window,help:hr_expense.action_request_to_post_expense_sheet
+msgid "Once you have created your expense, submit it to your manager who will validate it."
+msgstr "Cuando haya creado su gasto, remítalo a su responsable para que lo valide."
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:45
+#, python-format
+msgid "Once your <b>Expense report</b> is ready, you can submit it to your manager and wait for the approval from your manager."
+msgstr "Una vez que su<b>Informe de gastos</b> esté listo, puede enviarlo a su responsable y esperar por la aprobación de su responsable."
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:713
+#, python-format
+msgid "Only HR Officers or the concerned employee can reset to draft."
+msgstr "Solo los funcionarios de recursos humanos o el empleado en cuestión pueden restablecer documento a borrador"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:674
+#: code:addons/hr_expense/models/hr_expense.py:695
+#, python-format
+msgid "Only Managers and HR Officers can approve expenses"
+msgstr "Solo los gerentes y responsables de recursos humanos pueden aprobar gastos"
+
+#. modules: hr_expense_mexico
+#: selection:hr.expense.sheet,state:0
+msgid "Open"
+msgstr "Abierto"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__operation_result
+msgid "Operation Result"
+msgstr "Resultado de la Operación"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__address_from
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__address_from_complete
+msgid "Origen"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__address_origin_id
+msgid "Origin Address"
+msgstr "Dirección de origen"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,classification:0
+msgid "Other"
+msgstr "Otro"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_form
+msgid "Other Info"
+msgstr "Otra Información"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__other_classification
+msgid "Other classification"
+msgstr "Otra Clasificación"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.sheet,payment_type_res:0
+#: selection:hr.expense.sheet.register.payment.wizard,payment_type:0
+msgid "Outbound"
+msgstr "Enviar Dinero"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Outbound Payment"
+msgstr "Pago enviado"
+
+#. module: hr_expense
+#: selection:hr.expense,activity_state:0
+#: selection:hr.expense.sheet,activity_state:0
+msgid "Overdue"
+msgstr "Vencidas"
+
+#. modules: hr_expense_mexico
+#: model:mail.message.subtype,name:hr_expense.mt_expense_paid
+#: selection:hr.expense.sheet,state:0
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__paid
+msgid "Paid"
+msgstr "Pagado"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__payment_mode
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__payment_mode
+msgid "Paid By"
+msgstr "Pagado Por"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__partner_id
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet_register_payment_wizard__partner_id
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__partner_type
+msgid "Partner Type"
+msgstr "Tipo de Empresa"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__amount
+msgid "Payment Amount"
+msgstr "Cantidad a pagar"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_date
+msgid "Payment Date"
+msgstr "Fecha de pago"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_difference
+msgid "Payment Difference"
+msgstr "Diferencia en pago"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_difference_handling
+msgid "Payment Difference Handling"
+msgstr "Manejo de diferencias de pago"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__journal_id
+msgid "Payment Journal"
+msgstr "Diario de pago"
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Payment Method"
+msgstr "Método de pago"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_method_id
+msgid "Payment Method Type"
+msgstr "Tipo de método de pago"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_reference
+msgid "Payment Reference"
+msgstr "Referencia del pago"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_transaction_id
+msgid "Payment Transaction"
+msgstr "Transacción de pago"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_type
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet_register_payment_wizard__payment_type
+msgid "Payment Type"
+msgstr "Tipo de pago"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__payment_type_res
+msgid "Payment Type Res"
+msgstr "Tipo de pago"
+
+#. module: hr_expense_mexico
+#: model:ir.actions.act_window,name:hr_expense_mexico.action_hr_expense_payments
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.actions.act_window,help:hr_expense_mexico.action_hr_expense_payments
+msgid "Payments are used to register liquidity movements. You can process those payments by your own means or by using installed facilities."
+msgstr "Los pagos se utilizan para registrar movimientos de liquidez. Puede procesar esos pagos por sus propios medios o utilizando las instalaciones instaladas."
+
+#. modules: hr_expense_mexico
+#: selection:hr.expense,state:0
+msgid "Pending Checking"
+msgstr "Pendiente de comprobación"
+
+#. module: hr_expense
+#: selection:hr.expense,activity_state:0
+#: selection:hr.expense.sheet,activity_state:0
+msgid "Planned"
+msgstr "Planificado"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:248
+#, python-format
+msgid "Please configure Default Expense account for Product expense: `property_account_expense_categ_id`."
+msgstr "Configure la cuenta de gastos por defecto para el producto: 'property_account_expense_categ'."
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_form
+msgid "Post Journal Entries"
+msgstr "Publicar asientos"
+
+#. modules: hr_expense_mexico
+#: selection:hr.expense.payment,state:0
+#: selection:hr.expense.sheet,state:0
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Posted"
+msgstr "Publicado"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "Price"
+msgstr "Precio"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "Price in Company Currency"
+msgstr "Precio en moneda de la empresa"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.product_product_expense_form_view
+msgid "Product Name"
+msgstr "Nombre del producto"
+
+#. module: hr_expense
+#: model:ir.model,name:hr_expense.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.product_product_expense_tree_view
+msgid "Product Variants"
+msgstr "Variantes de producto"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "Qty"
+msgstr "Cant."
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__quantity
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_refuse_wizard__reason
+msgid "Reason"
+msgstr "Motivo"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_template_refuse_reason
+msgid "Reason :"
+msgstr "Motivo:"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.refused_expense_wizard
+msgid "Reason for Refuse Record"
+msgstr "Razón de rechazo"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_refused_expense_wizard__description
+msgid "Reason of refuse"
+msgstr "Razón de rechazo"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_refuse_wizard_view_form
+msgid "Reason to refuse Expense"
+msgstr "Motivo para rechazar el gasto"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,payment_type:0
+msgid "Receive Money"
+msgstr "Recibir dinero"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__partner_bank_account_id
+msgid "Recipient Bank Account"
+msgstr "Cuenta bancaria beneficiaria"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,state:0
+#: selection:hr.expense.sheet.register.payment.wizard,payment_type:0
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Reconciled"
+msgstr "Conciliado"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.sheet,operation_result:0
+msgid "Reconciled Amount"
+msgstr "Monto Conciliado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__reconciled_invoice_ids
+msgid "Reconciled Invoices"
+msgstr "Facturas conciliadas"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
+msgid "Recording"
+msgstr "Registrando"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.report_expense_sheet
+msgid "Ref."
+msgstr "Ref."
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__payment_reference
+msgid "Reference of the document used to issue this payment. Eg. check number, file name, etc."
+msgstr "Referencia del documento utililizado para emitir este pago. Por ejemplo número de cheque, nombre de archivo, etc."
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_register_payment_inherit_view_form
+msgid "Referencia"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.sheet,operation_result:0
+#: selection:hr.expense.sheet.register.payment.wizard,payment_type:0
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Refund"
+msgstr "Rembolso"
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.refused_expense_wizard
+msgid "Refuse"
+msgstr "Negar"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.hr_expense_refuse_wizard_action
+msgid "Refuse Expense"
+msgstr "Negar gasto"
+
+#. modules: hr_expense_mexico
+#: model:mail.message.subtype,name:hr_expense.mt_expense_refused
+#: selection:hr.expense,state:0
+msgid "Refused"
+msgstr "Negada"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+msgid "Refused Expenses"
+msgstr "Gastos no aprobados"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
+msgid "Refuset"
+msgstr "Negada"
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_form
+msgid "Register Payment"
+msgstr "Registrar pago"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.actions.act_window,help:hr_expense_mexico.action_hr_expense_payments
+msgid "Register a payment"
+msgstr "Registrar un pago"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,document_type:0
+msgid "Remission"
+msgstr "Remisión"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_template_refuse_reason
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+msgid "Report"
+msgstr "Informe"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__company_currency_id
+msgid "Report Company Currency"
+msgstr "Informe en moneda de la empresa"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+msgid "Reported"
+msgstr "Enviada"
+
+#. module: hr_expense
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_reports
+msgid "Reporting"
+msgstr "Informes"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_request_approve_expense_sheet
+msgid "Reports to Approve"
+msgstr "Notas a aprobar"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_request_to_pay_expense_sheet
+msgid "Reports to Pay"
+msgstr "Notas a pagar"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_request_to_post_expense_sheet
+msgid "Reports to Post"
+msgstr "Notas a contabilizar"
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Reset to Draft"
+msgstr "Cambiar a borrador"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__activity_user_id
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__activity_user_id
+msgid "Responsible User"
+msgstr "Usuario responsable"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.sheet,operation_result:0
+#: selection:hr.expense.sheet.register.payment.wizard,payment_type:0
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Return"
+msgstr "Devolución"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__payment_token_id
+msgid "Saved payment token"
+msgstr "Token de pago guardado"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:135
+#, python-format
+msgid "Selected Unit of Measure does not belong to the same category as the product Unit of Measure."
+msgstr "La unidad de medida seleccionada no pertenece a la misma categoría que la unidad de medida del producto."
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,payment_type:0
+msgid "Send Money"
+msgstr "Dinero enviado"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,state:0
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_form
+msgid "Set To Draft"
+msgstr "Establecer a borrador"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_hr_expense_configuration
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_global_settings
+msgid "Settings"
+msgstr "Ajustes"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
+msgid "Setup your domain alias"
+msgstr "Configure su alias de dominio"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__show_partner_bank_account
+msgid "Show Partner Bank Account"
+msgstr "Mostrar cuenta bancaria del Contacto"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Show all records which has next action date is before today"
+msgstr "Mostrar todos los registros que tienen la próxima fecha de acción antes de hoy"
+
+#. module: hr_expense
+#: model:ir.model.fields,help:hr_expense.field_product_product__can_be_expensed
+#: model:ir.model.fields,help:hr_expense.field_product_template__can_be_expensed
+msgid "Specify whether the product can be selected in an expense."
+msgstr "Especifique si el producto puede seleccionarse en un gasto"
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "State"
+msgstr "Estado"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__state
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__state
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__state
+msgid "Status"
+msgstr "Estado"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__executing_attorney_status
+msgid "Status abogado ejecutor"
+msgstr ""
+
+#. module: hr_expense
+#: model:ir.model.fields,help:hr_expense.field_hr_expense__activity_state
+#: model:ir.model.fields,help:hr_expense.field_hr_expense_sheet__activity_state
+msgid "Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr "Estado basado en actividades\n"
+"Vencida: la fecha tope ya ha pasado\n"
+"Hoy: La fecha tope es hoy\n"
+"Planificada: futuras actividades."
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense__state
+msgid "Status of the expense."
+msgstr "Estado del gasto"
+
+#. module: hr_expense
+#: model:ir.actions.server,name:hr_expense.hr_expense_submit_action_server
+msgid "Submit Report"
+msgstr "Enviar informe"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_form
+msgid "Submit to Manager"
+msgstr "Enviar al responsable"
+
+#. modules: hr_expense_mexico
+#: selection:hr.expense.sheet,state:0
+msgid "Submitted"
+msgstr "Enviado"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__subtotal_amount
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__total_amount
+msgid "Subtotal"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "TOTAL"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_tab_expenses_lines__tab_id
+msgid "Tabulador"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.ui.menu,name:hr_expense_mexico.menu_tabulator_expenses
+msgid "Tabulador de costos"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.actions.act_window,name:hr_expense_mexico.hr_tab_expenses_action_window
+msgid "Tabulador de costos de viaticos"
+msgstr "Tabulador de costos de viáticos"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_wizard_attachment_tag__tag_ids
+msgid "Tag"
+msgstr "Etiqueta"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__amount_tax
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__invoice_ids
+msgid "Technical field containing the invoices for which the payment has been generated.\n"
+"                                                                                                                                                                       This does not especially correspond to the invoices reconciled with the payment,\n"
+"                                                                                                                                                                       as it can have been generated first, and reconciled later"
+msgstr "Campo técnico que contiene las facturas para las que se ha generado el pago.\n"
+"                                                                                                                                                                       Esto no corresponde especialmente a las facturas conciliadas con el pago,\n"
+"                                                                                                                                                                       como se pudo haber generado primero y reconciliado después."
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__move_name
+msgid "Technical field holding the number given to the journal entry, automatically set when the statement line is reconciled then stored to set the same number again if the line is cancelled, set to draft and re-processed again."
+msgstr "Campo técnico que contiene el número dado a la entrada de diario, establecido automáticamente cuando esta es conciliada y guardada para recuperar el número si se cancela la entrada de diario, se cambia a borrador o se re-procesa."
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__multi
+msgid "Technical field indicating if the user selected invoices from multiple partners or from different types."
+msgstr "Campo técnico que indica si el usuario seleccionó facturas de múltiples socios o de diferentes tipos."
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__has_invoices
+msgid "Technical field used for usability purposes"
+msgstr "Campo técnico utilizado por usabilidad"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__payment_method_code
+msgid "Technical field used to adapt the interface to the payment type selected."
+msgstr "Campo técnico utilizado para adaptar la interfaz al tipo de pago seleccionado."
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__hide_payment_method
+msgid "Technical field used to hide the payment method if the selected journal has only one available which is 'manual'"
+msgstr "Campo técnico utilizado para ocultar el método de pago si el diario seleccionado tiene únicamente como disponible el 'manual'"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__show_partner_bank_account
+msgid "Technical field used to know whether the field `partner_bank_account_id` needs to be displayed or not in the payments form views"
+msgstr "El campo técnico solía saber si el campo `partner_bank_account_id` debe mostrarse o no en las vistas del formulario de pagos"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:57
+#, python-format
+msgid "The accountant can register a payment to reimburse the employee directly."
+msgstr "El contable puede registrar un pago para reembolsar al empleado directamente."
+
+#. module: hr_expense
+#: model:ir.model.fields,help:hr_expense.field_hr_expense_sheet__journal_id
+msgid "The journal used when the expense is done."
+msgstr "El diario usado cuando se realiza el gasto."
+
+#. module: hr_expense
+#: code:addons/hr_expense/wizard/hr_expense_sheet_register_payment.py:48
+#, python-format
+msgid "The payment amount must be strictly positive."
+msgstr "El importe del pago debe ser estrictamente positivo."
+
+#. module: hr_expense
+#: model:ir.model.fields,help:hr_expense.field_hr_expense_sheet__bank_journal_id
+msgid "The payment method used when the expense is paid by the company."
+msgstr "El método de pago usado cuando el gasto ha sido pagado por la compañía."
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_sheet__subject_type
+msgid "Tipo de asunto"
+msgstr ""
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "To Approve"
+msgstr "Para aprobar"
+
+#. module: hr_expense
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_sheet_all_to_pay
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "To Pay"
+msgstr "A pagar"
+
+#. module: hr_expense
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_sheet_all_to_post
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "To Post"
+msgstr "A contabilizar"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+msgid "To report"
+msgstr "Para reportar"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
+msgid "To update"
+msgstr "Calcular"
+
+#. module: hr_expense
+#: selection:hr.expense,activity_state:0
+#: selection:hr.expense.sheet,activity_state:0
+msgid "Today"
+msgstr "Hoy"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_filter
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_filter
+msgid "Today Activities"
+msgstr "Actividades de Hoy"
+
+#. module: hr_expense
+#: model:ir.ui.menu,name:hr_expense.menu_hr_expense_sheet_all_to_approve
+msgid "Todos los informes de viáticos"
+msgstr ""
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__total_amount_company
+msgid "Total (Company Currency)"
+msgstr "Total"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet__total_amount
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_expenses_tree
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_tree
+msgid "Total Amount"
+msgstr "Importe total"
+
+#. module: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__destination_journal_id
+msgid "Transfer To"
+msgstr "Transferir a"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Transfers"
+msgstr "Transferencias"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,classification:0
+msgid "Translados por movilidad"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: selection:hr.expense,classification:0
+msgid "Transporte"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_inherit
+msgid "Type classification description"
+msgstr "Descripción del tipo de clasificación"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense__unit_amount
+msgid "Unit Price"
+msgstr "Precio unitario"
+
+#. module: hr_expense
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__product_uom_id
+msgid "Unit of Measure"
+msgstr "Unidad de medida"
+
+#. module: hr_expense
+#: model:product.product,uom_name:hr_expense.product_product_fixed_cost
+#: model:product.template,uom_name:hr_expense.product_product_fixed_cost_product_template
+msgid "Unit(s)"
+msgstr "Unidad(es)"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_unread
+msgid "Unread Messages"
+msgstr "Mensajes por leer"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Contador de mensajes sin leer"
+
+#. module: hr_expense
+#: model:ir.actions.act_window,name:hr_expense.action_unsubmitted_expense
+msgid "Unreported Expenses"
+msgstr "Gastos no reportados"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "Update amount"
+msgstr "Actualizar montos"
+
+#. module: hr_expense
+#: model:ir.model.fields,help:hr_expense.field_hr_employee__expense_manager_id
+msgid "User responsible of expense approval. Should be Expense Manager."
+msgstr "Usuario responsable de la aprobación de gastos. Debe ser el administrador de gastos."
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_sheet_register_payment_view_form
+msgid "Validate"
+msgstr "Validar"
+
+#. module: hr_expense_mexico
+#: selection:hr.expense.payment,partner_type:0
+msgid "Vendor"
+msgstr "Vendedor(a)"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.view_hr_expense_payment_search
+msgid "Vendor Payments"
+msgstr "Pagos de Proveedor"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_expenses_tree
+msgid "View Attached Documents"
+msgstr "Documentos adjuntos"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.view_hr_expense_sheet_form
+msgid "View Attachments"
+msgstr "Adjuntos"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_form
+msgid "View Report"
+msgstr "Informe"
+
+#. module: hr_expense
+#. openerp-web
+#: code:addons/hr_expense/static/src/js/tour.js:13
+#: code:addons/hr_expense/static/src/js/tour.js:18
+#, python-format
+msgid "Want to manage your expenses? It starts here."
+    msgstr "¿Quiere administrar sus gastos? Comienza aquí"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,field_description:hr_expense_mexico.field_hr_expense_payment__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. modules: hr_expense_mexico
+#: model:ir.model.fields,help:hr_expense_mexico.field_hr_expense_payment__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:682
+#, python-format
+msgid "You can only approve your department expenses"
+msgstr "Solo puede aprobar los gastos de su departamento"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:627
+#, python-format
+msgid "You can only generate accounting entry for approved expense(s)."
+msgstr "Solo se pueden generar entradas contables para los gastos aprobados."
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:703
+#, python-format
+msgid "You can only refuse your department expenses"
+msgstr "Solo puede rechazar los gastos de su departamento"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
+msgid "You can setup a generic email alias to create incoming expenses easily. Write an email with the receipt in attachment to create an expense line in one click. If the mail subject contains the product's internal reference between brackets, the product will be set automatically. Type the expense amount in the mail subject to set it on the expense too."
+msgstr "Puede configurar un alias de correo electrónico genérico para crear gastos entrantes fácilmente. Escriba un correo electrónico con el recibo en archivo adjunto para crear una línea de gasto con un solo clic. Si el asunto  del correo contiene la referencia interna del producto entre paréntesis, el producto se establecerá automáticamente. Escriba el importe del gasto en el asunto del correo para establecerlo en el gasto también."
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:582
+#, python-format
+msgid "You cannot add expenses of another employee."
+msgstr "No puede agregar gastos de otro empleado"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:679
+#, python-format
+msgid "You cannot approve your own expenses"
+msgstr "No puede aprobar sus propios gastos."
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:145
+#, python-format
+msgid "You cannot delete a posted or approved expense."
+msgstr "No puede eliminar un gasto publicado o aprobado"
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:594
+#, python-format
+msgid "You cannot delete a posted or paid expense."
+msgstr "No puede eliminar un gasto pagado o contabilizado."
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:700
+#, python-format
+msgid "You cannot refuse your own expenses"
+msgstr "No puede rechazar sus propios gastos."
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:182
+#, python-format
+msgid "You cannot report expenses for different employees in the same report."
+msgstr "No puede informar gastos para diferentes empleados en el mismo informe."
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:180
+#, python-format
+msgid "You cannot report twice the same line!"
+msgstr "¡No puede incluir dos veces la misma línea!"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_template_refuse_reason
+msgid "Your Expense"
+msgstr "Su gasto"
+
+#. module: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.report_expense_sheet_inherit
+msgid "_____________________________"
+msgstr ""
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.product_product_expense_form_view
+msgid "e.g. Lunch"
+msgstr "Ej. Almuerzo de trabajo"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_form
+msgid "e.g. Lunch with Customer"
+msgstr "Ej. Almuerzo con cliente"
+
+#. modules: hr_expense_mexico
+#: model_terms:ir.ui.view,arch_db:hr_expense_mexico.hr_expense_sheet_inherit
+msgid "e.g. Trip to NY"
+msgstr "Ej. Viaje a Nueva York"
+
+#. module: hr_expense
+#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_template_refuse_reason
+msgid "has been refused"
+msgstr "ha sido rechazado"
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_expense_classification
+msgid "hr.expense.classification"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_expense_payment
+msgid "hr.expense.payment"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_tab_expenses
+msgid "hr.tab.expenses"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_hr_tab_expenses_lines
+msgid "hr.tab.expenses.lines"
+msgstr ""
+
+#. module: hr_expense
+#: model:product.product,weight_uom_name:hr_expense.product_product_fixed_cost
+#: model:product.template,weight_uom_name:hr_expense.product_product_fixed_cost_product_template
+msgid "kg"
+msgstr ""
+
+#. module: hr_expense
+#: code:addons/hr_expense/models/hr_expense.py:159
+#, python-format
+msgid "or send receipts by email to %s."
+msgstr "o envíe los tickets/facturas por email a %s."
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_refused_expense_wizard
+msgid "refused.expense.wizard"
+msgstr ""
+
+#. module: hr_expense_mexico
+#: model:ir.model,name:hr_expense_mexico.model_wizard_attachment_tag
+msgid "wizard.attachment.tag"
+msgstr ""
+

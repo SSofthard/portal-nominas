@@ -1,0 +1,1154 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* hr_loan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e-201905\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-12-09 13:45+0000\n"
+"PO-Revision-Date: 2019-12-09 13:45+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "% Rate"
+msgstr "Tarifa"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__rate
+msgid "% interest"
+msgstr "interesar"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "<strong> CUOTAS</strong>"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "A travvés de la nómina"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_needaction
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_needaction
+msgid "Action Needed"
+msgstr "Acción Necesaria"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__active
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_state
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_state
+msgid "Activity State"
+msgstr "Estado de la actividad"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__amount
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Amount"
+msgstr "Importe"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__interest_amount
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Amount Interest"
+msgstr "Cantidad de interés"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__amount_paid
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Amount Paid"
+msgstr "Cantidad pagada"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__amount_total
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Amount Total"
+msgstr "Importe total"
+
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Annually"
+msgstr "Anualmente"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Anualmente"
+msgstr ""
+
+#. module: hr_loan
+#: selection:hr.loan,state:0
+msgid "Applied"
+msgstr "Aplicado"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__date_applied
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Applied Date"
+msgstr "Fecha de aplicación"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Apply"
+msgstr "Solicitar"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__interest
+msgid "Apply interest rate?"
+msgstr "¿Aplicar tasa de interés?"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Approve"
+msgstr "Aprobar"
+
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: selection:hr.loan.line,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__date_approved
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Approved Date"
+msgstr "Fecha aprobada"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_attachment_count
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_attachment_count
+msgid "Attachment Count"
+msgstr "Conteo de archivos adjuntos"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_amount_due
+msgid "Balance on Loan"
+msgstr "Saldo en préstamo"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Bi-mensual"
+msgstr ""
+
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Bi-monthly"
+msgstr "Bimensual"
+
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Bi-weekly"
+msgstr "Quincenal"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: hr_loan
+#: selection:hr.loan,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Cantidad Principal:"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Cantidad Recibida"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Cantidad de Interés"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__code
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__code
+msgid "Code"
+msgstr "Clave"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__company_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__company_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__company_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__company_id
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Company"
+msgstr "Compañía"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Compute"
+msgstr "Calcular"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Compute Installments or change the state according to the disbursement type for loan request or repayment type in case of installments"
+msgstr "Calcule cuotas o cambie el estado según el tipo de desembolso para la solicitud de préstamo o el tipo de reembolso en caso de cuotas"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__contract_id
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__create_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__create_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__create_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__create_uid
+#: model:ir.model.fields,field_description:hr_loan.field_report_hr_loan_loan_type_template__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__create_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__create_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__create_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__create_date
+#: model:ir.model.fields,field_description:hr_loan.field_report_hr_loan_loan_type_template__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__currency_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__date_from
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Date From"
+msgstr "Fecha desde"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__date_to
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Date To"
+msgstr "Fecha hasta"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Deducción de Nómina"
+msgstr ""
+
+#. module: hr_loan
+#: selection:hr.loan.type,payment_method:0
+msgid "Deduction From Payroll"
+msgstr "Deducción de nómina"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__schedule_pay
+msgid "Defines the frequency of the loan payment."
+msgstr "Define la frecuencia del pago del préstamo."
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Departamento:"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__department_id
+msgid "Department"
+msgstr "Departamento"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Desde"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_form
+msgid "Details"
+msgstr "Detalles"
+
+#. module: hr_loan
+#: selection:hr.loan.type,disburse_method:0
+#: selection:hr.loan.type,payment_method:0
+msgid "Direct Cash/Cheque"
+msgstr "Efectivo Directo / Cheque"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Directo Cheque/Efectivo"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Disburse Loan"
+msgstr "Préstamo de desembolso"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__disburse_method
+msgid "Disburse Method"
+msgstr "Método de desembolso"
+
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Disbursed"
+msgstr "Desembolsado"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__date_disb
+msgid "Disbursement Date"
+msgstr "Fecha de desembolso"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__display_name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__display_name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__display_name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__display_name
+#: model:ir.model.fields,field_description:hr_loan.field_report_hr_loan_loan_type_template__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Duración :"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "EMI"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__employee_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__employee_id
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_type__rate
+msgid "Enter the percentage of interest to apply to the loan"
+msgstr "Ingrese el porcentaje de interés para aplicar al préstamo"
+
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:131
+#, python-format
+msgid "Enter values ​​greater than zero:\n"
+" %s "
+msgstr "Ingrese valores mayores que cero:  n"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Fecha Aplicada:"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Fecha Aprobada:"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Fecha Reembolso:"
+msgstr ""
+
+#. module: hr_loan
+#: selection:hr.loan,interest_type:0
+#: selection:hr.loan.type,interest_type:0
+msgid "Flat"
+msgstr "Plano"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Flat Interest"
+msgstr "Interés plano"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_follower_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_channel_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Seguidores (Canales)"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_partner_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Empresas)"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "General"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Hasta"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__id
+#: model:ir.model.fields,field_description:hr_loan.field_report_hr_loan_loan_type_template__id
+msgid "ID"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_unread
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_unread
+msgid "If checked new messages require your attention."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_needaction
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_has_error
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Interes"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Interest"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Interest Mode"
+msgstr "Modo de interés"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Interest Payable"
+msgstr "Los intereses a pagar"
+
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:127
+#, python-format
+msgid "Interest Rate\n"
+" "
+msgstr "Tasa de interés  n"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__interest_type
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__interest_type
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Interest Type"
+msgstr "Tipo de interés"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__rate
+msgid "Interest rate between 0-100 in range"
+msgstr "Tasa de interés entre 0-100 en rango"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_is_follower
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_is_follower
+msgid "Is Follower"
+msgstr "Es un seguidor"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__interest
+msgid "Is Interest Payable"
+msgstr "¿Se paga interés?"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan____last_update
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line____last_update
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy____last_update
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type____last_update
+#: model:ir.model.fields,field_description:hr_loan.field_report_hr_loan_loan_type_template____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__write_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__write_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__write_uid
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__write_uid
+#: model:ir.model.fields,field_description:hr_loan.field_report_hr_loan_loan_type_template__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__write_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__write_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__write_date
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__write_date
+#: model:ir.model.fields,field_description:hr_loan.field_report_hr_loan_loan_type_template__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: hr_loan
+#: model:ir.model,name:hr_loan.model_hr_loan_line
+msgid "Line Loan"
+msgstr "Préstamo de línea"
+
+#. module: hr_loan
+#: model:ir.actions.act_window,name:hr_loan.action_hr_loan
+#: model:ir.model,name:hr_loan.model_hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__loan_id
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Loan"
+msgstr "Préstamo"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__loan_amount
+msgid "Loan Amount"
+msgstr "Monto del préstamo"
+
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:125
+#, python-format
+msgid "Loan Amount\n"
+" "
+msgstr "Monto del préstamo  n"
+
+#. module: hr_loan
+#: model:ir.actions.report,name:hr_loan.report_loan_application
+msgid "Loan Application"
+msgstr "Solicitud de préstamo"
+
+#. module: hr_loan
+#: model:ir.ui.menu,name:hr_loan.menu_setting_loan
+msgid "Loan Configuration"
+msgstr "Configuración de préstamo"
+
+#. module: hr_loan
+#: model:ir.actions.act_window,name:hr_loan.action_hr_loan_line
+#: model:ir.ui.menu,name:hr_loan.menu_loan_installments
+msgid "Loan Installments"
+msgstr "Préstamos a plazos"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__loan_line_ids
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Loan Line"
+msgstr "Línea de préstamo"
+
+#. module: hr_loan
+#: model:ir.actions.act_window,name:hr_loan.action_hr_loan_policy
+#: model:ir.ui.menu,name:hr_loan.loan_policies
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_form
+msgid "Loan Policies"
+msgstr "Políticas de préstamos"
+
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:117
+#, python-format
+msgid "Loan Policies not satisfied :\n"
+" %s "
+msgstr "Políticas de préstamo no satisfechas: \ n "
+"% s"
+
+#. module: hr_loan
+#: model:ir.model,name:hr_loan.model_hr_loan_type
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__type_id
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_tree
+msgid "Loan Type"
+msgstr "Tipo de préstamo"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Loan Type with Flat Interest mode"
+msgstr "Tipo de préstamo con modo de interés fijo"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Loan Type with Reducing Interest mode"
+msgstr "Tipo de préstamo con modo de reducción de interés"
+
+#. module: hr_loan
+#: model:ir.actions.act_window,name:hr_loan.action_hr_loan_type
+#: model:ir.ui.menu,name:hr_loan.loan_type
+msgid "Loan Types"
+msgstr "Tipos de préstamos"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_calendar
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_form
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_graph
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_tree
+msgid "Loan installments"
+msgstr "Préstamos a plazos"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Loan installments paid"
+msgstr "Pagos a plazos pagados"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_policy_tree
+msgid "Loan policies"
+msgstr "Políticas de préstamo"
+
+#. module: hr_loan
+#: model:ir.model,name:hr_loan.model_hr_loan_policy
+msgid "Loan policies for employees"
+msgstr "Políticas de préstamos para empleados"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Loan that haven't yet been approved"
+msgstr "Préstamo que aún no ha sido aprobado"
+
+#. module: hr_loan
+#: model:ir.ui.menu,name:hr_loan.menu_loan
+#: model:ir.ui.menu,name:hr_loan.menu_loan_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_calendar
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_graph
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_tree
+msgid "Loans"
+msgstr "Préstamos"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.internal_layout_loan
+msgid "Logo"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_main_attachment_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Adjuntos principales"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Mensual"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_has_error
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Envío de Mensaje"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Modo de interés :"
+msgstr ""
+
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Monthly"
+msgstr "Mensual"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Monto Adeudado"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Monto Total"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__name
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_date_deadline
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Siguiente plazo de actividad"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_summary
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumen de la siguiente actividad"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_type_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_type_id
+msgid "Next Activity Type"
+msgstr "Siguiente tipo de actividad"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Nombre:"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__notes
+msgid "Note"
+msgstr "Nota"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Notes"
+msgstr "Notas"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_needaction_counter
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de acciones"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_has_error_counter
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_has_error_counter
+msgid "Number of error"
+msgstr "Número de error"
+
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:129
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__number_fees
+#, python-format
+msgid "Number of fees"
+msgstr "Cantidad de tarifas"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_needaction_counter
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensajes que requieren una acción"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_has_error_counter
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de envío"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__message_unread_counter
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensajes no leidos"
+
+#. module: hr_loan
+#: selection:hr.loan,activity_state:0
+#: selection:hr.loan.line,activity_state:0
+msgid "Overdue"
+msgstr "Atrasado"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Pago planificado :"
+msgstr ""
+
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: selection:hr.loan.line,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Paid"
+msgstr "Pagado"
+
+#. module: hr_loan
+#: selection:hr.loan,activity_state:0
+#: selection:hr.loan.line,activity_state:0
+msgid "Planned"
+msgstr "Planificado"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Plano"
+msgstr ""
+
+#. module: hr_loan
+#: code:addons/hr_loan/models/hr_loan.py:212
+#, python-format
+msgid "Please give disbursement date."
+msgstr "Indique la fecha de desembolso."
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__loan_policy_ids
+msgid "Policies"
+msgstr "Políticas"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Print Loan"
+msgstr "Préstamo de impresión"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.internal_layout_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.internal_layout_sin_header
+msgid "Página"
+msgstr ""
+
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Quarterly"
+msgstr "Trimestral"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Quincenal"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__rate
+msgid "Rate"
+msgstr "Tasa"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_amount_paid
+msgid "Received From Employee"
+msgstr "Recibido del empleado"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Reducción"
+msgstr ""
+
+#. module: hr_loan
+#: selection:hr.loan,interest_type:0
+#: selection:hr.loan.type,interest_type:0
+msgid "Reducing"
+msgstr "Reduciendo"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Reducing Interest"
+msgstr "Reducción de intereses"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__name
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: hr_loan
+#: selection:hr.loan,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Rejected"
+msgstr "Rechazado"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__total_amount_due
+msgid "Remaining Amount due."
+msgstr "Importe restante adeudado."
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__date_repayment
+msgid "Repayment Date"
+msgstr "Fecha de reembolso"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__payment_method
+msgid "Repayment Method"
+msgstr "Método de reembolso"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_type__report_id
+msgid "Report"
+msgstr "Informe"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "Reset To Draft"
+msgstr "Restablecer al borrador"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__activity_user_id
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__activity_user_id
+msgid "Responsible User"
+msgstr "Usuario responsable"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__wage
+msgid "Salary of the employee based on the selected contract."
+msgstr "Salario del empleado en función del contrato seleccionado."
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__schedule_pay
+msgid "Scheduled Pay"
+msgstr "Pago planificado"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "Search Loan"
+msgstr "Búsqueda de préstamos"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_filter
+msgid "Search Loan Policies"
+msgstr "Buscar políticas de préstamos"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_type_filter
+msgid "Search Loan Type"
+msgstr "Buscar tipo de préstamo"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Search Loan installments"
+msgstr "Buscar cuotas de préstamos"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Search on Dates"
+msgstr "Buscar fechas"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Semanal"
+msgstr ""
+
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Semi-annually"
+msgstr "Semi-anualmente"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Semi-anualmente"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_policy__value
+msgid "Set the value to be taken by the policy, it can take values ​​for amounts or number of months."
+msgstr "Establezca el valor que tomará la política, puede tomar valores para cantidades o número de meses."
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__state
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__state
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "State"
+msgstr "Estado"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Status"
+msgstr "Estado"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__activity_state
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__activity_state
+msgid "Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr "Estado basado en actividades\n"
+"Vencida: la fecha tope ya ha pasado\n"
+"Hoy: La fecha tope es hoy\n"
+"Planificada: futuras actividades."
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Tasa de Interés :"
+msgstr ""
+
+#. module: hr_loan
+#: sql_constraint:hr.loan.policy:0
+msgid "There is already a policy registered with this code.!"
+msgstr "Ya existe una política registrada con este código."
+
+#. module: hr_loan
+#: sql_constraint:hr.loan.policy:0
+msgid "There is already a registered policy of this type for this company.!"
+msgstr "Ya existe una política registrada de este tipo para esta empresa."
+
+#. module: hr_loan
+#: selection:hr.loan.type,disburse_method:0
+msgid "Through Payroll"
+msgstr "A través de nómina"
+
+#. module: hr_loan
+#: selection:hr.loan.policy,type:0
+msgid "Time between loans"
+msgstr "Tiempo entre prestamos"
+
+#. module: hr_loan
+#: selection:hr.loan.policy,type:0
+msgid "Time in the company"
+msgstr "Tiempo en la empresa"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Tipo de desembolso :"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Tipo de pago :"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Tipo de préstamo :"
+msgstr ""
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_filter
+msgid "To Approve"
+msgstr "Para aprobar"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_form
+msgid "To refuse"
+msgstr "Rechazar"
+
+#. module: hr_loan
+#: selection:hr.loan,activity_state:0
+#: selection:hr.loan.line,activity_state:0
+msgid "Today"
+msgstr "Hoy"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Total"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_interest_amount
+msgid "Total Interest on Loan"
+msgstr "Interés total sobre el préstamo"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__total_amount
+msgid "Total amount"
+msgstr "Cantidad total"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.loan_application
+msgid "Trimestral"
+msgstr ""
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__type
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_policy_filter
+msgid "Type"
+msgstr "Tipo"
+
+#. module: hr_loan
+#: model:ir.actions.report,name:hr_loan.report_loan_type_template
+msgid "Type Loan Report"
+msgstr "Informe de préstamo tipo"
+
+#. module: hr_loan
+#: selection:hr.loan.line,state:0
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Unpaid"
+msgstr "No pagado"
+
+#. module: hr_loan
+#: model_terms:ir.ui.view,arch_db:hr_loan.view_hr_loan_line_filter
+msgid "Unpaid loan installments"
+msgstr "Préstamos impagos"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_unread
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_unread
+msgid "Unread Messages"
+msgstr "Mensajes sin leer"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__message_unread_counter
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Contador de mensajes sin leer"
+
+#. module: hr_loan
+#: selection:hr.loan.policy,type:0
+msgid "Upper loan limit"
+msgstr "Límite superior de préstamo"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__user_id
+msgid "User"
+msgstr "Usuario"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_policy__value
+msgid "Value"
+msgstr "Valor"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__wage
+msgid "Wage"
+msgstr "Salario"
+
+#. module: hr_loan
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan__website_message_ids
+#: model:ir.model.fields,field_description:hr_loan.field_hr_loan_line__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: hr_loan
+#: model:ir.model.fields,help:hr_loan.field_hr_loan__website_message_ids
+#: model:ir.model.fields,help:hr_loan.field_hr_loan_line__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
+
+#. module: hr_loan
+#: selection:hr.loan,schedule_pay:0
+msgid "Weekly"
+msgstr "Semanal"
+
+#. module: hr_loan
+#: model:ir.model,name:hr_loan.model_report_hr_loan_loan_type_template
+msgid "report.hr_loan.loan_type_template"
+msgstr ""
+

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_change_history_wizard_view" model="ir.ui.view">
+        <field name="name">hr.employee.change.history.wizard.view</field>
+        <field name="model">hr.employee.change.history.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Employee Change History">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" readonly="1"/>
+                            <field name="contract_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="wage"/>
+                            <field name="date_from"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <group>
+                        <span>
+                            <button string="Send" type="object" class="oe_highlight" name="apply_change"/>
+                            <button string="Cancel" class="oe_link" special="cancel" />
+                        </span>
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="change_history_form_action" model="ir.actions.act_window">
+        <field name="name">Employee Change History</field>
+        <field name="res_model">hr.employee.change.history.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    
+    <record id="hr_employee_change_job_wizard_view" model="ir.ui.view">
+        <field name="name">hr.employee.change.job.wizard.view</field>
+        <field name="model">hr.employee.change.job.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cambio de puesto de trabajo">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" readonly="1"/>
+                            <field name="contract_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="job_id"/>
+                            <field name="date_from"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <group>
+                        <span>
+                            <button string="Aceptar" type="object" class="oe_highlight" name="change_job"/>
+                            <button string="Cancel" class="oe_link" special="cancel" />
+                        </span>
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="change_job_action" model="ir.actions.act_window">
+        <field name="name">Cambio de puesto de trabajo</field>
+        <field name="res_model">hr.employee.change.job.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="hr_employee_affiliate_move_view_tree" model="ir.ui.view">
+        <field name="name">hr.employee.affiliate.move.view.tree</field>
+        <field name="model">hr.employee.affiliate.move</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'waiting'">
+                <field name="employer_register_id"/>
+                <field name="type_move"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <record id="wizard_employee_history" model="ir.ui.view">
+        <field name="name">wizard_employee_history.form</field>
+        <field name="model">wizard.employee.history</field>
+        <field name="priority">5</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="group_id"/>
+                        <field name="employer_register_id"/>
+                        <field name="work_center_id"/>
+                    </group>
+                    <group>
+                        <field name="select_job" widget="radio"/>
+                        <field name="job_ids" widget="many2many_tags" attrs="{'invisible':[('select_job','!=','some')]}"/>
+                        <field name="contracting_regime"/>
+                    </group>
+                    <group class="row">
+                        <field name="date_from"/>
+                    </group>
+                    <group class="row">
+                        <field name="date_to"/>
+                    </group>
+                </group>
+           <footer>
+                <button string="Imprimir" name="report_print" type="object" default_focus="1" class="btn-primary"/>
+                <button string="Cancel" class="btn-default" special="cancel"/>
+            </footer>
+       </form>
+        </field>
+    </record>
+
+    <act_window
+        id="action_wizard_employee_history_form"
+        name="Rotacion de empleados"
+        res_model="wizard.employee.history"
+        src_model="hr.change.job"
+        view_mode="form"
+        multi="True"
+        target="new"
+       />
+
+    <menuitem
+        id="menu_report_employee_rotation"
+        name="Rotacion de empleados"
+        parent="payroll_mexico.menu_report_contract"
+        action="action_wizard_employee_history_form"
+        groups="hr.group_hr_manager"
+        sequence="10"/>
+
+
+
+
+
+
+
+
+</odoo>

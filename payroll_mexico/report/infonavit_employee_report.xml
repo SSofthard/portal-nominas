@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="paperformat_letter_landscape" model="report.paperformat">
+        <field name="name"> Letter Landscape</field>
+        <field name="default" eval="True" />
+        <field name="format">Letter</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">23</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+    
+        <report id="report_infonavit_employee"
+          string="Empleados con creditos infonavit"
+          model="wizard.infonavit.employee" 
+          report_type="qweb-pdf" 
+          name="payroll_mexico.template_infonavit_employee"
+          paperformat="payroll_mexico.paperformat_letter_landscape"
+         />
+         
+        <template id="template_infonavit_employee" >
+            <t t-call="web.internal_layout">
+                <t t-call="web.html_container">
+                    <div class="page" style="font-size:12px">
+                        <h4 class="text-center" style="background-color: #ABAFAF;">REPORTE DE VERIFICACIÓN DE DATOS DEL ACREDITADO</h4>
+                        <h6 class="text-center">Período: <span t-esc="data['start_bimester']"/> AL <span t-esc="data['bimester_end']"/></h6>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <table class="table" style="border-style: none;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><strong>GRUPO: </strong>
+                                <span t-esc="data['group']"/></td>
+                                    <td colspan="2"><strong>REGISTRO PATRONAL: </strong>
+                                <span t-esc="data['employer_register']"/></td>
+                                    <td colspan="2"><strong>CENTRO DE TRABAJO: </strong>
+                                <span t-esc="data['work_center']"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span t-esc="o"/>
+                        <table class="table" style="border-style: none;">
+                            <tbody>
+                                <table class="table" style="border-style: none;">
+								<th colspan="5" class="text-center"><strong>N.S.S.</strong></th>
+                                <th colspan="5" class="text-center"><strong>Nombre</strong></th>
+                                <th colspan="4" class="text-center" ><strong>Clave / Ubicación</strong></th>
+                                <tr>
+                                    <th colspan="1" class="text-center" ><strong>Crédito</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>S.D.I.</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>Tipo Desc.</strong></th>
+                                    <th colspan="3" class="text-center" ><strong>Valor Desc.</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>Fecha ALta</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>I.C.V</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>Susp. Credi.</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>Rein. Credit</strong></th>
+                                    <th colspan="1" class="text-center" ><strong>Fecha Baja</strong></th>
+                                </tr>
+                                <t t-set="counter" t-value="0"/>
+                                <t t-foreach="docs" t-as="o">
+                                    <tr>
+                                        <td colspan="5" class="text-center"><strong><span t-field="o.ssnid"/></strong></td>
+                                        <td colspan="5" class="text-center"><strong><span t-field="o.complete_name"/></strong></td>
+                                        <td colspan="4" class="text-center"><strong><span t-field="o.enrollment"/></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][4]"/></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][8]"/></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][5]"/></td>
+                                        <td colspan="3" class="text-center"><span t-esc="data['credit'][str(o.id)][6]"/></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][7]" t-options="{'widget':'date'}"/></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][0]" t-options="{'widget':'date'}"/></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][1]" t-options="{'widget':'date'}"/></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][2]" t-options="{'widget':'date'}"/></td>
+                                        <td colspan="1" class="text-center"><span t-esc="data['credit'][str(o.id)][9]" t-options="{'widget':'date'}"/></td>
+                                    </tr>
+                                    <t t-set="counter" t-value="counter+1"/>
+                                </t>
+                                </table>
+                            </tbody>
+                            <tfooter>
+                                <tr>
+                                    <td colspan="7" class="text-right">Total trabajadores</td>
+                                    <td colspan="2" class="text-right"><t t-esc="counter"/></td>
+                                </tr>
+
+                            </tfooter>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

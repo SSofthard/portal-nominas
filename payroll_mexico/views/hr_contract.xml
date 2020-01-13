@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="hr_contract_inherit" model="ir.ui.view">
+            <field name="name">hr.contract.inherit.view</field>
+            <field name="model">hr.contract</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <button 
+                            name="print_contract" 
+                            type="object"
+                            string="Print Contract" 
+                            class="oe_stat_button" 
+                            >
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <label for="code" class="oe_edit_only"/>
+                    <div>
+                        <div class="o_row">
+                            <field name="code" placeholder="Code"/>
+                        </div>
+                    </div>
+                    <field name="type_contract" invisible="1"/>
+                </xpath>
+                <xpath expr="//group[@name='duration_group']" position="replace">
+                    <group name="duration_group" string="Contract Terms">
+                        <field name="date_start"/>
+                        <label for="date_end"/>
+                        <div class="o_row">
+                            <field name="date_end" nolabel="1"/>
+                            <span class="text-muted">(If fixed-term contract)</span>
+                        </div>
+                        <field name="trial_date_end"/>
+                        <field name="resource_calendar_id"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="before">
+                    <field name="contracting_regime"/>
+                </xpath>
+                <xpath expr="//field[@name='trial_date_end']" position="before">
+                    <field name="previous_contract_date" attrs="{'invisible': [('type_contract', '!=','with_seniority')],'required': [('type_contract', '=','with_seniority')]}"/>
+
+                    <label for="years_antiquity" string="Antigüedad"/>
+                    <div>
+                        <field name="years_antiquity" class="oe_inline"/> Año(s) y  <field name="days_rest" class="oe_inline"/> día(s)
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="attributes">
+					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
+					<attribute name="attrs">{'invisible': [('contracting_regime','=','5')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="after">
+					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('contracting_regime','=','5')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="placeholder">Name Contract</attribute>
+                </xpath>
+                <xpath expr="//field[@name='reported_to_secretariat']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='struct_id']" position="after">
+					<field name="structure_type_id" required="1"/>
+				</xpath>
+				<xpath expr="//field[@name='struct_id']" position="attributes">
+					<attribute name="required">0</attribute>
+					<attribute name="invisible">1</attribute>
+				</xpath>
+                <xpath expr="//group[@name='main_info']" position="after">
+					<group>
+						<field name="integral_salary" string="SDI"/>
+					</group>
+					<group string="Other perceptions">
+						<field name="fixed_concepts_ids">
+							<form>
+								<group col="4">
+									<field name="type"/>
+									<field name="type_application"/>
+									<field name="amount"/>
+								</group>
+								<group col="6" string="Do not grant if the following incidents occur."> 
+									<field name="faults"/>
+									<field name="justified_fault"/>
+									<field name="permission_with_enjoyment"/>
+									<field name="permission_without_enjoyment"/>
+									<field name="disabilities"/>
+									<field name="holidays"/>	
+								</group>
+							</form>
+							<tree>
+								<field name="type"/>
+								<field name="type_application"/>
+								<field name="amount"/>
+								<field name="faults"/>
+								<field name="justified_fault"/>
+								<field name="permission_with_enjoyment"/>
+								<field name="permission_without_enjoyment"/>
+								<field name="disabilities"/>
+								<field name="holidays"/>
+							</tree>
+						</field>
+					</group>
+                </xpath>
+                 <xpath expr="//field[@name='job_id']" position="after">
+                    <field name="group_id" invisible="1"/>
+                    <field name="work_center_id" invisible="1"/>
+                    <field name="employer_register_id" invisible="1"/>
+                </xpath>
+<!--
+                <xpath expr="//field[@name='wage']" position="attributes">
+					<attribute name="widget">mask</attribute>
+					<attribute name="data-inputmask">'alias': 'decimal','digits':'2', 'greedy' : false</attribute>
+                </xpath>
+-->
+            </field>
+        </record>
+
+        <record id="hr_resource_calendar_attendance_inherit" model="ir.ui.view">
+            <field name="name">resource.calendar.view</field>
+            <field name="model">resource.calendar</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="resource.resource_calendar_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tz']" position="after">
+                    <field name="turno"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="hr_contract_inherit_search" model="ir.ui.view">
+            <field name="name">hr.contract.inherit.search</field>
+            <field name="model">hr.contract</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="work_center_id"/>
+                </xpath>
+                <xpath expr="//filter[@name='message_needaction']" position="after">
+                    <filter string="Contratos vencidos (hoy)" name="exipred_today" domain="[('date_end','=',context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos vencidos 7 (dias)" name="exipred_7_days" domain="[('date_end','&gt;=',(context_today()-relativedelta(days=7)).strftime('%Y-%m-%d')),('date_end','&lt;',time.strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos vencidos 15 (dias)" name="exipred_15_days" domain="[('date_end','&gt;=',(context_today()-relativedelta(days=15)).strftime('%Y-%m-%d')),('date_end','&lt;',time.strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos vencidos 30 (dias)" name="exipred_30_days" domain="[('date_end','&gt;=',(context_today()-relativedelta(days=30)).strftime('%Y-%m-%d')),('date_end','&lt;',time.strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Contratos por vencerse 7 (dias)" name="exipred_7_days_after" domain="[('date_end','&gt;',time.strftime('%Y-%m-%d')),('date_end','&lt;=',(context_today()+relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos por vencerse 15 (dias)" name="exipred_15_days_after" domain="[('date_end','&gt;',time.strftime('%Y-%m-%d')),('date_end','&lt;=',(context_today()+relativedelta(days=15)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Contratos por vencerse 30 (dias)" name="exipred_30_days_after" domain="[('date_end','&gt;',time.strftime('%Y-%m-%d')),('date_end','&lt;=',(context_today()+relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Nuevos Ingresos 7 (dias)" name="new_revenue_7_days" domain="[('date_start','&gt;',time.strftime('%Y-%m-%d')),('date_start','&lt;=',(context_today()+relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Nuevos Ingresos 15 (dias)" name="new_revenue_15_days" domain="[('date_start','&gt;',time.strftime('%Y-%m-%d')),('date_start','&lt;=',(context_today()+relativedelta(days=15)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Nuevos Ingresos 30 (dias)" name="new_revenue_30_days" domain="[('date_start','&gt;',time.strftime('%Y-%m-%d')),('date_start','&lt;=',(context_today()+relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                </xpath>
+                <xpath expr="//filter[@name='group_by_state']" position="after">
+                    <filter string="Grupo" name="group" domain="[]" context="{'group_by':'group_id'}"/>
+                    <filter string="Centro de trabajo" name="work_center" domain="[]" context="{'group_by':'work_center_id'}"/>
+                    <filter name="employer_register_contract" string="Registro Patronal" domain="[]" context="{'group_by':'employer_register_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        
+        
+        
+        
+
+    </data>
+</odoo>

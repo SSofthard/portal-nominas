@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     
+        <report id="action_report_rule_details" 
+          string="Detalles de Cálculos Salarial" 
+          model="hr.payslip.run" 
+          report_type="qweb-html" 
+          name="payroll_mexico.report_rule_details_template" 
+          menu="False"
+         /> 
+        
+        <template id="report_rule_details_template" name="Detalles de calculos salariales">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <h6 class="text-left">
+                        <t t-esc="payroll_data['date_end']"/>
+                        <br/><strong>RFC</strong>:
+                        <t t-esc="payroll_data['rfc']"/>
+                    </h6>
+                    <h5 align="center" style="background-color: #ABAFAF;"><b>Detalles de Cálculos Salarial</b></h5>
+                    <h6 align="center" >
+                        <strong>Regla de negocio</strong>:
+                        <t t-esc="payroll_data['rule']"/>
+                    </h6>
+                    <div class="page" >
+                        <h6 class="text-center">
+                            <strong>Desde periodo</strong>:
+                            <t t-esc="payroll_data['date_start']"/>
+                            <strong>Hasta periodo</strong>:
+                            <t t-esc="payroll_data['date_end']"/>
+                        </h6>
+                        <table class="table table-sm o_main_table" style="font-size:8px;">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">Clave</th>
+                                    <th class="text-center">Nombre del trabajador</th>
+                                    <th class="text-right">Importe</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="payroll_data['employees']" t-as="employee">
+                                    <tr>
+                                        <td class="text-left">
+                                            <t t-esc="employee['enrollment']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="employee['name']"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-esc="employee['total']" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="clearfix">
+                            <div id="total" class="row" name="total">
+                                <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                    <table class="table table-sm">
+                                        <tr class="border-black o_total" style="font-size:9px;">
+                                            <td><strong>Total</strong></td>
+                                            <td class="text-right">
+                                                <t t-esc="payroll_data['total']" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+        
+        
+    </data>
+</odoo>

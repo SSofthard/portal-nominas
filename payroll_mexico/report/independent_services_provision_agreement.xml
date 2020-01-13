@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     
+        <report id="report_independent_services_pa" 
+          string="Independent Services Provision Agreement" 
+          model="hr.contract" 
+          report_type="qweb-html" 
+          name="payroll_mexico.independent_services_pa" 
+          menu="False"
+         /> 
+        
+        <template id="independent_services_pa" name="Independent Services Provision Agreement">
+            <t t-call="web.html_container">
+                <t t-call="payroll_mexico.internal_layout_contract">
+                <page>
+                    <p align="justify">
+                      <b>CONTRATO DE PRESTACIÓN DE SERVICIOS INDEPENDIENTES</b> 
+                      QUE CELEBRAN, POR UNA PARTE EL (LA) <t t-esc="o.employee_id.title.shortcut.upper()"/><strong> <t t-esc="o.employee_id.name.upper()"/></strong>, 
+                      A QUIEN EN LO SUCESIVO SE DENOMINARA <strong>“EL PRESTADOR”</strong>, 
+                      Y POR LA OTRA  LA SOCIEDAD DENOMINADA <strong>"<t t-esc="o.company_id.business_name.upper()"/>"</strong>
+                      REPRESENTADA EN ESTE ACTO POR EL (LA) <strong><t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/></strong>
+                      A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <strong>“EL CLIENTE”</strong>.
+                      POR LO QUE AMBAS PARTES SE SUJETAN AL TENOR DE LAS SIGUIENTES
+                    </p>
+                    <br></br>
+                    <p align="center"><b>DECLARACIONES</b></p>
+                    <table class="egt">
+                          <tr>
+                            <td valign="top"><b>I.</b></td>
+                            <td><p style="margin-left:20px;">Declara <strong>“EL PRESTADOR”</strong> 
+                            por su propio y personal derecho que:</p></td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>A)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Es persona física, con edad legal para contratar, del sexo 
+                                    <strong><spam class="m-0" t-if="o.employee_id.gender == 'male'">MASCULINO,</spam> 
+                                    <spam class="m-0" t-if="o.employee_id.gender == 'famale'">FEMENINO,</spam></strong> 
+                                    Estado Civil <strong><spam class="m-0" t-if="o.employee_id.marital == 'single'">SOLTERO (A),</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'married'">CASADO (A),</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'cohabitant'">COHABITANTE LEGAL,</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'widower'">VIUDO (A),</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'divorced'">DIVORCIADO (A),</spam></strong> 
+                                    de nacionalidad <strong><spam class="m-0" t-if="o.employee_id.country_id.nationality">
+                                        <t t-esc="o.employee_id.country_id.nationality.upper()"/></spam></strong>, 
+                                    originario de <strong> <t t-esc="o.employee_id.address_home_id.state_id.name.upper()"/></strong>, 
+                                    con fecha de nacimiento el día 
+                                    <strong><t t-esc="contract_data[str(o.id)][2]" /></strong>, 
+                                    con domicilio ubicado en 
+                                    <strong><t t-esc="o.employee_id.address_home_id.contact_address.upper()"/></strong>
+                                    mismo que señala para todos los fines legales derivados o que se deriven en de este contrato.
+                                </p>
+                            </td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>B)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                        Contar con Clave Única de Registro de Población <strong><t t-esc="o.employee_id.curp"/></strong>.
+                                </p>
+                            </td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>C)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                        Estar inscrito en el Registro Federal de Contribuyentes con la Clave N° <strong><t t-esc="o.employee_id.rfc" /></strong>.
+                                        Que en su carácter de prestador de servicios establecido lleva su contabilidad en los términos 
+                                        que aplican las Leyes Hacendarias y será el único responsable ante el Fisco por la falta de 
+                                        cumplimiento de las obligaciones tributarias a que está sujeto, en su carácter de Contribuyente 
+                                        del Impuesto Sobre la Renta, por lo que faculta a 
+                                        <strong>“EL CLIENTE”</strong> que presente en su oportunidad sus declaraciones 
+                                        tanto para el pago del Impuesto Sobre la Renta, como para el pago del 
+                                        Impuesto al Valor Agregado y demás obligaciones tributarias en los términos de la Ley.
+                                </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>D)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                        Cuenta con la experiencia y conocimientos profesionales suficientes 
+                                        para el cumplimiento de la prestación de sus servicios.
+                                </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>E)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                        Derivado de los conocimientos y experiencia, es que ofrece a 
+                                        <strong>“EL CLIENTE”</strong> sus servicios independientes y profesionales en los 
+                                        términos y condiciones apropiados, de tal forma que satisfagan sus necesidades. 
+                                </p>
+                            </td>
+                          </tr>
+                          
+                        <tr>
+                            <td valign="top"><b>II.</b></td>
+                            <td><p style="margin-left:20px;">Declara <strong>“EL CLIENTE”</strong> por conducto de su representante legal que:</p></td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>A)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Su representada es una Sociedad Mexicana legalmente constituida, lo cual consta 
+                                    mediante Escritura Pública No. <t t-esc="o.company_id.write_number" /> de fecha 
+                                    <strong><t t-esc="contract_data[str(o.id)][3]" /></strong>, otorgada, 
+                                    por el(la) <t t-esc="o.company_id.public_notary_holder_id.title.shortcut" /> 
+                                    <t t-esc="o.company_id.public_notary_holder_id.name" />, 
+                                    Titular de la <t t-esc="o.company_id.public_notary_address_id.name" /> 
+                                    número <t t-esc="o.company_id.public_notary_address_id.notary_public_number" /> 
+                                    con circunscripción en la <t t-esc="o.company_id.public_notary_address_id.state_id.name" />, 
+                                    e inscrita en el Registro Público de la misma Ciudad.
+                                </p>
+                                <p align="justify" style="margin-left:20px;">
+                                    Encontrarse representada por el(la) Sr(a).
+                                    <t t-esc="o.company_id.legal_representative_id.name"/>
+                                    quien acredita su personalidad en términos del Libro 
+                                    <t t-esc="o.power_attorney_id.book"/>, 
+                                    instrumento <t t-esc="o.power_attorney_id.public_deed_number"/>, 
+                                    pasada ante la fe del Notario Público 
+                                    No.<t t-esc="o.power_attorney_id.public_notary.notary_public_number"/>, 
+                                    del Distrito Federal a cargo del (la) 
+                                    <t t-esc="o.power_attorney_id.public_notary.title.shortcut"/> <t t-esc="o.power_attorney_id.public_notary.name"/>.
+                                </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>B)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Su domicilio Fiscal es el ubicado en 
+                                    <strong><t t-esc="o.company_id.partner_id.contact_address.upper()" /></strong> 
+                                    y con Registro Federal de Contribuyentes Nº 
+                                    <strong><t t-esc="o.company_id.rfc" /></strong>.
+                                </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>C)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Requiere de los servicios de <strong>“EL PRESTADOR”</strong> para el desarrollo de sus actividades.
+                                </p>
+                            </td>
+                          </tr>
+                        </table> 
+                        <p align="justify">
+                            Las partes encontrándose conformes en la celebración del presente contrato por ser su 
+                            exclusiva voluntad y reconociéndose entre sí la personalidad y capacidad con la que 
+                            comparecen a la celebración del presente instrumento, libres de toda violencia, mala fe, 
+                            dolo o cualquier otro vicio del consentimiento, se sujetan al tenor de las siguientes:
+                        </p> 
+                        <p align="center"><b>CLAUSULAS</b></p> 
+                        <p align="justify">
+                            <b>PRIMERA:</b>  Por medio del presente contrato, <strong>“EL PRESTADOR”</strong> 
+                            se obliga a prestar a <strong>“EL CLIENTE”</strong> servicios en <t t-esc="o.job_id.name.upper()" />
+                        </p> 
+                        <p align="justify">
+                            <strong>“EL PRESTADOR”</strong> podrá a su libre albedrío desempeñar sus actividades profesionales o 
+                            comerciales derivadas del presente Contrato en los días y horas que considere 
+                            convenientes a sus intereses, realizando en forma y términos que considere pertinentes 
+                            la serie de actos que requiera para la prestación de sus servicios, pudiendo hacerlo en 
+                            forma personal o enviarlos por terceras personas contratadas por él, por lo que no tiene 
+                            obligación alguna de presentarse en las oficinas de <strong>“EL CLIENTE”</strong>. 
+                        </p> 
+                        <p align="justify">
+                            <b>SEGUNDA:</b>  Las partes convienen que el <strong>pago por la prestación de servicios</strong> 
+                            antes mencionados será variable y solicitados por <strong>“EL PRESTADOR”</strong> conforme a los 
+                            servicios prestados, mismos que serán soportados con los comprobantes fiscales correspondientes.
+                        </p> 
+                        <p align="justify">
+                            <strong>“EL PRESTADOR”</strong> faculta y autoriza que, de dicho pago, 
+                            <strong>“EL CLIENTE”</strong> retenga el Impuesto Sobre la Renta de conformidad 
+                            con lo que establece la Ley del Impuesto sobre la Renta, a efecto de cumplir con 
+                            las obligaciones fiscales correspondientes.
+                        </p>
+                        <p align="justify">
+                            <b>TERCERA:</b>  El pago referido en la cláusula que inmediatamente antecede, 
+                            no incluye gastos tales como: viáticos, honorarios y pago a terceros; mismos 
+                            que se cobrarán conforme a las necesidades que <strong>“EL PRESTADOR”</strong> 
+                            requiera en razón de la prestación de los servicios descritos en la 
+                            cláusula primera del presente contrato, para lo cual deberá informar a 
+                            <strong>“EL CLIENTE”</strong> la cantidad requerida por lo menos con tres días de anticipación.
+                        </p>
+                        <p align="justify">
+                            En caso de haberse efectuado pagos anteriores a la firma del presente contrato, 
+                            éstos únicamente se acreditarán con los comprobantes fiscales correspondientes.
+                        </p>
+                        <p align="justify">
+                            El referido pago deberá hacerse mediante transferencia bancaria a la cuenta que designe 
+                            <strong>“EL PRESTADOR”</strong> para ello. “EL PRESTADOR” con la firma del presente contrato 
+                            otorga su consentimiento para que le sea pagada la contraprestación pactada en la modalidad que este designe.
+                        </p>
+                        <p align="justify">
+                            <strong>“EL CLIENTE”</strong> tendrá derecho a recibir de <strong>“EL PRESTADOR”</strong> todos los servicios 
+                            que requiera y que estén relacionados con la realización de las actividades 
+                            encomendadas, respecto de las cuales ya estuvo de acuerdo éste último, 
+                            pues ya se estudiaron y determinaron previamente, sin que por ello vaya a 
+                            existir de ninguna manera subordinación alguna por parte de él o de su personal con <strong>“EL CLIENTE”</strong>
+                        </p>
+                        <p align="justify">
+                            <b>CUARTA:</b>  Las partes convienen que <strong>“EL PRESTADOR”</strong> podrá ser 
+                            apoyado por terceros para la prestación de sus servicios, pero 
+                            <strong>“EL CLIENTE”</strong> no tendrá ninguna relación de carácter laboral con 
+                            <strong>“EL PRESTADOR”</strong> ni con el personal que éste haya destinado en forma 
+                            exclusiva parcial, temporal o permanente, para la prestación de los 
+                            servicios que se mencionan en la cláusula primera del presente contrato, 
+                            en la inteligencia de que si por cualquier circunstancia el personal de 
+                            <strong>“EL PRESTADOR”</strong> pretendiese fincar alguna responsabilidad en contra de 
+                            <strong>“EL CLIENTE”</strong>,  <strong>“EL PRESTADOR”</strong> conviene desde ahora, en mantener a 
+                            <strong>“EL CLIENTE”</strong> a salvo de cualquier reclamación de tal carácter, 
+                            y todos los gastos que se originen por dicha reclamación, 
+                            serán por cuenta exclusiva de <strong>“EL PRESTADOR”</strong>.
+                        </p>
+                        <p align="justify">
+                            <strong>“EL PRESTADOR”</strong> se compromete a prestar los servicios antes mencionados 
+                            por sí mismo y/o con su propio personal, por lo que bajo ninguna circunstancia 
+                            se reconocerá que alguien más los haya realizado en su nombre que no esté bajo 
+                            su subordinación, pues no tiene autorización alguna para subcontratarlos.
+                        </p>
+                        <p align="justify">
+                            <b>QUINTA:</b>  Las partes se obligan a no divulgar, publicar ni hacer partícipe 
+                            de ninguna manera a terceras personas de la información obtenida en la ejecución 
+                            del presente contrato, la cual será catalogada como información confidencial.
+                        </p>
+                        <p align="justify">
+                            Ambas partes guardarán como información confidencial las materias publicitarias 
+                            y/o de los sistemas informáticos, todas las formulas o recetas, métodos de preparación, 
+                            manuales, métodos de operación, información técnica, finanzas, investigación, 
+                            planes de negocios, oportunidades de negocios, know-how, secretos industriales o la 
+                            información confidencial proporcionada por ellas. La obligación de ambas partes es 
+                            mantener la confidencialidad de dicha información, obligación que continuará después 
+                            de la terminación del presente contrato.
+                        </p>
+                        <p align="justify">
+                            En virtud de lo anterior <strong>“EL PRESTADOR”</strong> y el <strong>“EL CLIENTE”</strong> se obligan a: 
+                        </p>
+                        <table class="egt">
+                          <tr>
+                            <td valign="top"><b>1.</b></td>
+                            <td><p style="margin-left:20px;">Mantener en estricto secreto y confidencialidad 
+                            y a no revelar a ningún tercero cualesquiera informaciones, secretos industriales 
+                            y en general cualquier dato contenido en la documentación manual o material de 
+                            soporte relacionada con la Información Confidencial.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>2.</b></td>
+                            <td><p style="margin-left:20px;">Cooperar con el <strong>“EL CLIENTE”</strong> para que todo el 
+                            material relacionado o que contenga la información confidencial, incluyendo dibujos, 
+                            reportes y notas, indique poseer una naturaleza secreta y confidencial, 
+                            y de esta manera prevenir el uso no autorizado y  la reproducción de cualquier 
+                            material relacionado o que contenga la información relativa a los productos o a la 
+                            documentación recibida.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>3.</b></td>
+                            <td><p style="margin-left:20px;"><strong>“EL PRESTADOR”</strong> se obliga a tomar las medidas 
+                            de seguridad que determine el <strong>“EL CLIENTE”</strong> para proteger la información en todo 
+                            tiempo y evitar que ésta sea divulgada, adquirida o conocida por cualquier persona 
+                            física o moral que no esté relacionada con la aplicación del sistema e información 
+                            por encargo de la empresa y para uso exclusivo de esta última.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>4.</b></td>
+                            <td><p style="margin-left:20px;"><strong>“EL PRESTADOR”</strong> se obliga a que todos sus empleados 
+                            representantes, accionistas y/o factores suscribirán un contrato en el que se obligan 
+                            a respetar la presente cláusula y a no divulgar por ende bajo ningún supuesto la 
+                            información confidencial.</p></td>
+                          </tr>
+                          
+                        </table>
+                        <p align="justify">
+                            Las partes en este acto se dan por entendidas y completamente enteradas del contenido de los 
+                            artículos 82, 85, 223, 224 y 225 de la Ley de la Propiedad Industrial. <strong>(ANEXO 1).</strong>
+                        </p>
+                        <p align="justify">
+                            <b>SEXTA:</b> Las obligaciones de las partes serán:
+                        </p>
+                        <p align="justify">
+                            <b>"EL PRESTADOR":</b> se obliga a:
+                        </p>
+                        <table class="egt">
+                          <tr>
+                            <td valign="top"><b>a)</b></td>
+                            <td><p style="margin-left:20px;"> Conservar en forma confidencial cualquier clase información 
+                            sobre <strong>“EL CLIENTE”</strong> que llegara a su conocimiento, con motivo de la prestación del 
+                            servicio a que se refiere el presente contrato.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>b)</b></td>
+                            <td><p style="margin-left:20px;"> Entregar puntualmente el servicio requerido por <strong>“EL CLIENTE”</strong>.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>c)</b></td>
+                            <td><p style="margin-left:20px;"> No transferir los derechos derivados del presente instrumento.</p></td>
+                          </tr>
+                        </table>
+                        <p align="justify">
+                            <b>"EL CLIENTE":</b> se obliga a:
+                        </p>
+                        <table class="egt">
+                          <tr>
+                            <td valign="top"><b>a)</b></td>
+                            <td><p style="margin-left:20px;"> Poner a disposición de <strong>“EL PRESTADOR”</strong> 
+                            toda la información necesaria y requerida para el buen cumplimiento para la prestación del servicio.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>b)</b></td>
+                            <td><p style="margin-left:20px;"> Facilitar, en su caso, áreas para la prestación de sus 
+                            servicios a <strong>“EL PRESTADOR”</strong>. </p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>c)</b></td>
+                            <td><p style="margin-left:20px;"> Efectuar el pago conforme a lo establecido en las 
+                            cláusulas <strong>SEGUNDA</strong> y <strong>TERCERA</strong> del presente contrato.</p></td>
+                          </tr>
+                        </table>
+                        <p align="justify">
+                            <b>SÉPTIMA:</b> La vigencia del presente contrato será por tiempo indeterminado el cual 
+                            comenzará a surtir efectos a partir del <strong><t t-esc="contract_data[str(o.id)][4]" /></strong> 
+                            y terminará con simple notificación por escrito, con 30 (treinta) días de anticipación 
+                            sin necesidad de resolución judicial, con el propósito de que durante ese lapso haya 
+                            posibilidad de concluir los trabajos pendientes y de que, en todo caso, <strong>“EL CLIENTE”</strong> 
+                            tenga oportunidad de contratar un nuevo prestador de servicios.
+                        </p>
+                        <p align="justify">
+                            <b>OCTAVA:</b> Serán causas de rescisión del presente contrato:
+                        </p>
+                        <table class="egt">
+                          <tr>
+                            <td valign="top"><b>a)</b></td>
+                            <td><p style="margin-left:20px;"> El incumplimiento de cualquiera de las obligaciones 
+                            estipuladas en este contrato por las partes, y;</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>b)</b></td>
+                            <td><p style="margin-left:20px;"> Las estipuladas en las leyes aplicables en la materia. </p></td>
+                          </tr>
+                        </table>
+                        <p align="justify">
+                            <b>NOVENA:</b> El presente contrato está ausente de vicios del consentimiento como lo 
+                            son el error, dolo, violencia, lesión o mala fe, en caso de que las partes 
+                            incurrieran en alguno de estos vicios, se producirá automáticamente la nulidad 
+                            relativa del presente instrumento.
+                        </p>
+                        <p align="justify">
+                            <b>DÉCIMA:</b> En caso de controversia en cuanto a la interpretación, cumplimiento o 
+                            ejecución de este contrato, las partes acuerdan expresamente en someterse a la jurisdicción 
+                            y competencia de los Tribunales de <strong>Ciudad de MÉXICO</strong>, 
+                            renunciando a cualquier otro fuero que pudiera corresponderle a razón 
+                            del domicilio en el presente o en el futuro. 
+                        </p>
+                        <p align="justify">
+                            <b>LEIDO QUE FUE EL PRESENTE CONTRATO Y ENTERADAS LAS PARTES DE SU CONTENIDO, 
+                            ALCANCE Y VALOR LEGAL, LO FIRMAN POR DUPLICADO EN LA CIUDAD DE MÉXICO,  
+                            A LOS <strong><t t-esc="contract_data[str(o.id)][5].upper()" /></strong> </b>  
+                        </p>
+                        <p align="center"><b></b></p>
+                        <p align="center"><b>LAS PARTES</b></p>
+                        
+                        <table class="egt mt64" align="center" >
+                            <td>
+                                <table align="center">
+                                    <tr>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <strong><div align="center" style="margin-top=-90px">“EL CLIENTE”</div></strong>
+                                        </td>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <strong><div align="center" style="margin-top=-90px">“EL PRESTADOR”</div></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:2px solid black;" width="300px" height="110px">
+                                        </td>
+                                        <td style="border:2px solid black;" width="300px" height="110px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <div  align="center">
+                                                <strong>
+                                                    <div t-esc="o.company_id.business_name.upper()"/>
+                                                        representada por el(la) 
+                                                    <div t-esc="o.company_id.legal_representative_id.title.shortcut.upper()" />
+                                                    <div t-esc="o.company_id.legal_representative_id.name.upper()" /> </strong>
+                                            </div>
+                                        </td>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <div  align="center">
+                                                <strong><div t-esc="o.employee_id.name.upper()" /></strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </table>
+                </page>
+                <page>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <p align="right"><b>ANEXO 1</b></p>
+                    <p align="right"></p>
+                    <p align="center"><b><u>LEY DE LA PROPIEDAD INDUSTRIAL</u></b></p>
+                    <p align="left"></p>
+                    <p align="left">TITULO TERCERO</p>
+                    <p align="left">De los Secretos Industriales</p>
+                    <p align="left"><b><i>ARTICULO 82</i></b></p>
+                    <p align="justify">
+                            <u>Se considera <b>secreto industrial</b> a toda información de aplicación industrial o comercial 
+                            que guarde una persona física o moral con carácter confidencial</u>, que le signifique obtener 
+                            o mantener una ventaja competitiva o económica frente a terceros en la realización de 
+                            actividades económicas y respecto de la cual haya adoptado los medios o sistemas suficientes 
+                            para preservar su confidencialidad y el acceso restringido a la misma.
+                        </p>
+                    <p align="left"><b><i>ARTICULO 85</i></b></p>
+                    <p align="justify">
+                            <u>Toda aquella persona que, con motivo de su trabajo, empleo, cargo, puesto, desempeño de 
+                            su profesión o relación de negocios, tenga acceso a un secreto industrial del cual <b>se le 
+                            haya prevenido sobre su confidencialidad</b></u>, deberá abstenerse de revelarlo sin causa 
+                            justificada y sin consentimiento de la persona que guarde dicho secreto, o de su usuario autorizado.
+                        </p>
+                    <p align="left"><b>CAPITULO III</b></p>
+                    <p align="left"><b>De los delitos</b></p>
+                    <p align="left"><b><i>ARTICULO 223</i></b></p>
+                    <p align="justify">
+                            Son delitos:
+                        </p>
+                    <p align="justify">
+                            IV. <u><b>Revelar a un tercero un secreto industrial</b>, que se conozca con motivo de su trabajo, 
+                            puesto, cargo</u>, desempeño de su profesión, relación de negocios o en virtud del otorgamiento 
+                            de una licencia para su uso, sin consentimiento de la persona que guarde el secreto industrial, 
+                            habiendo sido prevenido de su confidencialidad, con el propósito de obtener un beneficio 
+                            económico para sí o para el tercero o con el fin de causar un perjuicio a la persona que guarde el secreto;
+                        </p>
+                    <p align="justify">
+                            V. <u><b>Apoderarse</b> de un secreto industrial sin derecho y sin consentimiento de la persona 
+                            que lo guarde o de su usuario autorizado</u>, para usarlo o revelarlo a un tercero, con el 
+                            propósito de obtener un beneficio económico para sí o para el tercero o con el fin de causar 
+                            un perjuicio a la persona que guarde el secreto industrial o a su usuario autorizado, y 
+                        </p>
+                    <p align="justify">
+                            VI. <u><b>Usar la información</b> contenida en un secreto industrial, que conozca por virtud de su trabajo</u>, 
+                            cargo o puesto, ejercicio de su profesión o relación de negocios, sin consentimiento de quien lo 
+                            guarde o de su usuario autorizado, o que le haya sido revelado por un tercero, a sabiendas que 
+                            éste no contaba para ello con el consentimiento de la persona que guarde el secreto industrial 
+                            o su usuario autorizado, con el propósito de obtener un beneficio económico o con el fin de causar 
+                            un perjuicio a la persona que guarde el secreto industrial o su usuario autorizado. 
+                        </p>
+                    <p align="justify">
+                            Los delitos previstos en este artículo <u><b>se perseguirán por querella de parte ofendida.</b></u>
+                        </p>
+                    <p align="left"><b><i>ARTICULO 224</i></b></p>
+                    <p align="justify">
+                            Se impondrán <u><b>de dos a seis años de prisión</b></u> y multa por el importe de cien a diez mil 
+                            días de salario mínimo general vigente en el Distrito Federal, a quien cometa alguno 
+                            de los delitos que se señalan en <u><b>las fracciones I, IV, V o VI del artículo 223 de esta Ley.</b></u> 
+                            En el caso de los delitos previstos en las fracciones II o III del mismo artículo 223, se 
+                            impondrán de tres a diez años de prisión y multa de dos mil a veinte mil días de salario 
+                            mínimo general vigente en el Distrito Federal.
+                        </p>
+                    <p align="left"><b><i>ARTICULO 226</i></b></p>
+                    <p align="justify">
+                            <u><b>Independientemente del ejercicio de la acción penal</b></u>, el perjudicado por cualquiera 
+                            de los delitos a que esta Ley se refiere podrá demandar del o de los autores de los 
+                            mismos, la reparación y el pago de los daños y perjuicios sufridos con motivo de dichos 
+                            delitos, en los términos previstos en el artículo 221 BIS de esta ley
+                        </p>
+                    <p align="center"><b></b></p>
+                        <p align="center"><b>LAS PARTES</b></p>
+                        
+                        <table class="egt mt64" align="center" >
+                            <td>
+                                <table align="center">
+                                    <tr>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <strong><div align="center" style="margin-top=-90px">“EL CLIENTE”</div></strong>
+                                        </td>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <strong><div align="center" style="margin-top=-90px">“EL PRESTADOR”</div></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:2px solid black;" width="300px" height="110px">
+                                        </td>
+                                        <td style="border:2px solid black;" width="300px" height="110px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <div  align="center">
+                                                <strong>
+                                                    <div t-esc="o.company_id.business_name.upper()"/>
+                                                        representada por el(la) 
+                                                    <div t-esc="o.company_id.legal_representative_id.title.shortcut.upper()" />
+                                                    <div t-esc="o.company_id.legal_representative_id.name.upper()" /> </strong>
+                                            </div>
+                                        </td>
+                                        <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
+                                            <div  align="center">
+                                                <strong><div t-esc="o.employee_id.name.upper()" /></strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </table>
+                </page>
+                <page>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <p style="color:#0000FF" align="center"><b>AVISO DE PRIVACIDAD</b></p>
+                    <p align="justify">
+                        <strong><t t-esc="o.company_id.business_name.upper()"/></strong> 
+                        con domicilio en 
+                        <strong><t t-esc="o.company_id.partner_id.contact_address.upper()" /></strong>, 
+                        es responsable de recabar sus datos personales, del uso que se le dé a los mismos y de su protección.
+                    </p>
+                    <p align="justify">
+                        Su información personal será utilizada para el cumplimiento de los contratos que se 
+                        tengan celebrados y de las responsabilidades nacidas de los mismos. Para las finalidades 
+                        antes mencionadas, requerimos obtener los siguientes datos personales:
+                    </p>
+                    <table class="egt">
+                          <tr>
+                            <td valign="top"><b>1.</b></td>
+                            <td><p style="margin-left:10px;"> Nombre(s).</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>2.</b></td>
+                            <td><p style="margin-left:10px;"> Apellidos.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>3.</b></td>
+                            <td><p style="margin-left:10px;"> Lugar de nacimiento.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>4.</b></td>
+                            <td><p style="margin-left:10px;"> Fecha de Nacimiento.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>5.</b></td>
+                            <td><p style="margin-left:10px;"> Estado Civil.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>6.</b></td>
+                            <td><p style="margin-left:10px;"> Nivel Académico.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>7.</b></td>
+                            <td><p style="margin-left:10px;"> RFC.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>8.</b></td>
+                            <td><p style="margin-left:10px;"> CURP.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>9.</b></td>
+                            <td><p style="margin-left:10px;"> Número Telefónico.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>10.</b></td>
+                            <td><p style="margin-left:10px;"> Dirección.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>11.</b></td>
+                            <td><p style="margin-left:10px;"> Información de cuenta bancaria.</p></td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>11.</b></td>
+                            <td><p style="margin-left:10px;"> Estado de salud.</p></td>
+                          </tr>
+                          
+                        </table>
+                    <p align="justify">
+                        <strong><t t-esc="o.company_id.business_name.upper()"/></strong> 
+                        manifiesta que cuenta con las medidas de seguridad suficientes 
+                        para la protección, confidencialidad y aseguramiento de los Datos Personales del Titular, 
+                        a efectos de restringir el acceso a los mismos a personas no autorizadas así como el tratamiento 
+                        de los Datos Personales en contravención a lo estipulado en el presente Aviso de Privacidad.
+                    </p>
+                    <p align="justify">
+                        Los Datos Personales serán tratados de conformidad con la Ley Federal de Protección de Datos Personales en 
+                        Posesión de los Particulares. La confidencialidad de los Datos está garantizada y los mismos están 
+                        protegidos por medidas de seguridad administrativas, técnicas y físicas, para evitar su daño, pérdida, 
+                        alteración, destrucción, uso, acceso o divulgación indebida. Únicamente las personas autorizadas 
+                        tendrán acceso a sus Datos.
+                    </p>
+                    <p align="justify">
+                        Nos reservamos el derecho de efectuar en cualquier momento modificaciones o actualizaciones al 
+                        presente aviso de privacidad, para la atención de reformas legislativas, políticas internas o 
+                        nuevos requerimientos para la prestación u ofrecimiento de nuestros servicios.
+                    </p>
+                    <p align="justify">
+                        Las entidades que integran a <strong><t t-esc="o.company_id.business_name.upper()"/></strong> con domicilio en 
+                        <strong><t t-esc="o.company_id.partner_id.contact_address.upper()"/></strong>, 
+                        informan que tanto los datos personales, como los datos personales sensibles referidos 
+                        en los documentos requisitados con motivo de la celebración del contrato que une a las partes, 
+                        mantendrán el tratamiento adecuado para fines de identificación, operación, administración, 
+                        comercialización y otros fines análogos, pudiéndose transferir entre las entidades que conforman a 
+                        <strong><t t-esc="o.company_id.business_name.upper()"/></strong> sus filiales y subsidiarias,  así como a los terceros y/o proveedores 
+                        nacionales o extranjeros que brindan servicios a dichas entidades.
+                    </p>
+                    <p align="justify">
+                        En este acto <strong>EL PRESTADOR</strong> manifiesta su consentimiento para que 
+                        <strong><t t-esc="o.company_id.business_name.upper()"/></strong> utilice los datos personales y los datos personales sensibles de 
+                        <strong><t t-esc="o.employee_id.name.upper()"></t></strong> para todos los fines inherentes a la relación 
+                        jurídica que celebran bajo este contrato.
+                    </p>
+                    <p align="justify">
+                        <strong>EL PRESTADOR</strong> tiene derecho al acceso, rectificación, modificación, cancelación, 
+                        oposición, divulgación y limitación del uso de los datos personales, así como la 
+                        revocación del consentimiento respectivo, podrá efectuarse por escrito en cualquier 
+                        sucursal de las entidades de <strong><t t-esc="o.company_id.business_name.upper()"/></strong> las entidades que integran a dicha 
+                        sociedad podrán efectuar cambios al aviso de privacidad de datos personales en cualquier 
+                        momento y se notificará por escrito. A los <strong><t t-esc="o.company_id.business_name.upper()"/></strong>.
+                    </p>
+                    <table class="egt mt64" align="center">
+                        <tr>
+                            <td style="border:1px solid black;" width="300px" height="100px" >
+                                <table align="center">
+                                          <tr>
+                                            <td >
+                                                <strong><div  align="center" style="margin-top=-90px" >“EL PRESTADOR"</div></strong>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td height="110px">
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td >
+                                                <div  align="center">
+                                                    <strong><div t-esc="o.employee_id.name.upper()" /></strong>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                    </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <p align="justify">
+                    </p>
+                    <p align="right">
+                        <strong>Fecha de última actualización</strong> buscar esta fecha.
+                    </p>
+                    <p align="justify">
+                    </p>
+                </page>
+                </t>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

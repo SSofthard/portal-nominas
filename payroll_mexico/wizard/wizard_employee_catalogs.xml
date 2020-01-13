@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="wizard_employee_catalogs" model="ir.ui.view">
+        <field name="name">wizard.employee.catalogs</field>
+        <field name="model">wizard.employee.catalogs</field>
+        <field name="priority">5</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                         <field name="group_id"/>
+                         <field name="work_center_id"/>
+                    </group>
+                    <group>
+                        <field name="employer_register_id"/>
+                        <field name="contracting_regime"/>
+                    </group>
+                </group>
+           <footer>
+                <button string="Imprimir" name="report_print" type="object" default_focus="1" class="btn-primary"/>
+                <button string="Cancel" class="btn-default" special="cancel"/>
+            </footer>
+           </form>
+        </field>
+    </record>
+    
+    <act_window
+        id="action_wizard_employee_catalogs"
+        name="Catalogos de empleados"
+        res_model="wizard.employee.catalogs"
+        src_model="hr.contract"
+        view_mode="form"
+        multi="True"
+        target="new"
+       />
+
+</odoo>

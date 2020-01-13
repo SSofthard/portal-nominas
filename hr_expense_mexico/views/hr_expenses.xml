@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+		
+		<record id="hr_employee_view_form_inherit_mexico_expense" model="ir.ui.view">
+            <field name="name">hr.employee.view.form.expense</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_expense.hr_employee_view_form_inherit_expense"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='timesheet']" position="replace">
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_search_expense_inherit" model="ir.ui.view">
+            <field name="name">hr.expense.search.inherit</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="sheet_id"/>
+                    <field name="classification"/>
+                </xpath>
+            </field>
+        </record>
+    
+        <record id="hr_expense_inherit" model="ir.ui.view">
+            <field name="name">hr.expense.inherit.view</field>
+            <field name="model">hr.expense</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_submit_expenses']" position="replace">
+
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="approve_expense" type="object" string="Approve" states="pending_checking"/>
+                    <button name="refuset_expense" type="object" string="Refuset" states="pending_checking"/>
+                    <button name="pass_to_pending_checking" type="object" string="Check Again" states="approved,refused"/>
+                </xpath>
+                <xpath expr="//group/group" position="replace">
+                    <group>
+                        <field name="classification" placeholder="Classification"/>
+                        <field name="other_classification" attrs="{'invisible':[('classification','!=','other')],'required':[('classification','=','other')]}" placeholder="Type classification description"/>
+                        <field name="document_type"/>
+                        <field name="subtotal_amount" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <div class="o_row">
+                            <field name="iva_amount" class="o_row"/>
+                            <span class="oe_inline" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}">%</span>
+                        </div>
+                        <field name="amount_tax"  attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        <field name="total_amount" widget='monetary' readonly="False" options="{'currency_field': 'currency_id'}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//group/group[last()]" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='reference']" position="replace">
+                    <field name="reference" string="Folio" placeholder="Folio" required="True"/>
+                    <field name="date_invoice" required="True"/>
+                    <field name="date_checking" readonly="True"/>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="pending_checking,approved,refused"/>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="pending_checking,approved,refused"/>
+                </xpath>
+                <xpath expr="//field[@name='subtotal_amount']" position="after">
+                    <button name="update_amount_tax" type="object" string="To update" attrs="{'invisible':[('document_type','=','remission')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_expense_sheet_inherit" model="ir.ui.view">
+            <field name="name">hr.expense.sheet.inherit.view</field>
+            <field name="model">hr.expense.sheet</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="replace">
+                    <div class="oe_title">
+                        <label for="folio" class="oe_edit_only"/>
+                        <h1>
+                            <field name="folio" placeholder="CODE"/>
+                        </h1>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Trip to NY"/>
+                        </h1>
+                    </div>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <group>
+                        <field name="address_origin_id" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="address_dest_id" context="{'viatics_address': 1,'default_estimate_viatics': True}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                        <field name="proceedings"/>
+                        <field name="dependency_or_branch"/>
+                        <field name="subject_type"/>
+                        <field name="paying_hearing"/>
+                        <field name="executing_attorney_status"/>
+                    </group>
+                    <group>
+                        <field name="date_request" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="estimate_viatics" />
+                        <field name="qty_days" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
+                        <field name="total_by_day" attrs="{'invisible':[('estimate_viatics','=',False)]}" />
+                    </group>
+                </xpath>
+                <xpath expr="//group" position="after">
+                    <field name="is_older" invisible="1"/>
+                        <div attrs="{'invisible':[('is_older','!=',True)]}" class="alert alert-warning"><strong>El monto entregado es mayor que el monto estimado por día. Justifíquelo en el campo de notas!</strong></div>
+                </xpath>
+                <xpath expr="//field[@name='expense_line_ids']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','=','closed')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payment_mode']" position="replace">
+                    <field name="payment_mode" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='expense_line_ids']/tree/field[@name='total_amount']" position="before">
+                    <field name="state"/>
+                </xpath>
+                <xpath expr="//header" position="replace">
+                    <header>
+                     <button name="open_expense_sheets" states="draft" string="Confirm" type="object" groups="hr_expense.group_hr_expense_user" class="oe_highlight o_expense_sheet_approve"/>
+                    <button name="close_expense_sheets" states="open"
+                            confirm="Luego de cerrar la hoja de viaticos no podrá agregar mas gastos. ¿Esta seguro de que desea cerrar la hoja de viaticos?." string="Close" type="object" groups="hr_expense.group_hr_expense_user" class="oe_highlight o_expense_sheet_approve"/>
+                    <button name="reset_expense_sheets" string="Reset to Draft" type="object" attrs="{'invisible': ['|', ('can_reset', '=', False), ('state', 'not in', ['submit', 'cancel'])]}"/>
+                    <button name="%(hr_expense.hr_expense_refuse_wizard_action)d" states="open" context="{'hr_expense_refuse_model':'hr.expense.sheet'}" string="Refuse" type="action" groups="hr_expense.group_hr_expense_user" />
+                    <button name="%(hr_expense.hr_expense_sheet_register_payment_wizard_action)d" type="action" string="Register Payment" class="oe_highlight o_expense_sheet_pay" attrs="{'invisible': ['|',('state', '!=', 'closed'),('paid', '=', True)]}" context="{'default_amount': amount_difference, 'partner_id': address_id}" groups="account.group_account_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,closed,cancel"/>
+                    </header>
+                </xpath>
+                <xpath expr="//button[@name='action_get_attachment_view']" position="before">
+                    <button name="%(hr_expense.action_unsubmitted_expense)d"
+                            class="oe_stat_button"
+                            icon="fa-dollar"
+                            type="action"
+                            context="{'search_default_sheet_id':id,'default_employee_id':employee_id}">
+                        <strong>Expenses items</strong>
+                    </button>
+                </xpath>
+                <xpath expr="//group[@name='expense_total']" position="replace">
+                 <group>
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="expense_total">
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                            <label for="total_amount" string="Monto comprobado"/>
+                        </div>
+                        <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"/>
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}">
+                            <label for="amount_delivered" string="Monto Entregado" readonly="True"/>
+                        </div>
+                        <field name="amount_delivered" nolabel="1" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}" attrs="{'invisible':[('state','!=','closed')]}">
+<!--                            <label for="amount_difference" readonly="True"/>-->
+                            <label for="amount_difference" string="Reconciled" attrs="{'invisible':[('operation_result','!=','reconciled')]}"/>
+                            <label for="amount_difference" string="Return" attrs="{'invisible':[('operation_result','!=','return')]}"/>
+                            <label for="amount_difference" string="Refund" attrs="{'invisible':[('operation_result','!=','refund')]}"/>
+                            <field name="payment_type_res" invisible="True"/>
+                            <field name="operation_result" invisible="True"/>
+                        </div>
+                        <field name="amount_difference" nolabel="1" attrs="{'invisible':[('state','!=','closed')]}" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
+                    <div class="oe_subtotal_footer_separator oe_inline o_td_label" modifiers="{}" attrs="{'invisible':[('paid','!=',True)]}">
+                        <field name="paid" invisible="True"/>
+
+                        <button name="%(hr_expense_mexico.action_hr_expense_payments)d"
+                            class="oe_link"
+                            icon="fa-info"
+                            type="action"
+                            context="{'search_default_sheet_id':id}">
+                            <label for="payment_type_res" string="Inbound Payment" attrs="{'invisible':[('payment_type_res','!=','inbound')]}"/>
+                            <label for="payment_type_res" string="Outbound Payment" attrs="{'invisible':[('payment_type_res','!=','outbound')]}"/>
+                            <field name="payment_type_res" invisible="True"/>:
+                        </button>
+<!--                        </label>-->
+                        </div>
+                       
+                        <field name="amount_payment" nolabel="1" attrs="{'invisible':['|',('state','!=','closed'),('paid','!=',True)]}" class="oe_subtotal_footer_separator" modifiers="{'readonly':true}"/>
+                    </group>
+                        <group >
+                           <field name="note" attrs="{'invisible':[('is_older','!=',True)],'required':[('is_older','=',True)]}"/>
+                        </group>
+                        <group class="oe_right">
+                            <button name="compute_amount" type="object" class="oe_link">Update amount</button>
+                        </group>
+                 </group>
+
+                    <!--                     <field name="amount_delivered"/>-->
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_view_hr_expense_graph_inherit" model="ir.ui.view">
+            <field name="name">hr.view.hr.expense.sheet.graph.inherit</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_graph"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="classification" type="row"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_view_hr_expense_view_pivot_inherit" model="ir.ui.view">
+            <field name="name">hr.view.hr.expense.view.pivot.inherit</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_pivot"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="classification" type="row"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_documents_tags_inherit" model="ir.ui.view">
+            <field name="name">ir.attachment.expense</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="mail.view_document_file_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_kanban_record_body')]" position="inside">
+                    <field name="tag_ids" widget="many2many_tags"/>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_kanban_bottom_right')]" position="inside">
+                    <button type="action" name="%(hr_expense_mexico.action_wizard_add_tag_document)d" class="oe_stat_button" icon="fa-check"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_hr_expense_sheet_all_sheets" model="ir.actions.act_window">
+            <field name="name">Informes de Viaticos</field>
+            <field name="res_model">hr.expense.sheet</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
+            <field name="search_view_id" ref="hr_expense.view_hr_expense_sheet_filter"/>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_empty_folder">
+                No expense reports to approve
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="hr_expense.menu_hr_expense_sheet_all_to_approve" name="Todos los informes de viaticos" sequence="1" parent="hr_expense.menu_hr_expense_report"
+            action="action_hr_expense_sheet_all_sheets"/>
+
+        <record id="view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">view.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="estimate_viatics" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

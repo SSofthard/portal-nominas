@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     
+        <report id="action_fault_report" 
+          string="Reporte de faltas" 
+          model="hr.payslip.run" 
+          report_type="qweb-html" 
+          name="payroll_mexico.fault_report_template" 
+          menu="False"
+         /> 
+        
+        <template id="fault_report_template" name="Payroll Deposit Report">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <h6 class="text-left">
+                        <t t-esc="payroll_data['date_end']"/>
+                        <br/><strong>RFC: </strong>:
+                        <t t-esc="payroll_data['rfc']"/>
+                    </h6>
+                    <h4 align="center" style="background-color: #ABAFAF;"><b>Reporte de faltas</b></h4>
+                    <div class="page" >
+                        <div class="oe_structure"/>
+                        <h6>
+                            <t>
+                                <b>Rango de trabajadores:</b>
+                            </t>
+                        </h6>
+                        <h6>
+                            <t>
+                                <b>Rango de departamentos:</b>
+                            </t>
+                        </h6>
+                        <h6>
+                            <t>
+                                <b>Rango de puestos:</b>
+                            </t>
+                        </h6>
+                        <h6 class="text-center">
+                            <strong>Desde periodo</strong>:
+                            <t t-esc="payroll_data['date_start']"/>
+                            <strong>Hasta periodo</strong>:
+                            <t t-esc="payroll_data['date_end']"/>
+                        </h6>
+                        <table class="table table-sm o_main_table" style="font-size:9px;">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">Clave</th>
+                                    <th class="text-left">Nombre del trabajador</th>
+                                    <th class="text-left">Faltas Totales</th>
+                                    <th class="text-left">A pagar empresa</th>
+                                    <th class="text-left">7o día</th>
+                                    <th class="text-left">Incapacidad</th>
+                                    <th class="text-left">Auset.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="payroll_data['employee_data']" t-as="employee">
+                                    <tr>
+                                        <th class="text-left">
+                                            <t t-esc="employee['enrollment']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="employee['name']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="employee['total']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="employee['pay_company']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="employee['7mo']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="employee['inhability']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="employee['absenteeism']"/>
+                                        </th>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+        
+        
+    </data>
+</odoo>

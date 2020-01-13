@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+<!--        Reporte Mensual IMSS-->
+
+        <report id="report_fee_imss_employee"
+			  string="Cedula de autodeterminación de cuotas"
+			  model="hr.fees.settlement"
+			  report_type="qweb-html"
+			  name="payroll_mexico.hr_fees_imss_employees"
+			  file="payroll_mexico.hr_fees_imss_employees"
+              menu="True"
+              paperformat="payroll_mexico.paperformat_letter_landscape"
+			 />
+
+<!--        Reporte Bimestral-->
+
+        <report id="report_fee_employee_bimonthly"
+			  string="Cedula de autodeterminación de cuotas (Bimestral)"
+			  model="hr.fees.settlement"
+			  report_type="qweb-html"
+			  name="payroll_mexico.hr_fees_employees_bimonthly"
+			  file="payroll_mexico.hr_fees_employees_bimonthly"
+              menu="True"
+              paperformat="payroll_mexico.paperformat_letter_landscape"
+			 />
+
+<!--        Plantilla de Cedula de autoacreditación Bimestral-->
+
+
+        <template id="hr_fees_employees_bimonthly" name="Resumen de liquidación de cuotas Bimestral">
+             <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page" style="font-size:10px">
+                        <div class="col-sm-12">
+                            <center><h5 style="background-color: #ABAFAF;">Cedula de autodeterminación de cuotas</h5></center>
+                            <br/>
+                            <center><h6>Bimestre <span t-esc="'%s-%s' % (int(o.month/2),o.year)"/></h6></center>
+                            <br/>
+                            <center><h6><span t-field="o.month"/></h6></center>
+                            <br/>
+                            <table class="table">
+                                <tbody>
+                                    <tr>    
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Registro Patronal:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong><span t-field="o.employer_register_id"/></strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>R.F.C.:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.company_id.rfc"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Area geografica:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.geographic_area"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Nombre o Razón Social:</strong>
+                                        </td>
+                                        <td colspan="3" class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.company_id"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Delegación de IMSS:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.delegacion_id"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Actividad:</strong>
+                                        </td>
+                                        <td colspan="3" class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.economic_activity"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Sub-delegación de IMSS:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.subdelegacion_id"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Domicilio:</strong>
+                                        </td>
+                                        <td colspan="3" class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.city"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Pob., Mun. / Deleg.D.F.:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.municipality_id"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Código Postal:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.zip"/></strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Entidad:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.state_id"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Convenio de Reembolso:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-esc="'SI' if o.employer_register_id.subcide_reimbursement_agreement else 'NO'"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Aportación Patronal:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                          <span t-field="data['table_settings'].infonavit_contribution"/>%
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                       <td colspan="2" class="text-left">
+                                            <strong>No. de Seguridad Social</strong>
+                                        </td>
+                                       <th colspan="8" class="text-center">
+                                            <strong>NOMBRE</strong>
+                                        </th>
+                                        <th colspan="4" class="text-center">
+                                            <strong>RFC/CURP</strong>
+                                        </th>
+                                        <th colspan="4" class="text-center">
+                                            <strong>CLAVE DE UBICACIÓN</strong>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                       <td colspan="7" class="text-center">
+
+                                        </td>
+                                       <td colspan="3" class="text-center">
+                                            Cesantía y Vejez
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                       <td class="text-center">
+                                            Clave
+                                        </td>
+                                       <td class="text-center">
+                                            Fecha
+                                        </td>
+                                       <td class="text-center">
+                                            Días
+                                        </td>
+                                       <td class="text-center">
+                                            SDI
+                                        </td>
+                                       <td class="text-center">
+                                            Inc
+                                        </td>
+                                       <td class="text-center">
+                                            Aus
+                                        </td>
+                                       <td class="text-center">
+                                           Retiro
+                                        </td>
+                                       <td class="text-center">
+                                           Patronal
+                                        </td>
+                                       <td class="text-center">
+                                           Obrera
+                                        </td>
+                                       <td class="text-center"  style="border-right: 1px dashed black;">
+                                           Suma
+                                        </td>
+                                       <td class="text-center">
+                                           Aportación Patronal
+                                        </td>
+                                       <td class="text-center">
+                                            % o $ o FD
+                                        </td>
+                                       <td class="text-center">
+                                            Amortización
+                                        </td>
+                                       <td class="text-center">
+                                            Suma
+                                        </td>
+                                       <td class="text-center">
+                                            Créd. Vivienda
+                                        </td>
+                                       <td colspan="2" class="text-center">
+                                            Tipo y Fecha de Movto. de Crédito
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.fees_settlement_lines" t-as="line">
+                                    <tr>
+                                       <td colspan="2" class="text-left">
+                                            <strong><span t-field="line.employee_id.ssnid"/></strong>
+                                        </td>
+                                       <td colspan="8" class="text-center">
+                                           <strong><span t-field="line.employee_id.complete_name"/></strong>
+                                        </td>
+                                        <td colspan="4" class="text-center">
+                                            <strong><span t-field="line.employee_id.curp"/></strong>
+                                        </td>
+                                        <td colspan="4" class="text-center">
+                                            ---
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                       <td class="text-center">
+
+                                        </td>
+                                       <td class="text-center">
+
+                                        </td>
+                                       <td class="text-center">
+                                            60
+                                        </td>
+                                       <td class="text-center">
+                                           <span t-field="line.sdi"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.incapacidades"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.ausencias"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.retiro"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.cesantia_vejez_patronal"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.cesantia_vejez_obrero"/>
+                                        </td>
+                                       <td class="text-center" style="border-right: 1px dashed black;">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="line.cesantia_vejez_obrero+line.cesantia_vejez_patronal"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-if="line.aporte_patronal_sc > 0" t-field="line.aporte_patronal_sc"/>
+                                            <span t-if="line.aporte_patronal_cc > 0" t-field="line.aporte_patronal_cc"/>
+                                        </td>
+                                       <td class="text-center">
+                                            --
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.amortizacion"/>
+                                        </td>
+                                       <td class="text-center">
+                                             <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="line.aporte_patronal_cc+line.aporte_patronal_sc+line.amortizacion"/>
+                                        </td>
+                                       <td class="text-center">
+                                            --
+                                        </td>
+                                       <td class="text-center">
+                                           --
+                                        </td>
+                                       <td class="text-center">
+                                           --
+                                        </td>
+                                    </tr>
+                                    </t>
+                                    <tr>
+                                       <td class="text-center">
+
+                                        </td>
+                                       <td class="text-center">
+
+                                        </td>
+                                       <td class="text-center">
+                                            60
+                                        </td>
+                                       <td class="text-center">
+<!--                                           <span t-field="line.sdi"/>-->
+                                        </td>
+                                       <td class="text-center">
+<!--                                            <span t-field="line.incapacidades"/>-->
+                                        </td>
+                                       <td class="text-center">
+<!--                                            <span t-field="line.ausencias"/>-->
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="o.retiro"/>
+                                        </td>
+                                       <td class="text-center">
+<!--                                           <span t-field="o.cesantia"/>-->
+                                        </td>
+                                       <td class="text-center">
+<!--                                            <span t-field="o.cesantia"/>-->
+                                        </td>
+                                       <td class="text-center"  style="border-right: 1px dashed black;">
+                                            <span t-field="o.cesantia"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="o.aportacion_patronal_sc+o.aportacion_patronal_cc"/>
+                                        </td>
+                                       <td class="text-center">
+                                            --
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="o.amortizacion"/>
+                                        </td>
+                                       <td class="text-center">
+                                             <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="o.aportacion_patronal_sc+o.aportacion_patronal_cc+o.amortizacion"/>
+                                        </td>
+                                       <td class="text-center">
+                                            --
+                                        </td>
+                                       <td class="text-center">
+                                           --
+                                        </td>
+                                       <td class="text-center">
+                                           --
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4">
+                                            Total de cotizantes
+                                        </th>
+                                        <td colspan="2">
+                                            <span t-esc="len(o.fees_settlement_lines)"/>
+                                        </td>
+                                        <th colspan="4">
+                                           Total Acreditados
+                                        </th>
+                                        <td colspan="2">
+                                            <span t-esc="len(o.fees_settlement_lines.filtered(lambda line: line.amortizacion > 0))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4">
+                                           Total a Pagar de RCV
+                                        </th>
+                                        <td colspan="2">
+                                            <span t-field="o.total_infonavit"/>
+                                        </td>
+                                        <th colspan="4">
+                                           Aportación Patronal S/Crédito:<br/>
+                                            Aportación Patronal C/Crédito:
+                                        </th>
+                                        <td colspan="2">
+                                            <span t-field="o.aportacion_patronal_sc"/><br/>
+                                            <span t-field="o.aportacion_patronal_cc"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4">
+                                           Total a Pagar de RCV e INFONAVIT
+                                        </th>
+                                        <td colspan="2">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="o.total_aport_amort+o.total_infonavit"/>
+                                        </td>
+                                        <th colspan="4">
+                                          Amortización:
+                                        </th>
+                                        <td colspan="2">
+                                        <span t-field="o.amortizacion"/><br/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4">
+
+                                        </th>
+                                        <td colspan="2">
+
+                                        </td>
+                                        <th colspan="4">
+                                          FUNDEMEX
+                                        </th>
+                                        <td colspan="2">
+                                        <span t-field="o.fundemex"/><br/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4">
+
+                                        </th>
+                                        <td colspan="2">
+
+                                        </td>
+                                        <th colspan="4">
+                                          Total a Pagar de INFONAVIT
+                                        </th>
+                                        <td colspan="2">
+                                        <span t-field="o.total_aport_amort"/><br/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            RIS:<br/>
+                                            P/IV<br/>
+                                            P/CV<br/>
+                                            S/R<br/>
+                                            J/R<br/>
+                                            E/C<br/>
+                                        </td>
+                                        <td colspan="5">
+                                            Trabajador con Subsidio por Régimen de Incorporación<br/>
+                                            Trabajadores con Articulo 33<br/>
+                                            Trabajadores Pensionados en I.V.<br/>
+                                            Trabajadores Pensionados en C.V.<br/>
+                                            Trabajadores con Semana Reducida<br/>
+                                            Trabajadores con Jornada Reducida<br/>
+                                            Trabajador Eventual del Campo<br/>
+                                        </td>
+                                        <td colspan="2">
+                                            C. V.<br/>
+                                            % o $<br/>
+                                            SDI<br/>
+                                            INC<br/>
+                                            AUS<br/>
+                                            ISM<br/>
+                                            Salario Mínimo del D.F.:
+                                        </td>
+                                        <td colspan="5">
+                                            Cesantía y Vejez<br/>
+                                            Porcentaje o Cuota Fija<br/>
+                                            % o $<br/>
+                                            Salario Diario Integrado<br/>
+                                            Incapacidades<br/>
+                                            Ausentismos<br/>
+                                            Incremento al Salario Mínimo<br/>
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="data['salary_min']"/>
+                                        </td>
+                                        <td colspan="2">
+                                            ICV<br/>
+                                            FSD<br/>
+                                            RD<br/>
+                                            MTD<br/>
+                                            MVD<br/>
+                                            MNC<br/>
+                                            FD
+                                        </td>
+                                        <td colspan="5">
+                                            Inicio del Crédito de Vivienda<br/>
+                                            Fecha de Suspensión de Descuento<br/>
+                                            Reinicio de Descuento<br/>
+                                            Modificación de Tipo de Descuento<br/>
+                                            Modificación de Valor de Descuento<br/>
+                                            Modificación de Número de Crédito<br/>
+                                            Factor de Descuento
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            Unidad de Medida y Actualización:
+                                        </td>
+                                        <td colspan="2">
+                                            <span t-field="data['uma'].daily_amount"/>
+                                        </td>
+                                        <td colspan="2">
+                                            <span t-field="data['uma'].year"/><br/><br/><br/><br/><br/>
+                                        </td>
+                                        </tr>
+                                    <tr>
+                                        <td colspan="7">
+                                           Para el cálculo del ramo de C. V. y de Vivienda se utilizará el tope salarial establecido en la ley respectiva.
+                                        </td>
+                                        <td colspan="7">
+                                            Se considera el valor de $78.43 para el Factor de Descuento
+                                        </td>
+                                        <td colspan="7">
+                                            * Se toman en cuenta 15.00 por concepto de Seguro de Daños de Vivienda.
+                                        </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+<!--        Plantilla Bimestrar IMSS-->
+
+        <template id="hr_fees_imss_employees" name="Resumen de liquidación de cuotas">
+             <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page" style="font-size:10px">
+                        <div class="col-sm-12">
+                            <center><h5>Cedula de autodeterminación de cuotas</h5></center>
+                            <br/>
+                            <center><h6>Periodo <span t-esc="'%s-%s' % (o.month,o.year)"/></h6></center>
+                            <br/>
+                            <center><h6><span t-field="o.month"/></h6></center>
+                            <br/>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong>Registro Patronal:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                             <strong><span t-field="o.employer_register_id"/></strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>R.F.C.:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.company_id.rfc"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Area geografica:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.geographic_area"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Nombre o Razón Social:</strong>
+                                        </td>
+                                        <td colspan="3" class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.company_id"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Delegación de IMSS:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.delegacion_id"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Actividad:</strong>
+                                        </td>
+                                        <td colspan="3" class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.economic_activity"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Sub-delegación de IMSS:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.subdelegacion_id"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Domicilio:</strong>
+                                        </td>
+                                        <td colspan="3" class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.city"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Pob., Mun. / Deleg.D.F.:</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.municipality_id"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Código Postal:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.zip"/></strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong>Entidad:</strong>
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <strong><span t-field="o.employer_register_id.state_id"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong>Prima de R.T.</strong>
+                                        </td>
+                                        <td class="text-right" style="border: white 1px solid;">
+                                            <strong><span t-field="data['prima_rt'].risk_factor"/>%</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                       <td colspan="4" class="text-left">
+                                            <strong>No. de Seguridad Social</strong>
+                                        </td>
+                                       <th colspan="8" class="text-center">
+                                            <strong>NOMBRE</strong>
+                                        </th>
+                                        <th colspan="4" class="text-center">
+                                            <strong>RFC/CURP</strong>
+                                        </th>
+                                        <th colspan="4" class="text-center">
+                                            <strong>CLAVE DE UBICACIÓN</strong>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                       <th colspan="17" class="text-center">
+                                            <strong>Enfermedades y Maternidad</strong>
+                                        </th>
+                                        <th colspan="3" class="text-center">
+                                            <strong>SUMAS</strong>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                       <td class="text-center">
+                                            Clave
+                                        </td>
+                                       <td class="text-center">
+                                            Fecha
+                                        </td>
+                                       <td class="text-center">
+                                            Días
+                                        </td>
+                                       <td class="text-center">
+                                            SDI
+                                        </td>
+                                       <td class="text-center">
+                                            Inc
+                                        </td>
+                                       <td class="text-center">
+                                            Aus
+                                        </td>
+                                       <td class="text-center">
+                                            C.F.
+                                        </td>
+                                       <td class="text-center">
+                                            Exc.Pat
+                                        </td>
+                                       <td class="text-center">
+                                            Exc. Obr.
+                                        </td>
+                                       <td class="text-center">
+                                            P.D. Pat.
+                                        </td>
+                                       <td class="text-center">
+                                            P.D. Obr.
+                                        </td>
+                                       <td class="text-center">
+                                            G.M.P. Pat.
+                                        </td>
+                                       <td class="text-center">
+                                            G.M.P. Obr.
+                                        </td>
+                                       <td class="text-center">
+                                            R.T.
+                                        </td>
+                                       <td class="text-center">
+                                            I.V. Pat.
+                                        </td>
+                                       <td class="text-center">
+                                            I.V. Obr.
+                                        </td>
+                                       <td class="text-center">
+                                           G.P.S.
+                                        </td>
+                                       <td class="text-center">
+                                           Patronal
+                                        </td>
+                                       <td class="text-center">
+                                           Obrera
+                                        </td>
+                                       <td class="text-center">
+                                           SubTotal
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.fees_settlement_lines" t-as="line">
+                                    <tr>
+                                       <td colspan="4" class="text-left">
+                                            <strong><span t-field="line.employee_id.ssnid"/></strong>
+                                        </td>
+                                       <td colspan="8" class="text-center">
+                                           <strong><span t-field="line.employee_id.complete_name"/></strong>
+                                        </td>
+                                        <td colspan="4" class="text-center">
+                                            <strong><span t-field="line.employee_id.curp"/></strong>
+                                        </td>
+                                        <td colspan="4" class="text-center">
+                                            ---
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                       <td class="text-center">
+
+                                        </td>
+                                       <td class="text-center">
+
+                                        </td>
+                                       <td class="text-center">
+                                            30
+                                        </td>
+                                       <td class="text-center">
+                                           <span t-field="line.sdi"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.incapacidades"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.ausencias"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.cuota_fija"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.exedente_3uma_patronal"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.exedente_3uma_obrero"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.pd_patronal"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.pd_obrero"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.gmp_patronal"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.gmp_obrero"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.riesgos_trabajo"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.iv_patronal"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.iv_obrero"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.guarderia_ps"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.suma_patronal_imss"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-field="line.suma_obrero_imss"/>
+                                        </td>
+                                       <td class="text-center">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="line.suma_patronal_imss+line.suma_obrero_imss"/>
+                                        </td>
+                                    </tr>
+                                    </t>
+                                    <tr>
+                                       <td class="text-center">
+
+                                        </td>
+                                       <td class="text-center">
+
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                            <span t-esc="30*len(o.fees_settlement_lines)"/>
+                                        </td>
+                                       <td class="text-center">
+<!--                                           <span t-esc="line.sdi"/>-->
+                                        </td>
+                                       <td class="text-center">
+<!--                                            <span t-esc="line.incapacidades"/>-->
+                                        </td>
+                                       <td class="text-center">
+<!--                                            <span t-esc="line.ausencias"/>-->
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('cuota_fija'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('exedente_3uma_patronal'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('exedente_3uma_obrero'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('pd_patronal'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('pd_obrero'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('gmp_patronal'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('gmp_obrero'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('riesgos_trabajo'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('iv_patronal'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('iv_obrero'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('guarderia_ps'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('suma_patronal_imss'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                           <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('suma_obrero_imss'))"/>
+                                        </td>
+                                       <td class="text-center" style="border-top: 1px solid black;">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="sum(o.fees_settlement_lines.mapped('suma_patronal_imss'))+sum(o.fees_settlement_lines.mapped('suma_obrero_imss'))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                           Total de Días cotizados para el calculo de trabajadores promedio expuestos al riesgo
+                                        </td>
+                                        <td colspan="2">
+                                            <span t-esc="len(o.fees_settlement_lines)*30"/>
+                                        </td>
+                                        <th colspan="5">
+                                            Total de cotizantes
+                                        </th>
+                                        <td colspan="2">
+                                            <span t-esc="len(o.fees_settlement_lines)"/>
+                                        </td>
+                                        <th colspan="4">
+                                           Total a Pagar
+                                        </th>
+                                        <td colspan="4">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-field="o.total_imss" widge="Monetary"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            Art. 33<br/>
+                                            P/IV<br/>
+                                            P/CV<br/>
+                                            S/R<br/>
+                                            J/R<br/>
+                                            E/C<br/>
+                                            SDI<br/>
+                                            INC<br/>
+                                            AUS
+                                        </td>
+                                        <td colspan="5">
+                                            Trabajadores con Articulo 33<br/>
+                                            Trabajadores Pensionados en I.V.<br/>
+                                            Trabajadores Pensionados en C.V.<br/>
+                                            Trabajadores con Semana Reducida<br/>
+                                            Trabajadores con Jornada Reducida<br/>
+                                            Trabajadores Eventuales del Campo<br/>
+                                            Salario Diario Integrado<br/>
+                                            Incapacidades<br/>
+                                            Ausentismos
+                                        </td>
+                                        <td colspan="2">
+                                            C.F.<br/>
+                                            EXC. PAT.<br/>
+                                            EXC. OBR.<br/>
+                                            P.D. PAT<br/>
+                                            P.D. OBR<br/>
+                                            G.M.P. PAT.<br/>
+                                            G.M.P. OBR.<br/>
+                                            R.T.<br/>
+                                            I.V. PAT<br/>
+                                            I.V. OBR.<br/>
+                                            G.P.S.
+                                        </td>
+                                        <td colspan="5">
+                                            Cuota Fija<br/>
+                                            Excedente Patronal<br/>
+                                            Excedente Obrera<br/>
+                                            Prestaciones en Dinero Patronal<br/>
+                                            Prestaciones en Dinero Obrera<br/>
+                                            Gastos Médicos Pensionados Patronal<br/>
+                                            Gastos Médicos Pensionados Obrera<br/>
+                                            Riesgos de Trabajo<br/>
+                                            Invalidez y Vida Patronal<br/>
+                                            Invalidez y Vida Obrera<br/>
+                                            Guarderias y Prestaciones Sociales
+                                        </td>
+                                        <td colspan="2">
+                                            S.M.G.D.F.:<br/><br/><br/><br/><br/>
+                                            U. M. A.:.:
+                                        </td>
+                                        <td colspan="2">
+                                            <span t-options='{"widget": "monetary", "display_currency": o.employer_register_id.company_id.currency_id}' t-esc="data['salary_min']"/><br/><br/><br/><br/><br/>
+                                            <span t-field="data['uma'].daily_amount"/><br/>
+                                        </td>
+                                        <td colspan="2">
+                                            <br/><br/><br/><br/><br/>
+                                            <span t-field="data['uma'].year"/><br/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    
+   </data>
+</odoo>

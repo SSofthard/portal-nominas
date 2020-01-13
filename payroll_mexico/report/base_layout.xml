@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<report id="report_contract_type_template" 
+			  string="Type Contract Report" 
+			  model="hr.contract" 
+			  report_type="qweb-html" 
+			  name="payroll_mexico.contract_type_template" 
+              menu="False"
+			 /> 
+        <template id="contract_type_template">
+            <t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-set="lang" t-value="user.lang"/>
+					<t t-call="{{o.type_id.report_id.report_name}}"/>
+				</t>
+            </t>
+        </template>
+
+	<template id="internal_layout_contract">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <div class="header">
+            <div class="row">
+
+                <div class="col-12 text-center">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                </div>
+
+            </div>
+        </div>
+        <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+          <t t-raw="0"/>
+        </div>
+        <div class="footer">
+            <div class="row">
+
+                <div class="col-12 text-center mt64" style="color:blue" >
+                    <ul class="list-inline">
+                        <li class="list-inline-item">Página </li>
+                        <li class="list-inline-item"><span class="page"/></li>
+                        <li class="list-inline-item">/</li>
+                        <li class="list-inline-item"><span class="topage"/></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+	<template id="internal_layout_sin_header">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+          <t t-raw="0"/>
+        </div>
+        <div class="footer">
+            <div class="row">
+
+                <div class="col-12 text-center mt64" style="color:blue" >
+                    <ul class="list-inline">
+                        <li class="list-inline-item">Página </li>
+                        <li class="list-inline-item"><span class="page"/></li>
+                        <li class="list-inline-item">/</li>
+                        <li class="list-inline-item"><span class="topage"/></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    
+    <!--  Layout Para Recibo de Nómina CDFI -->
+    <template id="external_layout_payroll_cfdi">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <div class="header">
+            <div class="row" style="border-bottom: 1px solid #00A09D;">
+                <div class="col-4 mb4 float-left">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 60px;" alt="Logo"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 company_address">
+                    <div>
+                        <strong t-field="company.partner_id.name"/>
+                    </div>
+                    <span t-field="company.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+                </div>
+                <div class="col-9" style="font-size:11px; min-height:11px; border-top: 0px;">
+                    <table class="table-sm" style="width:100%;">
+                        <tr>
+                            <td><strong>RFC: </strong><span t-field="o.company_id.rfc"/></td>
+                            <td><strong>REGISTRO PATRONAL: </strong><span t-field="o.employer_register_id.employer_registry"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>FOLIO: </strong> <span t-field="o.number"/></td>
+                            <td><strong>RÉGIMEN: </strong><span t-field="o.company_id.tax_regime"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>TIPO DE COMPROBANTE: </strong><span t-field="o.type_voucher"/></td>
+                            <td><strong>FECHA Y HORA DE EMISIÓN: </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%b/%Y %H:%M').title()"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>FOLIO FISCAL:</strong></td>
+                            <td><strong>N° DE SERIE DEL CERTIFICADO DEL CSD:</strong></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+
+    </template>
+    
+    <!--  Layout Para Recibo de Nómina -->
+    <template id="external_layout_payroll">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <div class="header">
+            <div class="row" style="border-bottom: 1px solid #00A09D;">
+                <div class="col-3 mb4">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+                </div>
+            </div>
+<!--
+            <div class="row" >
+                <div class="col-4 mb4 float-left">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+                </div>
+            </div>
+-->
+            <div class="row">
+                <div class="col-4 company_address">
+                    <div>
+                        <strong t-field="company.partner_id.name"/>
+                    </div>
+                    <span t-field="company.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+                </div>
+                <div class="col-8" style="font-size:11px; min-height:11px; border-top: 0px;">
+                    <table class="table-sm" style="width:100%;">
+                        <tr>
+                            <td><strong>RFC: </strong><span t-field="o.company_id.rfc"/></td>
+                            <td><strong>REGISTRO PATRONAL: </strong><span t-field="o.employer_register_id.employer_registry"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>FOLIO: </strong> <span t-field="o.number"/></td>
+                            <td><strong>RÉGIMEN: </strong><span t-field="o.company_id.tax_regime"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>TIPO DE COMPROBANTE: </strong><span t-field="o.type_voucher"/></td>
+                            <td><strong>FECHA Y HORA DE EMISIÓN: </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%b/%Y %H:%M').title()"/></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+
+    </template>
+    
+    </data>
+</odoo>

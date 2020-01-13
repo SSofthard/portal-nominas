@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+		
+			<record model="ir.ui.view" id="hr_payroll_structure_mexico_inherit_form">
+			  <field name="name">hr payroll structure inherit for type form</field>
+			  <field name="model">hr.payroll.structure</field>
+			  <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+			  <field name="arch" type="xml">
+					<xpath expr="//field[@name='parent_id']" position="before">
+						<field name="payroll_type"/>
+						<field name="settlement"/>
+					</xpath>
+			  </field>
+			</record>
+		
+		 <record id="view_hr_payslip_settlement_tree" model="ir.ui.view">
+			<field name="name">hr.payslip.tree</field>
+			<field name="model">hr.payslip</field>
+			<field name="arch" type="xml">
+				<tree decoration-info="state in ('confirm','hr_check','accont_check')" decoration-muted="state == 'cancel'" string="Payslips">
+					<field name="number"/>
+					<field name="employee_id"/>
+					<field name="name"/>
+					<field name="date_from"/>
+					<field name="date_to"/>
+					<field name="state"/>
+					<field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+					<field name="payslip_run_id" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+        
+       <record id="view_hr_payslip_settlement_form" model="ir.ui.view">
+        <field name="name">hr.payslip.form</field>
+        <field name="model">hr.payslip</field>
+        <field name="arch" type="xml">
+            <form string="Settlement">
+            <header>
+                <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
+                <button string="Confirm" name="action_payslip_done" type="object" states="draft" class="oe_highlight" confirm="Be sure to confirm the settlement / settlement process, once closed it cannot be opened again."/>
+                <button string="Set to Draft" name="action_payslip_draft" type="object" states="cancel"/>
+                <button string="Compute Sheet" name="compute_sheet" type="object" states="draft" class="oe_highlight"/>
+                <button string="Cancel Payslip" name="action_payslip_cancel" type="object" states="draft,hr_check,confirm,verify"/>
+                <button string="Report settlement" name="print_settlement_report" type="object" states="draft,done"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+            </header>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button name="%(hr_payroll.act_payslip_lines)d"
+                        class="oe_stat_button"
+                        icon="fa-money"
+                        type="action">
+                        <field name="payslip_count" widget="statinfo" string="Payslip" help="Payslip Computation Details"/>
+                    </button>
+                </div>
+                <div class="oe_title">
+                    <label for="employee_id" class="oe_edit_only"/>
+                    <h1><field name="employee_id" placeholder="Employee"/></h1>
+                </div>
+                <div class="alert alert-info" role="alert" style="margin-bottom:0px;">
+					To complete calculating a settlement you must select a contract with the defined end date.
+				</div>
+                <group col="4">
+                    <label for="date_from" string="Period"/>
+                    <div>
+                        <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
+                    </div>
+                    <field name="contract_id" domain="[('employee_id','=',employee_id),('state','in',['close']),('contracting_regime','in',['2'])]" context="{'default_employee_id': employee_id}"/>
+                    <field name="structure_type_id" />
+                    <field name="number"/>
+                    <field name="struct_id" attrs="{'required':[('contract_id','!=',False)]}" domain="[('structure_type_id','=',structure_type_id),('settlement','=',True)]" context="{'default_structure_type_id':structure_type_id}"/>
+                    <field name="name" string="Nombre del finiquito"/>
+                    <field name="employer_register_id"/>
+                    <field name="payroll_period"/>
+                    <field name="reason_liquidation" attrs="{'required':[('settlement','!=',False)]}"/>
+                    <field name="group_id"/>
+                    <field name="settlemen_date" attrs="{'required':[('settlement','!=',False)]}"/>
+                    <field name="payroll_month" invisible="1"/>
+                    <field name="payroll_of_month" invisible="1"/>
+                    <field name="payroll_type" invisible="1"/>
+                    <field name="table_id" invisible="0"/>
+                    <field name="settlement" invisible="1"/>
+                </group>
+                <group>
+					<group string="Compensation of law">
+						<field name="indemnify_employee"/>
+						<field name="compensation_20"/>
+					</group>
+					<group string="Agreement" attrs="{'invisible':[('indemnify_employee','!=',False)]}">
+						<field name="agreement_employee"/>
+						<field name="amount_agreement"/>
+					</group>
+				</group>
+                
+                <group>
+					<group string="Fechas del periodo laborado">
+						<field name="previous_contract_date" attrs="{'invisible':[('type_contract','!=','with_seniority')]}"/>
+						<field name="date_start"/>
+						<field name="date_end"/>
+						<field name="type_contract" invisible="1"/>
+					</group>
+					<group string="Antiguedad">
+						<field name="years_antiquity"/>
+						<field name="days_rest"/>
+					</group>
+                </group>
+                <notebook>
+                    <page string="Worked Days &amp; Inputs">
+                        <separator string="Worked Days"/>
+                        <field name="worked_days_line_ids">
+                            <tree string="Worked Days" editable="bottom">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="number_of_days" sum="Total Working Days"/>
+                                <field name="number_of_hours"/>
+                                <field name="contract_id"/>
+                                <field name="sequence" invisible="True"/>
+                            </tree>
+                            <form string="Worked Day">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="sequence"/>
+                                    <field name="number_of_days"/>
+                                    <field name="number_of_hours"/>
+                                    <field name="contract_id"/>
+                                </group>
+                            </form>
+                        </field>
+                        <separator string="Other Inputs"/>
+                        <field name="input_line_ids" colspan="4" nolabel="1">
+                            <tree string="Input Data" editable="bottom">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="amount"/>
+                                <field name="contract_id"/>
+                                <field name="sequence" invisible="True"/>
+                            </tree>
+                            <form string="Settlemen Line">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="sequence"/>
+                                    <field name="amount"/>
+                                    <field name="contract_id"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                    <page string="Inpust reported on settlemen">
+                        <field name="input_ids" readonly="1"/>
+                   </page>
+                    <page string="Salary Computation" >
+                        <field name="line_ids" colspan="4" nolabel="1">
+                            <tree string="Settlemen Structure" editable="bottom" decoration-info="total == 0" limit="200">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="category_id"/>
+                                <field name="sequence" invisible="1"/>
+                                <field name="quantity"/>
+                                <field name="rate"/>
+                                <field name="salary_rule_id"/>
+                                <field name="amount"/>
+                                <field name="total"/>
+                            </tree>
+                            <form string="Settlemen Line">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="category_id"/>
+                                    <field name="sequence"/>
+                                    <field name="quantity"/>
+                                    <field name="rate"/>
+                                    <field name="amount"/>
+                                    <field name="total"/>
+                                    <field name="salary_rule_id"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                    <page string="Details By Salary Rule Category">
+                        <field name="details_by_salary_rule_category" context="{'group_by':'category_id'}" domain="[('appears_on_payslip', '=', True)]">
+                            <tree string="Payslip Lines" decoration-info="total == 0">
+                                <field name="category_id"/>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="total"/>
+                            </tree>
+                        </field>
+                   </page>
+                   <page string="Miscellaneous">
+                        <group>
+                            <group string="Miscellaneous">
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="payslip_run_id" domain="[('state','=','draft')]" invisible="1"/>
+                            </group>
+                        </group>
+                        <div colspan="4">
+                            <field name="note" placeholder="Add an internal note..."/>
+                        </div>
+                   </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="view_hr_payslip_settlement_filter" model="ir.ui.view">
+        <field name="name">hr.payslip.select</field>
+        <field name="model">hr.payslip</field>
+        <field name="arch" type="xml">
+            <search string="Search Payslips">
+                <field name="name" string="Payslips" filter_domain="['|',('name','ilike',self),('number','ilike',self)]"/>
+                <field name="date_from"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]" help="Draft Slip"/>
+                <filter string="Done" name="done" domain="[('state','=','done')]" help="Done Slip"/>
+                <field name="employee_id"/>
+                <field name="payslip_run_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Employees" name="employee_id" context="{'group_by':'employee_id'}"/>
+                    <filter string="Companies" name="company_id" groups="base.group_multi_company" context="{'group_by':'company_id'}"/>
+                    <filter string="States" name="state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <record id="hr_payroll.action_view_hr_payslip_form" model="ir.actions.act_window">
+        <field name="name">Employee Payslips</field>
+        <field name="res_model">hr.payslip</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="hr_payroll.view_hr_payslip_filter"/>
+        <field name="domain">[('settlement', '=', False)]</field>
+    </record>
+    
+    <record id="action_view_hr_payslip_settlement_form" model="ir.actions.act_window">
+        <field name="name">Settlement</field>
+        <field name="res_model">hr.payslip</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_hr_payslip_settlement_filter"/>
+        <field name="context">{'default_settlement':True, 'default_payroll_type':'extraordinary_payroll'}</field>
+        <field name="domain">[('settlement', '=', True)]</field>
+    </record>
+    <record id="action_view_hr_payslip_settlement_tree_1" model="ir.actions.act_window.view">
+		<field name="sequence" eval="1"/>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="view_hr_payslip_settlement_tree"/>
+		<field name="act_window_id" ref="action_view_hr_payslip_settlement_form"/>
+	</record>
+    <record id="action_view_hr_payslip_settlement_form_2" model="ir.actions.act_window.view">
+		<field name="sequence">2</field>
+		<field name="view_mode">form</field>
+		<field name="act_window_id" ref="action_view_hr_payslip_settlement_form"/>
+		<field name="view_id" ref="view_hr_payslip_settlement_form"/>
+	</record>
+
+    <menuitem action="action_view_hr_payslip_settlement_form" id="menu_department_settlement_tree" parent="hr_payroll.menu_hr_payroll_root" groups="hr_payroll.group_hr_payroll_user" sequence="30"/>
+
+    </data>
+</odoo>

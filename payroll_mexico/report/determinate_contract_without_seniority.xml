@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     
+        <report id="report_determinate_contract_without_seniority" 
+          string="Determinate Contract Without Seniority" 
+          model="hr.contract" 
+          report_type="qweb-html" 
+          name="payroll_mexico.determinate_contract_without_seniority" 
+          menu="False"
+         /> 
+        
+        <template id="determinate_contract_without_seniority" name="Determinate Contract Without Seniority">
+            <t t-call="web.html_container">
+                <t t-call="payroll_mexico.internal_layout_contract">
+					<t t-set="o" t-value="o.with_context(lang=lang)" />
+                   <p align="justify">
+                        CONTRATO INDIVIDUAL DE TRABAJO POR <t t-esc="o.type_id.name.upper()"/>, QUE CELEBRAN POR UNA PARTE, <t t-esc="o.company_id.business_name.upper()"/>, REPRESENTADA POR EL (LA) <t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/>, 
+                        A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, EL (LA) <t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.name.upper()"/>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, 
+                        MISMOS QUE SE SUJETAN AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
+                    </p>
+                    <p align="center"><b>DECLARACIONES</b></p>
+                    
+                    
+					<table class="egt">
+                          <tr>
+                            <td valign="top"><b>I.</b></td>
+                            <td><p style="margin-left:20px;">DECLARA EL “PATRON”:</p></td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>A)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Su representada es una Sociedad Mexicana legalmente constituida, lo cual consta mediante Escritura Pública No. <t t-esc="o.company_id.write_number"/>  de fecha <t t-esc="o.company_id.constitution_date.strftime('%d de %B de %Y')"/>, 
+                                    otorgada, por el (la) <t t-esc="o.company_id.public_notary_holder_id.title.shortcut"/> <t t-esc="o.company_id.public_notary_holder_id.name"/>, Titular de la Notaría Pública número <t t-esc="o.company_id.public_notary_address_id.notary_public_number"/> con circunscripción en la <t t-esc="o.company_id.public_notary_address_id.city"/>, 
+                                    e inscrita en el Registro Público de la misma Ciudad.
+                                </p>
+                            </td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>B)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                  Encontrarse representada por el (la) <t t-esc="o.power_attorney_id.representative_id.title.shortcut"/> <t t-esc="o.power_attorney_id.representative_id.name"/>, quien acredita su personalidad en términos de la Escritura Pública
+                                  No. <t t-esc="o.power_attorney_id.public_deed_number"/> pasada ante la fe del Notario Público No. <t t-esc="o.power_attorney_id.public_notary.notary_public_number"/> del Estado <t t-esc="o.power_attorney_id.public_notary.state_id.name"/> 
+                                  a cargo del (la) <t t-esc="o.power_attorney_id.public_notary.title.shortcut"/> <t t-esc="o.power_attorney_id.public_notary.name"/>.                            
+                                </p>
+                            </td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>C)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                        Que tiene la necesidad de contratar los servicios de una persona apta en el desarrollo de sus actividades para el puesto de <t t-esc="o.job_id.name.upper()"/>
+                                        durante la vigencia del presente contrato.
+                                </p>
+                            </td>
+                          </tr>
+                        <tr>
+                            <td valign="top"><b>II.</b></td>
+                            <td><p style="margin-left:20px;">DECLARA EL "TRABAJADOR":</p></td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>A)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Llamarse como ha quedado escrito al inicio del presente contrato, ser de nacionalidad <t t-esc="o.employee_id.country_id.nationality.upper()"/>, contar con <t t-esc="o.employee_id.age"/> años de edad, 
+                                    ser de sexo <spam class="m-0" t-if="o.employee_id.gender == 'male'">MASCULINO,</spam> <spam class="m-0" t-if="o.employee_id.gender == 'famale'">FEMENINO,</spam> estado civil 
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'single'">SOLTERO (A),</spam><spam class="m-0" t-if="o.employee_id.marital == 'married'">CASADO (A),</spam><spam class="m-0" t-if="o.employee_id.marital == 'cohabitant'">COHABITANTE LEGAL,</spam>
+                                    <spam class="m-0" t-if="o.employee_id.marital == 'widower'">VIUDO (A),</spam><spam class="m-0" t-if="o.employee_id.marital == 'divorced'">DIVORCIADO (A),</spam> tener como Clave Única de Registro de Población la número <t t-esc="o.employee_id.curp.upper()"/>, 
+                                    con Registro Federal de Contribuyentes número  <t t-esc="o.employee_id.rfc.upper()"/>, número de afiliación <t t-esc="o.employee_id.ssnid"/> ante el Instituto Mexicano del Seguro Social
+                                    y con domicilio en <t t-esc="o.employee_id.address_home_id.contact_address.upper()"/>, manifestando expresamente que en caso de que efectúe algún cambio de domicilio al señalado en el presente contrato, se 
+                                    compromete a dar aviso del nuevo domicilio por escrito a “EL PATRON”, en un término máximo de cinco días contados a partir de la fecha del cambio, en la inteligencia
+                                    de que de no hacerlo así, se reconocerá el último domicilio proporcionado como el autorizado para todos los efectos legales a que haya lugar, independientemente del 
+                                    que aparezca en el presente contrato de trabajo.
+                                </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>B)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                   Tener la capacidad y experiencia necesarias, para prestar sus servicios en el puesto de <t t-esc="o.job_id.name.upper()"/> y no contar a la presente fecha con antecedentes 
+                                   penales, comprometiéndose a realizar todas y cada una de las labores anexas o conexas a la obligación principal, en el lugar o lugares a donde lo comisione “EL PATRON”.
+                                </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>C)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Que actualmente se encuentra en buen estado de salud, haciendo saber bajo su más estricta responsabilidad, que en los empleos anteriores no sufrió riesgos de trabajo 
+                                    ni enfermedad profesional alguna.
+                                </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>D)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Que ha leído, entiende y esta conforme con las políticas y reglamentos internos aplicables a los trabajadores de “EL PATRON”.
+                                </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>E)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Que está conforme en que el trabajo que le ofrece “EL PATRON” es digno y que en su contratación no existe discriminación alguna por origen étnico o nacional, género, 
+                                    edad, discapacidad, condición social, condiciones de salud, religión, condición migratoria, opiniones, preferencias sexuales o estado civil, manifestando además que sabe, 
+                                    que “EL PATRON” cuenta con las condiciones de seguridad e higiene necesarias para prevenir riesgos de trabajo en sus instalaciones.
+                                </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td valign="top"><b>F)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Que tendrá acceso a la seguridad social y que el salario pactado es un salario remunerador. 
+                                </p>
+                            </td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>G)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Que se obliga a partir de la firma del presente contrato, a entregar a “EL PATRON” los documentos legales necesarios para la prestación del servicio en el puesto contratado.
+                                </p>
+                            </td>
+                          </tr>
+                          
+                          <tr>
+                            <td valign="top"><b>H)</b></td>
+                            <td>
+                                <p align="justify" style="margin-left:20px;">
+                                    Que adoptará todas las medidas necesarias para evitar cualquier situación de conflicto de intereses. Es decir que por consecuencia de intereses económicos, afinidades
+                                    políticas o nacionales, vínculos familiares o afectivos, o cualesquiera otros intereses compartidos, se ve comprometido la ejecución imparcial y objetiva del presente 
+                                    contrato, así mismo declara que no hay dentro del personal ya existente dentro de la empresa, ningún familiar ya sea por consanguinidad, afinidad o civil.
+                                </p>
+                            </td>
+                          </tr>
+                        </table>  
+                        <p align="justify">
+                            Expuesto lo anterior, las partes declaran tener capacidad legal para obligarse en los términos establecidos en el presente documento, sujetándose al tenor de las siguientes:
+                        </p>   
+                        <p align="center"><b>CLAUSULAS</b></p> 
+                        <p align="justify">
+                            <b>PRIMERA.</b>  “EL PATRON” derivado de los contratos de servicios profesionales que tenga con sus clientes contrata los servicios de “EL TRABAJADOR”, para que los preste en 
+                            el domicilio ubicado en <t t-esc="job_dress"></t>, o en el domicilio que se asigne conforme a las necesidades operativas y de servicio de “EL PATRÓN” con sus clientes los cuales
+                            se relacionan líneas abajo, conservando las condiciones de trabajo y sus prestaciones establecidas en el presente contrato, en este caso “EL PATRÓN” comunicará con anticipación
+                            la remoción del lugar de prestación de servicios indicándole el nuevo asignado.  
+                        </p>   
+                        <p align="justify">
+                            Por lo que “EL EMPLEADO” manifiesta expresamente su conformidad y su disponibilidad para prestar servicios en el lugar que sea señalado por “EL PATRON”, lo anterior sin perjuicio
+                            de que gozará de los beneficios establecidos en los artículos 28 fracción I y 30 de la Ley Federal del Trabajo, en caso de que el  domicilio en el que prestará servicios en forma
+                            permanente se encuentre a mas de 100 kilómetros de la residencia habitual de “EL TRABAJADOR”.
+                        </p>   
+                        <p align="justify">
+                            <b>SEGUNDA.</b> “EL TRABAJADOR” manifiesta, que tiene los conocimientos y experiencia necesarias para desempeñar el puesto y se obliga a prestar sus servicios personales en el 
+                            empleo de <t t-esc="o.job_id.name.upper()"/>, los que en forma enunciativa y no limitativa aparecen detallados en el Anexo “A” que forma parte integrante del presente contrato, obligándose
+                            a desempeñar todas las labores anexas o conexas con la obligación principal.
+                        </p>   
+                        <p align="justify">
+                            Igualmente, “EL TRABAJADOR” se obliga a conducirse con respeto, honorabilidad, dignidad, probidad y tener un buen trato con los trabajadores o empleados al servicio de “EL PATRON”, 
+                            sin que exista en su actuar discriminación por origen étnico o racial, género, edad, discapacidad, condición social, condiciones de salud, religión, condición migratoria, opiniones, 
+                            preferencias sexuales o estado civil, teniendo por lo tanto estrictamente prohibido, el acosar, hostigar, discriminar o realizar cualquier acto en contra de los trabajadores de 
+                            “EL PATRON”, que pudieren vulnerar  sus derechos humanos.
+                        </p>   
+                        <p align="justify">
+                            <b>TERCERA.</b> Las partes convienen en que para el caso de que “EL TRABAJADOR” demuestre falta de capacidad, de aptitudes o de facultades  de las que dijo tener, “EL PATRON” podrá 
+                            dentro de los 30 días siguientes a la firma del presente contrato, rescindir el contrato individual de trabajo sin ninguna responsabilidad de su parte, en términos de lo dispuesto 
+                            por el artículo 47 de la Ley Federal del Trabajo.
+                        </p>   
+                        <p align="justify">
+                            <b>CUARTA.</b> El presente Contrato de Trabajo se celebra por Tiempo Indeterminado y no podrá modificarse, suspenderse, rescindirse o terminarse sino por voluntad de las partes, o en 
+                            los términos previstos por la Ley Federal del Trabajo y en sus reglamentos aplicables.
+                        </p>   
+                        <p align="justify">
+                            <b>QUINTA.</b> La jornada laboral que se contrata, es la máxima ordinaria en los términos dispuestos por el artículo 61 de la Ley Federal del Trabajo y “EL TRABAJADOR” se obliga a 
+                            desempeñar diariamente sus labores, facultando expresamente desde ahora a “EL PATRON”, para modificar el horario o para cambiarlo a cualquiera de los turnos establecidos, de acuerdo 
+                            a las necesidades de “EL PATRON” y en los términos dispuestos por los artículos 59, 60, 61 y 62 de la Ley Federal del Trabajo, dada la naturaleza del trabajo a desempeñar.
+                        </p>   
+                        <p align="justify">
+                            “EL PATRON” puede designar cualquiera de las jornadas establecidas en la legislación laboral, ya sea  jornada  diurna con una duración de 48 horas semanales, la mixta con una 
+                            duración de 45 horas,  la nocturna con una duración de 42 horas  o una jornada exclusiva en la que únicamente laborará los días festivos o de descanso obligatorio, sábados y séptimos días, 
+                            recibiendo el pago por sus servicios integro correspondiente a 48 horas semanales por lo cual  “EL TRABAJADOR” esta de acuerdo que dentro de dicho pago (semanal o quincenal) queda 
+                            incluido  lo respectivo a prima dominical y pago por séptimos días laborados, lo anterior debido a las necesidades de operatividad de “EL PATRON”.
+                        </p>   
+                        <p align="justify">
+                            <b>“EL TRABAJADOR”</b> gozará en todos los casos de una hora diaria para ingerir sus alimentos, descansar, reposar y reponer energías, misma que tomara en el transcurso de dicha 
+                            jornada fuera de la fuente de trabajo sin encontrarse a disposición de <b>“EL PATRÓN”.</b>
+                        </p>   
+                        <p align="justify">
+                            <b>SEXTA.</b> “EL PATRON” y “EL TRABAJADOR” se obligan a cumplir con las disposiciones del Capítulo III Bis del Título Cuarto de la Ley Federal del Trabajo, relativas a la Productividad, 
+                            Formación y Capacitación de los Trabajadores.
+                        </p>   
+                        <p align="justify">
+                            <b>SEPTIMA.</b> “EL TRABAJADOR” se obliga a someterse a los reconocimientos médicos que periódicamente se practican en la Empresa, en los términos de la fracción X del artículo 134 de la 
+                            Ley Federal del Trabajo.
+                        </p>   
+                        <p align="justify">
+                            <b>OCTAVA.</b> Queda prohibido a “EL TRABAJADOR” laborar tiempo extraordinario  si  no es con el consentimiento previo y por escrito de “EL PATRON”, por lo que si por cualquier 
+                            circunstancia “EL PATRON” requiere de los servicios de “EL TRABAJADOR” en forma extraordinaria, éste desde ahora se obliga a prestarlos, sin que exceda de tres horas diarias, ni de tres 
+                            veces a la semana. Lo anterior tomando en cuenta que las instalaciones del patrón no se acostumbra a laborar tiempo extraordinario. Así mismo no se acostumbra a elaborar controles de asistencia.
+                        </p>   
+                        <p align="justify">
+                            Para el caso de computar el tiempo extraordinario laborado deberá “EL TRABAJADOR” recabar y conservar la autorización referida  a fin de que en su momento quede debidamente pagado el 
+                            tiempo extra laborado, la falta de presentación de esa orden sólo es imputable al “EL TRABAJADOR”.
+                        </p>
+                        <p align="justify">
+                            <b>NOVENA.</b> Como compensación por sus servicios, “EL PATRON” pagará a “EL TRABAJADOR” un Sueldo Mensual de <span t-esc="o.wage" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> que le será cubierto por (semana o quincena)  
+                            vencida, mediante el sistema de depósito bancario, en la cuenta que “EL TRABAJADOR” determine para tal efecto, forma de pago que desde ahora acepta y/o cualesquiera de las que la Ley Federal 
+                            del Trabajo establece, siendo el comprobante de depósito el recibo del salario y de las prestaciones a las que tiene derecho “EL TRABAJADOR” hasta dicha fecha, quedando incluido en la 
+                            cantidad señalada, el salario correspondiente a los días de descanso semanal y a los días festivos obligatorios, menos los descuentos que por Ley correspondan.
+                        </p>    
+                        <p align="justify">
+                            “EL TRABAJADOR” se obliga a extender el recibo de pago correspondiente o a autentificar por algún medio electrónico o tecnológico el recibo de los salarios y prestaciones, mismas en las que 
+                            se incluyen las percepciones y las deducciones de Ley expresamente aceptadas por “EL TRABAJADOR”, suscribiendo con firma autógrafa o mediante la validación electrónica de conformidad, todos 
+                            y cada uno de los períodos que éstos amparen, haciéndose notar que si en los recibos no aparece concepto alguno por tiempo extraordinario, es porque “EL TRABAJADOR” no lo laboró, extendiendo 
+                            por lo tanto el más amplio finiquito de los salarios y prestaciones a las que tuvo derecho por el respectivo período, haciéndose notar que en caso de cualquier aclaración al respecto, deberá 
+                            de hacerlo saber en forma inmediata a “EL PATRON” y en caso de que proceda, se cubrirá en el  siguiente periodo de pago.
+                        </p>    
+                        <p align="justify">
+                            El depósito del salario o la disposición del dinero, harán las veces de recibo de pago del salario y de las prestaciones a que tenga derecho. La disposición de su remuneración, implicará 
+                            la conformidad expresa de “EL TRABAJADOR” del pago del salario y prestaciones recibidas, por lo que cualquier cantidad a la que crea tener derecho, deberá exigirla precisamente en los 
+                            términos señalados en el párrafo que antecede.
+                        </p>    
+                        <p align="justify">
+                            Se encuentra expresamente prohibido a “EL TRABAJADOR” solicitar o recibir cantidades de dinero o cualquier otro bien, por concepto de comisión, propina o dádiva, con motivo de la prestación 
+                            de los servicios prestados de cualquiera de los clientes de “EL PATRÓN”. Por lo que únicamente percibirá el salario que “EL PATRÓN” le retribuya con motivo del servicio subordinado, 
+                            de lo contrario se podrá constituir en una causal de rescisión por falta de probidad y honradez. 
+                        </p>
+                        <p align="justify">
+                            <b>DECIMA.</b> Por cada seis días de trabajo, “EL TRABAJADOR” disfrutará de un día de descanso con goce de salario íntegro.
+                        </p>    
+                        <p align="justify">
+                            <b>DECIMA PRIMERA.</b>  “EL TRABAJADOR” disfrutará de descanso con goce de salario los días que señala el artículo 74 de la Ley Federal del Trabajo y en el supuesto de que algún día festivo 
+                            coincida con un día de descanso semanal, “EL PATRON” no tendrá obligación de efectuar pago adicional alguno, o de otorgar algún otro día de disfrute por tal  motivo, en los términos de Ley.
+                        </p>    
+                        <p align="justify">
+                            <b>DECIMA SEGUNDA.</b>  “EL TRABAJADOR” disfrutará de los períodos vacacionales que se consignan en la Ley Federal del Trabajo, independientemente de que recibirá una prima vacacional del 25% 
+                            sobre el importe de las vacaciones.
+                        </p>    
+                        <p align="justify">
+                            <b>DECIMA TERCERA.</b>  “EL PATRON” determinará la fecha en que se disfrutará el período vacacional, de acuerdo a sus necesidades y en cumplimiento a lo dispuesto por los artículos 
+                            76, 77, 78, 79, 80 y 81 de la Ley Federal del Trabajo.
+                        </p>    
+                        <p align="justify">
+                            <b>DECIMA CUARTA.</b>  “EL TRABAJADOR” tendrá derecho por concepto de aguinaldo anual, al importe de 15 días a razón de su salario base en los términos de la Ley Federal del Trabajo, 
+                            mismo que le será cubierto antes del 20 de diciembre de cada año, o en su caso, la parte proporcional si no hubiese cumplido el año de servicios.
+                        </p>    
+                        <p align="justify">
+                            <b>DECIMA QUINTA.</b>  “EL TRABAJADOR” se obliga a desempeñar sus labores con la intensidad, cuidado y esmero apropiados, aceptando que la falta de cumplimiento  a sus obligaciones 
+                            y aquellas que cometa durante sus labores, podrán ser motivo de rescisión o de sanción consistente en la suspensión de labores sin goce de sueldo, sin exceder del término previsto en la 
+                            fracción X del artículo 423 de la Ley Federal del Trabajo, de acuerdo con la gravedad de la falta cometida y bajo la responsabilidad de “EL PATRON”.
+                        </p>    
+                        <p align="justify">
+                            <b>DECIMA SEXTA.</b>  “EL TRABAJADOR” se obliga a cumplir con las disposiciones del presente contrato, así como las disposiciones reglamentarias aplicables, siendo causas de rescisión 
+                            además de las mencionadas en la Ley Federal del Trabajo, el incumplimiento de cualquiera de las obligaciones a las que se compromete a la firma del presente contrato, así como la infracción 
+                            a cualquiera de las obligaciones y prohibiciones que imponen los artículos 134 y 135, en relación con la fracción XV del artículo 47 de la Ley Federal del Trabajo.
+                        </p>    
+                        <p align="justify">
+                            <b>DECIMA SEPTIMA.</b>  “EL TRABAJADOR” se obliga a que durante la vigencia del presente contrato, no podrá prestar sus servicios en forma directa a terceras personas que tengan relación 
+                            con el objeto social de “EL PATRON”.
+                        </p>
+                        <p align="justify">
+						    <b>DECIMA OCTAVA.</b>   “EL TRABAJADOR” se obliga a no revelar a terceras personas, los nombres, información, papeles, cifras, análisis, estudios, técnicas de operación o promoción o cualquier 
+						    dato relacionado con la labor que va a desempeñar, así como a guardar escrupulosamente los secretos técnicos, comerciales administrativos, de operación y promoción de los cuales tenga 
+						    conocimiento por razón del trabajo que va a realizar y que puedan causar perjuicios a  “EL PATRON” o a sus clientes.
+						</p>
+                        <p align="justify">
+                            <b>DECIMA NOVENA.</b>   “EL TRABAJADOR” reconoce que son propiedad de “EL PATRON”, todos los documentos, materiales, bienes, uniformes e instrumentos de trabajo que se le proporcionen para 
+                            el desempeño de sus labores con motivo del presente contrato, obligándose a conservarlos en buen estado y a entregarlos a “EL PATRON” en el momento en el que éste los requiera, por lo cual 
+                            dichos instrumentos o materiales en ningún momento podrán ser considerados como parte integrante del salario de “EL TRABAJADOR”.
+                        </p>    
+                        <p align="justify">
+                            “EL TRABAJADOR” reconoce que todos documentos que genere con motivo de la prestación de sus servicios ya sean físicos o por medios electrónicos, son propiedad de “EL PATRON”.
+                        </p>    
+                        <p align="justify">
+                            “EL TRABAJADOR” manifiesta expresamente, que en el supuesto de que reciba o le sea asignado como instrumento de trabajo un equipo de computo ya sea de escritorio o móvil, un teléfono móvil, 
+                            PDA o similar, será responsable de su buen uso así como del resguardo de las contraseñas de seguridad respectivas, por lo que se encuentra obligado a no compartir, divulgar o revelar con 
+                            persona alguna las mismas, pues estas son personalísimas e intransferibles. 
+                        </p>    
+                        <p align="justify">
+                            Independientemente de lo anterior, “EL TRABAJADOR” será responsable del envío desde su cuenta de correo electrónico, de toda la información, mensajes, datos y documentos electrónicos, pues es 
+                            el único responsable del resguardo y cuidado de dicha información, por lo que será responsable de ella con todas las consecuencias legales a que haya lugar.
+                        </p>    
+                        <p align="justify">
+                            En caso de que los clientes de “EL PATRÓN” proporcionen herramientas de trabajo al “EL TRABAJADOR”  para el buen funcionamiento de sus labores dada la relación comercial con “EL PATRÓN”, 
+                            tales como equipo de computo ya sea de escritorio o móvil,  teléfono móvil, PDA o similar, credenciales con o sin logotipos de los clientes de “EL PATRÓN”   para libre acceso a instalaciones 
+                            de los clientes a los que fueron asignados para el desarrollo de sus labores, uniformes con o sin logotipos de los clientes de “EL PATRÓN” o incluso vehículos automotores para su rápido 
+                            desplazamiento, ello no implica tácitamente una relación laboral de “EL TRABAJADOR”  con los clientes o con terceras personas relacionadas con los clientes de “EL PATRÓN”, dado que la 
+                            relación laboral es única y exclusivamente entre las partes que suscriben el presente contrato, pero no exime a “EL TRABAJADOR”   del resguardo y buen uso de dichas herramientas de trabajo.
+                        </p>    
+                        <p align="justify">
+                            Así mismo, si los clientes de “EL PATRÓN” imparten cursos de integración, superación personal y liderazgo en beneficio de “EL TRABAJADOR” debiendo contar con su asistencia, ello no implica 
+                            ninguna relación laboral con los clientes de “EL PATRÓN”, dado que la relación laboral es única y exclusivamente entre las partes que suscriben el presente contrato.
+                        </p>    
+                        <p align="justify">
+                            <b>VIGÉSIMA.</b> “EL PATRON” por este medio y de conformidad con la “Ley Federal de Protección de Datos Personales en Posesión de los Particulares”, en adelante “LA LEY”, hace del conocimiento 
+                            del “EL TRABAJADOR”, que sus datos personales aun aquellos que se pudieran considerar como sensibles, como lo son los que pudieren afectar su esfera más íntima, mismos que aparecen en los 
+                            documentos requisitados en la solicitud de ingreso o de los proporcionados por cualquier otro medio, se tratarán entre otros fines para el efecto de que puedan formar parte de estadísticas, 
+                            informes, catálogos, exámenes médicos (respecto a su salud), así como para que se le pueda brindar la posibilidad de ascensos, de promociones o de cualquier otro beneficio durante la existencia 
+                            de la relación de trabajo y cualquier otro servicio análogo y en general, para todos los fines que se deriven de la relación de trabajo que tiene con “EL PATRON”, pudiéndose transferir los 
+                            mismos a compañías filiales de “EL PATRON”, a subsidiarias o al consorcio del que forme parte o a cualquier sociedad que se considere pertinente con motivo de sus labores. 
+                        </p>
+                        <p align="justify">
+                            Si es su deseo ejercer sus derechos de acceso, rectificación, cancelación y oposición señalados en “LA LEY” respecto a sus datos personales, aun aquellos considerados como sensibles, 
+                            los deberá realizar por escrito a “EL PATRON”, en su domicilio.
+                        </p>
+                        <p align="justify">
+                            Toda la información que se maneje será protegida y salvaguardada bajo los más altos estándares de seguridad y tecnológicos con los que cuenta “EL PATRON”,  limitando el acceso de sus datos 
+                            a los fines para los cuales fueron proporcionados.
+                        </p>
+                        <p align="justify">
+                            “EL PATRON” notificará por los medios que estime convenientes, cualquier cambio, modificación ó actualización al presente aviso de privacidad. 
+                        </p>
+                        <p align="justify">
+                            Si “EL TRABAJADOR” con motivo de sus actividades tiene  acceso a datos personales, aún aquellos que se pudieran considerar como sensibles, ya sea de sus compañeros de trabajo, como de los 
+                            clientes, de las compañías filiales de “EL PATRON”, controladoras, subsidiarias o consorcio del que forme parte, se obliga a no revelar a terceras personas la información contenida en los 
+                            expedientes del personal de “EL PATRON” o de los citados clientes, de conformidad con lo previsto en “LA LEY” independientemente de que el contenido de dicha información se encuentre plasmada 
+                            ya sea de manera física, electrónica o por cualquier otro medio.
+                        </p>
+                        <p align="justify">
+                            <b>VIGESIMA PRIMERA.</b>
+                        </p>
+                        <p align="justify">
+                            a) <u>Pacto de no competencia.</u> “EL TRABAJADOR” se compromete a no competir con “EL PATRON” y a evitar que alguno de sus ascendientes o descendientes hasta el segundo grado, compitan directa 
+                            o indirectamente con “EL PATRON” por un período de 1 año, contados a partir de la fecha de firma del presente contrato, así como por un período de 1 año, contados a partir de la fecha en la 
+                            que deje de prestar sus servicios para “EL PATRON” por cualquier causa y dentro de cualquier jurisdicción en donde “EL PATRON” o una subsidiaria de éste se encuentre autorizada para realizar 
+                            negocios y se encuentre realizando una cantidad considerable y substancial de negocios, o bien posea, administre, opere, tenga el control o se encuentre relacionado de cualquier forma directa 
+                            o indirectamente, con el tipo de negocios o actividades desarrollada por “EL PATRON”.
+                        </p>
+                        <p align="justify">
+                            Adicionalmente durante dichos períodos, “EL TRABAJADOR” conviene con “EL PATRON” en no interferir en la relación laboral que “EL PATRON” guarde con otros empleados, mediante la solicitud o 
+                            invitación a cualquiera de estos a participar en negocios independientes, así como solicitar negocios o invitar a realizarlos a cualquier cliente potencial de “EL PATRON” para beneficio 
+                            de “EL TRABAJADOR” o de cualquier sociedad en la que “EL TRABAJADOR” tenga un interés o participación.
+                        </p>
+                        <p align="justify">
+                            b) <u>Propiedad Intelectual.</u>  Durante la vigencia de este contrato, “EL TRABAJADOR” se obliga a ceder y a no revelar cualesquiera ideas, inventos y planes de negocios directa o 
+                            indirectamente relacionados con los planes de negocios de “EL PATRON” o sus empresas subsidiarias o afiliadas, incluyendo sin limitación alguna, cualquier proceso, operación, invento, 
+                            producto o mejora que sea patentable o sujeta a registro como derecho de autor durante el desarrollo de su trabajo. “EL TRABAJADOR” conviene que dicho proceso, operación, producto o 
+                            mejora será propiedad de “EL PATRON” y que “EL TRABAJADOR” a solicitud y a cargo de “EL PATRON”, realizará cualesquiera actos que resulten necesarios para asegurar y proteger los derechos de 
+                            “EL PATRON” sobre estos.
+                        </p>
+                        <p align="justify">
+                            c)  <u>Confidencialidad.</u> 
+                        </p>
+                        <p align="justify">
+                            (I) “EL TRABAJADOR” reconoce y conviene en que todos los estudios, análisis, procedimientos, prospectos, secretos comerciales y en general, toda la información de cualquier naturaleza 
+                            relacionada con “EL PATRON”, así como toda la información desarrollada por “EL TRABAJADOR” para “EL PATRON” o de cualquier naturaleza relacionada con el negocio de “EL PATRON” durante 
+                            la duración de su encargo, son propiedad de “EL PATRON”.  Como consecuencia de ello, el “EL TRABAJADOR” conviene en mantener dicha información adecuadamente y a no retirarla del lugar 
+                            en el que preste sus servicios, a menos de que sea con el consentimiento por escrito de “EL PATRON” y si ese fuera el caso, a devolverla tan pronto como sea posible, pero en el caso de 
+                            terminación de la relación de trabajo, se obliga a entregarla en ese momento.
+                        </p>
+                        <p align="justify">
+                            (II) “EL TRABAJADOR” conviene, en mantener en secreto cualquier información confidencial relativa a “EL PATRON” y a sus afiliadas o a sus clientes durante la vigencia de este contrato y 
+                            aún después de su terminación.  Para fines de este contrato, el término “Información Confidencial”, significa toda la información de “EL PATRON” o cualquiera de sus afiliadas o clientes 
+                            en cualquier forma y que no sea del dominio público, incluyendo de manera enunciativa y no limitativa, cualquier invención, propiedad intelectual, lista de clientes o secretos de clientes.
+                        </p>
+                        <p align="justify">
+                            (III) “EL TRABAJADOR”, acuerda mantener este contrato y sus términos en confidencia y no podrá revelar información en relación con este contrato o sus términos a terceros, a menos de que 
+                            tenga autorización escrita de “EL PATRON”.
+                        </p>
+                        <p align="justify">
+                            (IV) “EL TRABAJADOR” conviene, en que si por cualquier razón deja de prestar sus servicios a “EL PATRON”, no revelará la información mencionada anteriormente.
+                        </p>
+                        <p align="justify">
+                            (V) La obligación de confidencialidad establecida en el presente contrato, no será aplicable a cualquier informe que sea del dominio público en el momento en que sea revelada por “EL PATRON” 
+                            a “EL TRABAJADOR” o que subsecuentemente se convierta en información del dominio público por causas distintas a actos u omisiones de “EL TRABAJADOR” o que la reciba de un tercero que 
+                            tenga facultad de revelarla o que deba ser revelada ya sea conforme a la ley, a regulación gubernamental o a sentencia judicial, en el entendido que  “EL TRABAJADOR” deberá notificar a 
+                            “EL PATRON” de dicha obligación de revelar, antes de realizar esfuerzos razonables para asegurar la confidencialidad respecto de dicha información y si “EL PATRON” lo requiere, “EL TRABAJADOR” 
+                            debe cooperar una vez obtenida una orden de confidencialidad.  En el caso de que se obtenga una orden de confidencialidad o que  “EL PATRON” no renuncie al cumplimiento de los términos de 
+                            este contrato, “EL TRABAJADOR” deberá entregar la porción de la información confidencial que un representante legal le requiera legalmente revelar y después de haber notificado por escrito 
+                            a “EL PATRON” de la información que se revelará, realizar todos los esfuerzos razonables para obtener cierta seguridad de que se le dará trato confidencial acorde al tipo de información.
+                        </p>
+                        <p align="justify">
+                            “EL TRABAJADOR” está de acuerdo en que en el caso de incumplir esta obligación, su conducta encuadra en el supuesto a que se refiere la fracción II del artículo 47 de la Ley Federal del 
+                            Trabajo, sin menoscabo de quedar sujeto a la responsabilidad civil por los daños y perjuicios que le causare a “EL PATRON” y a las sanciones penales correspondientes.
+                        </p>
+                        <p align="justify">
+						 <b>VIGÉSIMA SEGUNDA.</b> Las partes están conformes en que para lo no previsto en el presente contrato, se estará a las disposiciones de la Ley Federal del Trabajo y las reglamentaciones aplicables.
+                        </p>
+                        <p align="justify">
+							Enteradas las partes del Contenido del presente contrato y de las obligaciones que contraen, lo firman por duplicado y por su recibo a los <b><t t-esc="date_contract" /></b>.
+                        </p>
+                        <table class="egt mt64" align="center">
+                              <tr>
+
+                                <td  style="border:1px solid black;" width="500px" height="200px" >
+                                    
+                                    <table align="center">
+                                          <tr>
+                                            <td >
+                                                <strong><div align="center">“EL PATRÓN”</div></strong>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td height="110px">
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td >
+                                                <div  align="center">
+                                                    <strong><div><t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/> </div></strong>
+                                                    <strong><div t-esc="o.company_id.business_name.upper()" /> </strong>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                    </table>
+                                
+                                    </td>
+
+                                <td  style="border:1px solid black;" width="500px" height="200px" valign="top">
+                                   <table align="center">
+                                          <tr>
+                                            <td >
+                                                <strong><div  align="center" style="margin-top=-90px" >“EL TRABAJADOR"</div></strong>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td height="110px">
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td >
+                                                <div  align="center">
+													<strong><div><t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.name.upper()"/></div></strong>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                    </table>
+                                    </td>
+                              </tr>
+						</table>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

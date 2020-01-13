@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_hr_employee_document_type_form" model="ir.ui.view">
+            <field name="name">hr.employee.document.type.form</field>
+            <field name="model">hr.employee.document.type</field>
+            <field name="arch" type="xml">
+                <form string="Document type">
+                    <group >
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_hr_employee_document_type_tree" model="ir.ui.view">
+            <field name="name">hr.employee.document.type.tree</field>
+            <field name="model">hr.employee.document.type</field>
+            <field name="arch" type="xml">
+                <tree string="Group">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_hr_employee_document_type" model="ir.actions.act_window">
+            <field name="name">Document type</field>
+            <field name="res_model">hr.employee.document.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p>
+                Let's create a Document Type.
+              </p>
+            </field>
+        </record>
+        
+        <menuitem
+            id="menu_hr_employee_document_typeconfiguration"
+            name="Document Type"
+            action="action_hr_employee_document_type"
+            parent="hr.menu_human_resources_configuration"
+            groups="hr.group_hr_manager"
+            sequence="115"/>
+    
+    
+    <record model="ir.cron" id="record_document_expired_cron">
+        <field name="name">Document Expiration</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_ir_attachment"/>
+        <field name="state">code</field>
+        <field name="code">model.mail_reminder()</field>
+    </record>
+    
+    <record model="ir.ui.view" id="hr_employee_document_inherit_form_view">
+        <field name="name">hr.employee.form.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+                    <field string="Documents" name="document_count" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+    
+     <record id="view_company_document_form_inherit" model="ir.ui.view">
+            <field name="name">company.form.inherit.view</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//field[@name='logo']" position="before">
+					<div class="oe_button_box" name="button_box">
+						<button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+							<field string="Documents" name="document_count" widget="statinfo"/>
+						</button>
+					</div>
+				</xpath>
+            </field>
+        </record>
+    
+    <record model="ir.ui.view" id="hr_contract_document_inherit_form_view">
+        <field name="name">hr.contract.form.view</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+                    <field string="Documents" name="document_count" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="ir_attachment_inherit_form_view">
+        <field name="name">ir.attachment.form.view</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="documents.documents_view_form"/>
+        <field name="arch" type="xml">
+            <sheet  position="inside">
+                <group col="4" string="Type of document and expiration date">
+                    <field name="type_id" />
+                    <field name="issue_date" />
+                    <field name="expiry_date" />
+                    <field name="description" />
+                    <field name="expired" />
+                    <field name="employee_id" invisible="1"/>
+                </group>
+            </sheet>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="ir_attachment_inherit_tree_view">
+        <field name="name">ir.attachment.tree.view</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="documents.documents_view_list"/>
+        <field name="arch" type="xml">
+           <xpath expr="//tree[@class='o_documents_list_view']" position="attributes">
+                <attribute name="create">1</attribute>
+                <attribute name="decoration-danger">expired==True</attribute>
+            </xpath>
+           <xpath expr="//field[@name='create_date']" position="after">
+                <field name="expired" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="inherit_expired_attachment_view_kanban" model="ir.ui.view">
+        <field name="name">Attachment Kanban View</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="mail.view_document_file_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='res_name']" position="after">
+                <field name="expired"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_kanban_record_body')]" position="inside">
+                <t t-if="record.expired.raw_value">
+                    <div class="alert alert-danger">
+                      Document Expired
+                    </div>
+                </t>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="inherit_expired_documents_view_kanban" model="ir.ui.view">
+        <field name="name">Attachment Kanban View</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="documents.documents_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='res_name']" position="after">
+                <field name="expired"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_kanban_record_body')]" position="inside">
+                <t t-if="record.expired.raw_value">
+                    <div class="alert alert-danger">
+                      Document Expired
+                    </div>
+                </t>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="documents_employee_view_search_inherit" model="ir.ui.view">
+        <field name="name">attachment search view</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="expired"/>                
+                <filter string="Expired Documents" name="expired" domain="[('expired', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+        <report id="action_report_inhability_absenteeism" 
+          string="Reporte de Incapacidades y Ausentismos" 
+          model="hr.leave.inhability.absenteeism.wizard" 
+          report_type="qweb-html" 
+          name="hr_incidents.inhability_absenteeism_report_view" 
+         /> 
+        
+        <template id="inhability_absenteeism_report_view">
+             <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div style="border-bottom: 1px solid black">
+                        <h4 class="text-center">Reporte de Incapacidades y Ausentismos</h4>
+                        <h5 class="text-center">
+                            <strong>De</strong>:
+                            <t t-esc="leaves_data['date_from']" t-options='{"widget": "date"}'/>
+                            <strong>A</strong>:
+                            <t t-esc="leaves_data['date_to']" t-options='{"widget": "date"}'/>
+                        </h5>
+                    </div>
+                    <div class="page">
+                    <table class="table-sm" border="0" style="width:100%; font-size:9px; border-bottom: 1px solid black;" >
+                            <tr>
+                                <t t-if="leaves_data['employer_register_id']">
+                                    <td><strong>Registro patronal</strong>: </td>
+                                    <td class="text-left"><t t-esc="leaves_data['employer_register_id']"/></td>
+                                    
+                                </t>
+                                <t t-if="leaves_data['company']" class="text-center">
+                                    
+                                    <td><strong>Razón Social</strong>: </td>
+                                    <td class="text-left"><t t-esc="leaves_data['company']"/></td>
+                                </t>
+                                <t t-if="leaves_data['rfc']" class="text-rigth">
+                                    <td><strong>R.F.C.</strong>: </td>
+                                    <td class="text-left"><t t-esc="leaves_data['rfc']"/></td>
+                                </t>
+                            </tr>
+                            
+                        </table>
+                            
+                        <table class="table-sm" border="0" style="width:100%; font-size:8px;">
+                            <thead>
+                                <tr style="border-top: 0px;">
+                                    <th class="text-left">Matrícula del trabajador</th>
+                                    <th class="text-left">N.S.S.</th>
+                                    <th class="text-left">Nombre</th>
+                                    <th class="text-left">R.F.C.</th>
+                                    <th class="text-left">CURP</th>
+                                    <th class="text-left">Fecha de Ingreso</th>
+                                </tr>
+                                <tr class="border-black"  style="border-bottom: 1px solid black;">
+                                    <th class="text-center">Tipo de Incidencia</th>
+                                    <th class="text-center">Folio</th>
+                                    <th class="text-center">Duración</th>
+                                    <th class="text-center">Fecha Inicial</th>
+                                    <th class="text-center">Fecha Final</th>
+                                    <th class="text-center">Rama</th>
+                                    <th class="text-center">Sub Rama</th>
+                                    <th class="text-center">Tipo</th>
+                                    <th class="text-center">Sub Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="leaves_data['employee_data']" t-as="employee">
+                                    <t t-set="emp" t-value="leaves_data['employee_data'][employee]"/>
+                                    <tr>
+                                        <th class="text-left">
+                                            <t t-esc="emp['enrollment']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="emp['ssnid']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="emp['name']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="emp['rfc']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="emp['curp']"/>
+                                        </th>
+                                        <th class="text-left">
+                                            <t t-esc="emp['date_admission']" t-options='{"widget": "date"}'/>
+                                        </th>
+                                    </tr>
+                                    <t t-foreach="emp['leave']" t-as="leave">
+                                        <tr>
+                                            <td class="text-center">
+                                                <t t-esc="leave['type_inhability']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="leave['folio']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="leave['duration']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="leave['request_date_from']" t-options='{"widget": "date"}'/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="leave['request_date_to']" t-options='{"widget": "date"}'/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="leave['holiday_status_id']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="leave['type_inhability_id']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="leave['inhability_classification_id']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="leave['inhability_category_id']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="clearfix">
+                            <div id="total" class="row" name="total">
+                                <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                    <table class="table table-sm">
+                                        <tr class="border-black o_total" style="font-size:9px;">
+                                            <td><strong>Total de trabajadores</strong>: </td>
+                                            <td class="text-right">
+                                                <t t-esc="leaves_data['total_employees']"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>    
+             </t>
+        </template>
+        
+    </data>
+</odoo>

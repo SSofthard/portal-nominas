@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+        <report id="report_employee_catalogs_general" 
+          string="Catalogo de empleados" 
+          model="hr.employee" 
+          report_type="qweb-html" 
+          name="payroll_mexico.template_employee_catalogs_general" 
+         /> 
+         
+        <template id="template_employee_catalogs_general" >
+            <t t-call="web.internal_layout">
+                <t t-call="web.html_container">
+                    <div class="page" style="font-size:12px">
+                        <h4 class="text-center" style="background-color: #ABAFAF;">CATALOGOS DE EMPLEADOS</h4>
+                        <br/>
+                        <table class="table">
+                            <thead style="background-color: #ABAFAF;">
+                                <th colspan="2" class="text-center" >MATRICULA:</th>
+                                <th colspan="3" class="text-center" >NOMBRE</th>
+                                <th colspan="2" class="text-center" >N.S.S.:</th>
+                                <th colspan="2" class="text-center" >CURP:</th>
+                                <th colspan="2" class="text-center" >RFC:</th>
+                                <th colspan="2" class="text-center" >PUESTO DE TRABAJO:</th>
+                                <th colspan="1" class="text-center" >DEPARTAMENTO:</th>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="o">
+                                    <tr>
+                                        <td colspan="2" class="text-center" ><t t-esc="o.enrollment"/></td>
+                                        <td colspan="3" class="text-center" ><t t-esc="o.name"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="o.ssnid"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="o.curp"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="o.rfc"/></td>
+                                        <td colspan="2" class="text-center" ><t t-esc="o.job_id.name"/></td>
+                                        <td colspan="1" class="text-center" ><t t-esc="o.department_id.name"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

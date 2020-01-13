@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_hr_payslip_by_inhery_employees">
+      <field name="name">hr.payslip.employees inherit form</field>
+      <field name="model">hr.payslip.employees</field>
+      <field name="inherit_id" ref="hr_payroll.view_hr_payslip_by_employees"/>
+      <field name="arch" type="xml">
+            <xpath expr="//group" position="after">
+                <group>
+                    <field name="estructure_id" required="1"/>
+                    <field name="contracting_regime" required="1"/>
+                </group>
+            </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

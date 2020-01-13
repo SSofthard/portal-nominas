@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="wizard_compute_sdi_vars" model="ir.ui.view">
+        <field name="name">wizard.compute.sdi.vars</field>
+        <field name="model">wizard.compute.sdi.vars</field>
+        <field name="priority">5</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                         <field name="group_id"/>
+                         <field name="work_center_id"/>
+                    </group>
+                    <group>
+                        <field name="employer_register_id"/>
+                        <field name="contracting_regime"/>
+                    </group>
+                    <group>
+                        <field name="year"/>
+                        <field name="bimestre"/>
+                    </group>
+                </group>
+                <notebook>
+<!--                    <page string="Empleados a calcular">-->
+<!--                        <field name="employee_ids"/>-->
+<!--                    </page>-->
+                    <page string="Resultado">
+                        <field name="computed" invisible="True"/>
+                        <field name="compute_lines">
+                            <tree>
+                                <field name="employee_id"/>
+                                <field name="contract_id"/>
+                                <field name="perceptions_bimonthly"/>
+                                <field name="current_sdi"/>
+                                <field name="new_sdi"/>
+                                <field name="days_worked"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+           <footer>
+                <button string="Calcular" name="get_compute_lines" type="object" default_focus="1"/>
+                <button string="Procesar" name="proccess_data" type="object" attrs="{'invisible': [('computed','=', False)]}" default_focus="1" class="btn-primary"/>
+                <button string="Cancel" class="btn-default" special="cancel"/>
+            </footer>
+           </form>
+        </field>
+    </record>
+    
+    <act_window
+        id="action_wizard_compute_sdi_vars"
+        name="Calculo de variables"
+        res_model="wizard.compute.sdi.vars"
+        src_model="hr.contract"
+        view_mode="form"
+        multi="True"
+        target="new"
+       />
+
+    <menuitem
+          id="menu_compute_sdi_vars"
+          name="Cálculo de variables"
+          parent="hr_payroll.menu_hr_payroll_configuration"
+          action="action_wizard_compute_sdi_vars"
+          sequence="20"/>
+
+</odoo>

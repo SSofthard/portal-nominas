@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+   <record id="view_hr_leave_inhability_form" model="ir.ui.view">
+        <field name="name">hr.leave.inhability.form</field>
+        <field name="model">hr.leave.inhability</field>
+        <field name="arch" type="xml">
+        <form string="Inhability">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="code"/>
+                    </group>
+                </group>
+                 <notebook>
+                    <page name="classification" string="Classification">
+                        <field name="classification_ids"/>
+                    </page>
+                </notebook>
+            </sheet>
+         </form> 
+       </field>
+    </record>
+
+    <record id="view_hr_leave_inhability_tree" model="ir.ui.view">
+        <field name="name">view.hr.leave.inhability.tree</field>
+        <field name="model">hr.leave.inhability</field>
+        <field name="arch" type="xml">
+            <tree string="Inhability">
+               <field name="name"/>
+               <field name="code"/>
+               <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_leave_inhability_search" model="ir.ui.view">
+        <field name="name">view.hr.leave.inhability.search</field>
+        <field name="model">hr.leave.inhability</field>
+        <field name="arch" type="xml">
+            <search string="ISN">
+               <field name="name"/>
+               <field name="code"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tree_hr_leave_inhability" model="ir.actions.act_window">
+        <field name="name">Inhability</field>
+        <field name="res_model">hr.leave.inhability</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_hr_leave_inhability_tree" />
+        <field name="search_view_id" ref="view_hr_leave_inhability_search" />
+    </record>
+
+<!--
+    <menuitem
+        id="tag_leave_menu_configuration"
+        name="Inhability Types"
+        parent="hr_holidays.menu_hr_holidays_configuration"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
+        sequence="10"/>
+    <menuitem
+        id="menu_action_tree_hr_leave_inhability"
+        name="Inhability"
+        parent="tag_leave_menu_configuration"
+        action="action_tree_hr_leave_inhability"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
+        sequence="5"/>
+-->
+
+    <!-- Classification -->
+   <record id="view_hr_leave_classification_form" model="ir.ui.view">
+        <field name="name">hr.leave.classification.form</field>
+        <field name="model">hr.leave.classification</field>
+        <field name="arch" type="xml">
+        <form string="classification">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="code"/>
+                    </group>
+                </group>
+                 <notebook>
+                    <page name="category" string="Category">
+                        <field name="category_ids"/>
+                    </page>
+                </notebook>
+            </sheet>
+         </form> 
+       </field>
+    </record>
+
+    <record id="view_hr_leave_classification_tree" model="ir.ui.view">
+        <field name="name">view.hr.leave.classification.tree</field>
+        <field name="model">hr.leave.classification</field>
+        <field name="arch" type="xml">
+            <tree string="Classification">
+               <field name="name"/>
+               <field name="code"/>
+               <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_leave_classification_search" model="ir.ui.view">
+        <field name="name">view.hr.leave.classification.search</field>
+        <field name="model">hr.leave.classification</field>
+        <field name="arch" type="xml">
+            <search string="Classification">
+               <field name="name"/>
+               <field name="code"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tree_hr_leave_classification" model="ir.actions.act_window">
+        <field name="name">Classification</field>
+        <field name="res_model">hr.leave.classification</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_hr_leave_classification_tree" />
+        <field name="search_view_id" ref="view_hr_leave_classification_search" />
+    </record>
+
+<!--
+    <menuitem
+        id="menu_action_tree_hr_leave_classification"
+        name="Classification"
+        parent="tag_leave_menu_configuration"
+        action="action_tree_hr_leave_classification"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
+        sequence="5"/>
+-->
+        
+    <!-- Category -->
+   <record id="view_hr_leave_category_form" model="ir.ui.view">
+        <field name="name">hr.leave.category.form</field>
+        <field name="model">hr.leave.category</field>
+        <field name="arch" type="xml">
+        <form string="category">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="code"/>
+                    </group>
+                </group>
+                 <notebook>
+                    <page name="subcategory" string="Subcategory">
+                        <field name="subcategory_ids"/>
+                    </page>
+                </notebook>
+            </sheet>
+         </form> 
+       </field>
+    </record>
+
+    <record id="view_hr_leave_category_tree" model="ir.ui.view">
+        <field name="name">view.hr.leave.category.tree</field>
+        <field name="model">hr.leave.category</field>
+        <field name="arch" type="xml">
+            <tree string="Category">
+               <field name="name"/>
+               <field name="code"/>
+               <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_leave_category_search" model="ir.ui.view">
+        <field name="name">view.hr.leave.category.search</field>
+        <field name="model">hr.leave.category</field>
+        <field name="arch" type="xml">
+            <search string="Category">
+               <field name="name"/>
+               <field name="code"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tree_hr_leave_category" model="ir.actions.act_window">
+        <field name="name">category</field>
+        <field name="res_model">hr.leave.category</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_hr_leave_category_tree" />
+        <field name="search_view_id" ref="view_hr_leave_category_search" />
+    </record>
+
+<!--
+    <menuitem
+        id="menu_action_tree_hr_leave_category"
+        name="Category"
+        parent="tag_leave_menu_configuration"
+        action="action_tree_hr_leave_category"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
+        sequence="5"/>
+-->
+        
+    <!-- Sub Category -->
+   <record id="view_hr_leave_subcategory_form" model="ir.ui.view">
+        <field name="name">hr.leave.subcategory.form</field>
+        <field name="model">hr.leave.subcategory</field>
+        <field name="arch" type="xml">
+        <form string="Subcategory">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="code"/>
+                    </group>
+                </group>
+            </sheet>
+         </form> 
+       </field>
+    </record>
+
+    <record id="view_hr_leave_subcategory_tree" model="ir.ui.view">
+        <field name="name">view.hr.leave.subcategory.tree</field>
+        <field name="model">hr.leave.subcategory</field>
+        <field name="arch" type="xml">
+            <tree string="Subcategory">
+               <field name="name"/>
+               <field name="code"/>
+               <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_leave_subcategory_search" model="ir.ui.view">
+        <field name="name">view.hr.leave.subcategory.search</field>
+        <field name="model">hr.leave.subcategory</field>
+        <field name="arch" type="xml">
+            <search string="Subcategory">
+               <field name="name"/>
+               <field name="code"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tree_hr_leave_subcategory" model="ir.actions.act_window">
+        <field name="name">Subcategory</field>
+        <field name="res_model">hr.leave.subcategory</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_hr_leave_subcategory_tree" />
+        <field name="search_view_id" ref="view_hr_leave_subcategory_search" />
+    </record>
+
+<!--
+    <menuitem
+        id="menu_action_tree_hr_leave_subcategory"
+        name="Subcategory"
+        parent="tag_leave_menu_configuration"
+        action="action_tree_hr_leave_subcategory"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
+        sequence="5"/>
+-->
+        
+
+</odoo>

@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        
+        <record model="ir.ui.view" id="view_hr_salary_rule_inherit_form">
+            <field name="name">hr_salary_rule_inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field/tree/field[@name='code']" position="after">
+                    <field name="type"/>
+                </xpath> 
+                <xpath expr="//group[1]" position="after">
+                    <group col="4">
+                       <field name="type" widget="radio"/>
+                       <field name="type_perception" attrs="{'invisible': [('type', '!=', 'perception')],'required': [('type', '=', 'perception')]}"/>
+                       <field name="type_deduction" attrs="{'invisible': [('type', '!=', 'deductions')],'required': [('type', '=', 'deductions')]}"/>
+                       <field name="payroll_tax" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
+                    </group>
+                </xpath> 
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_hr_payslip_line_tree_inherit">
+            <field name="name">hr.payslip.line.tree.inherit</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='total']" position="attributes">
+                    <attribute name="sum">Total</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='amount']" position="attributes">
+                    <attribute name="sum">Total</attribute>
+                </xpath> 
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="hr_payslip_mexico_tree_inherit">
+			<field name="name">hr.payslip.mexico.inherit</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+			<field name="arch" type="xml">
+			   <xpath expr="//tree" position="attributes">
+				   <attribute name="colors">blue:state == 'draft';</attribute>
+				   <attribute name="create">0</attribute>
+			   </xpath>
+			</field>
+		</record>
+        
+        <record model="ir.ui.view" id="view_hr_payslip_mexico_form">
+            <field name="name">hr.payslip.inherit.mexico</field>
+            <field name="model">hr.payslip</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_payroll_tax"
+                        class="oe_stat_button"
+                        icon="fa-money"
+                        type="object"
+                        >
+                        <field name="payroll_tax_count" widget="statinfo" string="Base Imp. ISN" help="Cálculo ISN"/>
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='credit_note']" position="replace">
+                    <field name="credit_note" invisible="1"/>
+                </xpath> 
+                <xpath expr="//button[@name='compute_sheet']" position="before">
+                    <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
+                </xpath> 
+                <xpath expr="//header" position="inside">
+                    <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
+                    <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
+                    <button string="Generar CFDI" name="print_payroll_cfdi" type="object" class="oe_sale"/>
+                </xpath> 
+                <xpath expr="//button[@name='refund_sheet']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_payslip_done']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_payslip_draft']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_payslip_cancel']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+               <xpath expr="//form" position="attributes">
+					<attribute name="create">0</attribute>
+					<attribute name="edit">0</attribute>
+				</xpath>
+				<xpath expr="//field[@name='contract_id']" position="after">
+					<field name="structure_type_id" readonly="1" />
+				</xpath>
+				<xpath expr="//field[@name='struct_id']" position="attributes">
+					<attribute name="domain">[('structure_type_id','=',structure_type_id)]</attribute>
+					<attribute name="context">{'default_structure_type_id':structure_type_id}</attribute>
+					<attribute name="readonly">1</attribute>
+				</xpath>
+            
+				<xpath expr="//field[@name='employee_id']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='contract_id']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='date_from']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='date_to']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='number']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='name']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='worked_days_line_ids']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='input_line_ids']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='line_ids']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+            
+            <xpath expr="//field[@name='line_ids']/tree" position="attributes">
+                <attribute name="limit">200</attribute>
+            </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="payroll_type" readonly="1"/>
+                    <field name="payroll_month" readonly="1"/>
+                    <field name="year"/>
+                    <field name="payroll_of_month" readonly="1"/>
+                    <field name="payroll_period" readonly="1"/>
+                    <field name="group_id" readonly="1"/>
+                    <field name="employer_register_id" domain="[('state','=','valid')]" readonly="1"/>
+                    <field name="table_id" invisible="1"/>
+                </xpath> 
+                <xpath expr="//notebook/page[1]" position="after">
+                    <page string="Inpust reported on payroll">
+                        <field name="input_ids" readonly="1"/>
+                   </page>
+                </xpath> 
+                <xpath expr="//notebook/page[5]" position="replace">
+                    <page string="Miscellaneous">
+                        <group>
+                            <group string="Miscellaneous">
+                                <field name="company_id" groups="base.group_multi_company" invisible="1"/>
+                                <field name="payslip_run_id" domain="[('state','=','draft')]" invisible="1"/>
+                                <field name="subtotal_amount_untaxed"/>
+                                 <field name="amount_tax"/>
+                                 <field name="integral_salary"/>
+<!--
+                                 <field name="integral_variable_salary"/>
+-->
+                            </group>
+                            <group name="accounting" string="Accounting" invisible="1">
+                                <field name="paid" readonly="1"/>
+                            </group>
+                        </group>
+                        <div colspan="4">
+                            <field name="note" placeholder="Add an internal note..."/>
+                        </div>
+                   </page>
+                   <page string="CFDI">
+					   <group>
+							<group string="Datos CFDI">
+								<field name="way_pay" readonly="1"/>
+								<field name="type_voucher" string="Tipo de comprobante" readonly="1"/>
+								<field name="payment_method" readonly="1"/>
+								<field name="cfdi_use" readonly="1"/>
+							 </group>
+							<group string="Detalles">
+								<field name="fiscal_folio" readonly="1"/>
+								<field name="invoice_status" readonly="1"/>
+							 </group>
+					   </group>
+                   </page>
+                </xpath> 
+            </field>
+        </record>
+                
+        <record id="view_hr_inputs_form" model="ir.ui.view">
+            <field name="name">hr.inputs.form</field>
+            <field name="model">hr.inputs</field>
+            <field name="arch" type="xml">
+                <form string="Inputs">
+                      <header>
+                        <field name="state" widget="statusbar" statusbar_visible="approve,paid"/>
+                      </header>
+                      <sheet>
+                          <group>
+                              <group>
+                                  <field name="employee_id"/>
+                                  <field name="group_id"/>
+                                  <field name="type"/>
+                              </group>
+                              <group>
+                                  <field name="input_id" domain="[('type','=',context.get('type_input'))]" options='{"no_create": True}'/>
+                                  <field name="date_overtime" attrs="{'invisible': [('code', 'not in', ['P003','P005'])],'required': [('code', 'in', ['P003','P005'])]}"/>
+                                  <field name="amount"/>
+                                  <field name="code" invisible="1"/>
+                              </group>
+                          </group>
+                      </sheet>
+                </form>
+             </field>
+        </record>
+        
+        <record id="view_hr_inputs_tree" model="ir.ui.view">
+            <field name="name">hr.inputs.tree</field>
+            <field name="model">hr.inputs</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id"/>
+                    <field name="input_id"/>
+                    <field name="amount"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_inputs_filter" model="ir.ui.view">
+            <field name="name">hr.inputs.filter</field>
+            <field name="model">hr.inputs</field>
+            <field name="arch" type="xml">
+                <search >
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_type_perceptions" string="Type" context="{'group_by':'input_id'}"/>
+                        <filter name="group_by_type_perceptions" string="Group" context="{'group_by':'group_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    
+        <record id="view_hr_inputs_pivot" model="ir.ui.view">
+            <field name="name">hr.inputs.pivot</field>
+            <field name="model">hr.inputs</field>
+            <field name="arch" type="xml">
+                <pivot string="Inputs">
+                    <field name="employee_id" type="row"/>
+                    <field name="amount" type="measure"/>
+                    <field name="input_id" type="col"/>
+                </pivot>
+            </field>
+        </record>
+    
+        <record id="view_hr_inputs_perceptions_action" model="ir.actions.act_window">
+            <field name="name">Inputs Perceptions</field>
+            <field name="res_model">hr.inputs</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,pivot,form</field>
+            <field name="domain">[('type', '=', 'perception')]</field>
+            <field name="context">{'type_input': 'perception'}</field>
+        </record>
+        
+        <record id="view_hr_inputs_deductions_action" model="ir.actions.act_window">
+            <field name="name">Deductions</field>
+            <field name="res_model">hr.inputs</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,pivot,form</field>
+            <field name="domain">[('type', '=', 'deductions')]</field>
+            <field name="context">{'type_input': 'deductions'}</field>
+        </record>
+        
+        
+        <menuitem
+            name="Inputs"
+            id="menu_hr_inputs"
+            parent="hr_payroll.menu_hr_payroll_root" sequence="10"/>
+        
+        <menuitem
+            name="Perceptions"
+            id="menu_hr_perception"
+            action="view_hr_inputs_perceptions_action"
+            parent="menu_hr_inputs" sequence="10"/>
+        
+        <menuitem
+            name="Deductions"
+            id="menu_hr_deductions"
+            action="view_hr_inputs_deductions_action"
+            parent="menu_hr_inputs" sequence="20"/>
+            
+        
+            
+        <record id="hr_payslip_inherit" model="ir.ui.view">
+            <field name="name">hr.payslip.inherit.view</field>
+            <field name="model">hr.payslip</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='contract_id']" position="attributes">
+                    <attribute name="domain">[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False),('state','in',['open'])]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- View search inherit para los detalles de las nóminas -->
+        <record id="view_hr_payslip_line_filter_inherit" model="ir.ui.view">
+            <field name="name">hr.payslip.line.select</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_line_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='category_id']" position="before">
+                    <filter string="Nómina" name="gruopby_slip_id" context="{'group_by':'slip_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Tree readonly para los detalles de las nóminas -->
+        <record id="view_hr_payslip_line_readonly_tree" model="ir.ui.view">
+            <field name="name">hr.payslip.line.readonl.tree</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="arch" type="xml">
+                <tree string="Salary Structure" decoration-info="total == 0" create="false" edit="false">
+                    <field name="employee_id" />
+                    <field name="category_id"/>
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="quantity"/>
+                    <field name="rate"/>
+                    <field name="amount"/>
+                    <field name="total"/>
+                    <field name="amount_select" invisible="1"/>
+                    <field name="register_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_hr_payslip_line_readonly_form">
+            <field name="name">view.hr.payslip.line.readonly.form</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_line_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//form" position="attributes">
+                   <attribute name="create">0</attribute>
+                   <attribute name="edit">0</attribute>
+               </xpath>
+            </field>
+        </record>
+        
+        <!-- Acction para los detalles de las nóminas -->
+        <record id="action_view_hr_payslip_line_form" model="ir.actions.act_window">
+            <field name="name">Detalles de la Nómina</field>
+            <field name="res_model">hr.payslip.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="view_hr_payslip_line_readonly_tree"/>
+            <field name="search_view_id" ref="hr_payroll.view_hr_payslip_line_filter"/>
+            <field name="context">{
+                "search_default_gruopby_slip_id": 1,
+                }
+            </field>
+        </record>
+
+        <!-- Domain en Action Nóminas del empleado -->
+        <record id="hr_payroll.action_view_hr_payslip_form" model="ir.actions.act_window">
+            <field name="domain">[('settlement', '=', False)]</field>
+        </record>
+
+        <menuitem
+            name="Nóminas del empleado"
+            id="menu_view_hr_payslip_refactor"
+            action="hr_payroll.action_view_hr_payslip_form"
+            parent="hr_payroll.menu_hr_payroll_root" sequence="5"/>
+        <menuitem 
+            name="Nóminas del empleado"
+            action="hr_payroll.action_view_hr_payslip_form" 
+            id="hr_payroll.menu_department_tree" 
+            parent="menu_view_hr_payslip_refactor" 
+            sequence="10"/>
+        <menuitem 
+            name="Detalles de la Nómina"
+            action="action_view_hr_payslip_line_form" 
+            id="menu_details_payslip_lines" 
+            parent="menu_view_hr_payslip_refactor" 
+            sequence="10"/>
+        
+        <!-- Menu de reportes de Nómina -->
+        <menuitem
+            name="Informes"
+            id="menu_payroll_line_report_root"
+            parent="hr_payroll.menu_hr_payroll_root"
+            sequence="30"/>
+            
+        <menuitem 
+            name="Detalles de la nómina"
+            action="payroll_mexico.action_report_payslip_line_details" 
+            id="report_payslip_line_details" 
+            parent="menu_payroll_line_report_root" 
+            sequence="5"/>
+        
+    </data>
+</odoo>

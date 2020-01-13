@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+         <record id="view_hr_payroll_tax_details_filter" model="ir.ui.view">
+            <field name="name">view.hr.payroll.tax.details.view.filter</field>
+            <field name="model">hr.payroll.tax.details</field>
+            <field name="arch" type="xml">
+                <search string="Employee Change History">
+                    <field name="work_center_id" string="Centro de trabajo"/>
+                    <field name="payslip_run_id" string="Nomina"/>
+<!--                    <filter name="payslip_run" string="Nomina" domain="[('payslip_run_id', '=', payslip_run_id)]"/>-->
+                </search>
+            </field>
+        </record>
+
+        <record id="hr_payroll_tax_details_view_tree" model="ir.ui.view">
+            <field name="name">hr.payroll.tax.details.view.tree</field>
+            <field name="model">hr.payroll.tax.details</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="payslip_run_id" invisible="0"/>
+                    <field name="work_center_id"/>
+                    <field name="amount_untaxed"/>
+                    <field name="amount_tax"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_hr_payroll_tax_details_tree" model="ir.actions.act_window">
+            <field name="name">Detalles de Impuestos</field>
+            <field name="res_model">hr.payroll.tax.details</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="view_hr_payroll_tax_details_filter"/>
+            <field name="view_id" ref="hr_payroll_tax_details_view_tree"/>
+            <field name="context">	{'default_payslip_run_id': active_id, 'search_default_payslip_run_id': active_id}</field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_payslip_run_mexico_form">
+            <field name="name">view.hr.payslip.run.mexico.form</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//header" position="inside">
+                        <button name="print_payslip_run_details"
+                            type="object"
+                            string="Imprimir detalles de nomina"
+                        >
+                        </button>
+                </xpath>
+                <xpath expr="//field[@name='date_start']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('generated','=',True)]}</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='date_end']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('generated','=',True)]}</attribute>
+                </xpath> 
+                <xpath expr="//header" position="inside">
+<!--
+                    <button name="test_print_report" string="Test Report" type="object" class="o_sale_print"/>
+-->
+                    <button name="print_payroll_deposit_report" string="Payroll Deposit Report" type="object" states="close" class="o_sale_print"/>
+                    <button name="print_fault_report" string="Reporte de faltas" type="object" class="o_sale_print" attrs="{'invisible': [('payroll_type','!=','ordinary_payroll')]}"/>
+                    <button name="%(payroll_mexico.action_payslip_run_rule_details)d" string="Reporte detalles de calculos" type="action" class="o_sale_print"/>
+                    <button name="action_print_report" string="Reporte de Nómina Excel" type="object" class="o_sale_print"/>
+                    <!-- <button name="set_tax_iva_honorarium" string="Calcular IVA & Honorarios" type="object" class="o_sale_print"/> -->
+                    <button name="print_payroll_summary_report" string="Resumen de Nómina" type="object" class="o_sale_print"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_hr_payroll_tax_details_tree)d"
+                                string="Detalles de impuestos"
+                                icon="fa-money"
+                                type="action"
+                                class="oe_stat_button"
+                                context="{'default_payslip_run_id':id}"
+                        />
+                        <button name="action_view_payslip"
+                            class="oe_stat_button"
+                            icon="fa-money"
+                            type="object">
+                            <field name="payslip_count" widget="statinfo" string="Payslip" help="Payslip Computation Details"/>
+                        </button>
+                        <button name="action_view_payroll_tax_run"
+                            class="oe_stat_button"
+                            icon="fa-money"
+                            type="object">
+                            <field name="payroll_tax_run_count" widget="statinfo" string="Base Imp. ISN" help="Payslip Computation Tax"/>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='credit_note']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='draft_payslip_run']" position="attributes">
+                    <attribute name="states">close,cancel</attribute>
+                </xpath>
+                <xpath expr="//sheet/group" position="after">
+                    <group>
+                        <group col="4" string="Impuestos">
+                            <field name="subtotal_amount_untaxed"/>
+                                     <button name="compute_amount_untaxed" type="object" class="oe_left oe_link" states="draft">Cálcular impuesto de la nómina</button>
+                            <field name="amount_tax"/>
+                        </group>
+                        <group col="4" string="Acumulados">
+                            <field name="acumulated_subtotal_amount"/>
+                            <field name="acumulated_amount_tax"/>
+                        </group>
+                        <group>
+                            <label for="iva_tax"/>
+                            <div>
+                                <field name="iva_tax" class="oe_inline" />
+                                <span class="o_form_label oe_inline">%</span>
+                            </div>
+                            <field name="iva_amount" attrs="{'invisible': ['|', '|', ('iva_tax','=', 0), ('iva_amount','=', 0), ('state','=', 'draft')]}"/>
+                            <field name="apply_honorarium"/>
+                            <field name="apply_honorarium_on" attrs="{'invisible': [('apply_honorarium','=', False)], 'required': [('apply_honorarium','=', True)]}"/>
+                            <field name="amount_honorarium" attrs="{'invisible': ['|', '|', ('apply_honorarium','=', False),('amount_honorarium','=', 0), ('state','=', 'draft')], 'required': [('apply_honorarium','=', True)]}"/>
+                        </group>
+                    </group>
+                    <group col="4">
+                        <field name="estructure_id" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="contracting_regime" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="employer_register_id" 
+                        domain="[('state','=','valid')]"
+                        attrs="{'invisible': [('contracting_regime','!=','2')],'required': [('contracting_regime','=','2')], 'readonly': [('generated','=',True)]}"/>
+                        <field name="payroll_type" attrs="{'invisible': [('state','=','draft')]}"/>
+                        <field name="payroll_month" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="payroll_of_month" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="payroll_period" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="year" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="pay_type" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="pay_bonus" attrs="{'invisible': [('bonus_date','!=',True)]}"/>
+                        <field name="table_id" invisible="0"/>
+                        <field name="bonus_date" invisible="1"/>
+                        <field name="generated" readonly="1" invisible="1"/>
+                    </group>
+                    <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('bonus_date','=',False)]}">
+						You can select the option "Pay bonus?" to take into account for this nomination the calculation of the bonuses.
+					</div>
+                </xpath>
+                <xpath expr="//button[@name='close_payslip_run']" position="before">
+					<button name="recalculate_payroll" type="object" string="Recalculate payroll" states="draft" class="oe_highlight"/>
+					<button name="cancel_payslip_run" type="object" string="Cancel payroll" states="draft,close" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

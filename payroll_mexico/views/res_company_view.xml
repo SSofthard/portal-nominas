@@ -1,0 +1,479 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="view_company_form_inherit" model="ir.ui.view">
+            <field name="name">company.form.inherit.view</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <page position="after">
+                     <page string="Company Information" groups="base.group_erp_manager">
+                            <group>
+                                <group>
+                                    <field name="business_name"/>
+                                    <div class="o_row">
+                                        <button
+                                            type="object"
+                                            name="get_rfc_data"
+                                            class="btn-sm btn-link fa fa-cog"
+                                            aria-label="Generate RFC"
+                                            title="Generar RFC"
+                                            context="{'field_name': 'rfc'}"
+                                        />
+                                    </div>
+                                    <field name="rfc" widget="mask" data-inputmask="'mask': 'AAA999999&amp;&amp;&amp;', 'greedy' : false"/>
+                                    <field name="tax_regime"/>
+                                    <field name="origen_recurso"/>
+                                
+                                </group>
+                                <group string="Notarial Data">
+                                    <field name="legal_representative_id" context="{'default_legal_representative': True}" domain="[('legal_representative','=',True)]"/>
+                                    <field name="write_number"/>
+                                    <field name="constitution_date"/>
+                                    <field name="public_notary_holder_id" context="{'default_notary_public': True}" domain="[('notary_public','=',True)]"/>
+                                    <field name="public_notary_address_id" context="{'default_public_notary': True, 'default_is_company':True}" domain="[('public_notary','=',True)]"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="employer_register_ids" context="{'default_company_id': active_id}">
+                                    <form>
+                                        <header>
+                                            <button name="action_timed_out" states="valid" string="Timed out" class="oe_highlight" type="object"/>
+                                            <button name="action_revoked" states="valid" string="Revoke" class="oe_highlight" type="object"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="valid,timed_out,revoked"/>
+                                        </header>
+                                        <group>
+											<group>
+												<field name="employer_registry"/>
+												<field name="economic_activity"/>
+												<field name="subcide_reimbursement_agreement"/>
+											</group>
+											<group>
+												<field name="electronic_signature" widget="many2many_binary" class="oe_inline"/>
+												<field name="validity_signature"/>
+												<field name="company_id" invisible="1"/>
+											</group>
+                                        </group>
+                                        <group>
+                                            <group>
+												<field name="geographic_area"/>
+												<field name="delegacion_id"/>
+												<field name="subdelegacion_id" domain="[('delegacion_id','=',delegacion_id)]"/>
+											</group>
+											<group>
+												<label for="street" string="Address"/>
+												<div class="o_address_format">
+													<field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+													<field name="city" placeholder="City" class="o_address_city"/>
+													<field name="state_id" class="o_address_state" placeholder="State" 
+														domain="[('country_id','=',country_id)]" options='{"no_open": True}'/>
+													<field name="zip" placeholder="ZIP" class="o_address_zip"/>
+													<field name="municipality_id" class="o_address_country" placeholder="Municipality" 
+														domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+													<field name="street" placeholder="Street..." class="o_address_street"/>
+													<field name="street2" placeholder="Street 2..." class="o_address_street"/>
+												</div>
+											</group>
+                                        </group>
+                                        <group>
+											<field name="job_risk"/>
+											<field name="sector_economico_id"/>
+											<field name="risk_factor_ids">
+												<form>
+													<group col="4">
+														<field name="risk_factor" />
+														<field name="date_from" />
+														<field name="date_to" />
+													</group>
+												</form>
+												<tree editable="botton">
+													<field name="risk_factor" />
+													<field name="date_from" />
+													<field name="date_to" />
+												</tree>
+											</field>
+                                        </group>
+                                    </form>
+                                    <tree>
+                                        <field name="employer_registry"/>
+                                        <field name="validity_signature"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                                <field name="partner_ids">
+                                    <tree editable="botton">
+                                        <field name="partner_id" context="{'default_partner_company': True}" domain="[('partner_company','=',True)]"/>
+                                    </tree>
+                                </field>
+                                <field name="branch_offices_ids">
+                                    <tree editable="botton">
+                                        <field name="partner_id" context="{'default_branch_offices': True,'default_is_company':True}" domain="[('branch_offices','=',True)]"/>
+                                    </tree>
+                                </field>
+                                <field name="bank_account_ids">
+                                    <form>
+                                        <header>
+                                            <button name="action_active" states="inactive" string="Active" class="oe_highlight" type="object"/>
+                                            <button name="action_inactive" states="active" string="Inactive" class="oe_highlight" type="object"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="active,inactive"/>
+                                        </header>
+                                        <group col="4">
+                                            <field name="bank_id"/>
+                                            <field name="account_holder"/>
+                                            <field name="bank_account"/>
+                                            <field name="account_type"/>
+                                            <field name="reference"/>
+                                            <field name="predetermined"/>
+                                        </group>
+                                    </form>
+                                    <tree>
+                                        <field name="bank_id"/>
+                                        <field name="account_holder"/>
+                                        <field name="bank_account"/>
+                                        <field name="account_type"/>
+                                        <field name="reference"/>
+                                        <field name="predetermined"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                                <field name="power_attorney_ids" context="{'default_company_id': active_id}">
+                                    <form>
+                                        <header>
+                                            <button name="action_timed_out" states="valid" string="Timed out" class="oe_highlight" type="object"/>
+                                            <button name="action_revoked" states="valid" string="Revoke" class="oe_highlight" type="object"/>
+                                            <widget name="attach_document"  string="Attach Document" action="message_post" highlight="1" context="{'default_company_document_id': company_id.id}" attrs="{'invisible': [('id','=',False)]}"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="valid,timed_out,revoked"/>
+                                        </header>
+                                        <div class="oe_button_box" name="button_box">
+                                            <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+                                                <field string="Documents" name="document_count" widget="statinfo"/>
+                                            </button>
+                                        </div>
+                                        <group col="4">
+                                            <field name="representative_id" context="{'default_legal_representative': True}" domain="[('legal_representative','=',True)]"/>
+                                            <field name="book"/>
+                                            <field name="public_deed_number"/>
+                                            <field name="public_notary" context="{'default_public_notary': True}" domain="[('public_notary','=',True)]"/>
+                                            <field name="predetermined"/>
+                                        </group>
+                                        <field name="company_id" invisible="1"/>
+                                    </form>
+                                    <tree>
+                                        <field name="representative_id"/>
+                                        <field name="book"/>
+                                        <field name="public_deed_number"/>
+                                        <field name="public_notary"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                                <field name="fiel_csd_ids">
+                                    <form>
+                                        <header>
+                                            <button name="action_timed_out" states="valid" string="Timed out" class="oe_highlight" type="object"/>
+                                            <button name="action_revoked" states="valid" string="Revoke" class="oe_highlight" type="object"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="valid,timed_out,revoked"/>
+                                        </header>
+                                        <group col="4">
+                                            <field name="type"/>
+                                            <field name="track" password="True"/>
+                                            <field name="effective_date"/>
+                                            <field name="predetermined"/>
+                                            <field name="cer" widget="many2many_binary" class="oe_inline"/>
+                                            <field name="key" widget="many2many_binary" class="oe_inline"/>
+                                        </group>
+                                    </form>
+                                    <tree>
+                                        <field name="type"/>
+                                        <field name="track" password="True"/>
+                                        <field name="effective_date"/>
+                                        <field name="predetermined"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                </page>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code" placeholder="Code"/>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="attributes">
+                    <attribute name="widget">mask</attribute>
+                    <attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="vat" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='company_registry']" position="replace">
+                    <field name="company_registry" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='nomenclature_id']" position="replace">
+                    <field name="nomenclature_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="replace">
+                    <field name="parent_id"  groups="base.group_multi_company" invisible="1"/>
+                </xpath>
+                <xpath expr="//div[@class='o_address_format']" position="replace">
+                    <div class="o_address_format">
+                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True}'/>
+                        <field name="city" placeholder="City" class="o_address_city"/>
+                        <field name="state_id" domain="[('country_id','=',country_id)]" class="o_address_state" 
+                            placeholder="State" options='{"no_open": True}'/>
+                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                        <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
+                            domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
+                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_partner_filter_form_inherit" model="ir.ui.view">
+            <field name="name">partner.form.inherit.view</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="legal_representative" invisible="1"/>
+                    <field name="public_notary" invisible="1"/>
+                    <field name="notary_public" invisible="1"/>
+                    <field name="partner_company" invisible="1"/>
+                    <field name="branch_offices" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='function']" position="before">
+                    <field name="notary_public_number" attrs="{'invisible': [('public_notary','=', False)],'required': [('public_notary','=', True)],}"/>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|','|',('public_notary','=', True),('notary_public','=', True),('branch_offices','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="attributes">
+                    <attribute name="widget">mask</attribute>
+                    <attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='mobile']" position="attributes">
+                    <attribute name="widget">mask</attribute>
+                    <attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+                <xpath expr="//div[@class='o_address_format']" position="replace">
+                    <div class="o_address_format">
+                        <div attrs="{'invisible': ['|', ('parent_id', '=', False), ('type', '!=', 'contact')]}" class="oe_edit_only"><b>Company Address:</b></div>
+                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="city" placeholder="City" class="o_address_city"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'
+                            domain="[('country_id','=',country_id)]" context="{'country_id': country_id, 'zip': zip}"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="zip" placeholder="ZIP" class="o_address_zip"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="municipality_id" placeholder="Municipality" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('state_id','=',state_id)]"/>
+                        <field name="suburb_id" placeholder="Colonia" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('municipality_id','=',municipality_id)]"/>
+                        <field name="street" placeholder="Street..." class="o_address_street"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="street2" placeholder="Street 2..." class="o_address_street"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                    </div>
+                </xpath>
+                <xpath expr="//div[@name='div_address']" position="replace">
+                    <div class="o_address_format" name="div_address">
+                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                        <field name="city" placeholder="City" class="o_address_city"/>
+                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}' 
+                            domain="[('country_id','=',country_id)]" context="{'country_id': country_id, 'zip': zip}"/>
+                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                        <field name="municipality_id" placeholder="Municipality" class="o_address_country"
+                            domain="[('state_id','=',state_id)]" options='{"no_open": True, "no_create": True}'/>
+                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
+                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="res_partner_view_form_private_inherit" model="ir.ui.view">
+            <field name="name">res.partner.view.form.private</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.res_partner_view_form_private"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='phone']" position="attributes">
+                    <attribute name="widget">mask</attribute>
+                    <attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='mobile']" position="attributes">
+                    <attribute name="widget">mask</attribute>
+                    <attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+                <xpath expr="//div[@class='o_address_format']" position="replace">
+                    <div class="o_address_format" name="div_address">
+                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                        <field name="city" placeholder="City" class="o_address_city"/>
+                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}' 
+                            domain="[('country_id','=',country_id)]" context="{'country_id': country_id, 'zip': zip}"/>
+                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                        <field name="municipality_id" placeholder="Municipality" class="o_address_country"
+                            domain="[('state_id','=',state_id)]" options='{"no_open": True, "no_create": True}'/>
+                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
+                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="res_company_form_view_inherit_account_intrastat_iherit" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.account.intrastat</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="account.res_company_form_view_inherit_account_intrastat"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='incoterm_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_partner_address_form_municipality_inherit" model="ir.ui.view">
+            <field name="name">view.partner.address.form.municipality.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_address_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='o_address_format']" position="replace">
+                    <div class="o_address_format">
+                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True}'/>
+                        <field name="city" placeholder="City" class="o_address_city"/>
+                        <field name="state_id" domain="[('country_id','=',country_id)]" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
+                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                        <field name="municipality_id" class="o_address_street" placeholder="Municipality" domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
+                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_partner_short_form_address_inherit" model="ir.ui.view">
+            <field name="name">view.partner.short.form.municipality.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_short_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='o_address_format']" position="replace">
+                    <div class="o_address_format">
+                        <div attrs="{'invisible': ['|', ('parent_id', '=', False), ('type', '!=', 'contact')]}" class="oe_edit_only"><b>Company Address:</b></div>
+                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="city" placeholder="City" class="o_address_city"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="state_id" class="o_address_state" placeholder="State" domain="[('country_id','=',country_id)]" options='{"no_open": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" context="{'country_id': country_id, 'zip': zip}"/>
+                        <field name="zip" placeholder="ZIP" class="o_address_zip"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="street" placeholder="Street..." class="o_address_street"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="street2" placeholder="Street 2..." class="o_address_street"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="municipality_id" placeholder="Municipality" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('state_id','=',state_id)]" />
+                        <field name="suburb_id" placeholder="Colonia" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('municipality_id','=',municipality_id)]" />
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_res_employer_register_form" model="ir.ui.view">
+            <field name="name">res.employer.register.form</field>
+            <field name="model">res.employer.register</field>
+            <field name="arch" type="xml">
+                <form string="Registro Empleados">
+                    <header>
+                        <button name="action_timed_out" states="valid" string="Timed out" class="oe_highlight" type="object"/>
+                        <button name="action_revoked" states="valid" string="Revoke" class="oe_highlight" type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="valid,timed_out,revoked"/>
+                    </header>
+                    <sheet>
+                            <group>
+                                <group>
+                                    <field name="employer_registry"/>
+                                    <field name="economic_activity"/>
+                                    <field name="subcide_reimbursement_agreement"/>
+                                </group>
+                                <group>
+                                    <field name="electronic_signature" widget="many2many_binary" class="oe_inline"/>
+                                    <field name="validity_signature"/>
+                                    <field name="company_id" invisible="1"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="geographic_area"/>
+                                    <field name="delegacion_id"/>
+                                    <field name="subdelegacion_id" domain="[('delegacion_id','=',delegacion_id)]"/>
+                                </group>
+                                <group>
+                                    <label for="street" string="Address"/>
+                                    <div class="o_address_format">
+                                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                        <field name="city" placeholder="City" class="o_address_city"/>
+                                        <field name="state_id" class="o_address_state" placeholder="State" 
+                                            domain="[('country_id','=',country_id)]" options='{"no_open": True}'/>
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                        <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
+                                            domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    </div>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="job_risk"/>
+                                <field name="sector_economico_id"/>
+                                <field name="risk_factor_ids">
+                                    <form>
+                                        <group col="4">
+                                            <field name="risk_factor" />
+                                            <field name="date_from" />
+                                            <field name="date_to" />
+                                        </group>
+                                    </form>
+                                    <tree editable="botton">
+                                        <field name="risk_factor" />
+                                        <field name="date_from" />
+                                        <field name="date_to" />
+                                    </tree>
+                                </field>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_res_employer_register_tree" model="ir.ui.view">
+            <field name="name">res.employer.register.tree</field>
+            <field name="model">res.employer.register</field>
+            <field name="arch" type="xml">
+                <tree string="Work Centers">
+                    <field name="employer_registry"/>
+                    <field name="economic_activity"/>
+                    <field name="validity_signature"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+    </data>
+</odoo>
