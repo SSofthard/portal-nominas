@@ -4,7 +4,7 @@ import datetime
 from datetime import date
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.addons import decimal_precision as dp
 from odoo.addons.payroll_mexico.pyfiscal.generate_company import GenerateRfcCompany
 
@@ -58,10 +58,27 @@ class Company(models.Model):
                    ('615', _('Régimen de los ingresos por obtención de premios')),],
         string=_('Tax regime'), 
     )
+    origen_recurso = fields.Selection(
+        selection=[('IP', _('Ingresos Propios')),
+                   ('IF', _('Ingresos Federales')),
+                   ('IM', _('Ingresos Mixtos')),
+                   ],
+        string=_('Origen de recursos'), 
+    )
  
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),
     ]
+    
+    @api.constrains('bank_account_ids')
+    def validate_predetermined(self):
+        predetermined=[]
+        for record in self.bank_account_ids:
+            if record.predetermined==True:
+                predetermined.append(record.predetermined)
+                if len(predetermined)>1:
+                    raise ValidationError(_('Advertencia!!! \
+                            Solo debe existir una cuenta predeterminada'))
 
     def get_rfc_data(self):
         kwargs = {
@@ -113,6 +130,7 @@ class employerRegister(models.Model):
         ('3', 'Clase III'),
         ('4', 'Clase IV'),
         ('5', 'Clase V'),
+        ('99', 'No aplica'),
         ], string='Job risk', required=True)
     subcide_reimbursement_agreement = fields.Boolean("Subcide reimbursement agreement")
     country_id = fields.Many2one('res.country', default=_default_country, string="Country")
@@ -245,9 +263,10 @@ class bankDetailsCompany(models.Model):
         ('tarjeta', 'Tarjeta'),
     ],'Account Type ')
     
-    _sql_constraints = [
-        ('predetermined_uniq', 'unique (company_id,predetermined)', "There is already a default account number for this company.!"),
-    ]
+    # ~ _sql_constraints = [
+        # ~ ('predetermined_uniq', 'unique (company_id,predetermined)', "There is already a default account number for this company.!"),
+    # ~ ]
+    
 
     @api.multi
     def action_active(self):

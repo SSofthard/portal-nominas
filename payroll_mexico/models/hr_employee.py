@@ -213,6 +213,16 @@ class Employee(models.Model):
         ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
 
+    @api.constrains('bank_account_ids')
+    def validate_predetermined(self):
+        predetermined=[]
+        for record in self.bank_account_ids:
+            if record.predetermined==True:
+                predetermined.append(record.predetermined)
+                if len(predetermined)>1:
+                    raise ValidationError(_('Advertencia!!! \
+                            Solo debe existir una cuenta predeterminada'))
+    
     def get_bank(self):
         bank_ids = []
         for employee in self:
@@ -501,9 +511,9 @@ class bankDetailsEmployee(models.Model):
         ('inactive', 'Inactive'),
     ],default="active")
     
-    _sql_constraints = [
-        ('predetermined_uniq', 'unique (employee_id,predetermined)', "There is already a default account number for this employee.!"),
-    ]
+    # ~ _sql_constraints = [
+        # ~ ('predetermined_uniq', 'unique (employee_id,predetermined)', "There is already a default account number for this employee.!"),
+    # ~ ]
 
     @api.multi
     def action_active(self):
@@ -796,6 +806,7 @@ class HrWorkCenters(models.Model):
 
     name = fields.Char("Name", copy=False, required=True)
     code = fields.Char("code", copy=False, required=True)
+    colonia = fields.Char("Colonia", copy=False, required=False)
     group_id = fields.Many2one('hr.group', string="Group")
     country_id = fields.Many2one('res.country', default=_default_country, string="Country")
     city = fields.Char(string="City")

@@ -57,6 +57,7 @@
         <field name="search_view_id" ref="view_hr_leave_inhability_search" />
     </record>
 
+<!--
     <menuitem
         id="tag_leave_menu_configuration"
         name="Inhability Types"
@@ -70,6 +71,7 @@
         action="action_tree_hr_leave_inhability"
         groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
         sequence="5"/>
+-->
 
     <!-- Classification -->
    <record id="view_hr_leave_classification_form" model="ir.ui.view">
@@ -128,6 +130,7 @@
         <field name="search_view_id" ref="view_hr_leave_classification_search" />
     </record>
 
+<!--
     <menuitem
         id="menu_action_tree_hr_leave_classification"
         name="Classification"
@@ -135,6 +138,7 @@
         action="action_tree_hr_leave_classification"
         groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
         sequence="5"/>
+-->
         
     <!-- Category -->
    <record id="view_hr_leave_category_form" model="ir.ui.view">
@@ -193,6 +197,7 @@
         <field name="search_view_id" ref="view_hr_leave_category_search" />
     </record>
 
+<!--
     <menuitem
         id="menu_action_tree_hr_leave_category"
         name="Category"
@@ -200,6 +205,7 @@
         action="action_tree_hr_leave_category"
         groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
         sequence="5"/>
+-->
         
     <!-- Sub Category -->
    <record id="view_hr_leave_subcategory_form" model="ir.ui.view">
@@ -253,6 +259,7 @@
         <field name="search_view_id" ref="view_hr_leave_subcategory_search" />
     </record>
 
+<!--
     <menuitem
         id="menu_action_tree_hr_leave_subcategory"
         name="Subcategory"
@@ -260,6 +267,7 @@
         action="action_tree_hr_leave_subcategory"
         groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
         sequence="5"/>
+-->
         
 
 </odoo>
