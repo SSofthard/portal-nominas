@@ -56,7 +56,12 @@ $(document).ready(function () {
     $('.menu-item').click(
         function(event){
             event.preventDefault();
-            var url = "http://demo12.solucionesofthard.com/web#menu_id=" + $(this).attr('menu') + "&action_id=" + $(this).attr('action');
+            accesdeny=$(this).children('a').attr('class')
+            console.log(accesdeny)
+            if (accesdeny=="accesdeny"){
+                return
+                }
+            var url = window.location.origin +"/web/action/"+$(this).attr('model')+"/"+$(this).attr('action')+"/"+$(this).attr('menu');
             $("#menu").removeClass('zoomInLeft');
             $(".lineas").removeClass('delay-1s');
             $(".lineas").addClass('fadeOut');
@@ -66,7 +71,7 @@ $(document).ready(function () {
                     $("#logo").removeClass('active flip');
                     $("#logo").addClass('zoomOut');
                     $("#navigation").addClass('d-none');
-                    //window.location = url;
+                    window.location.href = url;
                 }, 500);
             }, 500);
             

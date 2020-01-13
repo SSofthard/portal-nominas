@@ -13,14 +13,15 @@
         'web',
         'website',
         'website_theme_install',
+        'web_enterprise',
+        'odoo_web_login',
     ],
     'data': [
+        'views/menu.xml',
         'data/theme_data.xml',
         'views/assets.xml',
         'views/webclient_templates.xml',
         'views/website_templates.xml',
-        
-        
     ],
     'qweb': [
         # ~ 'views/menu.xml',

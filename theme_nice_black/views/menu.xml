@@ -1,35 +1,242 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" xml:space="preserve">
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    
+<template id="custom_menu_hr" name="Menu Hr">
+    <t t-call="web.layout">
+        
+        <t t-set="html_data" t-value="{'style': 'height: 100%;'}"/>
+        
+        <t t-set="setting" t-value="dataMenu['setting']"/>      
+        <t t-set="app" t-value="dataMenu['app']"/>              
+        <t t-set="att" t-value="dataMenu['attendance']"/>       
+        <t t-set="leave" t-value="dataMenu['leave']"/>          
+        <t t-set="calendar" t-value="dataMenu['calendar']"/>    
+        <t t-set="mail" t-value="dataMenu['mail']"/>            
+        <t t-set="documents" t-value="dataMenu['documents']"/> 
+        <t t-set="expense" t-value="dataMenu['expense']"/>     
+        <t t-set="hr" t-value="dataMenu['hr']"/>                
+        <t t-set="payroll" t-value="dataMenu['payroll']"/>      
+         
+        <t t-set="body_classname" t-value="'bg-100'"/>
+    
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <title>Rosales &amp; Asociados</title>
+        <link rel="stylesheet" href="/theme_nice_black/static/src/css/globalstyles.css"/>
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+        <script src="/theme_nice_black/static/src/js/animations.js"></script>
+    </head>
 
-<!-- separate first level dropdown from the others to avoid nested dropdown -->
-<t t-extend="webclient_login">
-    <t t-jquery=".o_home_menu_background">$(this).addClass("dropdown-menu-right");</t>
-</t>
-
-<t t-extend="HomeMenu">
-    <t t-jquery=".o_home_menu" t-operation="replace">
-        <div class="text-center">
-            <p>Jeison</p>
+    <body >
+      <main class="container">
+        <div id="logo" class="animated delay-1s flipInY">
+          <img src="/theme_nice_black/static/src/img/logo.png" id="logoimg" class="img-fluid"/>
+          <h4 id="subtitulo" class="animated delay-3s flipInX">SISTEMA DE NOMINA</h4>
+          <p class="text-center" id="o_logout"><a class="btn btn-outline-light entrar gotolink" t-attf-href="/web/session/logout?redirect=/" role="menuitem">SALIR</a></p>
         </div>
-<!--
-        <t t-call="website.layout">
-            <div id="wrap">
-                <script>
-                    $(document).ready(function() {
-                        $('.o_home_menu_background').hide()
-                    });
-                </script>
+        <div class="row d-none animated fadeIn" id="navigation">
+          <div class="col col-md-8 offset-md-4">
+            <div id="menu"  class="menu animated">
+              <div 
+                    class="menu-item" 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    title="AJUSTES"
+                    t-att-model="setting['model']" 
+                    t-att-action="setting['action']" 
+                    t-att-menu="setting['menu']"
+                    t-att-acces="setting['acces']">
+                    <a t-attf-class="#{setting['acces'] or ''}" href="#"><i class="icon">&#xe800;</i></a>
+                    <span t-attf-class="#{setting['acces'] or ''}" >Ajustes</span>
+              </div>
+              <div 
+                    class="menu-item" 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    title="APLICACIONES"
+                    t-att-model="app['model']"
+                    t-att-action="app['action']" 
+                    t-att-menu="app['menu']"
+                    t-att-acces="app['acces']">
+                <a t-attf-class="#{app['acces'] or ''}" href="#"><i class="icon">&#xe801;</i></a>
+                <span t-attf-class="#{app['acces'] or ''}" >Aplicaciones</span>
+              </div>
+              <div
+                    class="menu-item" 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    title="ASISTENCIAS"
+                    t-att-model="att['model']"
+                    t-att-action="att['action']" 
+                    t-att-menu="att['menu']"
+                    t-att-acces="att['acces']">
+                    <a t-attf-class="#{att['acces'] or ''}" href="#"><i class="icon">&#xe802;</i></a>
+                    <span t-attf-class="#{att['acces'] or ''}" >Asistencia</span>
+              </div>
+              <div
+                    class="menu-item" 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    title="AUSENCIAS"
+                    t-att-model="leave['model']"
+                    t-att-action="leave['action']" 
+                    t-att-menu="leave['menu']"
+                    t-att-acces="leave['acces']">
+                    <a t-attf-class="#{leave['acces'] or ''}" href="#"><i class="icon">&#xe803;</i></a>
+                    <span t-attf-class="#{leave['acces'] or ''}" >Ausencias</span>
+              </div>
+              <div 
+                    class="menu-item" 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    title="CALENDARIO"
+                    t-att-model="calendar['model']"
+                    t-att-action="calendar['action']" 
+                    t-att-menu="calendar['menu']"
+                    t-att-acces="calendar['acces']">
+                    <a t-attf-class="#{calendar['acces'] or ''}" href="#"><i class="icon">&#xe804;</i></a>
+                    <span t-attf-class="#{calendar['acces'] or ''}" >Calendario</span>
+              </div>
+              <div
+                    class="menu-item" 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    title="MENSAJERÍA"
+                    t-att-model="mail['model']"
+                    t-att-action="mail['action']" 
+                    t-att-menu="mail['menu']"
+                    t-att-acces="mail['acces']">
+                    <a t-attf-class="#{mail['acces'] or ''}" href="#"><i class="icon">&#xe805;</i></a>
+                    <span t-attf-class="#{mail['acces'] or ''}" >Mensajería</span>
+              </div>
+              <div
+                    class="menu-item" 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    title="DOCUMENTOS"
+                    t-att-model="documents['model']"
+                    t-att-action="documents['action']" 
+                    t-att-menu="documents['menu']"
+                    t-att-acces="documents['acces']">
+                    <a t-attf-class="#{documents['acces'] or ''}" href="#"><i class="icon">&#xe806;</i></a>
+                    <span t-attf-class="#{documents['acces'] or ''}" >Documentos</span>
+              </div>
+              <div 
+                class="menu-item" 
+                data-toggle="tooltip" 
+                data-placement="top" 
+                title="GASTOS"
+                t-att-model="expense['model']"
+                t-att-action="expense['action']" 
+                t-att-menu="expense['menu']"
+                t-att-acces="expense['acces']">
+                <a t-attf-class="#{expense['acces'] or ''}" href="#"><i class="icon">&#xe807;</i></a>
+                <span t-attf-class="#{expense['acces'] or ''}" >Gastos</span>
+              </div>
+              <div
+                class="menu-item" 
+                data-toggle="tooltip" 
+                data-placement="top" 
+                title="EMPLEADOS"
+                t-att-model="hr['model']" 
+                t-att-action="hr['action']" 
+                t-att-menu="hr['menu']"
+                t-att-acces="hr['acces']">
+                <a t-attf-class="#{hr['acces'] or ''}" href="#"><i class="icon">&#xe80a;</i></a>
+                <span t-attf-class="#{hr['acces'] or ''}" >Empleados</span>
+              </div>
+              <div
+                class="menu-item" 
+                data-toggle="tooltip" 
+                data-placement="top" 
+                title="NÓMINAS"
+                t-att-model="payroll['model']" 
+                t-att-action="payroll['action']" 
+                t-att-menu="payroll['menu']"
+                t-att-acces="payroll['acces']">
+                <a t-attf-class="#{payroll['acces'] or ''}" href="#"><i class="icon">&#xe809;</i></a>
+                <span t-attf-class="#{payroll['acces'] or ''}" >Nómina</span>
+              </div>
             </div>
-        </t>
--->
+            
+            <svg class="lineas animated fadeIn delay-1s l1" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="1.5" y1="67.4" x2="183.1" y2="1.5"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s l2" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="183.1" y1="67.4" x2="1.5" y2="1.5"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s l3" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="183.1" y1="67.4" x2="1.5" y2="1.5"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s l4" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="1.5" y1="67.4" x2="183.1" y2="1.5"/>
+            </svg>
+            
+            <svg class="lineas animated fadeIn delay-1s l5" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="1.5" y1="67.4" x2="183.1" y2="1.5"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s l6" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="183.1" y1="67.4" x2="1.5" y2="1.5"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s l7" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="183.1" y1="67.4" x2="1.5" y2="1.5"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s l8" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="1.5" y1="67.4" x2="183.1" y2="1.5"/>
+            </svg>
+            
+            <svg class="lineas animated fadeIn delay-1s l9" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="1.5" y1="67.4" x2="183.1" y2="1.5"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s l10" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="183.1" y1="67.4" x2="1.5" y2="1.5"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s l11" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="183.1" y1="67.4" x2="1.5" y2="1.5"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s l12" x="0px" y="0px" viewBox="0 0 185 70" preserveAspectRatio="none">
+              <line class="lineaunion" x1="1.5" y1="67.4" x2="183.1" y2="1.5"/>
+            </svg>
+
+            <svg class="lineas animated fadeIn delay-1s la" x="0px" y="0px" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line class="lineaunion" x1="0" y1="0" x2="0" y2="100"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s lb" x="0px" y="0px" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line class="lineaunion" x1="0" y1="0" x2="0" y2="100"/>
+            </svg>
+
+            <svg class="lineas animated fadeIn delay-1s lc" x="0px" y="0px" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line class="lineaunion" x1="0" y1="0" x2="0" y2="100"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s ld" x="0px" y="0px" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line class="lineaunion" x1="0" y1="0" x2="0" y2="100"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s le" x="0px" y="0px" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line class="lineaunion" x1="0" y1="0" x2="0" y2="100"/>
+            </svg>
+
+            <svg class="lineas animated fadeIn delay-1s lf" x="0px" y="0px" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line class="lineaunion" x1="0" y1="0" x2="0" y2="100"/>
+            </svg>
+            <svg class="lineas animated fadeIn delay-1s lg" x="0px" y="0px" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line class="lineaunion" x1="0" y1="0" x2="0" y2="100"/>
+            </svg>
+
+          </div>
+        </div>
+      </main>
+    </body>
     </t>
-</t>
+</template>
+</odoo>
 
-
-<!--
-<t t-extend="FormSelection">
-    <t t-jquery=".dropdown-menu.state">$(this).hide("dropdown-menu-right");</t>
-</t>
--->
-
-</templates>

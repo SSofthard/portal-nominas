@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-  <data>
-      <template id="assets_backend" inherit_id="web.assets_backend">
-        <xpath expr="." position="inside">
-            <script src="/theme_nice_black/static/src/css/style.scss"></script>
-            <script src="/theme_nice_black/static/src/js/menu.js"></script>
-            
-            <script src="/theme_nice_black/static/src/js/animations.js"></script>
-        </xpath>
-        
-        <xpath expr="//link[@href='/web/static/src/scss/home_menu.scss']" position="replace">
-            <link type="text/scss" href="/theme_nice_black/static/src/css/globalstyles.css" rel="stylesheet"/>
-        </xpath>
-        <xpath expr="//link[@href='/web_enterprise/static/src/scss/home_menu_layout.scss']" position="replace">
-        </xpath>
-        
-    </template>
-
+    
     <template id="asset_frontend" inherit_id="website.assets_frontend" name="Theme Hub Fronteeeeeend">
       <xpath expr="." position="inside">
         <!-- Personal CSS-->
@@ -64,5 +48,4 @@
         </xpath>
     </template>
     
-  </data>
 </odoo>
