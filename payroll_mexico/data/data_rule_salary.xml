@@ -249,7 +249,7 @@ result=amount</field>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
             <field name="condition_select">python</field>
-            <field name="condition_python">result=payslip.payslip_run_id.pay_bonus  or payslip.payroll_type == 'extraordinary_payroll'</field>
+            <field name="condition_python">result=payslip.payslip_run_id.pay_bonus  or payslip.payroll_type == 'E'</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
 days = contract.time_worked_year(payslip.date_from)
@@ -269,7 +269,7 @@ result=((UI002*employee.group_id.bonus_days)/365)*days</field>
             <field name="active">True</field>
             <field name="appears_on_payslip">True</field>
             <field name="condition_select">python</field>
-            <field name="condition_python">result=payslip.payroll_type == 'extraordinary_payroll'</field>
+            <field name="condition_python">result=payslip.payroll_type == 'E'</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
 days = contract.time_worked_year(payslip.date_from,True)+1
@@ -287,7 +287,7 @@ result=((UI002*employee.group_id.bonus_days)/365)*days</field>
             <field name="active">True</field>
             <field name="appears_on_payslip">False</field>
             <field name="condition_select">python</field>
-            <field name="condition_python">result=payslip.payslip_run_id.pay_bonus or payslip.payroll_type == 'extraordinary_payroll'</field>
+            <field name="condition_python">result=payslip.payslip_run_id.pay_bonus or payslip.payroll_type == 'E'</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
 grabable = 0
@@ -307,7 +307,7 @@ result = grabable</field>
             <field name="active">True</field>
             <field name="appears_on_payslip">False</field>
             <field name="condition_select">python</field>
-            <field name="condition_python">result=payslip.payroll_type == 'extraordinary_payroll'</field>
+            <field name="condition_python">result=payslip.payroll_type == 'E'</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
 grabable = 0

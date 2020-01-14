@@ -16,10 +16,10 @@ class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
     
     payroll_type = fields.Selection([
-            ('ordinary_payroll', 'Ordinary Payroll'),
-            ('extraordinary_payroll', 'Extraordinary Payroll')], 
+            ('O', 'Ordinary Payroll'),
+            ('E', 'Extraordinary Payroll')], 
             string='Payroll Type', 
-            default="ordinary_payroll", 
+            default="O", 
             # required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
@@ -51,13 +51,13 @@ class HrPayslip(models.Model):
             readonly=True,
             states={'draft': [('readonly', False)]})
     payroll_period = fields.Selection([
-            ('daily', 'Daily'),
-            ('weekly', 'Weekly'),
-            ('decennial', 'Decennial'),
-            ('biweekly', 'Biweekly'),
-            ('monthly', 'Monthly')], 
+            ('01', 'Daily'),
+            ('02', 'Weekly'),
+            ('10', 'Decennial'),
+            ('04', 'Biweekly'),
+            ('05', 'Monthly')], 
             string='Payroll period', 
-            default="biweekly",
+            default="04",
             required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
@@ -123,6 +123,8 @@ class HrPayslip(models.Model):
                                     string="Structure Types")
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
     invoice_date = fields.Datetime(string = "Invoice date", readonly=True)
+    code_payslip = fields.Char(string='Serie', store=True, readonly=False)
+    number = fields.Char(string='Folio')
     
     
     def to_json(self):
@@ -148,8 +150,8 @@ class HrPayslip(models.Model):
         
         data = {
             'certificate': '',
-            'serie': 'VAU',
-            'number': 'ABC456',
+            'serie': self.code_payslip,
+            'number': self.number,
             'date_invoice_tz': '2016-06-01T06:07:08',
             'payment_policy': self.way_pay,
             'certificate_number': '????????',
@@ -541,8 +543,10 @@ class HrPayslip(models.Model):
             if not payslip.settlement:
                 sequence = payslip.group_id.sequence_payslip_id
                 number = payslip.number or sequence.next_by_id()
+                code_payslip = payslip.employee_id.group_id.code_payslip
             else:
                 number = payslip.number or self.env['ir.sequence'].next_by_code('salary.settlement')
+                code_payslip = ''
             payslip.search_inputs()
             # delete old payslip lines
             payslip.line_ids.unlink()
@@ -551,7 +555,7 @@ class HrPayslip(models.Model):
             contract_ids = payslip.contract_id.ids or \
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
-            payslip.write({'line_ids': lines, 'number': number})
+            payslip.write({'line_ids': lines, 'number': number, 'code_payslip':code_payslip})
             if payslip.settlement:
                 val = {
                     'contract_id':payslip.contract_id.id,
@@ -752,11 +756,11 @@ class HrPayslip(models.Model):
             from_full = date_start
             to_full = date_end + timedelta(days=1)
             payroll_periods_days = {
-                'monthly': 30,
-                'biweekly': 15,
-                'weekly': 7,
-                'decennial': 10,
-                'daily': 1,
+                '05': 30,
+                '04': 15,
+                '02': 7,
+                '10': 10,
+                '01': 1,
                                 }
             period = self.payroll_period
             if payroll_period:
@@ -1047,6 +1051,9 @@ class HrSalaryRule(models.Model):
                    ('003', 'Viáticos.'),
                    ('004', 'Apliación de saldo a favor por compensación anual'), 
                    ('005', 'Reintegro de ISR retenido en exceso de ejercicio anterior'),
+                   ('006', 'Alimentos en bienes (Servicios de comedor y comida) Art 94 último párrafo LISR'),
+                   ('007', 'ISR ajustado por subsidio'),
+                   ('008', 'Subsidio efectivamente entregado que no correspondía (Aplica sólo cuando haya ajuste al cierre de mes en relación con el Apéndice 7 de la guía de llenado de nómina)'),
                    ('999', 'Cuotas obrero patronales')],
         string=_('Otros Pagos'),
     )

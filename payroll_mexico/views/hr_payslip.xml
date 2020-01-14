@@ -129,6 +129,9 @@
 				<xpath expr="//field[@name='line_ids']" position="attributes">
 					<attribute name="readonly">1</attribute>
 				</xpath>
+				<xpath expr="//field[@name='number']" position="before">
+					<field name="code_payslip" readonly="1"/>
+				</xpath>
             
             <xpath expr="//field[@name='line_ids']/tree" position="attributes">
                 <attribute name="limit">200</attribute>

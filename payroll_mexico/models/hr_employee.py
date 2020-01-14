@@ -564,10 +564,10 @@ class HrGroup(models.Model):
     antique_table = fields.Many2one('tablas.antiguedades', string='Antique table', required=True)
     percent_honorarium = fields.Float(required=True, digits=(16, 4), string='Porcentaje de honoraios')
     sequence_payslip_id = fields.Many2one(comodel_name='ir.sequence', string='Secuencia correlativo de Nómina')
-    sequence_payslip_number_next = fields.Integer(string='Próximo Número (Correlativo de Nómina)',
+    sequence_payslip_number_next = fields.Integer(string='Folio',
                                                   compute='_compute_seq_number_next',
                                                   inverse='_inverse_seq_number_next')
-    code_payslip = fields.Char(string='Código corto (Correlativo de Nómina)', store=True, readonly=False)
+    code_payslip = fields.Char(string='Serie', store=True, readonly=False)
     pay_three_days_disability = fields.Boolean(string='Pagar 3 dias de incapacidad')
 
     _sql_constraints = [
@@ -652,12 +652,10 @@ class HrGroup(models.Model):
     @api.model
     def _create_sequence_payslip(self, vals):
         """ Create new no_gap entry sequence for every new Group"""
-        prefix = self._get_sequence_prefix(vals['code_payslip'])
         seq_name = _('Group: ') + vals['code_payslip'] + ' ' + _(vals['name'])
         seq = {
             'name': _('%s Sequence') % seq_name,
             'implementation': 'no_gap',
-            'prefix': prefix,
             'padding': 6,
             'number_increment': 1,
         }

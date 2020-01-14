@@ -72,7 +72,7 @@ class PayslipSummary(models.TransientModel):
         other_ded_ss = 0
         other_ded_ias = 0
         for line in line_ids:
-            if line.slip_id.payroll_type == 'ordinary_payroll':
+            if line.slip_id.payroll_type == 'O':
                 if line.slip_id.payslip_run_id.contracting_regime == '2': # Sueldos y Salarios
                     if not line.slip_id.payslip_run_id.id in isn:
                         isn.append(line.slip_id.payslip_run_id.id)
