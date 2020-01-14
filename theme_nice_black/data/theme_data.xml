@@ -35,7 +35,7 @@
                               <main class="container">
                                 <div id="logo" class="animated delay-1s flipInY">
                                   <img src="/theme_nice_black/static/src/img/logo.png" id="logoimg" class="img-fluid"/>
-                                  <h4 id="subtitulo" class="animated delay-3s flipInX">SISTEMA DE NOMINA</h4>
+                                  <h4 id="subtitulo" class="animated delay-3s flipInX">SISTEMA DE NÓMINA</h4>
                                   <p class="text-center"><a href="/web/login" class="btn btn-outline-light entrar gotolink">ENTRAR</a></p>
                                 </div>
 
