@@ -93,20 +93,14 @@ class AuthSignupHome(Home):
             menu_id=request.env.ref(menuXmlId, False)
             if menu_id:
                 if menu_id.id in menu_access_ids:
-                    print ('+++')
-                    print (menu)
                     menu_access_out[menu]['acces']=""
                 else:
-                    print ('---')
-                    print (menu)
-                    print (menu)
                     menu_access_out[menu]['acces']="accesdeny"
         return menu_access_out
     
     @http.route('/web', type='http', auth="user")
     def web_client(self, s_action=None, **kw):
         ensure_db()
-        # ~ print (kw)
         if not request.session.uid:
             return werkzeug.utils.redirect('/web/login', 303)
         if kw.get('redirect'):
@@ -124,10 +118,6 @@ class AuthSignupHome(Home):
                     menu_ids=set(context['menu_data']['all_menu_ids'])
                 menu_ids=list(menu_ids)
                 user_menu_access = self.check_access_menu(menu_ids)
-                print (len(menu_ids))
-                print (sorted(menu_ids))
-                print (user_menu_access)
-                print (request.env.user.name)
                 context.update({'dataMenu': user_menu_access})
                 response = request.render('theme_nice_black.custom_menu_hr', qcontext=context)
             response.headers['X-Frame-Options'] = 'DENY'
@@ -165,9 +155,7 @@ class MenuApp(http.Controller):
         if not menu_id._filter_visible_menus():
             redirect="/web?msg='Acceso denegado, contacte al Administrador del portal.'"
             return werkzeug.utils.redirect(redirect)
-        print ()
         redirect="/web2#menu_id=%d&action_id=%d" % (menu_id.id,action_id.id)
-        print (redirect)
         return werkzeug.utils.redirect(redirect)
         
         
