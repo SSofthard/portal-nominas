@@ -16,7 +16,4 @@ class User(models.Model):
             if menu_id:
                 if menu_id.id in menu_access_ids:
                     MENU_ACCESS[menu]['acces']=""
-        print ('MENU_ACCESS')
-        print (MENU_ACCESS)
-        print ('MENU_ACCESS')
         return MENU_ACCESS

@@ -14,4 +14,5 @@ from . import report_payroll_summary
 from . import wizard_affiliate_move
 from . import wizard_compute_sdi_vars
 from . import wizard_credentialing
+from . import hr_employee_import
 

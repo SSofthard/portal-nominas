@@ -819,7 +819,15 @@ class HrWorkCenters(models.Model):
         ('name_uniq', 'unique(name)', 'The work center name must be unique !'),
         ('code_uniq', 'code (name)', 'The work center code must be unique !')
     ]
-
+    
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|',('code', operator, name),('name', operator, name)]
+        code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(code).name_get()
 
 class Country(models.Model):
     _inherit = "res.country"
