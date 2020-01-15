@@ -23,7 +23,7 @@
                 </div>
                 <footer>
                     <button name="import_data" string="Cargar empleados" type="object" class="btn-primary"/>
-                    <button string="Cancel" special="cancelar" class="btn-default"/>
+                    <button string="Cancelar" special="cancel" class="btn-default"/>
                 </footer>
             </form>
             </field>
