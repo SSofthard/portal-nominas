@@ -242,7 +242,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_hr_payslip_settlement_filter"/>
-        <field name="context">{'default_settlement':True, 'default_payroll_type':'extraordinary_payroll'}</field>
+        <field name="context">{'default_settlement':True, 'default_payroll_type':'E'}</field>
         <field name="domain">[('settlement', '=', True)]</field>
     </record>
     <record id="action_view_hr_payslip_settlement_tree_1" model="ir.actions.act_window.view">

@@ -21,8 +21,8 @@ class HrPayslipRun(models.Model):
                                         ('5', 'Free'),
                                         ], string='Contracting Regime', required=True, default="2")
     payroll_type = fields.Selection([
-            ('ordinary_payroll', 'Ordinary Payroll'),
-            ('extraordinary_payroll', 'Extraordinary Payroll')], 
+            ('O', 'Ordinary Payroll'),
+            ('E', 'Extraordinary Payroll')], 
             string='Payroll Type', 
             required=False,
             readonly=False,)
@@ -56,13 +56,13 @@ class HrPayslipRun(models.Model):
             readonly=True,
             states={'draft': [('readonly', False)]})
     payroll_period = fields.Selection([
-            ('daily', 'Daily'),
-            ('weekly', 'Weekly'),
-            ('decennial', 'Decennial'),
-            ('biweekly', 'Biweekly'),
-            ('monthly', 'Monthly')], 
+            ('01', 'Daily'),
+            ('02', 'Weekly'),
+            ('10', 'Decennial'),
+            ('04', 'Biweekly'),
+            ('05', 'Monthly')], 
             string='Payroll period', 
-            default="biweekly",
+            default="04",
             required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
@@ -358,7 +358,7 @@ class HrPayslipRun(models.Model):
         date1 =datetime.strptime(str(str(date_from.year)+'-12-01'), DEFAULT_SERVER_DATE_FORMAT).date()
         date2 =datetime.strptime(str(str(date_from.year)+'-12-15'), DEFAULT_SERVER_DATE_FORMAT).date()
         
-        if date_from >= date1 and date_to <= date2 and self.payroll_type == 'ordinary_payroll':
+        if date_from >= date1 and date_to <= date2 and self.payroll_type == 'O':
             self.bonus_date = True
         else:
             self.bonus_date = False

@@ -82,7 +82,7 @@ class HrPayrollStructure(models.Model):
 
     settlement = fields.Boolean(string='Settlement structure?')
     payroll_type = fields.Selection([
-            ('ordinary_payroll', 'Ordinary Payroll'),
-            ('extraordinary_payroll', 'Extraordinary Payroll')], 
+            ('O', 'Ordinary Payroll'),
+            ('E', 'Extraordinary Payroll')], 
             string='Payroll Type', 
             required=True,)

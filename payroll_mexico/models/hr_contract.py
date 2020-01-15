@@ -206,7 +206,7 @@ class Contract(models.Model):
                                             ('code','in',['F01','F04']),
                                             ('payslip_id.year','=',str(date_payroll.year)),
                                             ('payslip_id.state','in',['done']),
-                                            ('payslip_id.payroll_type','in',['ordinary_payroll'])]).mapped('number_of_days'))
+                                            ('payslip_id.payroll_type','in',['O'])]).mapped('number_of_days'))
         
         days = days - days_discount
         if days < 0:
