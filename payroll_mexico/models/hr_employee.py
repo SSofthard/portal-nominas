@@ -202,6 +202,8 @@ class Employee(models.Model):
     payment_holidays_bonus = fields.Selection([(0, 'Pagar al vencimiento de las vacaciones'),
                                                (1, 'Pagar con el disfrute de las vacaciones')],
                                               string='Pago de prima vacacional')
+    deceased = fields.Boolean('Fallecido?', default=False, help="Si está marcado, es considerado el empleado cómo fallecido")
+    syndicalist = fields.Boolean('Sindicalizado?', default=False, help="Si está marcado, es considerado el empleado cómo parte del sindicato")
 
 
     _sql_constraints = [
