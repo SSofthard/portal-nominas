@@ -71,6 +71,8 @@ class HrPayslip(models.Model):
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
+    payment_date = fields.Date(string='Fecha de pago', required=True,
+        readonly=True, states={'draft': [('readonly', False)]})
     # ~ CFDI
     
     way_pay = fields.Selection([
@@ -158,6 +160,7 @@ class HrPayslip(models.Model):
                                 'amount_e': 12500.0,
                             }
         
+
         invoice_date = str(self.invoice_date.isoformat()[:19])
         
         
@@ -197,7 +200,7 @@ class HrPayslip(models.Model):
             },
             'payroll': {
                 'type': self.payroll_type,
-                'payment_date': '2017-01-15',
+                'payment_date': self.payment_date,
                 'date_from': self.date_from,
                 'date_to': '',
                 'number_of_days': days,
@@ -648,6 +651,10 @@ class HrPayslip(models.Model):
             else:
                 number = payslip.number or self.env['ir.sequence'].next_by_code('salary.settlement')
                 code_payslip = ''
+            payment_date = False
+            if payslip.payslip_run_id:
+                if payslip.payslip_run_id.payment_date:
+                    payment_date = payslip.payslip_run_id.payment_date
             payslip.search_inputs()
             # delete old payslip lines
             payslip.line_ids.unlink()
@@ -656,7 +663,7 @@ class HrPayslip(models.Model):
             contract_ids = payslip.contract_id.ids or \
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
-            payslip.write({'line_ids': lines, 'number': number, 'code_payslip':code_payslip})
+            payslip.write({'line_ids': lines, 'number': number, 'code_payslip':code_payslip, 'payment_date':payment_date})
             if payslip.settlement:
                 val = {
                     'contract_id':payslip.contract_id.id,

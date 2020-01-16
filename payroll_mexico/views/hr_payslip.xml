@@ -137,6 +137,7 @@
                 <attribute name="limit">200</attribute>
             </xpath>
                 <xpath expr="//field[@name='name']" position="after">
+                    <field name="payment_date" readonly="1"/>
                     <field name="payroll_type" readonly="1"/>
                     <field name="payroll_month" readonly="1"/>
                     <field name="year"/>
