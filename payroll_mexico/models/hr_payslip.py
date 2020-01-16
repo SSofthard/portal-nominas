@@ -2,12 +2,13 @@
 
 import babel
 
-from datetime import datetime
+
 from pytz import timezone
 from .tool_convert_numbers_letters import numero_to_letras
 
 from odoo import api, fields, models, tools, _
 from datetime import date, datetime, time, timedelta
+from dateutil import relativedelta as rdelta
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 
@@ -115,7 +116,6 @@ class HrPayslip(models.Model):
             required=False,
             readonly=True)
     fiscal_folio = fields.Char(string='Fiscal Folio')
-    year = fields.Integer(string='Año', related='payslip_run_id.year', store=True)
     integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
     structure_type_id = fields.Many2one(
                                     'hr.structure.types',
@@ -126,13 +126,30 @@ class HrPayslip(models.Model):
     code_payslip = fields.Char(string='Serie', store=True, readonly=False)
     number = fields.Char(string='Folio')
     
+    type_related_cfdi = fields.Selection([
+            ('04', 'Sustitución de los CFDI previos'),
+            ], 
+            string='Tipo de relación', 
+            required=False,
+            readonly=True,
+            states={'draft': [('readonly', False)]})
+    uuid = fields.Char(string='CFDI relacionado', readonly=True, states={'draft': [('readonly', False)]})
+
+    
+    
     
     def to_json(self):
         perceptions = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id)])
         
-        type_perception = dict(self.env['hr.salary.rule']._fields.get('type_perception').selection)
-        perceptions_dict = {}
+        perceptions_only = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('salary_rule_id.type','=','perception'),('slip_id','=',self.id)]).mapped('total'))
+        other_payment_only = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('salary_rule_id.type','=','other_payment'),('slip_id','=',self.id)]).mapped('total'))
         
+        subtotal = sum(self.env['hr.payslip.line'].search([('category_id.code','=','GROSS'),('slip_id','=',self.id)]).mapped('total'))
+        discount_amount = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DEDT'),('slip_id','=',self.id)]).mapped('total'))
+        total = "{0:.2f}".format(subtotal - discount_amount)
+        type_perception = dict(self.env['hr.salary.rule']._fields.get('type_perception').selection)
+        days = "{0:.3f}".format(self.env['hr.payslip.worked_days'].search([('code','=','WORK100'),('payslip_id','=',self.id)],limit=1).number_of_days)
+        perceptions_dict = {}
         for p in perceptions:
             perceptions_dict[p.id] = {
                                 'type': '001',
@@ -141,78 +158,97 @@ class HrPayslip(models.Model):
                                 'amount_e': 12500.0,
                             }
         
-        print (type_perception)
-        print (perceptions)
-        print (perceptions)
-        print (perceptions)
-        print (perceptions)
+        invoice_date = str(self.invoice_date.isoformat()[:19])
+        
+        
         
         
         data = {
-            'certificate': '',
             'serie': self.code_payslip,
             'number': self.number,
-            'date_invoice_tz': '2016-06-01T06:07:08',
+            'date_invoice_tz': invoice_date,
             'payment_policy': self.way_pay,
-            'certificate_number': '????????',
-            'subtotal': 100.0,
-            'discount_amount': 10.0,
+            'certificate_number': '',
+            'certificate': '',
+            'subtotal': subtotal,
+            'discount_amount': discount_amount,
             'currency': 'MXN',
             'rate': '1',
-            'amount_total': 90.0,
+            'amount_total': total,
             'document_type': self.type_voucher,
-            'emitter_zip': '37205',
-            'cfdi_related_type': '01',
-            'cfdi_related': [{'uuid': '61C47F1C-B9A6-4E99-ABFD-C967E07D476E'}],
-            'emitter_rfc': 'VAU111017CG9',
-            'emitter_name': 'Vauxoo SA de CV',
-            'emitter_fiscal_position': '601',
-            'receiver_rfc': 'ECI0006019E0',
-            'receiver_name': 'Some Customer SC',
-            'receiver_reg_trib': '0000000000000',
-            'receiver_use_cfdi': 'G03',
+            'pay_method':self.payment_method,
+            'emitter_zip': self.company_id.zip,
+            'emitter_rfc': self.company_id.rfc,
+            'emitter_name': self.company_id.business_name,
+            'emitter_fiscal_position': self.company_id.tax_regime,
+            'receiver_rfc': self.employee_id.rfc,
+            'receiver_name': self.employee_id.complete_name,
+            'receiver_reg_trib': '',
+            'receiver_use_cfdi': self.cfdi_use,
+            
             'invoice_lines': [{
-                'price_unit': 50.0,
-                'subtotal_wo_discount': 50.0,
-                'discount': 10.0,
+                'price_unit': subtotal,
+                'subtotal_wo_discount': subtotal,
+                'discount': discount_amount,
             }],
             'taxes': {
                 'total_transferred': '0.00',
                 'total_withhold': '0.00',
             },
             'payroll': {
-                'type': 'O',
+                'type': self.payroll_type,
                 'payment_date': '2017-01-15',
-                'date_from': '2017-01-01',
-                'date_to': '2017-01-15',
-                'number_of_days': "15",
+                'date_from': self.date_from,
+                'date_to': '',
+                'number_of_days': days,
+                
+                
+                
+                
                 'curp_emitter': '',
-                'employer_register': '1203256',
-                'vat_emitter': 'AAA010101AAA',
-                'date_start': '2017-01-01',
-                'seniority_emp': 'P0W',
-                'curp_emp': 'PUXB571021HNELXR00',
-                'nss_emp': '123456789236958',
-                'contract_type': '01',
+                'employer_register': '',
+                'vat_emitter': '',
+                
+                'date_start': '',
+                'seniority_emp': '',
+                
+                'curp_emp': '',
+                'nss_emp': '',
+                
+                'contract_type': self.contract_id.type_id.code,
+                
+                
+                
                 'emp_syndicated': 'No',
-                'working_day': '01',
-                'emp_regimen_type': '02',
-                'no_emp': '1',
-                'departament': 'Research & Development',
-                'emp_job': 'Experienced Developer',
-                'emp_risk': '1',
-                'payment_periodicity': '01',
+                
+                'working_day': self.employee_id.type_working_day,
+                'emp_regimen_type': self.contract_id.contracting_regime,
+                'no_emp': self.employee_id.enrollment,
+                'departament': self.contract_id.department_id.name,
+                'emp_job': self.contract_id.job_id.name,
+                'emp_risk': '',
+                'payment_periodicity': '',
+                
                 'emp_bank': '012',
                 'emp_account': '1234567890',
-                'emp_base_salary': 5000.0,
-                'emp_diary_salary': 1000.0,
-                'emp_state': 'GUA',
+                
+                
+                'emp_base_salary': '',
+                'emp_diary_salary': '',
+                
+                'emp_state': self.employee_id.work_center_id.state_id.code,
+                
                 'total_compensation': 0.0,
                 'total_retirement': 0.0,
                 'total_salaries': 13000.0,
                 'total_taxed': 500.0,
                 'total_exempt': 12500.0,
-                'total_perceptions': 13000.0,
+                
+                
+                
+                
+                
+                'total_perceptions': perceptions_only,
                 'perceptions': [{
                     'type': '001',
                     'key': '001',
@@ -235,7 +271,7 @@ class HrPayslip(models.Model):
                         'hours': 3,
                     }],
                 }],
-                'total_deductions': 2400.0,
+                'total_deductions': discount_amount,
                 'total_other_deductions': 400.0,
                 'show_total_taxes_withheld': True,
                 'total_taxes_withheld': 2000.0,
@@ -260,7 +296,7 @@ class HrPayslip(models.Model):
                     'type': '02',
                     'amount': 100.0,
                 }],
-                'total_other': 300.0,
+                'total_other': other_payment_only,
                 'other_payments': [{
                     'type': '003',
                     'key': '003',
@@ -269,6 +305,52 @@ class HrPayslip(models.Model):
                 }],
             },
         }
+        
+        if self.type_related_cfdi == '04':
+            data['cfdi_related_type'] = self.type_related_cfdi
+            data['cfdi_related'] = [{'uuid': self.uuid}]
+        if self.payroll_type == 'E':
+            data['payroll']['date_to'] = self.date_from
+        else:
+            data['payroll']['date_to'] = self.date_to
+            
+        if self.contract_id.type_id.code in ['01','02','03','04','05','06','07','08']:
+            data['payroll']['employer_register']= self.employer_register_id.employer_registry
+            
+            
+            
+            if self.contract_id.contracting_regime == '2':
+                data['payroll']['nss_emp'] = self.employee_id.ssnid
+                data['payroll']['emp_risk'] = self.employer_register_id.job_risk
+                data['payroll']['date_start'] = self.contract_id.previous_contract_date or self.contract_id.date_start
+                
+                date_1 = self.contract_id.previous_contract_date or self.contract_id.date_start
+                date_2 = self.date_to
+                antiquity_date = rdelta.relativedelta(date_2,date_1)
+                antiquity = 'P'
+                if int(antiquity_date.years) > 0:
+                    antiquity +=str(antiquity_date.years)+'Y'
+                if int(antiquity_date.months) > 0: 
+                    antiquity +=str(antiquity_date.months)+'M'
+                if int(antiquity_date.days) > 0: 
+                    antiquity +=str(antiquity_date.days)+'D'
+                data['payroll']['seniority_emp'] = antiquity
+                
+            
+            
+        if not self.employee_id.curp:
+            if self.employee_id.gender == 'male':
+                data['payroll']['curp_emp'] = 'XEXX010101HNEXXXA4'
+            else:
+                data['payroll']['curp_emp'] = 'XEXX010101MNEXXXA8'
+        else:
+            data['payroll']['curp_emp'] = self.employee_id.curp
+        
+        if self.payroll_type == 'O':
+            data['payroll']['payment_periodicity'] = self.payroll_type
+        else:
+            data['payroll']['payment_periodicity'] = '99'
+            
         return data
     
     @api.multi
@@ -277,9 +359,28 @@ class HrPayslip(models.Model):
             if payslip.invoice_date == False:
                 payslip.invoice_date = datetime.now()
             
+            
+            from odoo.addons.payroll_mexico.cfdilib_payroll import cfdilib, cfdv32, cfdv33
+            from odoo.addons.payroll_mexico.cfdilib_payroll.tools import tools
+            from lxml import etree as ET
+            
+            from io import StringIO, BytesIO
+            import base64
             values = payslip.to_json()
-                
-        return True
+            payroll = cfdv33.get_payroll(values, debug_mode=True)
+            file=payroll.document_path.read()
+            xml = base64.b64encode(file)
+            ir_attachment=self.env['ir.attachment']
+            value={u'name': u'Reporte Xml de retención', 
+                    u'url': False,
+                     u'company_id': 1, 
+                     u'datas_fname': u'reporte_xml.xml', 
+                    u'type': u'binary', 
+                    u'public': False, 
+                    u'datas':xml , 
+                    u'description': False}
+            ir_attachment.create(value)
+        return True 
     
     @api.one
     @api.depends('date_from')

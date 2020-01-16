@@ -194,6 +194,18 @@ class Employee(models.Model):
                                      ('4','Eventual del campo'),
                                      ],
                                     string="Tipo de trabajador", default='1')
+    type_working_day = fields.Selection([ 
+                                     ('01','Diurna'),
+                                     ('02','Nocturna'),
+                                     ('03','Mixta'),
+                                     ('04','Por hora'),
+                                     ('05','Reducida'),
+                                     ('06','Continuada'),
+                                     ('07','Partida'),
+                                     ('08','Por turnos'),
+                                     ('99','Otra jornada'),
+                                     ],
+                                    string="Tipo de jornada", default='01')
     # Fields Translate
     # Register pattern
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)

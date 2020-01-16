@@ -62,11 +62,11 @@ class Contract(models.Model):
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
     contracting_regime = fields.Selection([
-        ('1', 'Assimilated to wages'),
-        ('2', 'Wages and salaries'),
-        ('3', 'Senior citizens'),
-        ('4', 'Pensioners'),
-        ('5', 'Free'),
+        ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
         ], string='Contracting Regime', required=True, default="2")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')

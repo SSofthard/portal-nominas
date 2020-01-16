@@ -186,6 +186,12 @@
 								<field name="invoice_date" readonly="1"/>
 							 </group>
 					   </group>
+					   <group>
+							<group string="CFDI Relacionado">
+								<field name="type_related_cfdi"/>
+								<field name="uuid" attrs="{'invisible': [('type_related_cfdi', '!=', '04')],'required': [('type_related_cfdi', '=', '04')]}"/>
+							 </group>
+					   </group>
                    </page>
                 </xpath> 
             </field>

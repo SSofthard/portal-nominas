@@ -1,0 +1,242 @@
+# -*- coding: utf-8 -*-
+import os
+from os.path import dirname
+from io import StringIO, BytesIO
+
+# ~ from cStringIO import StringIO
+from abc import ABCMeta, abstractmethod
+from tempfile import NamedTemporaryFile
+
+from lxml import etree
+from contextlib import contextmanager
+from jinja2 import Environment, FileSystemLoader
+from jinja2.exceptions import UndefinedError
+
+from .tools import tools
+
+
+@contextmanager
+def change_path():
+    old_path = os.getcwd()
+    try:
+        yield
+        os.chdir(old_path)
+    finally:
+        os.chdir(old_path)
+
+
+class Struct(object):
+    def __init__(self, adict):
+        """Convert a dictionary to a class
+
+        @param :adict Dictionary
+        """
+        self.__dict__.update(adict)
+        for k, v in adict.items():
+            if isinstance(v, dict):
+                self.__dict__[k] = Struct(v)
+            if isinstance(v, list):
+                # import pdb; pdb.set_trace()
+                self.__dict__[k] = [Struct(x) for x in v]
+
+
+class BaseDocument:
+    """An XML document following any format given an XSD file.
+    Due to avoid duplication of work we will delegate the
+    error management of attributes to the xsd, then the
+    `validate` method will make the job of return the correct
+    error, due to the standard managed on the invoice.
+
+    The template itself must comply with an specific xsd,
+    this is needed to simply pass a dictionary of terms used in
+    the template convert them to
+    attributes of this Document object using whatever attributes
+    comes from that xsd
+
+    Then due to the template itself has all the structure of
+    attributes necessaries to comply with the xsd, theoretically
+    the xsd should return the logical error which
+    we are not complying on such template, see cfdv32.xml
+    template to see how you should assembly a new version
+    of this template, then set it to the template_fname attribute
+    and guala your dict will be magically validated
+    and converted to an XML file.
+
+    **Why not assembly with simple lxml?**
+
+    Because it is more readable and configurable,
+    it is always more simple
+    inherit a class and set an attribute than overwrite
+    hundreds of methods when it is a big xml.
+    """
+
+    @abstractmethod
+    def __init__(self, dict_document, debug_mode=False, cache=1000):
+        """Convert a dictionary invoice to a Class with a
+        based xsd and xslt element to be signed.
+
+        :param dict dict_document: Dictionary with all entries
+            you will need in your template.
+        :param bool debug_mode: If debugging or not.
+        :param int cache: Time in seconds the url given
+            files will be cached on tmp folder.
+        """
+        self.ups = False
+        self.debug_mode = debug_mode
+        self.schema_url = None
+        self.document = ''
+        self.document_path = None
+        self.xslt_path = None
+        self.xslt_document = None
+        self.set_schema_fname()
+        self.set_schema(self.schema_fname)
+        self.__dict__.update(dict_document)
+        for k, v in dict_document.items():
+            if isinstance(v, dict):
+                self.__dict__[k] = Struct(v)
+            if isinstance(v, list):
+                # import pdb; pdb.set_trace()
+                self.__dict__[k] = [Struct(x) for x in v]
+
+        self.set_xml()
+        self.template_fname = ''
+        self.schema_fname = self.template_fname.replace('.xml', '.xsd')
+        self.templates = os.path.join(dirname(__file__), 'templates')
+
+    __metaclass__ = ABCMeta
+
+    def set_schema_fname(self):
+        """The same than template but with .xsd on templates folder."""
+        self.schema_fname = self.template_fname.replace('.xml', '.xsd')
+
+    def set_xslt_fname(self):
+        """The same than template but with .xslt on templates
+        folder this in case you want to use it locally."""
+        self.set_xslt()
+
+    def guess_autoescape(self, template_name):
+        """Given a template Name I will gues using its
+        extension if we should autoscape or not.
+        Default autoscaped extensions: ('html', 'xhtml', 'htm', 'xml')
+        """
+        if template_name is None or '.' not in template_name:
+            return False
+        ext = template_name.rsplit('.', 1)[1]
+        return ext in ('html', 'xhtml', 'htm', 'xml')
+
+    @abstractmethod
+    def set_schema(self, schema_fname):
+        test_xml = os.path.join(self.templates, schema_fname)
+        return test_xml
+
+    @abstractmethod
+    def set_template(self, template_fname):
+        self.templates = os.path.join(dirname(__file__), 'templates')
+        env = Environment(loader=FileSystemLoader(self.templates),
+                          extensions=['jinja2.ext.autoescape'],
+                          autoescape=self.guess_autoescape)
+        return env.get_template(template_fname)
+
+    def validate(self, schema_str, xml_valid):
+        """Compare the valid information on an xml from  given schema.
+
+        :param str schema_str: content string from schema file.
+        :param str xml_valid: content string from xml file.
+        :returns: If it is Valid or Not.
+        :rtype: bool
+        """
+        # TODO: be able to get doc for error given an xsd.
+        # Changed path to allow have xsd that are imported by others xsd in the
+        # same library, and not call to SAT page each time that is generated
+        # a new XML.
+        with change_path():
+            path = os.path.join(
+                os.path.dirname(os.path.realpath(__file__)), 'templates')
+            os.chdir(path)
+            # ~ schema_root = etree.parse(StringIO(schema_str))
+            schema_root = etree.parse(schema_str)
+            schema = etree.XMLSchema(schema_root)
+        try:
+            tree = etree.parse(StringIO(xml_valid.encode('UTF-8')))
+            schema.assertValid(tree)
+        except etree.DocumentInvalid as ups:
+            self.ups = ups
+        finally:
+            if self.ups:
+                self.valid = False
+            else:
+                self.valid = True
+            return self.valid
+
+    def set_xml(self):
+        """Set document xml just rendered already
+        validated against xsd to be signed.
+
+        :params boolean debug_mode: Either if you want
+            the rendered template to be saved either it
+        is valid or not with the given schema.
+        :returns boolean: Either was valid or not the generated document.
+        """
+        cached = BytesIO()
+        document = u''
+        try:
+            document = self.template.render(inv=self)
+        except UndefinedError as ups:
+            self.ups = ups
+        # TODO: Here should be called the cleanup 'Just before the validation'.
+        valid = self.validate(self.schema, document)
+        self.document = document
+        print (valid)
+        print (valid)
+        print (valid)
+        print (valid)
+        print (valid)
+        print (valid)
+        if valid:
+            document = etree.XML(document)
+            self.document = etree.tostring(document,
+                                           pretty_print=True,
+                                           xml_declaration=True,
+                                           encoding='utf-8')
+            # TODO: When Document Generated, this this should not fail either.
+            # Caching just when valid then.
+            cached.write(self.document is not None and self.document or u'')
+            cached.seek(0)
+            self.document_path = cached
+
+    def get_element_from_clark(self, element):
+        """**Helper method:** Given a Clark's Notation
+        `{url:schema}Element` element, return the
+        valid xpath on your xsd file, frequently
+        it is not necesary overwrite this method but
+        different xsd from different source
+        can have different logic which I do not know now,
+        then simply take this as an example and set the
+        correct xpath conversion in your project.
+
+        :param str element: Element string following the Clark's Notation"""
+        element = element.split('}')[-1]
+        xpath_path = \
+            '//xs:element[@name="{element}"]' + \
+            '/xs:annotation/xs:documentation'.format(element=element)
+        return xpath_path
+
+    def get_documentation(self, element, namespace=None, schema_str=None):
+        """**Helper method:** should return an schema specific documentation
+        given an element parsing or getting the `Clark's Notation`_
+        `{url:schema}Element` from the message error on validate method.
+
+        :param str element: Element string following the Clark's Notation
+        :param dict namespace: Element string following the Clark's Notation
+
+        :returns: The documentation text if exists
+        :rtype: unicode
+
+        .. _`Clark's Notation`: http://effbot.org/zone/element-namespaces.htm
+        """
+        if namespace is None:
+            namespace = {'xs': 'http://www.w3.org/2001/XMLSchema'}
+        schema_root = etree.parse(StringIO(self.schema))
+        document = schema_root.xpath(self.get_element_from_clark(element),
+                                     namespaces=namespace)
+        return document and document[0].text or ''
