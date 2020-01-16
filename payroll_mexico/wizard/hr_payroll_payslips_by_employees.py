@@ -67,6 +67,7 @@ class HrPayslipEmployees(models.TransientModel):
                                                              'payroll_period',
                                                              'table_id',
                                                              'employer_register_id',
+                                                             'payment_date',
                                                              ])
         from_date = run_data.get('date_start')
         to_date = run_data.get('date_end')
@@ -88,6 +89,7 @@ class HrPayslipEmployees(models.TransientModel):
                 'worked_days_line_ids': [(0, 0, x) for x in slip_data['value'].get('worked_days_line_ids')],
                 'date_from': from_date,
                 'date_to': to_date,
+                'payment_date': run_data.get('payment_date'),
                 'credit_note': run_data.get('credit_note'),
                 'company_id': employee.company_id.id,
                 'payroll_type':slip_data['value'].get('payroll_type'),

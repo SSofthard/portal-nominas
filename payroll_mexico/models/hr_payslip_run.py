@@ -99,6 +99,8 @@ class HrPayslipRun(models.Model):
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
     generated = fields.Boolean('Generated', default=False)
     group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
+    payment_date = fields.Date(string='Fecha de pago',
+        readonly=True, states={'draft': [('readonly', False)]})
 
     @api.one
     @api.depends('date_start')
@@ -410,6 +412,8 @@ class HrPayslipRun(models.Model):
         self.slip_ids.compute_amount_untaxed()
         self.compute_amount_untaxed()
         for payslip in self.slip_ids:
+            if not payslip.payment_date:
+                raise ValidationError(_('Para poder cerrar la nómina debe agregar la Fecha de paga.'))
             payslip.state = 'done'
             amount = 0
             for line in payslip.line_ids:
