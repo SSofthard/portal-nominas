@@ -187,6 +187,8 @@
                             <group string="Datos de Nómina">
                                 <field name="salary_type"/>
                                 <field name="working_day_week"/>
+                                <field name="deceased"/>
+                                <field name="syndicalist"/>
                             </group>
                             <group string="IMSS">
                                 <field name="employer_register_id" context="{'default_company_id': company_id}"
