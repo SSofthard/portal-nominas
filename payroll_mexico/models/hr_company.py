@@ -160,22 +160,6 @@ class employerRegister(models.Model):
     sector_economico_id = fields.Many2one('res.company.sector_economico', 
                     "Fracción de RT", 
                     required=False)
-
-    @api.onchange('zip')
-    def _onchange_zip(self):       
-        if self.zip and self.zip not in zip_data.postal_code:
-            self.zip = False
-            warning = {}
-            title = False
-            message = False
-            if True:
-                title = _("Código Postal incorrecto")
-                message = 'Debe ingresar un Código Postal valido'
-                warning = {
-                    'title': title,
-                    'message': message
-                }
-                return {'warning': warning}
                 
     @api.multi
     def action_revoked(self):
@@ -397,6 +381,22 @@ class Partner(models.Model):
     country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
     suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
+
+    @api.onchange('zip')
+    def _onchange_zip(self):
+        if self.zip and self.zip not in zip_data.postal_code:
+            self.zip = False
+            warning = {}
+            title = False
+            message = False
+            if True:
+                title = _("Código Postal incorrecto")
+                message = 'Debe ingresar un Código Postal valido'
+                warning = {
+                    'title': title,
+                    'message': message
+                }
+                return {'warning': warning}
 
     @api.multi
     def _display_address(self, without_company=False):
