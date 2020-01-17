@@ -2,6 +2,19 @@
 import os
 from os.path import dirname
 from io import StringIO, BytesIO
+import re
+from OpenSSL import crypto
+from cryptography import x509
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.serialization import load_ssh_public_key, load_pem_private_key
+from cryptography.hazmat.primitives.serialization import Encoding
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.serialization import PublicFormat
+import base64
+from Crypto.Hash import SHA256
+from Crypto.Signature import PKCS1_v1_5
+from M2Crypto import X509, RSA
 
 # ~ from cStringIO import StringIO
 from abc import ABCMeta, abstractmethod
@@ -13,6 +26,10 @@ from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import UndefinedError
 
 from .tools import tools
+
+import tempfile
+import pkg_resources
+import hashlib
 
 
 @contextmanager
@@ -69,9 +86,11 @@ class BaseDocument:
     inherit a class and set an attribute than overwrite
     hundreds of methods when it is a big xml.
     """
-
+    
+    xlst_path = os.path.dirname(os.path.abspath(__file__)) + '/templates/cadenaoriginal_3_3.xslt'
+    
     @abstractmethod
-    def __init__(self, dict_document, debug_mode=False, cache=1000):
+    def __init__(self, dict_document, certificado, llave_privada, password, debug_mode=False, cache=1000):
         """Convert a dictionary invoice to a Class with a
         based xsd and xslt element to be signed.
 
@@ -102,6 +121,7 @@ class BaseDocument:
         self.template_fname = ''
         self.schema_fname = self.template_fname.replace('.xml', '.xsd')
         self.templates = os.path.join(dirname(__file__), 'templates')
+        self.cadena_original = ''
 
     __metaclass__ = ABCMeta
 
@@ -186,18 +206,14 @@ class BaseDocument:
         # TODO: Here should be called the cleanup 'Just before the validation'.
         valid = self.validate(self.schema, document)
         self.document = document
-        print (valid)
-        print (valid)
-        print (valid)
-        print (valid)
-        print (valid)
-        print (valid)
         if valid:
             document = etree.XML(document)
+            document = self.sellar(document)
             self.document = etree.tostring(document,
                                            pretty_print=True,
                                            xml_declaration=True,
                                            encoding='utf-8')
+            # ~ print (self.document)
             # TODO: When Document Generated, this this should not fail either.
             # Caching just when valid then.
             cached.write(self.document is not None and self.document or u'')
@@ -237,6 +253,103 @@ class BaseDocument:
         if namespace is None:
             namespace = {'xs': 'http://www.w3.org/2001/XMLSchema'}
         schema_root = etree.parse(StringIO(self.schema))
+        
         document = schema_root.xpath(self.get_element_from_clark(element),
                                      namespaces=namespace)
         return document and document[0].text or ''
+        
+    def get_certificado_x509(self, certificado_base_64):
+        cert64Str = re.sub("(.{64})", "\\1\n", certificado_base_64, 0, re.DOTALL)
+        cert64WithBE = '-----BEGIN CERTIFICATE-----\n' + cert64Str + '\n-----END CERTIFICATE-----\n'
+        certificate = crypto.load_certificate(crypto.FILETYPE_PEM, cert64WithBE.encode("utf-8"))
+        return certificate
+    
+    def get_certificado_64(self):
+        return self.certificado.decode('utf-8')
+    
+    def get_no_certificado(self, certificado):
+        serial = str(u'{0:0>40x}'.format(certificado.get_serial_number()))
+        return serial.replace('33', 'B').replace('3', '').replace(
+            'B', '3').replace(' ', '').replace('\r', '').replace(
+            '\n', '').replace('\r\n', '')
+        
+    def get_cadena_original(self, xml=None):
+        xslt = etree.parse(self.xlst_path)
+        transform = etree.XSLT(xslt)
+        cadena_original = transform(xml)
+        return (str(cadena_original))
+    
+    def base64_to_tempfile(self, b64_str=None, suffix=None, prefix=None):
+        """ Convert strings in base64 to a temp file
+        @param b64_str : Text in Base_64 format for add in the file
+        @param suffix : Sufix of the file
+        @param prefix : Name of file in TempFile
+        """
+        (fileno, file_name) = tempfile.mkstemp(suffix, prefix)
+        f_read = open(file_name, 'wb')
+        f_read.write(base64.decodestring(b64_str))
+        f_read.close()
+        os.close(fileno)
+        return file_name
+    
+    
+    def get_sello(self, cadena_original):
+        # ~ key = open(self.llave_privada, 'r')
+        # ~ keys_file = base64.b64encode(key.read())
+        
+        key_file = self.base64_to_tempfile(self.llave_privada, '', '')
+        
+        (no, pem) = tempfile.mkstemp()
+        os.close(no)
+        cmd = ('openssl pkcs8 -inform DER -outform PEM'
+               ' -in "%s" -passin pass:%s -out %s' % (key_file, self.password, pem))
+        os.system(cmd)
+        keys = RSA.load_key(pem)
+        print (type(cadena_original.encode('UTF-8')))
+        digest = hashlib.new('sha256', cadena_original.encode('UTF-8')).digest()
+        return base64.b64encode(keys.sign(digest, "sha256"))
+    
+    def sellar(self,document):
+        certificado64 = self.get_certificado_64()
+        certificado = self.get_certificado_x509(certificado64)
+        no_certificado = self.get_no_certificado(certificado)
+        document.attrib['NoCertificado'] = no_certificado
+        document.attrib['Certificado'] = certificado64
+        self.cadena_original = self.get_cadena_original(document)
+        sello = self.get_sello(self.cadena_original)
+        print (sello.decode('UTF-8'))
+        print (sello)
+        return document
+        # ~ print ('certificado64')
+        # ~ print ('certificado64')
+        # ~ print ('certificado64')
+        # ~ print ('certificado64')
+        # ~ print ('certificado64')
+        # ~ print ('certificado64')
+        # ~ print (no_certificado)
+        
+        # ~ print (io)
+        
+        
+        # ~ tmpxml = ET.parse(self.xml).getroot()
+
+        # ~ certificado64 = self.get_certificado_64()
+        # ~ certificado = self.get_certificado_x509(certificado64)
+        # ~ no_certificado = self.get_no_certificado(certificado)
+
+
+        # ~ tmpxml.attrib['Fecha'] = fecha
+        # ~ tmpxml.attrib['NoCertificado'] = no_certificado
+        # ~ tmpxml.attrib['Certificado'] = certificado64
+        
+        # ~ cadena_original = self.get_cadena_original(tmpxml)
+
+        # ~ sello = self.get_sello(cadena_original)
+
+        # ~ if self.DEBUG:
+            # ~ print('cadena original:  {0} \n Sello {1} \n Certificado {2} No de Certificado {3}\n'.format(cadena_original, sello,certificado64, no_certificado)) 
+
+
+        # ~ tmpxml.attrib['Sello'] = sello
+
+        # ~ return ET.tostring(tmpxml,encoding='utf-8')

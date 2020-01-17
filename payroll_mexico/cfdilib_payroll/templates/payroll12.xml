@@ -147,7 +147,7 @@
                 PeriodicidadPago="{{ pay.payment_periodicity }}"
                 {% if pay.emp_bank %} Banco="{{ pay.emp_bank }}" {% endif %}
                 {% if pay.emp_account %} CuentaBancaria="{{ pay.emp_account }}" {% endif %}
-                SalarioBaseCotApor="{{ pay.emp_base_salary }}"
+                {% if pay.emp_base_salary%} SalarioBaseCotApor="{{ pay.emp_base_salary }}" {% endif %}
                 SalarioDiarioIntegrado="{{ pay.emp_diary_salary }}"
                 ClaveEntFed="{{ pay.emp_state }}">
                 {% for out in pay.outsourcing%}

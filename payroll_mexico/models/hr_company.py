@@ -217,7 +217,7 @@ class companyFielCsd(models.Model):
     state = fields.Selection([
         ('valid', 'Valid'),
         ('timed_out', 'Timed out'),
-        ('revoked', 'Revoked'),],default="valid")
+        ('revoked', 'Revoked')] ,default="valid")
     predetermined = fields.Boolean('Predetermined', copy=False)
     
     _sql_constraints = [
