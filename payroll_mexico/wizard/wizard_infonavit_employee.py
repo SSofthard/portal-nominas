@@ -71,7 +71,11 @@ class wizardInfonavitEmployee(models.TransientModel):
                         type = 'UMA'
                     else:
                         type = 'Monto Fijo'
-                    contract = self.env['hr.contract'].search([('employee_id','=',employee.id),('date_start','<=',move_infonavit_high_credit.date),('contracting_regime','=','2')],limit=1)
+                    contract = self.env['hr.contract'].search([
+                        ('employee_id','=',employee.id),
+                        ('date_start','<=',move_infonavit_high_credit.date),
+                        ('contracting_regime','=','02')
+                        ],limit=1)
                     discharge_date = ''
                     if contract.date_end and contract.date_end >= date_from and contract.date_end <= date_to:
                         discharge_date = contract.date_end

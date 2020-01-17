@@ -36,7 +36,7 @@ class Holidays(models.Model):
         '''
         Este metodo agrega el contrato al formulario
         '''
-        self.contract_id = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('contracting_regime','=',2),('state','=','open')])
+        self.contract_id = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('contracting_regime','=','02'),('state','=','open')])
 
     @api.multi
     def action_validate(self):
@@ -116,7 +116,7 @@ class HrLeaveAllocation(models.Model):
         range_date = calendar.monthrange(today.year,today.month)
         date_init = date(today.year, today.month, 1)
         date_end = date(today.year, today.month, range_date[1])
-        contracts = self.env['hr.contract'].search([('employee_id','!=', False), ('contracting_regime','=',2)])
+        contracts = self.env['hr.contract'].search([('employee_id','!=', False), ('contracting_regime','=','02')])
         holidays_type = self.env['hr.leave.type'].search([('validity_start','<=',today),
                                                           ('validity_stop','>=',today),
                                                           ('is_holidays','=',True)])
