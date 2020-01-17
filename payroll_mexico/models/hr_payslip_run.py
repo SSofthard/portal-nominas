@@ -19,7 +19,7 @@ class HrPayslipRun(models.Model):
             ('03', 'Senior citizens'),
             ('04', 'Pensioners'),
             ('05', 'Free'),
-            ], string='Contracting Regime', required=True, default="2")
+            ], string='Contracting Regime', required=True, default="02")
     payroll_type = fields.Selection([
             ('O', 'Ordinary Payroll'),
             ('E', 'Extraordinary Payroll')], 
