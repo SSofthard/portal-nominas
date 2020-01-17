@@ -50,10 +50,10 @@
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="attributes">
 					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
-					<attribute name="attrs">{'invisible': [('contracting_regime','=','5')]}</attribute>
+					<attribute name="attrs">{'invisible': [('contracting_regime','=','05')]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="after">
-					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('contracting_regime','=','5')]}"/>
+					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('contracting_regime','=','05')]}"/>
                 </xpath>
                 <xpath expr="//field[@name='name']" position="attributes">
                     <attribute name="placeholder">Name Contract</attribute>

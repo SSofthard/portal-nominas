@@ -124,7 +124,7 @@
                         <field name="contracting_regime" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="employer_register_id" 
                         domain="[('state','=','valid')]"
-                        attrs="{'invisible': [('contracting_regime','!=','2')],'required': [('contracting_regime','=','2')], 'readonly': [('generated','=',True)]}"/>
+                            attrs="{'invisible': [('contracting_regime','!=','02')],'required': [('contracting_regime','=','02')], 'readonly': [('generated','=',True)]}"/>
                         <field name="payroll_type" attrs="{'invisible': [('state','=','draft')]}"/>
                         <field name="payroll_month" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="payroll_of_month" attrs="{'readonly': [('generated','=',True)]}"/>

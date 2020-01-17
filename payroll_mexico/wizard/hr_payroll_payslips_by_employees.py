@@ -17,11 +17,11 @@ class HrPayslipEmployees(models.TransientModel):
 
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', readonly=True, default=lambda self: self._default_estructure())
     contracting_regime = fields.Selection([
-                                        ('1', 'Assimilated to wages'),
-                                        ('2', 'Wages and salaries'),
-                                        ('3', 'Senior citizens'),
-                                        ('4', 'Pensioners'),
-                                        ('5', 'Free'),
+                                        ('01', 'Assimilated to wages'),
+                                        ('02', 'Wages and salaries'),
+                                        ('03', 'Senior citizens'),
+                                        ('04', 'Pensioners'),
+                                        ('05', 'Free'),
                                         ], string='Contracting Regime', 
                                         required=True, 
                                         readonly=True,
@@ -35,7 +35,7 @@ class HrPayslipEmployees(models.TransientModel):
             payslip_run_employees = payslip_run.mapped('slip_ids').mapped('employee_id').ids
         contract=self.env['hr.contract']
         structure_type_id=self.estructure_id.structure_type_id.id
-        if payslip_run.contracting_regime == '2':
+        if payslip_run.contracting_regime == '02':
             domain_employer_register = [('employer_register_id','=',payslip_run.employer_register_id.id)]
         domain=[
             ('structure_type_id','=',structure_type_id),

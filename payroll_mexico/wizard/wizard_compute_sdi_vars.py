@@ -28,11 +28,11 @@ class WizardComputeSDIVar(models.TransientModel):
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", required=False)
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", required=False)
     contracting_regime = fields.Selection([
-            ('1','Assimilated to wages'),
-            ('2','Wages and salaries'),
-            ('3','Senior citizens'),
-            ('4','Pensioners'),
-            ('5','Free')], string='Regimen de contratación', required=True,default="2")
+            ('01','Assimilated to wages'),
+            ('02','Wages and salaries'),
+            ('03','Senior citizens'),
+            ('04','Pensioners'),
+            ('05','Free')], string='Regimen de contratación', required=True, default="02")
     compute_lines = fields.One2many(comodel_name='wizard.compute.sdi.vars.lines', inverse_name='compute_form_id', string='Calculos')
     # employee_ids = fields.Many2many(comodel_name='hr.employee', string='Empleados')
     computed = fields.Boolean(string="Calculado")

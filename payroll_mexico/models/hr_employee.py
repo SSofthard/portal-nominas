@@ -447,7 +447,7 @@ class Employee(models.Model):
     def generate_contracts(self, type_id, date):
         for employee in self:
             contract_obj = self.env['hr.contract']
-            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['1','2','5']),('state','in',['open'])])
+            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['01','02','05']),('state','in',['open'])])
             list_contract =[]
             if contarct:
                 raise UserError(_('The employee has currently open contracts.'))
@@ -462,7 +462,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.wage_salaries_gross,
-                    'contracting_regime':'2',
+                    'contracting_regime':'02',
                     'company_id':employee.company_id.id,
                     'type_id':type_id.id,
                     'date_start':date,
@@ -475,7 +475,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.assimilated_salary_gross,
-                    'contracting_regime':'1',
+                    'contracting_regime':'01',
                     'company_id':employee.company_assimilated_id.id,
                     'type_id':type_id.id,
                     'date_start':date,
@@ -488,7 +488,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.free_salary_gross,
-                    'contracting_regime':'5',
+                    'contracting_regime':'05',
                     'company_id':employee.company_id.id,
                     'type_id':self.env.ref('payroll_mexico.hr_contract_type_services_other').id,
                     'date_start':date,

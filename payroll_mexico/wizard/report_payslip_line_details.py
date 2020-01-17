@@ -33,12 +33,12 @@ class PayslipLineDetails(models.TransientModel):
         default=lambda self: fields.Date.to_string((datetime.now() + relativedelta(months=+1, day=1, days=-1)).date()),)
     employee_id = fields.Many2one('hr.employee', 'Employee')
     contracting_regime = fields.Selection([
-        ('1', 'Assimilated to wages'),
-        ('2', 'Wages and salaries'),
-        ('3', 'Senior citizens'),
-        ('4', 'Pensioners'),
-        ('5', 'Free'),
-        ], string='Contracting Regime', default='2')
+        ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
+        ], string='Contracting Regime', default='02')
     rule_id = fields.Many2one('hr.salary.rule', index=True,  required=True, string='Regla de negocio')
 
     @api.multi
@@ -65,7 +65,7 @@ class PayslipLineDetails(models.TransientModel):
             line_data.append({
                 'enrollment': line.employee_id.enrollment,
                 'employee_name': line.employee_id.name_get()[0][1],
-                'contracting_regime': line.slip_id.contract_id.contracting_regime, #dict(line._fields['contracting_regime']._description_selection(self.env)).get(line.slip_id.contract_id.contracting_regime),
+                'contracting_regime': line.slip_id.contract_id.contracting_regime, #dict(line.slip_id.contract_id._fields['contracting_regime']._description_selection(line.slip_id.contract_id.env)).get(line.slip_id.contract_id.contracting_regime),
                 'reference': line.slip_id.number,
                 'linename': line.name,
                 'date_from': line.slip_id.date_from,

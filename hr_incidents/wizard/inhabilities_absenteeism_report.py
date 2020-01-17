@@ -43,12 +43,12 @@ class InhabilityAbsenteeismReport(models.TransientModel):
         'End Date', index=True, copy=False, required=True,
         default=date.today())
     contracting_regime = fields.Selection([
-        ('1', 'Assimilated to wages'),
-        ('2', 'Wages and salaries'),
-        ('3', 'Senior citizens'),
-        ('4', 'Pensioners'),
-        ('5', 'Free'),
-        ], string='Contracting Regime', default="2")
+        ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
+        ], string='Contracting Regime', default="02")
 
     @api.multi
     def report_print(self, data):
@@ -110,7 +110,7 @@ class InhabilityAbsenteeismReport(models.TransientModel):
                 'name': employee.name_get()[0][1],
                 'rfc': employee.rfc,
                 'curp': employee.curp,
-                'date_admission': self.env['hr.contract'].search([('employee_id','=',employee.id),('contracting_regime','=','2')], limit=1).date_start or '',
+                'date_admission': self.env['hr.contract'].search([('employee_id','=',employee.id),('contracting_regime','=','02')], limit=1).date_start or '',
                 'leave': sorted(leaves_data, key=lambda k: k['request_date_from']),
             }
         leaves['date_from'] = self.date_from
@@ -171,7 +171,7 @@ class InhabilityAbsenteeismReport(models.TransientModel):
                         'name': employee.name_get()[0][1],
                         'rfc': employee.rfc,
                         'curp': employee.curp,
-                        'date_admission': self.env['hr.contract'].search([('employee_id','=',employee.id),('contracting_regime','=','2')], limit=1).date_start or '',
+                        'date_admission': self.env['hr.contract'].search([('employee_id','=',employee.id),('contracting_regime','=','02')], limit=1).date_start or '',
                         'type_inhability': leave.type_inhability_id.code,
                         'folio': leave.folio,
                         'duration': leave.number_of_days,
