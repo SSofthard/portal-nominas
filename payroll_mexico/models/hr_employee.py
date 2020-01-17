@@ -818,13 +818,13 @@ class HrWorkCenters(models.Model):
 
     name = fields.Char("Name", copy=False, required=True)
     code = fields.Char("code", copy=False, required=True)
-    colonia = fields.Char("Colonia", copy=False, required=False)
     group_id = fields.Many2one('hr.group', string="Group")
     country_id = fields.Many2one('res.country', default=_default_country, string="Country")
     city = fields.Char(string="City")
     state_id = fields.Many2one('res.country.state', string="Fed. State")
     zip = fields.Char(string="ZIP")
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
     active = fields.Boolean(default=True)
@@ -833,7 +833,17 @@ class HrWorkCenters(models.Model):
         ('name_uniq', 'unique(name)', 'The work center name must be unique !'),
         ('code_uniq', 'code (name)', 'The work center code must be unique !')
     ]
-    
+
+    @api.onchange('state_id')
+    def onchange_state_id(self):
+        if self.state_id:
+            self.municipality_id = False
+            
+    @api.onchange('municipality_id')
+    def onchange_municipality_id(self):
+        if self.municipality_id:
+            self.suburb_id = False
+
     @api.model
     def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
         args = args or []

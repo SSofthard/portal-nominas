@@ -138,6 +138,7 @@ class employerRegister(models.Model):
     state_id = fields.Many2one('res.country.state', string="Fed. State")
     zip = fields.Char(string="ZIP")
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
     sector_economico_id = fields.Many2one('res.company.sector_economico', 
