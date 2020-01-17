@@ -13,7 +13,7 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
     date_from = fields.Date(string="Start Date", default=fields.Date.today())
 
     def apply_change(self):
-        affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.contract_id.id),('type','=','07'),('state','in',['draft','generated']),('contracting_regime','in',['2'])])
+        affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.contract_id.id),('type','=','07'),('state','in',['draft','generated']),('contracting_regime','in',['02'])])
         if affiliate_movements:
             raise ValidationError(_('There is already an affiliate movement for salary change in draft or generated status, please check and if you want to generate a new one, delete the current one.'))
         self.contract_id.wage = self.wage
@@ -67,11 +67,12 @@ class wizardEmployeeHistory(models.TransientModel):
                     ('some','Algunos')],string="Buscar por puesto de trabajo", default='all')
     employer_register_id = fields.Many2one('res.employer.register',"Registro Patronal",required=False)
     contracting_regime = fields.Selection([
-            ('1','Assimilated to wages'),
-            ('2','Wages and salaries'),
-            ('3','Senior citizens'),
-            ('4','Pensioners'),
-            ('5','Free')],string='Régimen de contratación',required=True,default="2")
+            ('01','Assimilated to wages'),
+            ('02','Wages and salaries'),
+            ('03','Senior citizens'),
+            ('04','Pensioners'),
+            ('05','Free')
+            ],string='Régimen de contratación',required=True,default="2")
 
     @api.multi
     def report_print(self,data):

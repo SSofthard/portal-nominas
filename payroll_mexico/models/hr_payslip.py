@@ -322,7 +322,7 @@ class HrPayslip(models.Model):
             
             
             
-            if self.contract_id.contracting_regime == '2':
+            if self.contract_id.contracting_regime == '02':
                 data['payroll']['nss_emp'] = self.employee_id.ssnid
                 data['payroll']['emp_risk'] = self.employer_register_id.job_risk
                 data['payroll']['date_start'] = self.contract_id.previous_contract_date or self.contract_id.date_start
@@ -679,7 +679,7 @@ class HrPayslip(models.Model):
                 history = self.env['hr.change.job'].search([('employee_id', '=', self.employee_id.id),('contract_id', '=', self.contract_id.id)], limit=1)
                 history.date_to = self.date_end
                 history.low_reason = payslip.reason_liquidation
-                if self.contract_id.contracting_regime == '2':
+                if self.contract_id.contracting_regime == '02':
                     infonavit = self.env['hr.infonavit.credit.line'].search([('employee_id', '=', self.employee_id.id),('state', 'in', ['active','draft','discontinued'])], limit=1)
                     if infonavit:
                         infonavit.state = 'closed'

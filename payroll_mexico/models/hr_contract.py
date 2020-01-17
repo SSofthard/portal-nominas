@@ -67,7 +67,7 @@ class Contract(models.Model):
         ('03', 'Senior citizens'),
         ('04', 'Pensioners'),
         ('05', 'Free'),
-        ], string='Contracting Regime', required=True, default="2")
+        ], string='Contracting Regime', required=True, default="02")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
     integral_salary= fields.Float(string="SDI", copy=False)
@@ -258,7 +258,7 @@ class Contract(models.Model):
         '''
         contracts = self
         for contract in contracts:
-            if contract.contracting_regime == '2':
+            if contract.contracting_regime == '02':
                 contract.integral_salary = contract._calculate_integral_salary()
         
 

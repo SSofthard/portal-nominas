@@ -67,12 +67,12 @@ class HrFeeSettlement(models.Model):
     fundemex = fields.Float(string='Donativo FUNDEMEX', readonly=False, required=False,)
     group_id = fields.Many2one(comodel_name='hr.group', string='Grupo / Empresa')
     contracting_regime = fields.Selection([
-        ('1', 'Assimilated to wages'),
-        ('2', 'Wages and salaries'),
-        ('3', 'Senior citizens'),
-        ('4', 'Pensioners'),
-        ('5', 'Free'),
-    ], string='Contracting Regime', required=True, default="2")
+        ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
+    ], string='Contracting Regime', required=True, default="02")
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True)
     fees_settlement_lines = fields.One2many(inverse_name='sheet_settlement_id', comodel_name='hr.fees.settlement.details',string='Detalles de liquidación de cuotas')
     state = fields.Selection([('draft', 'Borrador'),('confirmed','Confirmado')],copy=False, default='draft')
@@ -162,18 +162,14 @@ class HrFeeSettlement(models.Model):
         date_end = date(self.year,self.month,last_day)
         payslip_run_rcv_ids = False
         payslip_run_ids = self.env['hr.payslip.run'].search(
-            [('date_start', '>=', date_start), ('date_end', '<=', date_end),('contracting_regime', '=', 2)])
+            [('date_start', '>=', date_start), ('date_end', '<=', date_end),('contracting_regime', '=', '02')])
         employee_ids = payslip_run_ids.mapped('slip_ids.employee_id')
         if self.month % 2 == 0:
             date_start = date(self.year,self.month-1,1)
             payslip_run_rcv_ids = self.env['hr.payslip.run'].search(
                 [('date_start', '>=', date_start), ('date_end', '<=', date_end),
-                 ('contracting_regime', '=', 2)])
+                 ('contracting_regime', '=', '02')])
             employee_ids = employee_ids | payslip_run_rcv_ids.mapped('slip_ids.employee_id')
-            print (employee_ids)
-            print (employee_ids)
-            print (employee_ids)
-            print (employee_ids)
         self.fees_settlement_lines = self.fees_settlement_lines.get_values(payslip_run_ids,payslip_run_rcv_ids)
         self.cuota_fija = sum(self.fees_settlement_lines.mapped('cuota_fija'))
         self.exedente_3uma = sum(self.fees_settlement_lines.mapped('exedente_3uma_patronal')) + sum(self.fees_settlement_lines.mapped('exedente_3uma_patronal'))

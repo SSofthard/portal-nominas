@@ -14,12 +14,12 @@ class HrPayslipRun(models.Model):
     
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', required=True)
     contracting_regime = fields.Selection([
-                                        ('1', 'Assimilated to wages'),
-                                        ('2', 'Wages and salaries'),
-                                        ('3', 'Senior citizens'),
-                                        ('4', 'Pensioners'),
-                                        ('5', 'Free'),
-                                        ], string='Contracting Regime', required=True, default="2")
+            ('01', 'Assimilated to wages'),
+            ('02', 'Wages and salaries'),
+            ('03', 'Senior citizens'),
+            ('04', 'Pensioners'),
+            ('05', 'Free'),
+            ], string='Contracting Regime', required=True, default="2")
     payroll_type = fields.Selection([
             ('O', 'Ordinary Payroll'),
             ('E', 'Extraordinary Payroll')], 
