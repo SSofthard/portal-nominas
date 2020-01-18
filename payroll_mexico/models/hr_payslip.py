@@ -4,6 +4,8 @@ import babel
 
 
 from pytz import timezone
+import pytz
+
 from .tool_convert_numbers_letters import numero_to_letras
 
 from odoo import api, fields, models, tools, _
@@ -13,11 +15,11 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 
 from odoo.addons.payroll_mexico.cfdilib_payroll import cfdilib, cfdv32, cfdv33
-from odoo.addons.payroll_mexico.cfdilib_payroll.tools import tools
 from lxml import etree as ET
 
 from io import StringIO, BytesIO
 import base64
+
 
 
 class HrPayslip(models.Model):
@@ -124,14 +126,12 @@ class HrPayslip(models.Model):
             default="factura_no_generada",
             required=False,
             readonly=True)
-    fiscal_folio = fields.Char(string='Fiscal Folio')
     integral_variable_salary = fields.Float(string = 'Salario diario variable', compute='_compute_integral_variable_salary')
     structure_type_id = fields.Many2one(
                                     'hr.structure.types',
                                     related="contract_id.structure_type_id",
                                     string="Structure Types")
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
-    invoice_date = fields.Datetime(string = "Invoice date", readonly=True)
     code_payslip = fields.Char(string='Serie', store=True, readonly=False)
     number = fields.Char(string='Folio')
     
@@ -143,9 +143,15 @@ class HrPayslip(models.Model):
             readonly=True,
             states={'draft': [('readonly', False)]})
     uuid = fields.Char(string='CFDI relacionado', readonly=True, states={'draft': [('readonly', False)]})
+    
+    cfdi_issue_date = fields.Char(string='Fecha de emisión', readonly=True)
+    invoice_date = fields.Char(string='Fecha de certificación', readonly=True)
+    certificate_number = fields.Char(string='N° de Certificado', readonly=True)
+    stamp_cfd = fields.Text(string='Sello CDF',readonly=False)
+    stamp_sat = fields.Text(string='Sello SAT', readonly=False)
+    original_string = fields.Text(string='Cadena Original', readonly=False)
+    UUID_sat = fields.Char(string='UUID', readonly=True)
 
-    
-    
     
     def to_json(self):
         perceptions = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id)])
@@ -210,13 +216,12 @@ class HrPayslip(models.Model):
                     other_dict[o.salary_rule_id.type_other_payment]['subsidy'] = o.total
                 
 
-        invoice_date = str(self.invoice_date.isoformat()[:19])
         
         
         data = {
             'serie': self.code_payslip,
             'number': self.number,
-            'date_invoice_tz': invoice_date,
+            'date_invoice_tz': '',
             'payment_policy': self.way_pay,
             'certificate_number': '',
             'certificate': '',
@@ -343,9 +348,6 @@ class HrPayslip(models.Model):
                 if int(antiquity_date.days) > 0: 
                     antiquity +=str(antiquity_date.days)+'D'
                 data['payroll']['seniority_emp'] = antiquity
-                
-            
-            
         if not self.employee_id.curp:
             if self.employee_id.gender == 'male':
                 data['payroll']['curp_emp'] = 'XEXX010101HNEXXXA4'
@@ -364,9 +366,8 @@ class HrPayslip(models.Model):
     @api.multi
     def action_cfdi_nomina_generate(self):
         for payslip in self:
-            if payslip.invoice_date == False:
-                payslip.invoice_date = datetime.now()
-                
+            tz = pytz.timezone(self.env.user.partner_id.tz)
+            
             csd_company = self.env['res.company.fiel.csd'].search([('company_id','=',payslip.company_id.id),('type','=','csd'),('predetermined','=',True),('state','=','valid')])
             
             if not csd_company:
@@ -381,15 +382,45 @@ class HrPayslip(models.Model):
             if not csd_company.track:
                 raise ValidationError(_('Advertencia!!! \
                             Debe registrar la pista para el archivo .key'))
-                            
-                
-            
-            
-            
+
             values = payslip.to_json()
-            payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, password=csd_company.track, debug_mode=True,)
+            payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, password=csd_company.track, tz=tz ,debug_mode=True,)
+            
+            
+            
+            
+            print ('traspaso')
+            print ('traspaso')
+            print ('traspaso')
+            print ('traspaso')
+            print ('traspaso')
+            print (payroll.cadena_original)
+            
+            NSMAP = {
+                 'xsi':'http://www.w3.org/2001/XMLSchema-instance',
+                 'cfdi':'http://www.sat.gob.mx/cfd/3', 
+                 'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
+                 }
+            
+            
             file=payroll.document_path.read()
+            document = ET.fromstring(file)
+            Complemento = document.find('cfdi:Complemento', NSMAP)
+            TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
+            vals = {}
+            
+            print (TimbreFiscalDigital.attrib['FechaTimbrado'])
+            print (TimbreFiscalDigital.attrib['NoCertificadoSAT'])
+            print (TimbreFiscalDigital.attrib['SelloCFD'])
+            print (TimbreFiscalDigital.attrib['SelloSAT'])
+            print (TimbreFiscalDigital.attrib['UUID'])
+            
+            
+            
+            
             xml = base64.b64encode(file)
+            
+            
             ir_attachment=self.env['ir.attachment']
             value={u'name': u'Reporte Xml de retención', 
                     u'url': False,
@@ -400,6 +431,17 @@ class HrPayslip(models.Model):
                     u'datas':xml , 
                     u'description': False}
             ir_attachment.create(value)
+            
+            vals = {
+                 'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
+                 'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
+                 'stamp_cfd':TimbreFiscalDigital.attrib['SelloCFD'],
+                 'stamp_sat':TimbreFiscalDigital.attrib['SelloSAT'],
+                 'original_string':payroll.cadena_original,
+                 'cfdi_issue_date':payroll.date_timbre,
+                 'UUID_sat':TimbreFiscalDigital.attrib['UUID'],
+            }
+            payslip.write(vals)
         return True 
     
     @api.one
@@ -975,6 +1017,12 @@ class HrPayslip(models.Model):
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
         employee = self.env['hr.employee'].browse(employee_id)
         locale = self.env.context.get('lang') or 'en_US'
+        print (tools)
+        print (tools)
+        print (tools)
+        print (tools)
+        print (tools)
+        print (tools)
         res['value'].update({
             'name': _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
             'company_id': employee.company_id.id,

@@ -9,6 +9,8 @@ from odoo.osv import expression
 from odoo.addons import decimal_precision as dp
 from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
 
+from odoo.addons.payroll_mexico.models.zip_data import zip_data
+
 def calculate_age(date_birthday):
     today = date.today() 
     try: 
@@ -834,6 +836,14 @@ class HrWorkCenters(models.Model):
         ('code_uniq', 'code (name)', 'The work center code must be unique !')
     ]
     
+    @api.onchange('zip')
+    def _onchange_zip(self):
+        print (zip_data.postal_code)
+        print (type(zip_data.postal_code))
+        print (len(zip_data.postal_code))
+        print (zip_data)
+        print (zip_data)
+        print (zip_data)
     @api.model
     def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
         args = args or []

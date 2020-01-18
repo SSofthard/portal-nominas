@@ -181,18 +181,21 @@
 								<field name="payment_method" readonly="1"/>
 								<field name="cfdi_use" readonly="1"/>
 							 </group>
-							<group string="Detalles">
-								<field name="fiscal_folio" readonly="1"/>
-								<field name="invoice_status" readonly="1"/>
-								<field name="invoice_date" readonly="1"/>
-							 </group>
-					   </group>
-					   <group>
-							<group string="CFDI Relacionado">
+							 <group string="CFDI Relacionado">
 								<field name="type_related_cfdi"/>
 								<field name="uuid" attrs="{'invisible': [('type_related_cfdi', '!=', '04')],'required': [('type_related_cfdi', '=', '04')]}"/>
 							 </group>
 					   </group>
+					   <group string="Detalles">
+							<field name="invoice_status"/>
+							<field name="certificate_number"/>
+							<field name="cfdi_issue_date"/>
+							<field name="invoice_date"/>
+							<field name="UUID_sat"/>
+							<field name="stamp_cfd" invisible="1" readonly="True"/>
+							<field name="stamp_sat" invisible="1" readonly="True"/>
+							<field name="original_string" invisible="1" readonly="True"/>
+						 </group>
                    </page>
                 </xpath> 
             </field>

@@ -1,22 +1,17 @@
 # -*- coding: utf-8 -*-
+import zeep
 import os
 from os.path import dirname
 from io import StringIO, BytesIO
 import re
 from OpenSSL import crypto
-from cryptography import x509
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.serialization import load_ssh_public_key, load_pem_private_key
-from cryptography.hazmat.primitives.serialization import Encoding
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.serialization import PublicFormat
 import base64
 from Crypto.Hash import SHA256
 from Crypto.Signature import PKCS1_v1_5
-from M2Crypto import X509, RSA
+from M2Crypto import RSA
+from datetime import datetime
+import pytz 
 
-# ~ from cStringIO import StringIO
 from abc import ABCMeta, abstractmethod
 from tempfile import NamedTemporaryFile
 
@@ -90,7 +85,7 @@ class BaseDocument:
     xlst_path = os.path.dirname(os.path.abspath(__file__)) + '/templates/cadenaoriginal_3_3.xslt'
     
     @abstractmethod
-    def __init__(self, dict_document, certificado, llave_privada, password, debug_mode=False, cache=1000):
+    def __init__(self, dict_document, certificado, llave_privada, password, tz, debug_mode=False, cache=1000):
         """Convert a dictionary invoice to a Class with a
         based xsd and xslt element to be signed.
 
@@ -104,6 +99,8 @@ class BaseDocument:
         self.debug_mode = debug_mode
         self.schema_url = None
         self.document = ''
+        self.cadena_original = ''
+        self.date_timbre = ''
         self.document_path = None
         self.xslt_path = None
         self.xslt_document = None
@@ -121,7 +118,6 @@ class BaseDocument:
         self.template_fname = ''
         self.schema_fname = self.template_fname.replace('.xml', '.xsd')
         self.templates = os.path.join(dirname(__file__), 'templates')
-        self.cadena_original = ''
 
     __metaclass__ = ABCMeta
 
@@ -209,13 +205,10 @@ class BaseDocument:
         if valid:
             document = etree.XML(document)
             document = self.sellar(document)
-            self.document = etree.tostring(document,
-                                           pretty_print=True,
-                                           xml_declaration=True,
-                                           encoding='utf-8')
-            # ~ print (self.document)
-            # TODO: When Document Generated, this this should not fail either.
-            # Caching just when valid then.
+            documento_timbrado = self.timbrar('pruebasWS', 'pruebasWS', document)
+            document = etree.XML(documento_timbrado['xmlTimbrado'].encode('utf-8'))
+            document = etree.tostring(document, pretty_print=True, xml_declaration=True, encoding='utf-8')
+            self.document = document
             cached.write(self.document is not None and self.document or u'')
             cached.seek(0)
             self.document_path = cached
@@ -294,62 +287,47 @@ class BaseDocument:
     
     
     def get_sello(self, cadena_original):
-        # ~ key = open(self.llave_privada, 'r')
-        # ~ keys_file = base64.b64encode(key.read())
-        
         key_file = self.base64_to_tempfile(self.llave_privada, '', '')
-        
         (no, pem) = tempfile.mkstemp()
         os.close(no)
         cmd = ('openssl pkcs8 -inform DER -outform PEM'
                ' -in "%s" -passin pass:%s -out %s' % (key_file, self.password, pem))
         os.system(cmd)
         keys = RSA.load_key(pem)
-        print (type(cadena_original.encode('UTF-8')))
-        digest = hashlib.new('sha256', cadena_original.encode('UTF-8')).digest()
+        digest = hashlib.new('sha256', bytes(cadena_original, 'UTF-8')).digest()
         return base64.b64encode(keys.sign(digest, "sha256"))
     
     def sellar(self,document):
+        
+        date =  datetime.now()
+        
+        UTC = pytz.timezone ("UTC") 
+        UTC_date = UTC.localize(date, is_dst=None) 
+        date_timbre = UTC_date.astimezone (self.tz)
+        date_timbre = str(date_timbre.isoformat())[:19]
+        self.date_timbre = date_timbre
         certificado64 = self.get_certificado_64()
         certificado = self.get_certificado_x509(certificado64)
         no_certificado = self.get_no_certificado(certificado)
+        document.attrib['Fecha'] = date_timbre
         document.attrib['NoCertificado'] = no_certificado
         document.attrib['Certificado'] = certificado64
         self.cadena_original = self.get_cadena_original(document)
         sello = self.get_sello(self.cadena_original)
-        print (sello.decode('UTF-8'))
-        print (sello)
-        return document
-        # ~ print ('certificado64')
-        # ~ print ('certificado64')
-        # ~ print ('certificado64')
-        # ~ print ('certificado64')
-        # ~ print ('certificado64')
-        # ~ print ('certificado64')
-        # ~ print (no_certificado)
+        document.attrib['Sello'] = sello
         
-        # ~ print (io)
-        
-        
-        # ~ tmpxml = ET.parse(self.xml).getroot()
-
-        # ~ certificado64 = self.get_certificado_64()
-        # ~ certificado = self.get_certificado_x509(certificado64)
-        # ~ no_certificado = self.get_no_certificado(certificado)
-
-
-        # ~ tmpxml.attrib['Fecha'] = fecha
-        # ~ tmpxml.attrib['NoCertificado'] = no_certificado
-        # ~ tmpxml.attrib['Certificado'] = certificado64
-        
-        # ~ cadena_original = self.get_cadena_original(tmpxml)
-
-        # ~ sello = self.get_sello(cadena_original)
-
-        # ~ if self.DEBUG:
-            # ~ print('cadena original:  {0} \n Sello {1} \n Certificado {2} No de Certificado {3}\n'.format(cadena_original, sello,certificado64, no_certificado)) 
-
-
-        # ~ tmpxml.attrib['Sello'] = sello
-
-        # ~ return ET.tostring(tmpxml,encoding='utf-8')
+        return etree.tostring(document,
+                       pretty_print=True,
+                       xml_declaration=True,
+                       encoding='utf-8')
+                       
+    def timbrar(self, usuario, password, cfdi_cellado):
+        cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSTimbradoCFDIService?wsdl')
+        try:
+            accesos_type = cliente.get_type("ns1:accesos")
+            
+            accesos = accesos_type(usuario=usuario, password=password)
+            cfdi_timbrado = cliente.service.TimbrarCFDI(accesos = accesos, comprobante=cfdi_cellado.decode('UTF-8'))
+            return cfdi_timbrado  
+        except Exception as exception:
+            print("Message %s" % exception)

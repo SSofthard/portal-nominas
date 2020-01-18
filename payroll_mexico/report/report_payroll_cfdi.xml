@@ -527,13 +527,13 @@
                             <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
                                 <tbody>
                                     <tr class="border-black o_subtotal" style="">
-                                        <th class="text-left">Sello Digital CFDI:</th>
+                                        <th class="text-left">Sello Digital CFDI: <span t-field="o.stamp_cfd" /></th>
                                     </tr>
                                     <tr class="border-black o_subtotal" style="">
-                                        <th class="text-left">Cadena Original Certificado SAT:</th>
+                                        <th class="text-left">Sello Digital SAT: <span t-field="o.stamp_sat" /></th>
                                     </tr>
                                     <tr class="border-black o_subtotal" style="">
-                                        <th class="text-left">Sello Digital SAT:</th>
+                                        <th class="text-left">Cadena Original Certificado SAT: <span t-field="o.original_string" /></th>
                                     </tr>
                                 </tbody>
                             </table>
