@@ -222,7 +222,7 @@ class Employee(models.Model):
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
-        ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
+        ('identification_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
         ('passport_uniq', 'unique (passport_id)', "An employee with this passport already exists.!"),
         ('rfc_uniq', 'unique (rfc)', "An employee with this RFC already exists.!"),
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
@@ -814,36 +814,58 @@ class hrWorkerHiringRegime(models.Model):
 class HrWorkCenters(models.Model):
     _name = "hr.work.center"
 
+    
+
     def _default_country(self):
         country_id = self.env['res.country'].search([('code','=','MX')], limit=1)
         return country_id
 
     name = fields.Char("Name", copy=False, required=True)
     code = fields.Char("code", copy=False, required=True)
-    colonia = fields.Char("Colonia", copy=False, required=False)
     group_id = fields.Many2one('hr.group', string="Group")
     country_id = fields.Many2one('res.country', default=_default_country, string="Country")
     city = fields.Char(string="City")
     state_id = fields.Many2one('res.country.state', string="Fed. State")
     zip = fields.Char(string="ZIP")
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
     active = fields.Boolean(default=True)
-    
+
+
+    @api.onchange('zip')
+    def _onchange_zip(self):       
+        if self.zip and self.zip not in zip_data.postal_code:
+            self.zip = False
+            warning = {}
+            title = False
+            message = False
+            if True:
+                title = _("Código Postal incorrecto")
+                message = 'Debe ingresar un Código Postal valido'
+                warning = {
+                    'title': title,
+                    'message': message
+                }
+                return {'warning': warning}
+
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'The work center name must be unique !'),
         ('code_uniq', 'code (name)', 'The work center code must be unique !')
     ]
-    
-    @api.onchange('zip')
-    def _onchange_zip(self):
-        print (zip_data.postal_code)
-        print (type(zip_data.postal_code))
-        print (len(zip_data.postal_code))
-        print (zip_data)
-        print (zip_data)
-        print (zip_data)
+
+
+    @api.onchange('state_id')
+    def onchange_state_id(self):
+        if self.state_id:
+            self.municipality_id = False
+            
+    @api.onchange('municipality_id')
+    def onchange_municipality_id(self):
+        if self.municipality_id:
+            self.suburb_id = False
+
     @api.model
     def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
         args = args or []

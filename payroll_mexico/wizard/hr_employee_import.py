@@ -93,7 +93,7 @@ class HrEmployeeImport(models.TransientModel):
         employees = []
         msg_required = ['Los siguientes campos son mandatorios: \n']
         msg_not_found = ['\nNo se encontrarron resultados para: \n']
-        msg_not_format = ['\nFormato incorrecto, ne las columnas: \n']
+        msg_not_format = ['\nFormato incorrecto, en las columnas: \n']
         if datafile:
             book = open_workbook(file_contents=datafile)
             sheet = book.sheet_by_index(0)
@@ -162,6 +162,7 @@ class HrEmployeeImport(models.TransientModel):
                         job_id = self.check_field_many2one(domain, model='hr.job')
                         if job_id:
                             lines['job_id'] = job_id
+                            lines['job_title'] = self.env['hr.job'].search([('id','=',job_id)]).name
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col == 8 and sheet.cell_value(row,col):
@@ -472,7 +473,7 @@ class HrEmployeeImport(models.TransientModel):
                             else:
                                 msg_not_format.append('%s del valor (%s) en la fila %s. INGRESE VALORES NUMÉRICOS \n' 
                                     %(sheet.cell_value(head,col).upper(), sheet.cell_value(row,col), str(row+1)))
-                    #Cuentas de bancos
+                    #Cuentas bancarias
                     if col >= 54 and not sheet.cell_value(row,col) == '':
                         if col == 54:
                             value = self.float_to_string(sheet.cell_value(row,col)).strip()
@@ -499,6 +500,26 @@ class HrEmployeeImport(models.TransientModel):
                                 bank_data['location_branch'] = location_branch
                             else:
                                 msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), sheet.cell_value(row,col), str(row+1)))
+                        if col == 57:
+                            deceased = self.float_to_string(sheet.cell_value(row,col)).strip()
+                            try:
+                                int_deceased = int(deceased)
+                                if int_deceased in [0,1]:
+                                    lines['deceased'] = int_deceased
+                                else:
+                                    msg_not_format.append('%s del valor (%s) en la fila %s (INGRESE 1 ó 0). \n' %(sheet.cell_value(head,col).upper(), deceased, str(row+1)))
+                            except:
+                                msg_not_format.append('%s del valor (%s) en la fila %s (INGRESE 1 ó 0). \n' %(sheet.cell_value(head,col).upper(), deceased, str(row+1)))
+                        if col == 58:
+                            syndicalist = self.float_to_string(sheet.cell_value(row,col)).strip()
+                            try:
+                                int_syndicalist = int(syndicalist)
+                                if int_syndicalist in [0,1]:
+                                    lines['syndicalist'] = int_syndicalist
+                                else:
+                                    msg_not_format.append('%s del valor (%s) en la fila %s (INGRESE 1 ó 0). \n' %(sheet.cell_value(head,col).upper(), syndicalist, str(row+1)))
+                            except:
+                                msg_not_format.append('%s del valor (%s) en la fila %s (INGRESE 1 ó 0). \n' %(sheet.cell_value(head,col).upper(), syndicalist, str(row+1)))
                     if bank_data:
                         lines['bank_account_ids'] = [(0, 0, bank_data)]
                 employees.append(lines)
