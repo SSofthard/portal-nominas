@@ -220,7 +220,7 @@ class Employee(models.Model):
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
-        ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
+        ('identification_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
         ('passport_uniq', 'unique (passport_id)', "An employee with this passport already exists.!"),
         ('rfc_uniq', 'unique (rfc)', "An employee with this RFC already exists.!"),
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
