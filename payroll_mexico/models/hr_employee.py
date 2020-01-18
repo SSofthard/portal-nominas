@@ -9,6 +9,8 @@ from odoo.osv import expression
 from odoo.addons import decimal_precision as dp
 from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
 
+from odoo.addons.payroll_mexico.models.zip_data import zip_data
+
 def calculate_age(date_birthday):
     today = date.today() 
     try: 
@@ -812,6 +814,8 @@ class hrWorkerHiringRegime(models.Model):
 class HrWorkCenters(models.Model):
     _name = "hr.work.center"
 
+    
+
     def _default_country(self):
         country_id = self.env['res.country'].search([('code','=','MX')], limit=1)
         return country_id
@@ -828,7 +832,24 @@ class HrWorkCenters(models.Model):
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
     active = fields.Boolean(default=True)
-    
+
+
+    @api.onchange('zip')
+    def _onchange_zip(self):       
+        if self.zip and self.zip not in zip_data.postal_code:
+            self.zip = False
+            warning = {}
+            title = False
+            message = False
+            if True:
+                title = _("Código Postal incorrecto")
+                message = 'Debe ingresar un Código Postal valido'
+                warning = {
+                    'title': title,
+                    'message': message
+                }
+                return {'warning': warning}
+
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'The work center name must be unique !'),
         ('code_uniq', 'code (name)', 'The work center code must be unique !')

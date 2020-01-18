@@ -8,6 +8,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.addons import decimal_precision as dp
 from odoo.addons.payroll_mexico.pyfiscal.generate_company import GenerateRfcCompany
 
+from odoo.addons.payroll_mexico.models.zip_data import zip_data
 
 class Company(models.Model):
 
@@ -63,8 +64,24 @@ class Company(models.Model):
                    ('IF', _('Ingresos Federales')),
                    ('IM', _('Ingresos Mixtos')),
                    ],
-        string=_('Origen de recursos'), 
+        string=_('Origen de recursos'),
     )
+
+    @api.onchange('zip')
+    def _onchange_zip(self):       
+        if self.zip and self.zip not in zip_data.postal_code:
+            self.zip = False
+            warning = {}
+            title = False
+            message = False
+            if True:
+                title = _("Código Postal incorrecto")
+                message = 'Debe ingresar un Código Postal valido'
+                warning = {
+                    'title': title,
+                    'message': message
+                }
+                return {'warning': warning}
  
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),
@@ -163,9 +180,11 @@ class employerRegister(models.Model):
                     "Fracción de RT", 
                     required=False)
 
+
     _sql_constraints = [
         ('employer_registryt_uniq', 'UNIQUE (employer_registry)', "Ya hay un número patronal registrado con el número ingresado!"),
     ]
+
 
     @api.multi
     def action_revoked(self):
@@ -377,6 +396,22 @@ class Partner(models.Model):
     country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
     suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
+
+    @api.onchange('zip')
+    def _onchange_zip(self):
+        if self.zip and self.zip not in zip_data.postal_code:
+            self.zip = False
+            warning = {}
+            title = False
+            message = False
+            if True:
+                title = _("Código Postal incorrecto")
+                message = 'Debe ingresar un Código Postal valido'
+                warning = {
+                    'title': title,
+                    'message': message
+                }
+                return {'warning': warning}
 
     @api.multi
     def _display_address(self, without_company=False):
