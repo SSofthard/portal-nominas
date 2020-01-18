@@ -137,6 +137,7 @@
                 <attribute name="limit">200</attribute>
             </xpath>
                 <xpath expr="//field[@name='name']" position="after">
+                    <field name="payment_date" readonly="1"/>
                     <field name="payroll_type" readonly="1"/>
                     <field name="payroll_month" readonly="1"/>
                     <field name="year"/>
@@ -184,6 +185,12 @@
 								<field name="fiscal_folio" readonly="1"/>
 								<field name="invoice_status" readonly="1"/>
 								<field name="invoice_date" readonly="1"/>
+							 </group>
+					   </group>
+					   <group>
+							<group string="CFDI Relacionado">
+								<field name="type_related_cfdi"/>
+								<field name="uuid" attrs="{'invisible': [('type_related_cfdi', '!=', '04')],'required': [('type_related_cfdi', '=', '04')]}"/>
 							 </group>
 					   </group>
                    </page>

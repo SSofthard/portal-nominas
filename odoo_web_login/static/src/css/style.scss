@@ -9,12 +9,31 @@ $brand-secondary-light: lighten($brand-secondary, 10%);
 //.o_home_menu_background {
 //    background: url(/odoo_web_login/static/src/img/back-5.png) no-repeat fixed center;;
 //}
-.o_home_menu_background {
-    background: url(/odoo_web_login/static/src/img/back-6.svg),
-        linear-gradient(to right bottom, #77717e, #060507);
-    background-size: cover;
-}
 
+.o_home_menu_background {
+    background: #9A9A9E;
+    background: -moz-linear-gradient(top,  #9A9A9E 24%, #2c2c2c 56%, #9A9A9E 74%);
+    background: -webkit-linear-gradient(top,  #9A9A9E 24%,#2c2c2c 56%,#9A9A9E 74%);
+    background: linear-gradient(to bottom,  #9A9A9E 24%,#2c2c2c 56%,#9A9A9E 74%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9A9A9E', endColorstr='#9A9A9E',GradientType=0 );    
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    scroll-behavior: smooth;
+}
+.o_home_menu_background::before {
+    content: "";
+    position: absolute;
+    right: 10%;
+    width: 400px;
+    height: 244px;
+    background: url(../img/rya.png) no-repeat;
+    right: 5%;
+    top: 50%;
+    background-size: contain;
+    margin-top: -122px;
+}
 
 //#465F93
 //#3E3E40

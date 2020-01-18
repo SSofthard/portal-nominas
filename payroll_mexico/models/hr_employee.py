@@ -196,6 +196,18 @@ class Employee(models.Model):
                                      ('4','Eventual del campo'),
                                      ],
                                     string="Tipo de trabajador", default='1')
+    type_working_day = fields.Selection([ 
+                                     ('01','Diurna'),
+                                     ('02','Nocturna'),
+                                     ('03','Mixta'),
+                                     ('04','Por hora'),
+                                     ('05','Reducida'),
+                                     ('06','Continuada'),
+                                     ('07','Partida'),
+                                     ('08','Por turnos'),
+                                     ('99','Otra jornada'),
+                                     ],
+                                    string="Tipo de jornada", default='01')
     # Fields Translate
     # Register pattern
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
@@ -204,11 +216,13 @@ class Employee(models.Model):
     payment_holidays_bonus = fields.Selection([(0, 'Pagar al vencimiento de las vacaciones'),
                                                (1, 'Pagar con el disfrute de las vacaciones')],
                                               string='Pago de prima vacacional')
+    deceased = fields.Boolean('Fallecido?', default=False, help="Si está marcado, es considerado el empleado cómo fallecido")
+    syndicalist = fields.Boolean('Sindicalizado?', default=False, help="Si está marcado, es considerado el empleado cómo parte del sindicato")
 
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
-        ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
+        ('identification_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
         ('passport_uniq', 'unique (passport_id)', "An employee with this passport already exists.!"),
         ('rfc_uniq', 'unique (rfc)', "An employee with this RFC already exists.!"),
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
@@ -435,7 +449,7 @@ class Employee(models.Model):
     def generate_contracts(self, type_id, date):
         for employee in self:
             contract_obj = self.env['hr.contract']
-            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['1','2','5']),('state','in',['open'])])
+            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['01','02','05']),('state','in',['open'])])
             list_contract =[]
             if contarct:
                 raise UserError(_('The employee has currently open contracts.'))
@@ -450,7 +464,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.wage_salaries_gross,
-                    'contracting_regime':'2',
+                    'contracting_regime':'02',
                     'company_id':employee.company_id.id,
                     'type_id':type_id.id,
                     'date_start':date,
@@ -463,7 +477,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.assimilated_salary_gross,
-                    'contracting_regime':'1',
+                    'contracting_regime':'01',
                     'company_id':employee.company_assimilated_id.id,
                     'type_id':type_id.id,
                     'date_start':date,
@@ -476,7 +490,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.free_salary_gross,
-                    'contracting_regime':'5',
+                    'contracting_regime':'05',
                     'company_id':employee.company_id.id,
                     'type_id':self.env.ref('payroll_mexico.hr_contract_type_services_other').id,
                     'date_start':date,
@@ -808,13 +822,13 @@ class HrWorkCenters(models.Model):
 
     name = fields.Char("Name", copy=False, required=True)
     code = fields.Char("code", copy=False, required=True)
-    colonia = fields.Char("Colonia", copy=False, required=False)
     group_id = fields.Many2one('hr.group', string="Group")
     country_id = fields.Many2one('res.country', default=_default_country, string="Country")
     city = fields.Char(string="City")
     state_id = fields.Many2one('res.country.state', string="Fed. State")
     zip = fields.Char(string="ZIP")
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
     active = fields.Boolean(default=True)
@@ -840,7 +854,17 @@ class HrWorkCenters(models.Model):
         ('name_uniq', 'unique(name)', 'The work center name must be unique !'),
         ('code_uniq', 'code (name)', 'The work center code must be unique !')
     ]
-    
+
+    @api.onchange('state_id')
+    def onchange_state_id(self):
+        if self.state_id:
+            self.municipality_id = False
+            
+    @api.onchange('municipality_id')
+    def onchange_municipality_id(self):
+        if self.municipality_id:
+            self.suburb_id = False
+
     @api.model
     def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
         args = args or []

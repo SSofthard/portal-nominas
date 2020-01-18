@@ -62,12 +62,12 @@ class Contract(models.Model):
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
     contracting_regime = fields.Selection([
-        ('1', 'Assimilated to wages'),
-        ('2', 'Wages and salaries'),
-        ('3', 'Senior citizens'),
-        ('4', 'Pensioners'),
-        ('5', 'Free'),
-        ], string='Contracting Regime', required=True, default="2")
+        ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
+        ], string='Contracting Regime', required=True, default="02")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
     integral_salary= fields.Float(string="SDI", copy=False)
@@ -258,7 +258,7 @@ class Contract(models.Model):
         '''
         contracts = self
         for contract in contracts:
-            if contract.contracting_regime == '2':
+            if contract.contracting_regime == '02':
                 contract.integral_salary = contract._calculate_integral_salary()
         
 

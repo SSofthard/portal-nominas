@@ -53,11 +53,11 @@ class EmployeeAffiliateMovements(models.Model):
         ('approved', 'Approved'),
     ], string='State', default = 'draft')
     contracting_regime = fields.Selection([
-        ('1', 'Assimilated to wages'),
-        ('2', 'Wages and salaries'),
-        ('3', 'Senior citizens'),
-        ('4', 'Pensioners'),
-        ('5', 'Free'),
+        ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
         ], string='Contracting Regime', related="contract_id.contracting_regime", store=True)
 
     def action_move_draft(self):
@@ -82,11 +82,11 @@ class ChangeOfJob(models.Model):
     date_to = fields.Date(string='Hasta', readonly=True)
     job_id = fields.Many2one('hr.job', string='Puesto de trabajo', readonly=True)
     contracting_regime = fields.Selection([
-        ('1', 'Assimilated to wages'),
-        ('2', 'Wages and salaries'),
-        ('3', 'Senior citizens'),
-        ('4', 'Pensioners'),
-        ('5', 'Free'),
+        ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
         ], string='Contracting Regime', related="contract_id.contracting_regime")
     low_reason = fields.Selection([
             ('1', 'TERMINACIÓN DE CONTRATO'),
@@ -140,14 +140,14 @@ class Contract(models.Model):
         
     @api.multi
     def write(self, vals, create=None):
-        affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','=','2')])
+        affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','=','02')])
         res= super(Contract, self).write(vals)
         if not create:
-            if self.contracting_regime != '2':
+            if self.contracting_regime != '02':
                 if affiliate_movements:
                     raise UserError(_('You cannot change the contracting regime of a contract with affiliated movement.'))
                 else:
-                    affiliate_movements_other = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','in',['1','3','4','5'])])
+                    affiliate_movements_other = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','in',['01','03','04','05'])])
                     val = {
                         'contract_id':self.id,
                         'employee_id':self.employee_id.id,
