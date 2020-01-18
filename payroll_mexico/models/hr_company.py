@@ -69,16 +69,34 @@ class Company(models.Model):
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "And there is a company with this code.!"),
     ]
-    
-    @api.constrains('bank_account_ids')
-    def validate_predetermined(self):
-        predetermined=[]
-        for record in self.bank_account_ids:
-            if record.predetermined==True:
-                predetermined.append(record.predetermined)
-                if len(predetermined)>1:
-                    raise ValidationError(_('Advertencia!!! \
-                            Solo debe existir una cuenta predeterminada'))
+
+    @api.constrains('bank_account_ids','bank_account_ids.predetermined','employer_register_ids',
+        'employer_register_ids.employer_registry','employer_register_ids.company_id',
+        'power_attorney_ids','power_attorney_ids.predetermined','power_attorney_ids.company_id',
+        'fiel_csd_ids','fiel_csd_ids.predetermined','fiel_csd_ids.company_id')
+    def _check_predetermined(self):
+        # By @jeisonpernia1
+        for record in self:
+            # Validar numero de registro patronal único
+            employer_register_ids = record.employer_register_ids.filtered(lambda l: l.state == 'valid').mapped('employer_registry')
+            if len(list(set(employer_register_ids))) != len(employer_register_ids):
+                raise ValidationError(_('Advertencia! \
+                        Solo debe existir un Registro Patronal con el mismo número.'))
+            #Validar única cuenta bancaria predeterminada 
+            bank_account_ids = record.bank_account_ids.filtered(lambda l: l.predetermined == True)
+            if len(bank_account_ids) > 1:
+                raise ValidationError(_('Advertencia! \
+                        Solo debe existir una cuenta predeterminada'))
+            #Validar único poder notariado predeterminada 
+            power_attorney_ids = record.power_attorney_ids.filtered(lambda l: l.predetermined == True and l.state == 'valid')
+            if len(power_attorney_ids) > 1:
+                raise ValidationError(_('Advertencia! \
+                        Solo debe existir un Poder Notariado predeterminado.'))
+            #Validar único certificado predeterminada 
+            fiel_csd_ids = record.fiel_csd_ids.filtered(lambda l: len(l.search([('predetermined','=',True),('type','=',l.type)])) > 1)
+            if len(fiel_csd_ids) > 1:
+                raise ValidationError(_('Advertencia! \n'
+                        'Ya existe un registro predeterminado para el tipo de certificado selecionado.'))
 
     def get_rfc_data(self):
         kwargs = {
@@ -138,11 +156,16 @@ class employerRegister(models.Model):
     state_id = fields.Many2one('res.country.state', string="Fed. State")
     zip = fields.Char(string="ZIP")
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
     sector_economico_id = fields.Many2one('res.company.sector_economico', 
                     "Fracción de RT", 
                     required=False)
+
+    _sql_constraints = [
+        ('employer_registryt_uniq', 'UNIQUE (employer_registry)', "Ya hay un número patronal registrado con el número ingresado!"),
+    ]
 
     @api.multi
     def action_revoked(self):
@@ -167,6 +190,7 @@ class employerRegister(models.Model):
                     risk_factor = 0.0
         return risk_factor
 
+
 class HrGroupRiskFactor(models.Model):
     _name = "res.group.risk.factor"
     _description="Annual Risk Factor"
@@ -184,7 +208,8 @@ class companyDelegacion(models.Model):
     name = fields.Char('Delegacion', required=True)
     code = fields.Char('Code', required=True)
     subdelegacion_ids = fields.One2many('res.company.subdelegacion', 'delegacion_id', 'Sub-Delegacion')
-    
+
+
 class companySubDelegacion(models.Model):
 
     _name = 'res.company.subdelegacion'
@@ -192,8 +217,8 @@ class companySubDelegacion(models.Model):
     delegacion_id = fields.Many2one('res.company.delegacion', "Delegacion")
     name = fields.Char('Sub-Delegacion', required=True)
     code = fields.Char('Code', required=True)
-    
-    
+
+
 class companyPartner(models.Model):
 
     _name = 'res.company.partner'
@@ -219,11 +244,7 @@ class companyFielCsd(models.Model):
         ('timed_out', 'Timed out'),
         ('revoked', 'Revoked'),],default="valid")
     predetermined = fields.Boolean('Predetermined', copy=False)
-    
-    _sql_constraints = [
-        ('predetermined_uniq', 'unique (company_id,predetermined,type)', "A default record for the type of certificate already exists.!"),
-    ]
-    
+
     @api.multi
     def action_revoked(self):
         for fc in self:
@@ -245,6 +266,7 @@ class branchOffices(models.Model):
     company_id = fields.Many2one('res.company', "Company", required=False)
     partner_id = fields.Many2one('res.partner', "Branch Offices", required=True, copy=False)
 
+
 class bankDetailsCompany(models.Model):
     _name = "bank.account.company"
     
@@ -262,11 +284,6 @@ class bankDetailsCompany(models.Model):
         ('clabe', 'Clabe'),
         ('tarjeta', 'Tarjeta'),
     ],'Account Type ')
-    
-    # ~ _sql_constraints = [
-        # ~ ('predetermined_uniq', 'unique (company_id,predetermined)', "There is already a default account number for this company.!"),
-    # ~ ]
-    
 
     @api.multi
     def action_active(self):
@@ -295,10 +312,6 @@ class companyPowerAttorney(models.Model):
         ('valid', 'Valid'),
         ('timed_out', 'Timed out'),
         ('revoked', 'Revoked'),], "Status",default="valid")
-
-    _sql_constraints = [
-        ('predetermined_uniq', 'unique (company_id,predetermined)', "There is already a default ower attorney for this company.!"),
-    ]
 
     def _get_name(self):
         return "%s ‒ %s" % (self.representative_id.name, self.public_deed_number)
