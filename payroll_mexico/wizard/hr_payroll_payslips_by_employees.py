@@ -60,7 +60,7 @@ class HrPayslipEmployees(models.TransientModel):
             [run_data] = payslip_run.browse(active_id).read(['date_start', 
                                                              'date_end', 
                                                              'credit_note',
-                                                             'struct_id',
+                                                             # ~ 'struct_id',
                                                              'payroll_type',
                                                              'payroll_month',
                                                              'payroll_of_month',

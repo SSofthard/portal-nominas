@@ -25,13 +25,7 @@ import base64
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
 
-    @api.one
-    @api.depends('code_payslip', 'number')
-    def compute_complete_name(self):
-        for record in self:
-            record.complete_name = record.code_payslip if record.code_payslip else ''  + record.number if record.number else ''  
-
-    complete_name = fields.Char("Serie nómina", store=True, compute='compute_complete_name')
+    complete_name = fields.Char("Serie/Folio")
     payroll_type = fields.Selection([
             ('O', 'Ordinary Payroll'),
             ('E', 'Extraordinary Payroll')], 
@@ -87,7 +81,7 @@ class HrPayslip(models.Model):
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
-    payment_date = fields.Date(string='Fecha de pago', required=True,
+    payment_date = fields.Date(string='Fecha de pago',
         readonly=True, states={'draft': [('readonly', False)]})
     # ~ CFDI
     
@@ -350,7 +344,6 @@ class HrPayslip(models.Model):
                 if int(antiquity_date.months) > 0: 
                     antiquity +=str(antiquity_date.months)+'M'
                 if int(antiquity_date.days) > 0:
-                    print (antiquity_date.days)
                     antiquity +=str(antiquity_date.days+1)+'D'
                 data['payroll']['seniority_emp'] = antiquity
         if not self.employee_id.curp:
@@ -689,7 +682,7 @@ class HrPayslip(models.Model):
     @api.multi
     def compute_sheet(self):
         for payslip in self:
-            payslip.compute_complete_name()
+            # ~ payslip._compute_complete_name()
             if not payslip.settlement:
                 sequence = payslip.group_id.sequence_payslip_id
                 number = payslip.number or sequence.next_by_id()
@@ -1004,12 +997,6 @@ class HrPayslip(models.Model):
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
         employee = self.env['hr.employee'].browse(employee_id)
         locale = self.env.context.get('lang') or 'en_US'
-        print (tools)
-        print (tools)
-        print (tools)
-        print (tools)
-        print (tools)
-        print (tools)
         res['value'].update({
             'name': _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
             'company_id': employee.company_id.id,
@@ -1041,6 +1028,14 @@ class HrPayslip(models.Model):
             # ~ 'input_line_ids': input_line_ids,
         })
         return res
+
+    @api.multi
+    def write(self, vals):
+        payslip = super(HrPayslip, self).write(vals)
+        if 'code_payslip' and 'number' in vals:
+           self.complete_name = self.code_payslip +'/'+ self.number
+        return payslip
+
 
 class HrSalaryRule(models.Model):
     _inherit = 'hr.salary.rule'
