@@ -92,7 +92,6 @@
         'data/data_delegacion.xml',
         'data/data_inpc.xml',
         'data/data_sector_economico.xml',
-        'data/report_layout.xml',
         # ~ 'data/data_hr_perceptions.xml',
 
     ],
