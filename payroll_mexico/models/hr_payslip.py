@@ -29,7 +29,7 @@ class HrPayslip(models.Model):
     @api.depends('code_payslip', 'number')
     def compute_complete_name(self):
         for record in self:
-            record.complete_name = record.code_payslip + record.number
+            record.complete_name = record.code_payslip if record.code_payslip else ''  + record.number if record.number else ''  
 
     complete_name = fields.Char("Serie nómina", store=True, compute='compute_complete_name')
     payroll_type = fields.Selection([
