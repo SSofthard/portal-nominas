@@ -56,6 +56,8 @@ def remove_names(name):
             if n in NAMES:
                 data.append(name[1])
                 break
+            else:
+                data.append(name[1])
     else:
         data += name
     return data[0]

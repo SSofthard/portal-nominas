@@ -238,16 +238,6 @@ class Employee(models.Model):
         ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
 
-    @api.constrains('bank_account_ids')
-    def validate_predetermined(self):
-        predetermined=[]
-        for record in self.bank_account_ids:
-            if record.predetermined==True:
-                predetermined.append(record.predetermined)
-                if len(predetermined)>1:
-                    raise ValidationError(_('Advertencia!!! \
-                            Solo debe existir una cuenta predeterminada'))
-    
     def get_bank(self):
         bank_ids = []
         for employee in self:
@@ -258,6 +248,16 @@ class Employee(models.Model):
                     return bank
                 else:
                     return employee.bank_account_ids[0]
+
+    @api.constrains('bank_account_ids','bank_account_ids.predetermined',)
+    def _check_bank_account_predetermined(self):
+        # By @jeisonpernia1
+        for record in self:
+            #Validar única cuenta bancaria predeterminada 
+            bank_account_ids = record.bank_account_ids.filtered(lambda l: l.predetermined == True)
+            if len(bank_account_ids) > 1:
+                raise ValidationError(_('Advertencia! \
+                        Solo debe existir una cuenta bancaria predeterminada.'))
 
     # ~ @api.constrains('ssnid','rfc','curp')
     # ~ def validate_ssnid(self):
@@ -384,7 +384,7 @@ class Employee(models.Model):
                     if salary > tsub.lim_inf and salary < tsub.lim_sup:
                         employment_subsidy = tsub.s_mensual
                 total_perceptions = salary+employment_subsidy
-                risk_factor = employee.employer_register_id.get_risk_factor(today)[0]
+                risk_factor = employee.employer_register_id.get_risk_factor(today)
                 work_irrigation = (integrated_daily_wage * risk_factor * days)/100
                 uma = table_id.uma_id.daily_amount
                 benefits_kind_fixed_fee_pattern = (uma*table_id.em_fixed_fee*days)/100
@@ -437,23 +437,30 @@ class Employee(models.Model):
         if gender == 'female':
             return 'M'
 
+    def set_city(self):
+        if not self.place_of_birth:
+            return self.set_required_field(self.fields_get()['place_of_birth']['string'])
+        else:
+            if self.place_of_birth.country_id.code != 'MX':
+                return 'NACIDO EXTRANJERO'
+            else:
+                return self.place_of_birth.name
+
     def get_rfc_curp_data(self):
-        
         kwargs = {
             "complete_name": self.name if self.name else self.set_required_field(self.fields_get()['name']['string']),
             "last_name": self.last_name if self.last_name else self.set_required_field(self.fields_get()['last_name']['string']),
             "mother_last_name": self.mothers_last_name if self.mothers_last_name else None,
             "birth_date": self.birthday.strftime('%d-%m-%Y') if self.birthday else self.set_required_field(self.fields_get()['birthday']['string']),
             "gender": self.set_gender_format(self.gender) if self.gender else self.set_required_field(self.fields_get()['gender']['string']),
-            "city": self.place_of_birth.name if self.place_of_birth else self.set_required_field(self.fields_get()['place_of_birth']['string']),
+            "city": self.set_city(),
             "state_code": None
         }
         curp = GenerateCURP(**kwargs)
         rfc = GenerateRFC(**kwargs)
         self.curp = curp.data
         self.rfc = rfc.data
-    
-    
+
     @api.multi
     def generate_contracts(self, type_id, date):
         for employee in self:
