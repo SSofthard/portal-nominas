@@ -413,7 +413,7 @@ class HrPayslipRun(models.Model):
         self.compute_amount_untaxed()
         for payslip in self.slip_ids:
             if not payslip.payment_date:
-                raise ValidationError(_('Para poder cerrar la nómina debe agregar la Fecha de paga.'))
+                raise ValidationError(_('Para poder cerrar la nómina debe agregar la Fecha de pago.'))
             payslip.state = 'done'
             amount = 0
             for line in payslip.line_ids:

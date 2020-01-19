@@ -51,8 +51,11 @@ class Contract(models.Model):
         self.years_antiquity = years_antiquity
         self.days_rest = days_rest
 
+    def _set_sequence_code(self):
+        return self.env['ir.sequence'].with_context(force_company=self.env.user.company_id.id).next_by_code('Contract')
+
     #Columns
-    code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
+    code = fields.Char('Code',required=True, default=_set_sequence_code)
     type_id = fields.Many2one(string="Type Contract")
     type_contract = fields.Selection(string="Type", related="type_id.type", invisible=True)
     company_id = fields.Many2one('res.company', default = ['employee_id','=', False], required=True)

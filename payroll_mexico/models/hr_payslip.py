@@ -81,7 +81,7 @@ class HrPayslip(models.Model):
     group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
-    payment_date = fields.Date(string='Fecha de pago', required=True,
+    payment_date = fields.Date(string='Fecha de pago',
         readonly=True, states={'draft': [('readonly', False)]})
     # ~ CFDI
     
