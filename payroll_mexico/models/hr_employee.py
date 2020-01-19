@@ -2,12 +2,15 @@
 
 import datetime
 from datetime import date, timedelta
+import base64
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.addons import decimal_precision as dp
+from odoo import tools, _
 from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
+from odoo.modules.module import get_module_resource
 
 from odoo.addons.payroll_mexico.models.zip_data import zip_data
 
@@ -97,6 +100,10 @@ class Employee(models.Model):
         for name in self:
             name.complete_name = name.name_get()[0][1]
 
+    @api.model
+    def _default_signature(self):
+        image_path = get_module_resource('payroll_mexico', 'static/img', 'default_signature_default.png')
+        return tools.image_resize_image_big(base64.b64encode(open(image_path, 'rb').read()))
 
     #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
@@ -218,7 +225,9 @@ class Employee(models.Model):
                                               string='Pago de prima vacacional')
     deceased = fields.Boolean('Fallecido?', default=False, help="Si está marcado, es considerado el empleado cómo fallecido")
     syndicalist = fields.Boolean('Sindicalizado?', default=False, help="Si está marcado, es considerado el empleado cómo parte del sindicato")
-
+    signature_employee = fields.Binary(
+        "Firma digitalizada", default=_default_signature, attachment=True,
+        help="Este campo corresponde a la firma del empleado, limitado a 1024x1024px.")
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -553,6 +562,11 @@ class resBank(models.Model):
 class HrGroup(models.Model):
     _name = "hr.group"
 
+    @api.model
+    def _default_signature(self):
+        image_path = get_module_resource('payroll_mexico', 'static/img', 'default_signature_default.png')
+        return tools.image_resize_image_big(base64.b64encode(open(image_path, 'rb').read()))
+
     @api.constrains('days')
     def validate_ssnid(self):
         for record in self:
@@ -585,6 +599,9 @@ class HrGroup(models.Model):
                                                   inverse='_inverse_seq_number_next')
     code_payslip = fields.Char(string='Serie', store=True, readonly=False)
     pay_three_days_disability = fields.Boolean(string='Pagar 3 dias de incapacidad')
+    signature_group = fields.Binary(
+        "Firma digitalizada", default=_default_signature, attachment=True,
+        help="Este campo corresponde a la firma autorizada para la credencialización, limitado a 1024x1024px.")
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
