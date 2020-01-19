@@ -466,10 +466,8 @@ class AddFields(models.Model):
         else:
             snippet = IMG()
             snippet.set('style', "width:{};position:absolute; left: {}pt; top: {}pt".format(self.image_size, left, top))
-            snippet.set('src', "'/report/barcode/?type=Code128&amp;value=${%s}&amp;width=600&amp;height=120'" % (self.field_selection))
-            snippet.set('onerror', "this.onerror=null; this.src='/payroll_mexico/static/img/%s_default.png';" %
-                        self.field_selection.split('.')[-1])
-            snippet.set('alt', "Signature")
+            snippet.set('src', "/report/barcode/?type=Code128&value=${object.%s}&width=600&height=120" % (self.field_selection))
+            snippet.set('alt', "Barcode")
             snippet.set('oe_data_id', '%s' % self.id)
             self.node_id = str(self.id)
         for node in element.xpath('//tr/td'):

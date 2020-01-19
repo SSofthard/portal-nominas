@@ -101,7 +101,8 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
         element = etree.HTML(template)
         for img in element.xpath('//img'):
             img_data=img.get('data')
-            img_data = img_data.replace("b'","").replace("'","")
-            img.set('src','%s' % image_data_uri(bytes(img_data,'utf-8')))
+            if img_data:
+                img_data = img_data.replace("b'","").replace("'","")
+                img.set('src','%s' % image_data_uri(bytes(img_data,'utf-8')))
         template = html.tostring(element)
         return template
