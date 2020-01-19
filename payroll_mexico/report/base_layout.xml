@@ -118,7 +118,7 @@
                     <div>
                         <strong t-field="company.partner_id.name"/>
                     </div>
-                    <span t-field="company.partner_id"
+                    <span class="company_address" t-field="company.partner_id"
                         t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
                 </div>
                 <div class="col-9" style="font-size:11px; min-height:11px; border-top: 0px;">
@@ -128,16 +128,16 @@
                             <td><strong>REGISTRO PATRONAL: </strong><span t-field="o.employer_register_id.employer_registry"/></td>
                         </tr>
                         <tr>
-                            <td><strong>FOLIO: </strong> <span t-field="o.number"/></td>
+                            <td><strong>SERIE/FOLIO: </strong> <span t-field="o.complete_name"/></td>
                             <td><strong>RÉGIMEN: </strong><span t-field="o.company_id.tax_regime"/></td>
                         </tr>
                         <tr>
                             <td><strong>TIPO DE COMPROBANTE: </strong><span t-field="o.type_voucher"/></td>
-                            <td><strong>FECHA Y HORA DE EMISIÓN: </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%b/%Y %H:%M').title()"/></td>
+                            <td><strong>FECHA Y HORA DE IMPRESIÓN: </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%b/%Y %H:%M').title()"/></td>
                         </tr>
                         <tr>
-                            <td><strong>FOLIO FISCAL:</strong></td>
-                            <td><strong>N° DE SERIE DEL CERTIFICADO DEL CSD:</strong></td>
+                            <td style="color: #FFFFFF;">-</td>
+                            <td style="color: #FFFFFF;">-</td>
                         </tr>
                     </table>
                     <br/>

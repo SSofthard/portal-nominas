@@ -447,7 +447,7 @@
                                         <field name="state_id" class="o_address_state" placeholder="State" 
                                             domain="[('country_id','=',country_id)]" options='{"no_open": True}'/>
                                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
-                                        <field name="municipality_id" class="o_address_country" placeholder="Municipalit8888888888888y" 
+                                        <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
                                             domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
                                         <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
                                             domain="[('municipality_id','=',municipality_id)]" context="{'default_municipality_id': municipality_id}"/>

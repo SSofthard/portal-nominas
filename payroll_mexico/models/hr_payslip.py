@@ -24,7 +24,14 @@ import base64
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
-    
+
+    @api.one
+    @api.depends('code_payslip', 'number')
+    def compute_complete_name(self):
+        for record in self:
+            record.complete_name = record.code_payslip + record.number
+
+    complete_name = fields.Char("Serie nómina", store=True, compute='compute_complete_name')
     payroll_type = fields.Selection([
             ('O', 'Ordinary Payroll'),
             ('E', 'Extraordinary Payroll')], 
@@ -159,7 +166,6 @@ class HrPayslip(models.Model):
     
     
 
-    
     def to_json(self):
         perceptions = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id)])
         
@@ -724,6 +730,7 @@ class HrPayslip(models.Model):
     @api.multi
     def compute_sheet(self):
         for payslip in self:
+            payslip.compute_complete_name()
             if not payslip.settlement:
                 sequence = payslip.group_id.sequence_payslip_id
                 number = payslip.number or sequence.next_by_id()
