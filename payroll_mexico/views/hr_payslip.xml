@@ -133,6 +133,9 @@
 					<field name="code_payslip" readonly="1"/>
 				</xpath>
             
+            <xpath expr="//field[@name='number']" position="attributes">
+                <attribute name="string">Folio</attribute>
+            </xpath>
             <xpath expr="//field[@name='line_ids']/tree" position="attributes">
                 <attribute name="limit">200</attribute>
             </xpath>
@@ -141,6 +144,7 @@
                     <field name="payroll_type" readonly="1"/>
                     <field name="payroll_month" readonly="1"/>
                     <field name="year"/>
+                    <field name="complete_name" invisible="1"/>
                     <field name="payroll_of_month" readonly="1"/>
                     <field name="payroll_period" readonly="1"/>
                     <field name="group_id" readonly="1"/>

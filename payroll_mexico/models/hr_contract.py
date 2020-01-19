@@ -18,9 +18,6 @@ class Contract(models.Model):
     @api.constrains('employee_id', 'contracting_regime', 'company_id', 'state')
     def _check_contract(self):
         vals=[(self.employee_id.id,self.company_id.id,self.contracting_regime,self.state)]
-        contracting_regime = {1: 'Asimilado a salarios',
-            2: 'Sueldos y salarios',3: 'Jubilados',
-            4: 'Pensionados',5: 'Libre'}
         regimen=contracting_regime.get(int(self.contracting_regime))
         lista_contract=[]
         contr = self.env['hr.contract'].search([
@@ -52,7 +49,6 @@ class Contract(models.Model):
         days_rest = int(days_antiquity%365)
         self.years_antiquity = years_antiquity
         self.days_rest = days_rest
-
 
     #Columns
     code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
