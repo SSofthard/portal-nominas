@@ -85,7 +85,7 @@ class BaseDocument:
     xlst_path = os.path.dirname(os.path.abspath(__file__)) + '/templates/cadenaoriginal_3_3.xslt'
     
     @abstractmethod
-    def __init__(self, dict_document, certificado, llave_privada, password, tz, debug_mode=False, cache=1000):
+    def __init__(self, dict_document, certificado, llave_privada, password, tz,  url, user, password_pac, debug_mode=False, cache=1000):
         """Convert a dictionary invoice to a Class with a
         based xsd and xslt element to be signed.
 
@@ -101,6 +101,7 @@ class BaseDocument:
         self.document = ''
         self.cadena_original = ''
         self.date_timbre = ''
+        self.error_timbrado = None
         self.document_path = None
         self.xslt_path = None
         self.xslt_document = None
@@ -205,13 +206,16 @@ class BaseDocument:
         if valid:
             document = etree.XML(document)
             document = self.sellar(document)
-            documento_timbrado = self.timbrar('pruebasWS', 'pruebasWS', document)
-            document = etree.XML(documento_timbrado['xmlTimbrado'].encode('utf-8'))
-            document = etree.tostring(document, pretty_print=True, xml_declaration=True, encoding='utf-8')
-            self.document = document
-            cached.write(self.document is not None and self.document or u'')
-            cached.seek(0)
-            self.document_path = cached
+            documento_timbrado = self.timbrar(self.user, self.password_pac, document)
+            if documento_timbrado['xmlTimbrado']:
+                document = etree.XML(documento_timbrado['xmlTimbrado'].encode('utf-8'))
+                document = etree.tostring(document, pretty_print=True, xml_declaration=True, encoding='utf-8')
+                self.document = document
+                cached.write(self.document is not None and self.document or u'')
+                cached.seek(0)
+                self.document_path = cached
+            else:
+                self.error_timbrado =  documento_timbrado
 
     def get_element_from_clark(self, element):
         """**Helper method:** Given a Clark's Notation
@@ -270,7 +274,7 @@ class BaseDocument:
         xslt = etree.parse(self.xlst_path)
         transform = etree.XSLT(xslt)
         cadena_original = transform(xml)
-        return (str(cadena_original))
+        return (str(cadena_original))        
     
     def base64_to_tempfile(self, b64_str=None, suffix=None, prefix=None):
         """ Convert strings in base64 to a temp file
@@ -322,12 +326,13 @@ class BaseDocument:
                        encoding='utf-8')
                        
     def timbrar(self, usuario, password, cfdi_cellado):
-        cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSTimbradoCFDIService?wsdl')
+        cliente = zeep.Client(wsdl = self.url)
         try:
             accesos_type = cliente.get_type("ns1:accesos")
             
             accesos = accesos_type(usuario=usuario, password=password)
             cfdi_timbrado = cliente.service.TimbrarCFDI(accesos = accesos, comprobante=cfdi_cellado.decode('UTF-8'))
+            print (cfdi_timbrado)
             return cfdi_timbrado  
         except Exception as exception:
             print("Message %s" % exception)

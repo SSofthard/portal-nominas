@@ -151,6 +151,13 @@ class HrPayslip(models.Model):
     stamp_sat = fields.Text(string='Sello SAT', readonly=False)
     original_string = fields.Text(string='Cadena Original', readonly=False)
     UUID_sat = fields.Char(string='UUID', readonly=True)
+    
+    code_error = fields.Char(string='Código de error', readonly=True)
+    error = fields.Char(string='Error', readonly=True)
+    
+    xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)")
+    
+    
 
     
     def to_json(self):
@@ -339,13 +346,13 @@ class HrPayslip(models.Model):
                 week = (int(abs(date_1 - date_2).days))/7
                 antiquity_date = rdelta.relativedelta(date_2,date_1)
                 antiquity = 'P'+str(int(week))+'W'
-                if int(antiquity_date.years) > 0:
-                    antiquity +=str(antiquity_date.years)+'Y'
-                if int(antiquity_date.months) > 0: 
-                    antiquity +=str(antiquity_date.months)+'M'
-                if int(antiquity_date.days) > 0:
-                    print (antiquity_date.days)
-                    antiquity +=str(antiquity_date.days+1)+'D'
+                # ~ if int(antiquity_date.years) > 0:
+                    # ~ antiquity +=str(antiquity_date.years)+'Y'
+                # ~ if int(antiquity_date.months) > 0: 
+                    # ~ antiquity +=str(antiquity_date.months)+'M'
+                # ~ if int(antiquity_date.days) > 0:
+                    # ~ print (antiquity_date.days)
+                    # ~ antiquity +=str(antiquity_date.days+1)+'D'
                 data['payroll']['seniority_emp'] = antiquity
         if not self.employee_id.curp:
             if self.employee_id.gender == 'male':
@@ -366,62 +373,96 @@ class HrPayslip(models.Model):
     def action_cfdi_nomina_generate(self):
         for payslip in self:
             tz = pytz.timezone(self.env.user.partner_id.tz)
-            
             csd_company = self.env['res.company.fiel.csd'].search([('company_id','=',payslip.company_id.id),('type','=','csd'),('predetermined','=',True),('state','=','valid')])
-            
-            if not csd_company:
-                raise ValidationError(_('Advertencia!!! \
-                            Debe establecer el registro predeterminado para los archivos .key y .cer'))
-            if not csd_company.cer:
-                raise ValidationError(_('Advertencia!!! \
-                            Debe registrar su archivo .cer'))
-            if not csd_company.key:
-                raise ValidationError(_('Advertencia!!! \
-                            Debe registrar su archivo .key'))
-            if not csd_company.track:
-                raise ValidationError(_('Advertencia!!! \
-                            Debe registrar la pista para el archivo .key'))
-
-            values = payslip.to_json()
-            payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, password=csd_company.track, tz=tz ,debug_mode=True,)
-            
-            NSMAP = {
-                 'xsi':'http://www.w3.org/2001/XMLSchema-instance',
-                 'cfdi':'http://www.sat.gob.mx/cfd/3', 
-                 'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
-                 }
-            
-            
-            file=payroll.document_path.read()
-            document = ET.fromstring(file)
-            Complemento = document.find('cfdi:Complemento', NSMAP)
-            TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
-            vals = {}
-            
-            xml = base64.b64encode(file)
-            
-            
-            ir_attachment=self.env['ir.attachment']
-            value={u'name': u'Reporte Xml de retención', 
-                    u'url': False,
-                     u'company_id': 1, 
-                     u'datas_fname': u'reporte_xml.xml', 
-                    u'type': u'binary', 
-                    u'public': False, 
-                    u'datas':xml , 
-                    u'description': False}
-            ir_attachment.create(value)
-            
-            vals = {
-                 'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
-                 'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
-                 'stamp_cfd':TimbreFiscalDigital.attrib['SelloCFD'],
-                 'stamp_sat':TimbreFiscalDigital.attrib['SelloSAT'],
-                 'original_string':payroll.cadena_original,
-                 'cfdi_issue_date':payroll.date_timbre,
-                 'UUID_sat':TimbreFiscalDigital.attrib['UUID'],
-            }
-            payslip.write(vals)
+            if csd_company.company_id.test_cfdi:
+                url = csd_company.company_id.url_cfdi_test
+                user = csd_company.company_id.user_cfdi_test
+                password = csd_company.company_id.password_cfdi_test
+            else:
+                url = csd_company.company_id.url_cfdi
+                user = csd_company.company_id.user_cfdi
+                password = csd_company.company_id.password_cfdi
+            if not url or not user or not password:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer la url el user y password para la conexción con el PAC',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer el registro predeterminado para los archivos .key y .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.cer:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.key:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.track:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar la pista para el archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            else:
+                values = payslip.to_json()
+                payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, password=csd_company.track, tz=tz, url=url, user=user, password_pac = password,  debug_mode=True,)
+                if not payroll.error_timbrado:
+                    NSMAP = {
+                         'xsi':'http://www.w3.org/2001/XMLSchema-instance',
+                         'cfdi':'http://www.sat.gob.mx/cfd/3', 
+                         'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
+                         }
+                    file=payroll.document_path.read()
+                    document = ET.fromstring(file)
+                    Complemento = document.find('cfdi:Complemento', NSMAP)
+                    TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
+                    vals = {}
+                    xml = base64.b64encode(file)
+                    ir_attachment=self.env['ir.attachment']
+                    value={u'name': TimbreFiscalDigital.attrib['UUID'], 
+                            u'url': False,
+                            u'company_id': 1, 
+                            u'datas_fname': TimbreFiscalDigital.attrib['UUID']+'.xml', 
+                            u'type': u'binary', 
+                            u'public': False, 
+                            u'datas':xml , 
+                            u'description': False}
+                    xml_timbre = ir_attachment.create(value)
+                    vals = {
+                         'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
+                         'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
+                         'stamp_cfd':TimbreFiscalDigital.attrib['SelloCFD'],
+                         'stamp_sat':TimbreFiscalDigital.attrib['SelloSAT'],
+                         'original_string':payroll.cadena_original,
+                         'cfdi_issue_date':payroll.date_timbre,
+                         'UUID_sat':TimbreFiscalDigital.attrib['UUID'],
+                         'xml_timbre':xml_timbre.id,
+                         'invoice_status':'factura_correcta',
+                         'code_error':'',
+                         'error':'',
+                        }
+                    payslip.write(vals)
+                else:
+                    vals = {
+                         'code_error':payroll.error_timbrado['codigoError'],
+                         'error':payroll.error_timbrado['error'],
+                         'invoice_status':'problemas_factura'
+                        }
+                    payslip.write(vals)
         return True 
     
     @api.one

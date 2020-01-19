@@ -192,9 +192,14 @@
 							<field name="cfdi_issue_date"/>
 							<field name="invoice_date"/>
 							<field name="UUID_sat"/>
+							<field name="xml_timbre"/>
 							<field name="stamp_cfd" invisible="1" readonly="True"/>
 							<field name="stamp_sat" invisible="1" readonly="True"/>
 							<field name="original_string" invisible="1" readonly="True"/>
+						 </group>
+					   <group string="Error en Timbrado" attrs="{'invisible': [('invoice_status', '!=', 'problemas_factura')]}">
+							<field name="code_error"/>
+							<field name="error"/>
 						 </group>
                    </page>
                 </xpath> 
