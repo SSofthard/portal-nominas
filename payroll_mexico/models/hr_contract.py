@@ -18,6 +18,7 @@ class Contract(models.Model):
     @api.constrains('employee_id', 'contracting_regime', 'company_id', 'state')
     def _check_contract(self):
         vals=[(self.employee_id.id,self.company_id.id,self.contracting_regime,self.state)]
+        contracting_regime = dict(self._fields.get('contracting_regime').selection)
         regimen=contracting_regime.get(int(self.contracting_regime))
         lista_contract=[]
         contr = self.env['hr.contract'].search([
