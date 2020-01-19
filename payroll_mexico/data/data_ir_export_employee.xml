@@ -361,5 +361,6 @@
             <field name="name">infonavit_ids/state</field>
             <field name="export_id" ref="hr_infonavit_data_export"/>
         </record>
+
    </data>
 </odoo>
