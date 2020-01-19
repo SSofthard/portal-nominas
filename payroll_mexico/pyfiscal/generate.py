@@ -48,7 +48,6 @@ class GenerateRFC(BaseGenerator):
         summary = 0 
         div = 0 
         mod = 0
-
         rfc1 = {
             ' ':00, '&':10, 'A':11, 'B':12, 'C':13, 'D':14, 'E':15, 'F':16,
             'G':17, 'H':18, 'I':19, 'J':21, 'K':22, 'L':23, 'M':24, 'N':25, 'O':26,
@@ -60,7 +59,7 @@ class GenerateRFC(BaseGenerator):
             0:'1', 1:'2', 2:'3', 3:'4', 4:'5', 5:'6', 6:'7', 7:'8', 8:'9', 9:'A', 10:'B',
             11:'C', 12:'D', 13:'E', 14:'F', 15:'G', 16:'H', 17:'I', 18:'J', 19:'K',
             20:'L', 21:'M', 22:'N', 23:'P', 24:'Q', 25:'R', 26:'S', 27:'T', 28:'U',
-            29:'V', 30:'W', 31:'X', 32:'Y',
+            29:'V', 30:'W', 31:'X', 32:'Y', 33:'Z',
         }
 
         # Recorrer el nombre y convertir las letras en su valor numérico.
