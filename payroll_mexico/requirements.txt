@@ -1,0 +1,5 @@
+zeep==2.5.0
+boto3==1.4.2
+xlrd==1.2.0;
+pandas==0.25.3;
+git+https://github.com/mcepl/M2Crypto@master
