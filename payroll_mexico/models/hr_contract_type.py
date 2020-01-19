@@ -7,6 +7,7 @@ class ContractType(models.Model):
 
     _inherit = 'hr.contract.type'
 
+    code = fields.Char('Clave', required=True)
     report_id = fields.Many2one('ir.actions.report',domain=[('model','=','hr.contract')],string="Report",)
     type = fields.Selection([
         ('with_seniority', 'With Seniority'),

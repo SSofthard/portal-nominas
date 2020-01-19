@@ -18,9 +18,6 @@ class Contract(models.Model):
     @api.constrains('employee_id', 'contracting_regime', 'company_id', 'state')
     def _check_contract(self):
         vals=[(self.employee_id.id,self.company_id.id,self.contracting_regime,self.state)]
-        contracting_regime = {1: 'Asimilado a salarios',
-            2: 'Sueldos y salarios',3: 'Jubilados',
-            4: 'Pensionados',5: 'Libre'}
         regimen=contracting_regime.get(int(self.contracting_regime))
         lista_contract=[]
         contr = self.env['hr.contract'].search([
@@ -53,7 +50,6 @@ class Contract(models.Model):
         self.years_antiquity = years_antiquity
         self.days_rest = days_rest
 
-
     #Columns
     code = fields.Char('Code',required=True, default= lambda self: self.env['ir.sequence'].next_by_code('Contract'))
     type_id = fields.Many2one(string="Type Contract")
@@ -62,12 +58,12 @@ class Contract(models.Model):
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
     contracting_regime = fields.Selection([
-        ('1', 'Assimilated to wages'),
-        ('2', 'Wages and salaries'),
-        ('3', 'Senior citizens'),
-        ('4', 'Pensioners'),
-        ('5', 'Free'),
-        ], string='Contracting Regime', required=True, default="2")
+        ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
+        ], string='Contracting Regime', required=True, default="02")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
     integral_salary= fields.Float(string="SDI", copy=False)
@@ -206,7 +202,7 @@ class Contract(models.Model):
                                             ('code','in',['F01','F04']),
                                             ('payslip_id.year','=',str(date_payroll.year)),
                                             ('payslip_id.state','in',['done']),
-                                            ('payslip_id.payroll_type','in',['ordinary_payroll'])]).mapped('number_of_days'))
+                                            ('payslip_id.payroll_type','in',['O'])]).mapped('number_of_days'))
         
         days = days - days_discount
         if days < 0:
@@ -258,7 +254,7 @@ class Contract(models.Model):
         '''
         contracts = self
         for contract in contracts:
-            if contract.contracting_regime == '2':
+            if contract.contracting_regime == '02':
                 contract.integral_salary = contract._calculate_integral_salary()
         
 

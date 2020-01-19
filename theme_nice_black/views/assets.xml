@@ -40,7 +40,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-white text-center">
-                            <span>Copyright &amp;copy;</span> <span t-field="res_company.name" itemprop="name">Company name</span>
+                            <span>Copyright &amp;copy;</span> <span>R&amp;A Rosales &amp; Asociados</span>
                         </div>
                     </div>
                 </div>

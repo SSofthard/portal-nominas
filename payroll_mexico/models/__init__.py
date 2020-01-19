@@ -34,6 +34,7 @@ from . import table_antiguedades
 from . import hr_fees_settlement
 from . import hr_table_index_consume_price
 from . import report_layout_credential
+from . import zip_data
 
 
 

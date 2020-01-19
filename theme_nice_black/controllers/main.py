@@ -16,75 +16,91 @@ from odoo import http
 
 _logger = logging.getLogger(__name__)
 
-MENU_ACCESS = {
-    'setting': {
-        'model': 'base',
-        'action': 'res_config_setting_act_window',
-        'menu': 'menu_administration',
-        'acces': 'accesdeny',
-    },
-    'app': {
-        'model': 'base',
-        'action': 'open_module_tree',
-        'menu': 'menu_management',
-        'acces': 'accesdeny',
-    },
-    'attendance': {
-        'model': 'hr_attendance',
-        'action': 'hr_attendance_action',
-        'menu': 'menu_hr_attendance_root',
-        'acces': 'accesdeny',
-    },
-    'leave': {
-        'model': 'hr_holidays',
-        'action': 'action_hr_holidays_dashboard',
-        'menu': 'menu_hr_holidays_root',
-        'acces': 'accesdeny',
-    },
-    'calendar': {
-        'model': 'calendar',
-        'action': 'action_calendar_event',
-        'menu': 'mail_menu_calendar',
-        'acces': 'accesdeny',
-    },
-    'mail': {
-        'model': 'mail',
-        'action': 'action_discuss',
-        'menu': 'menu_root_discuss',
-        'acces': 'accesdeny',
-    },
-    'documents': {
-        'model': 'documents',
-        'action': 'document_action',
-        'menu': 'menu_root',
-        'acces': 'accesdeny',
-    },
-    'expense': {
-        'model': 'hr_expense',
-        'action': 'hr_expense_actions_my_unsubmitted',
-        'menu': 'menu_hr_expense_root',
-        'acces': 'accesdeny',
-    },
-    'hr': {
-        'model': 'hr',
-        'action': 'open_view_employee_list_my',
-        'menu': 'menu_hr_root',
-        'acces': 'accesdeny',
-    },
-    'payroll': {
-        'model': 'hr_payroll',
-        'action': 'action_view_hr_payslip_form',
-        'menu': 'menu_hr_payroll_root',
-        'acces': 'accesdeny',
-    },
-}
+
 
 class AuthSignupHome(Home):
+    menuAccess = {
+            'setting': {
+                'model': 'base',
+                'action': 'res_config_setting_act_window',
+                'menu': 'menu_administration',
+                'acces': 'accesdeny',
+            },
+            'app': {
+                'model': 'base',
+                'action': 'open_module_tree',
+                'menu': 'menu_management',
+                'acces': 'accesdeny',
+            },
+            'attendance': {
+                'model': 'hr_attendance',
+                'action': 'hr_attendance_action',
+                'menu': 'menu_hr_attendance_root',
+                'acces': 'accesdeny',
+            },
+            'leave': {
+                'model': 'hr_holidays',
+                'action': 'action_hr_holidays_dashboard',
+                'menu': 'menu_hr_holidays_root',
+                'acces': 'accesdeny',
+            },
+            'calendar': {
+                'model': 'calendar',
+                'action': 'action_calendar_event',
+                'menu': 'mail_menu_calendar',
+                'acces': 'accesdeny',
+            },
+            'mail': {
+                'model': 'mail',
+                'action': 'action_discuss',
+                'menu': 'menu_root_discuss',
+                'acces': 'accesdeny',
+            },
+            'documents': {
+                'model': 'documents',
+                'action': 'document_action',
+                'menu': 'menu_root',
+                'acces': 'accesdeny',
+            },
+            'expense': {
+                'model': 'hr_expense',
+                'action': 'hr_expense_actions_my_unsubmitted',
+                'menu': 'menu_hr_expense_root',
+                'acces': 'accesdeny',
+            },
+            'hr': {
+                'model': 'hr',
+                'action': 'open_view_employee_list_my',
+                'menu': 'menu_hr_root',
+                'acces': 'accesdeny',
+            },
+            'payroll': {
+                'model': 'hr_payroll',
+                'action': 'action_view_hr_payslip_form',
+                'menu': 'menu_hr_payroll_root',
+                'acces': 'accesdeny',
+            }
+        }
+    
+    def check_access_menu(self,menu_ids):
+        # ~ menu_access_ids=self.groups_id.mapped('menu_access').ids
+        menu_access_out=self.menuAccess
+        menu_access_ids=menu_ids
+        for menu in menu_access_out:
+            menuXml=menu_access_out[menu]['menu']
+            model=menu_access_out[menu]['model']
+            menuXmlId="%s.%s" % (model,menuXml)
+            menu_id=request.env.ref(menuXmlId, False)
+            if menu_id:
+                if menu_id.id in menu_access_ids:
+                    menu_access_out[menu]['acces']=""
+                else:
+                    menu_access_out[menu]['acces']="accesdeny"
+        return menu_access_out
     
     @http.route('/web', type='http', auth="user")
     def web_client(self, s_action=None, **kw):
         ensure_db()
-        # ~ print (kw)
         if not request.session.uid:
             return werkzeug.utils.redirect('/web/login', 303)
         if kw.get('redirect'):
@@ -97,8 +113,12 @@ class AuthSignupHome(Home):
             if 'reload' in kw.keys():
                 response = request.render('web.webclient_bootstrap', qcontext=context)
             else:
-                user_menu_access = request.env.user.check_access_menu(MENU_ACCESS)
-                context.update({'dataMenu': MENU_ACCESS})
+                menu_ids={}
+                for c in context['menu_data']:
+                    menu_ids=set(context['menu_data']['all_menu_ids'])
+                menu_ids=list(menu_ids)
+                user_menu_access = self.check_access_menu(menu_ids)
+                context.update({'dataMenu': user_menu_access})
                 response = request.render('theme_nice_black.custom_menu_hr', qcontext=context)
             response.headers['X-Frame-Options'] = 'DENY'
             return response
@@ -135,9 +155,7 @@ class MenuApp(http.Controller):
         if not menu_id._filter_visible_menus():
             redirect="/web?msg='Acceso denegado, contacte al Administrador del portal.'"
             return werkzeug.utils.redirect(redirect)
-        print ()
         redirect="/web2#menu_id=%d&action_id=%d" % (menu_id.id,action_id.id)
-        print (redirect)
         return werkzeug.utils.redirect(redirect)
         
         

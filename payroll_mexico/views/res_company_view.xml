@@ -71,6 +71,8 @@
 													<field name="zip" placeholder="ZIP" class="o_address_zip"/>
 													<field name="municipality_id" class="o_address_country" placeholder="Municipality" 
 														domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+													<field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+														domain="[('municipality_id','=',municipality_id)]" context='{"default_municipality_id": municipality_id}'/>
 													<field name="street" placeholder="Street..." class="o_address_street"/>
 													<field name="street2" placeholder="Street 2..." class="o_address_street"/>
 												</div>
@@ -218,12 +220,12 @@
                         <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True}'/>
                         <field name="city" placeholder="City" class="o_address_city"/>
                         <field name="state_id" domain="[('country_id','=',country_id)]" class="o_address_state" 
-                            placeholder="State" options='{"no_open": True}'/>
+                            placeholder="State" options='{"no_open": True}' context="{'default_country_id': country_id}"/>
                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                         <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
                             domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
-                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
-							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
+                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" context="{'default_municipality_id': municipality_id}"
+                            domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
                         <field name="street" placeholder="Street..." class="o_address_street"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                     </div>
@@ -275,7 +277,7 @@
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                         <field name="municipality_id" placeholder="Municipality" class="o_address_country" options='{"no_open": True, "no_create": True}'
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('state_id','=',state_id)]"/>
-                        <field name="suburb_id" placeholder="Colonia" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                        <field name="suburb_id" placeholder="Colonia" class="o_address_country" context="{'default_municipality_id': municipality_id}" 
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('municipality_id','=',municipality_id)]"/>
                         <field name="street" placeholder="Street..." class="o_address_street"
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
@@ -293,7 +295,7 @@
                         <field name="municipality_id" placeholder="Municipality" class="o_address_country"
                             domain="[('state_id','=',state_id)]" options='{"no_open": True, "no_create": True}'/>
                         <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
-							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
+							domain="[('municipality_id','=',municipality_id)]" context="{'default_municipality_id': municipality_id}"/>
                         <field name="street" placeholder="Street..." class="o_address_street"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                     </div>
@@ -325,7 +327,7 @@
                         <field name="municipality_id" placeholder="Municipality" class="o_address_country"
                             domain="[('state_id','=',state_id)]" options='{"no_open": True, "no_create": True}'/>
                         <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
-							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
+							domain="[('municipality_id','=',municipality_id)]" context="{'default_municipality_id': municipality_id}"/>
                         <field name="street" placeholder="Street..." class="o_address_street"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                     </div>
@@ -357,7 +359,7 @@
                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                         <field name="municipality_id" class="o_address_street" placeholder="Municipality" domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
                         <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
-							domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}'/>
+                            domain="[('municipality_id','=',municipality_id)]" context="{'default_municipality_id': municipality_id}"/>
                         <field name="street" placeholder="Street..." class="o_address_street"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                     </div>
@@ -381,14 +383,14 @@
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" context="{'country_id': country_id, 'zip': zip}"/>
                         <field name="zip" placeholder="ZIP" class="o_address_zip"
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        <field name="municipality_id" placeholder="Municipality" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('state_id','=',state_id)]" />
+                        <field name="suburb_id" placeholder="Colonia" class="o_address_country" context="{'default_municipality_id': municipality_id}"
+                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('municipality_id','=',municipality_id)]"/>
                         <field name="street" placeholder="Street..." class="o_address_street"
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
-                        <field name="municipality_id" placeholder="Municipality" class="o_address_country" options='{"no_open": True, "no_create": True}'
-                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('state_id','=',state_id)]" />
-                        <field name="suburb_id" placeholder="Colonia" class="o_address_country" options='{"no_open": True, "no_create": True}'
-                            attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" domain="[('municipality_id','=',municipality_id)]" />
                     </div>
                 </xpath>
             </field>
@@ -433,6 +435,8 @@
                                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                                         <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
                                             domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                                        <field name="suburb_id" class="o_address_country" placeholder="Colonia" 
+                                            domain="[('municipality_id','=',municipality_id)]" context="{'default_municipality_id': municipality_id}"/>
                                         <field name="street" placeholder="Street..." class="o_address_street"/>
                                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                                     </div>

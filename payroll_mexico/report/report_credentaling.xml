@@ -12,8 +12,28 @@
             print_report_name="'Credencial - %s' % (object.name).replace('/', '')"
         />
 
+
+
+        <template id="template_front_credential">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="employee">
+                <div class="page">
+                        <div class="col-md-6">
+                            <t t-raw="data['front_html']['%s' % employee.id]"/>
+                        </div>
+                </div>
+                <div class="page">
+                        <div class="col-md-6">
+                            <t t-raw="data['back_html']['%s' % employee.id]"/>
+                        </div>
+                </div>
+                    </t>
+            </t>
+        </template>
+
         <template id="report_credentaling">
-            <t t-call="{{data['template_id']}}"/>
+<!--            <t t-call="{{data['template_id']}}"/>-->
+            <t t-call="payroll_mexico.template_front_credential"/>
         </template>
 
     </data>

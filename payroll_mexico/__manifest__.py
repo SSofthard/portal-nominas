@@ -19,6 +19,8 @@
         'wizard/infonavit_view.xml',
         'wizard/fees_settlement_report_txt_view.xml',
         'wizard/hr_payroll_payslips_by_employees.xml',
+        'views/credential_template_view.xml',
+        'wizard/wizard_credentialing.xml',
         'views/res_country_view.xml',
         'views/hr_employee_view.xml',
         'wizard/wizard_credentialing.xml',
@@ -32,6 +34,7 @@
         'wizard/wizard_infonavit_employee.xml',
         'wizard/report_payroll_summary_view.xml',
         'wizard/wizard_compute_sdi_vars.xml',
+        'wizard/hr_employee_import_view.xml',
         'views/res_company_view.xml',
         'views/table_settings.xml',
         'views/res_config_settings_views.xml',
@@ -43,10 +46,9 @@
         'views/table_antiguedades_view.xml',
         'views/hr_fees_settlement_view.xml',
         'views/hr_table_index_consume_price_view.xml',
-        'views/assets.xml',
         'security/ir.model.access.csv',
         #Reports
-        
+
         'report/base_layout.xml',
         'report/report_payslip_line_template.xml',
         'report/indeterminate_contract_without_seniority.xml',
@@ -90,9 +92,8 @@
         'data/data_delegacion.xml',
         'data/data_inpc.xml',
         'data/data_sector_economico.xml',
-        'data/report_layout.xml',
         # ~ 'data/data_hr_perceptions.xml',
-        
+
     ],
     "active": True,
     "installable": True,

@@ -14,15 +14,15 @@ class HrPayslipRun(models.Model):
     
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', required=True)
     contracting_regime = fields.Selection([
-                                        ('1', 'Assimilated to wages'),
-                                        ('2', 'Wages and salaries'),
-                                        ('3', 'Senior citizens'),
-                                        ('4', 'Pensioners'),
-                                        ('5', 'Free'),
-                                        ], string='Contracting Regime', required=True, default="2")
+            ('01', 'Assimilated to wages'),
+            ('02', 'Wages and salaries'),
+            ('03', 'Senior citizens'),
+            ('04', 'Pensioners'),
+            ('05', 'Free'),
+            ], string='Contracting Regime', required=True, default="02")
     payroll_type = fields.Selection([
-            ('ordinary_payroll', 'Ordinary Payroll'),
-            ('extraordinary_payroll', 'Extraordinary Payroll')], 
+            ('O', 'Ordinary Payroll'),
+            ('E', 'Extraordinary Payroll')], 
             string='Payroll Type', 
             required=False,
             readonly=False,)
@@ -56,13 +56,13 @@ class HrPayslipRun(models.Model):
             readonly=True,
             states={'draft': [('readonly', False)]})
     payroll_period = fields.Selection([
-            ('daily', 'Daily'),
-            ('weekly', 'Weekly'),
-            ('decennial', 'Decennial'),
-            ('biweekly', 'Biweekly'),
-            ('monthly', 'Monthly')], 
+            ('01', 'Daily'),
+            ('02', 'Weekly'),
+            ('10', 'Decennial'),
+            ('04', 'Biweekly'),
+            ('05', 'Monthly')], 
             string='Payroll period', 
-            default="biweekly",
+            default="04",
             required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
@@ -99,6 +99,8 @@ class HrPayslipRun(models.Model):
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
     generated = fields.Boolean('Generated', default=False)
     group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
+    payment_date = fields.Date(string='Fecha de pago',
+        readonly=True, states={'draft': [('readonly', False)]})
 
     @api.one
     @api.depends('date_start')
@@ -358,7 +360,7 @@ class HrPayslipRun(models.Model):
         date1 =datetime.strptime(str(str(date_from.year)+'-12-01'), DEFAULT_SERVER_DATE_FORMAT).date()
         date2 =datetime.strptime(str(str(date_from.year)+'-12-15'), DEFAULT_SERVER_DATE_FORMAT).date()
         
-        if date_from >= date1 and date_to <= date2 and self.payroll_type == 'ordinary_payroll':
+        if date_from >= date1 and date_to <= date2 and self.payroll_type == 'O':
             self.bonus_date = True
         else:
             self.bonus_date = False
@@ -410,6 +412,8 @@ class HrPayslipRun(models.Model):
         self.slip_ids.compute_amount_untaxed()
         self.compute_amount_untaxed()
         for payslip in self.slip_ids:
+            if not payslip.payment_date:
+                raise ValidationError(_('Para poder cerrar la nómina debe agregar la Fecha de paga.'))
             payslip.state = 'done'
             amount = 0
             for line in payslip.line_ids:

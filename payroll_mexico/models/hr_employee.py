@@ -2,12 +2,17 @@
 
 import datetime
 from datetime import date, timedelta
+import base64
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.addons import decimal_precision as dp
+from odoo import tools, _
 from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
+from odoo.modules.module import get_module_resource
+
+from odoo.addons.payroll_mexico.models.zip_data import zip_data
 
 def calculate_age(date_birthday):
     today = date.today() 
@@ -95,6 +100,10 @@ class Employee(models.Model):
         for name in self:
             name.complete_name = name.name_get()[0][1]
 
+    @api.model
+    def _default_signature(self):
+        image_path = get_module_resource('payroll_mexico', 'static/img', 'default_signature_default.png')
+        return tools.image_resize_image_big(base64.b64encode(open(image_path, 'rb').read()))
 
     #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
@@ -194,6 +203,18 @@ class Employee(models.Model):
                                      ('4','Eventual del campo'),
                                      ],
                                     string="Tipo de trabajador", default='1')
+    type_working_day = fields.Selection([ 
+                                     ('01','Diurna'),
+                                     ('02','Nocturna'),
+                                     ('03','Mixta'),
+                                     ('04','Por hora'),
+                                     ('05','Reducida'),
+                                     ('06','Continuada'),
+                                     ('07','Partida'),
+                                     ('08','Por turnos'),
+                                     ('99','Otra jornada'),
+                                     ],
+                                    string="Tipo de jornada", default='01')
     # Fields Translate
     # Register pattern
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
@@ -202,11 +223,15 @@ class Employee(models.Model):
     payment_holidays_bonus = fields.Selection([(0, 'Pagar al vencimiento de las vacaciones'),
                                                (1, 'Pagar con el disfrute de las vacaciones')],
                                               string='Pago de prima vacacional')
-
+    deceased = fields.Boolean('Fallecido?', default=False, help="Si está marcado, es considerado el empleado cómo fallecido")
+    syndicalist = fields.Boolean('Sindicalizado?', default=False, help="Si está marcado, es considerado el empleado cómo parte del sindicato")
+    signature_employee = fields.Binary(
+        "Firma digitalizada", default=_default_signature, attachment=True,
+        help="Este campo corresponde a la firma del empleado, limitado a 1024x1024px.")
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
-        ('enrollment_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
+        ('identification_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
         ('passport_uniq', 'unique (passport_id)', "An employee with this passport already exists.!"),
         ('rfc_uniq', 'unique (rfc)', "An employee with this RFC already exists.!"),
         ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
@@ -433,7 +458,7 @@ class Employee(models.Model):
     def generate_contracts(self, type_id, date):
         for employee in self:
             contract_obj = self.env['hr.contract']
-            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['1','2','5']),('state','in',['open'])])
+            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['01','02','05']),('state','in',['open'])])
             list_contract =[]
             if contarct:
                 raise UserError(_('The employee has currently open contracts.'))
@@ -448,7 +473,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.wage_salaries_gross,
-                    'contracting_regime':'2',
+                    'contracting_regime':'02',
                     'company_id':employee.company_id.id,
                     'type_id':type_id.id,
                     'date_start':date,
@@ -461,7 +486,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.assimilated_salary_gross,
-                    'contracting_regime':'1',
+                    'contracting_regime':'01',
                     'company_id':employee.company_assimilated_id.id,
                     'type_id':type_id.id,
                     'date_start':date,
@@ -474,7 +499,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.free_salary_gross,
-                    'contracting_regime':'5',
+                    'contracting_regime':'05',
                     'company_id':employee.company_id.id,
                     'type_id':self.env.ref('payroll_mexico.hr_contract_type_services_other').id,
                     'date_start':date,
@@ -537,6 +562,11 @@ class resBank(models.Model):
 class HrGroup(models.Model):
     _name = "hr.group"
 
+    @api.model
+    def _default_signature(self):
+        image_path = get_module_resource('payroll_mexico', 'static/img', 'default_signature_default.png')
+        return tools.image_resize_image_big(base64.b64encode(open(image_path, 'rb').read()))
+
     @api.constrains('days')
     def validate_ssnid(self):
         for record in self:
@@ -564,11 +594,14 @@ class HrGroup(models.Model):
     antique_table = fields.Many2one('tablas.antiguedades', string='Antique table', required=True)
     percent_honorarium = fields.Float(required=True, digits=(16, 4), string='Porcentaje de honoraios')
     sequence_payslip_id = fields.Many2one(comodel_name='ir.sequence', string='Secuencia correlativo de Nómina')
-    sequence_payslip_number_next = fields.Integer(string='Próximo Número (Correlativo de Nómina)',
+    sequence_payslip_number_next = fields.Integer(string='Folio',
                                                   compute='_compute_seq_number_next',
                                                   inverse='_inverse_seq_number_next')
-    code_payslip = fields.Char(string='Código corto (Correlativo de Nómina)', store=True, readonly=False)
+    code_payslip = fields.Char(string='Serie', store=True, readonly=False)
     pay_three_days_disability = fields.Boolean(string='Pagar 3 dias de incapacidad')
+    signature_group = fields.Binary(
+        "Firma digitalizada", default=_default_signature, attachment=True,
+        help="Este campo corresponde a la firma autorizada para la credencialización, limitado a 1024x1024px.")
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
@@ -652,12 +685,10 @@ class HrGroup(models.Model):
     @api.model
     def _create_sequence_payslip(self, vals):
         """ Create new no_gap entry sequence for every new Group"""
-        prefix = self._get_sequence_prefix(vals['code_payslip'])
         seq_name = _('Group: ') + vals['code_payslip'] + ' ' + _(vals['name'])
         seq = {
             'name': _('%s Sequence') % seq_name,
             'implementation': 'no_gap',
-            'prefix': prefix,
             'padding': 6,
             'number_increment': 1,
         }
@@ -800,28 +831,66 @@ class hrWorkerHiringRegime(models.Model):
 class HrWorkCenters(models.Model):
     _name = "hr.work.center"
 
+    
+
     def _default_country(self):
         country_id = self.env['res.country'].search([('code','=','MX')], limit=1)
         return country_id
 
     name = fields.Char("Name", copy=False, required=True)
     code = fields.Char("code", copy=False, required=True)
-    colonia = fields.Char("Colonia", copy=False, required=False)
     group_id = fields.Many2one('hr.group', string="Group")
     country_id = fields.Many2one('res.country', default=_default_country, string="Country")
     city = fields.Char(string="City")
     state_id = fields.Many2one('res.country.state', string="Fed. State")
     zip = fields.Char(string="ZIP")
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
     active = fields.Boolean(default=True)
-    
+
+
+    @api.onchange('zip')
+    def _onchange_zip(self):       
+        if self.zip and self.zip not in zip_data.postal_code:
+            self.zip = False
+            warning = {}
+            title = False
+            message = False
+            if True:
+                title = _("Código Postal incorrecto")
+                message = 'Debe ingresar un Código Postal valido'
+                warning = {
+                    'title': title,
+                    'message': message
+                }
+                return {'warning': warning}
+
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'The work center name must be unique !'),
         ('code_uniq', 'code (name)', 'The work center code must be unique !')
     ]
 
+
+    @api.onchange('state_id')
+    def onchange_state_id(self):
+        if self.state_id:
+            self.municipality_id = False
+            
+    @api.onchange('municipality_id')
+    def onchange_municipality_id(self):
+        if self.municipality_id:
+            self.suburb_id = False
+
+    @api.model
+    def name_search(self, name, args=None, operator='like', limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|',('code', operator, name),('name', operator, name)]
+        code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        return self.browse(code).name_get()
 
 class Country(models.Model):
     _inherit = "res.country"

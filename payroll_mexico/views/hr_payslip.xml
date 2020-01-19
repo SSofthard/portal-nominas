@@ -16,6 +16,7 @@
                        <field name="type" widget="radio"/>
                        <field name="type_perception" attrs="{'invisible': [('type', '!=', 'perception')],'required': [('type', '=', 'perception')]}"/>
                        <field name="type_deduction" attrs="{'invisible': [('type', '!=', 'deductions')],'required': [('type', '=', 'deductions')]}"/>
+                       <field name="type_other_payment" attrs="{'invisible': [('type', '!=', 'other_payment')],'required': [('type', '=', 'other_payment')]}"/>
                        <field name="payroll_tax" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
                     </group>
                 </xpath> 
@@ -46,6 +47,9 @@
 				   <attribute name="colors">blue:state == 'draft';</attribute>
 				   <attribute name="create">0</attribute>
 			   </xpath>
+			   <xpath expr="//field[@name='company_id']" position="after">
+				   <field name="invoice_status"/>
+			   </xpath>
 			</field>
 		</record>
         
@@ -71,6 +75,7 @@
                     <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
                 </xpath> 
                 <xpath expr="//header" position="inside">
+                    <button string="Generar CFDI" name="action_cfdi_nomina_generate" type="object" class="oe_sale"/>
                     <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
                     <button string="Generar CFDI" name="print_payroll_cfdi" type="object" class="oe_sale"/>
@@ -127,14 +132,22 @@
 				<xpath expr="//field[@name='line_ids']" position="attributes">
 					<attribute name="readonly">1</attribute>
 				</xpath>
+				<xpath expr="//field[@name='number']" position="before">
+					<field name="code_payslip" readonly="1"/>
+				</xpath>
             
+            <xpath expr="//field[@name='number']" position="attributes">
+                <attribute name="string">Folio</attribute>
+            </xpath>
             <xpath expr="//field[@name='line_ids']/tree" position="attributes">
                 <attribute name="limit">200</attribute>
             </xpath>
                 <xpath expr="//field[@name='name']" position="after">
+                    <field name="payment_date" readonly="1"/>
                     <field name="payroll_type" readonly="1"/>
                     <field name="payroll_month" readonly="1"/>
                     <field name="year"/>
+                    <field name="complete_name" invisible="1"/>
                     <field name="payroll_of_month" readonly="1"/>
                     <field name="payroll_period" readonly="1"/>
                     <field name="group_id" readonly="1"/>
@@ -175,11 +188,21 @@
 								<field name="payment_method" readonly="1"/>
 								<field name="cfdi_use" readonly="1"/>
 							 </group>
-							<group string="Detalles">
-								<field name="fiscal_folio" readonly="1"/>
-								<field name="invoice_status" readonly="1"/>
+							 <group string="CFDI Relacionado">
+								<field name="type_related_cfdi"/>
+								<field name="uuid" attrs="{'invisible': [('type_related_cfdi', '!=', '04')],'required': [('type_related_cfdi', '=', '04')]}"/>
 							 </group>
 					   </group>
+					   <group string="Detalles">
+							<field name="invoice_status"/>
+							<field name="certificate_number"/>
+							<field name="cfdi_issue_date"/>
+							<field name="invoice_date"/>
+							<field name="UUID_sat"/>
+							<field name="stamp_cfd" invisible="1" readonly="True"/>
+							<field name="stamp_sat" invisible="1" readonly="True"/>
+							<field name="original_string" invisible="1" readonly="True"/>
+						 </group>
                    </page>
                 </xpath> 
             </field>

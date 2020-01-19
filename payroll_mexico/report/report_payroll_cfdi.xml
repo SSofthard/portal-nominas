@@ -261,22 +261,130 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
+                                        <tr class="border-black o_subtotal" style="background-color: #ABAFAF;">
+                                            <th class="col-12 text-center">Comprobante Fiscal Digital por Internet</th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" name="linesw">
+                                <div class="col-6">
+                                    <table class="table-sm" style="width:100%;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-left"><strong>Folio Fiscal: </strong> </td>
+                                                <td class="text-left"><strong>N° de Certificado: </strong> </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <span t-field="o.UUID_sat"/>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span t-field="o.certificate_number"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left"><strong>Fecha y hora de certificación: </strong> </td>
+                                                <td class="text-left"><strong>Fecha y hora de emisión: </strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <span t-field="o.invoice_date"/>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span t-field="o.cfdi_issue_date"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table-sm" style="width:100%; border: 1px solid #00A09D;">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <th class="text-center">Total de Percepciones:</th>
+                                                <td class="text-right"><span t-esc="payroll[0]['total_percep']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
+                                            <tr style="width:100%; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
+                                                <td></td>
+                                                <td></td>
+                                                <th class="text-center">Otros Pagos</th>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">CVE</th>
+                                                <th class="text-center">Descripción</th>
+                                                <th class="text-center">UNID</th>
+                                                <th class="text-center">Importe</th>
+                                            </tr>
+                                        </thead>
+                                        <!-- Aqui va otros ingresos -->
+                                        <tbody>
+<!--
+                                            <t t-foreach="payroll[0]['line_ded']" t-as="line_ded">
+                                                <tr>
+                                                    <td class="text-center"><span t-esc="line_ded['code']"/></td>
+                                                    <td><span t-esc="line_ded['name']"/></td>
+                                                    <td class="text-center"><span t-esc="line_ded['quantity']"/></td>
+                                                    <td class="text-right"><span t-esc="line_ded['total']"
+                                                              t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Total:</td>
+                                                <td class="text-right"><span t-esc="payroll[0]['total_percep']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
+-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Aqui el total de otros ingresos -->
                             <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
-                                <tbody>
-                                    <tr class="border-black o_subtotal" style="">
-                                        <th class="text-left">Sello Digital CFDI:</th>
-                                    </tr>
-                                    <tr class="border-black o_subtotal" style="">
-                                        <th class="text-left">Cadena Original Certificado SAT:</th>
-                                    </tr>
-                                    <tr class="border-black o_subtotal" style="">
-                                        <th class="text-left">Sello Digital SAT:</th>
-                                    </tr>
-                                </tbody>
+                                <tr>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right">Total:</th>
+<!--
+                                    <th class="text-right"><span t-esc="payroll[0]['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
+-->
+                                </tr>
                             </table>
                             <br/>
+                            <div id="cfdi">
+                                <div class="row">
+                                    <div class="col-auto mw-100 mb-2">
+                                        <strong>Sello Digital CFDI:</strong>
+                                        <span class="m-0" t-field="o.stamp_cfd"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto mw-100 mb-2">
+                                        <strong>Sello Digital SAT:</strong>
+                                        <p class="m-0" t-field="o.stamp_sat"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto mw-100 mb-2">
+                                        <strong>Cadena Original Certificado SAT:</strong>
+                                        <p class="m-0" t-field="o.original_string"/>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="text-center">
-                                <span>COPIA PATRÓN</span>
+                                <span>COPIA EMPLEADO</span>
                             </div>
                         </div>
                         <div class="page" style="font-size:9px; page-break-before:always;">
@@ -524,20 +632,128 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
+                                        <tr class="border-black o_subtotal" style="background-color: #ABAFAF;">
+                                            <th class="col-12 text-center">Comprobante Fiscal Digital por Internet</th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" name="linesw">
+                                <div class="col-6">
+                                    <table class="table-sm" style="width:100%;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-left"><strong>Folio Fiscal: </strong> </td>
+                                                <td class="text-left"><strong>N° de Certificado: </strong> </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <span t-field="o.UUID_sat"/>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span t-field="o.certificate_number"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left"><strong>Fecha y hora de certificación: </strong> </td>
+                                                <td class="text-left"><strong>Fecha y hora de emisión: </strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <span t-field="o.invoice_date"/>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span t-field="o.cfdi_issue_date"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table-sm" style="width:100%; border: 1px solid #00A09D;">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <th class="text-center">Total de Percepciones:</th>
+                                                <td class="text-right"><span t-esc="payroll[0]['total_percep']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
+                                            <tr style="width:100%; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
+                                                <td></td>
+                                                <td></td>
+                                                <th class="text-center">Otros Pagos</th>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">CVE</th>
+                                                <th class="text-center">Descripción</th>
+                                                <th class="text-center">UNID</th>
+                                                <th class="text-center">Importe</th>
+                                            </tr>
+                                        </thead>
+                                        <!-- Aqui va otros ingresos -->
+                                        <tbody>
+<!--
+                                            <t t-foreach="payroll[0]['line_ded']" t-as="line_ded">
+                                                <tr>
+                                                    <td class="text-center"><span t-esc="line_ded['code']"/></td>
+                                                    <td><span t-esc="line_ded['name']"/></td>
+                                                    <td class="text-center"><span t-esc="line_ded['quantity']"/></td>
+                                                    <td class="text-right"><span t-esc="line_ded['total']"
+                                                              t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Total:</td>
+                                                <td class="text-right"><span t-esc="payroll[0]['total_percep']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                            </tr>
+-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Aqui el total de otros ingresos -->
                             <table class="table-sm" style="width:100%; border-left: 1px solid #00A09D; border-right: 1px solid #00A09D; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
-                                <tbody>
-                                    <tr class="border-black o_subtotal" style="">
-                                        <th class="text-left">Sello Digital CFDI:</th>
-                                    </tr>
-                                    <tr class="border-black o_subtotal" style="">
-                                        <th class="text-left">Cadena Original Certificado SAT:</th>
-                                    </tr>
-                                    <tr class="border-black o_subtotal" style="">
-                                        <th class="text-left">Sello Digital SAT:</th>
-                                    </tr>
-                                </tbody>
+                                <tr>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right">Total:</th>
+<!--
+                                    <th class="text-right"><span t-esc="payroll[0]['total']"
+                                                          t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
+-->
+                                </tr>
                             </table>
                             <br/>
+                            <div id="cfdi">
+                                <div class="row">
+                                    <div class="col-auto mw-100 mb-2">
+                                        <strong>Sello Digital CFDI:</strong>
+                                        <span class="m-0" t-field="o.stamp_cfd"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto mw-100 mb-2">
+                                        <strong>Sello Digital SAT:</strong>
+                                        <p class="m-0" t-field="o.stamp_sat"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto mw-100 mb-2">
+                                        <strong>Cadena Original Certificado SAT:</strong>
+                                        <p class="m-0" t-field="o.original_string"/>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="text-center">
                                 <span>COPIA EMPLEADO</span>
                             </div>

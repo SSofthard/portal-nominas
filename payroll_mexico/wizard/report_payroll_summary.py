@@ -72,8 +72,8 @@ class PayslipSummary(models.TransientModel):
         other_ded_ss = 0
         other_ded_ias = 0
         for line in line_ids:
-            if line.slip_id.payroll_type == 'ordinary_payroll':
-                if line.slip_id.payslip_run_id.contracting_regime == '2': # Sueldos y Salarios
+            if line.slip_id.payroll_type == 'O':
+                if line.slip_id.payslip_run_id.contracting_regime == '02': # Sueldos y Salarios
                     if not line.slip_id.payslip_run_id.id in isn:
                         isn.append(line.slip_id.payslip_run_id.id)
                         isn_ss += line.slip_id.payslip_run_id.amount_tax
@@ -88,7 +88,7 @@ class PayslipSummary(models.TransientModel):
                     if line.category_id.code == 'DED':
                         other_ded_ss += line.total
                     
-                if line.slip_id.payslip_run_id.contracting_regime == '1': # Asimilados a Salarios
+                if line.slip_id.payslip_run_id.contracting_regime == '01': # Asimilados a Salarios
                     if not line.slip_id.payslip_run_id.id in isn:
                         isn.append(line.slip_id.payslip_run_id.id)
                         isn_ias += line.slip_id.payslip_run_id.amount_tax

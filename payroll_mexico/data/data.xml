@@ -22,41 +22,48 @@
     
     <record id="hr_contract_type_indeterminate_with_seniority" model="hr.contract.type">
         <field name="name">Tiempo Indeterminado</field>
+        <field name="code">01</field>
         <field name="type">with_seniority</field>
         <field name="report_id" ref="payroll_mexico.report_indeterminate_contract_with_seniority2"/>
         <field name="sequence">5</field>
     </record>
     <record id="hr_contract_type_indeterminate_without_seniority" model="hr.contract.type">
         <field name="name">Tiempo Indeterminado</field>
+        <field name="code">01</field>
         <field name="type">without_seniority</field>
         <field name="report_id" ref="payroll_mexico.report_contract_without_seniority"/>
         <field name="sequence">5</field>
     </record>
     <record id="hr_contract_type_determinate_with_seniority" model="hr.contract.type">
         <field name="name">Tiempo Determinado</field>
+        <field name="code">03</field>
         <field name="type">with_seniority</field>
         <field name="report_id" ref="payroll_mexico.report_determinate_contract_with_seniority"/>
         <field name="sequence">10</field>
     </record>
     <record id="hr_contract_type_determinate_without_seniority" model="hr.contract.type">
         <field name="name">Tiempo Determinado</field>
+        <field name="code">03</field>
          <field name="type">without_seniority</field>
          <field name="report_id" ref="payroll_mexico.report_determinate_contract_without_seniority"/>
         <field name="sequence">15</field>
     </record>
     <record id="hr_contract_type_proyect" model="hr.contract.type">
         <field name="name">Por Proyecto</field>
+        <field name="code">02</field>
         <field name="type">na</field>
         <field name="sequence">20</field>
     </record>
     <record id="hr_contract_type_services_pa" model="hr.contract.type">
         <field name="name">Prestación de Servicios Independientes</field>
+        <field name="code">99</field>
         <field name="type">na</field>
         <field name="report_id" ref="payroll_mexico.report_independent_services_pa"/>
         <field name="sequence">25</field>
     </record>
     <record id="hr_contract_type_services_other" model="hr.contract.type">
         <field name="name">Otros</field>
+        <field name="code">99</field>
         <field name="type">na</field>
         <field name="report_id"/>
         <field name="sequence">30</field>
