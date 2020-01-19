@@ -329,9 +329,6 @@ class HrPayslip(models.Model):
             
         if self.contract_id.type_id.code in ['01','02','03','04','05','06','07','08']:
             data['payroll']['employer_register']= self.employer_register_id.employer_registry
-            
-            
-            
             if self.contract_id.contracting_regime == '02':
                 data['payroll']['nss_emp'] = self.employee_id.ssnid
                 data['payroll']['emp_risk'] = self.employer_register_id.job_risk
@@ -339,14 +336,16 @@ class HrPayslip(models.Model):
                 data['payroll']['emp_diary_salary'] = "{0:.2f}".format(self.contract_id.integral_salary) 
                 date_1 = self.contract_id.previous_contract_date or self.contract_id.date_start
                 date_2 = self.date_to
+                week = (int(abs(date_1 - date_2).days))/7
                 antiquity_date = rdelta.relativedelta(date_2,date_1)
-                antiquity = 'P'
+                antiquity = 'P'+str(int(week))+'W'
                 if int(antiquity_date.years) > 0:
                     antiquity +=str(antiquity_date.years)+'Y'
                 if int(antiquity_date.months) > 0: 
                     antiquity +=str(antiquity_date.months)+'M'
-                if int(antiquity_date.days) > 0: 
-                    antiquity +=str(antiquity_date.days)+'D'
+                if int(antiquity_date.days) > 0:
+                    print (antiquity_date.days)
+                    antiquity +=str(antiquity_date.days+1)+'D'
                 data['payroll']['seniority_emp'] = antiquity
         if not self.employee_id.curp:
             if self.employee_id.gender == 'male':
@@ -386,16 +385,6 @@ class HrPayslip(models.Model):
             values = payslip.to_json()
             payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, password=csd_company.track, tz=tz ,debug_mode=True,)
             
-            
-            
-            
-            print ('traspaso')
-            print ('traspaso')
-            print ('traspaso')
-            print ('traspaso')
-            print ('traspaso')
-            print (payroll.cadena_original)
-            
             NSMAP = {
                  'xsi':'http://www.w3.org/2001/XMLSchema-instance',
                  'cfdi':'http://www.sat.gob.mx/cfd/3', 
@@ -408,15 +397,6 @@ class HrPayslip(models.Model):
             Complemento = document.find('cfdi:Complemento', NSMAP)
             TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
             vals = {}
-            
-            print (TimbreFiscalDigital.attrib['FechaTimbrado'])
-            print (TimbreFiscalDigital.attrib['NoCertificadoSAT'])
-            print (TimbreFiscalDigital.attrib['SelloCFD'])
-            print (TimbreFiscalDigital.attrib['SelloSAT'])
-            print (TimbreFiscalDigital.attrib['UUID'])
-            
-            
-            
             
             xml = base64.b64encode(file)
             
