@@ -153,7 +153,8 @@ class HrPayslip(models.Model):
     
     cfdi_issue_date = fields.Char(string='Fecha de emisión', readonly=True)
     invoice_date = fields.Char(string='Fecha de certificación', readonly=True)
-    certificate_number = fields.Char(string='N° de Certificado', readonly=True)
+    certificate_number = fields.Char(string='N° de Serie del CSD del SAT', readonly=True)
+    certificate_number_emisor = fields.Char(string='N° de Serie del CSD del Emisor', readonly=True)
     stamp_cfd = fields.Text(string='Sello CDF',readonly=False)
     stamp_sat = fields.Text(string='Sello SAT', readonly=False)
     original_string = fields.Text(string='Cadena Original', readonly=False)
@@ -234,6 +235,7 @@ class HrPayslip(models.Model):
                                     'type': p.salary_rule_id.type_perception,
                                     'key': p.salary_rule_id.code,
                                     'concept': p.salary_rule_id.name,
+                                    'quantity': p.quantity,
                                     'amount_g': amount_g.total,
                                     'amount_e': "{0:.2f}".format(p.total - amount_g.total),
                                 }
@@ -290,7 +292,8 @@ class HrPayslip(models.Model):
                             'amount': o.total,
                         }
                 if o.salary_rule_id.type_other_payment== '002':
-                    other_dict['subsidy'] = o.total
+                    subsidy = self.env['hr.payslip.line'].search([('salary_rule_id.code','=',['UI106']),('slip_id','=',self.id)],limit=1)
+                    other_dict['subsidy'] = subsidy.total
                 other_list.append(other_dict)
 
         
@@ -507,6 +510,7 @@ class HrPayslip(models.Model):
                     vals = {
                          'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
                          'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
+                         'certificate_number_emisor':document.attrib['NoCertificado'],
                          'stamp_cfd':TimbreFiscalDigital.attrib['SelloCFD'],
                          'stamp_sat':TimbreFiscalDigital.attrib['SelloSAT'],
                          'original_string':payroll.cadena_original,
@@ -649,14 +653,21 @@ class HrPayslip(models.Model):
         payroll = {}
         for payslip in self:
             payroll[payslip.id] = payslip.data_payroll_report(),
+            values = payslip.to_json()
         data={
             'payroll_data': payroll,
+            'values': values,
             'docids': self.ids,
             }
         return self.env.ref('payroll_mexico.action_payroll_cfdi_report').report_action(self, data) 
 
     @api.multi
     def print_payroll_receipt(self):
+        print ('es por este ue entro')
+        print ('es por este ue entro')
+        print ('es por este ue entro')
+        print ('es por este ue entro')
+        print ('es por este ue entro')
         payroll = {}
         data = {}
         for payslip in self:
@@ -669,6 +680,10 @@ class HrPayslip(models.Model):
 
     @api.multi
     def print_payroll_receipt_timbrado(self):
+        print ('jejejej es aca')
+        print ('jejejej es aca')
+        print ('jejejej es aca')
+        print ('jejejej es aca')
         payroll_dic = {}
         line_percep = []
         line_ded = []
@@ -731,8 +746,10 @@ class HrPayslip(models.Model):
                         absenteeism += wl.number_of_days
         total_faults += inhability + absenteeism
         payroll_dic['faults'] = total_faults
+        values = payslip.to_json()
         data={
-            'payroll_data':payroll_dic
+            'payroll_data':payroll_dic,
+            'values':values,
             }
         return self.env.ref('payroll_mexico.action_payroll_receipt_timbrado_report').with_context({'active_model': 'hr.payslip'}).report_action(self,data)      
 

@@ -207,6 +207,10 @@ class BaseDocument:
         if valid:
             document = etree.XML(document)
             document = self.sellar(document)
+            print ('ya estoy por aca')
+            print ('ya estoy por aca')
+            print ('ya estoy por aca')
+            print ('ya estoy por aca')
             documento_timbrado = self.timbrar(self.user, self.password_pac, document)
             if documento_timbrado:
                 if documento_timbrado['xmlTimbrado']:
