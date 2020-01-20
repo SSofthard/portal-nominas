@@ -24,7 +24,6 @@
                                     </div>
                                     <field name="rfc" widget="mask" data-inputmask="'mask': 'AAA999999&amp;&amp;&amp;', 'greedy' : false"/>
                                     <field name="tax_regime"/>
-                                    <field name="origen_recurso"/>
                                 
                                 </group>
                                 <group string="Notarial Data">
@@ -194,6 +193,21 @@
                                     </tree>
                                 </field>
                             </group>
+                        </page>
+                        <page string="Información PAC" groups="base.group_erp_manager">
+							<group>
+								<group string="Ambiente de Producción">
+									<field name="url_cfdi"/>
+									<field name="user_cfdi"/>
+									<field name="password_cfdi" password="True"/>
+								</group>
+								<group string="Ambiente de Prueba">
+									<field name="url_cfdi_test"/>
+									<field name="user_cfdi_test"/>
+									<field name="password_cfdi_test" password="True"/>
+									<field name="test_cfdi"/>
+								</group>
+							</group>
                         </page>
                 </page>
                 <xpath expr="//field[@name='name']" position="after">

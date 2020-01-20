@@ -59,13 +59,22 @@ class Company(models.Model):
                    ('615', _('Régimen de los ingresos por obtención de premios')),],
         string=_('Tax regime'), 
     )
-    origen_recurso = fields.Selection(
-        selection=[('IP', _('Ingresos Propios')),
-                   ('IF', _('Ingresos Federales')),
-                   ('IM', _('Ingresos Mixtos')),
-                   ],
-        string=_('Origen de recursos'),
+    
+    url_cfdi = fields.Selection(
+        selection=[('https://v33.facturacfdi.mx/WSTimbradoCFDIService?wsdl', _('Forsedi'))],
+        string=_('URL'), default='https://v33.facturacfdi.mx/WSTimbradoCFDIService?wsdl'
     )
+    url_cfdi_test = fields.Selection(
+        selection=[('http://dev33.facturacfdi.mx/WSTimbradoCFDIService?wsdl', _('Forsedi'))],
+        string=_('URL (Prueba)'), default='http://dev33.facturacfdi.mx/WSTimbradoCFDIService?wsdl'
+    )
+    user_cfdi = fields.Char("Usuario", copy=False, required=False)
+    password_cfdi = fields.Char("Password", copy=False, required=False)
+    user_cfdi_test = fields.Char("Usuario (Prueba)", copy=False, required=False)
+    password_cfdi_test = fields.Char("Password (Prueba)", copy=False, required=False)
+    test_cfdi = fields.Boolean("Modo Prueba", copy=False, required=False)
+    
+    
 
     @api.onchange('zip')
     def _onchange_zip(self):       
