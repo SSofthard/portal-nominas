@@ -11,11 +11,18 @@
                 <xpath expr="//field/tree/field[@name='code']" position="after">
                     <field name="type"/>
                 </xpath> 
+                <xpath expr="//field[@name='register_id']" position="after">
+					<separator colspan="4" string="Regla Asociada (Monto Gravado)" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
+                    <field name="salary_rule_taxed_id" domain="[('code_category_id','=','G01')]" attrs="{'invisible': [('type', '!=', 'perception')],'required': [('type', '=', 'perception')]}"/>
+                    <field name="code_category_id" invisible="1"/>
+                </xpath> 
                 <xpath expr="//group[1]" position="after">
                     <group col="4">
                        <field name="type" widget="radio"/>
                        <field name="type_perception" attrs="{'invisible': [('type', '!=', 'perception')],'required': [('type', '=', 'perception')]}"/>
+                       <field name="type_overtime" attrs="{'invisible': [('type_perception', '!=', '019')],'required': [('type_perception', '=', '019')]}"/>
                        <field name="type_deduction" attrs="{'invisible': [('type', '!=', 'deductions')],'required': [('type', '=', 'deductions')]}"/>
+                       <field name="type_disability" attrs="{'invisible': [('type_deduction', '!=', '006')],'required': [('type_deduction', '=', '006')]}"/>
                        <field name="type_other_payment" attrs="{'invisible': [('type', '!=', 'other_payment')],'required': [('type', '=', 'other_payment')]}"/>
                        <field name="payroll_tax" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
                     </group>
@@ -83,9 +90,11 @@
                 </xpath> 
                 <xpath expr="//header" position="inside">
                     <button string="Generar CFDI" name="action_cfdi_nomina_generate" type="object" class="oe_sale"/>
+<!--
                     <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
-                    <button string="Generar CFDI" name="print_payroll_cfdi" type="object" class="oe_sale"/>
+-->
+                    <button string="Imprimir CFDI" name="print_payroll_cfdi" type="object" class="oe_sale"/>
                 </xpath> 
                 <xpath expr="//button[@name='refund_sheet']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -203,12 +212,18 @@
 					   <group string="Detalles">
 							<field name="invoice_status"/>
 							<field name="certificate_number"/>
+							<field name="certificate_number_emisor"/>
 							<field name="cfdi_issue_date"/>
 							<field name="invoice_date"/>
 							<field name="UUID_sat"/>
+							<field name="xml_timbre"/>
 							<field name="stamp_cfd" invisible="1" readonly="True"/>
 							<field name="stamp_sat" invisible="1" readonly="True"/>
 							<field name="original_string" invisible="1" readonly="True"/>
+						 </group>
+					   <group string="Error en Timbrado" attrs="{'invisible': [('invoice_status', '!=', 'problemas_factura')]}">
+							<field name="code_error"/>
+							<field name="error"/>
 						 </group>
                    </page>
                 </xpath> 

@@ -147,17 +147,34 @@ class HrPayslip(models.Model):
     
     cfdi_issue_date = fields.Char(string='Fecha de emisión', readonly=True)
     invoice_date = fields.Char(string='Fecha de certificación', readonly=True)
-    certificate_number = fields.Char(string='N° de Certificado', readonly=True)
+    certificate_number = fields.Char(string='N° de Serie del CSD del SAT', readonly=True)
+    certificate_number_emisor = fields.Char(string='N° de Serie del CSD del Emisor', readonly=True)
     stamp_cfd = fields.Text(string='Sello CDF',readonly=False)
     stamp_sat = fields.Text(string='Sello SAT', readonly=False)
     original_string = fields.Text(string='Cadena Original', readonly=False)
     UUID_sat = fields.Char(string='UUID', readonly=True)
+    
+    code_error = fields.Char(string='Código de error', readonly=True)
+    error = fields.Char(string='Error', readonly=True)
+    
+    xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)")
+    
+    
+    def overtime(self,type_overtime):
+        days = 0
+        quantity = 0
+        for inpu in self.input_ids:
+            if inpu.input_id.input_id.type_overtime == type_overtime:
+                quantity += inpu.amount
+                days += 1
+        return {'days':int(days),'quantity':int(quantity)}
+            
 
     def to_json(self):
         perceptions = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id)])
         
         perceptions_ordinary = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id),('salary_rule_id.type','=','perception')])
-        
+                
         deduction = self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id)])
         
         other_payments = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id),('salary_rule_id.type','=','other_payment')])
@@ -167,7 +184,7 @@ class HrPayslip(models.Model):
        
         isr_deduction = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id),('salary_rule_id.type_deduction','in',['002'])]).mapped('total'))
         
-        
+        bank_account = self.env['bank.account.employee'].search([('employee_id','=',self.employee_id.id),('predetermined','=',True),('state','=','active')])
         
         
         
@@ -178,43 +195,100 @@ class HrPayslip(models.Model):
         
         
         perceptions_only = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('salary_rule_id.type','=','perception'),('slip_id','=',self.id)]).mapped('total'))
-        other_payment_only = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('salary_rule_id.type','=','other_payment'),('slip_id','=',self.id)]).mapped('total'))
-        
+        other_payment_only = sum(other_payments.mapped('total'))
         subtotal = sum(self.env['hr.payslip.line'].search([('category_id.code','=','GROSS'),('slip_id','=',self.id)]).mapped('total'))
         discount_amount = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DEDT'),('slip_id','=',self.id)]).mapped('total'))
+       
+        total_salaries = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+                                                                    ('salary_rule_id.type','=','perception'),
+                                                                    ('slip_id','=',self.id),
+                                                                    ('salary_rule_id.type_perception','not in',['022','023','025','039','044'])]).mapped('total'))
+        
+        total_separation_compensation = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+                                                                    ('salary_rule_id.type','=','perception'),
+                                                                    ('slip_id','=',self.id),
+                                                                    ('salary_rule_id.type_perception','in',['022','023','025'])]).mapped('total'))
+        total_retirement_pension_retirement = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+                                                                    ('salary_rule_id.type','=','perception'),
+                                                                    ('slip_id','=',self.id),
+                                                                    ('salary_rule_id.type_perception','in',['039','044'])]).mapped('total'))
+        total_taxed = sum(self.env['hr.payslip.line'].search([('category_id.code','=','BRUTOG'),
+                                                                ('slip_id','=',self.id),]).mapped('total'))
+        
+
+       
+       
         total = "{0:.2f}".format(subtotal - discount_amount)
         type_perception = dict(self.env['hr.salary.rule']._fields.get('type_perception').selection)
         days = "{0:.3f}".format(self.env['hr.payslip.worked_days'].search([('code','=','WORK100'),('payslip_id','=',self.id)],limit=1).number_of_days)
-        perceptions_dict = {}
+        perceptions_list = []
         for p in perceptions_ordinary:
-            perceptions_dict[p.salary_rule_id.type_perception] = {
-                                'type': p.salary_rule_id.type_perception,
-                                'key': p.salary_rule_id.code,
-                                'concept': dict(p.salary_rule_id._fields['type_perception']._description_selection(self.env)).get(p.salary_rule_id.type_perception),
-                                'amount_g': p.total,
-                                'amount_e': 0.0,
-                            }
-        deduction_dict  = {}
+            if p.total > 0:
+                amount_g = self.env['hr.payslip.line'].search([('salary_rule_id','=',p.salary_rule_id.salary_rule_taxed_id.id),('slip_id','=',self.id)],limit=1)
+                perceptions_dict= {
+                                    'type': p.salary_rule_id.type_perception,
+                                    'key': p.salary_rule_id.code,
+                                    'concept': p.salary_rule_id.name,
+                                    'quantity': p.quantity,
+                                    'amount_g': amount_g.total,
+                                    'amount_e': "{0:.2f}".format(p.total - amount_g.total),
+                                }
+                if p.salary_rule_id.type_perception == '019':
+                    overtime = self.overtime(p.salary_rule_id.type_overtime)
+                    perceptions_dict['extra_hours']= [{
+                                                    'days': overtime['days'],
+                                                    'type': p.salary_rule_id.type_overtime,
+                                                    'amount': amount_g.total,
+                                                    'hours': overtime['quantity'],
+                                                }]
+                perceptions_list.append(perceptions_dict)
+                
+        deduction_list = []
+        disability_list = []
+        deduction_dict ={}
         for d in deduction:
             if d.total > 0:
-                deduction_dict[d.salary_rule_id.type_deduction] = {
-                                    'type': d.salary_rule_id.type_deduction,
-                                    'key': d.salary_rule_id.code,
-                                    'concept': dict(d.salary_rule_id._fields['type_deduction']._description_selection(self.env)).get(d.salary_rule_id.type_deduction),
-                                    'amount': d.total,
-                                }
-        other_dict  = {}
+                if not d.salary_rule_id.type_deduction in deduction_dict.keys():
+                    deduction_dict[d.salary_rule_id.type_deduction] = {
+                                        'type': d.salary_rule_id.type_deduction,
+                                        'key': d.salary_rule_id.code,
+                                        'concept': d.salary_rule_id.name,
+                                        'amount': d.total,
+                                    }
+                    # ~ deduction_list.append(deduction_dict)
+                else:
+                    amount = deduction_dict[d.salary_rule_id.type_deduction]['amount'] + d.total
+                    deduction_dict[d.salary_rule_id.type_deduction]['amount'] = amount
+                if d.salary_rule_id.type_deduction == '006':
+                    if d.salary_rule_id.type_disability == '01':
+                        disability = self.env['hr.payslip.worked_days'].search([('code','in',['F02']),('payslip_id','=',self.id)])
+                    elif d.salary_rule_id.type_disability == '02':
+                        disability = self.env['hr.payslip.worked_days'].search([('code','in',['F01']),('payslip_id','=',self.id)])
+                    elif d.salary_rule_id.type_disability == '03':
+                        disability = self.env['hr.payslip.worked_days'].search([('code','in',['F03']),('payslip_id','=',self.id)])
+                    elif d.salary_rule_id.type_disability == '04':
+                        disability = self.env['hr.payslip.worked_days'].search([('code','in',['F09']),('payslip_id','=',self.id)])
+                    disability_dict = {
+                                'days': int(disability.number_of_days),
+                                'type': d.salary_rule_id.type_disability,
+                                'amount': d.total,
+                            }
+                    disability_list.append(disability_dict)
+                    
+                    
+        other_list = []
         for o in other_payments:
             if o.total > 0:
-                other_dict[o.salary_rule_id.type_other_payment] = {
-                                    'type': o.salary_rule_id.type_other_payment,
-                                    'key': o.salary_rule_id.code,
-                                    'concept': dict(d.salary_rule_id._fields['type_other_payment']._description_selection(self.env)).get(o.salary_rule_id.type_other_payment),
-                                    'amount': o.total,
-                                }
+                other_dict = {
+                            'type': o.salary_rule_id.type_other_payment,
+                            'key': o.salary_rule_id.code,
+                            'concept': o.salary_rule_id.name,
+                            'amount': o.total,
+                        }
                 if o.salary_rule_id.type_other_payment== '002':
-                    other_dict[o.salary_rule_id.type_other_payment]['subsidy'] = o.total
-                
+                    subsidy = self.env['hr.payslip.line'].search([('salary_rule_id.code','=',['UI106']),('slip_id','=',self.id)],limit=1)
+                    other_dict['subsidy'] = subsidy.total
+                other_list.append(other_dict)
 
         
         
@@ -225,8 +299,8 @@ class HrPayslip(models.Model):
             'payment_policy': self.way_pay,
             'certificate_number': '',
             'certificate': '',
-            'subtotal': subtotal,
-            'discount_amount': discount_amount,
+            'subtotal': "{0:.2f}".format(subtotal),
+            'discount_amount': "{0:.2f}".format(discount_amount),
             'currency': 'MXN',
             'rate': '1',
             'amount_total': total,
@@ -240,11 +314,10 @@ class HrPayslip(models.Model):
             'receiver_name': self.employee_id.complete_name,
             'receiver_reg_trib': '',
             'receiver_use_cfdi': self.cfdi_use,
-            
             'invoice_lines': [{
-                'price_unit': subtotal,
-                'subtotal_wo_discount': subtotal,
-                'discount': discount_amount,
+                'price_unit': "{0:.2f}".format(subtotal),
+                'subtotal_wo_discount': "{0:.2f}".format(subtotal),
+                'discount': "{0:.2f}".format(discount_amount),
             }],
             'taxes': {
                 'total_transferred': '0.00',
@@ -256,68 +329,59 @@ class HrPayslip(models.Model):
                 'date_from': self.date_from,
                 'date_to': '',
                 'number_of_days': days,
-                
-                
-                
-                
                 'curp_emitter': '',
                 'employer_register': '',
                 'vat_emitter': '',
-                
                 'date_start': '',
                 'seniority_emp': '',
-                
                 'curp_emp': '',
                 'nss_emp': '',
-                
                 'contract_type': self.contract_id.type_id.code,
-                
-                
-                
+                'total_perceptions': perceptions_only,
+                'total_deductions': discount_amount,
+                'total_other': other_payment_only,
+                'emp_risk': '',
                 'emp_syndicated': 'No',
-                
                 'working_day': self.employee_id.type_working_day,
                 'emp_regimen_type': self.contract_id.contracting_regime,
                 'no_emp': self.employee_id.enrollment,
                 'departament': self.contract_id.department_id.name,
                 'emp_job': self.contract_id.job_id.name,
-                'emp_risk': '',
                 'payment_periodicity': '',
-                
-                'emp_bank': '012',
-                'emp_account': '1234567890',
-                
-                
+                'emp_bank': '',
+                'emp_account': '',
                 'emp_base_salary': '',
                 'emp_diary_salary': '',
-                
                 'emp_state': self.employee_id.work_center_id.state_id.code,
-                
-                'total_compensation': 0.0,
-                'total_retirement': 0.0,
-                
-                'total_salaries': perceptions_only,
-                'total_taxed': perceptions_only,
-                'total_exempt': 0.0,
+                'total_salaries': float("{0:.2f}".format(total_salaries)),
+                'total_compensation': float("{0:.2f}".format(total_separation_compensation)),
+                'total_retirement': float("{0:.2f}".format(total_retirement_pension_retirement)),
+                'total_taxed': float("{0:.2f}".format(total_taxed)),
+                'total_exempt': float("{0:.2f}".format((total_salaries+total_separation_compensation+total_retirement_pension_retirement) - total_taxed)),
                 
                 
                 
                 
                 
-                'total_perceptions': perceptions_only,
-                'perceptions': list(perceptions_dict.values()),
+                'perceptions': list(perceptions_list),
                 
                
-                'total_deductions': discount_amount,
                 'total_other_deductions': other_deduction,
                 'show_total_taxes_withheld': show_total_taxes_withheld,
                 'total_taxes_withheld': isr_deduction,   
                 
                 'deductions': list(deduction_dict.values()),
-                'total_other': other_payment_only,
-                'other_payments': list(other_dict.values()),
+                'other_payments': list(other_list),
+                'inabilities': disability_list
             },
         }
+        
+        if self.employee_id.deceased:
+            data['receiver_rfc'] = 'XAXX010101000'
+        if self.company_id.test_cfdi:
+            data['receiver_rfc'] = 'TUCA5703119R5'
+        
+        
         
         if self.type_related_cfdi == '04':
             data['cfdi_related_type'] = self.type_related_cfdi
@@ -334,17 +398,13 @@ class HrPayslip(models.Model):
                 data['payroll']['emp_risk'] = self.employer_register_id.job_risk
                 data['payroll']['date_start'] = self.contract_id.previous_contract_date or self.contract_id.date_start
                 data['payroll']['emp_diary_salary'] = "{0:.2f}".format(self.contract_id.integral_salary) 
+                if self.employee_id.syndicalist:
+                    data['payroll']['emp_syndicated'] = 'Sí'
                 date_1 = self.contract_id.previous_contract_date or self.contract_id.date_start
                 date_2 = self.date_to
                 week = (int(abs(date_1 - date_2).days))/7
                 antiquity_date = rdelta.relativedelta(date_2,date_1)
                 antiquity = 'P'+str(int(week))+'W'
-                if int(antiquity_date.years) > 0:
-                    antiquity +=str(antiquity_date.years)+'Y'
-                if int(antiquity_date.months) > 0: 
-                    antiquity +=str(antiquity_date.months)+'M'
-                if int(antiquity_date.days) > 0:
-                    antiquity +=str(antiquity_date.days+1)+'D'
                 data['payroll']['seniority_emp'] = antiquity
         if not self.employee_id.curp:
             if self.employee_id.gender == 'male':
@@ -358,6 +418,10 @@ class HrPayslip(models.Model):
             data['payroll']['payment_periodicity'] = self.payroll_period
         else:
             data['payroll']['payment_periodicity'] = '99'
+        
+        if bank_account:
+            data['payroll']['emp_bank'] = bank_account.bank_id.code
+            data['payroll']['emp_account'] = bank_account.bank_account
             
         return data
     
@@ -365,62 +429,99 @@ class HrPayslip(models.Model):
     def action_cfdi_nomina_generate(self):
         for payslip in self:
             tz = pytz.timezone(self.env.user.partner_id.tz)
-            
             csd_company = self.env['res.company.fiel.csd'].search([('company_id','=',payslip.company_id.id),('type','=','csd'),('predetermined','=',True),('state','=','valid')])
-            
-            if not csd_company:
-                raise ValidationError(_('Advertencia!!! \
-                            Debe establecer el registro predeterminado para los archivos .key y .cer'))
-            if not csd_company.cer:
-                raise ValidationError(_('Advertencia!!! \
-                            Debe registrar su archivo .cer'))
-            if not csd_company.key:
-                raise ValidationError(_('Advertencia!!! \
-                            Debe registrar su archivo .key'))
-            if not csd_company.track:
-                raise ValidationError(_('Advertencia!!! \
-                            Debe registrar la pista para el archivo .key'))
-
-            values = payslip.to_json()
-            payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, password=csd_company.track, tz=tz ,debug_mode=True,)
-            
-            NSMAP = {
-                 'xsi':'http://www.w3.org/2001/XMLSchema-instance',
-                 'cfdi':'http://www.sat.gob.mx/cfd/3', 
-                 'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
-                 }
-            
-            
-            file=payroll.document_path.read()
-            document = ET.fromstring(file)
-            Complemento = document.find('cfdi:Complemento', NSMAP)
-            TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
-            vals = {}
-            
-            xml = base64.b64encode(file)
-            
-            
-            ir_attachment=self.env['ir.attachment']
-            value={u'name': u'Reporte Xml de retención', 
-                    u'url': False,
-                     u'company_id': 1, 
-                     u'datas_fname': u'reporte_xml.xml', 
-                    u'type': u'binary', 
-                    u'public': False, 
-                    u'datas':xml , 
-                    u'description': False}
-            ir_attachment.create(value)
-            
-            vals = {
-                 'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
-                 'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
-                 'stamp_cfd':TimbreFiscalDigital.attrib['SelloCFD'],
-                 'stamp_sat':TimbreFiscalDigital.attrib['SelloSAT'],
-                 'original_string':payroll.cadena_original,
-                 'cfdi_issue_date':payroll.date_timbre,
-                 'UUID_sat':TimbreFiscalDigital.attrib['UUID'],
-            }
-            payslip.write(vals)
+            if csd_company.company_id.test_cfdi:
+                url = csd_company.company_id.url_cfdi_test
+                user = csd_company.company_id.user_cfdi_test
+                password = csd_company.company_id.password_cfdi_test
+            else:
+                url = csd_company.company_id.url_cfdi
+                user = csd_company.company_id.user_cfdi
+                password = csd_company.company_id.password_cfdi
+            if not url or not user or not password:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer la url el user y password para la conexción con el PAC',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer el registro predeterminado para los archivos .key y .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.cer:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.key:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.track:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar la pista para el archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            else:
+                values = payslip.to_json()
+                payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
+                                                        password=csd_company.track, tz=tz, url=url, user=user, password_pac = password,  
+                                                        debug_mode=True,)
+                if not payroll.error_timbrado:
+                    NSMAP = {
+                         'xsi':'http://www.w3.org/2001/XMLSchema-instance',
+                         'cfdi':'http://www.sat.gob.mx/cfd/3', 
+                         'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
+                         }
+                    file=payroll.document_path.read()
+                    document = ET.fromstring(file)
+                    Complemento = document.find('cfdi:Complemento', NSMAP)
+                    TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
+                    vals = {}
+                    xml = base64.b64encode(file)
+                    ir_attachment=self.env['ir.attachment']
+                    value={u'name': TimbreFiscalDigital.attrib['UUID'], 
+                            u'url': False,
+                            u'company_id': 1, 
+                            u'datas_fname': TimbreFiscalDigital.attrib['UUID']+'.xml', 
+                            u'type': u'binary', 
+                            u'public': False, 
+                            u'datas':xml , 
+                            u'description': False}
+                    xml_timbre = ir_attachment.create(value)
+                    vals = {
+                         'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
+                         'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
+                         'certificate_number_emisor':document.attrib['NoCertificado'],
+                         'stamp_cfd':TimbreFiscalDigital.attrib['SelloCFD'],
+                         'stamp_sat':TimbreFiscalDigital.attrib['SelloSAT'],
+                         'original_string':payroll.cadena_original,
+                         'cfdi_issue_date':payroll.date_timbre,
+                         'UUID_sat':TimbreFiscalDigital.attrib['UUID'],
+                         'xml_timbre':xml_timbre.id,
+                         'invoice_status':'factura_correcta',
+                         'code_error':'',
+                         'error':'',
+                        }
+                    payslip.write(vals)
+                else:
+                    vals = {
+                         'code_error':payroll.error_timbrado['codigoError'],
+                         'error':payroll.error_timbrado['error'],
+                         'invoice_status':'problemas_factura'
+                        }
+                    payslip.write(vals)
         return True 
     
     @api.one
@@ -545,8 +646,10 @@ class HrPayslip(models.Model):
         payroll = {}
         for payslip in self:
             payroll[payslip.id] = payslip.data_payroll_report(),
+            values = payslip.to_json()
         data={
             'payroll_data': payroll,
+            'values': values,
             'docids': self.ids,
             }
         return self.env.ref('payroll_mexico.action_payroll_cfdi_report').report_action(self, data) 
@@ -627,8 +730,10 @@ class HrPayslip(models.Model):
                         absenteeism += wl.number_of_days
         total_faults += inhability + absenteeism
         payroll_dic['faults'] = total_faults
+        values = payslip.to_json()
         data={
-            'payroll_data':payroll_dic
+            'payroll_data':payroll_dic,
+            'values':values,
             }
         return self.env.ref('payroll_mexico.action_payroll_receipt_timbrado_report').with_context({'active_model': 'hr.payslip'}).report_action(self,data)      
 
@@ -1212,35 +1317,45 @@ class HrSalaryRule(models.Model):
                    ('999', 'Cuotas obrero patronales')],
         string=_('Otros Pagos'),
     )
-
-    
     type = fields.Selection([
         ('not_apply', 'Does not apply'),
         ('perception', 'Perception'),
         ('deductions', 'Deductions'),
         ('other_payment', 'Otros Pagos')
         ], string='Type', default="not_apply")
+    type_overtime = fields.Selection([
+        ('01', 'Dobles'),
+        ('02', 'Triples'),
+        ('03', 'Simples'),
+        ], string='Tipo de Hora Extra')
+    type_disability = fields.Selection([
+        ('01', 'Riesgo de trabajo.'),
+        ('02', 'Enfermedad en general.'),
+        ('03', 'Maternidad.'),
+        ('04', 'Licencia por cuidados médicos de hijos diagnosticados con cáncer.'),
+        ], string='Tipo de incapacidad')
     payroll_tax = fields.Boolean('Apply payroll tax?', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
     settlement = fields.Boolean(string='Settlement structure?')
-    
+    salary_rule_taxed_id = fields.Many2one('hr.salary.rule', "Regla (Monto Gravado)", required=False, copy=False)
+    code_category_id = fields.Char(related='category_id.code')
     
 
 class HrInputs(models.Model):
     _name = 'hr.inputs'
     
-    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, states={'paid': [('readonly', True)]})
+    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'approve': [('readonly', False)]})
     payslip = fields.Boolean('Payroll?')
-    amount = fields.Float('Amount', states={'paid': [('readonly', True)]}, digits=(16, 2))
-    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, states={'paid': [('readonly', True)]})
+    amount = fields.Float('Amount', readonly=True, states={'approve': [('readonly', False)]}, digits=(16, 2))
+    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'approve': [('readonly', False)]})
     code = fields.Char(string='Code', related="input_id.code")
     state = fields.Selection([
         ('approve', 'Approved'),
         ('paid', 'Reported on payroll')], string='Status', readonly=True, default='approve')
     type = fields.Selection([
         ('perception', 'Perception'),
-        ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, states={'paid': [('readonly', True)]}, store=True)
-    group_id = fields.Many2one('hr.group', "Group", related= 'employee_id.group_id', readonly=True, states={'paid': [('readonly', True)]}, store=True)
-    date_overtime = fields.Date('Fecha', readonly=True, states={'paid': [('readonly', True)]})
+        ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, store=True)
+    group_id = fields.Many2one('hr.group', "Group", related= 'employee_id.group_id', readonly=True, store=True)
+    date_overtime = fields.Date('Fecha', readonly=True, states={'approve': [('readonly', False)]})
 
     @api.multi
     def name_get(self):
