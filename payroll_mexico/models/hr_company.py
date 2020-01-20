@@ -194,19 +194,18 @@ class employerRegister(models.Model):
         ('employer_registryt_uniq', 'UNIQUE (employer_registry)', "Ya hay un número patronal registrado con el número ingresado!"),
     ]
 
-
     @api.multi
     def action_revoked(self):
         for employer in self:
             employer.state = 'revoked'
-            
+
     @api.multi
     def action_timed_out(self):
         for employer in self:
             employer.state = 'timed_out'
     
     def get_risk_factor(self, date_factor):
-        risk_factor = 0.0
+        risk_factor = 0
         for group in self:
             if group.risk_factor_ids:
                 factor_ids = group.risk_factor_ids.filtered(
@@ -215,13 +214,14 @@ class employerRegister(models.Model):
                 if factor_ids:
                     risk_factor = factor_ids.mapped('risk_factor')[0]
                 else:
-                    risk_factor = 0.0
+                    risk_factor = 0
         return risk_factor
 
 
 class HrGroupRiskFactor(models.Model):
     _name = "res.group.risk.factor"
     _description="Annual Risk Factor"
+    _order = 'date_from desc'
     
     employer_id = fields.Many2one('res.employer.register', string="group")
     risk_factor = fields.Float(string="Risk Factor", required=True, digits=dp.get_precision('Risk'))

@@ -46,19 +46,26 @@
         </record>
         
         <record model="ir.ui.view" id="hr_payslip_mexico_tree_inherit">
-			<field name="name">hr.payslip.mexico.inherit</field>
-			<field name="model">hr.payslip</field>
-			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
-			<field name="arch" type="xml">
-			   <xpath expr="//tree" position="attributes">
-				   <attribute name="colors">blue:state == 'draft';</attribute>
-				   <attribute name="create">0</attribute>
-			   </xpath>
-			   <xpath expr="//field[@name='company_id']" position="after">
-				   <field name="invoice_status"/>
-			   </xpath>
-			</field>
-		</record>
+            <field name="name">hr.payslip.mexico.inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="arch" type="xml">
+               <xpath expr="//tree" position="attributes">
+                   <attribute name="colors">blue:state == 'draft';</attribute>
+                   <attribute name="create">0</attribute>
+               </xpath>
+               <xpath expr="//field[@name='company_id']" position="after">
+                   <field name="invoice_status"/>
+               </xpath>
+               <xpath expr="//field[@name='number']" position="attributes">
+                  <attribute name="invisible">1</attribute>
+                  <attribute name="force_save">1</attribute>
+               </xpath>
+               <xpath expr="//field[@name='number']" position="before">
+                   <field name="complete_name"/>
+               </xpath>
+            </field>
+        </record>
         
         <record model="ir.ui.view" id="view_hr_payslip_mexico_form">
             <field name="name">hr.payslip.inherit.mexico</field>
@@ -156,7 +163,7 @@
                     <field name="payroll_type" readonly="1"/>
                     <field name="payroll_month" readonly="1"/>
                     <field name="year"/>
-                    <field name="complete_name" invisible="1"/>
+                    <field name="complete_name" invisible="1" force_save="1"/>
                     <field name="payroll_of_month" readonly="1"/>
                     <field name="payroll_period" readonly="1"/>
                     <field name="group_id" readonly="1"/>

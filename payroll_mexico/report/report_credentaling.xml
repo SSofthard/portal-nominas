@@ -6,14 +6,34 @@
             id="payroll_mexico_report_credentaling"
             string="Print Badge"
             model="hr.employee"
-            report_type="qweb-html"
+            report_type="qweb-pdf"
             name="payroll_mexico.report_credentaling"
             file="payroll_mexico.report_credentaling"
             print_report_name="'Credencial - %s' % (object.name).replace('/', '')"
         />
 
+
+
+        <template id="template_front_credential">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="employee">
+                <div class="page">
+                        <div class="col-md-6">
+                            <t t-raw="data['front_html']['%s' % employee.id]"/>
+                        </div>
+                </div>
+                <div class="page">
+                        <div class="col-md-6">
+                            <t t-raw="data['back_html']['%s' % employee.id]"/>
+                        </div>
+                </div>
+                    </t>
+            </t>
+        </template>
+
         <template id="report_credentaling">
-            <t t-call="{{data['template_id']}}"/>
+<!--            <t t-call="{{data['template_id']}}"/>-->
+            <t t-call="payroll_mexico.template_front_credential"/>
         </template>
 
     </data>

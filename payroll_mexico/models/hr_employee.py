@@ -2,12 +2,15 @@
 
 import datetime
 from datetime import date, timedelta
+import base64
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.addons import decimal_precision as dp
+from odoo import tools, _
 from odoo.addons.payroll_mexico.pyfiscal.generate import GenerateRFC, GenerateCURP, GenerateNSS, GenericGeneration
+from odoo.modules.module import get_module_resource
 
 from odoo.addons.payroll_mexico.models.zip_data import zip_data
 
@@ -97,6 +100,10 @@ class Employee(models.Model):
         for name in self:
             name.complete_name = name.name_get()[0][1]
 
+    @api.model
+    def _default_signature(self):
+        image_path = get_module_resource('payroll_mexico', 'static/img', 'default_signature_default.png')
+        return tools.image_resize_image_big(base64.b64encode(open(image_path, 'rb').read()))
 
     #Columns
     enrollment = fields.Char("Enrollment", copy=False, required=True, default=lambda self: _('/'), readonly=True)
@@ -218,7 +225,9 @@ class Employee(models.Model):
                                               string='Pago de prima vacacional')
     deceased = fields.Boolean('Fallecido?', default=False, help="Si está marcado, es considerado el empleado cómo fallecido")
     syndicalist = fields.Boolean('Sindicalizado?', default=False, help="Si está marcado, es considerado el empleado cómo parte del sindicato")
-
+    signature_employee = fields.Binary(
+        "Firma digitalizada", default=_default_signature, attachment=True,
+        help="Este campo corresponde a la firma del empleado, limitado a 1024x1024px.")
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -229,16 +238,6 @@ class Employee(models.Model):
         ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
 
-    @api.constrains('bank_account_ids')
-    def validate_predetermined(self):
-        predetermined=[]
-        for record in self.bank_account_ids:
-            if record.predetermined==True:
-                predetermined.append(record.predetermined)
-                if len(predetermined)>1:
-                    raise ValidationError(_('Advertencia!!! \
-                            Solo debe existir una cuenta predeterminada'))
-    
     def get_bank(self):
         bank_ids = []
         for employee in self:
@@ -249,6 +248,16 @@ class Employee(models.Model):
                     return bank
                 else:
                     return employee.bank_account_ids[0]
+
+    @api.constrains('bank_account_ids','bank_account_ids.predetermined',)
+    def _check_bank_account_predetermined(self):
+        # By @jeisonpernia1
+        for record in self:
+            #Validar única cuenta bancaria predeterminada 
+            bank_account_ids = record.bank_account_ids.filtered(lambda l: l.predetermined == True)
+            if len(bank_account_ids) > 1:
+                raise ValidationError(_('Advertencia! \
+                        Solo debe existir una cuenta bancaria predeterminada.'))
 
     # ~ @api.constrains('ssnid','rfc','curp')
     # ~ def validate_ssnid(self):
@@ -269,7 +278,7 @@ class Employee(models.Model):
                 group_id = employee.group_id
                 if group_id.sequence_id:
                     sequence = group_id.sequence_id
-                    new_enrollment = sequence.with_context().next_by_id()
+                    new_enrollment = sequence.with_context(force_company=self.env.user.company_id.id).next_by_id()
                 else:
                     raise UserError(_('Please define a sequence on the group.'))
                 if new_enrollment:
@@ -375,7 +384,7 @@ class Employee(models.Model):
                     if salary > tsub.lim_inf and salary < tsub.lim_sup:
                         employment_subsidy = tsub.s_mensual
                 total_perceptions = salary+employment_subsidy
-                risk_factor = employee.employer_register_id.get_risk_factor(today)[0]
+                risk_factor = employee.employer_register_id.get_risk_factor(today)
                 work_irrigation = (integrated_daily_wage * risk_factor * days)/100
                 uma = table_id.uma_id.daily_amount
                 benefits_kind_fixed_fee_pattern = (uma*table_id.em_fixed_fee*days)/100
@@ -428,23 +437,30 @@ class Employee(models.Model):
         if gender == 'female':
             return 'M'
 
+    def set_city(self):
+        if not self.place_of_birth:
+            return self.set_required_field(self.fields_get()['place_of_birth']['string'])
+        else:
+            if self.place_of_birth.country_id.code != 'MX':
+                return 'NACIDO EXTRANJERO'
+            else:
+                return self.place_of_birth.name
+
     def get_rfc_curp_data(self):
-        
         kwargs = {
             "complete_name": self.name if self.name else self.set_required_field(self.fields_get()['name']['string']),
             "last_name": self.last_name if self.last_name else self.set_required_field(self.fields_get()['last_name']['string']),
             "mother_last_name": self.mothers_last_name if self.mothers_last_name else None,
             "birth_date": self.birthday.strftime('%d-%m-%Y') if self.birthday else self.set_required_field(self.fields_get()['birthday']['string']),
             "gender": self.set_gender_format(self.gender) if self.gender else self.set_required_field(self.fields_get()['gender']['string']),
-            "city": self.place_of_birth.name if self.place_of_birth else self.set_required_field(self.fields_get()['place_of_birth']['string']),
+            "city": self.set_city(),
             "state_code": None
         }
         curp = GenerateCURP(**kwargs)
         rfc = GenerateRFC(**kwargs)
         self.curp = curp.data
         self.rfc = rfc.data
-    
-    
+
     @api.multi
     def generate_contracts(self, type_id, date):
         for employee in self:
@@ -553,6 +569,11 @@ class resBank(models.Model):
 class HrGroup(models.Model):
     _name = "hr.group"
 
+    @api.model
+    def _default_signature(self):
+        image_path = get_module_resource('payroll_mexico', 'static/img', 'default_signature_default.png')
+        return tools.image_resize_image_big(base64.b64encode(open(image_path, 'rb').read()))
+
     @api.constrains('days')
     def validate_ssnid(self):
         for record in self:
@@ -585,6 +606,12 @@ class HrGroup(models.Model):
                                                   inverse='_inverse_seq_number_next')
     code_payslip = fields.Char(string='Serie', store=True, readonly=False)
     pay_three_days_disability = fields.Boolean(string='Pagar 3 dias de incapacidad')
+    signature_group = fields.Binary(
+        "Firma digitalizada", default=_default_signature, attachment=True,
+        help="Este campo corresponde a la firma autorizada para la credencialización, limitado a 1024x1024px.")
+    logo = fields.Binary(
+        "Logo de Grupo / Empresa", attachment=True,
+        help="Logo de Grupo / Empresa, limitado a 1024x1024px.")
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
@@ -661,6 +688,7 @@ class HrGroup(models.Model):
             'prefix': prefix,
             'padding': 5,
             'number_increment': 1,
+            'company_id': False,
         }
         seq = self.env['ir.sequence'].create(seq)
         return seq
@@ -674,6 +702,7 @@ class HrGroup(models.Model):
             'implementation': 'no_gap',
             'padding': 6,
             'number_increment': 1,
+            'company_id': False,
         }
         seq = self.env['ir.sequence'].create(seq)
         return seq

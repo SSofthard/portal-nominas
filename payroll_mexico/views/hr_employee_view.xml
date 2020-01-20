@@ -142,6 +142,7 @@
                             />
                         </div>
                         <field name="curp" widget="mask" data-inputmask="'mask': '&amp;', 'repeat': 18, 'greedy' : false"/>
+                        <field name="signature_employee" widget="image"/>
                     </group>
                 </xpath> 
                 <xpath expr="//page[@name='personal_information']/group/group[3]" position="after">
@@ -208,7 +209,7 @@
                         </group>
                     </page>
                     <page name="bank_information" string="Bank Information" groups="hr.group_hr_user">
-                        <field name="bank_account_ids" context="{'default_beneficiary': name +' '+ last_name +' '+mothers_last_name }">
+                        <field name="bank_account_ids" context="{'default_beneficiary': str(name) +' '+ str(last_name)}">
                             <form>
                                 <header>
                                     <button name="action_active" states="inactive" string="Active" class="oe_highlight" type="object"/>
@@ -453,6 +454,8 @@
                             <field name="days"/>
                             <field name="antique_table"/>
                             <field name="pay_three_days_disability"/>
+                            <field name="signature_group" widget="image" class="oe_avatar"/>
+                            <field name="logo" widget="image" class="oe_avatar"/>
                         </group>
                     </group>
                     <notebook>
