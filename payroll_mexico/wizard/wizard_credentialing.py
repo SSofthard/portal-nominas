@@ -54,8 +54,6 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
         backs = {}
         for employee in self.employee_ids:
             templates_front = self.env['mail.template']._render_template(template_txt=self.body_html, model=employee._name,res_ids=employee._ids, post_process=False)
-            print (type(templates_front))
-            print(templates_front)
             templates_front[employee.id] = self.make_src_image(templates_front[employee.id])
 
             # print ('templates_front')
@@ -89,8 +87,6 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
         '''
 
         '''
-        print (self.template_id.body_html)
-        print (self.template_id.back_html)
         self.body_html = self.template_id.body_html
         self.back_html = self.template_id.back_html
 

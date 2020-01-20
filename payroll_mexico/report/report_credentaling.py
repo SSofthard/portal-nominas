@@ -19,9 +19,6 @@ class reportHr(models.TransientModel):
         print ('kjdbkabdkhasbdkasmdbjsahdbuhjd')
         print ('kjdbkabdkhasbdkasmdbjsahdbuhjd')
         print ('kjdbkabdkhasbdkasmdbjsahdbuhjd')
-        print (data['doc_ids'])
-        print (data)
-        print (data)
 
         return {
             'doc_ids': data['doc_ids'],
@@ -30,4 +27,3 @@ class reportHr(models.TransientModel):
             'data': data,
             'currency_precision': self.env.user.company_id.currency_id.decimal_places,
         }
-        

@@ -609,6 +609,9 @@ class HrGroup(models.Model):
     signature_group = fields.Binary(
         "Firma digitalizada", default=_default_signature, attachment=True,
         help="Este campo corresponde a la firma autorizada para la credencialización, limitado a 1024x1024px.")
+    logo = fields.Binary(
+        "Logo de Grupo / Empresa", attachment=True,
+        help="Logo de Grupo / Empresa, limitado a 1024x1024px.")
 
     _sql_constraints = [
         ('code_uniq', 'unique (code)', "A registered code already exists, modify and save the document.!"),
