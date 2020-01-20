@@ -6,7 +6,7 @@
             id="payroll_mexico_report_credentaling"
             string="Print Badge"
             model="hr.employee"
-            report_type="qweb-html"
+            report_type="qweb-pdf"
             name="payroll_mexico.report_credentaling"
             file="payroll_mexico.report_credentaling"
             print_report_name="'Credencial - %s' % (object.name).replace('/', '')"
