@@ -1,10 +1,18 @@
 $brand-primary: #414141;
-$brand-secondary: #00A09D;
+//$brand-secondary: #DAA520;
+$brand-secondary: #CDA434;
 
 $brand-primary-dark: darken($brand-primary, 10%);
 $brand-primary-light: lighten($brand-primary, 10%);
 $brand-secondary-dark: darken($brand-secondary, 10%);
 $brand-secondary-light: lighten($brand-secondary, 10%);
+
+$gray-base:              #000;
+$gray-darker:            lighten($gray-base, 13.5%);
+$gray-dark:              #666;
+$gray:                   #777;
+$gray-light:             #AEA79F;
+$gray-lighter: lighten($gray-base, 93.5%);
 
 //.o_home_menu_background {
 //    background: url(/odoo_web_login/static/src/img/back-5.png) no-repeat fixed center;;
@@ -37,6 +45,109 @@ $brand-secondary-light: lighten($brand-secondary, 10%);
 
 //#465F93
 //#3E3E40
+// Search View Icons Filter
+.o_searchview .o_searchview_facet .o_searchview_facet_label {
+    background-color: $brand-primary-light;
+}
+
+// View Calendar Monthly
+.o_calendar_container .o_calendar_sidebar_container .ui-datepicker table .ui-state-active {
+    background-color: $brand-primary-light;
+}
+
+// Background checkbox
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: $brand-secondary !important;
+}
+
+//Day today datepicker
+.today {
+    &.active,
+    &.active:hover {
+        background-color: $brand-secondary !important;
+    }
+}
+
+// Buttons
+.btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 160, 157, 0.5);
+}
+
+.btn-primary {
+    background-color: $brand-secondary;
+    border-color: $brand-secondary-light;
+}
+
+.btn-primary:hover {
+    background-color: $brand-secondary-dark;
+    border-color: $brand-secondary-light;
+}
+
+.btn-secondary {
+    border: none;
+    color: $brand-secondary;
+}
+
+.btn:active, .btn.active {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: #eee !important;
+}
+
+.o_control_panel > .breadcrumb > li > a {
+    color: $brand-secondary !important;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem $brand-secondary-light;
+}
+
+
+.btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem $brand-secondary-light;
+}
+
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled {
+    color: $brand-primary;
+}
+
+.o_arrow_button:not(.disabled):hover, .o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button:not(.disabled):active, .o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button:not(.disabled):focus {
+    color: $brand-secondary;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+    background-color:$brand-secondary;
+    border-color: $brand-secondary-dark;
+}
+
+.o_form_view {
+    .o_form_uri {
+        display: inline-block;
+        color: $brand-secondary;
+
+        &:hover {
+            color: darken($brand-secondary, 15%);
+        }
+    }
+}
+
+.o_list_view .o_field_x2many_list_row_add a:focus {
+    color: $brand-secondary-light;
+    },
+    .o_field_x2many_list_row_add a:hover {
+        color: $brand-secondary-dark;
+    },
+        .o_list_view .o_field_x2many_list_row_add a:active {
+        color: $brand-secondary;
+}
+
+a {
+    color: $brand-secondary;
+}
+
+a:hover {
+    color: $brand-secondary-dark;
+}
 
 .o_home_menu .o_home_menu_scrollable .o_apps .o_app .o_app_icon {
     width: 100%;
@@ -53,28 +164,74 @@ $brand-secondary-light: lighten($brand-secondary, 10%);
 //}
 
 
+.tooltip .tooltip-inner .oe_tooltip_string {
+    background-color: $brand-primary;
+}
+
+.o_loading {
+    background-color: $brand-primary;
+}
+
 .o_main_navbar {
+    background-color : $brand-primary;
+}
 
-    > a, > button {
-        &:hover, &:focus {
-            background-color: $brand-primary-light;
-            color: inherit;
+.o_main_navbar > a:hover, .o_main_navbar > a:focus, .o_main_navbar > button:hover, .o_main_navbar > button:focus {
+    background-color: $brand-primary-dark;
+    color: inherit;
+}
+
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button:not(.disabled):hover {
+    color: $brand-primary;
+}
+
+.o_dropdown_toggler_btn, .o_dropdown_toggler_btn:hover, .o_dropdown_toggler_btn:focus, .o_dropdown_toggler_btn:hover, .o_dropdown_toggler_btn:focus, .btn-icon, .o_graph_button {
+    text-transform: none !important;
+    color: $gray-dark !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+
+.o_main_navbar > ul > li > a:hover, .o_main_navbar > ul > li > label:hover {
+    background-color: $brand-primary-dark;
+}
+
+.o_main_navbar .show .dropdown-toggle {
+    background-color: $brand-primary-dark;
+}
+
+.o_kanban_view .oe_kanban_color_11::after {
+    background-color: $brand-primary;
+}
+
+.btn-link {
+    @include o-hover-text-color($brand-secondary, $brand-secondary-dark);
+}
+
+.ui-autocomplete .ui-menu-item {
+    &.ui-state-focus {
+        background-color: $dropdown-link-hover-bg;
+    }
+    &.ui-state-focus > a {
+        color: $brand-secondary-light !important;
+        &:hover {
+            color: $brand-secondary !important;
         }
     }
-
-    > ul {
-        > li {
-            > a, > label {
-                &:hover {
-                    background-color: $brand-primary-light;
-                }
-            }
-
+    &.o_m2o_dropdown_option > a,
+    &.ui-state-focus.o_m2o_dropdown_option > a {
+        color: $brand-secondary-light !important;
+        &:hover {
+            color: $brand-secondary-dark !important;
         }
-
     }
+}
 
-    .show .dropdown-toggle {
-        background-color: $brand-primary-light;
-    }
+.o_form_view .o_notebook > .nav.nav-tabs > .nav-item > .nav-link:hover, .o_form_view .o_notebook > .nav.nav-tabs > .nav-item > .nav-link:focus, .o_form_view .o_notebook > .nav.nav-tabs > .nav-item > .nav-link:active {
+    color: $brand-secondary;
+}
+
+.o_field_widget.o_field_image .o_form_image_controls {
+    background-color: $brand-secondary;
 }
