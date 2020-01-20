@@ -278,7 +278,7 @@ class Employee(models.Model):
                 group_id = employee.group_id
                 if group_id.sequence_id:
                     sequence = group_id.sequence_id
-                    new_enrollment = sequence.with_context().next_by_id()
+                    new_enrollment = sequence.with_context(force_company=self.env.user.company_id.id).next_by_id()
                 else:
                     raise UserError(_('Please define a sequence on the group.'))
                 if new_enrollment:
@@ -685,6 +685,7 @@ class HrGroup(models.Model):
             'prefix': prefix,
             'padding': 5,
             'number_increment': 1,
+            'company_id': False,
         }
         seq = self.env['ir.sequence'].create(seq)
         return seq
@@ -698,6 +699,7 @@ class HrGroup(models.Model):
             'implementation': 'no_gap',
             'padding': 6,
             'number_increment': 1,
+            'company_id': False,
         }
         seq = self.env['ir.sequence'].create(seq)
         return seq
