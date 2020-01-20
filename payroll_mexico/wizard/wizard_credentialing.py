@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import io
+import base64
 from datetime import date, datetime, time
 from dateutil.relativedelta import relativedelta
 from lxml import etree,html
@@ -68,8 +70,30 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
             'template_id':self.target_layout_id.key,
             'front_html': fronts,
             'back_html': backs,
+            'paperformat':  self.get_paperformat(),
         }
-        return self.env.ref('payroll_mexico.payroll_mexico_report_credentaling').report_action(self, data=vals)
+        paperformat = self.get_paperformat()
+        res = self.env.ref('payroll_mexico.payroll_mexico_report_credentaling').report_action(self, data=vals)
+        print (res)
+        print (res)
+
+        print (paperformat)
+        print (paperformat)
+        print (paperformat)
+        res.update({'paperformat_id': paperformat.id})
+        print ('resresres')
+        print ('resresres')
+        print ('resresres')
+        print (res['context'])
+        # print(x)
+        return res
+
+    def get_paperformat(self):
+        '''
+
+        '''
+        paperformat = self.env['report.paperformat'].search([('name','=',self.template_id.size),('orientation','=',self.template_id.orientation.capitalize())])
+        return paperformat
 
     def add_template(self):
         '''
@@ -102,3 +126,29 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
                 img.set('src','%s' % image_data_uri(bytes(img_data,'utf-8')))
         template = html.tostring(element)
         return template
+
+
+    def action_print_png(self):
+        '''
+        Este metodo es para imprimir el txt de la liquidación que va a ser
+        '''
+        output = io.BytesIO()
+        print ('imprimir txt')
+        print ('imprimir txt')
+        print ('imprimir txt')
+        print ('imprimir txt')
+        f_name = 'credencializacion'
+        content = self.body_html
+        print (type(content))
+        data = base64.encodebytes(bytes(content, 'utf-8'))
+        export_id = self.env['hr.fees.settlement.report.txt'].create(
+            {'txt_file': data, 'file_name': f_name + '.png'})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.fees.settlement.report.txt',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': export_id.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
