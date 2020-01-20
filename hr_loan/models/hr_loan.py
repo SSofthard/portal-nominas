@@ -120,15 +120,16 @@ class hrLoan(models.Model):
     @api.multi
     def action_applied(self):
         for loan in self:
-            msg = ''
+            msg = []
             if loan.loan_amount <= 0.0:
-                msg += _('Loan Amount\n ')
+                msg.append( _('Loan Amount\n '))
             if loan.interest and loan.rate <= 0.0:
-                msg += _('Interest Rate\n ')
+                msg.append(_('Interest Rate\n '))
             if loan.number_fees <= 0.0:
-                msg += _('Number of fees')
+                msg.append(_('Number of fees'))
             if msg:
-                raise Warning( _('Enter values ​​greater than zero:\n %s ') % (msg))
+                msg_raise="".join(msg)
+                raise Warning( _('Enter values ​​greater than zero:\n %s') % str(msg_raise))
             self.verify_policy_compliance()
             loan.state = 'applied'
             loan.name = self.env['ir.sequence'].get('hr.loan')
