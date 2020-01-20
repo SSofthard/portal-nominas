@@ -42,7 +42,7 @@
                                 </thead>
                                 <tbody class="sale_tbody">
                                     <!-- Template Sueldos Y Salarios-->
-                                    <t t-if="payroll_data['regimen'] == '2'">
+                                    <t t-if="payroll_data['regimen'] == '02'">
                                         <tr>
                                             <td class="text-left">
                                                 <span class="text-left">Sueldo Base (Informativo)</span>
