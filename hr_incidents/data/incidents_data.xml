@@ -48,12 +48,19 @@
             <field name="allocation_type">no</field>
         </record>
         <record id="leave_type_22" model="hr.leave.type">
-		<field name="name">Vacaciones</field>
-		<field name="code">F08</field>
-		<field name="color_name">lavender</field>
-		<field name="unpaid">True</field>
-		<field name="is_holidays">True</field>
-		<field name="allocation_type">fixed</field>
-	</record>
+			<field name="name">Vacaciones</field>
+			<field name="code">F08</field>
+			<field name="color_name">lavender</field>
+			<field name="unpaid">True</field>
+			<field name="is_holidays">True</field>
+			<field name="allocation_type">fixed</field>
+		</record>
+		<record id="leave_type_23" model="hr.leave.type">
+            <field name="name">Licencia por cuidados médicos de hijos diagnosticados con cáncer.</field>
+            <field name="code">F09</field>
+            <field name="color_name">lightgreen</field>
+            <field name="allocation_type">no</field>
+            <field name="time_type">inability</field>
+        </record>
    </data>
 </odoo>

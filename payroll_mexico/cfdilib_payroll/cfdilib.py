@@ -203,19 +203,27 @@ class BaseDocument:
         # TODO: Here should be called the cleanup 'Just before the validation'.
         valid = self.validate(self.schema, document)
         self.document = document
+        print (document)
         if valid:
             document = etree.XML(document)
             document = self.sellar(document)
             documento_timbrado = self.timbrar(self.user, self.password_pac, document)
-            if documento_timbrado['xmlTimbrado']:
-                document = etree.XML(documento_timbrado['xmlTimbrado'].encode('utf-8'))
-                document = etree.tostring(document, pretty_print=True, xml_declaration=True, encoding='utf-8')
-                self.document = document
-                cached.write(self.document is not None and self.document or u'')
-                cached.seek(0)
-                self.document_path = cached
+            if documento_timbrado:
+                if documento_timbrado['xmlTimbrado']:
+                    document = etree.XML(documento_timbrado['xmlTimbrado'].encode('utf-8'))
+                    document = etree.tostring(document, pretty_print=True, xml_declaration=True, encoding='utf-8')
+                    self.document = document
+                    cached.write(self.document is not None and self.document or u'')
+                    cached.seek(0)
+                    self.document_path = cached
+                else:
+                    self.error_timbrado = documento_timbrado
             else:
-                self.error_timbrado =  documento_timbrado
+                self.error_timbrado =  {
+                                         'codigoError':'Desconocido',
+                                         'error':'No se ha podido generar el CFDI',
+                                         'xmlTimbrado':None
+                                        }
 
     def get_element_from_clark(self, element):
         """**Helper method:** Given a Clark's Notation

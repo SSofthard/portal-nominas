@@ -11,11 +11,18 @@
                 <xpath expr="//field/tree/field[@name='code']" position="after">
                     <field name="type"/>
                 </xpath> 
+                <xpath expr="//field[@name='register_id']" position="after">
+					<separator colspan="4" string="Regla Asociada (Monto Gravado)" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
+                    <field name="salary_rule_taxed_id" domain="[('code_category_id','=','G01')]" attrs="{'invisible': [('type', '!=', 'perception')],'required': [('type', '=', 'perception')]}"/>
+                    <field name="code_category_id" invisible="1"/>
+                </xpath> 
                 <xpath expr="//group[1]" position="after">
                     <group col="4">
                        <field name="type" widget="radio"/>
                        <field name="type_perception" attrs="{'invisible': [('type', '!=', 'perception')],'required': [('type', '=', 'perception')]}"/>
+                       <field name="type_overtime" attrs="{'invisible': [('type_perception', '!=', '019')],'required': [('type_perception', '=', '019')]}"/>
                        <field name="type_deduction" attrs="{'invisible': [('type', '!=', 'deductions')],'required': [('type', '=', 'deductions')]}"/>
+                       <field name="type_disability" attrs="{'invisible': [('type_deduction', '!=', '006')],'required': [('type_deduction', '=', '006')]}"/>
                        <field name="type_other_payment" attrs="{'invisible': [('type', '!=', 'other_payment')],'required': [('type', '=', 'other_payment')]}"/>
                        <field name="payroll_tax" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
                     </group>
