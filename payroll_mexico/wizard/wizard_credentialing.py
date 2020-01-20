@@ -12,7 +12,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools.image import image_data_uri
 
 # import imgkit
-import tempfile
+# import tempfile
 
 class hrEmployeeCredentialingWizard(models.TransientModel):
     _name = "hr.employee.credentialing.wizard"
