@@ -14,11 +14,6 @@ class reportHr(models.TransientModel):
     @api.multi
     def _get_report_values(self, docids, data=None):
         docs = self.env['hr.employee'].browse(data['doc_ids'])
-        print ('kjdbkabdkhasbdkasmdbjsahdbuhjd')
-        print ('kjdbkabdkhasbdkasmdbjsahdbuhjd')
-        print ('kjdbkabdkhasbdkasmdbjsahdbuhjd')
-        print ('kjdbkabdkhasbdkasmdbjsahdbuhjd')
-        print ('kjdbkabdkhasbdkasmdbjsahdbuhjd')
 
         return {
             'doc_ids': data['doc_ids'],
@@ -26,4 +21,5 @@ class reportHr(models.TransientModel):
             'docs': docs,
             'data': data,
             'currency_precision': self.env.user.company_id.currency_id.decimal_places,
+            'paperformat': data['paperformat'],
         }

@@ -8,5 +8,9 @@
                 <link rel="stylesheet" type="text/scss" href="/odoo_web_login/static/src/css/style.scss"/>
 			</xpath>
 		</template>
+
+        <menuitem id="hr_attendance.menu_hr_attendance_my_attendances"
+              active="False"/>
+
     </data>
 </odoo>
