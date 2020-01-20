@@ -2,13 +2,69 @@
 <odoo>
     <data>
 
+    <record id="paperformat_CR80_portrait" model="report.paperformat">
+        <field name="name">CR80</field>
+        <field name="format">custom</field>
+        <field name="default" eval="True" />
+        <field name="page_height">86</field>
+        <field name="page_width">54</field>
+        <field name="margin_top">3</field>
+        <field name="orientation">Portrait</field>
+    </record>
+
+    <record id="paperformat_CR80_landscape" model="report.paperformat">
+        <field name="name">CR80</field>
+        <field name="format">custom</field>
+        <field name="default" eval="True" />
+        <field name="page_height">86</field>
+        <field name="page_width">54</field>
+        <field name="orientation">Landscape</field>
+    </record>
+
+    <record id="paperformat_CR79_portrait" model="report.paperformat">
+        <field name="name">CR79</field>
+        <field name="format">custom</field>
+        <field name="default" eval="True" />
+        <field name="page_height">84</field>
+        <field name="page_width">52</field>
+        <field name="orientation">Portrait</field>
+    </record>
+
+    <record id="paperformat_CR79_Landscape" model="report.paperformat">
+        <field name="name">CR79</field>
+        <field name="format">custom</field>
+        <field name="default" eval="True" />
+        <field name="page_height">84</field>
+        <field name="page_width">52</field>
+        <field name="orientation">Landscape</field>
+    </record>
+
+    <record id="paperformat_CR100_Portrait" model="report.paperformat">
+        <field name="name">CR100</field>
+        <field name="format">custom</field>
+        <field name="default" eval="True" />
+        <field name="page_height">99</field>
+        <field name="page_width">67</field>
+        <field name="orientation">Portrait</field>
+    </record>
+
+    <record id="paperformat_CR100_Landscape" model="report.paperformat">
+        <field name="name">CR100</field>
+        <field name="format">custom</field>
+        <field name="default" eval="True" />
+         <field name="page_height">99</field>
+        <field name="page_width">67</field>
+        <field name="orientation">Landscape</field>
+    </record>
+
         <report
             id="payroll_mexico_report_credentaling"
             string="Print Badge"
             model="hr.employee"
-            report_type="qweb-pdf"
+            report_type="qweb-html"
             name="payroll_mexico.report_credentaling"
             file="payroll_mexico.report_credentaling"
+            paperformat="payroll_mexico.paperformat_CR80_portrait"
             print_report_name="'Credencial - %s' % (object.name).replace('/', '')"
         />
 
@@ -18,14 +74,11 @@
             <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="employee">
                 <div class="page">
-                        <div class="col-md-6">
                             <t t-raw="data['front_html']['%s' % employee.id]"/>
-                        </div>
                 </div>
+                <div style="display:block;page-break-before:always;"/>
                 <div class="page">
-                        <div class="col-md-6">
                             <t t-raw="data['back_html']['%s' % employee.id]"/>
-                        </div>
                 </div>
                     </t>
             </t>
