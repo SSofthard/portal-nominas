@@ -24,6 +24,7 @@ import base64
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
+    _order = 'create_date desc'
 
     complete_name = fields.Char("Serie/Folio")
     payroll_type = fields.Selection([

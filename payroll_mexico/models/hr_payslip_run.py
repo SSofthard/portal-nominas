@@ -10,7 +10,7 @@ from datetime import datetime
 
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
-    
+    _order = 'create_date desc'
     
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', required=True)
     contracting_regime = fields.Selection([
