@@ -465,7 +465,7 @@ class Employee(models.Model):
     def generate_contracts(self, type_id, date):
         for employee in self:
             contract_obj = self.env['hr.contract']
-            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['01','02','05']),('state','in',['open'])])
+            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['08','09','11','02','05']),('state','in',['open'])])
             list_contract =[]
             if contarct:
                 raise UserError(_('The employee has currently open contracts.'))
