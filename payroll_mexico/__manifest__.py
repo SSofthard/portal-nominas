@@ -46,6 +46,7 @@
         'views/hr_fees_settlement_view.xml',
         'views/hr_table_index_consume_price_view.xml',
         'security/ir.model.access.csv',
+        'security/security.xml',
         #Reports
 
         'report/base_layout.xml',
