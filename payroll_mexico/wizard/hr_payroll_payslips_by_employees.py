@@ -35,14 +35,14 @@ class HrPayslipEmployees(models.TransientModel):
             payslip_run_employees = payslip_run.mapped('slip_ids').mapped('employee_id').ids
         contract=self.env['hr.contract']
         structure_type_id=self.estructure_id.structure_type_id.id
-        if payslip_run.contracting_regime == '02':
-            domain_employer_register = [('employer_register_id','=',payslip_run.employer_register_id.id)]
         domain=[
             ('structure_type_id','=',structure_type_id),
             ('employee_id.group_id','=',payslip_run.group_id.id),
             ('contracting_regime','=',self.contracting_regime)
             ]
-        employees=contract.search_read(domain+domain_employer_register,['employee_id','state'])
+        if payslip_run.contracting_regime == '02':
+            domain.append(('employer_register_id','=',payslip_run.employer_register_id.id))
+        employees=contract.search_read(domain,['employee_id','state'])
         employee_ids=[]
         for employee in employees:
             if employee['state'] in ['open']:

@@ -19,7 +19,7 @@ from lxml import etree as ET
 
 from io import StringIO, BytesIO
 import base64
-
+import qrcode
 
 
 class HrPayslip(models.Model):
@@ -158,6 +158,7 @@ class HrPayslip(models.Model):
     error = fields.Char(string='Error', readonly=True)
     
     xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)")
+    qr_timbre = fields.Binary(string="Qr")
     
     
     def overtime(self,type_overtime):
@@ -500,6 +501,18 @@ class HrPayslip(models.Model):
                             u'datas':xml , 
                             u'description': False}
                     xml_timbre = ir_attachment.create(value)
+                    
+                    
+                    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=20, border=4)
+                    
+                    
+                    url_qr =' https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='+TimbreFiscalDigital.attrib['UUID']+'&re='+values['emitter_rfc']+'&rr='+values['receiver_rfc']+'&tt='+values['amount_total']+'&fe=tw7aNQ=='
+                    qr.add_data(url_qr)
+                    qr.make(fit=True)
+                    img = qr.make_image()
+                    buffer = BytesIO()
+                    img.save(buffer, format="PNG")
+                    img_str = base64.b64encode(buffer.getvalue())
                     vals = {
                          'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
                          'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
@@ -513,6 +526,7 @@ class HrPayslip(models.Model):
                          'invoice_status':'factura_correcta',
                          'code_error':'',
                          'error':'',
+                         'qr_timbre':img_str,
                         }
                     payslip.write(vals)
                 else:
@@ -1094,9 +1108,11 @@ class HrPayslip(models.Model):
                 'payroll_of_month': run_data['payroll_of_month'],
                 'payroll_period': run_data['payroll_period'],
                 'table_id': run_data['table_id'][0],
-                'employer_register_id': run_data['employer_register_id'][0],
+                
             }
         }
+        if run_data['employer_register_id']:
+            res['value']['employer_register_id'] = run_data['employer_register_id'][0]
         if (not employee_id) or (not date_from) or (not date_to):
             return res
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)

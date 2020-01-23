@@ -217,6 +217,7 @@
 							<field name="invoice_date"/>
 							<field name="UUID_sat"/>
 							<field name="xml_timbre"/>
+							<field name="qr_timbre"/>
 							<field name="stamp_cfd" invisible="1" readonly="True"/>
 							<field name="stamp_sat" invisible="1" readonly="True"/>
 							<field name="original_string" invisible="1" readonly="True"/>
