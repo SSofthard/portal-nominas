@@ -368,25 +368,32 @@
                                 </tr>
                             </table>
                             <br/>
-                            <div id="cfdi">
-                                <div class="row">
-                                    <div class="col-auto mw-100 mb-2">
-                                        <strong>Sello Digital CFDI:</strong>
-                                        <span class="m-0" t-field="o.stamp_cfd"/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-auto mw-100 mb-2">
-                                        <strong>Sello Digital SAT:</strong>
-                                        <p class="m-0" t-field="o.stamp_sat"/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-auto mw-100 mb-2">
-                                        <strong>Cadena Original Certificado SAT:</strong>
-                                        <p class="m-0" t-field="o.original_string"/>
-                                    </div>
-                                </div>
+                            <div id="cfdi" style="width:1000px">
+                                <div class="" style="width:800px; float:left;">
+									<div class="row">
+										<div class="col-auto mw-100 mb-2">
+											<strong>Sello Digital CFDI:</strong>
+											<span class="m-0" t-field="o.stamp_cfd"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-auto mw-100 mb-2">
+											<strong>Sello Digital SAT:</strong>
+											<p class="m-0" t-field="o.stamp_sat"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-auto mw-100 mb-2">
+											<strong>Cadena Original Certificado SAT:</strong>
+											<p class="m-0" t-field="o.original_string"/>
+										</div>
+									</div>
+								</div>
+								<div class="center" style="width:200px; float:right;">
+									<div class="row">
+										<img t-att-src="image_data_uri(o.qr_timbre)" class="pull-left" style="max-height: 200px;"/>
+									</div>
+								</div>
                             </div>
                             <div class="text-center">
                                 <span>COPIA PATRÓN</span>
