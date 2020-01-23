@@ -95,7 +95,7 @@ class ChangeOfJob(models.Model):
         ('09', 'Honorary Assimilates'),
         ('11', 'Assimilated others'),
         ('99', 'Other regime'),
-    ], string='Contracting Regime', related="contract_id.contracting_regime")
+    ], string='Contracting Regime ', related="contract_id.contracting_regime")
     low_reason = fields.Selection([
             ('1', 'TERMINACIÓN DE CONTRATO'),
             ('2', 'SEPARACIÓN VOLUNTARIA'),
