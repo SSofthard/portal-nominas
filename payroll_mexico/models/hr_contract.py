@@ -17,23 +17,23 @@ class Contract(models.Model):
     @api.multi
     @api.constrains('employee_id', 'contracting_regime', 'company_id', 'state')
     def _check_contract(self):
-        vals=[(self.employee_id.id,self.company_id.id,self.contracting_regime,self.state)]
-        contracting_regime = dict(self._fields.get('contracting_regime').selection)
-        regimen=contracting_regime.get(int(self.contracting_regime))
-        lista_contract=[]
-        contr = self.env['hr.contract'].search([
-                        ('employee_id', '=', self.employee_id.id), 
-                        ])
-        for contract in contr:
-            if self.state == 'open':
-                if contract.id != self.id:
-                    lista_contract=[(contract.employee_id.id,
-                            contract.company_id.id,
-                            contract.contracting_regime,
-                            contract.state)]
-                    if lista_contract == vals:
-                        raise ValidationError(_('Ya existe un contrato en proceso, del empleado (%s) \
-                            para el régimen (%s).') % (self.employee_id.name,regimen))
+        if not self.company_id:
+            raise ValidationError(_(
+                'Select the company for the contract, if there is no company field in the form view, activate the multi company option'))
+        contracting_regime = dict(
+            self._fields['contracting_regime']._description_selection(
+                self.env)).get(self.contracting_regime)
+        domain = [
+            ('employee_id','=', self.employee_id.id),
+            ('company_id','=', self.company_id.id),
+            ('contracting_regime','=', self.contracting_regime),
+            ('state','=','open')
+        ]
+        contract = self.env['hr.contract'].search(domain)
+        if len(contract) > 1:
+            raise ValidationError(_(
+                'There is already an open contract with the hiring regime "%s" for the employee "%s".') % (
+                                  contracting_regime, self.employee_id.name))
 
     @api.one
     def _get_years_antiquity(self):
@@ -62,12 +62,16 @@ class Contract(models.Model):
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
     contracting_regime = fields.Selection([
-        ('01', 'Assimilated to wages'),
+        # ('01', 'Assimilated to wages'),
         ('02', 'Wages and salaries'),
         ('03', 'Senior citizens'),
         ('04', 'Pensioners'),
         ('05', 'Free'),
-        ], string='Contracting Regime', required=True, default="02")
+        ('08', 'Assimilated commission agents'),
+        ('09', 'Honorary Assimilates'),
+        ('11', 'Assimilated others'),
+        ('99', 'Other regime'),
+    ], string='Contracting Regime', required=True, default="02")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
     days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
     integral_salary= fields.Float(string="SDI", copy=False)

@@ -228,6 +228,11 @@ class Employee(models.Model):
     signature_employee = fields.Binary(
         "Firma digitalizada", default=_default_signature, attachment=True,
         help="Este campo corresponde a la firma del empleado, limitado a 1024x1024px.")
+    contracting_regime = fields.Selection([
+        ('08', 'Assimilated commission agents'),
+        ('09', 'Honorary Assimilates'),
+        ('11', 'Assimilated others'),
+    ], string='Contracting Regime Assimilated',)
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -333,13 +338,16 @@ class Employee(models.Model):
     @api.multi
     def calculate_salary_scheme(self):
         for employee in self:
-            
             if employee.monthly_salary <= 0:
                 raise UserError(_('Please indicate the monthly salary'))
-                
             if employee.wage_salaries <= 0:
                 raise UserError(_('The amount of wages and salaries must be greater than 0'))
-                
+            if employee.free_salary < 0:
+                raise UserError(_('The amount of free salary must be greater than or equal to 0'))
+            total_salaries = employee.wage_salaries + employee.free_salary
+            if total_salaries > employee.monthly_salary:
+                raise UserError(_(
+                    'The amount of wages and salaries plus the free amount cannot exceed the monthly salary.'))
             if employee.type_salary == 'gross':
                 if employee.wage_salaries == employee.monthly_salary:
                     employee.wage_salaries_gross = employee.wage_salaries
@@ -465,14 +473,16 @@ class Employee(models.Model):
     def generate_contracts(self, type_id, date):
         for employee in self:
             contract_obj = self.env['hr.contract']
-            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['01','02','05']),('state','in',['open'])])
-            list_contract =[]
+            employee.calculate_salary_scheme()
+            contarct = contract_obj.search([('employee_id','=',employee.id),('contracting_regime','in',['08','09','11','02','05']),('state','in',['open'])])
+            list_contract = []
             if contarct:
                 raise UserError(_('The employee has currently open contracts.'))
             if not employee.company_id:
                 raise UserError(_('You must select a company for the salary and salary contract.'))
             if not employee.company_assimilated_id and employee.assimilated_salary_gross > 0:
                 raise UserError(_('You must select a company for the salary-like contract.'))
+
             if employee.wage_salaries_gross > 0:
                 val = {
                     'name':employee.name+' - '+'Sueldos y Salarios',
@@ -493,7 +503,7 @@ class Employee(models.Model):
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
                     'wage':employee.assimilated_salary_gross,
-                    'contracting_regime':'01',
+                    'contracting_regime': self.contracting_regime,
                     'company_id':employee.company_assimilated_id.id,
                     'type_id':type_id.id,
                     'date_start':date,

@@ -61,7 +61,7 @@
                     <field name="ssnid" />
                     <field name="group_id" />
                     <field name="work_center_id"/>
-                    <field name="employer_register_id" />
+                    <field name="employer_register_id"/>
                 </xpath>
                 <xpath expr="//filter[@name='message_needaction']" position="after">
                     <filter string="Contratos vencidos (hoy)" name="exipred_today_employee" domain="[('contract_ids.date_end','=',context_today().strftime('%Y-%m-%d'))]"/>
@@ -192,7 +192,7 @@
                                 <field name="syndicalist"/>
                             </group>
                             <group string="IMSS">
-                                <field name="employer_register_id" context="{'default_company_id': company_id}"
+                                <field name="employer_register_id" options="{'no_create':True}" context="{'default_company_id': company_id}"
                                     domain="[('company_id','=',company_id),('state','=','valid')]"/>
                                 <field name="ssnid" widget="mask" data-inputmask="'mask': '9', 'repeat': 11, 'greedy' : false"/>
                                 <field name="payment_period_id"/>
@@ -327,8 +327,12 @@
                             </group>
                             <group>
                                 <field name="company_id" options='{"no_open": True, "no_create": True}'/>
-                                <field name="company_assimilated_id" options='{"no_open": True, "no_create": True}'/>
                                 <button name="%(action_hr_employee_contract)d" string="Generate contracts" class="oe_highlight" type="action" groups="hr.group_hr_user"/>
+                            </group>
+                            <group string="Assimilated contract">
+                                <field name="contracting_regime" attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)],'required': [('assimilated_salary_gross', '>', 0)]}"/>
+                                <field name="company_assimilated_id" options='{"no_open": True, "no_create": True}' domain="[('id', '!=', company_id)]"
+                                    attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)],'required': [('assimilated_salary_gross', '>', 0)]}"/>
                             </group>
                         </group>
                     </page>

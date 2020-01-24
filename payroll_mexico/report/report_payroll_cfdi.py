@@ -13,21 +13,14 @@ class reportPayrollCfdi(models.TransientModel):
         
     @api.multi
     def _get_report_values(self, docids, data=None):
-        # ~ return {
-            # ~ 'doc_ids': docids,
-            # ~ 'doc_model': 'hr.payslip',
-            # ~ 'docs': self.env['hr.payslip'].search([('id','in',data['context']['active_ids'])]),
-            # ~ 'data': data,
-        # ~ }
-        
-        doc_ids = docids or data['docids']
-        docs = self.env['hr.payslip'].search([('id', 'in', doc_ids)])
+        docs = self.env['hr.payslip'].browse(data['docids'])
         return {
             'doc_ids': docids,
             'doc_model': 'hr.payslip',
             'docs': docs,
             'data': data,
         }
+
         
 class reportPayroll(models.TransientModel):
     _name = 'report.payroll_mexico.payroll_receipt_report_template'
