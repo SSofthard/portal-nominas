@@ -519,9 +519,11 @@ class HrPayslip(models.Model):
                          'code_error':'',
                          'error':'',
                          'qr_timbre':img_str,
-                         'pdf': payslip.print_payroll_cfdi(),
+                         'pdf': '',
                         }
                     payslip.write(vals)
+                    
+                    payslip.pdf = payslip.print_payroll_cfdi()
                 else:
                     
                     vals = {
