@@ -523,9 +523,30 @@ class HrPayslip(models.Model):
                         }
                     payslip.write(vals)
                     
-                    payslip.pdf = payslip.print_payroll_cfdi()
-                else:
                     
+                    # Generate CFDI PDF
+                    payroll = {}
+                    payroll[payslip.id] = payslip.data_payroll_report(),
+                    data = {
+                        'payroll_data': payroll,
+                        'values': values,
+                        'docids': payslip.id,
+                    }
+                    pdf = self.env.ref('payroll_mexico.action_payroll_cfdi_report').render_qweb_pdf(payslip.id, data=data)[0]
+                    pdf_name = '%s_%s_%s' %(payslip.employee_id.complete_name, payslip.date_from, payslip.date_to) + '.pdf'
+                    
+                    attachment_id = payslip.env['ir.attachment'].create({
+                        'name': pdf_name,
+                        'res_id': payslip.id,
+                        'folder_id': payslip.get_folder(),
+                        'res_model': payslip._name,
+                        'datas': base64.encodestring(pdf),
+                        'datas_fname': pdf_name,
+                        'description': 'CFDI PDF',
+                        'type': 'binary',
+                    })
+                    payslip.pdf = attachment_id.id
+                else:
                     vals = {
                          'invoice_date':'',
                          'certificate_number':'',
@@ -544,6 +565,50 @@ class HrPayslip(models.Model):
                         }
                     payslip.write(vals)
         return True 
+    
+    def get_folder(self):
+        """ Function get folder is not exists, create folder """
+        Folder = self.env['documents.folder']
+        #Search or Create Group Folder 
+        group_folder = self.group_id.name.upper()
+        group_folder_id = Folder.search([('name','=',group_folder)])
+        if not group_folder_id:
+            group_folder_id = Folder.create({
+                'name': group_folder,
+                'company_id': self.company_id.id,
+            })
+        #Search or Create Year Folder
+        year_folder = str(self.year)
+        year_folder_id = Folder.search([('name','=',year_folder)])
+        if not year_folder_id:
+            year_folder_id = Folder.create({
+                'name': year_folder,
+                'parent_folder_id': group_folder_id.id,
+                'company_id': self.company_id.id,
+            })
+        #Search or Create Month Folder
+        month_folder = dict(
+            self._fields['payroll_month']._description_selection(
+                self.env)).get(self.payroll_month).upper()
+        month_folder_id = Folder.search([('name','=',month_folder),('parent_folder_id','=',year_folder_id.id)])
+        if not month_folder_id:
+            month_folder_id = Folder.create({
+                'name': month_folder,
+                'parent_folder_id': year_folder_id.id,
+                'company_id': self.company_id.id,
+            })
+        #Search or Create Period Folder
+        date_from = self.date_from.strftime('%d/%b/%Y').title()
+        date_to = self.date_to.strftime('%d/%b/%Y').title()
+        period_folder = '%s A %s' %(date_from, date_to)
+        period_folder_id = Folder.search([('name','=',period_folder),('parent_folder_id','=',month_folder_id.id)])
+        if not period_folder_id:
+            period_folder_id = Folder.create({
+                'name': period_folder,
+                'parent_folder_id': month_folder_id.id,
+                'company_id': self.company_id.id,
+            })
+        return period_folder_id.id
     
     @api.one
     @api.depends('date_from')
@@ -673,31 +738,6 @@ class HrPayslip(models.Model):
                 self.id) + "&filename_field=filename&field=filedata&download=true&filename=" + self.filename,
             'target': 'self',
         }
-
-    @api.multi
-    def print_payroll_cfdi(self):
-        payroll = {}
-        for payslip in self:
-            payroll[payslip.id] = payslip.data_payroll_report(),
-            values = payslip.to_json()
-        data = {
-            'payroll_data': payroll,
-            'values': values,
-            'docids': self.ids,
-        }
-        pdf = self.env.ref('payroll_mexico.action_payroll_cfdi_report').render_qweb_pdf(self.id, data=data)[0]
-        pdf_name = '%s_%s_%s' %(self.employee_id.complete_name, self.date_from, self.date_to) + '.pdf'
-        
-        attachment_id = self.env['ir.attachment'].create({
-            'name': pdf_name,
-            'res_id': self.id,
-            'res_model': self._name,
-            'datas': base64.encodestring(pdf),
-            'datas_fname': pdf_name,
-            'description': 'CFDI PDF',
-            'type': 'binary',
-        })
-        return attachment_id.id
 
     @api.multi
     def print_payroll_receipt(self):
