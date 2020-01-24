@@ -94,7 +94,7 @@
                     <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
 -->
-                    <button string="Imprimir CFDI" name="print_payroll_cfdi" type="object" class="oe_sale"/>
+                    <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale"/>
                 </xpath> 
                 <xpath expr="//button[@name='refund_sheet']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -218,6 +218,7 @@
 							<field name="UUID_sat"/>
 							<field name="xml_timbre"/>
 							<field name="qr_timbre"/>
+							<field name="pdf"/>
 							<field name="stamp_cfd" invisible="1" readonly="True"/>
 							<field name="stamp_sat" invisible="1" readonly="True"/>
 							<field name="original_string" invisible="1" readonly="True"/>
