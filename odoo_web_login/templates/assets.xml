@@ -10,7 +10,7 @@
 		</template>
 
         <menuitem id="hr_attendance.menu_hr_attendance_my_attendances"
-              active="False"/>
+            active="False"/>
 
     </data>
 </odoo>

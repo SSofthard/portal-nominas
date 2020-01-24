@@ -10,16 +10,20 @@ from datetime import datetime
 
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
-    
+    _order = 'create_date desc'
     
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', required=True)
     contracting_regime = fields.Selection([
-            ('01', 'Assimilated to wages'),
-            ('02', 'Wages and salaries'),
-            ('03', 'Senior citizens'),
-            ('04', 'Pensioners'),
-            ('05', 'Free'),
-            ], string='Contracting Regime', required=True, default="02")
+        # ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
+        ('08', 'Assimilated commission agents'),
+        ('09', 'Honorary Assimilates'),
+        ('11', 'Assimilated others'),
+        ('99', 'Other regime'),
+    ], string='Contracting Regime', required=True, default="02")
     payroll_type = fields.Selection([
             ('O', 'Ordinary Payroll'),
             ('E', 'Extraordinary Payroll')], 

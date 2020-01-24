@@ -67,12 +67,16 @@ class wizardEmployeeHistory(models.TransientModel):
                     ('some','Algunos')],string="Buscar por puesto de trabajo", default='all')
     employer_register_id = fields.Many2one('res.employer.register',"Registro Patronal",required=False)
     contracting_regime = fields.Selection([
-            ('01','Assimilated to wages'),
-            ('02','Wages and salaries'),
-            ('03','Senior citizens'),
-            ('04','Pensioners'),
-            ('05','Free')
-            ],string='Régimen de contratación',required=True,default="2")
+        # ('01', 'Assimilated to wages'),
+        ('02', 'Wages and salaries'),
+        ('03', 'Senior citizens'),
+        ('04', 'Pensioners'),
+        ('05', 'Free'),
+        ('08', 'Assimilated commission agents'),
+        ('09', 'Honorary Assimilates'),
+        ('11', 'Assimilated others'),
+        ('99', 'Other regime'),
+    ], string='Contracting Regime', required=True, default="02")
 
     @api.multi
     def report_print(self,data):
