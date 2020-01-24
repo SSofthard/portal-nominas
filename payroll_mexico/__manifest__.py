@@ -46,6 +46,7 @@
         'views/hr_fees_settlement_view.xml',
         'views/hr_table_index_consume_price_view.xml',
         'security/ir.model.access.csv',
+        'security/security.xml',
         #Reports
 
         'report/base_layout.xml',
@@ -85,6 +86,7 @@
         # ~ 'data/payroll_data.xml',
         # ~ 'data/data_rule_salary.xml',
         'data/data_isn.xml',
+        'data/data_isn_2020.xml',
         'data/data_ir_export_employee.xml',
         'data/res.country.state.municipality.csv',
         'data/res.municipality.zone.csv',
