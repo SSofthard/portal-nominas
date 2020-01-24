@@ -113,6 +113,11 @@ class AuthSignupHome(Home):
             if 'reload' in kw.keys():
                 response = request.render('web.webclient_bootstrap', qcontext=context)
             else:
+                _logger.info('Jeison Jeison Jeison Jeison Jeison ')
+                _logger.info('Jeison Jeison Jeison Jeison Jeison ')
+                _logger.info(context)
+                _logger.info('Jeison Jeison Jeison Jeison Jeison ')
+                _logger.info('Jeison Jeison Jeison Jeison Jeison ')
                 menu_ids={}
                 for c in context['menu_data']:
                     menu_ids=set(context['menu_data']['all_menu_ids'])
