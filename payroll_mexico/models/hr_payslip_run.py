@@ -163,6 +163,17 @@ class HrPayslipRun(models.Model):
     def not_total(self):
         raise ValidationError(_('Nose encontraron valores para totalizar en la categoría NETO.'))
 
+    
+    @api.multi
+    def generate_cfdi(self):
+        for slip in self.slip_ids:
+            slip.action_cfdi_nomina_generate()
+        return
+            
+        
+            
+            
+    
     @api.multi
     def print_payroll_summary_report(self):
         payroll_dic = {}
