@@ -403,7 +403,7 @@
                         </div>
                         
                         <div class="page" style="font-size:9px; page-break-before:always;">
-                            <!--Nombre del reporte-->
+                             <!--Nombre del reporte-->
                             <div style="background-color: #ABAFAF;">
                                 <h6 class="text-center">COMPROBANTE FISCAL DIGITAL POR INTERNET</h6>
                                 <h6 class="text-center">RECIBO DE NÓMINA</h6>
@@ -753,28 +753,37 @@
                                 </tr>
                             </table>
                             <br/>
-                            <div id="cfdi">
-                                <div class="row">
-                                    <div class="col-auto mw-100 mb-2">
-                                        <strong>Sello Digital CFDI:</strong>
-                                        <span class="m-0" t-field="o.stamp_cfd"/>
+                            <div id="cfdi" class="col-12">
+                                <div class="col-9" style="font-size:8px; float:left;">
+									<div class="row">
+										<div class="col-auto mw-100 mb-2">
+											<strong>Sello Digital CFDI:</strong>
+											<span class="m-0" t-field="o.stamp_cfd"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-auto mw-100 mb-2">
+											<strong>Sello Digital SAT:</strong>
+											<p class="m-0" t-field="o.stamp_sat"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-auto mw-100 mb-2">
+											<strong>Cadena Original Certificado SAT:</strong>
+											<p class="m-0" t-field="o.original_string"/>
+										</div>
+									</div>
+								</div>
+								<div class="col-3" style="float:right;">
+									<div class="row">
+                                        <img  t-att-src="image_data_uri(o.qr_timbre)" alt="QR" style="max-height: 200px;"/>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-auto mw-100 mb-2">
-                                        <strong>Sello Digital SAT:</strong>
-                                        <p class="m-0" t-field="o.stamp_sat"/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-auto mw-100 mb-2">
-                                        <strong>Cadena Original Certificado SAT:</strong>
-                                        <p class="m-0" t-field="o.original_string"/>
-                                    </div>
-                                </div>
+								</div>
                             </div>
-                            <div class="text-center">
-                                <span>COPIA EMPLEADO</span>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <span>COPIA EMPLEADO</span>
+                                </div>
                             </div>
                         </div>
                 
