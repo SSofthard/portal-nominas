@@ -6,7 +6,7 @@
             id="action_payroll_cfdi_report" 
             model="hr.payslip" 
             string="Recibo de Nómina CFDI"
-            report_type="qweb-pdf"
+            report_type="qweb-html"
             name="payroll_mexico.payroll_cfdi_report_template" 
             file="payroll_mexico.payroll_cfdi_report_template"
             print_report_name="'Nómina CFDI - %s' % (object.employee_id.name)"
