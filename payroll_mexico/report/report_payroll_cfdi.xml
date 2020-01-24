@@ -16,7 +16,7 @@
         <template id="payroll_cfdi_report_document">
             <t t-call="payroll_mexico.external_layout_payroll_cfdi">
                 <t t-set="o" t-value="doc.with_context(lang=doc.company_id.partner_id.lang)" />
-                <t t-set="payroll" t-value="data['payroll_data'][str(o.id)]" />
+                <t t-set="payroll" t-value="data['payroll_data'][o.id]" />
                 <div class="page" style="font-size:9px;">
                             <!--Nombre del reporte-->
                             <div style="background-color: #ABAFAF;">
