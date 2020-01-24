@@ -484,10 +484,10 @@ class HrPayslip(models.Model):
                     vals = {}
                     xml = base64.b64encode(file)
                     ir_attachment=self.env['ir.attachment']
-                    value={u'name': TimbreFiscalDigital.attrib['UUID'], 
+                    value={u'name': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to), 
                             u'url': False,
                             u'company_id': 1, 
-                            u'datas_fname': TimbreFiscalDigital.attrib['UUID']+'.xml', 
+                            u'datas_fname': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to)+'.xml', 
                             u'type': u'binary', 
                             u'public': False, 
                             u'datas':xml , 
@@ -497,8 +497,7 @@ class HrPayslip(models.Model):
                     
                     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=20, border=4)
                     
-                    
-                    url_qr =' https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='+TimbreFiscalDigital.attrib['UUID']+'&re='+values['emitter_rfc']+'&rr='+values['receiver_rfc']+'&tt='+values['amount_total']+'&fe=tw7aNQ=='
+                    url_qr ='https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='+TimbreFiscalDigital.attrib['UUID']+'&re='+values['emitter_rfc']+'&rr='+values['receiver_rfc']+'&tt='+values['amount_total']+'&fe='+TimbreFiscalDigital.attrib['SelloCFD'][-8:]
                     qr.add_data(url_qr)
                     qr.make(fit=True)
                     img = qr.make_image()
@@ -520,9 +519,11 @@ class HrPayslip(models.Model):
                          'code_error':'',
                          'error':'',
                          'qr_timbre':img_str,
-                         'pdf': payslip.print_payroll_cfdi(),
+                         'pdf': '',
                         }
                     payslip.write(vals)
+                    
+                    payslip.pdf = payslip.print_payroll_cfdi()
                 else:
                     
                     vals = {
