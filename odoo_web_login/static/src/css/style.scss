@@ -133,12 +133,12 @@ $gray-lighter: lighten($gray-base, 93.5%);
 
 .o_list_view .o_field_x2many_list_row_add a:focus {
     color: $brand-secondary-light;
-    },
+    }
     .o_field_x2many_list_row_add a:hover {
         color: $brand-secondary-dark;
-    },
-        .o_list_view .o_field_x2many_list_row_add a:active {
-        color: $brand-secondary;
+    }
+    .o_list_view .o_field_x2many_list_row_add a:active {
+    color: $brand-secondary;
 }
 
 a {
