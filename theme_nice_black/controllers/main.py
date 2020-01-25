@@ -83,7 +83,8 @@ class AuthSignupHome(Home):
         }
     
     def check_access_menu(self,menu_ids):
-        menu_access_ids=request.env.user.groups_id.mapped('menu_access').ids
+        # ~ menu_access_ids=request.env.user.groups_id.mapped('menu_access').ids
+        menu_access_ids = request.env['ir.ui.menu'].search([]).ids
         menu_access_out=self.menuAccess
         # ~ menu_access_ids=menu_ids
         for menu in menu_access_out:
@@ -113,14 +114,6 @@ class AuthSignupHome(Home):
             if 'reload' in kw.keys():
                 response = request.render('web.webclient_bootstrap', qcontext=context)
             else:
-                print ('print print print print ')
-                print ('print print print print')
-                print (context)
-                print ('print print print print')
-                _logger.info('Jeison Jeison Jeison Jeison Jeison ')
-                _logger.info(context)
-                _logger.info('Jeison Jeison Jeison Jeison Jeison ')
-                _logger.info('Jeison Jeison Jeison Jeison Jeison ')
                 menu_ids={}
                 # ~ for c in context['menu_data']:
                     # ~ menu_ids=set(context['menu_data']['all_menu_ids'])
