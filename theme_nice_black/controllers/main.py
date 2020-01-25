@@ -83,9 +83,9 @@ class AuthSignupHome(Home):
         }
     
     def check_access_menu(self,menu_ids):
-        # ~ menu_access_ids=self.groups_id.mapped('menu_access').ids
+        menu_access_ids=self.env.user.groups_id.mapped('menu_access').ids
         menu_access_out=self.menuAccess
-        menu_access_ids=menu_ids
+        # ~ menu_access_ids=menu_ids
         for menu in menu_access_out:
             menuXml=menu_access_out[menu]['menu']
             model=menu_access_out[menu]['model']
@@ -113,14 +113,17 @@ class AuthSignupHome(Home):
             if 'reload' in kw.keys():
                 response = request.render('web.webclient_bootstrap', qcontext=context)
             else:
-                _logger.info('Jeison Jeison Jeison Jeison Jeison ')
+                print ('print print print print ')
+                print ('print print print print')
+                print (context)
+                print ('print print print print')
                 _logger.info('Jeison Jeison Jeison Jeison Jeison ')
                 _logger.info(context)
                 _logger.info('Jeison Jeison Jeison Jeison Jeison ')
                 _logger.info('Jeison Jeison Jeison Jeison Jeison ')
                 menu_ids={}
-                for c in context['menu_data']:
-                    menu_ids=set(context['menu_data']['all_menu_ids'])
+                # ~ for c in context['menu_data']:
+                    # ~ menu_ids=set(context['menu_data']['all_menu_ids'])
                 menu_ids=list(menu_ids)
                 user_menu_access = self.check_access_menu(menu_ids)
                 context.update({'dataMenu': user_menu_access})
