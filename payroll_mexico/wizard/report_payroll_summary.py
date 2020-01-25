@@ -88,7 +88,7 @@ class PayslipSummary(models.TransientModel):
                     if line.category_id.code == 'DED':
                         other_ded_ss += line.total
                     
-                if line.slip_id.payslip_run_id.contracting_regime == '01': # Asimilados a Salarios
+                if line.slip_id.payslip_run_id.contracting_regime in ['08','09','11']: # Asimilados a Salarios
                     if not line.slip_id.payslip_run_id.id in isn:
                         isn.append(line.slip_id.payslip_run_id.id)
                         isn_ias += line.slip_id.payslip_run_id.amount_tax

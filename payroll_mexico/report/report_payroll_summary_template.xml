@@ -42,7 +42,7 @@
                                 </thead>
                                 <tbody class="sale_tbody">
                                     <!-- Template Sueldos Y Salarios-->
-                                    <t t-if="payroll_data['regimen'] == '2'">
+                                    <t t-if="payroll_data['regimen'] == '02'">
                                         <tr>
                                             <td class="text-left">
                                                 <span class="text-left">Sueldo Base (Informativo)</span>
@@ -191,7 +191,7 @@
                                         </tr>
                                     </t>
                                     <!-- Template Asimilados a Salarios-->
-                                    <t t-if="payroll_data['regimen'] == '1'">
+                                    <t t-if="payroll_data['regimen'] in ['08','09,'11']">
                                         <tr>
                                             <td class="text-left">
                                                 <span class="text-left">Sueldo Base (Informativo)</span>
@@ -340,7 +340,7 @@
                                         </tr>
                                     </t>
                                     <!-- Template Tipo de Nómina de LIBRES-->
-                                    <t t-if="payroll_data['regimen'] == '5'">
+                                    <t t-if="payroll_data['regimen'] == '05'">
                                         <tr>
                                             <td class="text-left">
                                                 <span class="text-left">Sueldo Base (Informativo)</span>

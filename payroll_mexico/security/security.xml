@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="0">
+<!--
           <record model="ir.module.category" id="module_category_attendance_sheet">
             <field name="name">Attendance Sheet</field>
             <field name="description">Helps you manage Attendance sheet processes.</field>
@@ -21,7 +22,29 @@
             <field name="implied_ids" eval="[(4, ref('group_attendance_sheet_user'))]"/>
 
         </record>
+-->
 
-
+    <!--Rules de multi company -->
+    <delete model="ir.rule" id="hr.hr_dept_comp_rule"/>
+    <delete model="ir.rule" id="hr.hr_job_comp_rule"/>
+    <delete model="ir.rule" id="hr_holidays.hr_holidays_status_rule_multi_company"/>
+    <delete model="ir.rule" id="hr_holidays.hr_leave_rule_multicompany"/>
+    <delete model="ir.rule" id="hr_expense.hr_expense_comp_rule"/>
+    <delete model="ir.rule" id="hr_expense.hr_expense_report_comp_rule"/>
+    <delete model="ir.rule" id="base.res_currency_rate_rule"/>
+    <delete model="ir.rule" id="base.property_rule"/>
+    <delete model="ir.rule" id="analytic.analytic_line_comp_rule"/>
+    <delete model="ir.rule" id="analytic.analytic_tag_comp_rule"/>
+    <delete model="ir.rule" id="analytic.analytic_group_comp_rule"/>
+    <delete model="ir.rule" id="analytic.analytic_comp_rule"/>
+    <delete model="ir.rule" id="account.tax_comp_rule"/>
+    <delete model="ir.rule" id="account.invoice_analysis_comp_rule"/>
+    <delete model="ir.rule" id="account.invoice_comp_rule"/>
+    <delete model="ir.rule" id="account.journal_comp_rule"/>
+    <delete model="ir.rule" id="account.account_comp_rule"/>
+    <delete model="ir.rule" id="documents.documents_folder_company_rule"/>
+    
+  
+    
     </data>
 </odoo>

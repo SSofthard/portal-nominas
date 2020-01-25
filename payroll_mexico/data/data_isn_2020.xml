@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">  
+        <!-- ISN 2020-->
+        <record id="isn_state_mx_ags_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_ags"/>
+        </record>
+        <record id="isn_state_mx_bc_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">1.80</field>
+            <field name="state_id" ref="base.state_mx_bc"/>
+        </record>
+        <record id="isn_state_mx_bcs_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_bcs"/>
+        </record>
+        <record id="state_mx_chis_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_chis"/>
+        </record>
+        <record id="isn_state_mx_chih_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_chih"/>
+        </record>
+        <record id="isn_state_mx_coah_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_coah"/>
+        </record>
+        <record id="isn_state_mx_col_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_col"/>
+        </record>
+        <record id="isn_state_mx_df_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_df"/>
+        </record>
+        <record id="isn_state_mx_dgo_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_dgo"/>
+        </record>
+        <record id="isn_state_mx_mex_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_mex"/>
+        </record>
+        <record id="isn_state_mx_gto_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.30</field>
+            <field name="state_id" ref="base.state_mx_gto"/>
+        </record>
+        <record id="isn_state_mx_gro_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_gro"/>
+        </record>
+        <record id="isn_state_mx_jal_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_jal"/>
+        </record>
+        <record id="isn_state_mx_mich_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_mich"/>
+        </record>
+        <record id="isn_state_mx_mor_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_mor"/>
+        </record>
+        <record id="isn_state_mx_nay_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_nay"/>
+        </record>
+        <record id="isn_state_mx_nl_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_nl"/>
+        </record>
+        <record id="isn_state_mx_oax_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_oax"/>
+        </record>
+        <record id="isn_state_mx_pue_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">6.00</field>
+            <field name="state_id" ref="base.state_mx_pue"/>
+        </record>
+        <record id="isn_state_mx_qro_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_qro"/>
+        </record>
+        <record id="isn_state_mx_q_roo_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_q roo"/>
+        </record>
+        <record id="isn_state_mx_slp_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_slp"/>
+        </record>
+        <record id="isn_state_mx_son_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.00</field>
+            <field name="state_id" ref="base.state_mx_son"/>
+        </record>
+        <record id="isn_state_mx_tab_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_tab"/>
+        </record>
+        <record id="isn_state_mx_tamps_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_tamps"/>
+        </record>
+        <record id="isn_state_mx_tlax_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_tlax"/>
+        </record>
+        <record id="isn_state_mx_ver_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">3.00</field>
+            <field name="state_id" ref="base.state_mx_ver"/>
+        </record>
+        <record id="isn_state_mx_yuc_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_yuc"/>
+        </record>
+        <record id="isn_state_mx_zac_2020" model="hr.isn">
+            <field name="year">2020</field>
+            <field name="type">fixed</field>
+            <field name="percent">2.50</field>
+            <field name="state_id" ref="base.state_mx_zac"/>
+        </record>
+
+    </data>
+</odoo>

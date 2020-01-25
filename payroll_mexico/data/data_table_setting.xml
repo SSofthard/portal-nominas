@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">  
+    <data noupdate="0">
+		
+	  <record forcecreate="True" id="decimal_configuration" model="decimal.precision">
+		<field name="name">Excess</field>
+		<field name="digits">3</field>
+	</record>  
         
 <!--
         UMA
@@ -1387,7 +1392,7 @@
         <record id="table_isr_biweekly_7" model="table.isr.biweekly">
 			<field name="lim_inf">11951.86</field>
 			<field name="lim_sup">18837.75</field>
-			<field name="c_fija">1974.75</field>
+			<field name="c_fija">1914.75</field>
 			<field name="s_excedente">23.52</field>
 			<field name="sequence">7</field>
 			<field name="table_id" ref="table_setting_1"/>

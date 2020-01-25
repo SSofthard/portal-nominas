@@ -46,7 +46,7 @@ class HrEmployeeImport(models.TransientModel):
     _description = "Importar Empleados"
 
     file_ids = fields.Many2many(string='Layout de empleados', comodel_name='ir.attachment',required=True)
-    file_name = fields.Char('Nombre del archivo', related='file_ids.name', required=True)
+    file_name = fields.Char('Nombre del archivo', related='file_ids.name')
 
     @api.onchange('file_ids')
     def onchange_file_ids(self):
@@ -538,7 +538,15 @@ class HrEmployeeImport(models.TransientModel):
             return employees
 
     @api.multi
+    def clean_file_ids(self):
+        self.ensure_one()
+        self.file_ids = False
+        return {"type":"ir.actions.do_nothing"}
+
+    @api.multi
     def import_data(self):
+        if not self.file_name:
+            raise UserError('Do not load with without a file, or with a file with incorrect data..')
         employees = self.read_document()
         if employees:
              for emp in employees:

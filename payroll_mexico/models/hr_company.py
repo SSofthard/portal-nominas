@@ -263,7 +263,7 @@ class companyFielCsd(models.Model):
     type = fields.Selection([
         ('fiel', 'FIEL'),
         ('csd', 'CSD'),],default="Type", required=True)
-    track = fields.Char("Track", copy=False, required=True)
+    track = fields.Char("Password", copy=False, required=True)
     effective_date = fields.Date("Effective date", required=True, copy=False)
     cer = fields.Many2many('ir.attachment','cer_attachment_rel','cer_id','attachment_id', string=".cer", required=True)
     key = fields.Many2many('ir.attachment', 'key_attachment_rel','key_id','attachment_id', string=".key", required=True)

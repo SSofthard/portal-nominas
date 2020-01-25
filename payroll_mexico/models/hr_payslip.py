@@ -1,29 +1,26 @@
 # -*- coding: utf-8 -*-
 
 import babel
-
+import pytz
+import base64
+import qrcode
 
 from pytz import timezone
-import pytz
-
+from datetime import date, datetime, time, timedelta
+from dateutil import relativedelta as rdelta
+from io import StringIO, BytesIO
+from lxml import etree as ET
 from .tool_convert_numbers_letters import numero_to_letras
 
 from odoo import api, fields, models, tools, _
-from datetime import date, datetime, time, timedelta
-from dateutil import relativedelta as rdelta
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
-
 from odoo.addons.payroll_mexico.cfdilib_payroll import cfdilib, cfdv32, cfdv33
-from lxml import etree as ET
-
-from io import StringIO, BytesIO
-import base64
-
 
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
+    _order = 'create_date desc'
 
     complete_name = fields.Char("Serie/Folio")
     payroll_type = fields.Selection([
@@ -84,7 +81,6 @@ class HrPayslip(models.Model):
     payment_date = fields.Date(string='Fecha de pago',
         readonly=True, states={'draft': [('readonly', False)]})
     # ~ CFDI
-    
     way_pay = fields.Selection([
             ('99', '99 - Por Definir'),
             ], 
@@ -144,7 +140,6 @@ class HrPayslip(models.Model):
             readonly=True,
             states={'draft': [('readonly', False)]})
     uuid = fields.Char(string='CFDI relacionado', readonly=True, states={'draft': [('readonly', False)]})
-    
     cfdi_issue_date = fields.Char(string='Fecha de emisión', readonly=True)
     invoice_date = fields.Char(string='Fecha de certificación', readonly=True)
     certificate_number = fields.Char(string='N° de Serie del CSD del SAT', readonly=True)
@@ -153,12 +148,14 @@ class HrPayslip(models.Model):
     stamp_sat = fields.Text(string='Sello SAT', readonly=False)
     original_string = fields.Text(string='Cadena Original', readonly=False)
     UUID_sat = fields.Char(string='UUID', readonly=True)
-    
     code_error = fields.Char(string='Código de error', readonly=True)
     error = fields.Char(string='Error', readonly=True)
-    
     xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)")
-    
+    qr_timbre = fields.Binary(string="Qr")
+    # PDF Stamped
+    pdf = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False)
+    filename = fields.Char(string='Filename', related="pdf.name", copy=False)
+    filedata = fields.Binary(string='Filedatas', related="pdf.datas", copy=False)
     
     def overtime(self,type_overtime):
         days = 0
@@ -214,10 +211,6 @@ class HrPayslip(models.Model):
                                                                     ('salary_rule_id.type_perception','in',['039','044'])]).mapped('total'))
         total_taxed = sum(self.env['hr.payslip.line'].search([('category_id.code','=','BRUTOG'),
                                                                 ('slip_id','=',self.id),]).mapped('total'))
-        
-
-       
-       
         total = "{0:.2f}".format(subtotal - discount_amount)
         type_perception = dict(self.env['hr.salary.rule']._fields.get('type_perception').selection)
         days = "{0:.3f}".format(self.env['hr.payslip.worked_days'].search([('code','=','WORK100'),('payslip_id','=',self.id)],limit=1).number_of_days)
@@ -491,15 +484,27 @@ class HrPayslip(models.Model):
                     vals = {}
                     xml = base64.b64encode(file)
                     ir_attachment=self.env['ir.attachment']
-                    value={u'name': TimbreFiscalDigital.attrib['UUID'], 
+                    value={u'name': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to), 
                             u'url': False,
                             u'company_id': 1, 
-                            u'datas_fname': TimbreFiscalDigital.attrib['UUID']+'.xml', 
+                            u'datas_fname': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to)+'.xml', 
                             u'type': u'binary', 
                             u'public': False, 
                             u'datas':xml , 
                             u'description': False}
                     xml_timbre = ir_attachment.create(value)
+                    
+                    
+                    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=20, border=4)
+                    
+                    url_qr ='https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='+TimbreFiscalDigital.attrib['UUID']+'&re='+values['emitter_rfc']+'&rr='+values['receiver_rfc']+'&tt='+values['amount_total']+'&fe='+TimbreFiscalDigital.attrib['SelloCFD'][-8:]
+                    qr.add_data(url_qr)
+                    qr.make(fit=True)
+                    img = qr.make_image()
+                    buffer = BytesIO()
+                    img.save(buffer, format="PNG")
+                    img_str = base64.b64encode(buffer.getvalue())
+                    
                     vals = {
                          'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
                          'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
@@ -513,16 +518,97 @@ class HrPayslip(models.Model):
                          'invoice_status':'factura_correcta',
                          'code_error':'',
                          'error':'',
+                         'qr_timbre':img_str,
+                         'pdf': '',
                         }
                     payslip.write(vals)
+                    
+                    
+                    # Generate CFDI PDF
+                    payroll = {}
+                    payroll[payslip.id] = payslip.data_payroll_report(),
+                    data = {
+                        'payroll_data': payroll,
+                        'values': values,
+                        'docids': payslip.id,
+                    }
+                    pdf = self.env.ref('payroll_mexico.action_payroll_cfdi_report').render_qweb_pdf(payslip.id, data=data)[0]
+                    pdf_name = '%s_%s_%s' %(payslip.employee_id.complete_name, payslip.date_from, payslip.date_to) + '.pdf'
+                    
+                    attachment_id = payslip.env['ir.attachment'].create({
+                        'name': pdf_name,
+                        'res_id': payslip.id,
+                        'folder_id': payslip.get_folder(),
+                        'res_model': payslip._name,
+                        'datas': base64.encodestring(pdf),
+                        'datas_fname': pdf_name,
+                        'description': 'CFDI PDF',
+                        'type': 'binary',
+                    })
+                    payslip.pdf = attachment_id.id
                 else:
                     vals = {
-                         'code_error':payroll.error_timbrado['codigoError'],
+                         'invoice_date':'',
+                         'certificate_number':'',
+                         'certificate_number_emisor':'',
+                         'stamp_cfd':'',
+                         'stamp_sat':'',
+                         'original_string':'',
+                         'cfdi_issue_date':'',
+                         'UUID_sat':'',
+                         'xml_timbre':False,
+                         'invoice_status':'problemas_factura',
+                          'code_error':payroll.error_timbrado['codigoError'],
                          'error':payroll.error_timbrado['error'],
-                         'invoice_status':'problemas_factura'
+                         'qr_timbre': False,
+                         'pdf': False,
                         }
                     payslip.write(vals)
         return True 
+    
+    def get_folder(self):
+        """ Function get folder is not exists, create folder """
+        Folder = self.env['documents.folder']
+        #Search or Create Group Folder 
+        group_folder = self.group_id.name.upper()
+        group_folder_id = Folder.search([('name','=',group_folder)])
+        if not group_folder_id:
+            group_folder_id = Folder.create({
+                'name': group_folder,
+                'company_id': self.company_id.id,
+            })
+        #Search or Create Year Folder
+        year_folder = str(self.year)
+        year_folder_id = Folder.search([('name','=',year_folder)])
+        if not year_folder_id:
+            year_folder_id = Folder.create({
+                'name': year_folder,
+                'parent_folder_id': group_folder_id.id,
+                'company_id': self.company_id.id,
+            })
+        #Search or Create Month Folder
+        month_folder = dict(
+            self._fields['payroll_month']._description_selection(
+                self.env)).get(self.payroll_month).upper()
+        month_folder_id = Folder.search([('name','=',month_folder),('parent_folder_id','=',year_folder_id.id)])
+        if not month_folder_id:
+            month_folder_id = Folder.create({
+                'name': month_folder,
+                'parent_folder_id': year_folder_id.id,
+                'company_id': self.company_id.id,
+            })
+        #Search or Create Period Folder
+        date_from = self.date_from.strftime('%d/%b/%Y').title()
+        date_to = self.date_to.strftime('%d/%b/%Y').title()
+        period_folder = '%s A %s' %(date_from, date_to)
+        period_folder_id = Folder.search([('name','=',period_folder),('parent_folder_id','=',month_folder_id.id)])
+        if not period_folder_id:
+            period_folder_id = Folder.create({
+                'name': period_folder,
+                'parent_folder_id': month_folder_id.id,
+                'company_id': self.company_id.id,
+            })
+        return period_folder_id.id
     
     @api.one
     @api.depends('date_from')
@@ -640,19 +726,18 @@ class HrPayslip(models.Model):
         total_faults += inhability + absenteeism
         payroll_dic['faults'] = total_faults
         return payroll_dic
-    
+        
     @api.multi
-    def print_payroll_cfdi(self):
-        payroll = {}
-        for payslip in self:
-            payroll[payslip.id] = payslip.data_payroll_report(),
-            values = payslip.to_json()
-        data={
-            'payroll_data': payroll,
-            'values': values,
-            'docids': self.ids,
-            }
-        return self.env.ref('payroll_mexico.action_payroll_cfdi_report').report_action(self, data) 
+    def get_pdf_cfdi(self):
+        if not self.pdf:
+            raise UserError(_("The payroll is not stamped."))
+        return {
+            'name': 'CFDI',
+            'type': 'ir.actions.act_url',
+            'url': "web/content/?model=" + self._name +"&id=" + str(
+                self.id) + "&filename_field=filename&field=filedata&download=true&filename=" + self.filename,
+            'target': 'self',
+        }
 
     @api.multi
     def print_payroll_receipt(self):
@@ -1094,9 +1179,11 @@ class HrPayslip(models.Model):
                 'payroll_of_month': run_data['payroll_of_month'],
                 'payroll_period': run_data['payroll_period'],
                 'table_id': run_data['table_id'][0],
-                'employer_register_id': run_data['employer_register_id'][0],
+                
             }
         }
+        if run_data['employer_register_id']:
+            res['value']['employer_register_id'] = run_data['employer_register_id'][0]
         if (not employee_id) or (not date_from) or (not date_to):
             return res
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
