@@ -83,7 +83,7 @@ class AuthSignupHome(Home):
         }
     
     def check_access_menu(self,menu_ids):
-        menu_access_ids=self.env.user.groups_id.mapped('menu_access').ids
+        menu_access_ids=request.env.user.groups_id.mapped('menu_access').ids
         menu_access_out=self.menuAccess
         # ~ menu_access_ids=menu_ids
         for menu in menu_access_out:
