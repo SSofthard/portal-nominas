@@ -2,6 +2,10 @@
 
 import io
 import base64
+import imgkit
+import tempfile
+import zipfile
+
 from datetime import date, datetime, time
 from dateutil.relativedelta import relativedelta
 from lxml import etree,html
@@ -11,9 +15,6 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.image import image_data_uri
 
-import imgkit
-import tempfile
-import zipfile
 
 class hrEmployeeCredentialingWizard(models.TransientModel):
     _name = "hr.employee.credentialing.wizard"
@@ -78,12 +79,6 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
         }
         paperformat = self.get_paperformat()
         res = self.env.ref('payroll_mexico.payroll_mexico_report_credentaling').report_action(self, data=vals)
-        print (res)
-        print (res)
-
-        print (paperformat)
-        print (paperformat)
-        print (paperformat)
         res.update({'paperformat_id': paperformat.id})
         print ('resresres')
         print ('resresres')
