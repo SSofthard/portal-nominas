@@ -11,8 +11,9 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.image import image_data_uri
 
-# import imgkit
-# import tempfile
+import imgkit
+import tempfile
+import zipfile
 
 class hrEmployeeCredentialingWizard(models.TransientModel):
     _name = "hr.employee.credentialing.wizard"
@@ -135,73 +136,47 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
         '''
         Este metodo es para imprimir el txt de la liquidación que va a ser
         '''
-        # fronts = {}
-        # backs = {}
-        # zip_list = []
-        # for employee in self.employee_ids:
-        #     templates_front = self.env['mail.template']._render_template(
-        #         template_txt=self.body_html, model=employee._name,
-        #         res_ids=employee._ids, post_process=False)
-        #     templates_front[employee.id] = self.make_src_image(
-        #         templates_front[employee.id])
-        #
-        #     # print ('templates_front')
-        #     # print (templates_front)
-        #     templates_back = self.env['mail.template']._render_template(
-        #         template_txt=self.back_html, model=employee._name,
-        #         res_ids=employee._ids, post_process=False)
-        #     templates_back[employee.id] = self.make_src_image(
-        #         templates_back[employee.id])
-        #     # print(templates_back)
-        #     fronts.update(templates_front)
-        #     backs.update(templates_back)
-        #     output = io.BytesIO()
-        #     file_png = []
-        #     print ('imprimir txt')
-        #     print ('imprimir txt')
-        #     print ('imprimir txt')
-        #     print ('imprimir txt')
-        #     temporary_files = []
-        #     f_name = 'credencializacion'
-        #     prefix = 'credencializacion'
-        #     body_file_fd, body_file_path = tempfile.mkstemp(suffix='.png',
-        #                                                     prefix=prefix)
-        #     object = open(body_file_fd, 'r')
-        #     print (object)
-        #     print (object)
-        #     print (object)
-        #     print (object)
-        #     print (object)
-        #     print (body_file_path)
-        #     print (body_file_fd)
-        #     res = imgkit.from_string(fronts[employee.id].decode('utf-8'), body_file_path)
-        #     print (body_file_fd)
-        #     print (body_file_fd)
-        #     print (body_file_path)
-        #     print (body_file_path)
-        #     zip_list.append((body_file_path, body_file_fd))
-        #     # with closing(os.fdopen(body_file_fd, 'wb')) as body_file:
-        #     #     body_file.write(self.body_html)
-        #     # paths.append(body_file_path)
-        #     temporary_files.append(body_file_path)
-        #     content = self.body_html
-        #     print (type(content))
-        # file_like_object = io.BytesIO()
-        # zipfile_ob = zipfile.ZipFile(file_like_object, 'w')
-        # for zip in zip_list:
-        #     zipfile_ob.write(zip[0], zip[1]) # In order to remove the absolute path
-        # zipfile_ob.close()
-        # print ('file_like_object')
-        # print ('file_like_object.getvalue()')
-        # data = base64.encodebytes(file_like_object.getvalue())
-        # export_id = self.env['hr.fees.settlement.report.txt'].create(
-        #     {'txt_file': data, 'file_name': f_name + '.zip'})
-        # return {
-        #     'type': 'ir.actions.act_window',
-        #     'res_model': 'hr.fees.settlement.report.txt',
-        #     'view_mode': 'form',
-        #     'view_type': 'form',
-        #     'res_id': export_id.id,
-        #     'views': [(False, 'form')],
-        #     'target': 'new',
-        # }
+        fronts = {}
+        backs = {}
+        zip_list = []
+        f_name = 'credencializacion_%s_%s' % (self.template_id.name, fields.Date.context_today(self))
+        for employee in self.employee_ids:
+            templates_front = self.env['mail.template']._render_template(
+                template_txt=self.body_html, model=employee._name,
+                res_ids=employee._ids, post_process=False)
+            templates_front[employee.id] = self.make_src_image(
+                templates_front[employee.id])
+            templates_back = self.env['mail.template']._render_template(
+                template_txt=self.back_html, model=employee._name,
+                res_ids=employee._ids, post_process=False)
+            templates_back[employee.id] = self.make_src_image(
+                templates_back[employee.id])
+            # print(templates_back)
+            fronts.update(templates_front)
+            backs.update(templates_back)
+            temporary_files = []
+            prefix = 'credencializacion_front_%s_' % employee.barcode
+            body_file_fd, body_file_path = tempfile.mkstemp(suffix='.png',
+                                                            prefix=prefix)
+            try:
+                res = imgkit.from_string(fronts[employee.id].decode('utf-8'), body_file_path)
+            except(OSError):
+                zip_list.append((body_file_path, body_file_fd))
+                content = self.body_html
+        file_like_object = io.BytesIO()
+        zipfile_ob = zipfile.ZipFile(file_like_object, 'w')
+        for zip in zip_list:
+            zipfile_ob.write(zip[0], prefix) # In order to remove the absolute path
+        zipfile_ob.close()
+        data = base64.encodebytes(file_like_object.getvalue())
+        export_id = self.env['hr.fees.settlement.report.txt'].create(
+            {'txt_file': data, 'file_name': f_name + '.zip'})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.fees.settlement.report.txt',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': export_id.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
