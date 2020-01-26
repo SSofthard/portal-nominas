@@ -43,6 +43,7 @@
     <delete model="ir.rule" id="account.journal_comp_rule"/>
     <delete model="ir.rule" id="account.account_comp_rule"/>
     <delete model="ir.rule" id="documents.documents_folder_company_rule"/>
+    <delete model="ir.rule" id="base.res_company_rule_employee"/>
     
   
     

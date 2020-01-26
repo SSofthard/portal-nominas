@@ -39,11 +39,6 @@
                                        Seleccione la entrada a donde se enviarán las percepciones desde el modulo de registros de vacaciones.
                                     </div>
                                 </div>
-                                <div class="content-group">
-                                    <div class="mt16">
-                                        <field name="default_input_id" class="o_light_label"/>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
