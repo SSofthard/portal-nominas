@@ -191,7 +191,7 @@
                                         </tr>
                                     </t>
                                     <!-- Template Asimilados a Salarios-->
-                                    <t t-if="payroll_data['regimen'] in ['08','09,'11']">
+                                    <t t-if="payroll_data['regimen'] in ['08','09','11']">
                                         <tr>
                                             <td class="text-left">
                                                 <span class="text-left">Sueldo Base (Informativo)</span>

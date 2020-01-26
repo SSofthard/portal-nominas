@@ -11007,11 +11007,6 @@ msgid "Set to Draft"
 msgstr "Cambiar a borrador"
 
 #. module: payroll_mexico
-#: model:ir.ui.menu,name:payroll_mexico.menu_setting_tables
-msgid "Setting tables"
-msgstr "Configurar tablas"
-
-#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_form
 msgid "Settlemen Line"
 msgstr "Línea de liquidación"

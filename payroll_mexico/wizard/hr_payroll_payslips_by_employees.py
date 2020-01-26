@@ -17,10 +17,7 @@ class HrPayslipEmployees(models.TransientModel):
 
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', readonly=True, default=lambda self: self._default_estructure())
     contracting_regime = fields.Selection([
-                                        # ('01', 'Assimilated to wages'),
                                         ('02', 'Wages and salaries'),
-                                        ('03', 'Senior citizens'),
-                                        ('04', 'Pensioners'),
                                         ('05', 'Free'),
                                         ('08', 'Assimilated commission agents'),
                                         ('09', 'Honorary Assimilates'),
