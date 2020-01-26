@@ -24,6 +24,7 @@
         'views/hr_employee_view.xml',
         'wizard/wizard_affiliate_move_view.xml',
         'wizard/employee_change_view.xml',
+        'wizard/credential_zip_wizard.xml',
         'views/hr_employe_history_view.xml',
         'views/hr_contract.xml',
         'wizard/wizard_credentialing.xml',

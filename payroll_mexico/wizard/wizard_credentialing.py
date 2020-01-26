@@ -5,6 +5,9 @@ import base64
 import imgkit
 import tempfile
 import zipfile
+import socket
+import requests
+
 
 from datetime import date, datetime, time
 from dateutil.relativedelta import relativedelta
@@ -88,7 +91,6 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
         print ('resresres')
         print ('resresres')
         print ('resresres')
-        print (res['context'])
         # print(x)
         return res
 
@@ -123,11 +125,35 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
 
         '''
         element = etree.HTML(template)
+        print ('elementelementelement')
+        print (element)
+        print (element)
         for img in element.xpath('//img'):
-            img_data=img.get('data')
+            img_data = img.get('data')
             if img_data:
                 img_data = img_data.replace("b'","").replace("'","")
                 img.set('src','%s' % image_data_uri(bytes(img_data,'utf-8')))
+        template = html.tostring(element)
+        return template
+
+    def add_host_barcode(self, template, employee):
+        '''
+
+        '''
+        element = etree.HTML(template)
+        host = socket.gethostname()
+        for img in element.xpath('//img[@alt="Barcode"]'):
+            img_src = img.get('src')
+            if img_src:
+                dict_vals={}
+                vals = img_src.split('?')[-1].split('&')
+                for item in vals:
+                    item = item.split('=')
+                    dict_vals.update({item[0]:item[1]})
+                dict_vals['value'] = dict_vals['value'].split('object.')[-1].split('%')[0]
+                dict_vals['value'] = getattr(employee, dict_vals['value'])
+                barcode = self.env['ir.actions.report'].barcode(dict_vals['type'], value=dict_vals['value'], width=dict_vals['width'], height=dict_vals['height'])
+                img.set('src', '%s' % image_data_uri(base64.b64encode(barcode)))
         template = html.tostring(element)
         return template
 
@@ -139,41 +165,53 @@ class hrEmployeeCredentialingWizard(models.TransientModel):
         fronts = {}
         backs = {}
         zip_list = []
+        sizes = getattr(self.template_id, self.template_id.orientation)[self.template_id.size]
         f_name = 'credencializacion_%s_%s' % (self.template_id.name, fields.Date.context_today(self))
         for employee in self.employee_ids:
+            element = etree.HTML(self.body_html)
+            element.set('style','display: table')
+            body_html = html.tostring(element)
+            element_back = etree.HTML(self.back_html)
+            element_back.set('style', 'display: table')
+            back_html = html.tostring(element_back)
             templates_front = self.env['mail.template']._render_template(
-                template_txt=self.body_html, model=employee._name,
+                template_txt=body_html, model=employee._name,
                 res_ids=employee._ids, post_process=False)
             templates_front[employee.id] = self.make_src_image(
                 templates_front[employee.id])
+            templates_front[employee.id] = self.add_host_barcode(
+                templates_front[employee.id],employee)
             templates_back = self.env['mail.template']._render_template(
-                template_txt=self.back_html, model=employee._name,
+                template_txt=back_html, model=employee._name,
                 res_ids=employee._ids, post_process=False)
             templates_back[employee.id] = self.make_src_image(
                 templates_back[employee.id])
-            # print(templates_back)
+            templates_back[employee.id] = self.add_host_barcode(
+                templates_back[employee.id], employee)
             fronts.update(templates_front)
             backs.update(templates_back)
             temporary_files = []
-            prefix = 'credencializacion_front_%s_' % employee.barcode
-            body_file_fd, body_file_path = tempfile.mkstemp(suffix='.png',
-                                                            prefix=prefix)
-            try:
-                res = imgkit.from_string(fronts[employee.id].decode('utf-8'), body_file_path)
-            except(OSError):
-                zip_list.append((body_file_path, body_file_fd))
-                content = self.body_html
+            prefix_front = 'credencializacion_front_%s_' % employee.barcode
+            prefix_back = 'credencializacion_back_%s_' % employee.barcode
+            body_front_file_fd, body_front_file_path = tempfile.mkstemp(suffix='.png',
+                                                            prefix=prefix_front)
+            body_back_file_fd, body_back_file_path = tempfile.mkstemp(suffix='.png',
+                                                            prefix=prefix_back)
+            imgkit.from_string(fronts[employee.id].decode('utf-8'), body_front_file_path, {'width':sizes['width'], 'quality':100,'quiet':''})
+            zip_list.append((body_front_file_path, body_front_file_fd,prefix_front))
+            imgkit.from_string(backs[employee.id].decode('utf-8'), body_back_file_path, {'width':sizes['width'], 'quality':100,'quiet':''})
+            zip_list.append((body_back_file_path, body_back_file_fd,prefix_back))
         file_like_object = io.BytesIO()
         zipfile_ob = zipfile.ZipFile(file_like_object, 'w')
         for zip in zip_list:
-            zipfile_ob.write(zip[0], prefix) # In order to remove the absolute path
+            zipfile_ob.write(zip[0], zip[2]) # In order to remove the absolute path
         zipfile_ob.close()
         data = base64.encodebytes(file_like_object.getvalue())
-        export_id = self.env['hr.fees.settlement.report.txt'].create(
-            {'txt_file': data, 'file_name': f_name + '.zip'})
+        export_id = self.env['hr.credential.zip.wizard'].create(
+            {'zip_file': data, 'file_name': f_name + '.zip'})
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'hr.fees.settlement.report.txt',
+            'res_model': 'hr.credential.zip.wizard',
             'view_mode': 'form',
             'view_type': 'form',
             'res_id': export_id.id,

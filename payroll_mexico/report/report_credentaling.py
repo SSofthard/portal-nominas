@@ -14,7 +14,6 @@ class reportHr(models.TransientModel):
     @api.multi
     def _get_report_values(self, docids, data=None):
         docs = self.env['hr.employee'].browse(data['doc_ids'])
-
         return {
             'doc_ids': data['doc_ids'],
             'doc_model': 'hr.employee',
