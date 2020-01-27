@@ -150,12 +150,12 @@ class HrPayslip(models.Model):
     UUID_sat = fields.Char(string='UUID', readonly=True)
     code_error = fields.Char(string='Código de error', readonly=True)
     error = fields.Char(string='Error', readonly=True)
-    xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)")
-    qr_timbre = fields.Binary(string="Qr")
+    xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)", readonly=True)
+    qr_timbre = fields.Binary(string="Qr", readonly=True)
     # PDF Stamped
-    pdf = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False)
-    filename = fields.Char(string='Filename', related="pdf.name", copy=False)
-    filedata = fields.Binary(string='Filedatas', related="pdf.datas", copy=False)
+    pdf = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False, readonly=True)
+    filename = fields.Char(string='Filename', related="pdf.name", copy=False, readonly=True)
+    filedata = fields.Binary(string='Filedatas', related="pdf.datas", copy=False, readonly=True)
     
     def overtime(self,type_overtime):
         days = 0
@@ -481,9 +481,11 @@ class HrPayslip(models.Model):
                     vals = {}
                     xml = base64.b64encode(file)
                     ir_attachment=self.env['ir.attachment']
+                    folder_id = payslip.get_folder()
                     value={u'name': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to), 
                             u'url': False,
-                            u'company_id': 1, 
+                            u'company_id': self.company_id.id, 
+                            u'folder_id': folder_id, 
                             u'datas_fname': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to)+'.xml', 
                             u'type': u'binary', 
                             u'public': False, 
@@ -501,7 +503,6 @@ class HrPayslip(models.Model):
                     buffer = BytesIO()
                     img.save(buffer, format="PNG")
                     img_str = base64.b64encode(buffer.getvalue())
-                    
                     vals = {
                          'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
                          'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
@@ -535,7 +536,7 @@ class HrPayslip(models.Model):
                     attachment_id = payslip.env['ir.attachment'].create({
                         'name': pdf_name,
                         'res_id': payslip.id,
-                        'folder_id': payslip.get_folder(),
+                        'folder_id': folder_id,
                         'res_model': payslip._name,
                         'datas': base64.encodestring(pdf),
                         'datas_fname': pdf_name,
@@ -1034,6 +1035,8 @@ class HrPayslip(models.Model):
             tz = timezone(calendar.tz)
             day_leave_intervals = contract.employee_id.list_leaves(day_from, day_to,
                                                                    calendar=contract.resource_calendar_id)
+            inability = 0
+            inability_hours = 0
             for day, hours, leave in day_leave_intervals:
                 holiday = leave.holiday_id
                 current_leave_struct = leaves.setdefault(holiday.holiday_status_id, {
@@ -1053,10 +1056,13 @@ class HrPayslip(models.Model):
                 if work_hours:
                     current_leave_struct['number_of_days'] += hours / work_hours
                 if holiday.holiday_status_id.code in ['F08'] or not holiday.holiday_status_id.unpaid:
-                    if contract.employee_id.group_id.pay_three_days_disability  and holiday.holiday_status_id.time_type == 'inability':
-                        if float(current_leave_struct['number_of_days']) > 3:
-                            total_leave_days += hours / work_hours
-                            hours_leave_days += hours
+                    if holiday.holiday_status_id.time_type == 'inability':
+                        inability += hours / work_hours
+                        inability_hours += hours
+                        if contract.employee_id.group_id.pay_three_days_disability:
+                            if float(current_leave_struct['number_of_days']) > 3:
+                                total_leave_days += hours / work_hours
+                                hours_leave_days += hours
                     else:
                         total_leave_days += hours / work_hours
                         hours_leave_days += hours
@@ -1078,13 +1084,14 @@ class HrPayslip(models.Model):
             }
             days_factor = contract.employee_id.group_id.days
             elemento_calculo = {
-                'name': _("Periodo mensual IMSS"),
+                'name': _("Periodo mensual"),
                 'sequence': 1,
-                'code': 'PERIODOIMSS100',
+                'code': 'PERIODO100',
                 'number_of_days': days_factor,
                 'number_of_hours': 0,
                 'contract_id': contract.id,
             }
+            res.append(elemento_calculo)
             date_start = date_from if contract.date_start < date_from else contract.date_start
             date_end =  contract.date_end if contract.date_end and contract.date_end < date_to else date_to
             from_full = date_start
@@ -1105,14 +1112,16 @@ class HrPayslip(models.Model):
                 cant_days = (to_full - from_full).days*(days_factor/30)
             if cant_days < 0:
                 cant_days = 0
-            cant_days_IMSS = {
-                'name': _("Días a cotizar en la nómina"),
-                'sequence': 1,
-                'code': 'DIASIMSS',
-                'number_of_days': cant_days,
-                'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day),
-                'contract_id': contract.id,
-            }
+            if contract.contracting_regime == '02':
+                cant_days_IMSS = {
+                    'name': _("Días a cotizar en la nómina"),
+                    'sequence': 1,
+                    'code': 'DIASIMSS',
+                    'number_of_days': cant_days - inability,
+                    'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day) - inability_hours ,
+                    'contract_id': contract.id,
+                }
+                res.append(cant_days_IMSS)
             if contract.employee_id.pay_holiday:
                 dias_feriados = {
                     'name': _("Días feriados"),
@@ -1140,8 +1149,6 @@ class HrPayslip(models.Model):
                 'contract_id': contract.id,
             }
             res.append(count_days_weeks)
-            res.append(cant_days_IMSS)
-            res.append(elemento_calculo)
             res.append(attendances)
             res.append(prima_dominical)
             res.extend(leaves.values())

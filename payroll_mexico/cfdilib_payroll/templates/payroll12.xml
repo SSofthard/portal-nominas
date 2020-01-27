@@ -134,8 +134,9 @@
             <nomina12:Receptor
                 Curp="{{ pay.curp_emp }}"
                 {% if pay.nss_emp %} NumSeguridadSocial="{{ pay.nss_emp }}" {% endif %}
-                FechaInicioRelLaboral="{{ pay.date_start }}"
-                Antigüedad="{{ pay.seniority_emp }}"
+                {% if pay.date_start %} FechaInicioRelLaboral="{{ pay.date_start }}" {% endif %}
+                {% if pay.seniority_emp %} Antigüedad="{{ pay.seniority_emp }}" {% endif %}
+                
                 TipoContrato="{{ pay.contract_type  }}"
                 Sindicalizado="{{ pay.emp_syndicated }}"
                 {% if pay.working_day %} TipoJornada="{{ pay.working_day }}" {% endif %}
@@ -148,7 +149,7 @@
                 {% if pay.emp_bank %} Banco="{{ pay.emp_bank }}" {% endif %}
                 {% if pay.emp_account %} CuentaBancaria="{{ pay.emp_account }}" {% endif %}
                 {% if pay.emp_base_salary%} SalarioBaseCotApor="{{ pay.emp_base_salary }}" {% endif %}
-                SalarioDiarioIntegrado="{{ pay.emp_diary_salary }}"
+                {% if pay.emp_diary_salary%} SalarioDiarioIntegrado="{{ pay.emp_diary_salary }}" {% endif %}
                 ClaveEntFed="{{ pay.emp_state }}">
                 {% for out in pay.outsourcing%}
                     <nomina12:SubContratacion
