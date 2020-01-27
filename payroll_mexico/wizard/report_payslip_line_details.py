@@ -33,10 +33,7 @@ class PayslipLineDetails(models.TransientModel):
         default=lambda self: fields.Date.to_string((datetime.now() + relativedelta(months=+1, day=1, days=-1)).date()),)
     employee_id = fields.Many2one('hr.employee', 'Employee')
     contracting_regime = fields.Selection([
-        # ('01', 'Assimilated to wages'),
         ('02', 'Wages and salaries'),
-        ('03', 'Senior citizens'),
-        ('04', 'Pensioners'),
         ('05', 'Free'),
         ('08', 'Assimilated commission agents'),
         ('09', 'Honorary Assimilates'),
@@ -70,7 +67,7 @@ class PayslipLineDetails(models.TransientModel):
                 'enrollment': line.employee_id.enrollment,
                 'employee_name': line.employee_id.name_get()[0][1],
                 'contracting_regime': line.slip_id.contract_id.contracting_regime, #dict(line.slip_id.contract_id._fields['contracting_regime']._description_selection(line.slip_id.contract_id.env)).get(line.slip_id.contract_id.contracting_regime),
-                'reference': line.slip_id.number,
+                'reference': line.slip_id.complete_name,
                 'linename': line.name,
                 'date_from': line.slip_id.date_from,
                 'date_to': line.slip_id.date_to,
