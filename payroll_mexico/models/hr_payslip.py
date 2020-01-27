@@ -846,7 +846,7 @@ class HrPayslip(models.Model):
         sorted_rule_ids = [id for id, sequence in sorted(rule_ids, key=lambda x:x[1])]
         inputs = self.env['hr.salary.rule'].browse(sorted_rule_ids).mapped('input_ids')
         hr_inputs = self.env['hr.inputs'].browse([])
-        self.input_ids.write({'payslip':False})
+        self.input_ids.write({'payslip':False,'state':'approve'})
         self.input_ids = False
         for contract in contracts:
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)

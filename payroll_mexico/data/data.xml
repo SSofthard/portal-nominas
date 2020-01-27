@@ -4,6 +4,7 @@
 
 <!--Data base de odoo-->
 
+<!--
 <delete model="hr.leave.type" id="hr_holidays.holiday_status_cl"/>
 <delete model="hr.leave.type" id="hr_holidays.holiday_status_comp"/>
 <delete model="hr.leave.type" id="hr_holidays.holiday_status_unpaid"/>
@@ -18,6 +19,7 @@
 <delete model="hr.salary.rule.category" id="hr_payroll.BASIC"/>
 <delete model="hr.salary.rule.category" id="hr_payroll.ALW"/>
 <delete model="hr.salary.rule.category" id="hr_payroll.COMP"/>
+-->
 
 
 <!--
