@@ -131,7 +131,7 @@
                         <field name="payroll_of_month" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="payroll_period" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="year" attrs="{'readonly': [('generated','=',True)]}"/>
-                        <field name="pay_type" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="pay_type" attrs="{'readonly': [('generated','=',True)]}" invisible="True"/>
                         <field name="pay_bonus" attrs="{'invisible': [('bonus_date','!=',True)]}"/>
                         <field name="table_id" invisible="0"/>
                         <field name="bonus_date" invisible="1"/>
