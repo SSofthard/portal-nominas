@@ -53,10 +53,7 @@ class EmployeeAffiliateMovements(models.Model):
         ('approved', 'Approved'),
     ], string='State', default = 'draft')
     contracting_regime = fields.Selection([
-        # ('01', 'Assimilated to wages'),
         ('02', 'Wages and salaries'),
-        ('03', 'Senior citizens'),
-        ('04', 'Pensioners'),
         ('05', 'Free'),
         ('08', 'Assimilated commission agents'),
         ('09', 'Honorary Assimilates'),
@@ -86,10 +83,7 @@ class ChangeOfJob(models.Model):
     date_to = fields.Date(string='Hasta', readonly=True)
     job_id = fields.Many2one('hr.job', string='Puesto de trabajo', readonly=True)
     contracting_regime = fields.Selection([
-        # ('01', 'Assimilated to wages'),
         ('02', 'Wages and salaries'),
-        ('03', 'Senior citizens'),
-        ('04', 'Pensioners'),
         ('05', 'Free'),
         ('08', 'Assimilated commission agents'),
         ('09', 'Honorary Assimilates'),
