@@ -75,10 +75,38 @@ class Contract(models.Model):
     group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
-    
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
-    
     structure_type_id = fields.Many2one('hr.structure.types', string="Structure Types")
+    state = fields.Selection([
+        ('draft', 'New'),
+        ('open', 'Running'),
+        ('pending', 'To Renew'),
+        ('close', 'Expired'),
+        ('cancel', 'Cancelled')
+    ], string='Status',
+       track_visibility='onchange', help='Status of the contract', default='draft')
+
+    @api.multi
+    def action_open(self):
+        report=self.type_id.report_id
+        if not report:
+            raise ValidationError('Debe selecionar el tipo de reporte del contrato en el campo "Categoría del dempleado".')
+        return self.write({'state': 'open'})
+
+    @api.multi
+    def action_draft(self):
+        return self.write({'state': 'draft'})
+        
+    @api.multi
+    def action_cancel(self):
+        return self.write({'state': 'cancel'})
+
+    @api.multi
+    def action_pending(self):
+        return self.write({'state': 'pending'})
+        
+    def action_close(self):
+        return self.write({'state': 'close'})
 
     @api.multi
     def get_all_structures(self,struct_id):
