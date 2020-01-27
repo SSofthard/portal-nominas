@@ -83,7 +83,7 @@ class WizardComputeSDIVar(models.TransientModel):
                 'contract_id':contract.id,
                 'employee_id':contract.employee_id.id,
                 'current_sdi':contract.integral_salary,
-                'new_sdi':contract.integral_salary+salary_var if  salary_var > 0 else contract._get_integral_salary(),
+                'new_sdi':contract.integral_salary+(salary_var/61) if  salary_var > 0 else contract._get_integral_salary(),
                 'days_worked':61,
                 'perceptions_bimonthly':salary_var,
             }
@@ -103,6 +103,16 @@ class WizardComputeSDIVar(models.TransientModel):
         '''
         for line in self.compute_lines:
             line.contract_id.integral_salary = line.new_sdi
+            res_id = self.env['hr.employee.affiliate.movements'].create({
+                'contract_id': line.contract_id.id,
+                'employee_id': line.employee_id.id,
+                'group_id': line.employee_id.group_id.id,
+                'type': '07',
+                'date': fields.Date.context_today(self),
+                'salary': line.new_sdi,
+                'state': 'draft',
+                'contracting_regime': '02',
+            })
 
         
         
