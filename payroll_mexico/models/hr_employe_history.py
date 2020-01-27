@@ -170,7 +170,7 @@ class Contract(models.Model):
                     'date':self.previous_contract_date or self.date_start,
                     }
                 if affiliate_movements:
-                    if affiliate_movements.state in ['approved']:
+                    if affiliate_movements.mapped('state') in ['approved']:
                         raise UserError(_('You cannot change the date of discharge of a contract with approved sharpening motion.'))
                     affiliate_movements.write(val)
                 else:
