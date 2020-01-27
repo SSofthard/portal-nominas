@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">  
-		
+
+<!--Data base de odoo-->
+
+<!--
+<delete model="hr.leave.type" id="hr_holidays.holiday_status_cl"/>
+<delete model="hr.leave.type" id="hr_holidays.holiday_status_comp"/>
+<delete model="hr.leave.type" id="hr_holidays.holiday_status_unpaid"/>
+<delete model="hr.leave.type" id="hr_holidays.holiday_status_sl"/>
+<delete model="hr.contract.type" id="hr_contract.hr_contract_type_emp"/>
+<delete model="hr.contract.type" id="hr_contract.hr_contract_type_wrkr"/>
+<delete model="hr.contract.type" id="hr_contract.hr_contract_type_sub"/>
+<delete model="hr.payroll.structure" id="hr_payroll.structure_base"/>
+<delete model="hr.salary.rule" id="hr_payroll.hr_rule_basic"/>
+<delete model="hr.salary.rule" id="hr_payroll.hr_rule_taxable"/>
+<delete model="hr.salary.rule" id="hr_payroll.hr_rule_net"/>
+<delete model="hr.salary.rule.category" id="hr_payroll.BASIC"/>
+<delete model="hr.salary.rule.category" id="hr_payroll.ALW"/>
+<delete model="hr.salary.rule.category" id="hr_payroll.COMP"/>
+-->
+
+
 <!--
 		payment period
 -->
