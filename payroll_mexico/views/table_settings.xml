@@ -42,18 +42,18 @@
         <field name="view_id" ref="tree_table_uma_view" />
     </record>
 
-    <menuitem
-          id="menu_setting_tables"
-          name="Setting tables"
-          parent="hr_payroll.menu_hr_payroll_configuration"
-          sequence="20"/>
+<!--    <menuitem-->
+<!--          id="menu_setting_tables"-->
+<!--          name="Setting tables"-->
+<!--          parent="hr_payroll.menu_hr_payroll_configuration"-->
+<!--          sequence="20"/>-->
           
     <menuitem
           id="menu_action_table_uma"
           name="UMA Tables"
           action="action_table_uma"
-          parent="menu_setting_tables"
-          sequence="10"/>
+          parent="hr_payroll.menu_hr_payroll_configuration"
+          sequence="21"/>
           
           
 	<record id="form_table_minimum_wages_view" model="ir.ui.view">
@@ -100,8 +100,8 @@
           id="menu_action_table_minimum_wages"
           name="Table Minimum Wages"
           action="action_table_minimum_wages"
-          parent="menu_setting_tables"
-          sequence="20"/>
+          parent="hr_payroll.menu_hr_payroll_configuration"
+          sequence="22"/>
 
 
 
@@ -409,7 +409,7 @@
           id="menu_action_table_settings"
           name="Table Settings"
           action="action_table_settings"
-          parent="menu_setting_tables"
-          sequence="9"/>
+          parent="hr_payroll.menu_hr_payroll_configuration"
+          sequence="24"/>
 
 </odoo>
