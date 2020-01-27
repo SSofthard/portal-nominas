@@ -150,12 +150,12 @@ class HrPayslip(models.Model):
     UUID_sat = fields.Char(string='UUID', readonly=True)
     code_error = fields.Char(string='Código de error', readonly=True)
     error = fields.Char(string='Error', readonly=True)
-    xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)")
-    qr_timbre = fields.Binary(string="Qr")
+    xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)", readonly=True)
+    qr_timbre = fields.Binary(string="Qr", readonly=True)
     # PDF Stamped
-    pdf = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False)
-    filename = fields.Char(string='Filename', related="pdf.name", copy=False)
-    filedata = fields.Binary(string='Filedatas', related="pdf.datas", copy=False)
+    pdf = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False, readonly=True)
+    filename = fields.Char(string='Filename', related="pdf.name", copy=False, readonly=True)
+    filedata = fields.Binary(string='Filedatas', related="pdf.datas", copy=False, readonly=True)
     
     def overtime(self,type_overtime):
         days = 0
@@ -168,9 +168,9 @@ class HrPayslip(models.Model):
             
 
     def to_json(self):
-        perceptions = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id)])
+        perceptions = self.env['hr.payslip.line'].search([('category_id.code','=',['PERCEPCIONES','PERCEPCIONESPECIE']),('slip_id','=',self.id)])
         
-        perceptions_ordinary = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id),('salary_rule_id.type','=','perception')])
+        perceptions_ordinary = self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),('slip_id','=',self.id),('salary_rule_id.type','=','perception')])
                 
         deduction = self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id)])
         
@@ -191,21 +191,21 @@ class HrPayslip(models.Model):
             show_total_taxes_withheld = True
         
         
-        perceptions_only = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('salary_rule_id.type','=','perception'),('slip_id','=',self.id)]).mapped('total'))
+        perceptions_only = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),('salary_rule_id.type','=','perception'),('slip_id','=',self.id)]).mapped('total'))
         other_payment_only = sum(other_payments.mapped('total'))
         subtotal = sum(self.env['hr.payslip.line'].search([('category_id.code','=','GROSS'),('slip_id','=',self.id)]).mapped('total'))
         discount_amount = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DEDT'),('slip_id','=',self.id)]).mapped('total'))
        
-        total_salaries = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+        total_salaries = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
                                                                     ('salary_rule_id.type','=','perception'),
                                                                     ('slip_id','=',self.id),
                                                                     ('salary_rule_id.type_perception','not in',['022','023','025','039','044'])]).mapped('total'))
         
-        total_separation_compensation = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+        total_separation_compensation = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
                                                                     ('salary_rule_id.type','=','perception'),
                                                                     ('slip_id','=',self.id),
                                                                     ('salary_rule_id.type_perception','in',['022','023','025'])]).mapped('total'))
-        total_retirement_pension_retirement = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+        total_retirement_pension_retirement = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
                                                                     ('salary_rule_id.type','=','perception'),
                                                                     ('slip_id','=',self.id),
                                                                     ('salary_rule_id.type_perception','in',['039','044'])]).mapped('total'))
@@ -241,17 +241,12 @@ class HrPayslip(models.Model):
         deduction_dict ={}
         for d in deduction:
             if d.total > 0:
-                if not d.salary_rule_id.type_deduction in deduction_dict.keys():
-                    deduction_dict[d.salary_rule_id.type_deduction] = {
-                                        'type': d.salary_rule_id.type_deduction,
-                                        'key': d.salary_rule_id.code,
-                                        'concept': d.salary_rule_id.name,
-                                        'amount': d.total,
-                                    }
-                    # ~ deduction_list.append(deduction_dict)
-                else:
-                    amount = deduction_dict[d.salary_rule_id.type_deduction]['amount'] + d.total
-                    deduction_dict[d.salary_rule_id.type_deduction]['amount'] = amount
+                deduction_dict = {
+                            'type': d.salary_rule_id.type_deduction,
+                            'key': d.salary_rule_id.code,
+                            'concept': d.salary_rule_id.name,
+                            'amount': d.total,
+                        }
                 if d.salary_rule_id.type_deduction == '006':
                     if d.salary_rule_id.type_disability == '01':
                         disability = self.env['hr.payslip.worked_days'].search([('code','in',['F02']),('payslip_id','=',self.id)])
@@ -267,6 +262,7 @@ class HrPayslip(models.Model):
                                 'amount': d.total,
                             }
                     disability_list.append(disability_dict)
+                deduction_list.append(deduction_dict)
                     
                     
         other_list = []
@@ -363,7 +359,7 @@ class HrPayslip(models.Model):
                 'show_total_taxes_withheld': show_total_taxes_withheld,
                 'total_taxes_withheld': isr_deduction,   
                 
-                'deductions': list(deduction_dict.values()),
+                'deductions': list(deduction_list),
                 'other_payments': list(other_list),
                 'inabilities': disability_list
             },
@@ -417,6 +413,7 @@ class HrPayslip(models.Model):
             data['payroll']['emp_account'] = bank_account.bank_account
             
         return data
+    
     
     @api.multi
     def action_cfdi_nomina_generate(self):
@@ -484,9 +481,11 @@ class HrPayslip(models.Model):
                     vals = {}
                     xml = base64.b64encode(file)
                     ir_attachment=self.env['ir.attachment']
+                    folder_id = payslip.get_folder()
                     value={u'name': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to), 
                             u'url': False,
-                            u'company_id': 1, 
+                            u'company_id': self.company_id.id, 
+                            u'folder_id': folder_id, 
                             u'datas_fname': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to)+'.xml', 
                             u'type': u'binary', 
                             u'public': False, 
@@ -504,7 +503,6 @@ class HrPayslip(models.Model):
                     buffer = BytesIO()
                     img.save(buffer, format="PNG")
                     img_str = base64.b64encode(buffer.getvalue())
-                    
                     vals = {
                          'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
                          'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
@@ -538,7 +536,7 @@ class HrPayslip(models.Model):
                     attachment_id = payslip.env['ir.attachment'].create({
                         'name': pdf_name,
                         'res_id': payslip.id,
-                        'folder_id': payslip.get_folder(),
+                        'folder_id': folder_id,
                         'res_model': payslip._name,
                         'datas': base64.encodestring(pdf),
                         'datas_fname': pdf_name,
@@ -678,7 +676,7 @@ class HrPayslip(models.Model):
         total = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total'))
         line_ids = self.env['hr.payslip.line'].search(domain + [('appears_on_payslip','=', True), ('total','!=', 0)])
         for line in line_ids:
-            if line.category_id.code == 'PERCEPCIONES':
+            if line.category_id.code in ['PERCEPCIONES']:
                 lines.append({
                     'code': line.code,
                     'name': line.name,
@@ -736,7 +734,7 @@ class HrPayslip(models.Model):
             'type': 'ir.actions.act_url',
             'url': "web/content/?model=" + self._name +"&id=" + str(
                 self.id) + "&filename_field=filename&field=filedata&download=true&filename=" + self.filename,
-            'target': 'self',
+            'target': 'new',
         }
 
     @api.multi
@@ -1037,6 +1035,8 @@ class HrPayslip(models.Model):
             tz = timezone(calendar.tz)
             day_leave_intervals = contract.employee_id.list_leaves(day_from, day_to,
                                                                    calendar=contract.resource_calendar_id)
+            inability = 0
+            inability_hours = 0
             for day, hours, leave in day_leave_intervals:
                 holiday = leave.holiday_id
                 current_leave_struct = leaves.setdefault(holiday.holiday_status_id, {
@@ -1056,10 +1056,13 @@ class HrPayslip(models.Model):
                 if work_hours:
                     current_leave_struct['number_of_days'] += hours / work_hours
                 if holiday.holiday_status_id.code in ['F08'] or not holiday.holiday_status_id.unpaid:
-                    if contract.employee_id.group_id.pay_three_days_disability  and holiday.holiday_status_id.time_type == 'inability':
-                        if float(current_leave_struct['number_of_days']) > 3:
-                            total_leave_days += hours / work_hours
-                            hours_leave_days += hours
+                    if holiday.holiday_status_id.time_type == 'inability':
+                        inability += hours / work_hours
+                        inability_hours += hours
+                        if contract.employee_id.group_id.pay_three_days_disability:
+                            if float(current_leave_struct['number_of_days']) > 3:
+                                total_leave_days += hours / work_hours
+                                hours_leave_days += hours
                     else:
                         total_leave_days += hours / work_hours
                         hours_leave_days += hours
@@ -1081,13 +1084,14 @@ class HrPayslip(models.Model):
             }
             days_factor = contract.employee_id.group_id.days
             elemento_calculo = {
-                'name': _("Periodo mensual IMSS"),
+                'name': _("Periodo mensual"),
                 'sequence': 1,
-                'code': 'PERIODOIMSS100',
+                'code': 'PERIODO100',
                 'number_of_days': days_factor,
                 'number_of_hours': 0,
                 'contract_id': contract.id,
             }
+            res.append(elemento_calculo)
             date_start = date_from if contract.date_start < date_from else contract.date_start
             date_end =  contract.date_end if contract.date_end and contract.date_end < date_to else date_to
             from_full = date_start
@@ -1108,14 +1112,16 @@ class HrPayslip(models.Model):
                 cant_days = (to_full - from_full).days*(days_factor/30)
             if cant_days < 0:
                 cant_days = 0
-            cant_days_IMSS = {
-                'name': _("Días a cotizar en la nómina"),
-                'sequence': 1,
-                'code': 'DIASIMSS',
-                'number_of_days': cant_days,
-                'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day),
-                'contract_id': contract.id,
-            }
+            if contract.contracting_regime == '02':
+                cant_days_IMSS = {
+                    'name': _("Días a cotizar en la nómina"),
+                    'sequence': 1,
+                    'code': 'DIASIMSS',
+                    'number_of_days': cant_days - inability,
+                    'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day) - inability_hours ,
+                    'contract_id': contract.id,
+                }
+                res.append(cant_days_IMSS)
             if contract.employee_id.pay_holiday:
                 dias_feriados = {
                     'name': _("Días feriados"),
@@ -1143,8 +1149,6 @@ class HrPayslip(models.Model):
                 'contract_id': contract.id,
             }
             res.append(count_days_weeks)
-            res.append(cant_days_IMSS)
-            res.append(elemento_calculo)
             res.append(attendances)
             res.append(prima_dominical)
             res.extend(leaves.values())
@@ -1421,6 +1425,10 @@ class HrSalaryRule(models.Model):
         ('03', 'Maternidad.'),
         ('04', 'Licencia por cuidados médicos de hijos diagnosticados con cáncer.'),
         ], string='Tipo de incapacidad')
+    payment_type = fields.Selection([
+        ('01', 'Species.'),
+        ('02', 'Cash.'),
+        ], string='Payment Type', default="02")
     payroll_tax = fields.Boolean('Apply payroll tax?', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
     settlement = fields.Boolean(string='Settlement structure?')
     salary_rule_taxed_id = fields.Many2one('hr.salary.rule', "Regla (Monto Gravado)", required=False, copy=False)

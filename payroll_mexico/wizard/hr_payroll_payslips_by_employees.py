@@ -43,6 +43,12 @@ class HrPayslipEmployees(models.TransientModel):
             ]
         if payslip_run.contracting_regime == '02':
             domain.append(('employer_register_id','=',payslip_run.employer_register_id.id))
+        print (domain)
+        print (domain)
+        print (domain)
+        print (domain)
+        print (domain)
+        print (domain)
         employees=contract.search_read(domain,['employee_id','state'])
         employee_ids=[]
         for employee in employees:
