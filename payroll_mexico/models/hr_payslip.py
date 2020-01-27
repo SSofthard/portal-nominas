@@ -168,9 +168,9 @@ class HrPayslip(models.Model):
             
 
     def to_json(self):
-        perceptions = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id)])
+        perceptions = self.env['hr.payslip.line'].search([('category_id.code','=',['PERCEPCIONES','PERCEPCIONESPECIE']),('slip_id','=',self.id)])
         
-        perceptions_ordinary = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id),('salary_rule_id.type','=','perception')])
+        perceptions_ordinary = self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),('slip_id','=',self.id),('salary_rule_id.type','=','perception')])
                 
         deduction = self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id)])
         
@@ -191,21 +191,21 @@ class HrPayslip(models.Model):
             show_total_taxes_withheld = True
         
         
-        perceptions_only = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('salary_rule_id.type','=','perception'),('slip_id','=',self.id)]).mapped('total'))
+        perceptions_only = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),('salary_rule_id.type','=','perception'),('slip_id','=',self.id)]).mapped('total'))
         other_payment_only = sum(other_payments.mapped('total'))
         subtotal = sum(self.env['hr.payslip.line'].search([('category_id.code','=','GROSS'),('slip_id','=',self.id)]).mapped('total'))
         discount_amount = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DEDT'),('slip_id','=',self.id)]).mapped('total'))
        
-        total_salaries = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+        total_salaries = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
                                                                     ('salary_rule_id.type','=','perception'),
                                                                     ('slip_id','=',self.id),
                                                                     ('salary_rule_id.type_perception','not in',['022','023','025','039','044'])]).mapped('total'))
         
-        total_separation_compensation = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+        total_separation_compensation = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
                                                                     ('salary_rule_id.type','=','perception'),
                                                                     ('slip_id','=',self.id),
                                                                     ('salary_rule_id.type_perception','in',['022','023','025'])]).mapped('total'))
-        total_retirement_pension_retirement = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+        total_retirement_pension_retirement = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
                                                                     ('salary_rule_id.type','=','perception'),
                                                                     ('slip_id','=',self.id),
                                                                     ('salary_rule_id.type_perception','in',['039','044'])]).mapped('total'))
@@ -241,17 +241,12 @@ class HrPayslip(models.Model):
         deduction_dict ={}
         for d in deduction:
             if d.total > 0:
-                if not d.salary_rule_id.type_deduction in deduction_dict.keys():
-                    deduction_dict[d.salary_rule_id.type_deduction] = {
-                                        'type': d.salary_rule_id.type_deduction,
-                                        'key': d.salary_rule_id.code,
-                                        'concept': d.salary_rule_id.name,
-                                        'amount': d.total,
-                                    }
-                    # ~ deduction_list.append(deduction_dict)
-                else:
-                    amount = deduction_dict[d.salary_rule_id.type_deduction]['amount'] + d.total
-                    deduction_dict[d.salary_rule_id.type_deduction]['amount'] = amount
+                deduction_dict = {
+                            'type': d.salary_rule_id.type_deduction,
+                            'key': d.salary_rule_id.code,
+                            'concept': d.salary_rule_id.name,
+                            'amount': d.total,
+                        }
                 if d.salary_rule_id.type_deduction == '006':
                     if d.salary_rule_id.type_disability == '01':
                         disability = self.env['hr.payslip.worked_days'].search([('code','in',['F02']),('payslip_id','=',self.id)])
@@ -267,6 +262,7 @@ class HrPayslip(models.Model):
                                 'amount': d.total,
                             }
                     disability_list.append(disability_dict)
+                deduction_list.append(deduction_dict)
                     
                     
         other_list = []
@@ -363,7 +359,7 @@ class HrPayslip(models.Model):
                 'show_total_taxes_withheld': show_total_taxes_withheld,
                 'total_taxes_withheld': isr_deduction,   
                 
-                'deductions': list(deduction_dict.values()),
+                'deductions': list(deduction_list),
                 'other_payments': list(other_list),
                 'inabilities': disability_list
             },
@@ -417,6 +413,7 @@ class HrPayslip(models.Model):
             data['payroll']['emp_account'] = bank_account.bank_account
             
         return data
+    
     
     @api.multi
     def action_cfdi_nomina_generate(self):
@@ -678,7 +675,7 @@ class HrPayslip(models.Model):
         total = sum(self.env['hr.payslip.line'].search(domain + [('code','=', 'T001')]).mapped('total'))
         line_ids = self.env['hr.payslip.line'].search(domain + [('appears_on_payslip','=', True), ('total','!=', 0)])
         for line in line_ids:
-            if line.category_id.code == 'PERCEPCIONES':
+            if line.category_id.code in ['PERCEPCIONES']:
                 lines.append({
                     'code': line.code,
                     'name': line.name,
@@ -736,7 +733,7 @@ class HrPayslip(models.Model):
             'type': 'ir.actions.act_url',
             'url': "web/content/?model=" + self._name +"&id=" + str(
                 self.id) + "&filename_field=filename&field=filedata&download=true&filename=" + self.filename,
-            'target': 'self',
+            'target': 'new',
         }
 
     @api.multi
@@ -1421,6 +1418,10 @@ class HrSalaryRule(models.Model):
         ('03', 'Maternidad.'),
         ('04', 'Licencia por cuidados médicos de hijos diagnosticados con cáncer.'),
         ], string='Tipo de incapacidad')
+    payment_type = fields.Selection([
+        ('01', 'Species.'),
+        ('02', 'Cash.'),
+        ], string='Payment Type', default="02")
     payroll_tax = fields.Boolean('Apply payroll tax?', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
     settlement = fields.Boolean(string='Settlement structure?')
     salary_rule_taxed_id = fields.Many2one('hr.salary.rule', "Regla (Monto Gravado)", required=False, copy=False)
