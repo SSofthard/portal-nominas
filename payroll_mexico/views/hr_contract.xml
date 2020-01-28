@@ -7,62 +7,74 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='state']" position="after">
-                    <button 
-                            name="print_contract" 
-                            type="object"
-                            string="Print Contract" 
-                            class="oe_stat_button" 
-                            >
-                    </button>
-                </xpath>
-                <xpath expr="//field[@name='name']" position="after">
-                    <label for="code" class="oe_edit_only"/>
-                    <div>
-                        <div class="o_row">
-                            <field name="code" placeholder="Code"/>
-                        </div>
-                    </div>
-                    <field name="type_contract" invisible="1"/>
+                <xpath expr="//field[@name='state']" position="replace">
+                    <button name="action_draft" type="object" string="Back to Draft" states="open" class="btn-primary" confirm="Are you sure you want to go Back to Draft?"/>
+                    <button name="action_open" type="object" string="Process Contract" states="draft" class="btn-primary" confirm="Are you sure you want to Process this Contract?"/>
+                    <button name="action_close" type="object" string="Close Contract" states="open" class="btn-primary" confirm="Are you sure you want to Close this Contract?"/>
+                    <button name="print_contract" type="object" string="Print Contract" states="draft,open" class="oe_stat_button"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,close"/>
                 </xpath>
                 <xpath expr="//group[@name='duration_group']" position="replace">
                     <group name="duration_group" string="Contract Terms">
-                        <field name="date_start"/>
+                        <field name="date_start" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
                         <label for="date_end"/>
                         <div class="o_row">
-                            <field name="date_end" nolabel="1"/>
+                            <field name="date_end" nolabel="1" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
                             <span class="text-muted">(If fixed-term contract)</span>
                         </div>
-                        <field name="trial_date_end"/>
-                        <field name="resource_calendar_id"/>
+                        <field name="trial_date_end" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
+                        <field name="resource_calendar_id" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="before">
-                    <field name="contracting_regime"/>
+                    <field name="contracting_regime" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
                 </xpath>
                 <xpath expr="//field[@name='trial_date_end']" position="before">
-                    <field name="previous_contract_date" attrs="{'invisible': [('type_contract', '!=','with_seniority')],'required': [('type_contract', '=','with_seniority')]}"/>
+                    <field name="previous_contract_date" attrs="{'invisible': [('type_contract', '!=','with_seniority')],'required': [('type_contract', '=','with_seniority')],'readonly': [('state', 'not in', ('draft'))]}"/>
 
                     <label for="years_antiquity" string="Antigüedad"/>
                     <div>
-                        <field name="years_antiquity" class="oe_inline"/> Año(s) y  <field name="days_rest" class="oe_inline"/> día(s)
+                        <field name="years_antiquity" class="oe_inline" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/> Año(s) y  <field name="days_rest" attrs="{'readonly': [('state', 'not in', ('draft'))]}" class="oe_inline"/> día(s)
                     </div>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="attributes">
 					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
-					<attribute name="attrs">{'invisible': [('contracting_regime','=','05')]}</attribute>
+					<attribute name="attrs">{'invisible': [('contracting_regime','=','05')], 'readonly': [('state', 'not in', ('draft'))]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="after">
-					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('contracting_regime','=','05')]}"/>
+					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]"
+                           options='{"no_open": True, "no_create": True}'
+                           attrs="{'invisible': [('contracting_regime','=','05')],'readonly': [('state', 'not in', ('draft'))],'required': [('contracting_regime', '=', '02'),('state', 'in', ('draft'))]}"/>
                 </xpath>
-                <xpath expr="//field[@name='name']" position="attributes">
-                    <attribute name="placeholder">Name Contract</attribute>
+                <xpath expr="//div[@class='oe_title']" position="replace">
+                    <div class="oe_title" name="title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Name Contract" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
+                        </h1>
+                    </div>
+                    <div class="oe_title" name="title">
+                        <label for="code" class="oe_edit_only"/>
+                        <h1>
+                            <field name="code" placeholder="Code" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
+                        </h1>
+                    </div>
+                    <field name="type_contract" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='reported_to_secretariat']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
+                <xpath expr="//field[@name='employee_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', 'not in', ('draft'))]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', 'not in', ('draft'))]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='type_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', 'not in', ('draft'))]}</attribute>
+                </xpath>
                 <xpath expr="//field[@name='struct_id']" position="after">
-					<field name="structure_type_id" required="1"/>
+					<field name="structure_type_id" required="1" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
 				</xpath>
 				<xpath expr="//field[@name='struct_id']" position="attributes">
 					<attribute name="required">0</attribute>
@@ -70,10 +82,10 @@
 				</xpath>
                 <xpath expr="//group[@name='main_info']" position="after">
 					<group>
-						<field name="integral_salary" string="SDI"/>
+						<field name="integral_salary" string="SDI" force_save="1" readonly="True" attrs="{'invisible': [('contracting_regime','!=','02')],'readonly': [('state', 'not in', ('draft'))]}"/>
 					</group>
 					<group string="Other perceptions">
-						<field name="fixed_concepts_ids">
+						<field name="fixed_concepts_ids" attrs="{'readonly': [('state', 'not in', ('draft'))]}">
 							<form>
 								<group col="4">
 									<field name="type"/>

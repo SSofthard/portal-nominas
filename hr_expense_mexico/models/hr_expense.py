@@ -74,17 +74,11 @@ class Expenses(models.Model):
     @api.multi
     @api.onchange('subtotal_amount')
     def update_amount_tax(self):
-        print ('AAAAAAAAAaa')
         sub_total = self.subtotal_amount
         iva = self.iva_amount
         amount =  sub_total * (iva / 100)
-        print ('amount')
-        print ('amount')
-        print (amount)
-        self.amount_tax = sub_total + amount
-        self.total_amount = self.amount_tax
-        
-    
+        self.amount_tax = amount
+        self.total_amount = sub_total + amount
 
 class ExpensesClassification(models.Model):
     _name = 'hr.expense.classification'
@@ -226,7 +220,25 @@ class Partner(models.Model):
         result = []
         for record in self:
             if self.env.context.get('viatics_address') == 1:
-                name = str(record.street) + ' ' + str(record.street2) + ' ' + str(record.city) + ' ' + str(record.state_id.name) + ' ' + str(record.zip) + ' ' + str(record.country_id.name)
+                street = ''
+                street2 =''
+                city = ''
+                state = ''
+                zipp = ''
+                country = ''
+                if record.street:
+                    street = str(record.street) 
+                if record.street2:
+                    street2 = str(record.street2)
+                if record.city:
+                    city = str(record.city)
+                if record.state_id:
+                    state = str(record.state_id.name)
+                if record.zip:
+                    zipp = str(record.zip)
+                if record.country_id:
+                    country = str(record.country_id.name)
+                name = street + ' ' + street2 + ' ' + city + ' ' + state + ' ' + zipp + ' ' + country
                 result.append((record.id, str(name)))
             else: 
                 result.append((record.id, record.name))

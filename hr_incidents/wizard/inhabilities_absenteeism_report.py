@@ -43,10 +43,7 @@ class InhabilityAbsenteeismReport(models.TransientModel):
         'End Date', index=True, copy=False, required=True,
         default=date.today())
     contracting_regime = fields.Selection([
-        # ('01', 'Assimilated to wages'),
         ('02', 'Wages and salaries'),
-        ('03', 'Senior citizens'),
-        ('04', 'Pensioners'),
         ('05', 'Free'),
         ('08', 'Assimilated commission agents'),
         ('09', 'Honorary Assimilates'),

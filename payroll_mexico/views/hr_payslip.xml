@@ -25,6 +25,8 @@
                        <field name="type_disability" attrs="{'invisible': [('type_deduction', '!=', '006')],'required': [('type_deduction', '=', '006')]}"/>
                        <field name="type_other_payment" attrs="{'invisible': [('type', '!=', 'other_payment')],'required': [('type', '=', 'other_payment')]}"/>
                        <field name="payroll_tax" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
+                       <field name="payment_type" attrs="{'invisible': [('type', 'not in', ['perception','other_payment'])],'required': [('type', 'in', ['perception','other_payment'])]}"/>
+                       <field name="apply_variable_compute"/>
                     </group>
                 </xpath> 
             </field>
