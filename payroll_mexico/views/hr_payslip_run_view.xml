@@ -105,8 +105,8 @@
                             <field name="amount_tax"/>
                         </group>
                         <group col="4" string="Acumulados">
-                            <field name="acumulated_subtotal_amount"/>
-                            <field name="acumulated_amount_tax"/>
+                            <field name="acumulated_subtotal_amount" force_save="1" readonly="1"/>
+                            <field name="acumulated_amount_tax" force_save="1" readonly="1"/>
                         </group>
                         <group>
                             <label for="iva_tax"/>
