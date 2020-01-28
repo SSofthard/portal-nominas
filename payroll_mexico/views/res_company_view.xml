@@ -266,24 +266,8 @@
                 <xpath expr="//field[@name='function']" position="before">
                     <field name="notary_public_number" attrs="{'invisible': [('public_notary','=', False)],'required': [('public_notary','=', True)],}"/>
                 </xpath>
-                <xpath expr="//page[@name='sales_purchases']" position="replace">
-                    <page name='sales_purchases' string="Sales &amp; Purchases" attrs="{'invisible': ['|','|',('public_notary','=', True),('notary_public','=', True),('branch_offices','=', True)]}">
-                            <group name="container_row_2">
-                                <group string="Sales" name="sale" priority="1" invisible="1">
-                                    <field name="customer"/>
-                                    <field name="user_id"/>
-                                </group>
-                                <group string="Purchase" name="purchase" priority="2" invisible="1">
-                                    <field name="supplier"/>
-                                </group>
-                                <group string="Misc">
-                                    <field name="ref"/>
-                                    <field name="barcode"/>
-                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                                    <field name="industry_id" attrs="{'invisible': [('is_company', '=', False)]}" options="{'no_create': True}"/>
-                                </group>
-                            </group>
-                        </page>
+                <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='phone']" position="attributes">
                     <attribute name="widget">mask</attribute>
@@ -342,6 +326,8 @@
                 <xpath expr="//field[@name='phone']" position="attributes">
                     <attribute name="widget">mask</attribute>
                     <attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
+                </xpath>
+                <xpath expr="//sheet/group[last()]" position="replace">
                 </xpath>
                 <xpath expr="//field[@name='mobile']" position="attributes">
                     <attribute name="widget">mask</attribute>
