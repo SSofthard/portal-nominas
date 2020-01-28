@@ -75,10 +75,30 @@ class Contract(models.Model):
     group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
-    
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
-    
     structure_type_id = fields.Many2one('hr.structure.types', string="Structure Types")
+
+    @api.multi
+    def action_open(self):
+        report=self.type_id.report_id
+        if not report and self.contracting_regime == '02':
+            raise ValidationError('You must select the type of contract report in the "Employee category" field.')
+        return self.write({'state': 'open'})
+
+    @api.multi
+    def action_draft(self):
+        return self.write({'state': 'draft'})
+        
+    @api.multi
+    def action_cancel(self):
+        return self.write({'state': 'cancel'})
+
+    @api.multi
+    def action_pending(self):
+        return self.write({'state': 'pending'})
+        
+    def action_close(self):
+        return self.write({'state': 'close'})
 
     
     def get_monthly_taxable_total(self,year,month,date_from,date_to):
@@ -278,7 +298,7 @@ class Contract(models.Model):
     def _calculate_integral_salary(self):
         current_date  =  fields.Date.context_today(self)+timedelta(days=1)
         start_date_contract = self.previous_contract_date or self.date_start
-        years_antiquity = self.years_antiquity
+        years_antiquity = self.years_antiquity + 1 if self.days_rest > 0 else self.years_antiquity
         antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',self.employee_id.group_id.antique_table.id)])
         daily_salary = self.wage / self.employee_id.group_id.days if self.employee_id.group_id.days else self.wage / 30
         daily_salary = float("{0:.4f}".format(daily_salary))

@@ -4,6 +4,7 @@ import io
 import base64
 
 from datetime import date, datetime, time, timedelta
+from dateutil.relativedelta import relativedelta
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, AccessError, UserError
@@ -17,9 +18,9 @@ class EmployeeAffiliateMovements(models.Model):
     employee_id = fields.Many2one('hr.employee', index=True, string='Employee')
     group_id = fields.Many2one('hr.group', "Grupo/Empresa", store=True, related='employee_id.group_id')
     type = fields.Selection([
-        ('08', 'Alta o Reingreso'),
-        ('07', 'Cambio de salario'),
-        ('02', 'Baja'),
+        ('08', 'High or Reentry'),
+        ('07', 'Salary change'),
+        ('02', 'Low'),
     ], string='Type', index=True, default='08')
     date = fields.Date(string="Date")
     reason_liquidation = fields.Selection([
@@ -67,6 +68,10 @@ class EmployeeAffiliateMovements(models.Model):
     @api.multi
     def unlink(self):
         for movements in self:
+            print (movements)
+            print (movements)
+            print (movements)
+            print (movements)
             if movements.state not in ['draft']:
                 raise UserError(_('You cannot delete affiliate movements that are not in "Draft" status.'))
         return super(EmployeeAffiliateMovements, self).unlink()
@@ -110,11 +115,7 @@ class ChangeOfJob(models.Model):
 
 class Contract(models.Model):
     _inherit = 'hr.contract'
-    
-    # Translate fields
-    reported_to_secretariat = fields.Boolean('Social Secretariat',
-        help='Green this button when the contract information has been transfered to the social secretariat.')
-    
+
     @api.model
     def create(self, vals):
         res = super(Contract, self).create(vals)
@@ -139,7 +140,7 @@ class Contract(models.Model):
         }
         self.env['hr.change.job'].create(val_job)
         return res
-        
+
     @api.multi
     def write(self, vals, create=None):
         affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.id),('type','=','08'),('contracting_regime','=','02')])
@@ -170,7 +171,7 @@ class Contract(models.Model):
                     'date':self.previous_contract_date or self.date_start,
                     }
                 if affiliate_movements:
-                    if affiliate_movements.state in ['approved']:
+                    if affiliate_movements.mapped('state') in ['approved']:
                         raise UserError(_('You cannot change the date of discharge of a contract with approved sharpening motion.'))
                     affiliate_movements.write(val)
                 else:
@@ -194,7 +195,7 @@ class irAttachment(models.Model):
 
 class HrEmployeeAffiliateMove(models.Model):
     _name = "hr.employee.affiliate.move"
-    _description = "Generar TXT Movimientos Afiliatorios"
+    _description = "TXT Affiliation Movements"
 
     @api.multi
     def _document_count(self):
@@ -207,7 +208,7 @@ class HrEmployeeAffiliateMove(models.Model):
         self.ensure_one()
         domain = [('affiliate_move_id', '=', self.id)]
         return {
-            'name': _('Documentos Movimientos Afiliatorios'),
+            'name': _('Affiliation Movements Documents'),
             'domain': domain,
             'res_model': 'ir.attachment',
             'type': 'ir.actions.act_window',
@@ -215,39 +216,38 @@ class HrEmployeeAffiliateMove(models.Model):
             'view_mode': 'kanban,tree,form',
             'view_type': 'form',
             'help': _('''<p class="oe_view_nocontent_create">
-                           Click para Crear Nuevos Documentos
+                           Click to Create New Documents
                         </p>'''),
             'limit': 80,
             'context': "{'default_affiliate_move_id': '%s'}" % self.id
         }
 
     #Columns
-    employer_register_id = fields.Many2one('res.employer.register', "Registro patronal",
+    employer_register_id = fields.Many2one('res.employer.register', "Employer Register",
     required=True, readonly=True, states={'draft': [('readonly', False)]})
     type_move = fields.Selection([
-        ('08', 'Altas y/o Reingresos'),
-        ('07', 'Modificaciones'),
-        ('02', 'Bajas'),
-        ], string='Movimiento afiliatorio', required=True,
+        ('08', 'High or Reentry'),
+        ('07', 'Salary change'),
+        ('02', 'Low'),
+        ], string='Type', required=True,
         readonly=True, states={'draft': [('readonly', False)]},)
     date_from = fields.Date(
         'Start Date', required=True, index=True, copy=False,
-        default=date.today(),
+        default=lambda self: fields.Date.to_string(date.today().replace(day=1)),
         readonly=True, states={'draft': [('readonly', False)]},)
     date_to = fields.Date(
         'End Date', required=True, index=True, copy=False,
-        default=date.today(),
+        default=lambda self: fields.Date.to_string((datetime.now() + relativedelta(months=+1, day=1, days=-1)).date()),
         readonly=True, states={'draft': [('readonly', False)]},)
     state = fields.Selection([
             ('draft','Draft'),
-            ('waiting', 'Waiting Confirmation'),
-            ('approved', 'Approved'),
+            ('reported', 'Reported'),
         ], string='Status', index=True, readonly=True, default='draft', copy=False)
     movements_ids = fields.Many2many('hr.employee.affiliate.movements',
         'hr_employee_affiliate_movements_rel', 'move_id', 'affiliate_movements_id',
-        string='Líneas de Movimientos Afiliatorios',
+        string='Affiliation Movements Lines',
         readonly=True, states={'draft': [('readonly', False)]},)
-    document_count = fields.Integer(compute='_document_count', string='# Documentos')
+    document_count = fields.Integer(compute='_document_count', string='# Documents')
 
     def search_movements(self):
         return self.env['hr.employee.affiliate.movements'].search([
@@ -265,7 +265,7 @@ class HrEmployeeAffiliateMove(models.Model):
             self.with_context(movements=True).movements_ids = [[6, 0, movements_ids]]
             self.movements_ids.with_context(movements=True).write({'state': 'generated'})
         else:
-            raise UserError(_('No se encontró información con los datos proporcionados.'))
+            raise UserError(_('No information was found with the data provided.'))
 
     @api.multi
     def name_get(self):
@@ -287,9 +287,9 @@ class HrEmployeeAffiliateMove(models.Model):
         '''
         output = io.BytesIO()
         type_move = dict(self._fields['type_move']._description_selection(self.env)).get(self.type_move)
-        f_name = 'Movimientos Afiliatorios de: %s %s - %s' % (type_move, self.date_from, self.date_to)
+        f_name = 'Affiliation Movements of: %s %s - %s' % (type_move, self.date_from, self.date_to)
         content = ''
-        for move in self.movements_ids.filtered(lambda mov: mov.state == 'generated'):
+        for move in self.movements_ids.filtered(lambda mov: mov.state == 'draft'):
             if self.type_move == '08':
                 origin_move = move.employee_id.employer_register_id.subdelegacion_id.code + move.origin_move
                 # TXT Para movimientos afiliatorios de Alta o Reingreso
@@ -354,7 +354,7 @@ class HrEmployeeAffiliateMove(models.Model):
                     '9'.ljust(1),                                                                               # 14 Identificador del formato len(1)
                 )
         if content == '':
-            raise UserError(_('Los movimientos afiliatorios deben estar en estatus "Generado" para generar un TXT.'))
+            raise UserError(_('No information was found with the data provided.'))
         data = base64.encodebytes(bytes(content, 'utf-8'))
         export_id = self.env['hr.employee.affiliate.export.txt'].create(
             {'txt_file': data, 'file_name': f_name + '.txt'})
@@ -368,8 +368,8 @@ class HrEmployeeAffiliateMove(models.Model):
             'target': 'new',
         }
 
-    def action_move_waiting(self):
-        self.filtered(lambda mov: mov.state == 'draft').write({'state': 'waiting'})
+    # ~ def action_move_waiting(self):
+        # ~ self.filtered(lambda mov: mov.state == 'draft').write({'state': 'waiting'})
 
     def action_move_draft(self):
         move_draft = self.filtered(lambda mov: mov.state == 'waiting')
@@ -377,8 +377,10 @@ class HrEmployeeAffiliateMove(models.Model):
         move_draft.movements_ids.write({'state': 'draft'})
         
     def action_move_approved(self):
-        move_approved = self.filtered(lambda mov: mov.state == 'waiting')
-        move_approved.write({'state': 'approved'})
+        move_approved = self.filtered(lambda mov: mov.state == 'draft')
+        if not move_approved.movements_ids:
+            raise UserError(_('No information was found with the data provided.'))
+        move_approved.write({'state': 'reported'})
         move_approved.movements_ids.filtered(lambda mov: mov.state == 'generated').write({'state': 'approved'})
         move_cut = move_approved.movements_ids.filtered(lambda mov: mov.state == 'draft')
         for cut in move_cut:
@@ -386,6 +388,11 @@ class HrEmployeeAffiliateMove(models.Model):
 
     @api.multi
     def write(self, values):
+        if 'movements_ids' in values:
+            mov_vals = values.get('movements_ids')[0][2]
+            for mov in self.movements_ids:
+                if mov.id not in mov_vals:
+                    mov.write({'state': 'draft'})
         if not self.env.context.get('movements') and 'movements_ids' in values and self.state == 'draft':
             no_validate_move = [x for x in self.search_movements() if x not in values.get('movements_ids')[0][2]]
             self.env['hr.employee.affiliate.movements'].search([('id','in', no_validate_move)]).write({'state': 'draft'})

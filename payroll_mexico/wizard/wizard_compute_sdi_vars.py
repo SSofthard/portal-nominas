@@ -60,19 +60,33 @@ class WizardComputeSDIVar(models.TransientModel):
         contract_ids = self.env['hr.contract'].search(
             [('state','=','open'),('employee_id.group_id', '=', self.group_id.id)] + domain_register + domain_work_center)
         for contract in contract_ids:
+
             salary_var = 0.0
-            payslips = self.env['hr.payslip'].search([('state','=','close'),('payroll_month','in',months), ('contract_id', '=', contract.id)])
+            print (contract)
+            print (contract)
+            print (contract)
+            print (months)
+            print (months)
+            print (months)
+            payslips = self.env['hr.payslip'].search([('state','=','done'),
+                                                      ('payroll_month','in',months),
+                                                      ('contract_id', '=', contract.id),
+                                                      # ('year','=',self.year),
+                                                      # ('payroll_type','=','O'),
+                                                      ])
+            print (payslips)
+            print (payslips)
+            print (payslips)
             if payslips:
-                salary_var = sum(payslips.mapped('integral_variable_salary')) / len(payslips)
+                salary_var = self._compute_integral_variable_salary(payslips)
             vals = {
                 'contract_id':contract.id,
                 'employee_id':contract.employee_id.id,
                 'current_sdi':contract.integral_salary,
-                'new_sdi':contract.integral_salary+salary_var,
-                'days_worked':60,
+                'new_sdi':contract.integral_salary+(salary_var/61) if  salary_var > 0 else contract._get_integral_salary(),
+                'days_worked':61,
                 'perceptions_bimonthly':salary_var,
             }
-
             compute_lines.append(vals)
         self.compute_lines = compute_lines
         self.computed = True
@@ -89,6 +103,16 @@ class WizardComputeSDIVar(models.TransientModel):
         '''
         for line in self.compute_lines:
             line.contract_id.integral_salary = line.new_sdi
+            res_id = self.env['hr.employee.affiliate.movements'].create({
+                'contract_id': line.contract_id.id,
+                'employee_id': line.employee_id.id,
+                'group_id': line.employee_id.group_id.id,
+                'type': '07',
+                'date': fields.Date.context_today(self),
+                'salary': line.new_sdi,
+                'state': 'draft',
+                'contracting_regime': '02',
+            })
 
         
         
@@ -101,6 +125,54 @@ class WizardComputeSDIVar(models.TransientModel):
         '''
         if self.date_to < self.date_from:
             raise UserError(_("The end date cannot be less than the start date "))
+
+    @api.multi
+    def _compute_integral_variable_salary(self, payslips):
+        '''Este metodo se utiliza para el cálculo de salario diario integral variable'''
+        days_factor = {
+            'daily': 1,
+            'weekly': 7,
+            'decennial': 10,
+            'biweekly': 15,
+            'monthly': 30,
+        }
+        print (payslips)
+        print (payslips)
+        print (payslips)
+        # print (x)
+        list_percepcions = payslips.mapped('line_ids').filtered(lambda o: o.salary_rule_id.apply_variable_compute
+                                                            and o.salary_rule_id.type == 'perception')
+        print (list_percepcions)
+        print (list_percepcions)
+        total_perception = self.get_total_perceptions_to_sv(list_percepcions)
+        return total_perception
+
+    def get_total_perceptions_to_sv(self, lines):
+        '''
+        Este metodo permite consultar si la regla aplica según los criterios de evaluación por ley
+        '''
+        vals = []
+        for line in lines:
+            if line.salary_rule_id.type_perception in ['010', '049']:
+                print('''cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
+                            ~ Seguro Social, de ser así la cantidad que rebase integrará''')
+                proporcion_percepcion = line.amount / self.contract.salary_var
+                if proporcion_percepcion > 0.1:
+                    restante = (line.amount - (self.contract.salary_var * 0.1)) * line.quantity
+                    vals.append(restante)
+            if line.salary_rule_id.type_perception == '019' and line.salary_rule_id.type_overtime == '02':
+                print('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
+                             exceda de tres horas diarias ni de tres veces en una semana''')
+                vals.append(line.total)
+            if line.salary_rule_id.type_perception in ['029']:
+                print('''si su importe no rebasa el 40% del SMGVDF, de lo contrario el excedente se integrará''')
+                minimum_salary = self.company_id.municipality_id.get_salary_min(self.date_from)
+                if line.amount > (minimum_salary * 0.40):
+                    restante = (line.amount - (minimum_salary * 0.40)) * line.quantity
+                    vals.append(restante)
+            else:
+                vals.append(line.total)
+        return sum(vals)
 
 
 class WizardComputeSDIVarLines(models.TransientModel):
