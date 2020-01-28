@@ -152,7 +152,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-foreach="data['values']['payroll']['perceptions']" t-as="line">
+                                    <t t-foreach="data['values']['payroll'][0]['perceptions']" t-as="line">
                                         <tr>
                                             <td class="text-center"><span t-esc="line['key']"/></td>
                                             <td><span t-esc="line['concept']"/></td>
@@ -175,7 +175,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-foreach="data['values']['payroll']['deductions']" t-as="line_ded">
+                                    <t t-foreach="data['values']['payroll'][0]['deductions']" t-as="line_ded">
                                         <tr>
                                             <td class="text-center"><span t-esc="line_ded['key']"/></td>
                                             <td><span t-esc="line_ded['concept']"/></td>
@@ -195,16 +195,16 @@
                                     <tr>
                                         <td></td>
                                         <th class="text-right">Totales</th>
-                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll']['total_taxed']"
+                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll'][0]['total_taxed']"
                                             t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
-                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll']['total_exempt']"
+                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll'][0]['total_exempt']"
                                             t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <th class="text-right">Total de Percepciones</th>
                                         <td></td>
-                                        <th class="text-right"><span t-esc="data['values']['payroll']['total_perceptions']"
+                                        <th class="text-right"><span t-esc="data['values']['payroll'][0]['total_perceptions']"
                                                   t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
                                     </tr>
                                 </tbody>
@@ -310,7 +310,7 @@
                                     <tr>
                                         <td></td>
                                         <th class="text-center">Total de Percepciones:</th>
-                                        <th class="text-right"><span t-esc="data['values']['payroll']['total_perceptions']"
+                                        <th class="text-right"><span t-esc="data['values']['payroll'][0]['total_perceptions']"
                                                   t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
                                     </tr>
                                     <tr style="width:100%; border-top: 1px solid #00A09D; border-bottom: 1px solid #00A09D;">
@@ -326,7 +326,7 @@
                                 </thead>
                                 <!-- Aqui va otros ingresos -->
                                 <tbody>
-                                    <t t-foreach="data['values']['payroll']['other_payments']" t-as="pay">
+                                    <t t-foreach="data['values']['payroll'][0]['other_payments']" t-as="pay">
                                         <tr>
                                             <td class="text-center"><span t-esc="pay['key']"/></td>
                                             <td><span t-esc="pay['concept']"/></td>
@@ -337,19 +337,19 @@
                                     <tr>
                                         <td></td>
                                         <th>Total otros pagos:</th>
-                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll']['total_other']"
+                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll'][0]['total_other']"
                                             t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <th>Total deduciones sin ISR:</th>
-                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll']['total_other_deductions']"
+                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll'][0]['total_other_deductions']"
                                             t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <th>ISR retenido:</th>
-                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll']['total_taxes_withheld']"
+                                        <th style="border-top: 1px solid #00A09D;" class="text-right"><span t-esc="data['values']['payroll'][0]['total_taxes_withheld']"
                                             t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></th>
                                     </tr>
                                 </tbody>

@@ -180,7 +180,6 @@ class HrPayslip(models.Model):
         
         other_deduction = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id),('salary_rule_id.type_deduction','not in',['002'])]).mapped('total'))
         
-       
         isr_deduction = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id),('salary_rule_id.type_deduction','in',['002'])]).mapped('total'))
         
         bank_account = self.env['bank.account.employee'].search([('employee_id','=',self.employee_id.id),('predetermined','=',True),('state','=','active')])
@@ -314,7 +313,11 @@ class HrPayslip(models.Model):
                 'total_transferred': '0.00',
                 'total_withhold': '0.00',
             },
-            'payroll': {
+            'payroll': [],
+        }
+        
+        payroll = []
+        values_ss = {
                 'type': self.payroll_type,
                 'payment_date': self.payment_date,
                 'date_from': self.date_from,
@@ -345,27 +348,23 @@ class HrPayslip(models.Model):
                 'emp_diary_salary': '',
                 'emp_state': self.employee_id.work_center_id.state_id.code,
                 'total_salaries': float("{0:.2f}".format(total_salaries)),
-                'total_compensation': float("{0:.2f}".format(total_separation_compensation)),
-                'total_retirement': float("{0:.2f}".format(total_retirement_pension_retirement)),
+                'total_compensation': 0,
+                'total_retirement': 0,
+                
+                
+                
+                
                 'total_taxed': float("{0:.2f}".format(total_taxed)),
-                'total_exempt': float("{0:.2f}".format((total_salaries+total_separation_compensation+total_retirement_pension_retirement) - total_taxed)),
-                
-                
-                
-                
-                
+                'total_exempt': float("{0:.2f}".format((total_salaries) - total_taxed)),
                 'perceptions': list(perceptions_list),
-                
-               
                 'total_other_deductions': other_deduction,
                 'show_total_taxes_withheld': show_total_taxes_withheld,
                 'total_taxes_withheld': isr_deduction,   
-                
                 'deductions': list(deduction_list),
                 'other_payments': list(other_list),
                 'inabilities': disability_list
-            },
-        }
+            }
+        
         
         if self.employee_id.deceased:
             data['receiver_rfc'] = 'XAXX010101000'
@@ -377,43 +376,134 @@ class HrPayslip(models.Model):
         if self.type_related_cfdi == '04':
             data['cfdi_related_type'] = self.type_related_cfdi
             data['cfdi_related'] = [{'uuid': self.uuid}]
+            
+            
+            
         if self.payroll_type == 'E':
-            data['payroll']['date_to'] = self.date_from
+            values_ss['date_to'] = self.date_from
         else:
-            data['payroll']['date_to'] = self.date_to
+            values_ss['date_to'] = self.date_to
             
         if self.contract_id.type_id.code in ['01','02','03','04','05','06','07','08']:
-            data['payroll']['employer_register']= self.employer_register_id.employer_registry
+            values_ss['employer_register']= self.employer_register_id.employer_registry
             if self.contract_id.contracting_regime == '02':
-                data['payroll']['nss_emp'] = self.employee_id.ssnid
-                data['payroll']['emp_risk'] = self.employer_register_id.job_risk
-                data['payroll']['date_start'] = self.contract_id.previous_contract_date or self.contract_id.date_start
-                data['payroll']['emp_diary_salary'] = "{0:.2f}".format(self.contract_id.integral_salary) 
+                values_ss['nss_emp'] = self.employee_id.ssnid
+                values_ss['emp_risk'] = self.employer_register_id.job_risk
+                values_ss['date_start'] = self.contract_id.previous_contract_date or self.contract_id.date_start
+                values_ss['emp_diary_salary'] = "{0:.2f}".format(self.contract_id.integral_salary) 
                 if self.employee_id.syndicalist:
-                    data['payroll']['emp_syndicated'] = 'Sí'
+                    values_ss['emp_syndicated'] = 'Sí'
                 date_1 = self.contract_id.previous_contract_date or self.contract_id.date_start
                 date_2 = self.date_to
                 week = (int(abs(date_1 - date_2).days))/7
                 antiquity_date = rdelta.relativedelta(date_2,date_1)
                 antiquity = 'P'+str(int(week))+'W'
-                data['payroll']['seniority_emp'] = antiquity
+                values_ss['seniority_emp'] = antiquity
         if not self.employee_id.curp:
             if self.employee_id.gender == 'male':
-                data['payroll']['curp_emp'] = 'XEXX010101HNEXXXA4'
+                values_ss['curp_emp'] = 'XEXX010101HNEXXXA4'
             else:
-                data['payroll']['curp_emp'] = 'XEXX010101MNEXXXA8'
+                values_ss['curp_emp'] = 'XEXX010101MNEXXXA8'
         else:
-            data['payroll']['curp_emp'] = self.employee_id.curp
+            values_ss['curp_emp'] = self.employee_id.curp
         
         if self.payroll_type == 'O':
-            data['payroll']['payment_periodicity'] = self.payroll_period
+            values_ss['payment_periodicity'] = self.payroll_period
         else:
-            data['payroll']['payment_periodicity'] = '99'
+            values_ss['payment_periodicity'] = '99'
         
         if bank_account:
-            data['payroll']['emp_bank'] = bank_account.bank_id.code
-            data['payroll']['emp_account'] = bank_account.bank_account
+            values_ss['emp_bank'] = bank_account.bank_id.code
+            values_ss['emp_account'] = bank_account.bank_account
             
+            
+            
+        if total_separation_compensation > 0 :
+            
+            total_separation_compensation_line = self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
+                                                                    ('salary_rule_id.type','=','perception'),
+                                                                    ('slip_id','=',self.id),
+                                                                    ('salary_rule_id.type_perception','in',['022','023','025'])])
+            
+            taxable_compensation = sum(self.env['hr.payslip.line'].search([('code','in',['UI150']),
+                                                                                ('slip_id','=',self.id)]).mapped('total'))
+            
+            exempt_compensation = total_separation_compensation - taxable_compensation
+            perceptions_dict = {}
+            perceptions_sc_list = []
+            for sc in total_separation_compensation_line:
+                if sc.total > 0:
+                    print (total_separation_compensation)
+                    amount_e = float("{0:.2f}".format((exempt_compensation * ((sc.total*100)/total_separation_compensation))/100))
+                    amount_g = float("{0:.2f}".format(sc.total - amount_e))
+                    perceptions_dict= {
+                                        'type': sc.salary_rule_id.type_perception,
+                                        'key': sc.salary_rule_id.code,
+                                        'concept': sc.salary_rule_id.name,
+                                        'quantity': sc.quantity,
+                                        'amount_g': amount_g,
+                                        'amount_e': "{0:.2f}".format(amount_e),
+                                    }
+                    perceptions_sc_list.append(perceptions_dict)
+            
+            print ('voy por aca')
+            print ('voy por aca')
+            print ('voy por aca')
+            print ('voy por aca')
+            print (perceptions_sc_list)
+            values_si = {
+                'type': self.payroll_type,
+                'payment_date': self.payment_date,
+                'date_from': self.date_from,
+                'date_to': '',
+                'number_of_days': days,
+                'curp_emitter': '',
+                'employer_register': '',
+                'vat_emitter': '',
+                'date_start': '',
+                'seniority_emp': '',
+                'curp_emp': '',
+                'nss_emp': '',
+                'contract_type': self.contract_id.type_id.code,
+                'total_perceptions': perceptions_only,
+                'total_deductions': discount_amount,
+                'total_other': other_payment_only,
+                'emp_risk': '',
+                'emp_syndicated': 'No',
+                'working_day': self.employee_id.type_working_day,
+                'emp_regimen_type': '13',
+                'no_emp': self.employee_id.enrollment,
+                'departament': self.contract_id.department_id.name,
+                'emp_job': self.contract_id.job_id.name,
+                'payment_periodicity': '',
+                'emp_bank': '',
+                'emp_account': '',
+                'emp_base_salary': '',
+                'emp_diary_salary': '',
+                'emp_state': self.employee_id.work_center_id.state_id.code,
+                'total_salaries': 0,
+                'total_compensation': float("{0:.2f}".format(total_separation_compensation)),
+                'total_retirement': 0,
+                
+                
+                'total_taxed': float("{0:.2f}".format(total_taxed)),
+                'total_exempt': float("{0:.2f}".format((total_separation_compensation) - total_taxed)),
+                
+                
+                
+                'perceptions': list(perceptions_list),
+                'total_other_deductions': other_deduction,
+                'show_total_taxes_withheld': show_total_taxes_withheld,
+                'total_taxes_withheld': isr_deduction,   
+                'deductions': list(deduction_list),
+                
+                'other_payments': '',
+                'inabilities': ''
+            }
+            
+            
+        payroll.append(values_ss)
+        data['payroll'] = payroll
         return data
     
     
@@ -856,7 +946,7 @@ class HrPayslip(models.Model):
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
             _logger.info(employee_id)
             for input in inputs:
-                _logger.info(input.id)
+                _logger.info(input)
                 amount = 0.0
                 other_input_line = self.env['hr.inputs'].search([('employee_id', '=', employee_id),('input_id', '=', input.id),('state','in',['approve']),('payslip','=',False)])
                 print (other_input_line)
