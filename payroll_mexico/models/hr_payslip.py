@@ -1015,7 +1015,8 @@ class HrPayslip(models.Model):
         Este metodo calcula el monto de base imponible para la nomina a este monto se le calculara el impuesto
         '''
         for payslip in self:
-            lines_untaxed = payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax)
+            country = payslip.employee_id.work_center_id.state_id
+            lines_untaxed = payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.salary_rule_id.payroll_tax and country in line.salary_rule_id.state_ids )
             payslip.subtotal_amount_untaxed = sum(lines_untaxed.mapped('amount'))
             payslip.get_tax_amount()
 
@@ -1443,7 +1444,8 @@ class HrSalaryRule(models.Model):
     salary_rule_taxed_id = fields.Many2one('hr.salary.rule', "Regla (Monto Gravado)", required=False, copy=False)
     code_category_id = fields.Char(related='category_id.code')
     apply_variable_compute = fields.Boolean(string='Apply for variable salary calculation')
-    
+    country_id = fields.Many2one('res.country', string="Country", default=lambda self: self.env.user.company_id.country_id.id)
+    state_ids = fields.Many2many('res.country.state', 'hr_holiday_state_rel', 'line_id', 'state_id', string= 'Estado en que aplica')
 
 class HrInputs(models.Model):
     _name = 'hr.inputs'

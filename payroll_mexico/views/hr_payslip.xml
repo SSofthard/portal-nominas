@@ -27,6 +27,8 @@
                        <field name="payroll_tax" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
                        <field name="payment_type" attrs="{'invisible': [('type', 'not in', ['perception','other_payment'])],'required': [('type', 'in', ['perception','other_payment'])]}"/>
                        <field name="apply_variable_compute"/>
+                       <field name="country_id" invisible="True"/>
+                       <field name="state_ids" widget="many2many_tags" domain="[('country_id','=',country_id)]" attrs="{'invisible': [('payroll_tax', '!=', True)]}"/>
                     </group>
                 </xpath> 
             </field>
