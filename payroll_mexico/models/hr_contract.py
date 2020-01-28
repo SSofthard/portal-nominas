@@ -295,7 +295,7 @@ class Contract(models.Model):
     def _calculate_integral_salary(self):
         current_date  =  fields.Date.context_today(self)+timedelta(days=1)
         start_date_contract = self.previous_contract_date or self.date_start
-        years_antiquity = self.years_antiquity
+        years_antiquity = self.years_antiquity + 1 if self.days_rest > 0 else self.years_antiquity
         antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',self.employee_id.group_id.antique_table.id)])
         daily_salary = self.wage / self.employee_id.group_id.days if self.employee_id.group_id.days else self.wage / 30
         daily_salary = float("{0:.4f}".format(daily_salary))

@@ -620,7 +620,6 @@ class HrPayslip(models.Model):
     @api.depends('subtotal_amount_untaxed')
     def _compute_integral_variable_salary(self):
         '''Este metodo se utiliza para el cálculo de salario diario integral variable'''
-        perception_types = ['002','007','010','019','020','021','022']
         days_factor = {
                        'daily':1,
                        'weekly':7,
@@ -628,9 +627,8 @@ class HrPayslip(models.Model):
                        'biweekly':15,
                        'monthly':30,
                        }
-        list_percepcions = self.line_ids.filtered(lambda o: o.salary_rule_id.type == 'perception' and
-                                                                o.salary_rule_id.type_perception in perception_types
-                                                                )
+        list_percepcions = self.line_ids.filtered(lambda o: o.salary_rule_id.apply_variable_compute == True
+                                                                and o.salary_rule_id.type == 'perception')
         total_perception = self.get_total_perceptions_to_sv(list_percepcions)
         factor_days = (self.employee_id.group_id.days/30)*days_factor[self.payroll_period]
         self.integral_variable_salary = total_perception/factor_days
@@ -641,18 +639,18 @@ class HrPayslip(models.Model):
          '''
          vals=[]
          for line in lines:
-             if line.salary_rule_id.type_perception == '010':
+             if line.salary_rule_id.type_perception in ['010','049']:
                  print ('''cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
                         ~ Seguro Social, de ser así la cantidad que rebase integrará''')
                  proporcion_percepcion = line.amount/self.contract.salary_var
                  if proporcion_percepcion > 0.1:
                      restante = (line.amount - (self.contract.salary_var*0.1))*line.quantity
                      vals.append(restante)
-             if line.salary_rule_id.type_perception == '019':
+             if line.salary_rule_id.type_perception == '019' and line.salary_rule_id.type_overtime == '02':
                  print ('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
                          exceda de tres horas diarias ni de tres veces en una semana''')
                  vals.append(line.total)
-             if line.salary_rule_id.type_perception == '007':
+             if line.salary_rule_id.type_perception in ['029']:
                  print ('''si su importe no rebasa el 40% del SMGVDF, de lo contrario el excedente se integrará''')
                  minimum_salary = self.company_id.municipality_id.get_salary_min(self.date_from)
                  if line.amount > (minimum_salary*0.40):
@@ -846,7 +844,7 @@ class HrPayslip(models.Model):
         sorted_rule_ids = [id for id, sequence in sorted(rule_ids, key=lambda x:x[1])]
         inputs = self.env['hr.salary.rule'].browse(sorted_rule_ids).mapped('input_ids')
         hr_inputs = self.env['hr.inputs'].browse([])
-        self.input_ids.write({'payslip':False})
+        self.input_ids.write({'payslip':False,'state':'approve'})
         self.input_ids = False
         for contract in contracts:
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
@@ -1433,6 +1431,7 @@ class HrSalaryRule(models.Model):
     settlement = fields.Boolean(string='Settlement structure?')
     salary_rule_taxed_id = fields.Many2one('hr.salary.rule', "Regla (Monto Gravado)", required=False, copy=False)
     code_category_id = fields.Char(related='category_id.code')
+    apply_variable_compute = fields.Boolean(string='Apply for variable salary calculation')
     
 
 class HrInputs(models.Model):

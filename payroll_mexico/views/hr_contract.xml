@@ -82,7 +82,7 @@
 				</xpath>
                 <xpath expr="//group[@name='main_info']" position="after">
 					<group>
-						<field name="integral_salary" string="SDI" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
+						<field name="integral_salary" string="SDI" force_save="1" readonly="True" attrs="{'invisible': [('contracting_regime','!=','02')],'readonly': [('state', 'not in', ('draft'))]}"/>
 					</group>
 					<group string="Other perceptions">
 						<field name="fixed_concepts_ids" attrs="{'readonly': [('state', 'not in', ('draft'))]}">
