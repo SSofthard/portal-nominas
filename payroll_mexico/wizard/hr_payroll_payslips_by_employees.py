@@ -36,19 +36,20 @@ class HrPayslipEmployees(models.TransientModel):
             payslip_run_employees = payslip_run.mapped('slip_ids').mapped('employee_id').ids
         contract=self.env['hr.contract']
         structure_type_id=self.estructure_id.structure_type_id.id
+        if payslip_run:
+            # a contract is valid if it ends between the given dates
+            clause_1 = ['&', ('date_end', '<=', payslip_run.date_end), ('date_end', '>=', payslip_run.date_start)]
+            # OR if it starts between the given dates
+            clause_2 = ['&', ('date_start', '<=', payslip_run.date_end), ('date_start', '>=', payslip_run.date_start)]
+            # OR if it starts before the date_from and finish after the date_end (or never finish)
+            clause_3 = ['&', ('date_start', '<=', payslip_run.date_start), '|', ('date_end', '=', False), ('date_end', '>=', payslip_run.date_end)]
         domain=[
             ('structure_type_id','=',structure_type_id),
             ('employee_id.group_id','=',payslip_run.group_id.id),
             ('contracting_regime','=',self.contracting_regime)
-            ]
+            ,'|', '|'] + clause_1 + clause_2 + clause_3
         if payslip_run.contracting_regime == '02':
             domain.append(('employer_register_id','=',payslip_run.employer_register_id.id))
-        print (domain)
-        print (domain)
-        print (domain)
-        print (domain)
-        print (domain)
-        print (domain)
         employees=contract.search_read(domain,['employee_id','state'])
         employee_ids=[]
         for employee in employees:

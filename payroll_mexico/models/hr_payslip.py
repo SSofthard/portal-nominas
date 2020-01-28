@@ -178,10 +178,10 @@ class HrPayslip(models.Model):
         
         other_payments = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id),('salary_rule_id.type','=','other_payment')])
         
-        other_deduction = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id),('salary_rule_id.type_deduction','not in',['002'])]).mapped('total'))
+        other_deduction = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id),('salary_rule_id.type_deduction','not in',['002'])]).mapped('total'))))
         
        
-        isr_deduction = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id),('salary_rule_id.type_deduction','in',['002'])]).mapped('total'))
+        isr_deduction = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id),('salary_rule_id.type_deduction','in',['002'])]).mapped('total'))))
         
         bank_account = self.env['bank.account.employee'].search([('employee_id','=',self.employee_id.id),('predetermined','=',True),('state','=','active')])
         
@@ -193,27 +193,27 @@ class HrPayslip(models.Model):
             show_total_taxes_withheld = True
         
         
-        perceptions_only = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),('salary_rule_id.type','=','perception'),('slip_id','=',self.id)]).mapped('total'))
-        other_payment_only = sum(other_payments.mapped('total'))
-        subtotal = sum(self.env['hr.payslip.line'].search([('category_id.code','=','GROSS'),('slip_id','=',self.id)]).mapped('total'))
-        discount_amount = sum(self.env['hr.payslip.line'].search([('category_id.code','=','DEDT'),('slip_id','=',self.id)]).mapped('total'))
+        perceptions_only = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),('salary_rule_id.type','=','perception'),('slip_id','=',self.id)]).mapped('total'))))
+        other_payment_only = float("{0:.2f}".format(sum(other_payments.mapped('total'))))
+        subtotal = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','=','GROSS'),('slip_id','=',self.id)]).mapped('total'))))
+        discount_amount = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','=','DEDT'),('slip_id','=',self.id)]).mapped('total'))))
        
-        total_salaries = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
+        total_salaries = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
                                                                     ('salary_rule_id.type','=','perception'),
                                                                     ('slip_id','=',self.id),
-                                                                    ('salary_rule_id.type_perception','not in',['022','023','025','039','044'])]).mapped('total'))
+                                                                    ('salary_rule_id.type_perception','not in',['022','023','025','039','044'])]).mapped('total'))))
         
-        total_separation_compensation = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
+        total_separation_compensation = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
                                                                     ('salary_rule_id.type','=','perception'),
                                                                     ('slip_id','=',self.id),
-                                                                    ('salary_rule_id.type_perception','in',['022','023','025'])]).mapped('total'))
-        total_retirement_pension_retirement = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
+                                                                    ('salary_rule_id.type_perception','in',['022','023','025'])]).mapped('total'))))
+        total_retirement_pension_retirement = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','in',['PERCEPCIONES','PERCEPCIONESPECIE']),
                                                                     ('salary_rule_id.type','=','perception'),
                                                                     ('slip_id','=',self.id),
-                                                                    ('salary_rule_id.type_perception','in',['039','044'])]).mapped('total'))
-        total_taxed = sum(self.env['hr.payslip.line'].search([('category_id.code','=','BRUTOG'),
-                                                                ('slip_id','=',self.id),]).mapped('total'))
-        total = "{0:.2f}".format(subtotal - discount_amount)
+                                                                    ('salary_rule_id.type_perception','in',['039','044'])]).mapped('total'))))
+        total_taxed = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','=','BRUTOG'),
+                                                                ('slip_id','=',self.id),]).mapped('total'))))
+        total = float("{0:.2f}".format(subtotal - discount_amount))
         type_perception = dict(self.env['hr.salary.rule']._fields.get('type_perception').selection)
         days = "{0:.3f}".format(self.env['hr.payslip.worked_days'].search([('code','=','WORK100'),('payslip_id','=',self.id)],limit=1).number_of_days)
         perceptions_list = []
@@ -498,7 +498,7 @@ class HrPayslip(models.Model):
                     
                     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=20, border=4)
                     
-                    url_qr ='https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='+TimbreFiscalDigital.attrib['UUID']+'&re='+values['emitter_rfc']+'&rr='+values['receiver_rfc']+'&tt='+values['amount_total']+'&fe='+TimbreFiscalDigital.attrib['SelloCFD'][-8:]
+                    url_qr ='https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='+TimbreFiscalDigital.attrib['UUID']+'&re='+values['emitter_rfc']+'&rr='+values['receiver_rfc']+'&tt='+str(values['amount_total'])+'&fe='+TimbreFiscalDigital.attrib['SelloCFD'][-8:]
                     qr.add_data(url_qr)
                     qr.make(fit=True)
                     img = qr.make_image()
