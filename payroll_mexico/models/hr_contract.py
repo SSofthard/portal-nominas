@@ -75,20 +75,43 @@ class Contract(models.Model):
     group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
-    
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
-    
     structure_type_id = fields.Many2one('hr.structure.types', string="Structure Types")
 
+    @api.multi
+    def action_open(self):
+        report=self.type_id.report_id
+        if not report and self.contracting_regime == '02':
+            raise ValidationError('You must select the type of contract report in the "Employee category" field.')
+        return self.write({'state': 'open'})
+
+    @api.multi
+    def action_draft(self):
+        return self.write({'state': 'draft'})
+        
+    @api.multi
+    def action_cancel(self):
+        return self.write({'state': 'cancel'})
+
+    @api.multi
+    def action_pending(self):
+        return self.write({'state': 'pending'})
+        
+    def action_close(self):
+        return self.write({'state': 'close'})
+
     
-    def get_monthly_taxable_total(self,date_to,payroll_month):
+    def get_monthly_taxable_total(self,year,month,date_from,date_to):
         taxable = 0
-        day = calendar.monthrange(date_to.year, date_to.month)[1]
-        if day == date_to.day:
+        day = calendar.monthrange(int(year), int(month))[1]
+        date = str(year)+'-'+str(month)+'-'+str(day)
+        date = datetime.strptime(date, '%Y-%m-%d').date()
+        if date_from < date and date_to >= date:
             taxable = sum(self.env['hr.payslip.line'].search([('category_id.code','=','BRUTOG'),
                                                               ('employee_id','=',self.employee_id.id),
                                                               ('contract_id','=',self.id),
-                                                              ('slip_id.payroll_month','=',payroll_month),
+                                                              ('slip_id.payroll_month','=',month),
+                                                              ('slip_id.year','=',year),
                                                               ('slip_id.state','=','done'),]).mapped('total'))
         return taxable
         

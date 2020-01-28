@@ -851,6 +851,7 @@ class HrPayslip(models.Model):
             for input in inputs:
                 amount = 0.0
                 other_input_line = self.env['hr.inputs'].search([('employee_id', '=', employee_id),('input_id', '=', input.id),('state','in',['approve']),('payslip','=',False)])
+                # ~ print (other_input_line)
                 hr_inputs += other_input_line
                 for line in other_input_line:
                     amount += line.amount
