@@ -144,22 +144,34 @@ class WizardComputeSDIVar(models.TransientModel):
                                                             and o.salary_rule_id.type == 'perception')
         print (list_percepcions)
         print (list_percepcions)
-        total_perception = self.get_total_perceptions_to_sv(list_percepcions)
+        total_perception = self.get_total_perceptions_to_sv(list_percepcions,payslips)
         return total_perception
 
-    def get_total_perceptions_to_sv(self, lines):
+    def get_total_perceptions_to_sv(self, lines, payslips):
         '''
         Este metodo permite consultar si la regla aplica según los criterios de evaluación por ley
         '''
         vals = []
         for line in lines:
             if line.salary_rule_id.type_perception in ['010', '049']:
-                print('''cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
+                print('''Asistencia y puntualidad: Cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
                             ~ Seguro Social, de ser así la cantidad que rebase integrará''')
                 proporcion_percepcion = line.amount / self.contract.salary_var
                 if proporcion_percepcion > 0.1:
                     restante = (line.amount - (self.contract.salary_var * 0.1)) * line.quantity
                     vals.append(restante)
+            if line.salary_rule_id.type_perception in ['030', '048']:
+                print('''Alimentacion y Habitación: cuando el importe de cada uno no exceda del 20% del SMGVDF, de ser así la cantidad que rebase integrará''')
+                deductions = payslips.mapped('line_ids').filtered(lambda o: o.salary_rule_id.type_deduction in ['055','061']
+                                                       and o.salary_rule_id.type == 'deductions')
+                SMGVDF = []
+                municipalities = self.env['res.country.state.municipality'].search([('state_id.code', '=', 'DIF')])
+                for municipality in municipalities:
+                    municipality.name
+                    SMGVDF.append(municipality.get_salary_min(fields.Date.context_today(self)))
+                SMGVDF = list(set(SMGVDF))[0]
+                if not sum(deductions.mapped('total')) > (SMGVDF* 0.20):
+                    vals.append(line.total)
             if line.salary_rule_id.type_perception == '019' and line.salary_rule_id.type_overtime == '02':
                 print('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
                              exceda de tres horas diarias ni de tres veces en una semana''')
