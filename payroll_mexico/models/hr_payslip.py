@@ -17,7 +17,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.addons.payroll_mexico.cfdilib_payroll import cfdilib, cfdv32, cfdv33
 
-_logger = logging.getLogger(__name__)
+# ~ _logger = logging.getLogger(__name__)
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
@@ -848,16 +848,16 @@ class HrPayslip(models.Model):
         hr_inputs = self.env['hr.inputs'].browse([])
         self.input_ids.write({'payslip':False,'state':'approve'})
         self.input_ids = False
-        _logger.info(inputs)
+        # ~ _logger.info(inputs)
 
         for contract in contracts:
-            _logger.info(contract)
+            # ~ _logger.info(contract)
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
             for input in inputs:
                 amount = 0.0
                 other_input_line = self.env['hr.inputs'].search([('employee_id', '=', employee_id),('input_id', '=', input.id),('state','in',['approve']),('payslip','=',False)])
                 print (other_input_line)
-                _logger.info(other_input_line)
+                # ~ _logger.info(other_input_line)
                 hr_inputs += other_input_line
                 for line in other_input_line:
                     amount += line.amount
@@ -868,7 +868,7 @@ class HrPayslip(models.Model):
                     'contract_id': contract.id,
                 }
                 res += [input_data]
-            _logger.info(other_input_line)
+            # ~ _logger.info(other_input_line)
             self.input_ids = hr_inputs
             hr_inputs.write({'payslip':True})
         return res
