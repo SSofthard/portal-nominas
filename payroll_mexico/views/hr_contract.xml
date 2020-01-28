@@ -8,33 +8,29 @@
             <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='state']" position="replace">
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open,pending,close,cancel"/>
-                </xpath>
-                <xpath expr="//field[@name='state']" position="after">
-                    <button name="action_draft" type="object" string="Contract Draft" states="cancel" class="btn-primary" confirm="Este contrato podrá ser editado, verifique que los datos son correctos, Desea continuar?"/>
-                    <button name="action_open" type="object" string="Contract Open" states="draft" class="btn-primary" confirm="Al validar el contrato no podrá editarle, verifique que los datos son correctos, Desea continuar?"/>
-                    <button name="action_pending" type="object" string="Contract To Renew" states="open" class="btn-primary" confirm="Este contrato pasará a renovación, verifique que los datos son correctos, Desea continuar?"/>
-                    <button name="action_close" type="object" string="Contract Expired" states="open,pending" class="btn-primary" confirm="Este contrato será archivado, Desea continuar?"/>
-                    <button name="action_cancel" type="object" string="Contract Cancel" states="open,pending" class="btn-primary" confirm="Está cancelando el contrato, verifique que los datos son correctos, Desea continuar?"/>
+                    <button name="action_draft" type="object" string="Back to Draft" states="open" class="btn-primary" confirm="Are you sure you want to go Back to Draft?"/>
+                    <button name="action_open" type="object" string="Process Contract" states="draft" class="btn-primary" confirm="Are you sure you want to Process this Contract?"/>
+                    <button name="action_close" type="object" string="Close Contract" states="open" class="btn-primary" confirm="Are you sure you want to Close this Contract?"/>
                     <button name="print_contract" type="object" string="Print Contract" states="draft,open" class="oe_stat_button"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,close"/>
                 </xpath>
                 <xpath expr="//group[@name='duration_group']" position="replace">
                     <group name="duration_group" string="Contract Terms">
-                        <field name="date_start" attrs="{'readonly': [('state', 'not in', ('draft','pending'))]}"/>
+                        <field name="date_start" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
                         <label for="date_end"/>
                         <div class="o_row">
-                            <field name="date_end" nolabel="1" attrs="{'readonly': [('state', 'not in', ('draft','pending'))]}"/>
+                            <field name="date_end" nolabel="1" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
                             <span class="text-muted">(If fixed-term contract)</span>
                         </div>
                         <field name="trial_date_end" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
-                        <field name="resource_calendar_id" attrs="{'readonly': [('state', 'not in', ('draft','pending'))]}"/>
+                        <field name="resource_calendar_id" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="before">
                     <field name="contracting_regime" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
                 </xpath>
                 <xpath expr="//field[@name='trial_date_end']" position="before">
-                    <field name="previous_contract_date" attrs="{'invisible': [('type_contract', '!=','with_seniority')],'required': [('type_contract', '=','with_seniority')],'readonly': [('state', 'not in', ('draft','pending'))]}"/>
+                    <field name="previous_contract_date" attrs="{'invisible': [('type_contract', '!=','with_seniority')],'required': [('type_contract', '=','with_seniority')],'readonly': [('state', 'not in', ('draft'))]}"/>
 
                     <label for="years_antiquity" string="Antigüedad"/>
                     <div>
@@ -46,7 +42,9 @@
 					<attribute name="attrs">{'invisible': [('contracting_regime','=','05')], 'readonly': [('state', 'not in', ('draft'))]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="after">
-					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('contracting_regime','=','05')],'readonly': [('state', 'not in', ('draft'))]}"/>
+					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]"
+                           options='{"no_open": True, "no_create": True}'
+                           attrs="{'invisible': [('contracting_regime','=','05')],'readonly': [('state', 'not in', ('draft'))],'required': [('contracting_regime', '=', '02'),('state', 'in', ('draft'))]}"/>
                 </xpath>
                 <xpath expr="//div[@class='oe_title']" position="replace">
                     <div class="oe_title" name="title">
@@ -70,10 +68,10 @@
                     <attribute name="attrs">{'readonly': [('state', 'not in', ('draft'))]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='department_id']" position="attributes">
-                    <attribute name="attrs">{'readonly': [('state', 'not in', ('draft','pending'))]}</attribute>
+                    <attribute name="attrs">{'readonly': [('state', 'not in', ('draft'))]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='type_id']" position="attributes">
-                    <attribute name="attrs">{'readonly': [('state', 'not in', ('draft','pending'))]}</attribute>
+                    <attribute name="attrs">{'readonly': [('state', 'not in', ('draft'))]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='struct_id']" position="after">
 					<field name="structure_type_id" required="1" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>

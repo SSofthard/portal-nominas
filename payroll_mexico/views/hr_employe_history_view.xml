@@ -213,21 +213,20 @@
         <field name="model">hr.employee.affiliate.move</field>
         <field name="priority">5</field>
         <field name="arch" type="xml">
-            <form string="Movimientos Afiliatorios">
+            <form string="Affiliation Movements">
                 <header>
 <!--
                     <button name="action_move_draft" states="waiting" string="Volver a Borrador" type="object"/>
 -->
-                    <button name="action_move_waiting" states="draft" string="Validar" type="object"/>
-                    <button name="action_move_approved" states="waiting" string="Validar" type="object" 
-                        confirm="Se aprobaran todos los movimientos afiliatorios seleccionados, luego de esto no se podrá modificar éste registro."/>
-                    <button name="action_print_txt" states="waiting" string="Generar TXT" type="object"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting,approved" />
+                    <button name="action_move_approved" states="draft" string="Validate" type="object" 
+                        confirm="Are you sure you want to validate this record? It cannot be edited.."/>
+                    <button name="action_print_txt" states="draft" string="Generate TXT" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,reported" />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
-                            <field string="Documentos" name="document_count" widget="statinfo"/>
+                            <field string="Documents" name="document_count" widget="statinfo"/>
                         </button>
                     </div>
                     <group>
@@ -242,9 +241,9 @@
                             <field name="date_to"/>
                         </group>
                     </group>
-                    <button name="get_movements" states="draft" string="Buscar Mov. Afiliatorios" type="object" class="btn-primary"/>
+                    <button name="get_movements" states="draft" string="Search Mov. Affiliates" type="object" class="btn-primary"/>
                     <notebook>
-                        <page name="movements" string="Movimientos Afiliatorios">
+                        <page name="movements" string="Affiliation Movements">
                             <newline/>
                             <field name="movements_ids" nolabel="1"/>
                         </page>
@@ -255,7 +254,7 @@
     </record>
     
     <record id="action_hr_employee_affiliate_move2" model="ir.actions.act_window">
-        <field name="name">Movimientos Afiliatorios</field>
+        <field name="name">Affiliation Movements</field>
         <field name="res_model">hr.employee.affiliate.move</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -264,7 +263,7 @@
     </record>
 
     <menuitem
-        name="TXT Movimientos Afiliatorios"
+        name="TXT Affiliation Movements"
         id="menu_action_hr_employee_affiliate_move"
         action="action_hr_employee_affiliate_move2"
         parent="payroll_mexico.menu_hr_employee_affiliate_movements_root"
