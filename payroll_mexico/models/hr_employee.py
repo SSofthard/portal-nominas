@@ -300,6 +300,9 @@ class Employee(models.Model):
             elif zone.zone == 'singlezone':
                 wage_minimum = wage.zone_a
         return wage_minimum
+    
+    def prueba(self):
+        return 19.0
 
     @api.model
     def create(self, vals):

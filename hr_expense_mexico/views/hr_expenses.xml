@@ -44,10 +44,8 @@
                         <field name="other_classification" attrs="{'invisible':[('classification','!=','other')],'required':[('classification','=','other')]}" placeholder="Type classification description"/>
                         <field name="document_type"/>
                         <field name="subtotal_amount" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                        <div class="o_row">
-                            <field name="iva_amount" class="o_row"/>
-                            <span class="oe_inline" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}">%</span>
-                        </div>
+                        <field name="iva_amount" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}"/>
+                        <span class="oe_inline" attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}">%</span>
                         <field name="amount_tax"  attrs="{'invisible':[('document_type','=','remission')], 'required':[('document_type','=','invoice')]}" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                         <field name="total_amount" widget='monetary' readonly="False" options="{'currency_field': 'currency_id'}"/>
                     </group>

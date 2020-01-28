@@ -65,7 +65,12 @@
             </field>
         </record>
 
-        <menuitem name="Indice de precios al consumidor" id="hr_table_index_consume_price_menu" parent="menu_setting_tables" action="hr_table_index_consume_price_act_window"/>
+        <menuitem
+                name="Indice de precios al consumidor"
+                id="hr_table_index_consume_price_menu"
+                parent="hr_payroll.menu_hr_payroll_configuration"
+                action="hr_table_index_consume_price_act_window"
+                sequence="25"/>
 
     </data>
 </odoo>

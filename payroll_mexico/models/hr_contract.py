@@ -8,7 +8,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from .tool_convert_numbers_letters import numero_to_letras
 from datetime import date,datetime,timedelta
 from dateutil.relativedelta import relativedelta
-
+import calendar
 
 class Contract(models.Model):
 
@@ -62,10 +62,7 @@ class Contract(models.Model):
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
     contracting_regime = fields.Selection([
-        # ('01', 'Assimilated to wages'),
         ('02', 'Wages and salaries'),
-        ('03', 'Senior citizens'),
-        ('04', 'Pensioners'),
         ('05', 'Free'),
         ('08', 'Assimilated commission agents'),
         ('09', 'Honorary Assimilates'),
@@ -83,6 +80,35 @@ class Contract(models.Model):
     
     structure_type_id = fields.Many2one('hr.structure.types', string="Structure Types")
 
+    
+    def get_monthly_taxable_total(self,date_to,payroll_month):
+        taxable = 0
+        day = calendar.monthrange(date_to.year, date_to.month)[1]
+        if day == date_to.day:
+            taxable = sum(self.env['hr.payslip.line'].search([('category_id.code','=','BRUTOG'),
+                                                              ('employee_id','=',self.employee_id.id),
+                                                              ('contract_id','=',self.id),
+                                                              ('slip_id.payroll_month','=',payroll_month),
+                                                              ('slip_id.state','=','done'),]).mapped('total'))
+        return taxable
+        
+    def subsidy_paid(self,payroll_month):
+        subsidy = sum(self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),
+                                                          ('salary_rule_id.type_other_payment','=','002'),
+                                                          ('employee_id','=',self.employee_id.id),
+                                                          ('contract_id','=',self.id),
+                                                          ('slip_id.payroll_month','=',payroll_month),
+                                                          ('slip_id.state','=','done'),]).mapped('total'))
+        return subsidy
+        
+    def adjustment_subsidy_caused(self,payroll_month):
+        subsidy = sum(self.env['hr.payslip.line'].search([('salary_rule_id.code','=','UI106'),
+                                                          ('employee_id','=',self.employee_id.id),
+                                                          ('contract_id','=',self.id),
+                                                          ('slip_id.payroll_month','=',payroll_month),
+                                                          ('slip_id.state','=','done'),]).mapped('total'))
+        return subsidy
+        
     @api.multi
     def get_all_structures(self,struct_id):
         """
@@ -249,7 +275,7 @@ class Contract(models.Model):
     def _calculate_integral_salary(self):
         current_date  =  fields.Date.context_today(self)+timedelta(days=1)
         start_date_contract = self.previous_contract_date or self.date_start
-        years_antiquity = self.years_antiquity
+        years_antiquity = self.years_antiquity + 1 if self.days_rest > 0 else self.years_antiquity
         antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',self.employee_id.group_id.antique_table.id)])
         daily_salary = self.wage / self.employee_id.group_id.days if self.employee_id.group_id.days else self.wage / 30
         daily_salary = float("{0:.4f}".format(daily_salary))

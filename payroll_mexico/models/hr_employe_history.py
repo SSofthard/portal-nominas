@@ -53,10 +53,7 @@ class EmployeeAffiliateMovements(models.Model):
         ('approved', 'Approved'),
     ], string='State', default = 'draft')
     contracting_regime = fields.Selection([
-        # ('01', 'Assimilated to wages'),
         ('02', 'Wages and salaries'),
-        ('03', 'Senior citizens'),
-        ('04', 'Pensioners'),
         ('05', 'Free'),
         ('08', 'Assimilated commission agents'),
         ('09', 'Honorary Assimilates'),
@@ -86,10 +83,7 @@ class ChangeOfJob(models.Model):
     date_to = fields.Date(string='Hasta', readonly=True)
     job_id = fields.Many2one('hr.job', string='Puesto de trabajo', readonly=True)
     contracting_regime = fields.Selection([
-        # ('01', 'Assimilated to wages'),
         ('02', 'Wages and salaries'),
-        ('03', 'Senior citizens'),
-        ('04', 'Pensioners'),
         ('05', 'Free'),
         ('08', 'Assimilated commission agents'),
         ('09', 'Honorary Assimilates'),
@@ -176,7 +170,7 @@ class Contract(models.Model):
                     'date':self.previous_contract_date or self.date_start,
                     }
                 if affiliate_movements:
-                    if affiliate_movements.state in ['approved']:
+                    if affiliate_movements.mapped('state') in ['approved']:
                         raise UserError(_('You cannot change the date of discharge of a contract with approved sharpening motion.'))
                     affiliate_movements.write(val)
                 else:
