@@ -1489,3 +1489,8 @@ class HrRuleInput(models.Model):
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', required=True)
     input_id = fields.Many2one('hr.salary.rule', string='Salary Rule Input', required=False)
+    
+class HrPayslipLine(models.Model):
+    _inherit = 'hr.payslip.line'
+    
+    payroll_tax = fields.Boolean('Apply payroll tax?', related='salary_rule_id.payroll_tax', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
