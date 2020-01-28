@@ -29,15 +29,17 @@
     'summary': """
 The new configurable Odoo Web Login Screen
 """,
-    'author': "binhnguyenxuan (www.xubi.me)",
-    'website': 'http://www.xubi.me',
+    'author': "Soluciones Softhard",
+    'website': 'http://www.solucionesofthard.com',
     'license': 'AGPL-3',
     'depends': [
         'web',
-        'web_enterprise'
+        'web_enterprise',
+        'social_media',
     ],
     'data': [
         'templates/assets.xml',
+        'view/res_company_view.xml',
     ],
     'qweb': [
         'templates/base_enterprise.xml',
