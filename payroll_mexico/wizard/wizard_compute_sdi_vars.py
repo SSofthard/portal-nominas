@@ -48,10 +48,17 @@ class WizardComputeSDIVar(models.TransientModel):
         '''
         Este metodo obtiene las lineas de calculos de variables para el cambio de SDI
         '''
+
+
         self.compute_lines.unlink()
         compute_lines = []
         domain_work_center = []
         domain_register = []
+        domain_contract_processed = []
+        contract_processed = self.env['compute.sdi.vars.lines'].search(
+            [('year', '=', self.year), ('bimestre', '=', self.bimestre)]).mapped('contract_id')._ids
+        if len(contract_processed):
+            domain_contract_processed = [('id', 'not in', contract_processed)]
         year = int(self.year)
         months = [(self.bimestre*2),((self.bimestre*2)-1)]
         date_start = date(year, months[1], 1)
@@ -65,7 +72,7 @@ class WizardComputeSDIVar(models.TransientModel):
         if self.contracting_regime:
             domain_work_center = [('contracting_regime', '=', self.contracting_regime)]
         contract_ids = self.env['hr.contract'].search(
-            [('state','=','open'),('employee_id.group_id', '=', self.group_id.id)] + domain_register + domain_work_center)
+            [('state','=','open'),('employee_id.group_id', '=', self.group_id.id),] + domain_register + domain_work_center + domain_contract_processed)
         for contract in contract_ids:
             salary_var = 0.0
             print (contract)
@@ -122,6 +129,19 @@ class WizardComputeSDIVar(models.TransientModel):
                 'state': 'draft',
                 'contracting_regime': '02',
             })
+            if res_id:
+                vals = {
+                    'contract_id': line.contract_id.id,
+                    'employee_id': line.employee_id.id,
+                    'current_sdi': line.current_sdi,
+                    'new_sdi': line.new_sdi,
+                    'days_worked': line.days_worked,
+                    'perceptions_bimonthly': line.perceptions_bimonthly,
+                    'bimestre': self.bimestre,
+                    'year': self.year,
+                }
+                res_calulate_vars_line = self.env['compute.sdi.vars.lines'].create(vals)
+
 
         
         
@@ -244,3 +264,29 @@ class WizardComputeSDIVarLines(models.TransientModel):
     perceptions_bimonthly = fields.Float(string='Percepciones variables durante el bimestre')
     days_worked = fields.Integer(string='Días laborados durante el bimestre')
     compute_form_id = fields.Many2one(comodel_name='wizard.compute.sdi.vars', string='Calculo de variables')
+
+class ComputeSDIVarLines(models.Model):
+    _name = "compute.sdi.vars.lines"
+
+    def _get_selection_year(self):
+        current_year = fields.Date.context_today(self).year
+        list_selection=[]
+        for item in range(current_year-5,current_year+1):
+            list_selection.append((str(item),str(item)))
+        return list_selection
+
+    employee_id = fields.Many2one(comodel_name='hr.employee', string='Empleado')
+    contract_id = fields.Many2one(comodel_name='hr.contract', string='Contrato')
+    current_sdi = fields.Float(string='SDI Actual')
+    new_sdi = fields.Float(string='SDI Nuevo')
+    perceptions_bimonthly = fields.Float(string='Percepciones variables durante el bimestre')
+    days_worked = fields.Integer(string='Días laborados durante el bimestre')
+    history_id = fields.Many2one(comodel_name='hr.employee.affiliate.movements', string='Affiliates move')
+    bimestre = fields.Selection([
+        (1, 'Enero - Febrero'),
+        (2, 'Marzo - Abril'),
+        (3, 'Mayo - Junio'),
+        (4, 'Julio - Agosto'),
+        (5, 'Septiembre - Octubre'),
+        (6, 'Noviembre - Diciembre'),],string = 'Bimestre', required=True)
+    year = fields.Selection(_get_selection_year, string='Año', required=True)
