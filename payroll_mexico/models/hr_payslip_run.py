@@ -40,7 +40,7 @@ class HrPayslipRun(models.Model):
             ('10', 'October'),
             ('11', 'November'),
             ('12', 'December')], 
-            string='Payroll month', 
+            string='Payroll month',
             required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
@@ -100,7 +100,7 @@ class HrPayslipRun(models.Model):
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
     generated = fields.Boolean('Generated', default=False)
     group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
-    payment_date = fields.Date(string='Fecha de pago',
+    payment_date = fields.Date(string='Fecha de pago', required=True,
         readonly=True, states={'draft': [('readonly', False)]})
 
     @api.one
@@ -286,7 +286,8 @@ class HrPayslipRun(models.Model):
     def _compute_acumulated_tax_amount(self):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
         current_year = fields.Date.context_today(self).year
-        payslips_current_month = self.search([('payroll_month','=',self.payroll_month)]).filtered(lambda sheet: sheet.date_start.year == current_year)
+        domain = [('group_id','=', self.group_id.id)]
+        payslips_current_month = self.search([('payroll_month','=',self.payroll_month)] + domain).filtered(lambda sheet: sheet.date_start.year == current_year)
         total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
         acumulated_subtotal_amount =  sum(payslips_current_month.mapped('subtotal_amount_untaxed'))
         payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated,
