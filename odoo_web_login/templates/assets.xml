@@ -11,6 +11,8 @@
 
         <menuitem id="hr_attendance.menu_hr_attendance_my_attendances"
             active="False"/>
+        <menuitem id="hr_attendance.menu_hr_attendance_kiosk_mode"
+            active="False"/>
 
     </data>
 </odoo>
