@@ -101,6 +101,28 @@ class Contract(models.Model):
         return self.write({'state': 'close'})
 
     
+    def compensation_20_days(self,payslip,SDI):
+        compensation = 0
+        if int(payslip.years_antiquity) == 0:
+            compensation = (payslip.days_rest/2)*float(SDI)
+        else:
+            if payslip.contract_id.type_id.code in ['02','03']:
+                for i in range(1,int(payslip.years_antiquity)+1):
+                    if i == 1:
+                        compensation += float(SDI)*180
+                    else:
+                        compensation += 20*float(SDI)
+                if payslip.days_rest > 0:
+                    proportion_days = (payslip.days_rest * 20)/365
+                    compensation += proportion_days*float(SDI)
+            else:
+                for i in range(1,int(payslip.years_antiquity)+1):
+                    compensation += 20*float(SDI)
+                if payslip.days_rest > 0:
+                    proportion_days = (payslip.days_rest * 20)/365
+                    compensation += proportion_days*float(SDI)
+        return compensation
+                                                              
     def get_monthly_taxable_total(self,year,month,date_from,date_to):
         taxable = 0
         day = calendar.monthrange(int(year), int(month))[1]
