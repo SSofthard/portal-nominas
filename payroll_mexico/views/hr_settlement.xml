@@ -76,6 +76,7 @@
                     <field name="payroll_period"/>
                     <field name="reason_liquidation" attrs="{'required':[('settlement','!=',False)]}"/>
                     <field name="group_id"/>
+                    <field name="payment_date"/>
                     <field name="settlemen_date" attrs="{'required':[('settlement','!=',False)]}"/>
                     <field name="payroll_month" invisible="1"/>
                     <field name="payroll_of_month" invisible="1"/>
@@ -200,6 +201,56 @@
                         <div colspan="4">
                             <field name="note" placeholder="Add an internal note..."/>
                         </div>
+                   </page>
+                   <page string="CFDI">
+					   <group>
+							<group string="Datos CFDI">
+								<field name="way_pay" readonly="1"/>
+								<field name="type_voucher" string="Tipo de comprobante" readonly="1"/>
+								<field name="payment_method" readonly="1"/>
+								<field name="cfdi_use" readonly="1"/>
+							 </group>
+							 <group string="CFDI Relacionado">
+								<field name="type_related_cfdi"/>
+								<field name="uuid" attrs="{'invisible': [('type_related_cfdi', '!=', '04')],'required': [('type_related_cfdi', '=', '04')]}"/>
+							 </group>
+					   </group>
+					   <group string="Detalles">
+							<field name="invoice_status"/>
+							<field name="certificate_number"/>
+							<field name="certificate_number_emisor"/>
+							<field name="cfdi_issue_date"/>
+							<field name="invoice_date"/>
+							<field name="UUID_sat"/>
+							<field name="xml_timbre"/>
+							<field name="qr_timbre"/>
+							<field name="pdf"/>
+							<field name="stamp_cfd" invisible="1" readonly="True"/>
+							<field name="stamp_sat" invisible="1" readonly="True"/>
+							<field name="original_string" invisible="1" readonly="True"/>
+						 </group>
+					   <group string="Error en Timbrado" attrs="{'invisible': [('invoice_status', '!=', 'problemas_factura')]}">
+							<field name="code_error"/>
+							<field name="error"/>
+						 </group>
+					   <group string="Detalles Separación e Indemnización">
+							<field name="invoice_status_si"/>
+							<field name="certificate_number_si"/>
+							<field name="certificate_number_emisor_si"/>
+							<field name="cfdi_issue_date_si"/>
+							<field name="invoice_date_si"/>
+							<field name="UUID_sat_si"/>
+							<field name="xml_timbre_si"/>
+							<field name="qr_timbre_si"/>
+							<field name="pdf_is"/>
+							<field name="stamp_cfd_si" invisible="1" readonly="True"/>
+							<field name="stamp_sat_si" invisible="1" readonly="True"/>
+							<field name="original_string_si" invisible="1" readonly="True"/>
+						 </group>
+					   <group string="Error en Timbrado" attrs="{'invisible': [('invoice_status_si', '!=', 'problemas_factura')]}">
+							<field name="code_error_si"/>
+							<field name="error_si"/>
+						 </group>
                    </page>
                 </notebook>
                 </sheet>

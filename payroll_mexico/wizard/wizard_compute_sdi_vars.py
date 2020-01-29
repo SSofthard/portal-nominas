@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import calendar
 
+from datetime import date, datetime, time, timedelta
 from odoo import api, fields, models, _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.exceptions import UserError, ValidationError
@@ -13,7 +15,7 @@ class WizardComputeSDIVar(models.TransientModel):
         current_year = fields.Date.context_today(self).year
         list_selection=[]
         for item in range(current_year-5,current_year+1):
-            list_selection.append((item,str(item)))
+            list_selection.append((str(item),str(item)))
         return list_selection
 
     bimestre = fields.Selection([
@@ -38,7 +40,7 @@ class WizardComputeSDIVar(models.TransientModel):
     compute_lines = fields.One2many(comodel_name='wizard.compute.sdi.vars.lines', inverse_name='compute_form_id', string='Calculos')
     # employee_ids = fields.Many2many(comodel_name='hr.employee', string='Empleados')
     computed = fields.Boolean(string="Calculado")
-    year = fields.Selection(_get_selection_year, string='Año')
+    year = fields.Selection(_get_selection_year, string='Año', required=True)
 
     
     @api.multi
@@ -50,7 +52,12 @@ class WizardComputeSDIVar(models.TransientModel):
         compute_lines = []
         domain_work_center = []
         domain_register = []
+        year = int(self.year)
         months = [(self.bimestre*2),((self.bimestre*2)-1)]
+        date_start = date(year, months[1], 1)
+        last_day = calendar.monthrange(year, months[0])[1]
+        date_end = date(year, months[0], last_day) + timedelta(days=1)
+        days_bimestre = (date_end - date_start).days
         if self.employer_register_id:
             domain_register = [('employee_id.employer_register_id', '=', self.employer_register_id.id)]
         if self.work_center_id:
@@ -60,7 +67,6 @@ class WizardComputeSDIVar(models.TransientModel):
         contract_ids = self.env['hr.contract'].search(
             [('state','=','open'),('employee_id.group_id', '=', self.group_id.id)] + domain_register + domain_work_center)
         for contract in contract_ids:
-
             salary_var = 0.0
             print (contract)
             print (contract)
@@ -71,7 +77,7 @@ class WizardComputeSDIVar(models.TransientModel):
             payslips = self.env['hr.payslip'].search([('state','=','done'),
                                                       ('payroll_month','in',months),
                                                       ('contract_id', '=', contract.id),
-                                                      # ('year','=',self.year),
+                                                      ('year','=',year),
                                                       # ('payroll_type','=','O'),
                                                       ])
             print (payslips)
@@ -83,8 +89,8 @@ class WizardComputeSDIVar(models.TransientModel):
                 'contract_id':contract.id,
                 'employee_id':contract.employee_id.id,
                 'current_sdi':contract.integral_salary,
-                'new_sdi':contract.integral_salary+(salary_var/61) if  salary_var > 0 else contract._get_integral_salary(),
-                'days_worked':61,
+                'new_sdi':contract.integral_salary+(salary_var/days_bimestre) if  salary_var > 0 else contract._get_integral_salary(),
+                'days_worked':days_bimestre,
                 'perceptions_bimonthly':salary_var,
             }
             compute_lines.append(vals)
@@ -144,22 +150,34 @@ class WizardComputeSDIVar(models.TransientModel):
                                                             and o.salary_rule_id.type == 'perception')
         print (list_percepcions)
         print (list_percepcions)
-        total_perception = self.get_total_perceptions_to_sv(list_percepcions)
+        total_perception = self.get_total_perceptions_to_sv(list_percepcions,payslips)
         return total_perception
 
-    def get_total_perceptions_to_sv(self, lines):
+    def get_total_perceptions_to_sv(self, lines, payslips):
         '''
         Este metodo permite consultar si la regla aplica según los criterios de evaluación por ley
         '''
         vals = []
         for line in lines:
             if line.salary_rule_id.type_perception in ['010', '049']:
-                print('''cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
+                print('''Asistencia y puntualidad: Cuando el importe de cada uno no exceda del 10% del último SBC comunicado al
                             ~ Seguro Social, de ser así la cantidad que rebase integrará''')
                 proporcion_percepcion = line.amount / self.contract.salary_var
                 if proporcion_percepcion > 0.1:
                     restante = (line.amount - (self.contract.salary_var * 0.1)) * line.quantity
                     vals.append(restante)
+            if line.salary_rule_id.type_perception in ['030', '048']:
+                print('''Alimentacion y Habitación: cuando el importe de cada uno no exceda del 20% del SMGVDF, de ser así la cantidad que rebase integrará''')
+                deductions = payslips.mapped('line_ids').filtered(lambda o: o.salary_rule_id.type_deduction in ['055','061']
+                                                       and o.salary_rule_id.type == 'deductions')
+                SMGVDF = []
+                municipalities = self.env['res.country.state.municipality'].search([('state_id.code', '=', 'DIF')])
+                for municipality in municipalities:
+                    municipality.name
+                    SMGVDF.append(municipality.get_salary_min(fields.Date.context_today(self)))
+                SMGVDF = list(set(SMGVDF))[0]
+                if not sum(deductions.mapped('total')) > (SMGVDF* 0.20):
+                    vals.append(line.total)
             if line.salary_rule_id.type_perception == '019' and line.salary_rule_id.type_overtime == '02':
                 print('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
                              exceda de tres horas diarias ni de tres veces en una semana''')
@@ -173,6 +191,7 @@ class WizardComputeSDIVar(models.TransientModel):
             else:
                 vals.append(line.total)
         return sum(vals)
+
 
 
 class WizardComputeSDIVarLines(models.TransientModel):

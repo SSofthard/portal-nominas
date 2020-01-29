@@ -110,7 +110,7 @@
     {% endif %}
     
     
-    {% for pay in inv.payroll %}
+    {% set pay = inv.payroll %}
 		<cfdi:Complemento>
 			<nomina12:Nomina
 				Version="1.2"
@@ -252,7 +252,6 @@
 				{% endif %}
 			</nomina12:Nomina>
 		</cfdi:Complemento>
-    {% endfor %}
     
     
     
