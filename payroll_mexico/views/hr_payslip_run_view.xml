@@ -58,7 +58,7 @@
                 </xpath> 
                 <xpath expr="//header" position="inside">
 <!--
-                    <button name="test_print_report" string="Test Report" type="object" class="o_sale_print"/>
+                    <button name="get_xls_bank" string="Get XLS" type="object" class="o_sale_print"/>
 -->
                     <button name="print_payroll_deposit_report" string="Payroll Deposit Report" type="object" states="close" class="o_sale_print"/>
                     <button name="print_fault_report" string="Reporte de faltas" type="object" class="o_sale_print" attrs="{'invisible': [('payroll_type','!=','O')]}"/>
