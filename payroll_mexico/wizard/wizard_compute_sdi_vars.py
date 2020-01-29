@@ -85,7 +85,7 @@ class WizardComputeSDIVar(models.TransientModel):
                                                       ('payroll_month','in',months),
                                                       ('contract_id', '=', contract.id),
                                                       ('year','=',year),
-                                                      # ('payroll_type','=','O'),
+                                                      ('payroll_type','=','O'),
                                                       ])
             print (payslips)
             print (payslips)
