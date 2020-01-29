@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 
+import xlsxwriter
+import base64
+import pandas as pd
+import io
+import os
 
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
-
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+from xlrd import open_workbook
+from pytz import timezone
 from datetime import datetime
+from xlutils.copy import copy
+
+from odoo import api, fields, models, tools, modules, _
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
 class HrPayslipRun(models.Model):
@@ -14,10 +22,7 @@ class HrPayslipRun(models.Model):
     
     estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', required=True)
     contracting_regime = fields.Selection([
-        # ('01', 'Assimilated to wages'),
         ('02', 'Wages and salaries'),
-        ('03', 'Senior citizens'),
-        ('04', 'Pensioners'),
         ('05', 'Free'),
         ('08', 'Assimilated commission agents'),
         ('09', 'Honorary Assimilates'),
@@ -43,7 +48,7 @@ class HrPayslipRun(models.Model):
             ('10', 'October'),
             ('11', 'November'),
             ('12', 'December')], 
-            string='Payroll month', 
+            string='Payroll month',
             required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
@@ -103,8 +108,66 @@ class HrPayslipRun(models.Model):
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
     generated = fields.Boolean('Generated', default=False)
     group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
-    payment_date = fields.Date(string='Fecha de pago',
+    payment_date = fields.Date(string='Fecha de pago', required=True,
         readonly=True, states={'draft': [('readonly', False)]})
+    
+    def get_data_bank(self):
+        """ Function doc """
+        line_data = []
+        domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
+        lines_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.code == 'T001')
+        for line in lines_ids:
+            line_data.append({
+                'employee_number': line.slip_id.employee_id.enrollment,
+                'last_name': line.slip_id.employee_id.last_name,
+                'mothers_last_name': line.slip_id.employee_id.mothers_last_name,
+                'name': line.slip_id.employee_id.name,
+                'bank_account': line.slip_id.employee_id.get_bank().bank_account if line.slip_id.employee_id.get_bank() else '',
+                'total': line.total,
+                'id_concept': '01 PAGO DE NOMINA',
+            })
+        return sorted(line_data, key=lambda k: k['employee_number'])
+    
+    def get_xls_bank(self):
+        """ Function doc """
+        data_rows = self.get_data_bank()
+        file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'layout.xls')
+        # ~ with open(file_xls, 'rb') as f:
+            # ~ file_read = f.read()
+        rb = open_workbook(file_xls, formatting_info=True)
+        wb = copy(rb)
+        sheet = wb.get_sheet(0)
+        row = 6
+        row += 1
+        start_row = row
+        for i, h in enumerate(data_rows):
+            i += row
+            sheet.write(i, 2, h.get('employee_number'))
+            sheet.write(i, 3, h.get('last_name'))
+            sheet.write(i, 4, h.get('mothers_last_name'))
+            sheet.write(i, 5, h.get('name'))
+            sheet.write(i, 6, h.get('bank_account'))
+            sheet.write(i, 7, h.get('total'))
+            sheet.write(i, 8, h.get('id_concept'))
+        row = i
+        # ~ c = sheet.cell(row+1, 2)
+        # ~ xf = sheet.book.xf_list[c.xf_index]
+        # ~ fmt_obj = sheet.book.format_map[xf.format_key]
+        # ~ print (repr(c.value), c.ctype, fmt_obj.type, fmt_obj.format_key, fmt_obj.format_str)
+        wb.save('/home/jpernia/Workspace/addons_mexico/payroll_mexico/static/src/layout/jeison.xls')
+        
+        # ~ print (rb)
+        # ~ workbook.close()
+        # ~ xlsx_data = file_read.getvalue()
+        # ~ export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsx'})
+        # ~ return {
+            # ~ 'view_mode': 'form',
+            # ~ 'res_id': export_id.id,
+            # ~ 'res_model': 'hr.payslip.run.export.excel',
+            # ~ 'view_type': 'form',
+            # ~ 'type': 'ir.actions.act_window',
+            # ~ 'target': 'new',
+        # ~ }
 
     @api.one
     @api.depends('date_start')
@@ -289,7 +352,8 @@ class HrPayslipRun(models.Model):
     def _compute_acumulated_tax_amount(self):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
         current_year = fields.Date.context_today(self).year
-        payslips_current_month = self.search([('payroll_month','=',self.payroll_month)]).filtered(lambda sheet: sheet.date_start.year == current_year)
+        domain = [('group_id','=', self.group_id.id)]
+        payslips_current_month = self.search([('payroll_month','=',self.payroll_month)] + domain).filtered(lambda sheet: sheet.date_start.year == current_year)
         total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
         acumulated_subtotal_amount =  sum(payslips_current_month.mapped('subtotal_amount_untaxed'))
         payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated,

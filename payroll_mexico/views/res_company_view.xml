@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
     <data>
-        <record id="view_company_form_inherit" model="ir.ui.view">
+        <record id="view_company_form_inherit23" model="ir.ui.view">
             <field name="name">company.form.inherit.view</field>
             <field name="model">res.company</field>
             <field name="type">form</field>
@@ -263,11 +263,20 @@
                 <xpath expr="//field[@name='vat']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
+                <xpath expr="//div[@class='oe_button_box']" position="replace">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                </xpath>
                 <xpath expr="//field[@name='function']" position="before">
                     <field name="notary_public_number" attrs="{'invisible': [('public_notary','=', False)],'required': [('public_notary','=', True)],}"/>
                 </xpath>
                 <xpath expr="//page[@name='sales_purchases']" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|','|',('public_notary','=', True),('notary_public','=', True),('branch_offices','=', True)]}</attribute>
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='phone']" position="attributes">
                     <attribute name="widget">mask</attribute>
@@ -327,6 +336,8 @@
                     <attribute name="widget">mask</attribute>
                     <attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
                 </xpath>
+                <xpath expr="//sheet/group[last()]" position="replace">
+                </xpath>
                 <xpath expr="//field[@name='mobile']" position="attributes">
                     <attribute name="widget">mask</attribute>
                     <attribute name="data-inputmask">'mask': '9', 'repeat': 13, 'greedy' : false</attribute>
@@ -345,6 +356,17 @@
                         <field name="street" placeholder="Street..." class="o_address_street"/>
                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                     </div>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="res_partner_view_form_inherit1" model="ir.ui.view">
+            <field name="name">res.partner.property.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='accounting']" position="replace">
                 </xpath>
             </field>
         </record>

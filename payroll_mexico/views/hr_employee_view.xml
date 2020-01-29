@@ -329,7 +329,7 @@
                                 <field name="company_id" options='{"no_open": True, "no_create": True}'/>
                                 <button name="%(action_hr_employee_contract)d" string="Generate contracts" class="oe_highlight" type="action" groups="hr.group_hr_user"/>
                             </group>
-                            <group string="Assimilated contract">
+                            <group string="Assimilated contract" attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)]}">
                                 <field name="contracting_regime" attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)],'required': [('assimilated_salary_gross', '>', 0)]}"/>
                                 <field name="company_assimilated_id" options='{"no_open": True, "no_create": True}' domain="[('id', '!=', company_id)]"
                                     attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)],'required': [('assimilated_salary_gross', '>', 0)]}"/>
