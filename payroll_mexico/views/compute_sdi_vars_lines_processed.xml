@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="compute_sdi_vars_lines_tree_view" model="ir.ui.view">
+            <field name="name">compute.sdi.vars.lines.tree.view</field>
+            <field name="model">compute.sdi.vars.lines</field>
+            <field name="arch" type="xml">
+                <tree string="Calculos SDI bimestre procesados" create="false">
+                    <field name="employee_id"/>
+                    <field name="contract_id"/>
+                    <field name="perceptions_bimonthly"/>
+                    <field name="current_sdi"/>
+                    <field name="new_sdi"/>
+                    <field name="days_worked"/>
+                    <field name="bimestre"/>
+                    <field name="year"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="compute_sdi_vars_lines_act_window" model="ir.actions.act_window">
+            <field name="name">Calculos SDI bimestre procesados</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">compute.sdi.vars.lines</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new ModelTitle.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Calculos de variables procesados"
+                  id="compute_sdi_vars_lines_menu"
+                  parent="hr_payroll.menu_hr_payroll_configuration"
+                  action="compute_sdi_vars_lines_act_window"/>
+
+    </data>
+</odoo>
