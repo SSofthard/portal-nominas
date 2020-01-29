@@ -271,7 +271,8 @@
                                     </tr>
                                     <tr>
                                         <td class="text-left">
-                                            <span t-field="o.UUID_sat"/>
+                                            <span t-if="data['values']['payroll']['compensation'] == False" t-field="o.UUID_sat"/>
+                                            <span t-if="data['values']['payroll']['compensation'] == True" t-field="o.UUID_sat_si"/>
                                         </td>
                                         <td class="text-left">
                                             <span t-field="o.certificate_number"/>
