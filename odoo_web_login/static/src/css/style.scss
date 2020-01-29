@@ -235,3 +235,38 @@ a:hover {
 .o_field_widget.o_field_image .o_form_image_controls {
     background-color: $brand-secondary;
 }
+
+//datepicker
+
+.datepicker {
+    .table-sm {
+        > thead {
+            color: white;
+            background-color: $brand-secondary;
+
+            > tr {
+                &:first-child {
+                    th:hover {
+                        color: white;
+                        background-color: darken($brand-primary, 30%);
+                    }
+                }
+            }
+        }
+
+        > tbody {
+            > tr {
+                > td {
+                    &.active, .active {
+                        background-color: darken($brand-secondary, 30%);
+                        border-radius: 100px;
+                    }
+
+                    &.today:before {
+                        border-bottom-color: $brand-secondary;
+                    }
+                }
+            }
+        }
+    }
+}
