@@ -34,7 +34,7 @@
 
         <menuitem name="Calculos de variables procesados"
                   id="compute_sdi_vars_lines_menu"
-                  parent="hr_payroll.menu_hr_payroll_configuration"
+                  parent="menu_compute_sdi_vars"
                   action="compute_sdi_vars_lines_act_window"/>
 
     </data>
