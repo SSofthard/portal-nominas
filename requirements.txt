@@ -4,4 +4,5 @@ xlrd==1.2.0;
 pandas==0.25.3;
 qrcode;
 imgkit;
+xlutils;
 git+https://github.com/mcepl/M2Crypto@master
