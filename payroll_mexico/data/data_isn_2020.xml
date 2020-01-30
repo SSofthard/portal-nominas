@@ -199,21 +199,21 @@
         </record>
 
         <!-- ISN 2019 by state Campeche range -->
-        <record id="isn_line_state_mx_camp2020" model="hr.isn.range.line">
+        <record id="isn_line_state_mx_camp1" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2020"/>
             <field name="lim_inf">0.01</field>
             <field name="lim_sup">252625.00</field>
             <field name="c_fija">0.00</field>
             <field name="s_excedente">2.00</field>
         </record>
-        <record id="isn_line_state_mx_camp20201" model="hr.isn.range.line">
+        <record id="isn_line_state_mx_camp2" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2020"/>
             <field name="lim_inf">252626.00</field>
             <field name="lim_sup">525752.00</field>
             <field name="c_fija">5052.50</field>
             <field name="s_excedente">2.20</field>
         </record>
-        <record id="isn_line_state_mx_camp20202" model="hr.isn.range.line">
+        <record id="isn_line_state_mx_camp3" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2020"/>
             <field name="lim_inf">525753.00</field>
             <field name="lim_sup">2520124.00</field>
