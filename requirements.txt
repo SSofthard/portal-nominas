@@ -5,4 +5,5 @@ pandas==0.25.3;
 qrcode;
 imgkit;
 xlutils;
+openpyxl;
 git+https://github.com/mcepl/M2Crypto@master

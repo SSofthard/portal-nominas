@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import xlsxwriter
 import base64
 import pandas as pd
 import io
@@ -8,7 +7,6 @@ import os
 
 from pytz import timezone
 from datetime import datetime
-from xlutils.copy import copy
 from openpyxl import load_workbook
 
 from odoo import api, fields, models, tools, modules, _
