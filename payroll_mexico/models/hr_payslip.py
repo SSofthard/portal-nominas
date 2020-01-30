@@ -65,7 +65,8 @@ class HrPayslip(models.Model):
             ('02', 'Weekly'),
             ('10', 'Decennial'),
             ('04', 'Biweekly'),
-            ('05', 'Monthly')], 
+            ('05', 'Monthly'),
+            ('99', 'Otra Peridiocidad'),], 
             string='Payroll period', 
             default="04",
             required=True,
@@ -183,6 +184,8 @@ class HrPayslip(models.Model):
     error_si = fields.Char(string='Error', readonly=True)
     qr_timbre_si = fields.Binary(string="Qr", readonly=True)
     pdf_is = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False, readonly=True)
+    filename_si = fields.Char(string='Filename', related="pdf_is.name", copy=False, readonly=True)
+    filedata_si = fields.Binary(string='Filedatas', related="pdf_is.datas", copy=False, readonly=True)
     
     def overtime(self,type_overtime):
         days = 0
@@ -219,7 +222,9 @@ class HrPayslip(models.Model):
         
         subtotal = perceptions_only + other_payment_only
         discount_amount = float("{0:.2f}".format(sum(deduction.mapped('total'))))
-        
+        # ~ if discount_amount == 0:
+            # ~ discount_amount = ''
+            
         total_salaries = float("{0:.2f}".format(sum(perceptions_ordinary.mapped('total'))))
         
         total_taxed = float("{0:.2f}".format(sum(self.env['hr.payslip.line'].search([('category_id.code','=','BRUTOG'),('slip_id','=',self.id),]).mapped('total'))))
@@ -298,7 +303,7 @@ class HrPayslip(models.Model):
             'certificate_number': '',
             'certificate': '',
             'subtotal': "{0:.2f}".format(subtotal),
-            'discount_amount': "{0:.2f}".format(discount_amount),
+            'discount_amount': discount_amount,
             'currency': 'MXN',
             'rate': '1',
             'amount_total': total,
@@ -315,7 +320,7 @@ class HrPayslip(models.Model):
             'invoice_lines': [{
                 'price_unit': "{0:.2f}".format(subtotal),
                 'subtotal_wo_discount': "{0:.2f}".format(subtotal),
-                'discount': "{0:.2f}".format(discount_amount),
+                'discount': discount_amount,
             }],
             'taxes': {
                 'total_transferred': '0.00',
@@ -499,7 +504,7 @@ class HrPayslip(models.Model):
             'certificate_number': '',
             'certificate': '',
             'subtotal': "{0:.2f}".format(subtotal),
-            'discount_amount': "{0:.2f}".format(discount_amount),
+            'discount_amount':discount_amount,
             'currency': 'MXN',
             'rate': '1',
             'amount_total': total,
@@ -516,7 +521,7 @@ class HrPayslip(models.Model):
             'invoice_lines': [{
                 'price_unit': "{0:.2f}".format(subtotal),
                 'subtotal_wo_discount': "{0:.2f}".format(subtotal),
-                'discount': "{0:.2f}".format(discount_amount),
+                'discount': discount_amount,
             }],
             'taxes': {
                 'total_transferred': '0.00',
@@ -569,7 +574,6 @@ class HrPayslip(models.Model):
                 'compensation_paid': total_separation_compensation,
                 'compensation_years': self.years_antiquity,
                 'compensation_last_salary': self.contract_id.wage,
-                'compensation_no_cumulative': total_separation_compensation - self.contract_id.wage,
                 'compensation': True,
             },
         }
@@ -590,6 +594,14 @@ class HrPayslip(models.Model):
             compensation_cumulative = self.contract_id.wage
         else:
             compensation_cumulative = total_separation_compensation
+        
+        if total_separation_compensation - self.contract_id.wage > 0:
+            data['payroll']['compensation_no_cumulative'] = total_separation_compensation - self.contract_id.wage
+        else:
+            data['payroll']['compensation_no_cumulative'] = 0
+            
+            
+            
         data['payroll']['compensation_cumulative'] = compensation_cumulative
         if self.employee_id.deceased:
             data['receiver_rfc'] = 'XAXX010101000'
@@ -1039,6 +1051,18 @@ class HrPayslip(models.Model):
                 self.id) + "&filename_field=filename&field=filedata&download=true&filename=" + self.filename,
             'target': 'new',
         }
+        
+    @api.multi
+    def get_pdf_cfdi_si(self):
+        if not self.pdf:
+            raise UserError(_("The payroll is not stamped."))
+        return {
+            'name': 'CFDI',
+            'type': 'ir.actions.act_url',
+            'url': "web/content/?model=" + self._name +"&id=" + str(
+                self.id) + "&filename_field=filename&field=filedata_si&download=true&filename=" + self.filename_si,
+            'target': 'new',
+        }
 
     @api.multi
     def print_payroll_receipt(self):
@@ -1152,18 +1176,13 @@ class HrPayslip(models.Model):
         hr_inputs = self.env['hr.inputs'].browse([])
         self.input_ids.write({'payslip':False,'state':'approve'})
         self.input_ids = False
-        _logger.info(inputs)
 
         for contract in contracts:
-            _logger.info(contract)
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
-            _logger.info(employee_id)
             for input in inputs:
-                _logger.info(input)
                 amount = 0.0
                 other_input_line = self.env['hr.inputs'].search([('employee_id', '=', employee_id),('input_id', '=', input.id),('state','in',['approve']),('payslip','=',False)])
                 print (other_input_line)
-                _logger.info(other_input_line)
                 hr_inputs += other_input_line
                 for line in other_input_line:
                     amount += line.amount
@@ -1174,7 +1193,6 @@ class HrPayslip(models.Model):
                     'contract_id': contract.id,
                 }
                 res += [input_data]
-            _logger.info(other_input_line)
             self.input_ids = hr_inputs
             hr_inputs.write({'payslip':True})
         return res
@@ -1416,6 +1434,7 @@ class HrPayslip(models.Model):
                 '02': 7,
                 '10': 10,
                 '01': 1,
+                '99': 1,
                                 }
             period = self.payroll_period
             if payroll_period:
@@ -1465,7 +1484,8 @@ class HrPayslip(models.Model):
             res.append(count_days_weeks)
             res.append(attendances)
             res.append(prima_dominical)
-            res.extend(leaves.values())
+            if self.payroll_period == 'O' or self.settlement == True: 
+                res.extend(leaves.values())
         return res
         
     @api.onchange('contract_id')

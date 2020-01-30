@@ -61,7 +61,8 @@ class HrPayslipRun(models.Model):
             ('02', 'Weekly'),
             ('10', 'Decennial'),
             ('04', 'Biweekly'),
-            ('05', 'Monthly')], 
+            ('05', 'Monthly'),
+            ('99', 'Otra Peridiocidad'),], 
             string='Payroll period', 
             default="04",
             required=True,
@@ -117,6 +118,14 @@ class HrPayslipRun(models.Model):
         '''
         return self.env.ref('payroll_mexico.report_payslip_run_template').report_action(self, {})
 
+    @api.onchange('payroll_period','payroll_type')
+    def payroll_period_extraordinary(self):
+        if self.payroll_type == 'E':
+            self.payroll_period = '99'
+        if self.payroll_type == 'O':
+            if self.payroll_period == '99':
+                self.payroll_period = ''
+            
     @api.onchange('apply_honorarium')
     def onchange_apply_honorarium(self):
         if not self.apply_honorarium:
