@@ -261,22 +261,43 @@ class Contract(models.Model):
     def time_worked_year(self,date_payroll,settlement=None):
         date_from = self.date_start
         date_to = self.date_end
+        print (date_from)
+        print (date_to)
         days = 0
         if self.type_id.type == 'with_seniority':
             date_from = self.previous_contract_date
         date1 =datetime.strptime(str(str(date_payroll.year)+'-01-01'), DEFAULT_SERVER_DATE_FORMAT).date()
+        print (date1)
         if date_from <= date1:
+            print (8888)
+            print (8888)
+            print (8888)
+            print (8888)
             days = 365
             if settlement:
                 date2 =datetime.strptime(str(str(date_payroll.year)+'-01-01'), DEFAULT_SERVER_DATE_FORMAT).date()
                 days =  (date_to - date2).days
         else:
+            print (9999)
+            print (9999)
+            print (9999)
+            print (9999)
+            print (9999)
             if not settlement:
                 date2 =datetime.strptime(str(str(date_payroll.year)+'-12-31'), DEFAULT_SERVER_DATE_FORMAT).date()
                 days = (date2 - date_from).days
             else:
+                print ('estoy por aca')
+                print ('estoy por aca')
+                print ('estoy por aca')
+                print ('estoy por aca')
                 days = (date_to - date_from).days
         
+        print (days)
+        print (days)
+        print (days)
+        print (days)
+        print (days)
         worked_days = self.env['hr.payslip.worked_days']
         days_discount = sum(worked_days.search([('payslip_id.employee_id','=',self.employee_id.id),
                                             ('code','in',['F01','F04']),
