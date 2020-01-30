@@ -3,7 +3,7 @@
     <data noupdate="0">
 
         <report id="report_payslip_run_template"
-			  string="Detalles de nomina"
+			  string="Detalles de nómina"
 			  model="hr.payslip.run"
 			  report_type="qweb-html"
 			  name="payroll_mexico.payslip_run_template"
