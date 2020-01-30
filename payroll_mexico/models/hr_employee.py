@@ -253,18 +253,18 @@ class Employee(models.Model):
                 else:
                     return employee.bank_account_ids[0]
 
-    @api.constrains('bank_account_ids')
-    def _check_bank_account_predetermined(self):
-        for record in self:
-            #Validar única cuenta bancaria predeterminada
-            predetermined = []
-            for bank in record.bank_account_ids:
-                if bank.predetermined == True:
-                    if bank.contracting_regime in predetermined:
-                        raise ValidationError(_('Warning! \n'
-                            'There should only be one default bank account.'))
-                    else:
-                        predetermined.append(bank.contracting_regime)
+    # ~ @api.constrains('bank_account_ids')
+    # ~ def _check_bank_account_predetermined(self):
+        # ~ for record in self:
+            # ~ #Validar única cuenta bancaria predeterminada
+            # ~ predetermined = []
+            # ~ for bank in record.bank_account_ids:
+                # ~ if bank.predetermined == True:
+                    # ~ if bank.contracting_regime in predetermined:
+                        # ~ raise ValidationError(_('Warning! \n'
+                            # ~ 'There should only be one default bank account.'))
+                    # ~ else:
+                        # ~ predetermined.append(bank.contracting_regime)
 
     # ~ @api.constrains('ssnid','rfc','curp')
     # ~ def validate_ssnid(self):
