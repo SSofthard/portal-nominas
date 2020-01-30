@@ -460,5 +460,5 @@ class companySectorEconomico(models.Model):
 
     _name = 'res.company.sector_economico'
     
-    name = fields.Char('Sector Economico', required=True)
+    name = fields.Char('Sector Económico', required=True)
     code = fields.Char('Código', required=True)
