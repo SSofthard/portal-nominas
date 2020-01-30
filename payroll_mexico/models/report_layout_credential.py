@@ -295,16 +295,7 @@ class AddFields(models.Model):
     sheet = fields.Selection([('front', 'Frontal'),('reverse', 'Reverso')], string='Añadir a:', required=True, default='front')
     field_type = fields.Char(string='Tipo de campo', compute='_get_field_type')
     field_selection = fields.Selection(_get_fields_selection, string='Campos')
-    # submodel = fields.
     subfile_id = fields.Many2one(comodel_name='ir.model.fields', string='Sub-Campos a agregar', required=False)
-    position_x = fields.Selection([
-        (1,'1'),
-        (2,'2'),
-        (3,'3')],string='Posicion (Horizontal)', default=1, required=True)
-    position_y = fields.Selection([
-        (1,'1'),
-        (2,'2'),
-        (3,'3')],string='Posicion (Vertical)', default=1, required=True)
     image_size = fields.Selection([
                         ('25%','Pequeña'),
                         ('50%','Mediana'),
@@ -314,14 +305,14 @@ class AddFields(models.Model):
                         (0,'Izquierda'),
                         (50,'Centro'),
                         (75,'Derecha'),
-                        ], string = 'Alineación', required=True)
+                        ], string = 'Horizontal position', required=True)
     vertical_align = fields.Selection([
                         (0,'Top'),
                         (20,'Middle-Top'),
                         (40,'Middle'),
                         (60,'Middle-Bottom'),
                         (80,'Bottom'),
-                        ], string = 'Alineación', required=True)
+                        ], string = 'Vertical position', required=True)
     font_type = fields.Selection([
                     ('h1','H1'),
                     ('h2','H2'),
@@ -329,7 +320,6 @@ class AddFields(models.Model):
                     ('h4','H4'),
                     ('h5','H5'),
                     ('h6','H6'),
-                    ('h7','H7'),
                     ], string='Tipo de texto')
     # ttype = fields.Char(related = 'field_id.ttype')
     template_id = fields.Many2one(comodel_name='credential.template', string='Plantilla')
