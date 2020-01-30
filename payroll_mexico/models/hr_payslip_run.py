@@ -110,25 +110,35 @@ class HrPayslipRun(models.Model):
     group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
     payment_date = fields.Date(string='Fecha de pago', required=True,
         readonly=True, states={'draft': [('readonly', False)]})
+    company_bank_id = fields.Many2one('bank.account.company', "Company bank", required=True)
+
+    def action_layout_dispersion(self):
+        """ Get Layout Dispersion """
+        if self.company_bank_id.bank_id.code == '014':
+            return self.get_xls_bank_santander()
+        if self.company_bank_id.bank_id.code == '072':
+            return self.get_xls_bank_banorte()
 
     def get_data_bank(self):
         """ Function doc """
         line_data = []
         domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
         lines_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.code == 'T001')
+        accountEmployee = self.env['bank.account.employee']
         for line in lines_ids:
+            bank_account = accountEmployee.search([('employee_id','=', line.slip_id.employee_id.id),('bank_id','=', self.company_bank_id.bank_id.id)])
             line_data.append({
                 'employee_number': line.slip_id.employee_id.enrollment,
                 'last_name': line.slip_id.employee_id.last_name,
                 'mothers_last_name': line.slip_id.employee_id.mothers_last_name,
                 'name': line.slip_id.employee_id.name,
-                'bank_account': line.slip_id.employee_id.get_bank().bank_account if line.slip_id.employee_id.get_bank() else '',
+                'bank_account': bank_account.bank_account,
                 'total': line.total,
                 'id_concept': '01 PAGO DE NOMINA',
             })
         return sorted(line_data, key=lambda k: k['employee_number'])
 
-    def get_xls_bank(self):
+    def get_xls_bank_santander(self):
         """ Function doc """
         output = io.BytesIO()
         file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'Layout Dispersion Santander.xlsm')
@@ -148,7 +158,7 @@ class HrPayslipRun(models.Model):
             ws1.cell(column=4, row=i, value=h.get('last_name'))
             ws1.cell(column=5, row=i, value=h.get('mothers_last_name'))
             ws1.cell(column=6, row=i, value=h.get('name'))
-            ws1.cell(column=7, row=i, value=h.get('bank_account'))
+            ws1.cell(column=7, row=i, value=int(h.get('bank_account')))
             ws1.cell(column=8, row=i, value=h.get('total'))
             ws1.cell(column=9, row=i, value=h.get('id_concept'))
         row = i
@@ -205,7 +215,6 @@ class HrPayslipRun(models.Model):
             ws1.cell(column=4, row=i, value=int(h.get('account_code')))
             ws1.cell(column=5, row=i, value=int(h.get('account_type')))
             ws1.cell(column=6, row=i, value=h.get('bank_account'))
-            
         row = i
         wb.save(output)
         f_name = 'Layout Dispersion Banorte'

@@ -16,4 +16,4 @@ class Company(models.Model):
     _inherit = 'res.company'
 
     tables_id = fields.Many2one(
-        'tablas.antiguedades', 'Antiguedades tables', readonly=False, invisible=True)
+        'tablas.antiguedades', 'Tabla de Antigüedad', readonly=False, invisible=True)

@@ -102,7 +102,7 @@
 						<field name="date_end"/>
 						<field name="type_contract" invisible="1"/>
 					</group>
-					<group string="Antiguedad">
+					<group string="Antigüedad">
 						<field name="years_antiquity"/>
 						<field name="days_rest"/>
 					</group>

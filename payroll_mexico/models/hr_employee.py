@@ -254,15 +254,18 @@ class Employee(models.Model):
                 else:
                     return employee.bank_account_ids[0]
 
-    @api.constrains('bank_account_ids','bank_account_ids.predetermined',)
+    @api.constrains('bank_account_ids')
     def _check_bank_account_predetermined(self):
-        # By @jeisonpernia1
         for record in self:
-            #Validar única cuenta bancaria predeterminada 
-            bank_account_ids = record.bank_account_ids.filtered(lambda l: l.predetermined == True)
-            if len(bank_account_ids) > 1:
-                raise ValidationError(_('Advertencia! \
-                        Solo debe existir una cuenta bancaria predeterminada.'))
+            #Validar única cuenta bancaria predeterminada
+            predetermined = []
+            for bank in record.bank_account_ids:
+                if bank.predetermined == True:
+                    if bank.contracting_regime in predetermined:
+                        raise ValidationError(_('Warning! \n'
+                            'There should only be one default bank account.'))
+                    else:
+                        predetermined.append(bank.contracting_regime)
 
     # ~ @api.constrains('ssnid','rfc','curp')
     # ~ def validate_ssnid(self):
@@ -555,21 +558,25 @@ class bankDetailsEmployee(models.Model):
         ('active', 'Active'),
         ('inactive', 'Inactive'),
     ],default="active")
-    
-    # ~ _sql_constraints = [
-        # ~ ('predetermined_uniq', 'unique (employee_id,predetermined)', "There is already a default account number for this employee.!"),
-    # ~ ]
+    contracting_regime = fields.Selection([
+        ('02', 'Wages and salaries'),
+        ('05', 'Free'),
+        ('08', 'Assimilated commission agents'),
+        ('09', 'Honorary Assimilates'),
+        ('11', 'Assimilated others'),
+        ('99', 'Other regime'),
+    ], string='Contracting Regime', required=True, default="02")
 
     @api.multi
     def action_active(self):
         for account in self:
             account.state = 'active'
-            
+
     @api.multi
     def action_inactive(self):
         for account in self:
             account.state = 'inactive'
-    
+
 
 class resBank(models.Model):
     _inherit = "res.bank"
@@ -786,7 +793,7 @@ class hrInfonavitCreditLine(models.Model):
         ('discontinued', 'Discontinued'),
         ('closed', 'Closed'),
     ],default="draft")
-    history_ids = fields.One2many(inverse_name='infonavit_id', comodel_name='hr.infonavit.credit.history', string='Historico de cambios')
+    history_ids = fields.One2many(inverse_name='infonavit_id', comodel_name='hr.infonavit.credit.history', string='Histórico de cambios')
     
     @api.multi
     def action_active(self):
