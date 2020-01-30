@@ -3049,9 +3049,14 @@ msgstr ""
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_credential_fields__align
+msgid "Horizontal position"
+msgstr "Posición horizontal"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_credential_fields__align
 #: model:ir.model.fields,field_description:payroll_mexico.field_credential_fields__vertical_align
-msgid "Alineación"
-msgstr ""
+msgid "Vertical position"
+msgstr "Posición vertical"
 
 #. module: payroll_mexico
 #: sql_constraint:res.municipality.zone:0
