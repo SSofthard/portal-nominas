@@ -26,6 +26,7 @@ import tempfile
 import pkg_resources
 import hashlib
 
+_logger = logging.getLogger(__name__)
 
 @contextmanager
 def change_path():
