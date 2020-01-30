@@ -284,7 +284,8 @@
                                     </tr>
                                     <tr>
                                         <td class="text-left">
-                                            <span t-field="o.invoice_date"/>
+                                            <span t-if="data['values']['payroll']['compensation'] == False"  t-field="o.invoice_date"/>
+                                            <span t-if="data['values']['payroll']['compensation'] == True" t-field="o.invoice_date_si"/>
                                         </td>
                                         <td class="text-left">
                                             <span t-field="o.cfdi_issue_date"/>
@@ -296,10 +297,12 @@
                                     </tr>
                                     <tr>
                                         <td class="text-left">
-                                            <span t-field="o.certificate_number"/>
+                                            <span t-if="data['values']['payroll']['compensation'] == False" t-field="o.certificate_number"/>
+                                            <span t-if="data['values']['payroll']['compensation'] == True" t-field="o.certificate_number_si"/>
                                         </td>
                                         <td class="text-left">
-                                            <span></span>
+                                            <span t-if="data['values']['payroll']['compensation'] == False" t-field="o.certificate_number_emisor"/>
+                                            <span t-if="data['values']['payroll']['compensation'] == True" t-field="o.certificate_number_emisor_si"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -370,30 +373,36 @@
                         </tr>
                     </table>
                     <br/>
+                    
+                    
                     <div id="cfdi" class="col-12">
                         <div class="col-9" style="font-size:8px; float:left;">
                             <div class="row">
                                 <div class="col-auto mw-100 mb-2">
                                     <strong>Sello Digital CFDI:</strong>
-                                    <span class="m-0" t-field="o.stamp_cfd"/>
+                                    <span t-if="data['values']['payroll']['compensation'] == False" class="m-0" t-field="o.stamp_cfd"/>
+                                    <span t-if="data['values']['payroll']['compensation'] == True" class="m-0" t-field="o.stamp_cfd_si"/>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-auto mw-100 mb-2">
                                     <strong>Sello Digital SAT:</strong>
-                                    <p class="m-0" t-field="o.stamp_sat"/>
+                                    <p t-if="data['values']['payroll']['compensation'] == False" class="m-0" t-field="o.stamp_sat"/>
+                                    <p t-if="data['values']['payroll']['compensation'] == True" class="m-0" t-field="o.stamp_sat_si"/>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-auto mw-100 mb-2">
                                     <strong>Cadena Original Certificado SAT:</strong>
-                                    <p class="m-0" t-field="o.original_string"/>
+                                    <p t-if="data['values']['payroll']['compensation'] == False" class="m-0" t-field="o.original_string"/>
+                                    <p t-if="data['values']['payroll']['compensation'] == True" class="m-0" t-field="o.original_string_si"/>
                                 </div>
                             </div>
                         </div>
                         <div class="col-3" style="float:right;">
                             <div class="row">
-                                <img  t-att-src="image_data_uri(o.qr_timbre)" alt="QR" style="max-height: 200px;"/>
+                                <img t-if="data['values']['payroll']['compensation'] == False" t-att-src="image_data_uri(o.qr_timbre)" alt="QR" style="max-height: 200px;"/>
+                                <img t-if="data['values']['payroll']['compensation'] == True" t-att-src="image_data_uri(o.qr_timbre_si)" alt="QR" style="max-height: 200px;"/>
                             </div>
                         </div>
                     </div>

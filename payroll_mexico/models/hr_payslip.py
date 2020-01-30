@@ -523,8 +523,8 @@ class HrPayslip(models.Model):
             'payroll': {
                 'type': 'E',
                 'payment_date': self.payment_date,
-                'date_from': self.date_from,
-                'date_to': self.date_to,
+                'date_from': self.payment_date,
+                'date_to': self.payment_date,
                 'number_of_days': "{0:.3f}".format(1.000),
                 'curp_emitter': '',
                 'employer_register': '',
@@ -1183,10 +1183,11 @@ class HrPayslip(models.Model):
                 sequence = payslip.group_id.sequence_payslip_id
                 number = payslip.number or sequence.next_by_id()
                 code_payslip = payslip.employee_id.group_id.code_payslip
+                payment_date = False
             else:
                 number = payslip.number or self.env['ir.sequence'].next_by_code('salary.settlement')
-                code_payslip = ''
-            payment_date = False
+                code_payslip = 'FINIQUITO-'+payslip.employee_id.group_id.code_payslip
+                payment_date = payslip.payment_date
             if payslip.payslip_run_id:
                 if payslip.payslip_run_id.payment_date:
                     payment_date = payslip.payslip_run_id.payment_date
