@@ -77,7 +77,7 @@ class HrPayslip(models.Model):
     amount_tax = fields.Float(string='Impuestos')
     payroll_tax_count = fields.Integer(compute='_compute_payroll_tax_count', string="Payslip Computation Details")
     move_infonacot_id = fields.Many2one('hr.credit.employee.account', string="FONACOT Move")
-    group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
+    group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id", store=True)
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
     payment_date = fields.Date(string='Fecha de pago',
@@ -183,7 +183,19 @@ class HrPayslip(models.Model):
     error_si = fields.Char(string='Error', readonly=True)
     qr_timbre_si = fields.Binary(string="Qr", readonly=True)
     pdf_is = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False, readonly=True)
-    
+    contracting_regime = fields.Selection([
+                                            ('02', 'Wages and salaries'),
+                                            ('05', 'Free'),
+                                            ('08', 'Assimilated commission agents'),
+                                            ('09', 'Honorary Assimilates'),
+                                            ('11', 'Assimilated others'),
+                                            ('99', 'Other regime'),
+                                        ], string='Contracting Regime',
+                                            related='contract_id.contracting_regime',
+                                            readonly=True,
+                                            store=True
+                                        )
+
     def overtime(self,type_overtime):
         days = 0
         quantity = 0
