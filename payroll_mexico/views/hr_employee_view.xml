@@ -706,6 +706,34 @@
             parent="hr.menu_human_resources_configuration"
             groups="hr.group_hr_manager"
             sequence="140"/>
+            
+    <record id="view_employee_kanban_inherit_hr_attendance2" model="ir.ui.view">
+        <field name="name">hr.employee</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <field name="name" position="replace">
+                <div>
+                    <strong>
+                        <field name="complete_name" placeholder="Employee's Name"/>
+                    </strong>
+                </div>
+            </field>
+        </field>
+    </record>
+    
+    <record id="view_employee_tree_inherit2" model="ir.ui.view">
+        <field name="name">hr.employee</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="complete_name"/>
+            </xpath>
+        </field>
+    </record>
         
     </data>
 </odoo>

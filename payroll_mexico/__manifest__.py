@@ -78,6 +78,7 @@
         'report/report_template.xml',
         'report/report_layout_credentaling.xml',
         'report/report_credentaling.xml',
+        'report/report_employee_bagde.xml',
         'data/data.xml',
         'data/sequence_data.xml',
         # 'data/data_table_cfdi.xml',
