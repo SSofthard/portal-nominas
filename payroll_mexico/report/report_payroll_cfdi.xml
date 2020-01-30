@@ -18,7 +18,7 @@
                 <br/>
                 <t t-set="o" t-value="doc.with_context(lang=doc.company_id.partner_id.lang)" />
                 <t t-set="payroll" t-value="data['payroll_data'][o.id]" />
-                <div class="page" style="font-size:9px;">
+                <div class="page" style="font-size:8px;">
                     <!--Nombre del reporte-->
                     <div style="background-color: #ABAFAF;">
                         <h6 class="text-center">COMPROBANTE FISCAL DIGITAL POR INTERNET</h6>
@@ -72,7 +72,7 @@
                                <span t-field="o.employee_id.department_id.name" />
                             </td>
                             <td><span t-field="o.cfdi_use" /></td>
-                            <td style="color: #FFFFFF">-</td>
+                            <td ><span  t-esc="data['values']['payroll']['emp_state_name']"/></td>
                             <td class="text-left">
                                 <t t-if="o.contract_id.previous_contract_date">
                                     <span t-field="o.contract_id.previous_contract_date"/>
@@ -86,29 +86,31 @@
                         <tr style="border-bottom: 0px;">
                             <td><strong>Período Calculado:</strong></td>
                             <td><strong>Fecha de Pago:</strong></td>
-                            <td><strong>Tipo de Pago:</strong></td>
-                            <td><strong>Número de Período:</strong></td>
+                            <td><strong>Periodicidad del Pago:</strong></td>
+                            <td><strong>Régimen Trabajador:</strong></td>
                             <td><strong>Días Pagados:</strong></td>
                             <td><strong>Faltas:</strong></td>
                         </tr>
                         <tr>
                             <td class="text-left">
-                                <span t-field="o.date_from" t-options='{"widget": "date"}'/>
+                                <span  t-esc="data['values']['payroll']['date_from']" t-options='{"widget": "date"}'/>
                                 <span>a</span>
-                                <span t-field="o.date_to" t-options='{"widget": "date"}'/>
+                                <span  t-esc="data['values']['payroll']['date_to']" t-options='{"widget": "date"}'/>
                             </td>
                             <td><span t-field="o.payment_date" t-options='{"widget": "date"}'/></td>
                             <td>
-                                <t t-esc="payroll[0]['payroll_period']"/>
+                                <t t-if="data['values']['payroll']['compensation'] == False" t-esc="payroll[0]['payroll_period']"/>
+                                <t t-if="data['values']['payroll']['compensation'] == True">Otra Periodicidad</t>
                             </td>
                             <td class="text-left">
-                                <span t-field="o.payroll_of_month"/>
+                                <span t-esc="data['values']['payroll']['emp_regimen_name']"/>
                             </td>
                             <td class="text-left">
-                                <t t-esc="payroll[0]['paid_days']"/>
+                                <t t-esc="data['values']['payroll']['number_of_days']"/>
                             </td>
                             <td class="text-left">
-                                <t t-esc="payroll[0]['faults']"/>
+                                <t t-if="data['values']['payroll']['compensation'] == False" t-esc="payroll[0]['faults']"/>
+                                <t t-if="data['values']['payroll']['compensation'] == True">0.0</t>
                             </td>
                         </tr>
                         <tr style="border-bottom: 0px;">
