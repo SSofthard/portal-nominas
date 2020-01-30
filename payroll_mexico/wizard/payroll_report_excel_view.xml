@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form string="Descargar Reporte de Nómina Excel">
                     <div class="alert alert-info text-center" role="alert" style="margin-bottom:0px;">
-                        Se generado el Reporte Excel correctamente, proceda a descargarlo.
+                        The Excel file was generated correctly, proceed to download it.
                     </div>
                     <group>
                         <field name="excel_file" readonly="1" filename="file_name"/>
