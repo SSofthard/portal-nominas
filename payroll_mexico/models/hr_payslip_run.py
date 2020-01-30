@@ -8,7 +8,6 @@ import os
 
 from pytz import timezone
 from datetime import datetime
-from xlutils.copy import copy
 from openpyxl import load_workbook
 
 from odoo import api, fields, models, tools, modules, _
@@ -120,19 +119,19 @@ class HrPayslipRun(models.Model):
             return self.get_xls_bank_banorte()
 
     def get_data_bank(self):
-        """ Function doc """
+        """ Function get data for dispersion layout Santander Bank"""
         line_data = []
         domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
         lines_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.code == 'T001')
         accountEmployee = self.env['bank.account.employee']
         for line in lines_ids:
-            bank_account = accountEmployee.search([('employee_id','=', line.slip_id.employee_id.id),('bank_id','=', self.company_bank_id.bank_id.id)])
+            bank_account = line.slip_id.contract_id.bank_account_id.bank_account
             line_data.append({
                 'employee_number': line.slip_id.employee_id.enrollment,
                 'last_name': line.slip_id.employee_id.last_name,
                 'mothers_last_name': line.slip_id.employee_id.mothers_last_name,
                 'name': line.slip_id.employee_id.name,
-                'bank_account': bank_account.bank_account,
+                'bank_account': bank_account,
                 'total': line.total,
                 'id_concept': '01 PAGO DE NOMINA',
             })
@@ -181,7 +180,7 @@ class HrPayslipRun(models.Model):
         domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
         lines_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.code == 'T001')
         for line in lines_ids:
-            bank_account = line.slip_id.employee_id.get_bank().bank_account if line.slip_id.employee_id.get_bank() else ''
+            bank_account = line.slip_id.contract_id.bank_account_id.bank_account
             line_data.append({
                 'employee_number': line.slip_id.employee_id.enrollment.split('-')[1],
                 'name': line.slip_id.employee_id.complete_name,

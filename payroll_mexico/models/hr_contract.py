@@ -77,6 +77,7 @@ class Contract(models.Model):
     employer_register_id = fields.Many2one('res.employer.register', "Registro Patronal", store=True, related='employee_id.employer_register_id')
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
     structure_type_id = fields.Many2one('hr.structure.types', string="Structure Types")
+    bank_account_id = fields.Many2one('bank.account.employee', string="Bank account")
 
     @api.multi
     def action_open(self):
