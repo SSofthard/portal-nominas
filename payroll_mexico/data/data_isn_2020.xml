@@ -199,42 +199,42 @@
         </record>
 
         <!-- ISN 2019 by state Campeche range -->
-        <record id="isn_line_state_mx_camp1" model="hr.isn.range.line">
+        <record id="isn_line_state_mx_camp20201" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2020"/>
             <field name="lim_inf">0.01</field>
             <field name="lim_sup">252625.00</field>
             <field name="c_fija">0.00</field>
             <field name="s_excedente">2.00</field>
         </record>
-        <record id="isn_line_state_mx_camp2" model="hr.isn.range.line">
+        <record id="isn_line_state_mx_camp20202" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2020"/>
             <field name="lim_inf">252626.00</field>
             <field name="lim_sup">525752.00</field>
             <field name="c_fija">5052.50</field>
             <field name="s_excedente">2.20</field>
         </record>
-        <record id="isn_line_state_mx_camp3" model="hr.isn.range.line">
+        <record id="isn_line_state_mx_camp20203" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2020"/>
             <field name="lim_inf">525753.00</field>
             <field name="lim_sup">2520124.00</field>
             <field name="c_fija">11061.27</field>
             <field name="s_excedente">2.40</field>
         </record>
-        <record id="isn_line_state_mx_camp4" model="hr.isn.range.line">
+        <record id="isn_line_state_mx_camp20204" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2020"/>
             <field name="lim_inf">2520125.00</field>
             <field name="lim_sup">5207421.00</field>
             <field name="c_fija">58926.18</field>
             <field name="s_excedente">2.60</field>
         </record>
-        <record id="isn_line_state_mx_camp5" model="hr.isn.range.line">
+        <record id="isn_line_state_mx_camp20205" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2020"/>
             <field name="lim_inf">5207422.00</field>
             <field name="lim_sup">8559929.00</field>
             <field name="c_fija">128795.87</field>
             <field name="s_excedente">2.80</field>
         </record>
-        <record id="isn_line_state_mx_camp6" model="hr.isn.range.line">
+        <record id="isn_line_state_mx_camp20206" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_camp_2020"/>
             <field name="lim_inf">8559930.00</field>
             <field name="lim_sup">999999999999.00</field>
@@ -243,49 +243,49 @@
         </record>
 
         <!-- ISN 2019 by state Hidalgo range -->
-        <record id="isn_line_isn_state_mx_hgo1" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_hgo20201" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_hgo_2020"/>
             <field name="lim_inf">0.01</field>
             <field name="lim_sup">500000.00</field>
             <field name="c_fija">0.00</field>
             <field name="s_excedente">0.50</field>
         </record>
-        <record id="isn_line_isn_state_mx_hgo2" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_hgo20202" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_hgo_2020"/>
             <field name="lim_inf">500000.01</field>
             <field name="lim_sup">600000.00</field>
             <field name="c_fija">2500.01</field>
             <field name="s_excedente">1.50</field>
         </record>
-        <record id="isn_line_isn_state_mx_hgo3" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_hgo20203" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_hgo_2020"/>
             <field name="lim_inf">600000.01</field>
             <field name="lim_sup">700000.00</field>
             <field name="c_fija">4000.02</field>
             <field name="s_excedente">1.60</field>
         </record>
-        <record id="isn_line_isn_state_mx_hgo4" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_hgo20204" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_hgo_2020"/>
             <field name="lim_inf">700000.01</field>
             <field name="lim_sup">800000.00</field>
             <field name="c_fija">5600.03</field>
             <field name="s_excedente">1.70</field>
         </record>
-        <record id="isn_line_isn_state_mx_hgo5" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_hgo20205" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_hgo_2020"/>
             <field name="lim_inf">800000.01</field>
             <field name="lim_sup">900000.00</field>
             <field name="c_fija">7300.04</field>
             <field name="s_excedente">1.80</field>
         </record>
-        <record id="isn_line_isn_state_mx_hgo6" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_hgo20206" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_hgo_2020"/>
             <field name="lim_inf">900000.01</field>
             <field name="lim_sup">1000000.00</field>
             <field name="c_fija">9100.05</field>
             <field name="s_excedente">1.90</field>
         </record>
-        <record id="isn_line_isn_state_mx_hgo6" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_hgo20206" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_hgo_2020"/>
             <field name="lim_inf">1000000.01</field>
             <field name="lim_sup">999999999999.00</field>
@@ -295,28 +295,28 @@
 
 
         <!-- ISN 2019 by state Sinaloa range -->
-        <record id="isn_line_isn_state_mx_sin1" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_sin20201" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_sin_2020"/>
             <field name="lim_inf">0.01</field>
             <field name="lim_sup">500000.00</field>
             <field name="c_fija">0.00</field>
             <field name="s_excedente">2.40</field>
         </record>
-        <record id="isn_line_isn_state_mx_sin2" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_sin20202" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_sin_2020"/>
             <field name="lim_inf">500000.01</field>
             <field name="lim_sup">700000.00</field>
             <field name="c_fija">0.00</field>
             <field name="s_excedente">2.60</field>
         </record>
-        <record id="isn_line_isn_state_mx_sin3" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_sin20203" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_sin_2020"/>
             <field name="lim_inf">700000.01</field>
             <field name="lim_sup">900000.00</field>
             <field name="c_fija">0.00</field>
             <field name="s_excedente">2.80</field>
         </record>
-        <record id="isn_line_isn_state_mx_sin4" model="hr.isn.range.line">
+        <record id="isn_line_isn_state_mx_sin20204" model="hr.isn.range.line">
             <field name="isn_id" ref="isn_state_mx_sin_2020"/>
             <field name="lim_inf">900000.01</field>
             <field name="lim_sup">999999999999.00</field>
