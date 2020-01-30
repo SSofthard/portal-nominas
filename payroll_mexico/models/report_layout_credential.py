@@ -305,14 +305,14 @@ class AddFields(models.Model):
                         (0,'Izquierda'),
                         (50,'Centro'),
                         (75,'Derecha'),
-                        ], string = 'Horizontal position', required=True)
+                        ], string = 'Posición horizontal', required=True)
     vertical_align = fields.Selection([
                         (0,'Top'),
                         (20,'Middle-Top'),
                         (40,'Middle'),
                         (60,'Middle-Bottom'),
                         (80,'Bottom'),
-                        ], string = 'Vertical position', required=True)
+                        ], string = 'Posición vertical', required=True)
     font_type = fields.Selection([
                     ('h1','H1'),
                     ('h2','H2'),
