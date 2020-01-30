@@ -26,7 +26,6 @@ import tempfile
 import pkg_resources
 import hashlib
 
-_logger = logging.getLogger(__name__)
 
 @contextmanager
 def change_path():
@@ -317,17 +316,10 @@ class BaseDocument:
     def sellar(self,document):
         
         date =  datetime.now()
-        _logger.info(date)
         UTC = pytz.timezone ("UTC") 
         UTC_date = UTC.localize(date, is_dst=None) 
         date_timbre = UTC_date.astimezone (self.tz)
-        date_timbre = str(date_timbre.isoformat())[:19]
-        _logger.info(date_timbre)
-        _logger.info(date_timbre)
-        _logger.info(date_timbre)
-        _logger.info(date_timbre)
-        _logger.info(date_timbre)
-        _logger.info(date_timbre)
+        date_timbre = str(date.isoformat())[:19]
 
         self.date_timbre = date_timbre
         certificado64 = self.get_certificado_64()
