@@ -289,7 +289,7 @@ class HrEmployeeAffiliateMove(models.Model):
         type_move = dict(self._fields['type_move']._description_selection(self.env)).get(self.type_move)
         f_name = 'Affiliation Movements of: %s %s - %s' % (type_move, self.date_from, self.date_to)
         content = ''
-        for move in self.movements_ids.filtered(lambda mov: mov.state == 'draft'):
+        for move in self.movements_ids.filtered(lambda mov: mov.state != 'draft'):
             if self.type_move == '08':
                 origin_move = move.employee_id.employer_register_id.subdelegacion_id.code + move.origin_move
                 # TXT Para movimientos afiliatorios de Alta o Reingreso
