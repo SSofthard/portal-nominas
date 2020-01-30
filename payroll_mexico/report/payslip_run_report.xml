@@ -181,7 +181,7 @@
                                          <t t-set="WORK100" t-value="payslip.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100')"/>
                                          <t t-set="WORKHOUR" t-value="WORK100.number_of_hours/WORK100.number_of_days"/>
                                         <td class="text-center">
-                                            <span t-esc="payslip.line_ids.filtered(lambda line: line.code == 'T001').total if o.pay_type == '1' else 0"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.code == 'NETESPECIE').total"/>
                                         </td>
                                         <td class="text-center">
                                              <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI002').total/WORKHOUR"/>
@@ -202,14 +202,14 @@
                                             <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'P105').total"/>
                                         </td>
                                         <td class="text-center">
-                                            <t t-set="sum_otras_deducciones" t-value="sum_otras_deducciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>
+                                                <t t-set="sum_otras_deducciones" t-value="sum_otras_deducciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>
                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>
                                         </td>
                                         <td class="text-center">
                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.code == '103').mapped('total'))"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.code == 'T001').total if o.pay_type == '0' else 0"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.code == 'NETE').total"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -393,7 +393,7 @@
                                              Total efectivo
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '0' else 0"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'NETE').mapped('total'))"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -425,7 +425,7 @@
                                              Total en especie
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total')) if o.pay_type == '1' else 0"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(o.slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'NETESPECIE').mapped('total'))"/>
                                         </td>
                                     </tr>
                                 </tbody>
