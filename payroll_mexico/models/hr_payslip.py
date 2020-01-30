@@ -77,7 +77,7 @@ class HrPayslip(models.Model):
     amount_tax = fields.Float(string='Impuestos')
     payroll_tax_count = fields.Integer(compute='_compute_payroll_tax_count', string="Payslip Computation Details")
     move_infonacot_id = fields.Many2one('hr.credit.employee.account', string="FONACOT Move")
-    group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id")
+    group_id = fields.Many2one('hr.group', string="Group/Company", related="employee_id.group_id", store=True)
     integral_salary = fields.Float(string = 'Salario diario integral', related='contract_id.integral_salary')
     employer_register_id = fields.Many2one('res.employer.register', "Employer Register", required=False)
     payment_date = fields.Date(string='Fecha de pago',
@@ -183,7 +183,19 @@ class HrPayslip(models.Model):
     error_si = fields.Char(string='Error', readonly=True)
     qr_timbre_si = fields.Binary(string="Qr", readonly=True)
     pdf_is = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False, readonly=True)
-    
+    contracting_regime = fields.Selection([
+                                            ('02', 'Wages and salaries'),
+                                            ('05', 'Free'),
+                                            ('08', 'Assimilated commission agents'),
+                                            ('09', 'Honorary Assimilates'),
+                                            ('11', 'Assimilated others'),
+                                            ('99', 'Other regime'),
+                                        ], string='Contracting Regime',
+                                            related='contract_id.contracting_regime',
+                                            readonly=True,
+                                            store=True
+                                        )
+
     def overtime(self,type_overtime):
         days = 0
         quantity = 0
@@ -342,6 +354,7 @@ class HrPayslip(models.Model):
                 'emp_syndicated': 'No',
                 'working_day': self.employee_id.type_working_day,
                 'emp_regimen_type': self.contract_id.contracting_regime,
+                'emp_regimen_name': dict(self.contract_id._fields['contracting_regime']._description_selection(self.env)).get(self.contract_id.contracting_regime),
                 'no_emp': self.employee_id.enrollment,
                 'departament': self.contract_id.department_id.name,
                 'emp_job': self.contract_id.job_id.name,
@@ -351,6 +364,7 @@ class HrPayslip(models.Model):
                 'emp_base_salary': '',
                 'emp_diary_salary': '',
                 'emp_state': self.employee_id.work_center_id.state_id.code,
+                'emp_state_name': self.employee_id.work_center_id.state_id.name,
                 'total_salaries': float("{0:.2f}".format(total_salaries)),
                 'total_compensation': 0,
                 'total_retirement': 0,
@@ -523,8 +537,8 @@ class HrPayslip(models.Model):
             'payroll': {
                 'type': 'E',
                 'payment_date': self.payment_date,
-                'date_from': self.date_from,
-                'date_to': self.date_to,
+                'date_from': self.payment_date,
+                'date_to': self.payment_date,
                 'number_of_days': "{0:.3f}".format(1.000),
                 'curp_emitter': '',
                 'employer_register': '',
@@ -541,6 +555,7 @@ class HrPayslip(models.Model):
                 'emp_syndicated': 'No',
                 'working_day': self.employee_id.type_working_day,
                 'emp_regimen_type': '13',
+                'emp_regimen_name': 'Indemnización o Separación',
                 'no_emp': self.employee_id.enrollment,
                 'departament': self.contract_id.department_id.name,
                 'emp_job': self.contract_id.job_id.name,
@@ -550,6 +565,7 @@ class HrPayslip(models.Model):
                 'emp_base_salary': '',
                 'emp_diary_salary': '',
                 'emp_state': self.employee_id.work_center_id.state_id.code,
+                'emp_state_name': self.employee_id.work_center_id.state_id.name,
                 'total_salaries': float("{0:.2f}".format(total_salaries)),
                 'total_compensation': total_separation_compensation,
                 'total_retirement': 0,
@@ -1183,10 +1199,11 @@ class HrPayslip(models.Model):
                 sequence = payslip.group_id.sequence_payslip_id
                 number = payslip.number or sequence.next_by_id()
                 code_payslip = payslip.employee_id.group_id.code_payslip
+                payment_date = False
             else:
                 number = payslip.number or self.env['ir.sequence'].next_by_code('salary.settlement')
-                code_payslip = ''
-            payment_date = False
+                code_payslip = 'FINIQUITO-'+payslip.employee_id.group_id.code_payslip
+                payment_date = payslip.payment_date
             if payslip.payslip_run_id:
                 if payslip.payslip_run_id.payment_date:
                     payment_date = payslip.payslip_run_id.payment_date

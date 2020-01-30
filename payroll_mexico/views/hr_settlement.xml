@@ -19,7 +19,7 @@
 			<field name="model">hr.payslip</field>
 			<field name="arch" type="xml">
 				<tree decoration-info="state in ('confirm','hr_check','accont_check')" decoration-muted="state == 'cancel'" string="Payslips">
-					<field name="number"/>
+					<field name="complete_name"/>
 					<field name="employee_id"/>
 					<field name="name"/>
 					<field name="date_from"/>
@@ -70,6 +70,7 @@
                     <field name="contract_id" domain="[('employee_id','=',employee_id),('state','in',['close']),('contracting_regime','in',['02'])]" context="{'default_employee_id': employee_id}"/>
                     <field name="structure_type_id" />
                     <field name="number"/>
+                    <field name="code_payslip"/>
                     <field name="struct_id" attrs="{'required':[('contract_id','!=',False)]}" domain="[('structure_type_id','=',structure_type_id),('settlement','=',True)]" context="{'default_structure_type_id':structure_type_id}"/>
                     <field name="name" string="Nombre del finiquito"/>
                     <field name="employer_register_id"/>
@@ -87,7 +88,6 @@
                 <group>
 					<group string="Compensation of law">
 						<field name="indemnify_employee"/>
-						<field name="compensation_20"/>
 					</group>
 					<group string="Agreement" attrs="{'invisible':[('indemnify_employee','!=',False)]}">
 						<field name="agreement_employee"/>
