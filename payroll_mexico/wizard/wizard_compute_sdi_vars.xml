@@ -61,7 +61,14 @@
     <menuitem
           id="menu_compute_sdi_vars"
           name="Cálculo de variables"
-          parent="hr_payroll.menu_hr_payroll_configuration"
+          parent="hr.menu_hr_root"
+          action="action_wizard_compute_sdi_vars"
+          sequence="20"/>
+
+    <menuitem
+          id="new_menu_compute_sdi_vars"
+          name="Generar cálculo de variables"
+          parent="menu_compute_sdi_vars"
           action="action_wizard_compute_sdi_vars"
           sequence="20"/>
 
