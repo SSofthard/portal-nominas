@@ -73,7 +73,6 @@ class Employee(models.Model):
             if employee.birthday:
                 employee.age = calculate_age(employee.birthday)
 
-   
     @api.multi
     def name_get(self):
         result = []
@@ -546,6 +545,7 @@ class paymentPeriod(models.Model):
     
 class bankDetailsEmployee(models.Model):
     _name = "bank.account.employee"
+    _description = 'bank_id'
     
     employee_id = fields.Many2one('hr.employee', "Employee", required=False)
     bank_id = fields.Many2one('res.bank', "Bank", required=True)
@@ -558,14 +558,14 @@ class bankDetailsEmployee(models.Model):
         ('active', 'Active'),
         ('inactive', 'Inactive'),
     ],default="active")
-    contracting_regime = fields.Selection([
-        ('02', 'Wages and salaries'),
-        ('05', 'Free'),
-        ('08', 'Assimilated commission agents'),
-        ('09', 'Honorary Assimilates'),
-        ('11', 'Assimilated others'),
-        ('99', 'Other regime'),
-    ], string='Contracting Regime', required=True, default="02")
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for account in self:
+            name = '%s - %s' %( account.bank_id.name,  account.bank_account)
+            result.append((account.id, name))
+        return result
 
     @api.multi
     def action_active(self):
