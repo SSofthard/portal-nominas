@@ -34,7 +34,7 @@ class HrPayslip(models.Model):
     agreement_employee = fields.Boolean(string='Agreement with the employee')
     amount_agreement = fields.Float('Amount of the agreement', required=False)
     indemnify_employee = fields.Boolean(string='Indemnify the employee')
-    compensation_20 = fields.Boolean(string='I will pay the compensation of 20 days per year worked?')
+    # ~ compensation_20 = fields.Boolean(string='I will pay the compensation of 20 days per year worked?')
     
     previous_contract_date = fields.Date('Previous Contract Date', related="contract_id.previous_contract_date", help="Start date of the previous contract for antiquity.")
     date_start = fields.Date('Start Date', required=True, default=fields.Date.today,
@@ -61,11 +61,8 @@ class HrPayslip(models.Model):
             if settlement.indemnify_employee:
                 settlement.agreement_employee = False
                 settlement.amount_agreement = 0
-            else:
-                settlement.compensation_20 = False
             if settlement.agreement_employee:
                 settlement.indemnify_employee = False
-                settlement.compensation_20 = False
             else:
                 settlement.amount_agreement = 0
             
