@@ -321,6 +321,13 @@ class BaseDocument:
         UTC_date = UTC.localize(date, is_dst=None) 
         date_timbre = UTC_date.astimezone (self.tz)
         date_timbre = str(date_timbre.isoformat())[:19]
+        _logger.info(date_timbre)
+        _logger.info(date_timbre)
+        _logger.info(date_timbre)
+        _logger.info(date_timbre)
+        _logger.info(date_timbre)
+        _logger.info(date_timbre)
+
         self.date_timbre = date_timbre
         certificado64 = self.get_certificado_64()
         certificado = self.get_certificado_x509(certificado64)
