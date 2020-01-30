@@ -129,11 +129,11 @@
 <!--        Tabla de antiguedades-->
 
     <record id="hr_tabla_antiguedades_1" model="tablas.antiguedades">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
     </record>
 
     <record id="hr_tabla_antiguedades_item_0" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">0</field>
         <field name="vacaciones">6</field>
@@ -142,7 +142,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_1" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">1</field>
         <field name="vacaciones">6</field>
@@ -151,7 +151,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_2" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">2</field>
         <field name="vacaciones">8</field>
@@ -160,7 +160,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_3" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">3</field>
         <field name="vacaciones">10</field>
@@ -169,7 +169,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_4" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">4</field>
         <field name="vacaciones">12</field>
@@ -178,7 +178,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_5" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">5</field>
         <field name="vacaciones">14</field>
@@ -187,7 +187,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_6" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">6</field>
         <field name="vacaciones">14</field>
@@ -196,7 +196,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_7" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">7</field>
         <field name="vacaciones">14</field>
@@ -205,7 +205,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_8" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">8</field>
         <field name="vacaciones">14</field>
@@ -214,7 +214,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_9" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">9</field>
         <field name="vacaciones">14</field>
@@ -223,7 +223,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_10" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">10</field>
         <field name="vacaciones">16</field>
@@ -232,7 +232,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_11" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">11</field>
         <field name="vacaciones">16</field>
@@ -241,7 +241,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_12" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">12</field>
         <field name="vacaciones">16</field>
@@ -250,7 +250,7 @@
     </record>
 
     <record id="hr_tabla_antiguedades_item_13" model="tablas.antiguedades.line">
-        <field name="name">Tabla de antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="form_id" ref="hr_tabla_antiguedades_1"/>
         <field name="antiguedad">13</field>
         <field name="vacaciones">16</field>
