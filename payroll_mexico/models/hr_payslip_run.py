@@ -6,14 +6,14 @@ import pandas as pd
 import io
 import os
 
-from xlrd import open_workbook
 from pytz import timezone
 from datetime import datetime
 from xlutils.copy import copy
+from openpyxl import load_workbook
 
 from odoo import api, fields, models, tools, modules, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class HrPayslipRun(models.Model):
@@ -110,7 +110,7 @@ class HrPayslipRun(models.Model):
     group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
     payment_date = fields.Date(string='Fecha de pago', required=True,
         readonly=True, states={'draft': [('readonly', False)]})
-    
+
     def get_data_bank(self):
         """ Function doc """
         line_data = []
@@ -127,47 +127,98 @@ class HrPayslipRun(models.Model):
                 'id_concept': '01 PAGO DE NOMINA',
             })
         return sorted(line_data, key=lambda k: k['employee_number'])
-    
+
     def get_xls_bank(self):
         """ Function doc """
-        data_rows = self.get_data_bank()
-        file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'layout.xls')
-        # ~ with open(file_xls, 'rb') as f:
-            # ~ file_read = f.read()
-        rb = open_workbook(file_xls, formatting_info=True)
-        wb = copy(rb)
-        sheet = wb.get_sheet(0)
-        row = 6
+        output = io.BytesIO()
+        file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'Layout Dispersion Santander.xlsm')
+        wb = load_workbook(filename = file_xls, read_only=False, keep_vba=True)
+        ws1 = wb.active
+        row = 7
         row += 1
         start_row = row
-        for i, h in enumerate(data_rows):
+        payment_date = self.payment_date.strftime('%d/%m/%Y')
+        ws1.cell(column=8, row=4, value=payment_date)
+        for i, h in enumerate(self.get_data_bank()):
+            j = i
+            j += 1
             i += row
-            sheet.write(i, 2, h.get('employee_number'))
-            sheet.write(i, 3, h.get('last_name'))
-            sheet.write(i, 4, h.get('mothers_last_name'))
-            sheet.write(i, 5, h.get('name'))
-            sheet.write(i, 6, h.get('bank_account'))
-            sheet.write(i, 7, h.get('total'))
-            sheet.write(i, 8, h.get('id_concept'))
+            # ~ ws1.cell(column=3, row=i, value=h.get('employee_number'))
+            ws1.cell(column=3, row=i, value=j)
+            ws1.cell(column=4, row=i, value=h.get('last_name'))
+            ws1.cell(column=5, row=i, value=h.get('mothers_last_name'))
+            ws1.cell(column=6, row=i, value=h.get('name'))
+            ws1.cell(column=7, row=i, value=h.get('bank_account'))
+            ws1.cell(column=8, row=i, value=h.get('total'))
+            ws1.cell(column=9, row=i, value=h.get('id_concept'))
         row = i
-        # ~ c = sheet.cell(row+1, 2)
-        # ~ xf = sheet.book.xf_list[c.xf_index]
-        # ~ fmt_obj = sheet.book.format_map[xf.format_key]
-        # ~ print (repr(c.value), c.ctype, fmt_obj.type, fmt_obj.format_key, fmt_obj.format_str)
-        wb.save('/home/jpernia/Workspace/addons_mexico/payroll_mexico/static/src/layout/jeison.xls')
-        
-        # ~ print (rb)
-        # ~ workbook.close()
-        # ~ xlsx_data = file_read.getvalue()
-        # ~ export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsx'})
-        # ~ return {
-            # ~ 'view_mode': 'form',
-            # ~ 'res_id': export_id.id,
-            # ~ 'res_model': 'hr.payslip.run.export.excel',
-            # ~ 'view_type': 'form',
-            # ~ 'type': 'ir.actions.act_window',
-            # ~ 'target': 'new',
-        # ~ }
+        wb.save(output)
+        f_name = 'Layout Dispersion Santander'
+        xlsx_data = output.getvalue()
+        export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsm'})
+        return {
+            'view_mode': 'form',
+            'res_id': export_id.id,
+            'res_model': 'hr.payslip.run.export.excel',
+            'view_type': 'form',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }
+
+    def get_data_bank_banorte(self):
+        """ Function doc """
+        line_data = []
+        domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
+        lines_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.code == 'T001')
+        for line in lines_ids:
+            bank_account = line.slip_id.employee_id.get_bank().bank_account if line.slip_id.employee_id.get_bank() else ''
+            line_data.append({
+                'employee_number': line.slip_id.employee_id.enrollment.split('-')[1],
+                'name': line.slip_id.employee_id.complete_name,
+                'total': str(line.total).replace('.',''),
+                'account_code': '072',
+                'account_type': '001',
+                'bank_account': bank_account.zfill(18),
+            })
+        return sorted(line_data, key=lambda k: k['employee_number'])
+
+    def get_xls_bank_banorte(self):
+        """ Function doc """
+        output = io.BytesIO()
+        create_date = self.create_date.strftime('%Y-%m-%d 23:59:59')
+        sequence = self.search([('create_date','>=',self.create_date.date()),('create_date','<=',create_date)])
+        file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'Layout Dispersion Banorte.xlsm')
+        wb = load_workbook(filename = file_xls, read_only=False, keep_vba=True)
+        ws1 = wb.active
+        row = 2
+        row += 1
+        payment_date = self.payment_date.strftime('%d/%-m/%Y')
+        ws1.cell(column=8, row=2, value=payment_date)
+        ws1.cell(column=9, row=2, value=len(sequence))
+        total = 0
+        for i, h in enumerate(self.get_data_bank_banorte()):
+            total += float(h.get('total'))
+            i += row
+            ws1.cell(column=1, row=i, value=int(h.get('employee_number')))
+            ws1.cell(column=2, row=i, value=h.get('name'))
+            ws1.cell(column=3, row=i, value=float(h.get('total')))
+            ws1.cell(column=4, row=i, value=int(h.get('account_code')))
+            ws1.cell(column=5, row=i, value=int(h.get('account_type')))
+            ws1.cell(column=6, row=i, value=h.get('bank_account'))
+            
+        row = i
+        wb.save(output)
+        f_name = 'Layout Dispersion Banorte'
+        xlsx_data = output.getvalue()
+        export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsm'})
+        return {
+            'view_mode': 'form',
+            'res_id': export_id.id,
+            'res_model': 'hr.payslip.run.export.excel',
+            'view_type': 'form',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }
 
     @api.one
     @api.depends('date_start')
