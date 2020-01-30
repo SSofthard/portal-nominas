@@ -316,7 +316,7 @@ class BaseDocument:
     def sellar(self,document):
         
         date =  datetime.now()
-        
+        _logger.info(date)
         UTC = pytz.timezone ("UTC") 
         UTC_date = UTC.localize(date, is_dst=None) 
         date_timbre = UTC_date.astimezone (self.tz)
