@@ -418,7 +418,7 @@ class HrPayslipRun(models.Model):
 
     def _compute_acumulated_tax_amount(self):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
-        current_year = fields.Date.context_today(self).year
+        current_year = self.year
         domain = [('group_id','=', self.group_id.id)]
         payslips_current_month = self.search([('payroll_month','=',self.payroll_month)] + domain).filtered(lambda sheet: sheet.date_start.year == current_year)
         total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
