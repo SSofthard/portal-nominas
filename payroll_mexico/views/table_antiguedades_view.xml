@@ -30,7 +30,7 @@
         <field name="name">tablas.antiguedades.tree</field>
         <field name="model">tablas.antiguedades</field>
         <field name="arch" type="xml">
-            <tree string="Tablas Antiguedades">
+            <tree string="Tabla de Antigüedad">
                <field name="name"/>
             </tree>
         </field>
@@ -40,14 +40,14 @@
         <field name="name">tablas.antiguedades.search.view</field>
         <field name="model">tablas.antiguedades</field>
         <field name="arch" type="xml">
-            <search string="Tablas Antiguedades">
+            <search string="Tabla de Antigüedad">
                <field name="name" />
             </search>
         </field>
     </record>
 
     <record id="action_tree_tablas_antiguedades" model="ir.actions.act_window">
-        <field name="name">Tablas Antiguedades</field>
+        <field name="name">Tabla de Antigüedad</field>
         <field name="res_model">tablas.antiguedades</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -57,7 +57,7 @@
     </record>
 
     <menuitem
-          name="Tablas Antiguedades"
+          name="Tabla de Antigüedad"
           parent="hr_payroll.menu_hr_payroll_configuration"
           id="menu_action_tree_tablas_antiguedades"
           action="action_tree_tablas_antiguedades"
