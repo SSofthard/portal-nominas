@@ -222,6 +222,7 @@
                                     <field name="reference" />
                                     <field name="bank_account" />
                                     <field name="location_branch" />
+                                    <field name="contracting_regime" />
                                     <field name="predetermined" />
                                 </group>
                             </form>
@@ -232,7 +233,7 @@
                                 <field name="bank_account" />
                                 <field name="location_branch" />
                                 <field name="predetermined" />
-                                <field name="state" />
+                                <field name="contracting_regime" />
                             </tree>
                         </field>
                     </page>
