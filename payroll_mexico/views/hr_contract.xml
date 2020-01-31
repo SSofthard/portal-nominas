@@ -120,12 +120,11 @@
                     <field name="work_center_id" invisible="1"/>
                     <field name="employer_register_id" invisible="1"/>
                 </xpath>
-<!--
-                <xpath expr="//field[@name='wage']" position="attributes">
-					<attribute name="widget">mask</attribute>
-					<attribute name="data-inputmask">'alias': 'decimal','digits':'2', 'greedy' : false</attribute>
+                 <xpath expr="//div[@class='o_row']" position="after">
+                    <field name="bank_account_id" attrs="{'readonly': [('state', 'not in', ('draft'))]}"
+                        domain="[('employee_id','=',employee_id),('state','=','active')]" required="1"
+                        options='{"no_open": True, "no_create": True}'/>
                 </xpath>
--->
             </field>
         </record>
 

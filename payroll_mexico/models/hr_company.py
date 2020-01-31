@@ -297,6 +297,8 @@ class branchOffices(models.Model):
 
 class bankDetailsCompany(models.Model):
     _name = "bank.account.company"
+    _description = 'Bank Account Company'
+    _rec_name = 'bank_id'
     
     company_id = fields.Many2one('res.company', "Company", required=False)
     bank_id = fields.Many2one('res.bank', "Bank", required=True)
@@ -458,5 +460,5 @@ class companySectorEconomico(models.Model):
 
     _name = 'res.company.sector_economico'
     
-    name = fields.Char('Sector Economico', required=True)
+    name = fields.Char('Sector Económico', required=True)
     code = fields.Char('Código', required=True)

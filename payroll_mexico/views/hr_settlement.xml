@@ -44,6 +44,8 @@
                 <button string="Cancel Payslip" name="action_payslip_cancel" type="object" states="draft,hr_check,confirm,verify"/>
                 <button string="Report settlement" name="print_settlement_report" type="object" states="draft,done"/>
                 <button string="Generar CFDI" name="action_cfdi_nomina_generate" type="object" class="oe_sale"/>
+                <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale"/>
+                <button string="Imprimir CFDI (Liquidación)" name="get_pdf_cfdi_si" type="object" class="oe_sale"/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
             </header>
             <sheet>
@@ -102,7 +104,7 @@
 						<field name="date_end"/>
 						<field name="type_contract" invisible="1"/>
 					</group>
-					<group string="Antiguedad">
+					<group string="Antigüedad">
 						<field name="years_antiquity"/>
 						<field name="days_rest"/>
 					</group>

@@ -230,7 +230,7 @@ class WizardComputeSDIVar(models.TransientModel):
                 print (perceptions[key])
                 print (perceptions[key])
                 print (bimonthly_days)
-                vals[key] = restante/bimonthly_days
+                vals[key] = perceptions[key]/bimonthly_days
             if key in ['029']:
                 print('''si su importe no rebasa el 40% del SMGVDF, de lo contrario el excedente se integrará''')
                 SMGVDF = []
