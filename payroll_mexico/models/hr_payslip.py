@@ -13,7 +13,7 @@ from io import StringIO, BytesIO
 from lxml import etree as ET
 from .tool_convert_numbers_letters import numero_to_letras
 
-from odoo import api, fields, models, tools, _
+from odoo import api, fields, models, tools, modules, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.addons.payroll_mexico.cfdilib_payroll import cfdilib, cfdv32, cfdv33
@@ -739,9 +739,6 @@ class HrPayslip(models.Model):
             self.write(vals)
         return True 
                                             
-                                            
-        
-    
     @api.multi
     def action_cfdi_nomina_generate(self):
         for payslip in self:
@@ -893,6 +890,109 @@ class HrPayslip(models.Model):
                     payslip.action_cfdi_compesation_generate(certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
                                                         password=csd_company.track, tz=tz, url=url, user=user, password_pac = password)
         return True 
+    
+    
+    @api.multi
+    def action_cfdi_nomina_cancel(self):
+        for payslip in self:
+            tz = pytz.timezone(self.env.user.partner_id.tz)
+            csd_company = self.env['res.company.fiel.csd'].search([('company_id','=',payslip.company_id.id),('type','=','csd'),('predetermined','=',True),('state','=','valid')])
+            if csd_company.company_id.test_cfdi:
+                url = csd_company.company_id.url_cfdi_test
+                user = csd_company.company_id.user_cfdi_test
+                password = csd_company.company_id.password_cfdi_test
+            else:
+                url = csd_company.company_id.url_cfdi
+                user = csd_company.company_id.user_cfdi
+                password = csd_company.company_id.password_cfdi
+            if not url or not user or not password:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer la url el user y password para la conexción con el PAC',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer el registro predeterminado para los archivos .key y .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.cer:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.key:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.track:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar la pista para el archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            else:
+                date =  datetime.now()
+                UTC = pytz.timezone ("UTC") 
+                UTC_date = UTC.localize(date, is_dst=None) 
+                date_timbre = UTC_date.astimezone (tz)
+                date_timbre = str(date_timbre.isoformat())[:19]
+                file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'cancelacion.xml')
+                import xml.etree.ElementTree as ET
+                tree = ET.parse(file_xls)
+                root = tree.getroot()
+                element = root[0]
+                root[1][0][0].text = str(self.company_id.rfc)
+                root[1][0][1].text = str(date_timbre)
+                root[1][0][2].text = str(self.UUID_sat)
+                root[1][0][3].text = csd_company.cer.datas.decode('utf8')
+                root[1][0][4].text = csd_company.key.datas.decode('utf8')
+                root[1][0][5].text = str(csd_company.track)
+                root[1][0][6][0].text = str(password)
+                root[1][0][6][1].text = str(user)
+                tree = ET.tostring(root, encoding='utf8', method='xml')
+                
+                import zeep
+                cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSCancelacionService?wsdl')
+                # ~ try:
+                    # ~ accesos_type = cliente.get_type("ns1:accesos")
+                    
+                    # ~ accesos = accesos_type(usuario=usuario, password=password)
+                
+                cfdi_cancel = cliente.service.Cancelacion_1(
+                                                        folios=[self.UUID_sat],
+                                                        fecha=str(date_timbre),
+                                                        rfcEmisor=str(self.company_id.rfc),
+                                                        publicKey=csd_company.cer.datas,
+                                                        privateKey=csd_company.key.datas,
+                                                        password=str(csd_company.track),
+                                                        accesos={'password':password,'usuario':user},
+                                                        )
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                # ~ return cfdi_timbrado  
+                # ~ except Exception as exception:
+                    # ~ print("Message %s" % exception)
+                
+        return True        
+            
+        
+        
+        
+        
     
     def get_folder(self):
         """ Function get folder is not exists, create folder """

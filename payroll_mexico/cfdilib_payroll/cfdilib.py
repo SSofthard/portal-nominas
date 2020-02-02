@@ -203,14 +203,9 @@ class BaseDocument:
         # TODO: Here should be called the cleanup 'Just before the validation'.
         valid = self.validate(self.schema, document)
         self.document = document
-        print (document)
         if valid:
             document = etree.XML(document)
             document = self.sellar(document)
-            print ('ya estoy por aca')
-            print ('ya estoy por aca')
-            print ('ya estoy por aca')
-            print ('ya estoy por aca')
             documento_timbrado = self.timbrar(self.user, self.password_pac, document)
             if documento_timbrado:
                 if documento_timbrado['xmlTimbrado']:
@@ -314,22 +309,11 @@ class BaseDocument:
         return base64.b64encode(keys.sign(digest, "sha256"))
     
     def sellar(self,document):
-        import logging
         date =  datetime.now()
-        logging.warning(date)
         UTC = pytz.timezone ("UTC") 
         UTC_date = UTC.localize(date, is_dst=None) 
         date_timbre = UTC_date.astimezone (self.tz)
         date_timbre = str(date_timbre.isoformat())[:19]
-        logging.warning(date_timbre)
-        logging.warning(date_timbre)
-        logging.warning(date_timbre)
-        logging.warning(date_timbre)
-        logging.warning(date_timbre)
-        logging.warning(date_timbre)
-        logging.warning(date_timbre)
-        logging.warning(date_timbre)
-        logging.warning(date_timbre)
         self.date_timbre = date_timbre
         certificado64 = self.get_certificado_64()
         certificado = self.get_certificado_x509(certificado64)
@@ -348,6 +332,11 @@ class BaseDocument:
                        
     def timbrar(self, usuario, password, cfdi_cellado):
         cliente = zeep.Client(wsdl = self.url)
+        print (cliente)
+        print (cliente)
+        print (cliente)
+        print (cliente)
+        print (cliente.service)
         try:
             accesos_type = cliente.get_type("ns1:accesos")
             
