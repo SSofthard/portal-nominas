@@ -231,7 +231,7 @@ class HrPayslip(models.Model):
         other_payments = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id),('salary_rule_id.type','=','other_payment')])
         other_payment_only = float("{0:.2f}".format(sum(other_payments.mapped('total'))))
         
-        bank_account = self.env['bank.account.employee'].search([('employee_id','=',self.employee_id.id),('predetermined','=',True),('state','=','active')])
+        # ~ bank_account = self.env['bank.account.employee'].search([('employee_id','=',self.employee_id.id),('predetermined','=',True),('state','=','active')])
         
         subtotal = perceptions_only + other_payment_only
         discount_amount = float("{0:.2f}".format(sum(deduction.mapped('total'))))
@@ -365,8 +365,8 @@ class HrPayslip(models.Model):
                 'departament': self.contract_id.department_id.name,
                 'emp_job': self.contract_id.job_id.name,
                 'payment_periodicity': '',
-                'emp_bank': '',
-                'emp_account': '',
+                'emp_bank': self.contract_id.bank_account_id.bank_id.code,
+                'emp_account': self.contract_id.bank_account_id.bank_account,
                 'emp_base_salary': '',
                 'emp_diary_salary': '',
                 'emp_state': self.employee_id.work_center_id.state_id.code,
@@ -434,9 +434,9 @@ class HrPayslip(models.Model):
             else:
                 data['payroll']['payment_periodicity'] = '99'
         
-        if bank_account:
-            data['payroll']['emp_bank'] = bank_account.bank_id.code
-            data['payroll']['emp_account'] = bank_account.bank_account
+        # ~ if bank_account:
+            # ~ data['payroll']['emp_bank'] = bank_account.bank_id.code
+            # ~ data['payroll']['emp_account'] = bank_account.bank_account
         return data    
         
     def to_json_is(self):
@@ -566,8 +566,8 @@ class HrPayslip(models.Model):
                 'departament': self.contract_id.department_id.name,
                 'emp_job': self.contract_id.job_id.name,
                 'payment_periodicity': '99',
-                'emp_bank': '',
-                'emp_account': '',
+                'emp_bank': self.contract_id.bank_account_id.bank_id.code,
+                'emp_account': self.contract_id.bank_account_id.bank_account,
                 'emp_base_salary': '',
                 'emp_diary_salary': '',
                 'emp_state': self.employee_id.work_center_id.state_id.code,

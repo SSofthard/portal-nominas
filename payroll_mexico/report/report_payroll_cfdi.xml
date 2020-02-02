@@ -127,10 +127,10 @@
                             </td>
                             <td><span t-field="o.way_pay" /></td>
                             <td class="text-left">
-                                <t t-esc="payroll[0]['bank_account']"/>
+                                <t t-esc="data['values']['payroll']['emp_account']"/>
                             </td>
                             <td class="text-left">
-                                <t t-esc="payroll[0]['bank']"/>
+                                <t t-esc="data['values']['payroll']['emp_bank']"/>
                             </td>
                            <td style="color: #FFFFFF">-</td>
                            <td style="color: #FFFFFF">-</td>
