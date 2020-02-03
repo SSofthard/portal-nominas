@@ -1,14 +1,6 @@
-
-
 .bg-light {
     background-color: #21252994 !important;
 }
-
-/*
-footer {
-    padding-top: 7px;
-}
-*/
 
 html, body {
 	 overflow: hidden;
@@ -102,3 +94,4 @@ html, body {
  .background.down-scroll + .background:not(.down-scroll) .content-wrapper {
 	 transform: translateY(15vh);
 }
+ 

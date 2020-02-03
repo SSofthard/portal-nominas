@@ -13,10 +13,12 @@ from io import StringIO, BytesIO
 from lxml import etree as ET
 from .tool_convert_numbers_letters import numero_to_letras
 
-from odoo import api, fields, models, tools, _
+from odoo import api, fields, models, tools, modules, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.addons.payroll_mexico.cfdilib_payroll import cfdilib, cfdv32, cfdv33
+
+from odoo.addons import decimal_precision as dp
 
 _logger = logging.getLogger(__name__)
 
@@ -231,7 +233,7 @@ class HrPayslip(models.Model):
         other_payments = self.env['hr.payslip.line'].search([('category_id.code','=','PERCEPCIONES'),('slip_id','=',self.id),('salary_rule_id.type','=','other_payment')])
         other_payment_only = float("{0:.2f}".format(sum(other_payments.mapped('total'))))
         
-        bank_account = self.env['bank.account.employee'].search([('employee_id','=',self.employee_id.id),('predetermined','=',True),('state','=','active')])
+        # ~ bank_account = self.env['bank.account.employee'].search([('employee_id','=',self.employee_id.id),('predetermined','=',True),('state','=','active')])
         
         subtotal = perceptions_only + other_payment_only
         discount_amount = float("{0:.2f}".format(sum(deduction.mapped('total'))))
@@ -365,8 +367,8 @@ class HrPayslip(models.Model):
                 'departament': self.contract_id.department_id.name,
                 'emp_job': self.contract_id.job_id.name,
                 'payment_periodicity': '',
-                'emp_bank': '',
-                'emp_account': '',
+                'emp_bank': self.contract_id.bank_account_id.bank_id.code,
+                'emp_account': self.contract_id.bank_account_id.bank_account,
                 'emp_base_salary': '',
                 'emp_diary_salary': '',
                 'emp_state': self.employee_id.work_center_id.state_id.code,
@@ -434,9 +436,9 @@ class HrPayslip(models.Model):
             else:
                 data['payroll']['payment_periodicity'] = '99'
         
-        if bank_account:
-            data['payroll']['emp_bank'] = bank_account.bank_id.code
-            data['payroll']['emp_account'] = bank_account.bank_account
+        # ~ if bank_account:
+            # ~ data['payroll']['emp_bank'] = bank_account.bank_id.code
+            # ~ data['payroll']['emp_account'] = bank_account.bank_account
         return data    
         
     def to_json_is(self):
@@ -566,8 +568,8 @@ class HrPayslip(models.Model):
                 'departament': self.contract_id.department_id.name,
                 'emp_job': self.contract_id.job_id.name,
                 'payment_periodicity': '99',
-                'emp_bank': '',
-                'emp_account': '',
+                'emp_bank': self.contract_id.bank_account_id.bank_id.code,
+                'emp_account': self.contract_id.bank_account_id.bank_account,
                 'emp_base_salary': '',
                 'emp_diary_salary': '',
                 'emp_state': self.employee_id.work_center_id.state_id.code,
@@ -739,9 +741,6 @@ class HrPayslip(models.Model):
             self.write(vals)
         return True 
                                             
-                                            
-        
-    
     @api.multi
     def action_cfdi_nomina_generate(self):
         for payslip in self:
@@ -893,6 +892,109 @@ class HrPayslip(models.Model):
                     payslip.action_cfdi_compesation_generate(certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
                                                         password=csd_company.track, tz=tz, url=url, user=user, password_pac = password)
         return True 
+    
+    
+    @api.multi
+    def action_cfdi_nomina_cancel(self):
+        for payslip in self:
+            tz = pytz.timezone(self.env.user.partner_id.tz)
+            csd_company = self.env['res.company.fiel.csd'].search([('company_id','=',payslip.company_id.id),('type','=','csd'),('predetermined','=',True),('state','=','valid')])
+            if csd_company.company_id.test_cfdi:
+                url = csd_company.company_id.url_cfdi_test
+                user = csd_company.company_id.user_cfdi_test
+                password = csd_company.company_id.password_cfdi_test
+            else:
+                url = csd_company.company_id.url_cfdi
+                user = csd_company.company_id.user_cfdi
+                password = csd_company.company_id.password_cfdi
+            if not url or not user or not password:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer la url el user y password para la conexción con el PAC',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer el registro predeterminado para los archivos .key y .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.cer:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.key:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.track:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar la pista para el archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            else:
+                date =  datetime.now()
+                UTC = pytz.timezone ("UTC") 
+                UTC_date = UTC.localize(date, is_dst=None) 
+                date_timbre = UTC_date.astimezone (tz)
+                date_timbre = str(date_timbre.isoformat())[:19]
+                file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'cancelacion.xml')
+                import xml.etree.ElementTree as ET
+                tree = ET.parse(file_xls)
+                root = tree.getroot()
+                element = root[0]
+                root[1][0][0].text = str(self.company_id.rfc)
+                root[1][0][1].text = str(date_timbre)
+                root[1][0][2].text = str(self.UUID_sat)
+                root[1][0][3].text = csd_company.cer.datas.decode('utf8')
+                root[1][0][4].text = csd_company.key.datas.decode('utf8')
+                root[1][0][5].text = str(csd_company.track)
+                root[1][0][6][0].text = str(password)
+                root[1][0][6][1].text = str(user)
+                tree = ET.tostring(root, encoding='utf8', method='xml')
+                
+                import zeep
+                cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSCancelacionService?wsdl')
+                # ~ try:
+                    # ~ accesos_type = cliente.get_type("ns1:accesos")
+                    
+                    # ~ accesos = accesos_type(usuario=usuario, password=password)
+                
+                cfdi_cancel = cliente.service.Cancelacion_1(
+                                                        folios=[self.UUID_sat],
+                                                        fecha=str(date_timbre),
+                                                        rfcEmisor=str(self.company_id.rfc),
+                                                        publicKey=csd_company.cer.datas,
+                                                        privateKey=csd_company.key.datas,
+                                                        password=str(csd_company.track),
+                                                        accesos={'password':password,'usuario':user},
+                                                        )
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                print (cfdi_cancel)
+                # ~ return cfdi_timbrado  
+                # ~ except Exception as exception:
+                    # ~ print("Message %s" % exception)
+                
+        return True        
+            
+        
+        
+        
+        
     
     def get_folder(self):
         """ Function get folder is not exists, create folder """
@@ -1210,6 +1312,154 @@ class HrPayslip(models.Model):
             hr_inputs.write({'payslip':True})
         return res
     
+    @api.model
+    def _get_payslip_lines(self, contract_ids, payslip_id):
+        def _sum_salary_rule_category(localdict, category, amount):
+            if category.parent_id:
+                localdict = _sum_salary_rule_category(localdict, category.parent_id, amount)
+            localdict['categories'].dict[category.code] = category.code in localdict['categories'].dict and localdict['categories'].dict[category.code] + amount or amount
+            return localdict
+
+        class BrowsableObject(object):
+            def __init__(self, employee_id, dict, env):
+                self.employee_id = employee_id
+                self.dict = dict
+                self.env = env
+
+            def __getattr__(self, attr):
+                return attr in self.dict and self.dict.__getitem__(attr) or 0.0
+
+        class InputLine(BrowsableObject):
+            """a class that will be used into the python code, mainly for usability purposes"""
+            def sum(self, code, from_date, to_date=None):
+                if to_date is None:
+                    to_date = fields.Date.today()
+                self.env.cr.execute("""
+                    SELECT sum(amount) as sum
+                    FROM hr_payslip as hp, hr_payslip_input as pi
+                    WHERE hp.employee_id = %s AND hp.state = 'done'
+                    AND hp.date_from >= %s AND hp.date_to <= %s AND hp.id = pi.payslip_id AND pi.code = %s""",
+                    (self.employee_id, from_date, to_date, code))
+                return self.env.cr.fetchone()[0] or 0.0
+
+        class WorkedDays(BrowsableObject):
+            """a class that will be used into the python code, mainly for usability purposes"""
+            def _sum(self, code, from_date, to_date=None):
+                if to_date is None:
+                    to_date = fields.Date.today()
+                self.env.cr.execute("""
+                    SELECT sum(number_of_days) as number_of_days, sum(number_of_hours) as number_of_hours
+                    FROM hr_payslip as hp, hr_payslip_worked_days as pi
+                    WHERE hp.employee_id = %s AND hp.state = 'done'
+                    AND hp.date_from >= %s AND hp.date_to <= %s AND hp.id = pi.payslip_id AND pi.code = %s""",
+                    (self.employee_id, from_date, to_date, code))
+                return self.env.cr.fetchone()
+
+            def sum(self, code, from_date, to_date=None):
+                res = self._sum(code, from_date, to_date)
+                return res and res[0] or 0.0
+
+            def sum_hours(self, code, from_date, to_date=None):
+                res = self._sum(code, from_date, to_date)
+                return res and res[1] or 0.0
+
+        class Payslips(BrowsableObject):
+            """a class that will be used into the python code, mainly for usability purposes"""
+
+            def sum(self, code, from_date, to_date=None):
+                if to_date is None:
+                    to_date = fields.Date.today()
+                self.env.cr.execute("""SELECT sum(case when hp.credit_note = False then (pl.total) else (-pl.total) end)
+                            FROM hr_payslip as hp, hr_payslip_line as pl
+                            WHERE hp.employee_id = %s AND hp.state = 'done'
+                            AND hp.date_from >= %s AND hp.date_to <= %s AND hp.id = pl.slip_id AND pl.code = %s""",
+                            (self.employee_id, from_date, to_date, code))
+                res = self.env.cr.fetchone()
+                return res and res[0] or 0.0
+
+        #we keep a dict with the result because a value can be overwritten by another rule with the same code
+        result_dict = {}
+        rules_dict = {}
+        worked_days_dict = {}
+        inputs_dict = {}
+        blacklist = []
+        payslip = self.env['hr.payslip'].browse(payslip_id)
+        for worked_days_line in payslip.worked_days_line_ids:
+            worked_days_dict[worked_days_line.code] = worked_days_line
+        for input_line in payslip.input_line_ids:
+            inputs_dict[input_line.code] = input_line
+
+        categories = BrowsableObject(payslip.employee_id.id, {}, self.env)
+        inputs = InputLine(payslip.employee_id.id, inputs_dict, self.env)
+        worked_days = WorkedDays(payslip.employee_id.id, worked_days_dict, self.env)
+        payslips = Payslips(payslip.employee_id.id, payslip, self.env)
+        rules = BrowsableObject(payslip.employee_id.id, rules_dict, self.env)
+
+        baselocaldict = {'categories': categories, 'rules': rules, 'payslip': payslips, 'worked_days': worked_days, 'inputs': inputs}
+        #get the ids of the structures on the contracts and their parent id as well
+        contracts = self.env['hr.contract'].browse(contract_ids)
+        if len(contracts) == 1 and payslip.struct_id:
+            structure_ids = list(set(payslip.struct_id._get_parent_structure().ids))
+        else:
+            structure_ids = contracts.get_all_structures()
+        #get the rules of the structure and thier children
+        rule_ids = self.env['hr.payroll.structure'].browse(structure_ids).get_all_rules()
+        #run the rules by sequence
+        sorted_rule_ids = [id for id, sequence in sorted(rule_ids, key=lambda x:x[1])]
+        sorted_rules = self.env['hr.salary.rule'].browse(sorted_rule_ids)
+
+        for contract in contracts:
+            employee = contract.employee_id
+            localdict = dict(baselocaldict, employee=employee, contract=contract)
+            for rule in sorted_rules:
+                key = rule.code + '-' + str(contract.id)
+                localdict['result'] = None
+                localdict['result_qty'] = 1.0
+                localdict['result_rate'] = 100
+                #check if the rule can be applied
+                if rule._satisfy_condition(localdict) and rule.id not in blacklist:
+                    #compute the amount of the rule
+                    amount, qty, rate = rule._compute_rule(localdict)
+                    #check if there is already a rule computed with that code
+                    previous_amount = rule.code in localdict and localdict[rule.code] or 0.0
+                    #set/overwrite the amount computed for this rule in the localdict
+                    tot_rule = amount * qty * rate / 100.0
+                    localdict[rule.code] = tot_rule
+                    rules_dict[rule.code] = rule
+                    #sum the amount for its salary category
+                    localdict = _sum_salary_rule_category(localdict, rule.category_id, tot_rule - previous_amount)
+                    #create/overwrite the rule in the temporary results
+                    result_dict[key] = {
+                        'salary_rule_id': rule.id,
+                        'contract_id': contract.id,
+                        'name': rule.name,
+                        'code': rule.code,
+                        'category_id': rule.category_id.id,
+                        'sequence': rule.sequence,
+                        'appears_on_payslip': rule.appears_on_payslip,
+                        'condition_select': rule.condition_select,
+                        'condition_python': rule.condition_python,
+                        'condition_range': rule.condition_range,
+                        'condition_range_min': rule.condition_range_min,
+                        'condition_range_max': rule.condition_range_max,
+                        'amount_select': rule.amount_select,
+                        'amount_fix': rule.amount_fix,
+                        'amount_python_compute': rule.amount_python_compute,
+                        'amount_percentage': rule.amount_percentage,
+                        'amount_percentage_base': rule.amount_percentage_base,
+                        'register_id': rule.register_id.id,
+                        'amount': amount,
+                        'employee_id': contract.employee_id.id,
+                        'quantity': qty,
+                        'rate': rate,
+                        'total': float(qty) * amount * rate / 100,
+                    }
+                else:
+                    #blacklist this rule and its children
+                    blacklist += [id for id, seq in rule._recursive_search_of_rules()]
+
+        return list(result_dict.values())
+    
     @api.multi
     def compute_sheet(self):
         for payslip in self:
@@ -1234,6 +1484,7 @@ class HrPayslip(models.Model):
             contract_ids = payslip.contract_id.ids or \
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
+            print (lines)
             payslip.write({'line_ids': lines, 'number': number, 'code_payslip':code_payslip, 'payment_date':payment_date})
             if payslip.settlement:
                 val = {
@@ -1831,3 +2082,4 @@ class HrPayslipLine(models.Model):
     _inherit = 'hr.payslip.line'
     
     payroll_tax = fields.Boolean('Apply payroll tax?', related='salary_rule_id.payroll_tax', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
+    total = fields.Float(compute='', string='Total', digits=dp.get_precision('Payroll'), store=True)

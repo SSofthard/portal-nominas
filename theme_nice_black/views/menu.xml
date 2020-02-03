@@ -4,7 +4,7 @@
     
 <template id="custom_menu_hr" name="Menu Hr">
     <t t-call="web.layout">
-        
+        <t t-set="debug_param" t-value="'?&amp;debug=' if debug else ''"/>
         <t t-set="html_data" t-value="{'style': 'height: 100%;'}"/>
         
         <t t-set="setting" t-value="dataMenu['setting']"/>      
@@ -52,6 +52,7 @@
                     data-toggle="tooltip" 
                     data-placement="top" 
                     title="AJUSTES"
+                    t-att-debug="debug_param" 
                     t-att-model="setting['model']" 
                     t-att-action="setting['action']" 
                     t-att-menu="setting['menu']"
@@ -64,6 +65,7 @@
                     data-toggle="tooltip" 
                     data-placement="top" 
                     title="APLICACIONES"
+                    t-att-debug="debug_param" 
                     t-att-model="app['model']"
                     t-att-action="app['action']" 
                     t-att-menu="app['menu']"
@@ -76,6 +78,7 @@
                     data-toggle="tooltip" 
                     data-placement="top" 
                     title="ASISTENCIAS"
+                    t-att-debug="debug_param" 
                     t-att-model="att['model']"
                     t-att-action="att['action']" 
                     t-att-menu="att['menu']"
@@ -88,6 +91,7 @@
                     data-toggle="tooltip" 
                     data-placement="top" 
                     title="AUSENCIAS"
+                    t-att-debug="debug_param" 
                     t-att-model="leave['model']"
                     t-att-action="leave['action']" 
                     t-att-menu="leave['menu']"
@@ -100,6 +104,7 @@
                     data-toggle="tooltip" 
                     data-placement="top" 
                     title="CALENDARIO"
+                    t-att-debug="debug_param" 
                     t-att-model="calendar['model']"
                     t-att-action="calendar['action']" 
                     t-att-menu="calendar['menu']"
@@ -112,6 +117,7 @@
                     data-toggle="tooltip" 
                     data-placement="top" 
                     title="MENSAJERÍA"
+                    t-att-debug="debug_param" 
                     t-att-model="mail['model']"
                     t-att-action="mail['action']" 
                     t-att-menu="mail['menu']"
@@ -124,6 +130,7 @@
                     data-toggle="tooltip" 
                     data-placement="top" 
                     title="DOCUMENTOS"
+                    t-att-debug="debug_param" 
                     t-att-model="documents['model']"
                     t-att-action="documents['action']" 
                     t-att-menu="documents['menu']"
@@ -136,6 +143,7 @@
                 data-toggle="tooltip" 
                 data-placement="top" 
                 title="GASTOS"
+                t-att-debug="debug_param" 
                 t-att-model="expense['model']"
                 t-att-action="expense['action']" 
                 t-att-menu="expense['menu']"
@@ -148,6 +156,7 @@
                 data-toggle="tooltip" 
                 data-placement="top" 
                 title="EMPLEADOS"
+                t-att-debug="debug_param" 
                 t-att-model="hr['model']" 
                 t-att-action="hr['action']" 
                 t-att-menu="hr['menu']"
@@ -160,6 +169,7 @@
                 data-toggle="tooltip" 
                 data-placement="top" 
                 title="NÓMINAS"
+                t-att-debug="debug_param" 
                 t-att-model="payroll['model']" 
                 t-att-action="payroll['action']" 
                 t-att-menu="payroll['menu']"

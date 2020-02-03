@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+     <SOAP-ENV:Header/>
+     <S:Body>
+          <ns4:Cancelacion_1 xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="http://cancelacfd.sat.gob.mx" xmlns:ns4="http://wservicios/">
+               <rfcEmisor></rfcEmisor>
+               <fecha></fecha>
+               <folios></folios>
+               <publicKey></publicKey>
+               <privateKey></privateKey>
+               <password></password>
+               <accesos>
+                    <password></password>
+                    <usuario></usuario>
+               </accesos>
+          </ns4:Cancelacion_1>
+     </S:Body>
+</S:Envelope>

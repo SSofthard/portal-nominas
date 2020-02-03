@@ -3,18 +3,20 @@
     
 <t t-extend="HomeMenu.Content">
     <t t-jquery=".o_apps" t-operation="replace">
-        <div class="alert alert-info alert-dismissable" role="status">
-            <div class="o_no_result text-black">No result</div>
-            <div class="text-center text-black">Volver</div>
-            
-        </div>
-        <div>
-            <a aria-label="Applications" class="fa o_menu_toggle fa-th" href="/web" title="Inicio"></a>
-        </div>
+        <script>
+            function pageRedirect() {
+                var is_debug = location.search;
+                if ( is_debug == '?debug') {
+                    url = window.location.origin +"/web?debug";
+                    window.location.href = url;
+                } else {
+                    url = window.location.origin +"/web";
+                    window.location.href = url;
+                }
+            }
+            pageRedirect();
+        </script>
     </t>
 </t>
-    
-    
-    
-    
+
 </templates>

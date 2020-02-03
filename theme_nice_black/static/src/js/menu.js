@@ -5,7 +5,12 @@ try {
     Menu.include({
         _onToggleHomeMenu: function (ev) {
             ev.preventDefault();
-            window.location.href=window.location.origin+'/web'
+            var is_debug = location.search;
+            if (is_debug) {
+                window.location.href=window.location.origin+'/web?debug'
+            } else {
+                window.location.href=window.location.origin+'/web'
+            }
             //~ this.trigger_up(this.home_menu_displayed ? 'hide_home_menu' : 'show_home_menu');
             //~ this.$el.parent().removeClass('o_mobile_menu_opened');
         }
