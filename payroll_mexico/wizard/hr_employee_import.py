@@ -83,7 +83,7 @@ class HrEmployeeImport(models.TransientModel):
 
     def check_field_many2one(self, domain, model):
         res_id = self.env[model].search(domain)
-        return res_id.id
+        return res_id
 
     @api.multi
     def read_document(self, create_incedents=False, create_perceptions=False, create_deductions=False):
@@ -94,6 +94,7 @@ class HrEmployeeImport(models.TransientModel):
         msg_required = ['Los siguientes campos son mandatorios: \n']
         msg_not_found = ['\nNo se encontrarron resultados para: \n']
         msg_not_format = ['\nFormato incorrecto, en las columnas: \n']
+        msg_more = ['\nSe encontraron dos o más coincidencias, en las columnas: \n']
         if datafile:
             book = open_workbook(file_contents=datafile)
             sheet = book.sheet_by_index(0)
@@ -129,8 +130,12 @@ class HrEmployeeImport(models.TransientModel):
                         domain = [('code','=', value)]
                         # ~ domain = [('code','=', self.float_to_string(sheet.cell_value(row,col)).strip())]
                         group_id = self.check_field_many2one(domain, model='hr.group')
+                        print ()
                         if group_id:
-                            lines['group_id'] = group_id
+                            if len(group_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['group_id'] = group_id.id
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col == 4 and sheet.cell_value(row,col):
@@ -139,7 +144,10 @@ class HrEmployeeImport(models.TransientModel):
                         domain = [('code','=', value)]
                         work_center_id = self.check_field_many2one(domain, model='hr.work.center')
                         if work_center_id:
-                            lines['work_center_id'] = work_center_id
+                            if len(work_center_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['work_center_id'] = work_center_id.id
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col == 5 and sheet.cell_value(row,col):
@@ -153,7 +161,10 @@ class HrEmployeeImport(models.TransientModel):
                         domain = [('code','=', value)]
                         department_id = self.check_field_many2one(domain, model='hr.department')
                         if department_id:
-                            lines['department_id'] = department_id
+                            if len(department_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['department_id'] = department_id.id
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col == 7 and sheet.cell_value(row,col):
@@ -161,8 +172,11 @@ class HrEmployeeImport(models.TransientModel):
                         domain = [('code','=', value)]
                         job_id = self.check_field_many2one(domain, model='hr.job')
                         if job_id:
-                            lines['job_id'] = job_id
-                            lines['job_title'] = self.env['hr.job'].search([('id','=',job_id)]).name
+                            if len(job_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['job_id'] = job_id.id
+                                lines['job_title'] = self.env['hr.job'].search([('id','=',job_id.id)]).name
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col == 8 and sheet.cell_value(row,col):
@@ -171,18 +185,33 @@ class HrEmployeeImport(models.TransientModel):
                         domain = [('name','=', value)]
                         resource_calendar_id = self.check_field_many2one(domain, model='resource.calendar')
                         if resource_calendar_id:
-                            lines['resource_calendar_id'] = resource_calendar_id
+                            if len(resource_calendar_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['resource_calendar_id'] = resource_calendar_id.id
                         else:
                             msg_not_found.append('%s con el nombre (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
-                    # ~ if col == 9 and sheet.cell_value(row,col):
-                        # ~ lines['tz'] = sheet.cell_value(row,col).strip()
+                    if col == 9 and sheet.cell_value(row,col):
+                        value = self.float_to_string(sheet.cell_value(row,col)).strip()
+                        domain = [('name','=', value)]
+                        address_home_id = self.check_field_many2one(domain, model='res.partner')
+                        if address_home_id:
+                            if len(address_home_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['address_home_id'] = address_home_id.id
+                        else:
+                            msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col in [10] and sheet.cell_value(row,col):
                         # ~ domain = [('name','=', self.float_to_string(sheet.cell_value(row,col)).strip())]
                         value = self.float_to_string(sheet.cell_value(row,col)).strip()
                         domain = [('name','=', value)]
                         country_id = self.check_field_many2one(domain, model='res.country')
                         if country_id:
-                            lines['country_id'] = country_id
+                            if len(country_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['country_id'] = country_id.id
                         else:
                             msg_not_found.append('%s con el nombre (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col == 11 and sheet.cell_value(row,col):
@@ -211,7 +240,10 @@ class HrEmployeeImport(models.TransientModel):
                         # ~ domain = [('name','=', self.float_to_string(sheet.cell_value(row,col)).strip())]
                         place_of_birth = self.check_field_many2one(domain, model='res.country.state')
                         if place_of_birth:
-                            lines['place_of_birth'] = place_of_birth
+                            if len(place_of_birth) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['place_of_birth'] = place_of_birth.id
                         else:
                             msg_not_found.append('%s con el nombre (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col in [15] and sheet.cell_value(row,col):
@@ -220,7 +252,10 @@ class HrEmployeeImport(models.TransientModel):
                         domain = [('name','=', value)]
                         country_of_birth = self.check_field_many2one(domain, model='res.country')
                         if country_of_birth:
-                            lines['country_of_birth'] = country_of_birth
+                            if len(country_of_birth) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['country_of_birth'] = country_of_birth.id
                         else:
                             msg_not_found.append('%s con el nombre (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col in [16] and sheet.cell_value(row,col):
@@ -229,15 +264,21 @@ class HrEmployeeImport(models.TransientModel):
                         domain = [('name','=', value)]
                         company_id = self.check_field_many2one(domain, model='res.company')
                         if company_id:
-                            lines['company_id'] = company_id
+                            if len(company_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['company_id'] = company_id.id
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col in [17] and sheet.cell_value(row,col):
                         value = self.float_to_string(sheet.cell_value(row,col)).strip()
-                        domain = [('company_id','=',company_id), ('employer_registry','=', value)]
+                        domain = [('company_id','=',company_id.id), ('employer_registry','=', value)]
                         employer_register_id = self.check_field_many2one(domain, model='res.employer.register')
                         if employer_register_id:
-                            lines['employer_register_id'] = employer_register_id
+                            if len(employer_register_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['employer_register_id'] = employer_register_id.id
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col in [18] and sheet.cell_value(row,col):
@@ -246,7 +287,10 @@ class HrEmployeeImport(models.TransientModel):
                         domain = [('name','=', value)]
                         payment_period_id = self.check_field_many2one(domain, model='hr.payment.period')
                         if payment_period_id:
-                            lines['payment_period_id'] = payment_period_id
+                            if len(payment_period_id) > 1:
+                                msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                            else:
+                                lines['payment_period_id'] = payment_period_id.id
                         else:
                             msg_not_found.append('%s con el nombre (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col in [19] and sheet.cell_value(row,col):
@@ -285,7 +329,10 @@ class HrEmployeeImport(models.TransientModel):
                             domain = [('enrollment','=', value)]
                             parent_id = self.check_field_many2one(domain, model='hr.employee')
                             if parent_id:
-                                lines['parent_id'] = parent_id
+                                if len(parent_id) > 1:
+                                    msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                                else:
+                                    lines['parent_id'] = parent_id.id
                             else:
                                 msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                         if col in [25]: # Es un director
@@ -480,7 +527,10 @@ class HrEmployeeImport(models.TransientModel):
                             domain = [('name','=', value)]
                             bank_id = self.check_field_many2one(domain, model='res.bank')
                             if bank_id:
-                                bank_data['bank_id'] = bank_id
+                                if len(bank_id) > 1:
+                                    msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                                else:
+                                    bank_data['bank_id'] = bank_id.id
                             else:
                                 msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                         if col == 55:
@@ -531,6 +581,8 @@ class HrEmployeeImport(models.TransientModel):
                 msgs += msg_not_found
             if len(msg_not_format) > 1:
                 msgs += msg_not_format
+            if len(msg_more) > 1:
+                msgs += msg_more
             if len(msgs):
                 self.file_ids = False
                 msg_raise="".join(msgs)
