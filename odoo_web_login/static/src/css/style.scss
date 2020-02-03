@@ -50,6 +50,11 @@ $gray-lighter: lighten($gray-base, 93.5%);
     background-color: $brand-primary-light;
 }
 
+//Submenu
+.o_main_navbar > ul > li.o_extra_menu_items.show > ul > li > a {
+    background-color: $brand-primary-light;
+}
+
 // View Calendar Monthly
 .o_calendar_container .o_calendar_sidebar_container .ui-datepicker table .ui-state-active {
     background-color: $brand-primary-light;
@@ -181,6 +186,15 @@ a:hover {
     color: inherit;
 }
 
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: $brand-primary;
+    border-color: $brand-primary-light;
+}
+
+.o_main_navbar > ul > li.o_extra_menu_items.show > ul > li > a.dropdown-toggle {
+    background-color: $brand-primary-light;
+}
+
 .o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button:not(.disabled):hover {
     color: $brand-primary;
 }
@@ -234,4 +248,39 @@ a:hover {
 
 .o_field_widget.o_field_image .o_form_image_controls {
     background-color: $brand-secondary;
+}
+
+//datepicker
+
+.datepicker {
+    .table-sm {
+        > thead {
+            color: white;
+            background-color: $brand-secondary;
+
+            > tr {
+                &:first-child {
+                    th:hover {
+                        color: white;
+                        background-color: darken($brand-primary, 30%);
+                    }
+                }
+            }
+        }
+
+        > tbody {
+            > tr {
+                > td {
+                    &.active, .active {
+                        background-color: darken($brand-secondary, 30%);
+                        border-radius: 100px;
+                    }
+
+                    &.today:before {
+                        border-bottom-color: $brand-secondary;
+                    }
+                }
+            }
+        }
+    }
 }

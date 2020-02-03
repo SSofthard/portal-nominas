@@ -19,7 +19,7 @@
 			<field name="model">hr.payslip</field>
 			<field name="arch" type="xml">
 				<tree decoration-info="state in ('confirm','hr_check','accont_check')" decoration-muted="state == 'cancel'" string="Payslips">
-					<field name="number"/>
+					<field name="complete_name"/>
 					<field name="employee_id"/>
 					<field name="name"/>
 					<field name="date_from"/>
@@ -43,6 +43,9 @@
                 <button string="Compute Sheet" name="compute_sheet" type="object" states="draft" class="oe_highlight"/>
                 <button string="Cancel Payslip" name="action_payslip_cancel" type="object" states="draft,hr_check,confirm,verify"/>
                 <button string="Report settlement" name="print_settlement_report" type="object" states="draft,done"/>
+                <button string="Generar CFDI" name="action_cfdi_nomina_generate" type="object" class="oe_sale"/>
+                <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale"/>
+                <button string="Imprimir CFDI (Liquidación)" name="get_pdf_cfdi_si" type="object" class="oe_sale"/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
             </header>
             <sheet>
@@ -69,12 +72,14 @@
                     <field name="contract_id" domain="[('employee_id','=',employee_id),('state','in',['close']),('contracting_regime','in',['02'])]" context="{'default_employee_id': employee_id}"/>
                     <field name="structure_type_id" />
                     <field name="number"/>
+                    <field name="code_payslip"/>
                     <field name="struct_id" attrs="{'required':[('contract_id','!=',False)]}" domain="[('structure_type_id','=',structure_type_id),('settlement','=',True)]" context="{'default_structure_type_id':structure_type_id}"/>
                     <field name="name" string="Nombre del finiquito"/>
                     <field name="employer_register_id"/>
                     <field name="payroll_period"/>
                     <field name="reason_liquidation" attrs="{'required':[('settlement','!=',False)]}"/>
                     <field name="group_id"/>
+                    <field name="payment_date"/>
                     <field name="settlemen_date" attrs="{'required':[('settlement','!=',False)]}"/>
                     <field name="payroll_month" invisible="1"/>
                     <field name="payroll_of_month" invisible="1"/>
@@ -85,7 +90,6 @@
                 <group>
 					<group string="Compensation of law">
 						<field name="indemnify_employee"/>
-						<field name="compensation_20"/>
 					</group>
 					<group string="Agreement" attrs="{'invisible':[('indemnify_employee','!=',False)]}">
 						<field name="agreement_employee"/>
@@ -100,7 +104,7 @@
 						<field name="date_end"/>
 						<field name="type_contract" invisible="1"/>
 					</group>
-					<group string="Antiguedad">
+					<group string="Antigüedad">
 						<field name="years_antiquity"/>
 						<field name="days_rest"/>
 					</group>
@@ -199,6 +203,56 @@
                         <div colspan="4">
                             <field name="note" placeholder="Add an internal note..."/>
                         </div>
+                   </page>
+                   <page string="CFDI">
+					   <group>
+							<group string="Datos CFDI">
+								<field name="way_pay" readonly="1"/>
+								<field name="type_voucher" string="Tipo de comprobante" readonly="1"/>
+								<field name="payment_method" readonly="1"/>
+								<field name="cfdi_use" readonly="1"/>
+							 </group>
+							 <group string="CFDI Relacionado">
+								<field name="type_related_cfdi"/>
+								<field name="uuid" attrs="{'invisible': [('type_related_cfdi', '!=', '04')],'required': [('type_related_cfdi', '=', '04')]}"/>
+							 </group>
+					   </group>
+					   <group string="Detalles">
+							<field name="invoice_status"/>
+							<field name="certificate_number"/>
+							<field name="certificate_number_emisor"/>
+							<field name="cfdi_issue_date"/>
+							<field name="invoice_date"/>
+							<field name="UUID_sat"/>
+							<field name="xml_timbre"/>
+							<field name="qr_timbre"/>
+							<field name="pdf"/>
+							<field name="stamp_cfd" invisible="1" readonly="True"/>
+							<field name="stamp_sat" invisible="1" readonly="True"/>
+							<field name="original_string" invisible="1" readonly="True"/>
+						 </group>
+					   <group string="Error en Timbrado" attrs="{'invisible': [('invoice_status', '!=', 'problemas_factura')]}">
+							<field name="code_error"/>
+							<field name="error"/>
+						 </group>
+					   <group string="Detalles Separación e Indemnización">
+							<field name="invoice_status_si"/>
+							<field name="certificate_number_si"/>
+							<field name="certificate_number_emisor_si"/>
+							<field name="cfdi_issue_date_si"/>
+							<field name="invoice_date_si"/>
+							<field name="UUID_sat_si"/>
+							<field name="xml_timbre_si"/>
+							<field name="qr_timbre_si"/>
+							<field name="pdf_is"/>
+							<field name="stamp_cfd_si" invisible="1" readonly="True"/>
+							<field name="stamp_sat_si" invisible="1" readonly="True"/>
+							<field name="original_string_si" invisible="1" readonly="True"/>
+						 </group>
+					   <group string="Error en Timbrado" attrs="{'invisible': [('invoice_status_si', '!=', 'problemas_factura')]}">
+							<field name="code_error_si"/>
+							<field name="error_si"/>
+						 </group>
                    </page>
                 </notebook>
                 </sheet>

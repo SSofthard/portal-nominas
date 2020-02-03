@@ -12,8 +12,8 @@
                     <field name="type"/>
                 </xpath> 
                 <xpath expr="//field[@name='register_id']" position="after">
-					<separator colspan="4" string="Regla Asociada (Monto Gravado)" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
-                    <field name="salary_rule_taxed_id" domain="[('code_category_id','=','G01')]" attrs="{'invisible': [('type', '!=', 'perception')],'required': [('type', '=', 'perception')]}"/>
+					<separator colspan="4" string="Regla Asociada (Monto Gravado)" attrs="{'invisible': ['|',('type', '!=', 'perception'),('type_perception', 'in', ['022','023','025'])]}"/>
+                    <field name="salary_rule_taxed_id" domain="[('code_category_id','=','G01')]" attrs="{'invisible': ['|',('type', '!=', 'perception'),('type_perception', 'in', ['022','023','025'])],'required': [('type', '=', 'perception'),('type_perception', 'not in', ['022','023','025'])]}"/>
                     <field name="code_category_id" invisible="1"/>
                 </xpath> 
                 <xpath expr="//group[1]" position="after">
@@ -27,6 +27,8 @@
                        <field name="payroll_tax" attrs="{'invisible': [('type', '!=', 'perception')]}"/>
                        <field name="payment_type" attrs="{'invisible': [('type', 'not in', ['perception','other_payment'])],'required': [('type', 'in', ['perception','other_payment'])]}"/>
                        <field name="apply_variable_compute"/>
+                       <field name="country_id" invisible="True"/>
+                       <field name="state_ids" domain="[('country_id','=',country_id)]" attrs="{'invisible': [('payroll_tax', '!=', True)]}"/>
                     </group>
                 </xpath> 
             </field>
@@ -359,6 +361,9 @@
                 <xpath expr="//filter[@name='category_id']" position="before">
                     <filter string="Nómina" name="gruopby_slip_id" context="{'group_by':'slip_id'}"/>
                 </xpath>
+                <xpath expr="//field[@name='slip_id']" position="after">
+                    <filter string="Apply payroll tax?" name="apply_payroll" domain="[('payroll_tax','=',True)]"/>
+                </xpath>
             </field>
         </record>
         
@@ -392,6 +397,9 @@
                    <attribute name="create">0</attribute>
                    <attribute name="edit">0</attribute>
                </xpath>
+               <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="payroll_tax"/>
+                </xpath>
             </field>
         </record>
         

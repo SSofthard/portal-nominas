@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 
+import base64
+import pandas as pd
+import io
+import os
 
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
-
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+from pytz import timezone
 from datetime import datetime
+from openpyxl import load_workbook
+
+from odoo import api, fields, models, tools, modules, _
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class HrPayslipRun(models.Model):
@@ -40,7 +46,7 @@ class HrPayslipRun(models.Model):
             ('10', 'October'),
             ('11', 'November'),
             ('12', 'December')], 
-            string='Payroll month', 
+            string='Payroll month',
             required=True,
             readonly=True,
             states={'draft': [('readonly', False)]})
@@ -61,7 +67,8 @@ class HrPayslipRun(models.Model):
             ('02', 'Weekly'),
             ('10', 'Decennial'),
             ('04', 'Biweekly'),
-            ('05', 'Monthly')], 
+            ('05', 'Monthly'),
+            ('99', 'Otra Peridiocidad'),], 
             string='Payroll period', 
             default="04",
             required=True,
@@ -100,8 +107,126 @@ class HrPayslipRun(models.Model):
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
     generated = fields.Boolean('Generated', default=False)
     group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
-    payment_date = fields.Date(string='Fecha de pago',
+    payment_date = fields.Date(string='Fecha de pago', required=True,
         readonly=True, states={'draft': [('readonly', False)]})
+    company_bank_id = fields.Many2one('bank.account.company', "Company bank", required=True)
+
+    def action_layout_dispersion(self):
+        """ Get Layout Dispersion """
+        if self.company_bank_id.bank_id.code == '014':
+            return self.get_xls_bank_santander()
+        if self.company_bank_id.bank_id.code == '072':
+            return self.get_xls_bank_banorte()
+
+    def get_data_bank(self):
+        """ Function get data for dispersion layout Santander Bank"""
+        line_data = []
+        domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
+        lines_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.code == 'T001')
+        accountEmployee = self.env['bank.account.employee']
+        for line in lines_ids:
+            bank_account = line.slip_id.contract_id.bank_account_id.bank_account
+            line_data.append({
+                'employee_number': line.slip_id.employee_id.enrollment,
+                'last_name': line.slip_id.employee_id.last_name,
+                'mothers_last_name': line.slip_id.employee_id.mothers_last_name,
+                'name': line.slip_id.employee_id.name,
+                'bank_account': bank_account,
+                'total': line.total,
+                'id_concept': '01 PAGO DE NOMINA',
+            })
+        return sorted(line_data, key=lambda k: k['employee_number'])
+
+    def get_xls_bank_santander(self):
+        """ Function doc """
+        output = io.BytesIO()
+        file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'Layout Dispersion Santander.xlsm')
+        wb = load_workbook(filename = file_xls, read_only=False, keep_vba=True)
+        ws1 = wb.active
+        row = 7
+        row += 1
+        start_row = row
+        payment_date = self.payment_date.strftime('%d/%m/%Y')
+        ws1.cell(column=8, row=4, value=payment_date)
+        for i, h in enumerate(self.get_data_bank()):
+            j = i
+            j += 1
+            i += row
+            # ~ ws1.cell(column=3, row=i, value=h.get('employee_number'))
+            ws1.cell(column=3, row=i, value=j)
+            ws1.cell(column=4, row=i, value=h.get('last_name'))
+            ws1.cell(column=5, row=i, value=h.get('mothers_last_name'))
+            ws1.cell(column=6, row=i, value=h.get('name'))
+            ws1.cell(column=7, row=i, value=int(h.get('bank_account')))
+            ws1.cell(column=8, row=i, value=h.get('total'))
+            ws1.cell(column=9, row=i, value=h.get('id_concept'))
+        row = i
+        wb.save(output)
+        f_name = 'Layout Dispersion Santander'
+        xlsx_data = output.getvalue()
+        export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsm'})
+        return {
+            'view_mode': 'form',
+            'res_id': export_id.id,
+            'res_model': 'hr.payslip.run.export.excel',
+            'view_type': 'form',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }
+
+    def get_data_bank_banorte(self):
+        """ Function doc """
+        line_data = []
+        domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
+        lines_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.code == 'T001')
+        for line in lines_ids:
+            bank_account = line.slip_id.contract_id.bank_account_id.bank_account
+            line_data.append({
+                'employee_number': line.slip_id.employee_id.enrollment.split('-')[1],
+                'name': line.slip_id.employee_id.complete_name,
+                'total': str(line.total).replace('.',''),
+                'account_code': '072',
+                'account_type': '001',
+                'bank_account': bank_account.zfill(18),
+            })
+        return sorted(line_data, key=lambda k: k['employee_number'])
+
+    def get_xls_bank_banorte(self):
+        """ Function doc """
+        output = io.BytesIO()
+        create_date = self.create_date.strftime('%Y-%m-%d 23:59:59')
+        sequence = self.search([('create_date','>=',self.create_date.date()),('create_date','<=',create_date)])
+        file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'Layout Dispersion Banorte.xlsm')
+        wb = load_workbook(filename = file_xls, read_only=False, keep_vba=True)
+        ws1 = wb.active
+        row = 2
+        row += 1
+        payment_date = self.payment_date.strftime('%d/%-m/%Y')
+        ws1.cell(column=8, row=2, value=payment_date)
+        ws1.cell(column=9, row=2, value=len(sequence))
+        total = 0
+        for i, h in enumerate(self.get_data_bank_banorte()):
+            total += float(h.get('total'))
+            i += row
+            ws1.cell(column=1, row=i, value=int(h.get('employee_number')))
+            ws1.cell(column=2, row=i, value=h.get('name'))
+            ws1.cell(column=3, row=i, value=float(h.get('total')))
+            ws1.cell(column=4, row=i, value=int(h.get('account_code')))
+            ws1.cell(column=5, row=i, value=int(h.get('account_type')))
+            ws1.cell(column=6, row=i, value=h.get('bank_account'))
+        row = i
+        wb.save(output)
+        f_name = 'Layout Dispersion Banorte'
+        xlsx_data = output.getvalue()
+        export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsm'})
+        return {
+            'view_mode': 'form',
+            'res_id': export_id.id,
+            'res_model': 'hr.payslip.run.export.excel',
+            'view_type': 'form',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }
 
     @api.one
     @api.depends('date_start')
@@ -117,6 +242,14 @@ class HrPayslipRun(models.Model):
         '''
         return self.env.ref('payroll_mexico.report_payslip_run_template').report_action(self, {})
 
+    @api.onchange('payroll_period','payroll_type')
+    def payroll_period_extraordinary(self):
+        if self.payroll_type == 'E':
+            self.payroll_period = '99'
+        if self.payroll_type == 'O':
+            if self.payroll_period == '99':
+                self.payroll_period = ''
+            
     @api.onchange('apply_honorarium')
     def onchange_apply_honorarium(self):
         if not self.apply_honorarium:
@@ -285,8 +418,9 @@ class HrPayslipRun(models.Model):
 
     def _compute_acumulated_tax_amount(self):
         '''Este metodo calcula el impuesto acumulado para las nominas del mes'''
-        current_year = fields.Date.context_today(self).year
-        payslips_current_month = self.search([('payroll_month','=',self.payroll_month)]).filtered(lambda sheet: sheet.date_start.year == current_year)
+        current_year = self.year
+        domain = [('group_id','=', self.group_id.id)]
+        payslips_current_month = self.search([('payroll_month','=',self.payroll_month)] + domain).filtered(lambda sheet: sheet.date_start.year == current_year)
         total_tax_acumulated =  sum(payslips_current_month.mapped('amount_tax'))
         acumulated_subtotal_amount =  sum(payslips_current_month.mapped('subtotal_amount_untaxed'))
         payslips_current_month.write({'acumulated_amount_tax':total_tax_acumulated,

@@ -476,9 +476,9 @@
                                 </group>
                             </group>
                         </page>
-                        <page name="group_sequence" string="Secuencia para nominas">
+                        <page name="group_sequence" string="Secuencia para nóminas">
                             <group>
-                                <group string="Correlativo de Nóminas">
+                                <group string="Correlativo de nóminas">
                                     <field name="code_payslip"/>
                                     <label for="sequence_payslip_number_next"/>
                                     <div>

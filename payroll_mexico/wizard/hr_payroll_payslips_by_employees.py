@@ -30,25 +30,42 @@ class HrPayslipEmployees(models.TransientModel):
                                         )
     @api.onchange('estructure_id','contracting_regime')
     def onchange_estructure(self):
+        payslip_run_id=self.env[self.env.context['active_model']].browse(self.env.context['active_id'])
+        res = []
+        if payslip_run_id.payroll_type=='O':
+            self._cr.execute('''select id,contract_id, employee_id from hr_payslip
+                                where group_id = %s and contracting_regime = '%s' and struct_id = %s and payroll_type = 'O'
+                                and (date_from BETWEEN CAST ('%s' AS DATE) AND CAST ('%s' AS DATE)
+                                or date_to BETWEEN CAST ('%s' AS DATE) AND CAST ('%s' AS DATE)) ''' % (payslip_run_id.group_id.id,
+                                                                                                       payslip_run_id.contracting_regime,
+                                                                                                       payslip_run_id.estructure_id.id,
+                                                                                                       payslip_run_id.date_start,
+                                                                                                       payslip_run_id.date_end,
+                                                                                                       payslip_run_id.date_start,
+                                                                                                       payslip_run_id.date_end))
+            res = self._cr.fetchall()
+            res = list(set([i[1] for i in res]))
         active_id = self.env.context.get('active_id')
         if active_id:
             payslip_run = self.env['hr.payslip.run'].browse(active_id)
             payslip_run_employees = payslip_run.mapped('slip_ids').mapped('employee_id').ids
         contract=self.env['hr.contract']
         structure_type_id=self.estructure_id.structure_type_id.id
+        if payslip_run:
+            # a contract is valid if it ends between the given dates
+            clause_1 = ['&', ('date_end', '<=', payslip_run.date_end), ('date_end', '>=', payslip_run.date_start)]
+            # OR if it starts between the given dates
+            clause_2 = ['&', ('date_start', '<=', payslip_run.date_end), ('date_start', '>=', payslip_run.date_start)]
+            # OR if it starts before the date_from and finish after the date_end (or never finish)
+            clause_3 = ['&', ('date_start', '<=', payslip_run.date_start), '|', ('date_end', '=', False), ('date_end', '>=', payslip_run.date_end)]
         domain=[
             ('structure_type_id','=',structure_type_id),
             ('employee_id.group_id','=',payslip_run.group_id.id),
-            ('contracting_regime','=',self.contracting_regime)
-            ]
+            ('contracting_regime','=',self.contracting_regime),
+            ('id','not in',res)
+            ,'|', '|'] + clause_1 + clause_2 + clause_3
         if payslip_run.contracting_regime == '02':
             domain.append(('employer_register_id','=',payslip_run.employer_register_id.id))
-        print (domain)
-        print (domain)
-        print (domain)
-        print (domain)
-        print (domain)
-        print (domain)
         employees=contract.search_read(domain,['employee_id','state'])
         employee_ids=[]
         for employee in employees:

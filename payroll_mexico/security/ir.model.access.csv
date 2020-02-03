@@ -75,3 +75,4 @@ access_country_state_suburb_manager,country_state_suburb_manager,model_res_munic
 access_country_state_suburb_user,country_state_suburb_user,model_res_municipality_suburb,hr.group_hr_user,1,1,1,0
 access_credential_template,hr_credential_template,model_credential_template,,1,1,1,1
 access_credential_fields,hr_credential_fields,model_credential_fields,,1,1,1,1
+access_compute_sdi_vars_lines,hr_compute_sdi_vars_lines,model_compute_sdi_vars_lines,,1,1,1,0

@@ -46,7 +46,7 @@
 				<xpath expr="//header" position="inside">
                         <button name="print_payslip_run_details"
                             type="object"
-                            string="Imprimir detalles de nomina"
+                            string="Imprimir detalles de nómina"
                         >
                         </button>
                 </xpath>
@@ -57,9 +57,7 @@
                     <attribute name="attrs">{'readonly': [('generated','=',True)]}</attribute>
                 </xpath> 
                 <xpath expr="//header" position="inside">
-<!--
-                    <button name="test_print_report" string="Test Report" type="object" class="o_sale_print"/>
--->
+                    <button name="action_layout_dispersion" string="Layout Dispersion" type="object" class="o_sale_print"/>
                     <button name="print_payroll_deposit_report" string="Payroll Deposit Report" type="object" states="close" class="o_sale_print"/>
                     <button name="print_fault_report" string="Reporte de faltas" type="object" class="o_sale_print" attrs="{'invisible': [('payroll_type','!=','O')]}"/>
                     <button name="%(payroll_mexico.action_payslip_run_rule_details)d" string="Reporte detalles de calculos" type="action" class="o_sale_print"/>
@@ -105,8 +103,8 @@
                             <field name="amount_tax"/>
                         </group>
                         <group col="4" string="Acumulados">
-                            <field name="acumulated_subtotal_amount"/>
-                            <field name="acumulated_amount_tax"/>
+                            <field name="acumulated_subtotal_amount" force_save="1" readonly="1"/>
+                            <field name="acumulated_amount_tax" force_save="1" readonly="1"/>
                         </group>
                         <group>
                             <label for="iva_tax"/>
@@ -121,6 +119,7 @@
                         </group>
                     </group>
                     <group col="4">
+                        <field name="company_bank_id" attrs="{'readonly': [('state','=','close')]}" domain="[('state','=', 'active')]" options='{"no_open": True, "no_create": True}'/>
                         <field name="estructure_id" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="contracting_regime" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="employer_register_id"
@@ -131,7 +130,6 @@
                         <field name="payroll_of_month" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="payroll_period" attrs="{'readonly': [('generated','=',True)]}"/>
                         <field name="year" attrs="{'readonly': [('generated','=',True)]}"/>
-                        <field name="pay_type" attrs="{'readonly': [('generated','=',True)]}" invisible="True"/>
                         <field name="pay_bonus" attrs="{'invisible': [('bonus_date','!=',True)]}"/>
                         <field name="table_id" invisible="0"/>
                         <field name="bonus_date" invisible="1"/>
