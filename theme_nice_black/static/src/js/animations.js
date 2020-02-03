@@ -8,8 +8,8 @@ $(document).ready(function () {
         setTimeout(function () {
             setLogoPlace(true);
             activo = true;
-        },3000);
-    },3000);
+        },1000);
+    },1000);
 
 //animacion de logo al click
     $("#logoimg").click(function () {
@@ -39,13 +39,10 @@ $(document).ready(function () {
             $("#logo").removeClass('active flip');
             $("#contenidohome").addClass('d-none');
             $("#loginform").removeClass('delay-1s fadeInDownBig');
-            setTimeout(function () {
-                $("#logo").addClass('zoomOut');
-                $("#loginform").addClass('fadeOutUp');
-                setTimeout(function () {
-                    window.location = url;
-                }, 500);
-            }, 500);
+            $("#logo").addClass('zoomOut');
+            $("#loginform").addClass('fadeOutUp'); 
+              window.location = url;
+          
         }
     );
 
@@ -57,7 +54,7 @@ $(document).ready(function () {
         function(event){
             event.preventDefault();
             accesdeny=$(this).children('a').attr('class')
-            console.log(accesdeny)
+            var is_debug = location.search;
             if (accesdeny=="accesdeny"){
                 return
                 }
@@ -156,7 +153,7 @@ function setLogoPlace(val) {
             $("#contenidohome").removeClass('d-none');
             $("#navigation").addClass('fadeIn');
             $("#navigation").removeClass('d-none');
-        },3000);
+        },500);
     } else {
         $("#logo").removeClass('active flip');
         $("#logo").children("p").removeClass('active');
