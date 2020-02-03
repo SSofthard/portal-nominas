@@ -99,6 +99,7 @@
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
 -->
                     <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale"/>
+                    <button string="Cancel CFDI" name="action_cfdi_nomina_cancel" type="object" class="oe_sale"/>
                 </xpath> 
                 <xpath expr="//button[@name='refund_sheet']" position="attributes">
                     <attribute name="invisible">1</attribute>

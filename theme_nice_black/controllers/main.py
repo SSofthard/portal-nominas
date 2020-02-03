@@ -156,7 +156,10 @@ class MenuApp(http.Controller):
         if not menu_id._filter_visible_menus():
             redirect="/web?msg='Acceso denegado, contacte al Administrador del portal.'"
             return werkzeug.utils.redirect(redirect)
-        redirect="/web2#menu_id=%d&action_id=%d" % (menu_id.id,action_id.id)
+        if request.debug:
+            redirect="/web2?debug#menu_id=%d&action_id=%d" % (menu_id.id,action_id.id)
+        else:
+            redirect="/web2#menu_id=%d&action_id=%d" % (menu_id.id,action_id.id)
         return werkzeug.utils.redirect(redirect)
         
         
