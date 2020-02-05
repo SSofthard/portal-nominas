@@ -29,7 +29,7 @@
                                 <t t-foreach="docs" t-as="o">
                                     <tr>
                                         <td colspan="2" class="text-center" ><t t-esc="o.enrollment"/></td>
-                                        <td colspan="3" class="text-center" ><t t-esc="o.name"/></td>
+                                        <td colspan="3" class="text-center" ><t t-esc="o.complete_name"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="o.ssnid"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="o.curp"/></td>
                                         <td colspan="2" class="text-center" ><t t-esc="o.rfc"/></td>
