@@ -407,6 +407,7 @@ class Partner(models.Model):
     country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
     municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
     suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
+    manage_groups = fields.Boolean(string="Gestionar grupos/empresa")
 
     @api.onchange('zip')
     def _onchange_zip(self):
