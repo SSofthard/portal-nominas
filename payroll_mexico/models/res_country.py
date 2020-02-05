@@ -58,13 +58,25 @@ class StateMunicipality(models.Model):
 
 class StateMunicipalitySuburb(models.Model):
     _name = 'res.municipality.suburb'
-    _description="Colonia"
+    _description="Suburb"
 
     municipality_id = fields.Many2one('res.country.state.municipality', 'Municipio',
         help='Municipio')
     name = fields.Char('Nombre', required=True, 
         help='Nombre de la colonia')
-    code = fields.Char('Código', size=5, required=True, 
+    code = fields.Char('Código', size=5, required=False,
         help='Codigo corto de la colonia max. cinco carácteres.')
     active = fields.Boolean(default=True)
+
+    @api.onchange('name')
+    def onchange_name(self):
+        if self.name:
+            name = self.name.upper().replace(' ', '').rjust(5, '0')
+            self.code = name[0:5]
+
+    # _sql_constraints = [
+    #     ('code_uniq', 'unique(municipality_id, code)',
+    #      'Already code for this municipality!')
+    # ]
+
 

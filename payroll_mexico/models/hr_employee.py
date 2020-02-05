@@ -863,8 +863,6 @@ class hrWorkerHiringRegime(models.Model):
 class HrWorkCenters(models.Model):
     _name = "hr.work.center"
 
-    
-
     def _default_country(self):
         country_id = self.env['res.country'].search([('code','=','MX')], limit=1)
         return country_id
