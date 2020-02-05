@@ -104,8 +104,9 @@
                         </div>
                     </div>
                 </xpath>
-                <!-- Remove field work_location & address_id-->
+                <!-- Remove field work_location & address_id & category_ids-->
                 <field name="work_location" position="replace"/>
+                <field name="category_ids" position="replace"/>
                 <xpath expr="//field[@name='address_id']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath> 
@@ -452,8 +453,8 @@
                         <group>
                             <field name="name"/>
                             <field name="state_id" domain="[('country_id','=', country_id)]"/>
-                            <field name="account_executive_id"/>
-                            <field name="implant_id"/>
+                            <field name="account_executive_id" domain="[('manage_groups','=', True)]" context="{'default_manage_groups': True}"/>
+                            <field name="implant_id" domain="[('manage_groups','=', True)]" context="{'default_manage_groups': True}"/>
                             <label for="percent_honorarium"/>
                             <div>
                                 <field name="percent_honorarium" class="oe_inline" />
