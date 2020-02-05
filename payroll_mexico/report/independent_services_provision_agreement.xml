@@ -16,7 +16,7 @@
                 <page>
                     <p align="justify">
                       <b>CONTRATO DE PRESTACIÓN DE SERVICIOS INDEPENDIENTES</b> 
-                      QUE CELEBRAN, POR UNA PARTE EL (LA) <t t-esc="o.employee_id.title.shortcut.upper()"/><strong> <t t-esc="o.employee_id.name.upper()"/></strong>, 
+                      QUE CELEBRAN, POR UNA PARTE EL (LA) <t t-esc="o.employee_id.title.shortcut.upper()"/><strong> <t t-esc="o.employee_id.complete_name.upper()"/></strong>, 
                       A QUIEN EN LO SUCESIVO SE DENOMINARA <strong>“EL PRESTADOR”</strong>, 
                       Y POR LA OTRA  LA SOCIEDAD DENOMINADA <strong>"<t t-esc="o.company_id.business_name.upper()"/>"</strong>
                       REPRESENTADA EN ESTE ACTO POR EL (LA) <strong><t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/></strong>
@@ -395,7 +395,7 @@
                                         </td>
                                         <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
                                             <div  align="center">
-                                                <strong><div t-esc="o.employee_id.name.upper()" /></strong>
+                                                <strong><div t-esc="o.employee_id.complete_name.upper()" /></strong>
                                             </div>
                                         </td>
                                     </tr>
@@ -525,7 +525,7 @@
                                         </td>
                                         <td style="border:2px solid black;" bgcolor="#909497" width="300px" height="110px">
                                             <div  align="center">
-                                                <strong><div t-esc="o.employee_id.name.upper()" /></strong>
+                                                <strong><div t-esc="o.employee_id.complete_name.upper()" /></strong>
                                             </div>
                                         </td>
                                     </tr>
@@ -657,7 +657,7 @@
                     <p align="justify">
                         En este acto <strong>EL PRESTADOR</strong> manifiesta su consentimiento para que 
                         <strong><t t-esc="o.company_id.business_name.upper()"/></strong> utilice los datos personales y los datos personales sensibles de 
-                        <strong><t t-esc="o.employee_id.name.upper()"></t></strong> para todos los fines inherentes a la relación 
+                        <strong><t t-esc="o.employee_id.complete_name.upper()"></t></strong> para todos los fines inherentes a la relación 
                         jurídica que celebran bajo este contrato.
                     </p>
                     <p align="justify">
@@ -684,7 +684,7 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-                                                    <strong><div t-esc="o.employee_id.name.upper()" /></strong>
+                                                    <strong><div t-esc="o.employee_id.complete_name.upper()" /></strong>
                                                 </div>
                                             </td>
                                           </tr>
