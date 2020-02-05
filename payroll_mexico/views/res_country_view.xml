@@ -26,7 +26,7 @@
             <field name="name">res.municipality.suburb.tree</field>
             <field name="model">res.municipality.suburb</field>
             <field name="arch" type="xml">
-                <tree string="Colonia">
+                <tree string="Suburb">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="municipality_id"/>
