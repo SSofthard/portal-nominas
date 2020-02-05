@@ -49,8 +49,6 @@
 												<field name="subcide_reimbursement_agreement"/>
 											</group>
 											<group>
-												<field name="electronic_signature" widget="many2many_binary" class="oe_inline"/>
-												<field name="validity_signature"/>
 												<field name="company_id" invisible="1"/>
 											</group>
                                         </group>
@@ -178,7 +176,7 @@
                                         <group col="4">
                                             <field name="type"/>
                                             <field name="track" password="True"/>
-                                            <field name="effective_date"/>
+                                            <field name="effective_date" string="Fecha de vencimiento"/>
                                             <field name="predetermined"/>
                                             <field name="cer" widget="many2many_binary" class="oe_inline"/>
                                             <field name="key" widget="many2many_binary" class="oe_inline"/>
@@ -253,6 +251,9 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="manage_groups"/>
+                </xpath>
                 <xpath expr="//field[@name='category_id']" position="after">
                     <field name="legal_representative" invisible="1"/>
                     <field name="public_notary" invisible="1"/>
