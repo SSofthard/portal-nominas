@@ -490,7 +490,7 @@ class Employee(models.Model):
 
             if employee.wage_salaries_gross > 0:
                 val = {
-                    'name':employee.name+' - '+'Sueldos y Salarios',
+                    'name':employee.complete_name+' - '+'Sueldos y Salarios',
                     'employee_id':employee.id,
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
@@ -503,7 +503,7 @@ class Employee(models.Model):
                 list_contract.append(contract_obj.create(val).id)
             if employee.assimilated_salary_gross > 0:
                 val = {
-                    'name':employee.name+' - '+'Asimilado',
+                    'name':employee.complete_name+' - '+'Asimilado',
                     'employee_id':employee.id,
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
@@ -516,7 +516,7 @@ class Employee(models.Model):
                 list_contract.append(contract_obj.create(val).id)
             if employee.free_salary_gross > 0:
                 val = {
-                    'name':employee.name+' - '+'Libre',
+                    'name':employee.complete_name+' - '+'Libre',
                     'employee_id':employee.id,
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
