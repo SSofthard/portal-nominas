@@ -8,7 +8,7 @@ class CountryState(models.Model):
     _name = 'res.country.state'
     _inherit = 'res.country.state'
 
-    municipality_ids = fields.One2many('res.country.state.municipality', 'state_id', 'Municipalities')
+    municipality_ids = fields.One2many('res.country.state.municipality', 'state_id', 'Mayoralty/Municipality')
 
 
 class MunicipalityZone(models.Model):
@@ -17,7 +17,7 @@ class MunicipalityZone(models.Model):
     _rec_name = "municipality_id"
     _order = 'date_from desc'
 
-    municipality_id = fields.Many2one('res.country.state.municipality', 'Municipality',
+    municipality_id = fields.Many2one('res.country.state.municipality', 'Mayoralty/Municipality',
         help='Municipality')
     zone = fields.Selection([
             ('freezone', 'Zona Libre de la Frontera Norte'),
@@ -35,7 +35,7 @@ class MunicipalityZone(models.Model):
 
 class StateMunicipality(models.Model):
     _name = 'res.country.state.municipality'
-    _description="State municipalities"
+    _description="State Mayoralty/Municipality"
 
     state_id = fields.Many2one('res.country.state', 'State', required=True, 
         help='Name of the State to which the municipality belongs')
@@ -58,13 +58,25 @@ class StateMunicipality(models.Model):
 
 class StateMunicipalitySuburb(models.Model):
     _name = 'res.municipality.suburb'
-    _description="Colonia"
+    _description="Suburb"
 
-    municipality_id = fields.Many2one('res.country.state.municipality', 'Municipio',
-        help='Municipio')
+    municipality_id = fields.Many2one('res.country.state.municipality', 'Mayoralty/Municipality',
+        help='Municipality')
     name = fields.Char('Nombre', required=True, 
         help='Nombre de la colonia')
-    code = fields.Char('Código', size=5, required=True, 
+    code = fields.Char('Código', size=5, required=False,
         help='Codigo corto de la colonia max. cinco carácteres.')
     active = fields.Boolean(default=True)
+
+    @api.onchange('name')
+    def onchange_name(self):
+        if self.name:
+            name = self.name.upper().replace(' ', '').rjust(5, '0')
+            self.code = name[0:5]
+
+    # _sql_constraints = [
+    #     ('code_uniq', 'unique(municipality_id, code)',
+    #      'Already code for this municipality!')
+    # ]
+
 

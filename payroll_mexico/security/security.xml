@@ -27,6 +27,7 @@
     <!--Rules de multi company -->
     <delete model="ir.rule" id="hr.hr_dept_comp_rule"/>
     <delete model="ir.rule" id="hr.hr_job_comp_rule"/>
+    <delete model="ir.rule" id="hr.hr_employee_comp_rule"/>
     <delete model="ir.rule" id="hr_holidays.hr_holidays_status_rule_multi_company"/>
     <delete model="ir.rule" id="hr_holidays.hr_leave_rule_multicompany"/>
     <delete model="ir.rule" id="hr_expense.hr_expense_comp_rule"/>
