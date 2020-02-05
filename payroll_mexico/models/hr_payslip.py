@@ -68,7 +68,7 @@ class HrPayslip(models.Model):
             ('10', 'Decennial'),
             ('04', 'Biweekly'),
             ('05', 'Monthly'),
-            ('99', 'Otra Peridiocidad'),], 
+            ('99', 'Otra Periodicidad'),],
             string='Payroll period', 
             default="04",
             required=True,

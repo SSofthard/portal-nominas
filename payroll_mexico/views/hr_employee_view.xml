@@ -2,13 +2,13 @@
 <odoo>
     <data>
         
-<!--        <menuitem-->
-<!--            id="menu_job_position_configuration"-->
-<!--            name="Job position"-->
-<!--            action="hr.action_hr_job"-->
-<!--            parent="hr.menu_human_resources_configuration"-->
-<!--            groups="hr.group_hr_manager"-->
-<!--            sequence="100"/>-->
+        <menuitem
+            id="menu_job_position_configuration"
+            name="Job position"
+            action="hr.action_hr_job"
+            parent="hr.menu_human_resources_configuration"
+            groups="hr.group_hr_manager"
+            sequence="100"/>
         
         <record id="hr_job_inherit" model="ir.ui.view">
             <field name="name">hr.job.inherit.view</field>
@@ -154,7 +154,14 @@
                         <field name="emergency_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                     </group>
                 </xpath> 
-                <xpath expr="//field[@name='address_home_id']" position="after">
+                <xpath expr="//field[@name='address_home_id']" position="replace">
+                    <field name="address_home_id"
+                        context="{
+                            'show_address': 1,
+                            'default_type': 'private',
+                            'form_view_ref': 'payroll_mexico.view_partner_employee_address_form'}"
+                        options='{"always_reload": True, "highlight_first_line": True}'
+                        domain="[('curp', '=', curp)]"/>
                     <field name="personal_email"/>
                     <field name="personal_movile_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                     <field name="personal_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
@@ -539,7 +546,7 @@
                         </div>
                         <group>
                             <group>
-                                <field name="group_id"/>
+                                <field name="group_id" required="1"/>
                             </group>
                             <group>
                             </group>
@@ -548,12 +555,12 @@
                             <group>
                                 <label for="street" string="Address"/>
                                 <div class="o_address_format">
-                                    <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="country_id" placeholder="Country" required="1"  class="o_address_country" options='{"no_open": True, "no_create": True}'/>
                                     <field name="city" placeholder="City" class="o_address_city"/>
-                                    <field name="state_id" class="o_address_state" placeholder="State" 
+                                    <field name="state_id" class="o_address_state" placeholder="State" required="1"
                                         domain="[('country_id','=',country_id)]" options='{"no_open": True}'/>
                                     <field name="zip" placeholder="ZIP" class="o_address_zip"/>
-                                    <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
+                                    <field name="municipality_id" class="o_address_country" required="1" placeholder="Mayoralty/Municipality"
                                         domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
                                     <field name="suburb_id" class="o_address_country" placeholder="Colonia" context="{'default_municipality_id': municipality_id}"
                                         domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}' />
@@ -631,11 +638,18 @@
             <field name="model">res.partner</field>
             <field name="priority" eval="300"/>
             <field name="arch" type="xml">
-                <form string="Private Address Form">
+                <form string="Private Address">
                     <sheet>
-                        <field name="type" invisible="1"/>
-                        <label for="name" class="oe_editonly"/>
-                        <field name="name" required="0"/>
+                        <div>
+                            <field name="type" invisible="1"/>
+                            <label for="name" class="oe_editonly"/>
+                            <field name="name" required="1"/>
+                        </div>
+                        <div>
+                            <field name="employee" invisible="1"/>
+                            <label for="curp" class="oe_editonly"/>
+                            <field name="curp" attrs="{'required': [('employee','=', True)],'invisible': [('employee','=', False)]}"/>
+                        </div>
                         <group>
                             <group>
                                 <label for="street" string="Address"/>
@@ -646,7 +660,7 @@
                                         <field name="state_id" class="o_address_state" placeholder="State" 
                                             domain="[('country_id','=',country_id)]" options='{"no_open": True}'/>
                                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
-                                        <field name="municipality_id" class="o_address_country" placeholder="Municipality" 
+                                        <field name="municipality_id" class="o_address_country" placeholder="Mayoralty/Municipality"
                                             domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
                                         <field name="street" placeholder="Street..." class="o_address_street"/>
                                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
@@ -683,7 +697,7 @@
         </record>
         <!-- Action Dirección de los empleados form-->
         <record id="action_partner_employee_address_form" model="ir.actions.act_window">
-            <field name="name">Employees</field>
+            <field name="name">Employee Address</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
@@ -706,6 +720,34 @@
             parent="hr.menu_human_resources_configuration"
             groups="hr.group_hr_manager"
             sequence="140"/>
+            
+    <record id="view_employee_kanban_inherit_hr_attendance2" model="ir.ui.view">
+        <field name="name">hr.employee</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <field name="name" position="replace">
+                <div>
+                    <strong>
+                        <field name="complete_name" placeholder="Employee's Name"/>
+                    </strong>
+                </div>
+            </field>
+        </field>
+    </record>
+    
+    <record id="view_employee_tree_inherit2" model="ir.ui.view">
+        <field name="name">hr.employee</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="complete_name"/>
+            </xpath>
+        </field>
+    </record>
         
     </data>
 </odoo>

@@ -49,7 +49,7 @@ class WizardEmployeeCatalogs(models.TransientModel):
             raise UserError(_('No se encontro informacion para estos criterios de busqueda'))
         for i in contract_ids:
             code = (i.employee_id.enrollment)
-            name = (i.employee_id.name)
+            name = (i.employee_id.complete_name)
             imss = (i.employee_id.ssnid)
             curp = (i.employee_id.curp)
             rfc = (i.employee_id.rfc)

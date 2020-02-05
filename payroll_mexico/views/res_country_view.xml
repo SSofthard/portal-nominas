@@ -12,10 +12,10 @@
                        filter_domain="[('name','ilike',self)]"/>
                    <field name="code"
                        filter_domain="[('code','ilike',self)]"/>
-                   <field name="municipality_id" string="Municipio" 
+                   <field name="municipality_id" string="Mayoralty/Municipality"
                     filter_domain="[('municipality_id','ilike', self)]"/>
                    <group expand="0" name="group_by" string="Agrupar por">
-                       <filter name="municipality_id" string="Municipio" domain="[]" context="{'group_by' : 'municipality_id'}" />
+                       <filter name="municipality_id" string="Mayoralty/Municipality" domain="[]" context="{'group_by' : 'municipality_id'}" />
                    </group>
                </search>
             </field>
@@ -26,7 +26,7 @@
             <field name="name">res.municipality.suburb.tree</field>
             <field name="model">res.municipality.suburb</field>
             <field name="arch" type="xml">
-                <tree string="Colonia">
+                <tree string="Suburb">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="municipality_id"/>
@@ -61,7 +61,7 @@
             <field name="name">view.country.state.municipality.filter</field>
             <field name="model">res.country.state.municipality</field>
             <field name="arch" type="xml">
-                <search string="Search Municipality">
+                <search string="Search Mayoralty/Municipality">
                    <field name="name"
                        filter_domain="[('name','ilike',self)]"/>
                    <field name="code"
@@ -79,7 +79,7 @@
             <field name="name">res.country.state.municipality.tree</field>
             <field name="model">res.country.state.municipality</field>
             <field name="arch" type="xml">
-                <tree string="Municipio">
+                <tree string="Mayoralty/Municipality">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="state_id"/>
@@ -91,7 +91,7 @@
             <field name="name">res.country.state.municipality.form</field>
             <field name="model">res.country.state.municipality</field>
             <field name="arch" type="xml">
-                <form string="Municipio">
+                <form string="Mayoralty/Municipality">
                     <group>
                         <field name="name"/>
                         <field name="code"/>
@@ -110,7 +110,7 @@
         </record>
 
         <record id="action_country_state_municipality" model="ir.actions.act_window">
-            <field name="name">Fed. States Municipality</field>
+            <field name="name">Fed. States Mayoralty/Municipality</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.country.state.municipality</field>
             <field name="view_type">form</field>
@@ -124,10 +124,10 @@
             <field name="model">res.municipality.zone</field>
             <field name="arch" type="xml">
                 <search string="Search Municipality Zone">
-                   <field name="municipality_id" string="Municipality" filter_domain="[('municipality_id','ilike', self)]"/>
+                   <field name="municipality_id" string="Mayoralty/Municipality" filter_domain="[('municipality_id','ilike', self)]"/>
                    <field name="zone" string="Zone" filter_domain="[('zone','ilike', self)]"/>
                    <group expand="0" name="group_by" string="Group By">
-                       <filter name="municipality" string="Municipality" domain="[]" context="{'group_by' : 'municipality_id'}" />
+                       <filter name="municipality" string="Mayoralty/Municipality" domain="[]" context="{'group_by' : 'municipality_id'}" />
                        <filter name="zone" string="Zone" domain="[]" context="{'group_by' : 'zone'}" />
                        <filter string="Start Date" name="date_from" domain="[]" context="{'group_by':'date_from'}"/>
                    </group>
