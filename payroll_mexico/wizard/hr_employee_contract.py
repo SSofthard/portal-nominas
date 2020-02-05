@@ -11,7 +11,7 @@ class hrEmployeeContract(models.TransientModel):
     
     #Columns
     employee_id = fields.Many2one('hr.employee', string='Employees', default=_default_employee_id)
-    type_id = fields.Many2one('hr.contract.type', string="Employee Category", required=True, default=lambda self: self.env['hr.contract.type'].search([], limit=1))
+    type_id = fields.Many2one('hr.contract.type', string="Type Contract", required=True, default=lambda self: self.env['hr.contract.type'].search([], limit=1))
     date_start = fields.Date('Start Date', required=True, default=fields.Date.today,
         help="Start date of the contract.")
     
