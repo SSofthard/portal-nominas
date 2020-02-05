@@ -33,7 +33,7 @@ class Company(models.Model):
     bank_account_ids = fields.One2many('bank.account.company','company_id', "Bank account", required=True)
     power_attorney_ids = fields.One2many('company.power.attorney','company_id', "Power Attorney", required=True)
     country_id = fields.Many2one('res.country', compute='_compute_address', inverse='_inverse_country', string="Country", default=lambda self: self.env.user.company_id.country_id.id)
-    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Mayoralty/Municipality')
     suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     tax_regime = fields.Selection(
         selection=[('601', _('General de Ley Personas Morales')),
@@ -181,7 +181,7 @@ class employerRegister(models.Model):
     city = fields.Char(string="City")
     state_id = fields.Many2one('res.country.state', string="Fed. State")
     zip = fields.Char(string="ZIP")
-    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Mayoralty/Municipality')
     suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
@@ -405,9 +405,9 @@ class Partner(models.Model):
     partner_company = fields.Boolean(string='Partner Company?', copy=False)
     branch_offices = fields.Boolean(string='Branch Offices?', copy=False)
     country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
-    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
-    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
-    manage_groups = fields.Boolean(string="Gestionar grupos/empresa")
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Mayoralty/Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Suburb')
+    curp = fields.Char("CURP", copy=False)
 
     @api.onchange('zip')
     def _onchange_zip(self):
