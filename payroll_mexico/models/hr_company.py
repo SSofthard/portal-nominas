@@ -406,7 +406,8 @@ class Partner(models.Model):
     branch_offices = fields.Boolean(string='Branch Offices?', copy=False)
     country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
     municipality_id = fields.Many2one('res.country.state.municipality', string='Mayoralty/Municipality')
-    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Suburb')
+    curp = fields.Char("CURP", copy=False)
 
     @api.onchange('zip')
     def _onchange_zip(self):
