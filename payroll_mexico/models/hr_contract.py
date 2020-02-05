@@ -70,7 +70,7 @@ class Contract(models.Model):
         ('99', 'Other regime'),
     ], string='Contracting Regime', required=True, default="02")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
-    days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
+    days_rest = fields.Integer(string='Días de antigüedad ultimo año', compute='_get_years_antiquity')
     integral_salary= fields.Float(string="SDI", copy=False)
     group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')

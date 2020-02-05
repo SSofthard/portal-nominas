@@ -57,7 +57,7 @@
                                             <strong><span t-field="o.employer_register_id.company_id.rfc"/></strong>
                                         </td>
                                         <td class="text-right" style="border: white 1px solid;">
-                                            <strong>Area geografica:</strong>
+                                            <strong>Area geográfica:</strong>
                                         </td>
                                         <td class="text-right" style="border: white 1px solid;">
                                             <strong><span t-field="o.employer_register_id.geographic_area"/></strong>
@@ -521,7 +521,7 @@
                                             <strong><span t-field="o.employer_register_id.company_id.rfc"/></strong>
                                         </td>
                                         <td class="text-right" style="border: white 1px solid;">
-                                            <strong>Area geografica:</strong>
+                                            <strong>Area geográfica:</strong>
                                         </td>
                                         <td class="text-right" style="border: white 1px solid;">
                                             <strong><span t-field="o.employer_register_id.geographic_area"/></strong>

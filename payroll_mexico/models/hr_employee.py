@@ -550,7 +550,7 @@ class bankDetailsEmployee(models.Model):
     employee_id = fields.Many2one('hr.employee', "Employee", required=False)
     bank_id = fields.Many2one('res.bank', "Bank", required=True)
     beneficiary = fields.Char("Beneficiary", copy=False, required=True)
-    bank_account = fields.Char("Bank account", copy=False, required=True)
+    bank_account = fields.Char("Bank account", copy=False, required=False)
     reference = fields.Char("Reference", copy=False, required=True)
     location_branch = fields.Char("Location / Branch")
     predetermined = fields.Boolean("Predetermined", copy=False, required=False)

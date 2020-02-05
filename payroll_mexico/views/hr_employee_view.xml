@@ -154,7 +154,14 @@
                         <field name="emergency_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                     </group>
                 </xpath> 
-                <xpath expr="//field[@name='address_home_id']" position="after">
+                <xpath expr="//field[@name='address_home_id']" position="replace">
+                    <field name="address_home_id"
+                        context="{
+                            'show_address': 1,
+                            'default_type': 'private',
+                            'form_view_ref': 'payroll_mexico.view_partner_employee_address_form'}"
+                        options='{"always_reload": True, "highlight_first_line": True}'
+                        domain="[('curp', '=', curp)]"/>
                     <field name="personal_email"/>
                     <field name="personal_movile_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
                     <field name="personal_phone" widget="mask" data-inputmask="'mask': '9', 'repeat': 13, 'greedy' : false"/>
