@@ -19,11 +19,11 @@ $gray-lighter: lighten($gray-base, 93.5%);
 //}
 
 .o_home_menu_background {
-    background: #9A9A9E;
-    background: -moz-linear-gradient(top,  #9A9A9E 24%, #2c2c2c 56%, #9A9A9E 74%);
-    background: -webkit-linear-gradient(top,  #9A9A9E 24%,#2c2c2c 56%,#9A9A9E 74%);
-    background: linear-gradient(to bottom,  #9A9A9E 24%,#2c2c2c 56%,#9A9A9E 74%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9A9A9E', endColorstr='#9A9A9E',GradientType=0 );    
+    background: #000000;
+    background: -moz-linear-gradient(top,  #000000 24%, #2c2c2c 56%, #000000 74%);
+    background: -webkit-linear-gradient(top,  #000000 24%,#2c2c2c 56%,#000000 74%);
+    background: linear-gradient(to bottom,  #000000 24%,#2c2c2c 56%,#000000 74%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );    
     display: flex;
     min-height: 100vh;
     flex-direction: column;
