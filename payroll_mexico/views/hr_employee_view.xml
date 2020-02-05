@@ -2,13 +2,13 @@
 <odoo>
     <data>
         
-        <menuitem
-            id="menu_job_position_configuration"
-            name="Job position"
-            action="hr.action_hr_job"
-            parent="hr.menu_human_resources_configuration"
-            groups="hr.group_hr_manager"
-            sequence="100"/>
+<!--        <menuitem-->
+<!--            id="menu_job_position_configuration"-->
+<!--            name="Job position"-->
+<!--            action="hr.action_hr_job"-->
+<!--            parent="hr.menu_human_resources_configuration"-->
+<!--            groups="hr.group_hr_manager"-->
+<!--            sequence="100"/>-->
         
         <record id="hr_job_inherit" model="ir.ui.view">
             <field name="name">hr.job.inherit.view</field>
