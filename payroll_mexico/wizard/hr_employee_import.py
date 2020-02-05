@@ -87,6 +87,9 @@ class HrEmployeeImport(models.TransientModel):
 
     @api.multi
     def read_document(self, create_incedents=False, create_perceptions=False, create_deductions=False):
+        if self.file_ids and len(self.file_ids) > 1:
+            raise ValidationError(_('Warning! \n'
+                'You can only load one excel file. Please, to remove the files, press Remove file button.'))
         datafile = base64.b64decode(self.file_ids.datas)
         # ~ incedents = []
         # ~ perceptions = []
@@ -483,7 +486,7 @@ class HrEmployeeImport(models.TransientModel):
                             pay_holiday = self.float_to_string(sheet.cell_value(row,col)).strip()
                             try:
                                 int_pay_holiday = int(pay_holiday)
-                                if int_manager in [0,1]:
+                                if int_pay_holiday in [0,1]:
                                     lines['pay_holiday'] = int_pay_holiday
                                 else:
                                     msg_not_format.append('%s del valor (%s) en la fila %s (INGRESE 1 ó 0). \n' %(sheet.cell_value(head,col).upper(), pay_holiday, str(row+1)))
@@ -544,9 +547,8 @@ class HrEmployeeImport(models.TransientModel):
                         if col == 54:
                             value = self.float_to_string(sheet.cell_value(row,col)).strip()
                             try:
-                                bank_account, reference = value.split(' ')
-                                bank_data['bank_account'] = bank_account
-                                bank_data['reference'] = reference
+                                bank_data['bank_account'] = value
+                                bank_data['reference'] = value[0:4]
                                 bank_data['beneficiary'] = '%s %s' %(name, last_name)
                                 bank_data['predetermined'] = True
                             except:
@@ -578,6 +580,17 @@ class HrEmployeeImport(models.TransientModel):
                                     msg_not_format.append('%s del valor (%s) en la fila %s (INGRESE 1 ó 0). \n' %(sheet.cell_value(head,col).upper(), syndicalist, str(row+1)))
                             except:
                                 msg_not_format.append('%s del valor (%s) en la fila %s (INGRESE 1 ó 0). \n' %(sheet.cell_value(head,col).upper(), syndicalist, str(row+1)))
+                        if col == 58:
+                            title = self.float_to_string(sheet.cell_value(row,col)).strip()
+                            domain = [('name','=', title)]
+                            title_id = self.check_field_many2one(domain, model='res.partner.title')
+                            if title_id:
+                                if len(title_id) > 1:
+                                    msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), title, str(row+1)))
+                                else:
+                                    lines['title'] = title_id.id
+                            else:
+                                msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), title, str(row+1)))
                     if bank_data:
                         lines['bank_account_ids'] = [(0, 0, bank_data)]
                 employees.append(lines)
