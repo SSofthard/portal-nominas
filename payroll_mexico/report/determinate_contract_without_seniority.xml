@@ -16,7 +16,7 @@
 					<t t-set="o" t-value="o.with_context(lang=lang)" />
                    <p align="justify">
                         CONTRATO INDIVIDUAL DE TRABAJO POR <t t-esc="o.type_id.name.upper()"/>, QUE CELEBRAN POR UNA PARTE, <t t-esc="o.company_id.business_name.upper()"/>, REPRESENTADA POR EL (LA) <t t-esc="o.company_id.legal_representative_id.title.shortcut.upper()"/> <t t-esc="o.company_id.legal_representative_id.name.upper()"/>, 
-                        A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, EL (LA) <t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.name.upper()"/>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, 
+                        A QUIEN EN LO SUCESIVO SE LE DENOMINARA “EL PATRON”  Y POR LA OTRA PARTE, EL (LA) <t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.complete_name.upper()"/>, A QUIEN EN LO SUCESIVO SE LE  DENOMINARA “EL TRABAJADOR”, 
                         MISMOS QUE SE SUJETAN AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
                     </p>
                     <p align="center"><b>DECLARACIONES</b></p>
@@ -430,7 +430,7 @@
                                           <tr>
                                             <td >
                                                 <div  align="center">
-													<strong><div><t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.name.upper()"/></div></strong>
+													<strong><div><t t-esc="o.employee_id.title.shortcut.upper()"/> <t t-esc="o.employee_id.complete_name.upper()"/></div></strong>
                                                 </div>
                                             </td>
                                           </tr>
