@@ -160,6 +160,7 @@
                         context="{
                             'show_address': 1,
                             'default_type': 'private',
+                            'default_employee': 1,
                             'form_view_ref': 'payroll_mexico.view_partner_employee_address_form'}"
                         options='{"always_reload": True, "highlight_first_line": True}'
                         domain="[('curp', '=', curp)]"/>
