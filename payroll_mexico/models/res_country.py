@@ -8,7 +8,7 @@ class CountryState(models.Model):
     _name = 'res.country.state'
     _inherit = 'res.country.state'
 
-    municipality_ids = fields.One2many('res.country.state.municipality', 'state_id', 'Municipalities')
+    municipality_ids = fields.One2many('res.country.state.municipality', 'state_id', 'Mayoralty/Municipality')
 
 
 class MunicipalityZone(models.Model):
@@ -17,7 +17,7 @@ class MunicipalityZone(models.Model):
     _rec_name = "municipality_id"
     _order = 'date_from desc'
 
-    municipality_id = fields.Many2one('res.country.state.municipality', 'Municipality',
+    municipality_id = fields.Many2one('res.country.state.municipality', 'Mayoralty/Municipality',
         help='Municipality')
     zone = fields.Selection([
             ('freezone', 'Zona Libre de la Frontera Norte'),
@@ -35,7 +35,7 @@ class MunicipalityZone(models.Model):
 
 class StateMunicipality(models.Model):
     _name = 'res.country.state.municipality'
-    _description="State municipalities"
+    _description="State Mayoralty/Municipality"
 
     state_id = fields.Many2one('res.country.state', 'State', required=True, 
         help='Name of the State to which the municipality belongs')
@@ -60,8 +60,8 @@ class StateMunicipalitySuburb(models.Model):
     _name = 'res.municipality.suburb'
     _description="Suburb"
 
-    municipality_id = fields.Many2one('res.country.state.municipality', 'Municipio',
-        help='Municipio')
+    municipality_id = fields.Many2one('res.country.state.municipality', 'Mayoralty/Municipality',
+        help='Municipality')
     name = fields.Char('Nombre', required=True, 
         help='Nombre de la colonia')
     code = fields.Char('Código', size=5, required=False,
