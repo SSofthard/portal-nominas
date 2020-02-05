@@ -408,6 +408,7 @@ class Partner(models.Model):
     municipality_id = fields.Many2one('res.country.state.municipality', string='Mayoralty/Municipality')
     suburb_id = fields.Many2one('res.municipality.suburb', string='Suburb')
     curp = fields.Char("CURP", copy=False)
+    manage_groups = fields.Boolean(string="Gestionar grupos/empresa")
 
     _sql_constraints = [
         ('curp_uniq', 'unique(curp)',
