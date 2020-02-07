@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
     <data>
-        
-        <menuitem
-            id="menu_job_position_configuration"
-            name="Job position"
-            action="hr.action_hr_job"
-            parent="hr.menu_human_resources_configuration"
-            groups="hr.group_hr_manager"
-            sequence="100"/>
+
+<!--        <menuitem-->
+<!--            id="menu_job_position_configuration"-->
+<!--            name="Job position"-->
+<!--            action="hr.action_hr_job"-->
+<!--            parent="hr.menu_human_resources_configuration"-->
+<!--            groups="hr.group_hr_manager"-->
+<!--            sequence="100"/>-->
         
         <record id="hr_job_inherit" model="ir.ui.view">
             <field name="name">hr.job.inherit.view</field>
@@ -160,6 +160,7 @@
                         context="{
                             'show_address': 1,
                             'default_type': 'private',
+                            'default_employee': 1,
                             'form_view_ref': 'payroll_mexico.view_partner_employee_address_form'}"
                         options='{"always_reload": True, "highlight_first_line": True}'
                         domain="[('curp', '=', curp)]"/>
@@ -563,7 +564,7 @@
                                     <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                                     <field name="municipality_id" class="o_address_country" required="1" placeholder="Mayoralty/Municipality"
                                         domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
-                                    <field name="suburb_id" class="o_address_country" placeholder="Colonia" context="{'default_municipality_id': municipality_id}"
+                                    <field name="suburb_id" class="o_address_country" placeholder="Suburb" context="{'default_municipality_id': municipality_id}"
                                         domain="[('municipality_id','=',municipality_id)]" options='{"no_open": True}' />
                                     <field name="street" placeholder="Street..." class="o_address_street"/>
                                     <field name="street2" placeholder="Street 2..." class="o_address_street"/>
@@ -663,6 +664,8 @@
                                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                                         <field name="municipality_id" class="o_address_country" placeholder="Mayoralty/Municipality"
                                             domain="[('state_id','=',state_id)]" options='{"no_open": True}'/>
+                                        <field name="suburb_id" class="o_address_country" placeholder="Suburb" context="{'default_municipality_id': municipality_id}"
+                                            domain="[('municipality_id','=',municipality_id)]"/>
                                         <field name="street" placeholder="Street..." class="o_address_street"/>
                                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                                     </div>

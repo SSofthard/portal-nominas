@@ -3729,7 +3729,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__business_name
 msgid "Business Name"
-msgstr ""
+msgstr "Razón Social"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__business_name
@@ -4140,7 +4140,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__certificate
 msgid "Certificate Level"
-msgstr "Nivel de certificado"
+msgstr "Nivel de estudio"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__cesantia_vejez_obrero
@@ -5882,7 +5882,7 @@ msgstr "Registro Patronal"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__employer_registry
 msgid "Employer Registry"
-msgstr ""
+msgstr "Registro Patronal"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.report_hr_employee_document
@@ -6402,7 +6402,7 @@ msgstr "Provincia"
 #. module: payroll_mexico
 #: model:ir.actions.act_window,name:payroll_mexico.action_country_state_municipality
 msgid "Fed. States Mayoralty/Municipality"
-msgstr "Alcaldíá/Municipio"
+msgstr "Alcaldía/Municipio"
 
 #. module: payroll_mexico
 #: selection:hr.employee,gender:0
@@ -8158,7 +8158,7 @@ msgstr "Asignación de ausencias"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__legal_representative_id
 msgid "Legal Representative"
-msgstr ""
+msgstr "Representante legal"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__legal_representative
@@ -8349,7 +8349,7 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:hr.employee,certificate:0
 msgid "Master"
-msgstr "Maestro"
+msgstr "Máster"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__maternidad
@@ -10362,7 +10362,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__relationship_id
 msgid "Relationship"
-msgstr ""
+msgstr "Parentesco"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_leave__remaining_days
@@ -13454,7 +13454,19 @@ msgstr ""
 msgid "“EL TRABAJADOR” se obliga a extender el recibo de pago correspondiente o a autentificar por algún medio electrónico o tecnológico el recibo de los salarios y prestaciones, mismas en las que se incluyen las percepciones y las deducciones de Ley expresamente aceptadas por “EL TRABAJADOR”, suscribiendo con firma autógrafa o mediante la validación electrónica de conformidad, todos y cada uno de los períodos que éstos amparen, haciéndose notar que si en los recibos no aparece concepto alguno por tiempo extraordinario, es porque “EL TRABAJADOR” no lo laboró, extendiendo por lo tanto el más amplio finiquito de los salarios y prestaciones a las que tuvo derecho por el respectivo período, haciéndose notar que en caso de cualquier aclaración al respecto, deberá de hacerlo saber en forma inmediata a “EL PATRON” y en caso de que proceda, se cubrirá en el  siguiente periodo de pago."
 msgstr ""
 
+#Estas lineas son forzadas, agregar cuando se genere el archivo nuevamente
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_by_employees
 msgid "<span colspan=\"4\" nolabel=\"1\">This wizard will generate payslips for all selected employee(s) based on the dates and credit note specified on Payslips Run.</span>"
 msgstr "<span colspan=\"4\" nolabel=\"1\">Este asistente calculará detalles de sueldo para todos los empleados seleccionados en función de las fechas y la nota de crédito especificada en el procesamiento de nómina.</span>"
+
+#. module: hr
+#: model:ir.actions.act_window,name:hr.action_hr_job
+#: model:ir.ui.menu,name:hr.menu_view_hr_job
+msgid "Job Positions"
+msgstr "Puestos de trabajo"
+
+#. module: hr_contract
+#: selection:hr.contract,state:0
+msgid "Running"
+msgstr "Activo"
