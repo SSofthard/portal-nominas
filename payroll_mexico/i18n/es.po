@@ -3729,7 +3729,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__business_name
 msgid "Business Name"
-msgstr ""
+msgstr "Razón Social"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__business_name
@@ -4140,7 +4140,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__certificate
 msgid "Certificate Level"
-msgstr "Nivel de certificado"
+msgstr "Nivel de estudio"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__cesantia_vejez_obrero
@@ -5882,7 +5882,7 @@ msgstr "Registro Patronal"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_employer_register__employer_registry
 msgid "Employer Registry"
-msgstr ""
+msgstr "Registro Patronal"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.report_hr_employee_document
@@ -6402,7 +6402,7 @@ msgstr "Provincia"
 #. module: payroll_mexico
 #: model:ir.actions.act_window,name:payroll_mexico.action_country_state_municipality
 msgid "Fed. States Mayoralty/Municipality"
-msgstr "Alcaldíá/Municipio"
+msgstr "Alcaldía/Municipio"
 
 #. module: payroll_mexico
 #: selection:hr.employee,gender:0
@@ -8158,7 +8158,7 @@ msgstr "Asignación de ausencias"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__legal_representative_id
 msgid "Legal Representative"
-msgstr ""
+msgstr "Representante legal"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__legal_representative
@@ -10362,7 +10362,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_family_burden__relationship_id
 msgid "Relationship"
-msgstr ""
+msgstr "Parentesco"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_leave__remaining_days
@@ -13465,3 +13465,8 @@ msgstr "<span colspan=\"4\" nolabel=\"1\">Este asistente calculará detalles de 
 #: model:ir.ui.menu,name:hr.menu_view_hr_job
 msgid "Job Positions"
 msgstr "Puestos de trabajo"
+
+#. module: hr_contract
+#: selection:hr.contract,state:0
+msgid "Running"
+msgstr "Activo"

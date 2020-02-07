@@ -154,8 +154,8 @@ class employerRegister(models.Model):
     
     company_id = fields.Many2one('res.company', "Company")
     employer_registry = fields.Char("Employer Registry", copy=False, required=True)
-    electronic_signature = fields.Many2many('ir.attachment', string="Electronic Signature", required=True)
-    validity_signature = fields.Date("Validity of Signature", required=True, copy=False)
+    electronic_signature = fields.Many2many('ir.attachment', string="Electronic Signature", required=False)
+    validity_signature = fields.Date("Validity of Signature", required=False, copy=False)
     
     delegacion_id = fields.Many2one('res.company.delegacion', "Delegacion", required=True)
     subdelegacion_id = fields.Many2one('res.company.subdelegacion', "Sub-Delegación", required=True)
