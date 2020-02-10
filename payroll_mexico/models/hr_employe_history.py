@@ -68,10 +68,6 @@ class EmployeeAffiliateMovements(models.Model):
     @api.multi
     def unlink(self):
         for movements in self:
-            print (movements)
-            print (movements)
-            print (movements)
-            print (movements)
             if movements.state not in ['draft']:
                 raise UserError(_('You cannot delete affiliate movements that are not in "Draft" status.'))
         return super(EmployeeAffiliateMovements, self).unlink()

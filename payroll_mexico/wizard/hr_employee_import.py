@@ -37,7 +37,7 @@ except ImportError:
 GENDER = {'Hombre': 'male', 'Mujer':'female'}
 MARITAL = {'Soltero': 'single', 'Casado': 'married', 'Cohabitante legal': 'cohabitant', 'Viudo': 'widower', 'Divorciado': 'divorced'}
 BLOOD_TYPE = {'O-': 'O-', 'O+': 'O+', 'A-': 'A-', 'A+': 'A+', 'B-': 'B-', 'B+': 'B+', 'AB-': 'AB-', 'AB+': 'AB+'}
-CERTIFICATE = {'Licenciado': 'bachelor', 'Maestro': 'master', 'Otro': 'other'}
+CERTIFICATE = {'Licenciado': 'bachelor', 'Máster': 'master', 'Otro': 'other'}
 TYPE_SALARY = {'Bruto': 'gross', 'Neto': 'net'}
 
 
@@ -547,12 +547,16 @@ class HrEmployeeImport(models.TransientModel):
                         if col == 54:
                             value = self.float_to_string(sheet.cell_value(row,col)).strip()
                             try:
-                                bank_data['bank_account'] = value
-                                bank_data['reference'] = value[0:4]
-                                bank_data['beneficiary'] = '%s %s' %(name, last_name)
-                                bank_data['predetermined'] = True
+                                if value and len(value) in [10,11,18]:
+                                    bank_data['bank_account'] = value
+                                    bank_data['reference'] = value[0:4]
+                                    bank_data['beneficiary'] = '%s %s' %(name, last_name)
+                                    bank_data['predetermined'] = True
+                                else:
+                                    msg_not_format.append('%s del valor (%s) en la fila %s.  debe contener 10, 11 ó 18 dígitos\n' 
+                                        %(sheet.cell_value(head,col).upper(), sheet.cell_value(row,col), str(row+1)))
                             except:
-                                msg_not_format.append('%s del valor (%s) en la fila %s.  \n' 
+                                msg_not_format.append('%s del valor (%s) en la fila %s.  debe contener 10, 11 ó 18 dígitos\n' 
                                     %(sheet.cell_value(head,col).upper(), sheet.cell_value(row,col), str(row+1)))
                         if col == 55:
                             location_branch = self.float_to_string(sheet.cell_value(row,col)).strip()
@@ -591,6 +595,14 @@ class HrEmployeeImport(models.TransientModel):
                                     lines['title'] = title_id.id
                             else:
                                 msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), title, str(row+1)))
+                        if col in [59]:
+                            type_working_day = dict(self.env['hr.employee']._fields.get('type_working_day').selection)
+                            cell_value = self.float_to_string(sheet.cell_value(row,col))
+                            value = self.check_selection1(cell_value.strip(), type_working_day)
+                            if value:
+                                lines['type_working_day'] = value
+                            else:
+                                msg_not_found.append('%s con la clave (%s) en la fila %s. POSIBLES VALORES %s \n' %(sheet.cell_value(head,col).upper(), cell_value, str(row+1),list(type_working_day.keys())))
                     if bank_data:
                         lines['bank_account_ids'] = [(0, 0, bank_data)]
                 employees.append(lines)
