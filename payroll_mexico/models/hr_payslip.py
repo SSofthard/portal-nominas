@@ -367,7 +367,7 @@ class HrPayslip(models.Model):
                 'departament': self.contract_id.department_id.name,
                 'emp_job': self.contract_id.job_id.name,
                 'payment_periodicity': '',
-                'emp_bank': self.contract_id.bank_account_id.bank_id.code,
+                'emp_bank': '',
                 'emp_account': self.contract_id.bank_account_id.bank_account,
                 'emp_base_salary': '',
                 'emp_diary_salary': '',
@@ -388,6 +388,8 @@ class HrPayslip(models.Model):
                 'compensation': False,
             },
         }
+        if len(self.contract_id.bank_account_id.bank_account) != 18:
+            data['payroll']['emp_bank'] = self.contract_id.bank_account_id.bank_id.code
         if self.employee_id.deceased:
             data['receiver_rfc'] = 'XAXX010101000'
         if self.company_id.test_cfdi:
@@ -744,7 +746,7 @@ class HrPayslip(models.Model):
     @api.multi
     def action_cfdi_nomina_generate(self):
         for payslip in self:
-            if payslip.invoice_status !='factura_correcta':
+            if payslip.invoice_status != 'factura_correcta':
                 tz = pytz.timezone(self.env.user.partner_id.tz)
                 csd_company = self.env['res.company.fiel.csd'].search([('company_id','=',payslip.company_id.id),('type','=','csd'),('predetermined','=',True),('state','=','valid')])
                 if csd_company.company_id.test_cfdi:
@@ -889,9 +891,9 @@ class HrPayslip(models.Model):
                              'pdf': False,
                             }
                         payslip.write(vals)
-                    if payslip.settlement and payslip.invoice_status_si !='factura_correcta':
-                        payslip.action_cfdi_compesation_generate(certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
-                                                            password=csd_company.track, tz=tz, url=url, user=user, password_pac = password)
+                if payslip.settlement and payslip.invoice_status_si != 'factura_correcta':
+                    payslip.action_cfdi_compesation_generate(certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
+                                                        password=csd_company.track, tz=tz, url=url, user=user, password_pac = password)
         return True 
     
     
@@ -1283,7 +1285,6 @@ class HrPayslip(models.Model):
 
     @api.model
     def get_inputs(self, contracts, date_from, date_to):
-
         res = []
         structure_ids = contracts.get_all_structures(self.struct_id)
         rule_ids = self.env['hr.payroll.structure'].browse(structure_ids).get_all_rules()
@@ -1292,13 +1293,11 @@ class HrPayslip(models.Model):
         hr_inputs = self.env['hr.inputs'].browse([])
         self.input_ids.write({'payslip':False,'state':'approve'})
         self.input_ids = False
-
         for contract in contracts:
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
             for input in inputs:
                 amount = 0.0
                 other_input_line = self.env['hr.inputs'].search([('employee_id', '=', employee_id),('input_id', '=', input.id),('state','in',['approve']),('payslip','=',False)])
-                print (other_input_line)
                 hr_inputs += other_input_line
                 for line in other_input_line:
                     amount += line.amount
@@ -1485,7 +1484,6 @@ class HrPayslip(models.Model):
             contract_ids = payslip.contract_id.ids or \
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
-            print (lines)
             payslip.write({'line_ids': lines, 'number': number, 'code_payslip':code_payslip, 'payment_date':payment_date})
             if payslip.settlement:
                 val = {
