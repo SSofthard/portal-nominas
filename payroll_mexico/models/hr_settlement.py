@@ -42,7 +42,7 @@ class HrPayslip(models.Model):
     date_end = fields.Date('End Date',
         help="End date of the contract", related="contract_id.date_end")
     years_antiquity = fields.Integer(string='Antiquity', related="contract_id.years_antiquity")
-    days_rest = fields.Integer(string='Días de antiguedad ultimo año', related="contract_id.days_rest")
+    days_rest = fields.Integer(string='Días de antigüedad ultimo año', related="contract_id.days_rest")
     type_contract = fields.Selection(string='Tipo de contrato', related="contract_id.type_id.type")
     
     @api.onchange('complete_name')

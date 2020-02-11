@@ -332,17 +332,11 @@ class BaseDocument:
                        
     def timbrar(self, usuario, password, cfdi_cellado):
         cliente = zeep.Client(wsdl = self.url)
-        print (cliente)
-        print (cliente)
-        print (cliente)
-        print (cliente)
-        print (cliente.service)
         try:
             accesos_type = cliente.get_type("ns1:accesos")
             
             accesos = accesos_type(usuario=usuario, password=password)
             cfdi_timbrado = cliente.service.TimbrarCFDI(accesos = accesos, comprobante=cfdi_cellado.decode('UTF-8'))
-            print (cfdi_timbrado)
             return cfdi_timbrado  
         except Exception as exception:
             print("Message %s" % exception)
