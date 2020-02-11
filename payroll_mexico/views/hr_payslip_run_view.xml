@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <search string="Employee Change History">
                     <field name="work_center_id" string="Centro de trabajo"/>
-                    <field name="payslip_run_id" string="Nomina"/>
+                    <field name="payslip_run_id" string="Nómina"/>
 <!--                    <filter name="payslip_run" string="Nomina" domain="[('payslip_run_id', '=', payslip_run_id)]"/>-->
                 </search>
             </field>
@@ -64,7 +64,7 @@
                     <button name="action_print_report" string="Reporte de Nómina Excel" type="object" class="o_sale_print"/>
                     <!-- <button name="set_tax_iva_honorarium" string="Calcular IVA & Honorarios" type="object" class="o_sale_print"/> -->
                     <button name="print_payroll_summary_report" string="Resumen de Nómina" type="object" class="o_sale_print"/>
-                    <button name="generate_cfdi" string="Generar CFDI" type="object" class="o_sale_print"/>
+                    <button name="generate_cfdi" string="Generar CFDI" type="object" class="o_sale_print" states="close"/>
                 </xpath>
                 <xpath expr="//field[@name='name']" position="before">
                     <div class="oe_button_box" name="button_box">

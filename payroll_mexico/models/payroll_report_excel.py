@@ -8,6 +8,7 @@ import xlwt
 import base64
 import xlsxwriter
 import itertools
+import locale
 
 from datetime import datetime, time, timedelta, date
 from xlsxwriter.workbook import Workbook
@@ -128,8 +129,9 @@ class HrPayslipRun(models.Model):
         payroll_dic = {} 
         company = self.mapped('slip_ids').mapped('company_id')
         payroll_dic['company_name'] = company.name
-        date_start = '%s/%s/%s' %(self.date_start.strftime("%d"), self.date_start.strftime("%b").title(), self.date_start.strftime("%Y"))
-        date_end = '%s/%s/%s' %(self.date_end.strftime("%d"), self.date_end.strftime("%b").title(), self.date_end.strftime("%Y"))
+        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+        date_start = self.date_start.strftime("%d/%b/%Y").title()
+        date_end = self.date_end.strftime("%d/%b/%Y").title()
         f_name = 'Periodo de Pago: Del %s al %s' %(date_start, date_end)
         print_time = fields.Datetime.context_timestamp(self.with_context(tz=self.env.user.tz), fields.Datetime.now()).strftime(('%s %s') % (date_format, time_format)),
         sheet = workbook.add_worksheet(self.name)
