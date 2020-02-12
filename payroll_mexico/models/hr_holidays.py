@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
+from datetime import date,datetime,timedelta
 import calendar
 
 from odoo import api, fields, models, _
@@ -8,7 +8,6 @@ from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_round
 
 from .tool_convert_numbers_letters import numero_to_letras
-from datetime import date,datetime,timedelta
 from dateutil.relativedelta import relativedelta
 
 
@@ -117,13 +116,12 @@ class HrLeaveAllocation(models.Model):
         date_init = date(today.year, today.month, 1)
         date_end = date(today.year, today.month, range_date[1])
         contracts = self.env['hr.contract'].search([('employee_id','!=', False), ('contracting_regime','=','02')])
-        holidays_type = self.env['hr.leave.type'].search([('validity_start','<=',today),
-                                                          ('validity_stop','>=',today),
-                                                          ('is_holidays','=',True)])
+        holidays_type = self.env['hr.leave.type'].search([('is_holidays','=',True)])
         employees = []
         for contract in contracts:
+            range_date_contract = calendar.monthrange(contract.date_start.year, today.month)
             date_init = date(contract.date_start.year, today.month, 1)
-            date_end = date(contract.date_start.year, today.month, range_date[1])
+            date_end = date(contract.date_start.year, today.month, range_date_contract[1])
             allocations_assignated = sum(self.search([('employee_id','=',contract.employee_id.id)]).mapped('number_of_days_display'))
             if contract.date_start >= date_init and contract.date_start <= date_end:
                 employees.append(contract.employee_id.id)

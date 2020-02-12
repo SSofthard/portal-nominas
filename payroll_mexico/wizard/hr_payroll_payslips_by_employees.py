@@ -100,6 +100,7 @@ class HrPayslipEmployees(models.TransientModel):
         estructure_id=self.estructure_id.id
         structure_type_id=self.estructure_id.structure_type_id.id
         for employee in self.env['hr.employee'].browse(data['employee_ids']):
+            print (employee) 
             contract=self.env['hr.contract'].search([('contracting_regime','=',self.contracting_regime),('employee_id','=',employee.id),('state','in',['open']),])[0]
             slip_data = self.env['hr.payslip'].onchange_employee_id(from_date, to_date, employee.id, contract_id=contract.id, struct_id=self.estructure_id, run_data=run_data )
             res = {
@@ -124,7 +125,7 @@ class HrPayslipEmployees(models.TransientModel):
                 'employer_register_id':slip_data['value'].get('employer_register_id'),
             }
             payslips += self.env['hr.payslip'].create(res)
-            payslips.compute_sheet()
+        payslips.compute_sheet()
         payslip_run.set_tax_iva_honorarium()
         payslip_run.generated = True
         return {'type': 'ir.actions.act_window_close'}
