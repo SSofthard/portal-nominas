@@ -5,6 +5,7 @@ import pytz
 import base64
 import qrcode
 import logging
+import zeep
 
 from pytz import timezone
 from datetime import date, datetime, time, timedelta
@@ -201,6 +202,7 @@ class HrPayslip(models.Model):
                                             readonly=True,
                                             store=True
                                         )
+    xml_cancel_cfdi = fields.Many2one('ir.attachment', string="XML Cancel CFDI", copy=False, readonly=True)
 
     def overtime(self,type_overtime):
         days = 0
@@ -951,47 +953,47 @@ class HrPayslip(models.Model):
                 UTC_date = UTC.localize(date, is_dst=None) 
                 date_timbre = UTC_date.astimezone (tz)
                 date_timbre = str(date_timbre.isoformat())[:19]
-                file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'cancelacion.xml')
-                import xml.etree.ElementTree as ET
-                tree = ET.parse(file_xls)
-                root = tree.getroot()
-                element = root[0]
-                root[1][0][0].text = str(self.company_id.rfc)
-                root[1][0][1].text = str(date_timbre)
-                root[1][0][2].text = str(self.UUID_sat)
-                root[1][0][3].text = csd_company.cer.datas.decode('utf8')
-                root[1][0][4].text = csd_company.key.datas.decode('utf8')
-                root[1][0][5].text = str(csd_company.track)
-                root[1][0][6][0].text = str(password)
-                root[1][0][6][1].text = str(user)
-                tree = ET.tostring(root, encoding='utf8', method='xml')
                 
-                import zeep
-                cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSCancelacionService?wsdl')
-                # ~ try:
-                    # ~ accesos_type = cliente.get_type("ns1:accesos")
-                    
-                    # ~ accesos = accesos_type(usuario=usuario, password=password)
+                try:
+                    cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSCancelacionService?wsdl')
+                    accesos_type = cliente.get_type("ns1:accesos")
+                    accesos = accesos_type(usuario=user, password=password)
+                    cfdi_cancel = cliente.service.Cancelacion_1(
+                                                            folios=[self.UUID_sat],
+                                                            fecha=str(date_timbre),
+                                                            rfcEmisor=str(self.company_id.rfc),
+                                                            publicKey=base64.decodebytes(csd_company.cer.datas),
+                                                            privateKey=base64.decodebytes(csd_company.key.datas),
+                                                            password=str(csd_company.track),
+                                                            accesos={'password':password,'usuario':user},
+                                                            )
+                except Exception as exception:
+                    print("Message %s" % exception)
                 
-                cfdi_cancel = cliente.service.Cancelacion_1(
-                                                        folios=[self.UUID_sat],
-                                                        fecha=str(date_timbre),
-                                                        rfcEmisor=str(self.company_id.rfc),
-                                                        publicKey=csd_company.cer.datas,
-                                                        privateKey=csd_company.key.datas,
-                                                        password=str(csd_company.track),
-                                                        accesos={'password':password,'usuario':user},
-                                                        )
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                # ~ return cfdi_timbrado  
-                # ~ except Exception as exception:
-                    # ~ print("Message %s" % exception)
-                
+                if cfdi_cancel['codEstatus'] in ['201']:
+                    document = ET.XML(cfdi_cancel['acuse'].encode('utf-8'))
+                    document = ET.tostring(document, pretty_print=True, xml_declaration=True, encoding='utf-8')
+                    cached = BytesIO()
+                    cached.write(document is not None and document or u'')
+                    cached.seek(0)
+                    file=cached.read()
+                    xml = base64.b64encode(file)
+                    ir_attachment=self.env['ir.attachment']
+                    folder_id = payslip.get_folder()
+                    value={u'name': 'Cancelación_'+str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to), 
+                            u'url': False,
+                            u'company_id': self.company_id.id, 
+                            u'folder_id': folder_id, 
+                            u'datas_fname': 'Cancelación_'+str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to)+'.xml', 
+                            u'type': u'binary', 
+                            u'public': False, 
+                            u'datas':xml , 
+                            u'description': False}
+                    xml_timbre_cancel = ir_attachment.create(value)
+                    self.xml_cancel_cfdi = xml_timbre_cancel.id
+                    self.invoice_status = 'problemas_cancelada'
+                else:
+                    raise UserError(_(cfdi_cancel['mensaje']))
         return True        
             
         

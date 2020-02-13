@@ -93,7 +93,7 @@
                     <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
                 </xpath> 
                 <xpath expr="//header" position="inside">
-                    <button string="Generar CFDI" name="action_cfdi_nomina_generate"  type="object" class="oe_sale" attrs="{'invisible': ['|',('state', '!=', 'done'),('invoice_status', '=', 'factura_correcta')]}"/>
+                    <button string="Generar CFDI" name="action_cfdi_nomina_generate"  type="object" class="oe_sale" attrs="{'invisible': ['|',('state', '!=', 'done'),('invoice_status', 'in', ['factura_correcta','problemas_cancelada'])]}"/>
 <!--
                     <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
@@ -227,6 +227,7 @@
 							<field name="stamp_cfd" invisible="1" readonly="True"/>
 							<field name="stamp_sat" invisible="1" readonly="True"/>
 							<field name="original_string" invisible="1" readonly="True"/>
+							<field name="xml_cancel_cfdi" attrs="{'invisible': [('invoice_status', '!=', 'problemas_cancelada')]}"/>
 						 </group>
 					   <group string="Error en Timbrado" attrs="{'invisible': [('invoice_status', '!=', 'problemas_factura')]}">
 							<field name="code_error"/>
