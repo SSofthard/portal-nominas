@@ -227,6 +227,7 @@
 							<field name="stamp_cfd" invisible="1" readonly="True"/>
 							<field name="stamp_sat" invisible="1" readonly="True"/>
 							<field name="original_string" invisible="1" readonly="True"/>
+							<field name="xml_cancel_cfdi" attrs="{'invisible': [('invoice_status', '!=', 'problemas_cancelada')]}"/>
 						 </group>
 					   <group string="Error en Timbrado" attrs="{'invisible': [('invoice_status', '!=', 'problemas_factura')]}">
 							<field name="code_error"/>
