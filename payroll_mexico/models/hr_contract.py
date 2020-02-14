@@ -115,7 +115,7 @@ class Contract(models.Model):
                     'wage':self.wage,
                     'salary':self.integral_salary,
                 }
-            self.env['hr.employee.affiliate.movements'].create(val)
+                self.env['hr.employee.affiliate.movements'].create(val)
         return self.write({'state': 'close'})
 
     
