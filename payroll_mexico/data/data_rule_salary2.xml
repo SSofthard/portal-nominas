@@ -1,0 +1,4325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--CATEGORIES-->
+
+        <record id="PERCEPTIONS" model="hr.salary.rule.category">
+            <field name="name">Percepciones</field>
+            <field name="code">PERCEPCIONES</field>
+        </record>
+        <record id="DED" model="hr.salary.rule.category">
+            <field name="name">Deducción</field>
+            <field name="code">DED</field>
+        </record>
+        <record id="UI" model="hr.salary.rule.category">
+            <field name="name">Uso Interno</field>
+            <field name="code">UI</field>
+        </record>
+        <record id="G01" model="hr.salary.rule.category">
+            <field name="name">Grabable</field>
+            <field name="code">G01</field>
+        </record>
+        <record id="BRUTOG" model="hr.salary.rule.category">
+            <field name="name">Bruto Grabable</field>
+            <field name="code">BRUTOG</field>
+        </record>
+        <record id="BRUTO" model="hr.salary.rule.category">
+            <field name="name">Bruto</field>
+            <field name="code">BRUTOG</field>
+        </record>
+        <record id="COMP" model="hr.salary.rule.category">
+            <field name="name">Contribución compañía</field>
+            <field name="code">COMP</field>
+        </record>
+        <record id="DEDT" model="hr.salary.rule.category">
+            <field name="name">Total Deducciones</field>
+            <field name="code">DEDT</field>
+        </record>
+
+        <record id="NET" model="hr.salary.rule.category">
+            <field name="name">Neto</field>
+            <field name="code">NET</field>
+        </record>
+        
+        <record id="NET_EF" model="hr.salary.rule.category">
+            <field name="name">Neto efectivo</field>
+            <field name="code">NET</field>
+        </record>
+        
+        <record id="NET_ES" model="hr.salary.rule.category">
+            <field name="name">Neto especie</field>
+            <field name="code">NET</field>
+        </record>
+        
+        <record id="FONAHORRO" model="hr.salary.rule.category">
+            <field name="name">Fondo de ahorro</field>
+            <field name="code">FONAHORRO</field>
+        </record>
+
+        <!--RULES SALARY GRABABLE -->
+        
+<!--
+        <record id="hr_salary_rule_G000" model="hr.salary.rule">
+            <field name="name">SUELDO (GRABABLE)</field>
+            <field name="code">G000</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">50</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P001)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G025" model="hr.salary.rule">
+            <field name="name">INGRESOS ASIMILADOS A SALARIOS GRAVABLE</field>
+            <field name="code">G025</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">55</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P046)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G001" model="hr.salary.rule">
+            <field name="name">COMISIONES (GRABABLE)</field>
+            <field name="code">G001</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">65</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P002.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P002.amount)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G002" model="hr.salary.rule">
+            <field name="name">HORAS EXTRAS DOBLES (GRABABLE)</field>
+            <field name="code">G002</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">75</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P003.amount > 0 and employee.pay_extra_hours</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = P003
+if UISM >= UI002:
+    amount = 0
+elif UI001 > UISMM:
+    amount = (P003*50)/100
+    cincosm = UISM*5
+    if amount > cincosm:
+        excedente = amount - cincosm
+        amount +=  excedente
+   
+result="{0:.2f}".format(amount)
+</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G003" model="hr.salary.rule">
+            <field name="name">AGUINALDO (Grabable) (1)</field>
+            <field name="code">G003</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">90</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.payslip_run_id.pay_bonus or payslip.payroll_type == 'E'</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+grabable = 0
+exencion = payslip.table_id.bonus_factor*UISM
+if P004 > exencion:
+     grabable = P004 - exencion
+result = "{0:.2f}".format(grabable)
+            </field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G0032" model="hr.salary.rule">
+            <field name="name">AGUINALDO (Grabable) (2)</field>
+            <field name="code">G003</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">95</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.payroll_type == 'E'</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+grabable = 0
+exencion = payslip.table_id.bonus_factor*UISM
+if P004 > exencion:
+     grabable = P004 - exencion
+result = "{0:.2f}".format(grabable)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G004" model="hr.salary.rule">
+            <field name="name">HORAS EXTRAS TRIPLES (GRABABLE)</field>
+            <field name="code">G004</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">105</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P005.amount > 0 and employee.pay_extra_hours</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P005)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_G005" model="hr.salary.rule">
+            <field name="name">FONDO DE AHORRO PATRÓN (GRABABLE)</field>
+            <field name="code">G005</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">115</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+fondo = False
+for i in contract.fixed_concepts_ids:
+    if i.type == '4':
+        fondo = True
+        if i.disabilities and (worked_days.F01 or worked_days.F02 or worked_days.F03 or worked_days.F09):
+            fondo = False
+        if i.faults and worked_days.F04:
+            fondo = False
+        if i.justified_fault and worked_days.F05:
+            fondo = False
+        if i.permission_with_enjoyment and worked_days.F06:
+            fondo = False
+        if i.permission_without_enjoyment and worked_days.F07:
+            fondo = False
+        if i.holidays and worked_days.F08:
+            fondo = False
+        break
+result=fondo
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(0)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G006" model="hr.salary.rule">
+            <field name="name">PRESTAMO DEL FONDO (GRABABLE)</field>
+            <field name="code">G006</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">125</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P007.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P007.amount)	</field>
+            <field name="note"></field>
+        </record>
+        
+         <record id="hr_salary_rule_G007" model="hr.salary.rule">
+            <field name="name">INTERESES DEL FONDO (GRABABLE)</field>
+            <field name="code">G007</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">135</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P008.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P008.amount)</field>
+            <field name="note"></field>
+        </record>
+
+          <record id="hr_salary_rule_G008" model="hr.salary.rule">
+            <field name="name">VACACIONES (GRABABLE) (1)</field>
+            <field name="code">G008</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">150</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F08</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P009)</field>
+            <field name="note"></field>
+        </record>
+
+         <record id="hr_salary_rule_G0082" model="hr.salary.rule">
+            <field name="name">VACACIONES (GRABABLE) (2)</field>
+            <field name="code">G008</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">155</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P009)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G009" model="hr.salary.rule">
+            <field name="name">PRIMA VACACIONAL (GRABABLE) (1)</field>
+            <field name="code">G009</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">165</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P010.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+grabable = 0
+exencion = payslip.table_id.holiday_bonus_factor*UISM
+if P010 > exencion:
+     grabable = P010 - exencion
+result = "{0:.2f}".format(grabable)
+</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G0092" model="hr.salary.rule">
+            <field name="name">PRIMA VACACIONAL (GRABABLE) (2)</field>
+            <field name="code">G009</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">175</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P010.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+grabable = 0
+exencion = payslip.table_id.holiday_bonus_factor*UISM
+if P010 > exencion:
+     grabable = P010 - exencion
+result = "{0:.2f}".format(grabable)
+            </field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G010" model="hr.salary.rule">
+            <field name="name">REPARTO DE UTILIDADES (GRABABLE)</field>
+            <field name="code">G010</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">185</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P011.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+grabable = 0
+exencion =  payslip.table_id.factor_ptu*UISM
+if P011 > exencion:
+     grabable = P011 - exencion
+result = "{0:.2f}".format(grabable)
+            </field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G011" model="hr.salary.rule">
+            <field name="name">ALIMENTACIÓN (GRABABLE)</field>
+            <field name="code">G011</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">195</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P012.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+grabable = 0
+if P012 > payslip.table_id.ex_pantry_voucher_factor:
+     grabable = P012 -payslip.table_id.ex_pantry_voucher_factor
+result = "{0:.2f}".format(grabable)
+            </field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_G012" model="hr.salary.rule">
+            <field name="name">HABITACIÓN (GRABABLE)</field>
+            <field name="code">G012</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">205</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P013.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P013.amount)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G013" model="hr.salary.rule">
+            <field name="name">DESPENSA (GRABABLE)</field>
+            <field name="code">G013</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">215</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+despensa = False
+for i in contract.fixed_concepts_ids:
+    if i.type == '3':
+        despensa = True
+        if i.disabilities and (worked_days.F01 or worked_days.F02 or worked_days.F03 or worked_days.F09):
+            despensa = False
+        if i.faults and worked_days.F04:
+            despensa = False
+        if i.justified_fault and worked_days.F05:
+            despensa = False
+        if i.permission_with_enjoyment and worked_days.F06:
+            despensa = False
+        if i.permission_without_enjoyment and worked_days.F07:
+            despensa = False
+        if i.holidays and worked_days.F08:
+            despensa = False
+        break
+result=despensa
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+grabable = 0
+exencion = payslip.table_id.pantry_voucher_factor*UISM*worked_days.DIASIMSS.number_of_days
+if P014	> exencion:
+     grabable = P014-exencion
+result = "{0:.2f}".format(grabable)
+            </field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G014" model="hr.salary.rule">
+            <field name="name">PREMIOS DE ASISTENCIA (GRABABLE)</field>
+            <field name="code">G014</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">225</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+asistencia = False
+for i in contract.fixed_concepts_ids:
+    if i.type == '2':
+        asistencia = True
+        if i.disabilities and (worked_days.F01 or worked_days.F02 or worked_days.F03 or worked_days.F09):
+            asistencia = False
+        if i.faults and worked_days.F04:
+            asistencia = False
+        if i.justified_fault and worked_days.F05:
+            asistencia = False
+        if i.permission_with_enjoyment and worked_days.F06:
+            asistencia = False
+        if i.permission_without_enjoyment and worked_days.F07:
+            asistencia = False
+        if i.holidays and worked_days.F08:
+            asistencia = False
+        break
+result=asistencia
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P015)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G015" model="hr.salary.rule">
+            <field name="name">PREMIOS DE PUNTUALIDAD (GRABABLE)</field>
+            <field name="code">G015</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">235</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+puntualidad = False
+for i in contract.fixed_concepts_ids:
+    if i.type == '1':
+        puntualidad = True
+        if i.disabilities and (worked_days.F01 or worked_days.F02 or worked_days.F03 or worked_days.F09):
+            puntualidad = False
+        if i.faults and worked_days.F04:
+            puntualidad = False
+        if i.justified_fault and worked_days.F05:
+            puntualidad = False
+        if i.permission_with_enjoyment and worked_days.F06:
+            puntualidad = False
+        if i.permission_without_enjoyment and worked_days.F07:
+            puntualidad = False
+        if i.holidays and worked_days.F08:
+            puntualidad = False
+        break
+result=puntualidad
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result= "{0:.2f}".format(P016)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_G018" model="hr.salary.rule">
+            <field name="name">PRIMA DOMINICAL (GRABABLE)</field>
+            <field name="code">G018</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">245</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P019.amount > 0 or worked_days.DOMINGO.number_of_days > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+grabable = 0
+exencion = payslip.table_id.sunday_prime_factor*UISM
+if P019 > exencion:
+     grabable = P019 - exencion
+result = "{0:.2f}".format(grabable)
+            </field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G019" model="hr.salary.rule">
+            <field name="name">SUBSIDIOS POR INCAPACIDAD (GRABABLE)</field>
+            <field name="code">G019</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">255</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P020.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P020.amount)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G020" model="hr.salary.rule">
+            <field name="name">RETROACTIVOS (GRABABLE)</field>
+            <field name="code">G020</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">265</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P021.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P021.amount</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G021" model="hr.salary.rule">
+            <field name="name">BONOS (GRABABLE)</field>
+            <field name="code">G021</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">275</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P022.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P022.amount)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_G024" model="hr.salary.rule">
+            <field name="name">DÍAS FESTIVOS (GRABABLE)</field>
+            <field name="code">G024</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">285</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=employee.pay_holiday and worked_days.FERIADO.number_of_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P024)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G022" model="hr.salary.rule">
+            <field name="name">AYUDA DE TRANSPORTE (GRABABLE)</field>
+            <field name="code">G022</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">295</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P023.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P023.amount)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G108" model="hr.salary.rule">
+            <field name="name">GRATIFICACIÓN (GRABABLE)</field>
+            <field name="code">G108</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">350</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.agreement_employee</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P108)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_G190" model="hr.salary.rule">
+            <field name="name">TOTAL PERCEPCIONES GRABABLES</field>
+            <field name="code">G190</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">355</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="BRUTOG"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(categories.G01)</field>
+            <field name="note"></field>
+        </record>
+-->
+
+        <!--RULES SALARY-->
+
+<!--
+        <record id="hr_salary_rule_UI001" model="hr.salary.rule">
+            <field name="name">SUELDO BRUTO NÓMINA</field>
+            <field name="code">UI001</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">5</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(contract.wage)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UI002" model="hr.salary.rule">
+            <field name="name">SALARIO DIARIO</field>
+            <field name="code">UI002</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">10</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI001/worked_days.PERIODO100.number_of_days)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UISM" model="hr.salary.rule">
+            <field name="name">SUELDO MÍNIMO DIARIO</field>
+            <field name="code">UISM</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">15</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(employee.search_minimum_wage(payslip.date_from))</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UI003" model="hr.salary.rule">
+            <field name="name">SALARIO DIARIO INTEGRADO</field>
+            <field name="code">UI003</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">20</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(payslip.contract_id.integral_salary)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UISMM" model="hr.salary.rule">
+            <field name="name">SUELDO MÍNIMO MENSUAL</field>
+            <field name="code">UISMM</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">25</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UISM)*30)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UISH" model="hr.salary.rule">
+            <field name="name">SALARIO POR HORA</field>
+            <field name="code">UISH</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">30</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI002/contract.resource_calendar_id.hours_per_day)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_UI135" model="hr.salary.rule">
+            <field name="name">DESCUENTO DEL SEPTIMO DÍA</field>
+            <field name="code">UI135</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">35</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+days = 0
+if worked_days.F04:
+    days += worked_days.F04.number_of_days
+if worked_days.F05:
+    days += worked_days.F05.number_of_days
+if worked_days.F07:
+    days += worked_days.F07.number_of_days
+
+amount=(UI002/worked_days.DIASEMANA.number_of_days)
+result="{0:.2f}".format(amount*days)
+            </field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_P001" model="hr.salary.rule">
+            <field name="name">SUELDOS Y SALARIOS</field>
+            <field name="code">P001</field>
+            <field name="type">perception</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">40</field>
+            <field name="type_perception">001</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="payment_type">02</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+if UI135:
+    amount = UI135
+result =  "{0:.2f}".format(UI002*worked_days.WORK100.number_of_days - amount) 
+            </field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G000"/>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_P046" model="hr.salary.rule">
+            <field name="name">INGRESOS ASIMILADOS A SALARIOS</field>
+            <field name="code">P046</field>
+            <field name="type">perception</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">45</field>
+            <field name="type_perception">046</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="payment_type">02</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+if UI135:
+    amount = UI135
+result =  "{0:.2f}".format(UI002*worked_days.WORK100.number_of_days-amount)
+            </field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G025"/>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_P002" model="hr.salary.rule">
+            <field name="name">COMISIONES</field>
+            <field name="code">P002</field>
+            <field name="type">perception</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="type_perception">028</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="sequence">60</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>            
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'COMISIONES',
+             'code': 'P002',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P002.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P002.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G001"/>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_P003" model="hr.salary.rule">
+            <field name="name">HORAS EXTRAS DOBLES</field>
+            <field name="code">P003</field>
+            <field name="type">perception</field>
+            <field name="type_perception">019</field>
+            <field name="type_overtime">01</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">70</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>  
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'HORAS EXTRAS DOBLES',
+             'code': 'P003',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P003.amount > 0 and employee.pay_extra_hours</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((inputs.P003.amount*UISH)*2)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G002"/>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_P004" model="hr.salary.rule">
+            <field name="name">AGUINALDO (1)</field>
+            <field name="code">P004</field>
+            <field name="type">perception</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="type_perception">002</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="sequence">80</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>                    
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.payslip_run_id.pay_bonus  or payslip.payroll_type == 'E'</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+days = contract.time_worked_year(payslip.date_from)
+result="{0:.2f}".format(((UI002*contract.search_antique_table_bonus())/365)*days)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G003"/>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_P0042" model="hr.salary.rule">
+            <field name="name">AGUINALDO (2)</field>
+            <field name="code">P004</field>
+            <field name="type">perception</field>
+            <field name="type_perception">002</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">85</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result= payslip.payroll_type == 'E'</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+days = contract.time_worked_year(payslip.date_from,True)
+result="{0:.2f}".format(((UI002*contract.search_antique_table_bonus())/365)*days)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G0032"/>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_P005" model="hr.salary.rule">
+            <field name="name">HORAS EXTRAS TRIPLES</field>
+            <field name="code">P005</field>
+            <field name="type">perception</field>
+            <field name="type_perception">019</field>
+            <field name="type_overtime">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="payment_type">02</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="sequence">100</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'HORAS EXTRAS TRIPLES',
+             'code': 'P005',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P005.amount > 0 and employee.pay_extra_hours</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((inputs.P005.amount*UISH)*3)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G004"/>
+            <field name="note"></field>
+        </record>
+
+
+
+        <record id="hr_salary_rule_FA001" model="hr.salary.rule">
+            <field name="name">FONDO DE AHORRO PATRÓN</field>
+            <field name="code">FA001</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">110</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="FONAHORRO"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+fondo = False
+for i in contract.fixed_concepts_ids:
+    if i.type == '4':
+        fondo = True
+        if i.disabilities and (worked_days.F01 or worked_days.F02 or worked_days.F03 or worked_days.F09):
+            fondo = False
+        if i.faults and worked_days.F04:
+            fondo = False
+        if i.justified_fault and worked_days.F05:
+            fondo = False
+        if i.permission_with_enjoyment and worked_days.F06:
+            fondo = False
+        if i.permission_without_enjoyment and worked_days.F07:
+            fondo = False
+        if i.holidays and worked_days.F08:
+            fondo = False
+        break
+result=fondo
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+fondo = 0
+for i in contract.fixed_concepts_ids:
+    if i.type == '4':
+         if i.type_application == '1':
+            fondo = (P001*i.amount)/100
+         elif i.type_application == '2':
+            fondo = i.amount
+         else:
+            fondo = UISM*i.amount
+result="{0:.2f}".format(fondo)
+            </field>
+            <field name="note"></field>
+        </record>
+
+        
+
+        <record id="hr_salary_rule_P007" model="hr.salary.rule">
+            <field name="name">PRESTAMO DEL FONDO</field>
+            <field name="code">P007</field>
+            <field name="type">perception</field>
+            <field name="type_perception">005</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="payroll_tax">True</field>
+            <field name="payment_type">02</field>
+            <field name="sequence">120</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'PRESTAMO DEL FONDO',
+             'code': 'P007',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P007.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P007.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G006"/>
+            <field name="note"></field>
+        </record>
+
+        
+        <record id="hr_salary_rule_P008" model="hr.salary.rule">
+            <field name="name">INTERESES DEL FONDO</field>
+            <field name="code">P008</field>
+            <field name="type">perception</field>
+            <field name="type_perception">005</field>
+            <field name="payroll_tax">True</field>
+            <field name="payment_type">02</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">130</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'INTERESES DEL FONDO',
+             'code': 'P008',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P008.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P008.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G007"/>
+            <field name="note"></field>
+        </record>
+
+       
+
+        <record id="hr_salary_rule_P009" model="hr.salary.rule">
+            <field name="name">VACACIONES</field>
+            <field name="code">P009</field>
+            <field name="type">perception</field>
+            <field name="type_perception">001</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="payroll_tax">True</field>
+            <field name="payment_type">02</field>
+            <field name="sequence">140</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F08</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(worked_days.F08.number_of_days*UI002)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G008"/>
+            <field name="note"></field>
+        </record>
+
+         <record id="hr_salary_rule_P0092" model="hr.salary.rule">
+            <field name="name">VACACIONES (2)</field>
+            <field name="code">P009</field>
+            <field name="type">perception</field>
+            <field name="type_perception">001</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="payroll_tax">True</field>
+            <field name="payment_type">02</field>
+            <field name="sequence">145</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(contract.holiday_calculation_finiquito(payslip.date_from)*UI002)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G0082"/>
+            <field name="note"></field>
+        </record>
+
+         <record id="hr_salary_rule_P010" model="hr.salary.rule">
+            <field name="name">PRIMA VACACIONAL</field>
+            <field name="code">P010</field>
+            <field name="type">perception</field>
+            <field name="type_perception">021</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="payroll_tax">True</field>
+            <field name="payment_type">02</field>
+            <field name="sequence">160</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'PRIMA VACACIONAL',
+             'code': 'P010',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P010.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P010.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G009"/>
+            <field name="note"></field>
+        </record>
+
+         <record id="hr_salary_rule_P0102" model="hr.salary.rule">
+            <field name="name">PRIMA VACACIONAL (2)</field>
+            <field name="code">P010</field>
+            <field name="type">perception</field>
+            <field name="type_perception">021</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">170</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'PRIMA VACACIONAL (2)',
+             'code': 'P010',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P010.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P010.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G0092"/>
+            <field name="note"></field>
+        </record>
+
+         
+
+         
+
+         <record id="hr_salary_rule_P011" model="hr.salary.rule">
+            <field name="name">REPARTO DE UTILIDADES</field>
+            <field name="code">P011</field>
+            <field name="type">perception</field>
+            <field name="type_perception">003</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">180</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'REPARTO DE UTILIDADES',
+             'code': 'P011',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P011.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P011.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G010"/>
+            <field name="note"></field>
+        </record>
+
+
+
+         <record id="hr_salary_rule_P012" model="hr.salary.rule">
+            <field name="name">ALIMENTACIÓN</field>
+            <field name="code">P012</field>
+            <field name="type">perception</field>
+            <field name="type_perception">030</field>
+            <field name="payment_type">02</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="payroll_tax">False</field>
+            <field name="sequence">190</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'ALIMENTACIÓN',
+             'code': 'P012',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P012.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P012.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G011"/>
+            <field name="note"></field>
+        </record>
+
+
+
+        <record id="hr_salary_rule_P013" model="hr.salary.rule">
+            <field name="name">HABITACIÓN</field>
+            <field name="code">P013</field>
+            <field name="type">perception</field>
+            <field name="type_perception">048</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">False</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="sequence">200</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'HABITACIÓN',
+             'code': 'P013',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P013.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P013.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G012"/>
+            <field name="note"></field>
+        </record>
+
+       
+
+        <record id="hr_salary_rule_P014" model="hr.salary.rule">
+            <field name="name">DESPENSA</field>
+            <field name="code">P014</field>
+            <field name="type">perception</field>
+            <field name="type_perception">029</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">False</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="sequence">210</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+despensa = False
+for i in contract.fixed_concepts_ids:
+    if i.type == '3':
+        despensa = True
+        if i.disabilities and (worked_days.F01 or worked_days.F02 or worked_days.F03 or worked_days.F09):
+            despensa = False
+        if i.faults and worked_days.F04:
+            despensa = False
+        if i.justified_fault and worked_days.F05:
+            despensa = False
+        if i.permission_with_enjoyment and worked_days.F06:
+            despensa = False
+        if i.permission_without_enjoyment and worked_days.F07:
+            despensa = False
+        if i.holidays and worked_days.F08:
+            despensa = False
+        break
+result=despensa
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+despensa = 0
+for i in contract.fixed_concepts_ids:
+    if i.type == '3':
+        if i.type_application == '1':
+            despensa = (P001*i.amount)/100
+        elif i.type_application == '2':
+            despensa = i.amount
+        else:
+            despensa = UISM*i.amount
+        break
+result="{0:.2f}".format(despensa)
+            </field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G013"/>
+            <field name="note"></field>
+        </record>
+
+         
+
+        <record id="hr_salary_rule_P015" model="hr.salary.rule">
+            <field name="name">PREMIOS DE ASISTENCIA</field>
+            <field name="code">P015</field>
+            <field name="type">perception</field>
+            <field name="type_perception">049</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="sequence">220</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>            
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+asistencia = False
+for i in contract.fixed_concepts_ids:
+    if i.type == '2':
+        asistencia = True
+        if i.disabilities and (worked_days.F01 or worked_days.F02 or worked_days.F03 or worked_days.F09):
+            asistencia = False
+        if i.faults and worked_days.F04:
+            asistencia = False
+        if i.justified_fault and worked_days.F05:
+            asistencia = False
+        if i.permission_with_enjoyment and worked_days.F06:
+            asistencia = False
+        if i.permission_without_enjoyment and worked_days.F07:
+            asistencia = False
+        if i.holidays and worked_days.F08:
+            asistencia = False
+        break
+result=asistencia
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+asistencia = 0
+for i in contract.fixed_concepts_ids:
+    if i.type == '2':
+         if i.type_application == '1':
+            asistencia = (P001*i.amount)/100
+         elif i.type_application == '2':
+            asistencia = i.amount
+         else:
+            asistencia = UISM*i.amount
+result="{0:.2f}".format(asistencia)
+            </field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G014"/>
+            <field name="note"></field>
+        </record>
+
+         
+
+        <record id="hr_salary_rule_P016" model="hr.salary.rule">
+            <field name="name">PREMIOS DE PUNTUALIDAD</field>
+            <field name="code">P016</field>
+            <field name="type">perception</field>
+            <field name="type_perception">010</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="sequence">230</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+    puntualidad = False
+for i in contract.fixed_concepts_ids:
+    if i.type == '1':
+        puntualidad = True
+        if i.disabilities and (worked_days.F01 or worked_days.F02 or worked_days.F03 or worked_days.F09):
+            puntualidad = False
+        if i.faults and worked_days.F04:
+            puntualidad = False
+        if i.justified_fault and worked_days.F05:
+            puntualidad = False
+        if i.permission_with_enjoyment and worked_days.F06:
+            puntualidad = False
+        if i.permission_without_enjoyment and worked_days.F07:
+            puntualidad = False
+        if i.holidays and worked_days.F08:
+            puntualidad = False
+        break
+result=puntualidad
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+puntualidad = 0
+for i in contract.fixed_concepts_ids:
+    if i.type == '1':
+         if i.type_application == '1':
+            puntualidad = (P001*i.amount)/100
+         elif i.type_application == '2':
+            puntualidad = i.amount
+         else:
+            puntualidad = UISM*i.amount
+result="{0:.2f}".format(puntualidad)
+            </field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G015"/>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_P019" model="hr.salary.rule">
+            <field name="name">PRIMA DOMINICAL</field>
+            <field name="code">P019</field>
+            <field name="type">perception</field>
+            <field name="type_perception">020</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">240</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'PRIMA DOMINICAL',
+             'code': 'P019',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P019.amount > 0 or worked_days.DOMINGO.number_of_days > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+domingo = 0
+if worked_days.DOMINGO.number_of_days>0:
+    domingo = ((worked_days.DOMINGO.number_of_days*UI002)*25)/100
+result="{0:.2f}".format(inputs.P019.amount + domingo)
+            </field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G018"/>
+            <field name="note"></field>
+        </record>
+
+
+
+
+        <record id="hr_salary_rule_P020" model="hr.salary.rule">
+            <field name="name">SUBSIDIOS POR INCAPACIDAD</field>
+            <field name="code">P020</field>
+            <field name="type">perception</field>
+            <field name="type_perception">014</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">False</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">250</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="company_id"></field>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'SUBSIDIOS POR INCAPACIDAD',
+             'code': 'P020',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P020.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P020.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G019"/>
+            <field name="note"></field>
+        </record>
+
+        
+        <record id="hr_salary_rule_P021" model="hr.salary.rule">
+            <field name="name">RETROACTIVOS</field>
+            <field name="code">P021</field>
+            <field name="type">perception</field>
+            <field name="type_perception">001</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">260</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'RETROACTIVOS',
+             'code': 'P021',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P021.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P021.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G020"/>
+            <field name="note"></field>
+        </record>
+
+
+
+        <record id="hr_salary_rule_P022" model="hr.salary.rule">
+            <field name="name">BONOS</field>
+            <field name="code">P022</field>
+            <field name="type">perception</field>
+            <field name="type_perception">038</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="sequence">270</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'BONOS',
+             'code': 'P022',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P022.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P022.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G021"/>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_P024" model="hr.salary.rule">
+            <field name="name">DÍAS FESTIVOS</field>
+            <field name="code">P024</field>
+            <field name="type">perception</field>
+            <field name="type_perception">038</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">280</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=employee.pay_holiday and worked_days.FERIADO.number_of_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI002 + ((UI002*200)/100))</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G024"/>
+            <field name="note"></field>
+        </record>
+
+       
+
+        <record id="hr_salary_rule_P023" model="hr.salary.rule">
+            <field name="name">AYUDA DE TRANSPORTE</field>
+            <field name="code">P023</field>
+            <field name="type">perception</field>
+            <field name="type_perception">036</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="sequence">290</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'AYUDA DE TRANSPORTE',
+             'code': 'P023',
+             'type': 'perception'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P023.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.P023.amount)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G022"/>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UI147" model="hr.salary.rule">
+            <field name="name">INDEMNIZACIÓN DE 3 MESES</field>
+            <field name="code">UI147</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="sequence">300</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+if payslip.indemnify_employee:
+    amount =  (30*UI003)*3
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UI148" model="hr.salary.rule">
+            <field name="name">INDEMNIZACIÓN DE 20 días por año</field>
+            <field name="code">UI148</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">True</field>
+            <field name="sequence">305</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+if payslip.indemnify_employee:
+    amount = contract.compensation_20_days(payslip,UI003)
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_P103" model="hr.salary.rule">
+            <field name="name">INDEMNIZACIÓN</field>
+            <field name="code">P103</field>
+            <field name="type">perception</field>
+            <field name="type_perception">025</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">310</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI147+UI148)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_G103" model="hr.salary.rule">
+            <field name="name">INDEMNIZACIÓN (GRABABLE)</field>
+            <field name="code">G103</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">315</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="G01"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P103)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_P104" model="hr.salary.rule">
+            <field name="name">PRIMA DE ANTIGUEDAD</field>
+            <field name="code">P104</field>
+            <field name="type">perception</field>
+            <field name="type_perception">022</field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">True</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">320</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="state_ids" eval="[(6,0,[ref('base.state_mx_ags'),
+ref('base.state_mx_bc'),
+ref('base.state_mx_bcs'),
+ref('base.state_mx_chih'),
+ref('base.state_mx_col'),
+ref('base.state_mx_camp'),
+ref('base.state_mx_coah'),
+ref('base.state_mx_chis'),
+ref('base.state_mx_df'),
+ref('base.state_mx_dgo'),
+ref('base.state_mx_gro'),
+ref('base.state_mx_gto'),
+ref('base.state_mx_hgo'),
+ref('base.state_mx_jal'),
+ref('base.state_mx_mich'),
+ref('base.state_mx_mor'),
+ref('base.state_mx_mex'),
+ref('base.state_mx_nay'),
+ref('base.state_mx_nl'),
+ref('base.state_mx_oax'),
+ref('base.state_mx_pue'),
+ref('base.state_mx_q roo'),
+ref('base.state_mx_qro'),
+ref('base.state_mx_sin'),
+ref('base.state_mx_slp'),
+ref('base.state_mx_son'),
+ref('base.state_mx_tab'),
+ref('base.state_mx_tlax'),
+ref('base.state_mx_tamps'),
+ref('base.state_mx_ver'),
+ref('base.state_mx_yuc'),
+ref('base.state_mx_zac'),
+])]"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+smd = UISM*2
+if UI002 > smd:
+    base= smd
+else:
+    base = UI002
+antiguedad = payslip.years_antiquity
+antiguedad_anos_total = antiguedad*base*12
+proporcion_dias = float("{0:.4f}".format(12/365))
+proporcion_prima = float("{0:.4f}".format(proporcion_dias*payslip.days_rest)) 
+antiguedad_dias_total = float("{0:.4f}".format(proporcion_prima*base))
+result="{0:.2f}".format(antiguedad_anos_total+antiguedad_dias_total)
+            </field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UI149" model="hr.salary.rule">
+            <field name="name">TOTAL DE PAGOS INDEMNIZATORIOS</field>
+            <field name="code">UI149</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">325</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format( P103+P104)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_UI150" model="hr.salary.rule">
+            <field name="name">TOTAL DE PAGOS INDEMNIZATORIOS GRAVADOS</field>
+            <field name="code">UI150</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">330</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+indemnizacion =  UI149
+exencion =  (payslip.table_id.clearance_factor*UISM)
+year = payslip.years_antiquity
+if payslip.days_rest > 180:
+    year += 1
+if indemnizacion >  (exencion*year):
+    amount = indemnizacion -  (exencion*year)
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UI131" model="hr.salary.rule">
+            <field name="name">TOTAL DE PAGOS INDEMNIZATORIOS vs ULTIMO SUELDO ORDINARIO</field>
+            <field name="code">UI131</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">335</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = UI150
+if UI150 > UI001:
+    amount = UI001
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UI140" model="hr.salary.rule">
+            <field name="name">TOTAL PERCEPCIONES (CALCULO DE GRATIFICACIÓN)</field>
+            <field name="code">UI140</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">340</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.agreement_employee</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(categories.PERCEPCIONES)</field>
+            <field name="note"></field>
+        </record>
+        
+        <record id="hr_salary_rule_P108" model="hr.salary.rule">
+            <field name="name">GRATIFICACIÓN</field>
+            <field name="code">P108</field>
+            <field name="type">perception</field>
+            <field name="type_perception"></field>
+            <field name="payment_type">02</field>
+            <field name="payroll_tax">False</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">345</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.agreement_employee</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(payslip.amount_agreement-UI140)</field>
+            <field name="salary_rule_taxed_id" ref="hr_salary_rule_G108"/>
+            <field name="note"></field>
+        </record>
+
+         <record id="hr_salary_rule_UI100" model="hr.salary.rule">
+            <field name="name">LIMITE INFERIOR</field>
+            <field name="code">UI100</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">360</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+if payslip.payroll_period=='01':
+    table = payslip.table_id.isr_daily_ids
+elif payslip.payroll_period=='02':
+    table = payslip.table_id.isr_weekly_ids
+elif payslip.payroll_period=='10':
+    table = payslip.table_id.isr_decennial_ids
+elif payslip.payroll_period=='04':
+    table = payslip.table_id.isr_biweekly_ids
+elif payslip.payroll_period in ['05','99']:
+    table = payslip.table_id.isr_monthly_ids
+amount = 0
+for i in table:
+    if G190 > i.lim_inf and i.lim_sup > G190:
+        amount = i.lim_inf
+        break
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+        </record>
+
+         <record id="hr_salary_rule_UI101" model="hr.salary.rule">
+            <field name="name">EXCEDENTE DEL LIMITE INFERIOR</field>
+            <field name="code">UI101</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">365</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(G190-UI100)</field>
+            <field name="note"></field>
+        </record>
+
+         <record id="hr_salary_rule_UI102" model="hr.salary.rule">
+            <field name="name">% APLICABLE</field>
+            <field name="code">UI102</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">370</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+f payslip.payroll_period=='01':
+    table = payslip.table_id.isr_daily_ids
+elif payslip.payroll_period=='02':
+    table = payslip.table_id.isr_weekly_ids
+elif payslip.payroll_period=='10':
+    table = payslip.table_id.isr_decennial_ids
+elif payslip.payroll_period=='04':
+    table = payslip.table_id.isr_biweekly_ids
+elif payslip.payroll_period in ['05','99']:
+    table = payslip.table_id.isr_monthly_ids
+for i in table:
+    if G190 > i.lim_inf and i.lim_sup > G190:
+        amount = i.s_excedente
+        break
+result = "{0:.2f}".format(amount/100)
+            </field>
+            <field name="note"></field>
+        </record>
+
+         <record id="hr_salary_rule_UI103" model="hr.salary.rule">
+            <field name="name">IMPUESTO MARGINAL</field>
+            <field name="code">UI103</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">375</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI101*UI102)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UI104" model="hr.salary.rule">
+            <field name="name">CUOTA FIJA</field>
+            <field name="code">UI104</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">380</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+f payslip.payroll_period=='01':
+    table = payslip.table_id.isr_daily_ids
+elif payslip.payroll_period=='02':
+    table = payslip.table_id.isr_weekly_ids
+elif payslip.payroll_period=='10':
+    table = payslip.table_id.isr_decennial_ids
+elif payslip.payroll_period=='04':
+    table = payslip.table_id.isr_biweekly_ids
+elif payslip.payroll_period in ['05','99']:
+    table = payslip.table_id.isr_monthly_ids
+for i in table:
+    if G190 > i.lim_inf and i.lim_sup > G190:
+        amount = i.c_fija
+        break
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+        </record>
+
+       <record id="hr_salary_rule_UI106" model="hr.salary.rule">
+            <field name="name">SUBSIDIO PARA EL EMPLEO CAUSADO</field>
+            <field name="code">UI106</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">385</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+if payslip.payroll_period=='01':
+    table = payslip.table_id.isr_daily_subsidy_ids
+elif payslip.payroll_period=='02':
+    table = payslip.table_id.isr_Weekly_subsidy_ids
+elif payslip.payroll_period=='10':
+    table = payslip.table_id.isr_decennial_subsidy_ids
+elif payslip.payroll_period=='04':
+    table = payslip.table_id.isr_biweekly_subsidy_ids
+elif payslip.payroll_period=='05':
+    table = payslip.table_id.isr_monthly_subsidy_ids
+for i in table:
+    if G190 > i.lim_inf and i.lim_sup > G190:
+        amount = i.s_mensual
+        break
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI107" model="hr.salary.rule">
+            <field name="name">ISR ARTÍCULO 113</field>
+            <field name="code">UI107</field>
+            <field name="sequence">390</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI103+UI104)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI105" model="hr.salary.rule">
+            <field name="name">(+ISR) A PAGAR (- SUBSIDIO AL EMPLEO)</field>
+            <field name="code">UI105</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">395</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI107-UI106)</field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_P105" model="hr.salary.rule">
+            <field name="name">SUBSIDIO PARA EL EMPLEO</field>
+            <field name="code">P105</field>
+            <field name="type">other_payment</field>
+            <field name="type_other_payment">002</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">400</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+if 0 > UI105:
+    amount = abs(UI105)
+result= "{0:.2f}".format(amount)  
+            </field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_UI108" model="hr.salary.rule">
+            <field name="name">TOTAL GRAVABLE MENSUAL</field>
+            <field name="code">UI108</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">405</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result= "{0:.2f}".format(contract.get_monthly_taxable_total(payslip.year,payslip.payroll_month,payslip.date_from,payslip.date_to)+G190)</field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_UI145" model="hr.salary.rule">
+            <field name="name">SUBSIDIO PARA EL EMPLEO CAUSADO (MENSUAL)</field>
+            <field name="code">UI145</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">410</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=UI108 > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+for i in payslip.table_id.isr_monthly_subsidy_ids:
+    if UI108 > i.lim_inf and i.lim_sup > UI108:
+        amount = i.s_mensual
+        break
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_UI146" model="hr.salary.rule">
+            <field name="name">SUBSIDIO PARA EL EMPLEO MENSUAL PAGADO</field>
+            <field name="code">UI146</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">415</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=UI108 > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = "{0:.2f}".format(contract.subsidy_paid(payslip.payroll_of_month)+P105)</field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_P109" model="hr.salary.rule">
+            <field name="name">ISR AJUSTADO POR SUBSIDIO</field>
+            <field name="code">P109</field>
+            <field name="type">other_payment</field>
+            <field name="type_other_payment">007</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">420</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=UI108 > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result= "{0:.2f}".format((contract.adjustment_subsidy_caused(payslip.payroll_month)+UI106)-UI146)</field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_P110" model="hr.salary.rule">
+            <field name="name">SUBSIDIO EFECTIVAMENTE PAGADO QUE NO CORRESPONDIA</field>
+            <field name="code">P110</field>
+            <field name="type">other_payment</field>
+            <field name="type_other_payment">008</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">425</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="PERCEPTIONS"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=UI108 > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result= "{0:.2f}".format(UI146)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI151" model="hr.salary.rule">
+            <field name="name">LIMITE INFERIOR (INDEMNIZACIÓN)</field>
+            <field name="code">UI151</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">430</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+table = payslip.table_id.isr_monthly_ids
+amount = 0
+for i in table:
+    if UI131 > i.lim_inf and i.lim_sup > UI131:
+        amount = i.lim_inf
+        break
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI1332" model="hr.salary.rule">
+            <field name="name">EXCEDENTE DEL LIMITE INFERIOR (INDEMNIZACIÓN)</field>
+            <field name="code">UI133</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">435</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result= "{0:.2f}".format(UI131-UI151)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI134" model="hr.salary.rule">
+            <field name="name">% APLICABLE (INDEMNIZACIÓN)</field>
+            <field name="code">UI134</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">440</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+table = payslip.table_id.isr_monthly_ids
+for i in table:
+    if UI131 > i.lim_inf and i.lim_sup > UI131:
+        amount = i.s_excedente
+        break
+result = "{0:.2f}".format(amount/100)
+            </field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI139" model="hr.salary.rule">
+            <field name="name">IMPUESTO MARGINAL (INDEMNIZACIÓN)</field>
+            <field name="code">UI139</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">445</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI133*UI134)</field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_P195" model="hr.salary.rule">
+            <field name="name">TOTAL PERCEPCIONES</field>
+            <field name="code">P195</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">450</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="BRUTO"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(categories.PERCEPCIONES+categories.PERCEPCIONESPECIE)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI136" model="hr.salary.rule">
+            <field name="name">CUOTA FIJA (INDEMNIZACIÓN)</field>
+            <field name="code">UI136</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">455</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+table = payslip.table_id.isr_monthly_ids
+for i in table:
+    if UI131 > i.lim_inf and i.lim_sup > UI131:
+        amount = i.c_fija
+        break
+result = "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI137" model="hr.salary.rule">
+            <field name="name">ISR ULTIMO SUELDO MENSUAL ORDINARIO</field>
+            <field name="code">UI137</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">460</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI136+UI135)</field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_P196" model="hr.salary.rule">
+            <field name="name">TOTAL PERCEPCIONES EN EFECTIVO)</field>
+            <field name="code">P196</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">465</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="NET_EF"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(categories.PERCEPCIONES)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D1042" model="hr.salary.rule">
+            <field name="name">ISR SOBRE INGRESOS INDEMNIZATORIOS GRAVADOS</field>
+            <field name="code">D104</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">002</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">470</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+if UI131>0:
+    amount = UI150*(UI137/UI001)
+result=float("{0:.4f}".format(amount))
+            </field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_D001" model="hr.salary.rule">
+            <field name="name">ISR RETENIDO</field>
+            <field name="code">D001</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">002</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">475</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+if UI105 > 0:
+    amount = UI105
+result= "{0:.2f}".format(amount)  
+            </field>
+            <field name="note"></field>
+       </record>
+       
+      <record id="hr_salary_rule_P197" model="hr.salary.rule">
+            <field name="name">TOTAL PERCEPCIONES EN ESPECIE</field>
+            <field name="code">P197</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">480</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="NET_ES"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(categories.PERCEPCIONESPECIE)</field>
+            <field name="note"></field>
+       </record>
+       
+        <record id="hr_salary_rule_D012" model="hr.salary.rule">
+            <field name="name">ISR RETENIDO (2)</field>
+            <field name="code">D012</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">002</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">485</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result= "{0:.2f}".format(UI103+UI104)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI110" model="hr.salary.rule">
+            <field name="name">SMVDF</field>
+            <field name="code">UI110</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">490</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(payslip.table_id.uma_id.daily_amount)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI111" model="hr.salary.rule">
+            <field name="name">RIESGO DE TRABAJO</field>
+            <field name="code">UI111</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">495</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format( ((UI003*payslip.employer_register_id.get_risk_factor(payslip.date_from))*worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI112" model="hr.salary.rule">
+            <field name="name">PRESTACIONES EN ESPECIE CUOTA FIJA DEL PATRÓN</field>
+            <field name="code">UI112</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">500</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI110 * payslip.table_id.em_fixed_fee * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI113" model="hr.salary.rule">
+            <field name="name">PRESTACIONES EN ESPECIE EXCEDENTE DEL PATRÓN</field>
+            <field name="code">UI113</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">505</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+if UI003 - (UI110*3) > 0:
+    amount = ((UI003 - (UI110*3)) * payslip.table_id.em_surplus_p * worked_days.DIASIMSS.number_of_days)/100
+result="{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_UI114" model="hr.salary.rule">
+            <field name="name">PRESTACIONES EN ESPECIE EXCEDENTE DEL ASEGURADO</field>
+            <field name="code">UI114</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">510</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+if UI003 - (UI110*3) > 0:
+    amount = ((UI003 - (UI110*3)) * payslip.table_id.em_surplus_e * worked_days.DIASIMSS.number_of_days)/100 
+result="{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI115" model="hr.salary.rule">
+            <field name="name">PRESTACIONES EN DINERO ÚNICA DEL PATRÓN</field>
+            <field name="code">UI115</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">515</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.em_cash_benefits_p * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI116" model="hr.salary.rule">
+            <field name="name">PRESTACIONES EN DINERO ÚNICA DEL ASEGURADO</field>
+            <field name="code">UI116</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">520</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.em_cash_benefits_e * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI117" model="hr.salary.rule">
+            <field name="name">GASTOS MÉDICOS PENSIONADOS DEL PATRÓN</field>
+            <field name="code">UI117</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">525</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.em_personal_medical_expenses_p * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI118" model="hr.salary.rule">
+            <field name="name">GASTOS MÉDICOS PENSIONADOS DEL ASEGURADO</field>
+            <field name="code">UI118</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">530</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.em_personal_medical_expenses_e * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI119" model="hr.salary.rule">
+            <field name="name">INVALIDEZ Y VIDA DEL PATRÓN</field>
+            <field name="code">UI119</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">535</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.disability_life_p * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI120" model="hr.salary.rule">
+            <field name="name">INVALIDEZ Y VIDA DEL ASEGURADO</field>
+            <field name="code">UI120</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">540</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.disability_life_e * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI121" model="hr.salary.rule">
+            <field name="name">GUARDERÍAS Y GASTOS DE PREVISIÓN SOCIAL DEL PATRÓN</field>
+            <field name="code">UI121</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">545</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.nursery_social_benefits * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_C001" model="hr.salary.rule">
+            <field name="name">IMSS PATRON</field>
+            <field name="code">C001</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">550</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="COMP"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI111+UI112+UI113+UI115+UI117+UI119+UI121)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D002" model="hr.salary.rule">
+            <field name="name">IMSS</field>
+            <field name="code">D002</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">001</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">555</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI114+UI116+UI118+UI120) </field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI122" model="hr.salary.rule">
+            <field name="name">RETIRO DEL PATRÓN</field>
+            <field name="code">UI122</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">560</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result={0:.2f}".format((UI003 * payslip.table_id.retirement * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI123" model="hr.salary.rule">
+            <field name="name">CESANTIA Y VEJEZ DEL PATRÓN</field>
+            <field name="code">UI123</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">565</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.unemployment_old_age_p * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI124" model="hr.salary.rule">
+            <field name="name">CESANTIA Y VEJEZ DEL ASEGURADO</field>
+            <field name="code">UI124</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">570</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.unemployment_old_age_e * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI125" model="hr.salary.rule">
+            <field name="name">CUOTA NORMAL DEL PATRÓN</field>
+            <field name="code">UI125</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">575</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format((UI003 * payslip.table_id.infonavit_contribution * worked_days.DIASIMSS.number_of_days)/100)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI126" model="hr.salary.rule">
+            <field name="name">RCV PATRÓN</field>
+            <field name="code">UI126</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">580</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="COMP"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI122 + UI123)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI127" model="hr.salary.rule">
+            <field name="name">RCV</field>
+            <field name="code">UI127</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">585</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI124)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_UI128" model="hr.salary.rule">
+            <field name="name">INFONAVIT DEL PATRÓN</field>
+            <field name="code">UI128</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">590</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="COMP"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI125)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D094" model="hr.salary.rule">
+            <field name="name">CRÉDITO INFONAVIT</field>
+            <field name="code">D094</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">009</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">595</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+infonavit = False
+for i in employee.infonavit_ids:
+    if i.state == 'active':
+        infonavit = True
+        break
+result=infonavit
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = 0
+for i in employee.infonavit_ids:
+    if i.state == 'active':
+        if i.type == 'percentage':
+            amount = (UI003 * i.value * worked_days.DIASIMSS.number_of_days)/100
+        if i.type == 'umas':
+            amount = ( i.value/30) * worked_days.DIASIMSS.number_of_days * UI110
+        if i.type == 'fixed_amount':
+            amount = i.value
+result="{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D003" model="hr.salary.rule">
+            <field name="name">ANTICIPO DE NÓMINA</field>
+            <field name="code">D003</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">012</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">600</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'ANTICIPO DE NÓMINA',
+             'code': 'D003',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.D003.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.D003.amount)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D004" model="hr.salary.rule">
+            <field name="name">PRESTAMO PERSONAL</field>
+            <field name="code">D004</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">004</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">605</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'PRESTAMO PERSONAL',
+             'code': 'D004',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.D004.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.D004.amount)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D005" model="hr.salary.rule">
+            <field name="name">FONDO DE AHORRO</field>
+            <field name="code">D005</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">004</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">610</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'FONDO DE AHORRO',
+             'code': 'D005',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+fondo = False
+for i in contract.fixed_concepts_ids:
+    if i.type == '4':
+        fondo = True
+        if i.disabilities and (worked_days.F1 or worked_days.F17 or worked_days.F18 or worked_days.F19):
+            fondo = False
+        if i.disabilities and worked_days.F2:
+            fondo = False
+        if i.disabilities and worked_days.F20:
+            fondo = False
+        if i.disabilities and worked_days.F21:
+            fondo = False
+        break
+result=1</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+fondo = 0
+for i in contract.fixed_concepts_ids:
+    if i.type == '4':
+         if i.type_application == '1':
+            fondo = (P001*i.amount)/100
+         elif i.type_application == '2':
+            fondo = i.amount
+         else:
+            fondo = UISM*i.amount
+result="{0:.2f}".format(fondo)
+            </field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D006" model="hr.salary.rule">
+            <field name="name">ALIMENTACIÓN</field>
+            <field name="code">D006</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">004</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">615</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'ALIMENTACIÓN',
+             'code': 'D006',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.D006.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.D006.amount)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D007" model="hr.salary.rule">
+            <field name="name">HABITACIÓN</field>
+            <field name="code">D007</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">004</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">620</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'HABITACIÓN',
+             'code': 'D007',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.D007.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.D007.amount)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D010" model="hr.salary.rule">
+            <field name="name">PENSIÓN ALIMENTICIA</field>
+            <field name="code">D010</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">007</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">625</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'PENSIÓN ALIMENTICIA',
+             'code': 'D010',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.D010.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.D010.amount)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D011" model="hr.salary.rule">
+            <field name="name">OTROS DESCUENTOS</field>
+            <field name="code">D011</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">004</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">630</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'OTROS DESCUENTOS',
+             'code': 'D011',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.P011.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.D011.amount)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D091" model="hr.salary.rule">
+            <field name="name">SAR VOLUNTARIO</field>
+            <field name="code">D091</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">003</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">635</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'SAR VOLUNTARIO',
+             'code': 'D091',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.D091.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.D091.amount)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D092" model="hr.salary.rule">
+            <field name="name">INFONAVIT VOLUNTARIO</field>
+            <field name="code">D092</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">005</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">640</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'INFONAVIT VOLUNTARIO',
+             'code': 'D092',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.D092.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.D092.amount)</field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_D107" model="hr.salary.rule">
+            <field name="name">AJUSTE AL SUBSIDIO CAUSADO</field>
+            <field name="code">D107</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">107</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">645</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'SAR VOLUNTARIO',
+             'code': 'D091',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=UI108>0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(contract.adjustment_subsidy_caused(payslip.payroll_month)+UI106)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D093" model="hr.salary.rule">
+            <field name="name">CRÉDITO FONACOT</field>
+            <field name="code">D093</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">011</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">650</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=employee.fonacot_payroll and employee.fonacot_amount_debt > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount =  employee.ammount_discounted
+if  employee.ammount_discounted >= employee.fonacot_amount_debt:
+    amount = employee.fonacot_amount_debt
+result= "{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_D108" model="hr.salary.rule">
+            <field name="name">ISR</field>
+            <field name="code">D108</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">002</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">655</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'SAR VOLUNTARIO',
+             'code': 'D091',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=UI108>0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result= "{0:.2f}".format(D107-UI146)</field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_D071" model="hr.salary.rule">
+            <field name="name">AJUSTE EN SUBSIDIO PARA EL EMPLEO</field>
+            <field name="code">D071</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">071</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">660</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'SAR VOLUNTARIO',
+             'code': 'D091',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=UI108>0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI146)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_D101" model="hr.salary.rule">
+            <field name="name">IMPUESTO LOCAL</field>
+            <field name="code">D101</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">004</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">665</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="input_ids" eval="[(0, 0, {
+             'name': 'IMPUESTO LOCAL',
+             'code': 'D101',
+             'type': 'deductions'})
+             ]"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=inputs.D101.amount > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(inputs.D101.amount)</field>
+            <field name="note"></field>
+       </record>
+
+        <record id="hr_salary_rule_UI141" model="hr.salary.rule">
+            <field name="name">FALTAS JUSTIFICADAS</field>
+            <field name="code">UI141</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">670</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F05</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount=(UI002/worked_days.DIASEMANA.number_of_days)
+result="{0:.2f}".format((UI002*worked_days.F05.number_of_days)+(amount*worked_days.F05.number_of_days))
+            </field>
+            <field name="note"></field>
+       </record>
+       
+        <record id="hr_salary_rule_UI130" model="hr.salary.rule">
+            <field name="name">FALTAS INJUSTIFICADAS</field>
+            <field name="code">UI130</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">675</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F04</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount=(UI002/worked_days.DIASEMANA.number_of_days)
+result="{0:.2f}".format((UI002*worked_days.F04.number_of_days)+(amount*worked_days.F04.number_of_days))
+            </field>
+            <field name="note"></field>
+       </record>
+       
+        <record id="hr_salary_rule_UI142" model="hr.salary.rule">
+            <field name="name">PERMISO SIN GOCE DE SUELDO</field>
+            <field name="code">UI142</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">680</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F07</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount=(UI002/worked_days.DIASEMANA.number_of_days)
+result="{0:.2f}".format((UI002*worked_days.F07.number_of_days)+(amount*worked_days.F07.number_of_days))
+            </field>
+            <field name="note"></field>
+       </record>
+       
+        <record id="hr_salary_rule_UI132" model="hr.salary.rule">
+            <field name="name">INCAPACIDAD POR ENFERMEDAD GENERAL</field>
+            <field name="code">UI132</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">685</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F01</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = (UI002*worked_days.F01.number_of_days)
+if employee.group_id.pay_three_days_disability:
+    days = worked_days.F01.number_of_days
+    if days > 3:
+        days = days - 3
+    else:
+        days = 0
+    amount = (UI002*days)
+result="{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+       
+        <record id="hr_salary_rule_D104" model="hr.salary.rule">
+            <field name="name">PERMISO SIN GOCE DE SUELDO (2)</field>
+            <field name="code">D104</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">690</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DED"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F20</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(UI002*worked_days.F2.number_of_days)</field>
+            <field name="note"></field>
+        </record>
+
+        <record id="hr_salary_rule_UI133" model="hr.salary.rule">
+            <field name="name">INCAPACIDAD POR RIESGO LABORAL</field>
+            <field name="code">UI133</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">695</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F02</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = (UI002*worked_days.F02.number_of_days)
+if employee.group_id.pay_three_days_disability:
+    days = worked_days.F02.number_of_days
+    if days > 3:
+        days = days - 3
+    else:
+        days = 0
+    amount = (UI002*days)
+result="{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+       
+        <record id="hr_salary_rule_UI143" model="hr.salary.rule">
+            <field name="name">INCAPACIDAD POR MATERNIDAD</field>
+            <field name="code">UI143</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">700</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F03</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = (UI002*worked_days.F03.number_of_days)
+if employee.group_id.pay_three_days_disability:
+    days = worked_days.F03.number_of_days
+    if days > 3:
+        days = days - 3
+    else:
+        days = 0
+    amount = (UI002*days)
+result="{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+       
+        <record id="hr_salary_rule_UI138" model="hr.salary.rule">
+            <field name="name">LICENCIA POR CUIDADOS MÉDICOS DE HIJOS DIAGNOSTICADOS CON CÁNCER</field>
+            <field name="code">UI138</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">705</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="UI"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">False</field>
+            <field name="appears_on_payslip">False</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=worked_days.F09</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+amount = (UI002*worked_days.F09.number_of_days)
+if employee.group_id.pay_three_days_disability:
+    days = worked_days.F09.number_of_days
+    if days > 3:
+        days = days - 3
+    else:
+        days = 0
+    amount = (UI002*days)
+result="{0:.2f}".format(amount)
+            </field>
+            <field name="note"></field>
+       </record>
+       
+       <record id="hr_salary_rule_D103" model="hr.salary.rule">
+            <field name="name">TOTAL DEDUCCIONES</field>
+            <field name="code">D103</field>
+            <field name="type">deductions</field>
+            <field name="type_deduction">004</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">710</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="DEDT"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(categories.DED)</field>
+            <field name="note"></field>
+       </record>
+
+       <record id="hr_salary_rule_T001" model="hr.salary.rule">
+            <field name="name">TOTAL</field>
+            <field name="code">T001</field>
+            <field name="type">not_apply</field>
+            <field name="apply_variable_compute">False</field>
+            <field name="sequence">715</field>
+            <field name="quantity">1</field>
+            <field name="category_id" ref="NET"/>
+            <field name="active">True</field>
+            <field name="print_to_excel">True</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result="{0:.2f}".format(P195-D103)</field>
+            <field name="note"></field>
+       </record>
+-->
+
+    </data>
+</odoo>

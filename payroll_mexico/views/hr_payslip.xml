@@ -49,6 +49,47 @@
             </field>
         </record>
         
+        
+        
+        
+        
+			<record id="hr_rule_input_tree" model="ir.ui.view">
+				<field name="name">hr.rule.input.tree</field>
+				<field name="model">hr.rule.input</field>
+				<field name="arch" type="xml">
+					<tree string="Entradas">
+						<field name="name"/>
+						<field name="code"/>
+						<field name="input_id"/>
+					</tree>
+				</field>
+			</record>
+		
+			<record id="hr_rule_nput_form" model="ir.ui.view">
+				<field name="name">hr.rule.input.form</field>
+				<field name="model">hr.rule.input</field>
+				<field name="arch" type="xml">
+					<form string="Entradas">
+						<label for="name" class="oe_edit_only"/>
+						<h1><field name="name"/></h1>
+						<group col="4">
+						   <field name="code"/>
+						   <field name="input_id" />
+						</group>
+					</form>
+				</field>
+			</record>
+
+			<record id="action_hr_rule_input_form" model="ir.actions.act_window">
+				<field name="name">Entradas</field>
+				<field name="res_model">hr.rule.input</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+			<menuitem id="menu_action_hr_rule_input_form" action="action_hr_rule_input_form" parent="hr_payroll.menu_hr_payroll_configuration" sequence="15"/>
+			
+
         <record model="ir.ui.view" id="hr_payslip_mexico_tree_inherit">
             <field name="name">hr.payslip.mexico.inherit</field>
             <field name="model">hr.payslip</field>
@@ -93,13 +134,13 @@
                     <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
                 </xpath> 
                 <xpath expr="//header" position="inside">
-                    <button string="Generar CFDI" name="action_cfdi_nomina_generate" type="object" class="oe_sale"/>
+                    <button string="Generar CFDI" name="action_cfdi_nomina_generate"  type="object" class="oe_sale" attrs="{'invisible': ['|',('state', '!=', 'done'),('invoice_status', 'in', ['factura_correcta','problemas_cancelada'])]}"/>
 <!--
                     <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
 -->
-                    <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale"/>
-                    <button string="Cancel CFDI" name="action_cfdi_nomina_cancel" type="object" class="oe_sale"/>
+                    <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale" attrs="{'invisible': [('invoice_status', '!=', 'factura_correcta')]}"/>
+                    <button string="Cancel CFDI" name="action_cfdi_nomina_cancel" type="object" class="oe_sale" attrs="{'invisible': [('invoice_status', '!=', 'factura_correcta')]}"/>
                 </xpath> 
                 <xpath expr="//button[@name='refund_sheet']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -227,6 +268,7 @@
 							<field name="stamp_cfd" invisible="1" readonly="True"/>
 							<field name="stamp_sat" invisible="1" readonly="True"/>
 							<field name="original_string" invisible="1" readonly="True"/>
+							<field name="xml_cancel_cfdi" attrs="{'invisible': [('invoice_status', '!=', 'problemas_cancelada')]}"/>
 						 </group>
 					   <group string="Error en Timbrado" attrs="{'invisible': [('invoice_status', '!=', 'problemas_factura')]}">
 							<field name="code_error"/>

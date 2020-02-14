@@ -70,7 +70,7 @@ class Contract(models.Model):
         ('99', 'Other regime'),
     ], string='Contracting Regime', required=True, default="02")
     years_antiquity = fields.Integer(string='Antiquity', compute='_get_years_antiquity')
-    days_rest = fields.Integer(string='Días de antiguedad ultimo año', compute='_get_years_antiquity')
+    days_rest = fields.Integer(string='Días de antigüedad ultimo año', compute='_get_years_antiquity')
     integral_salary= fields.Float(string="SDI", copy=False)
     group_id = fields.Many2one('hr.group', "Grupo", store=True, related='employee_id.group_id')
     work_center_id = fields.Many2one('hr.work.center', "Centro de trabajo", store=True, related='employee_id.work_center_id')
@@ -83,7 +83,7 @@ class Contract(models.Model):
     def action_open(self):
         report=self.type_id.report_id
         if not report and self.contracting_regime == '02':
-            raise ValidationError('You must select the type of contract report in the "Employee category" field.')
+            raise ValidationError('Debe seleccionar el tipo de informe de contrato en el campo "Tipo de contrato".')
         return self.write({'state': 'open'})
 
     @api.multi
@@ -99,6 +99,23 @@ class Contract(models.Model):
         return self.write({'state': 'pending'})
         
     def action_close(self):
+        if not self.date_end:
+            raise ValidationError('Primero debe asignar la fecha de finalización del contrato.')
+        else:
+            to_date = fields.Date.today()
+            if self.date_end > to_date:
+                raise ValidationError('No puede cerrar un contrato con fecha de vigencia')
+            if self.contracting_regime != '02':
+                val = {
+                    'contract_id':self.id,
+                    'employee_id':self.employee_id.id,
+                    'type':'02',
+                    'reason_liquidation':'1',
+                    'date':self.previous_contract_date or self.date_start,
+                    'wage':self.wage,
+                    'salary':self.integral_salary,
+                }
+                self.env['hr.employee.affiliate.movements'].create(val)
         return self.write({'state': 'close'})
 
     

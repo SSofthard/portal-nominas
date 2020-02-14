@@ -5,6 +5,7 @@ import pytz
 import base64
 import qrcode
 import logging
+import zeep
 
 from pytz import timezone
 from datetime import date, datetime, time, timedelta
@@ -68,7 +69,7 @@ class HrPayslip(models.Model):
             ('10', 'Decennial'),
             ('04', 'Biweekly'),
             ('05', 'Monthly'),
-            ('99', 'Otra Peridiocidad'),], 
+            ('99', 'Otra Periodicidad'),],
             string='Payroll period', 
             default="04",
             required=True,
@@ -201,6 +202,8 @@ class HrPayslip(models.Model):
                                             readonly=True,
                                             store=True
                                         )
+    xml_cancel_cfdi = fields.Many2one('ir.attachment', string="XML Cancel CFDI", copy=False, readonly=True)
+    xml_cancel_cfdi_si = fields.Many2one('ir.attachment', string="XML Cancel CFDI", copy=False, readonly=True)
 
     def overtime(self,type_overtime):
         days = 0
@@ -246,7 +249,8 @@ class HrPayslip(models.Model):
         total = float("{0:.2f}".format(subtotal - discount_amount))
                                                                                     
         days = "{0:.3f}".format(self.env['hr.payslip.worked_days'].search([('code','=','WORK100'),('payslip_id','=',self.id)],limit=1).number_of_days)
-
+        if days == '0.000':
+            days = "{0:.3f}".format(1)
         perceptions_list = []
         for p in perceptions_ordinary:
             if p.total > 0:
@@ -367,7 +371,7 @@ class HrPayslip(models.Model):
                 'departament': self.contract_id.department_id.name,
                 'emp_job': self.contract_id.job_id.name,
                 'payment_periodicity': '',
-                'emp_bank': self.contract_id.bank_account_id.bank_id.code,
+                'emp_bank': '',
                 'emp_account': self.contract_id.bank_account_id.bank_account,
                 'emp_base_salary': '',
                 'emp_diary_salary': '',
@@ -388,6 +392,8 @@ class HrPayslip(models.Model):
                 'compensation': False,
             },
         }
+        if len(self.contract_id.bank_account_id.bank_account) != 18:
+            data['payroll']['emp_bank'] = self.contract_id.bank_account_id.bank_id.code
         if self.employee_id.deceased:
             data['receiver_rfc'] = 'XAXX010101000'
         if self.company_id.test_cfdi:
@@ -545,8 +551,8 @@ class HrPayslip(models.Model):
             'payroll': {
                 'type': 'E',
                 'payment_date': self.payment_date,
-                'date_from': self.payment_date,
-                'date_to': self.payment_date,
+                'date_from': self.date_from,
+                'date_to': self.date_to,
                 'number_of_days': "{0:.3f}".format(1.000),
                 'curp_emitter': '',
                 'employer_register': '',
@@ -636,7 +642,7 @@ class HrPayslip(models.Model):
             data['payroll']['emp_account'] = bank_account.bank_account
         return data    
     
-    def action_cfdi_compesation_generate(self,certificado,llave_privada,password,tz,url,user,password_pac):
+    def action_cfdi_compesation_generate(self,certificado,llave_privada,password,tz,url,user,password_pac,csd_company):
         """ Function doc """
         values = self.to_json_is()
         compensation = cfdv33.get_payroll(values, certificado=certificado, llave_privada=llave_privada, 
@@ -689,12 +695,13 @@ class HrPayslip(models.Model):
                  'cfdi_issue_date_si':compensation.date_timbre,
                  'UUID_sat_si':TimbreFiscalDigital.attrib['UUID'],
                  'xml_timbre_si':xml_timbre.id,
-                 'invoice_status_si':'factura_correcta',
                  'code_error_si':'',
                  'error_si':'',
                  'qr_timbre_si':img_str,
                  'pdf_is': '',
                 }
+            if not csd_company.company_id.test_cfdi:
+                vals['invoice_status_si'] = 'factura_correcta' 
             self.write(vals)
             
             # Generate CFDI PDF
@@ -744,153 +751,156 @@ class HrPayslip(models.Model):
     @api.multi
     def action_cfdi_nomina_generate(self):
         for payslip in self:
-            tz = pytz.timezone(self.env.user.partner_id.tz)
-            csd_company = self.env['res.company.fiel.csd'].search([('company_id','=',payslip.company_id.id),('type','=','csd'),('predetermined','=',True),('state','=','valid')])
-            if csd_company.company_id.test_cfdi:
-                url = csd_company.company_id.url_cfdi_test
-                user = csd_company.company_id.user_cfdi_test
-                password = csd_company.company_id.password_cfdi_test
-            else:
-                url = csd_company.company_id.url_cfdi
-                user = csd_company.company_id.user_cfdi
-                password = csd_company.company_id.password_cfdi
-            if not url or not user or not password:
-                vals = {
-                     'code_error':'Desconocido',
-                     'error':'Debe establecer la url el user y password para la conexción con el PAC',
-                     'invoice_status':'problemas_factura'
-                    }
-                payslip.write(vals)
-            elif not csd_company:
-                vals = {
-                     'code_error':'Desconocido',
-                     'error':'Debe establecer el registro predeterminado para los archivos .key y .cer',
-                     'invoice_status':'problemas_factura'
-                    }
-                payslip.write(vals)
-            elif not csd_company.cer:
-                vals = {
-                     'code_error':'Desconocido',
-                     'error':'Debe registrar su archivo .cer',
-                     'invoice_status':'problemas_factura'
-                    }
-                payslip.write(vals)
-            elif not csd_company.key:
-                vals = {
-                     'code_error':'Desconocido',
-                     'error':'Debe registrar su archivo .key',
-                     'invoice_status':'problemas_factura'
-                    }
-                payslip.write(vals)
-            elif not csd_company.track:
-                vals = {
-                     'code_error':'Desconocido',
-                     'error':'Debe registrar la pista para el archivo .key',
-                     'invoice_status':'problemas_factura'
-                    }
-                payslip.write(vals)
-            else:
-                values = payslip.to_json()
-                payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
-                                                        password=csd_company.track, tz=tz, url=url, user=user, password_pac = password,  
-                                                        debug_mode=True,)
-                    
-                if not payroll.error_timbrado:
-                    NSMAP = {
-                         'xsi':'http://www.w3.org/2001/XMLSchema-instance',
-                         'cfdi':'http://www.sat.gob.mx/cfd/3', 
-                         'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
-                         }
-                    file=payroll.document_path.read()
-                    document = ET.fromstring(file)
-                    Complemento = document.find('cfdi:Complemento', NSMAP)
-                    TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
-                    vals = {}
-                    xml = base64.b64encode(file)
-                    ir_attachment=self.env['ir.attachment']
-                    folder_id = payslip.get_folder()
-                    value={u'name': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to), 
-                            u'url': False,
-                            u'company_id': self.company_id.id, 
-                            u'folder_id': folder_id, 
-                            u'datas_fname': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to)+'.xml', 
-                            u'type': u'binary', 
-                            u'public': False, 
-                            u'datas':xml , 
-                            u'description': False}
-                    xml_timbre = ir_attachment.create(value)
-                    
-                    
-                    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=20, border=4)
-                    
-                    url_qr ='https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='+TimbreFiscalDigital.attrib['UUID']+'&re='+values['emitter_rfc']+'&rr='+values['receiver_rfc']+'&tt='+str(values['amount_total'])+'&fe='+TimbreFiscalDigital.attrib['SelloCFD'][-8:]
-                    qr.add_data(url_qr)
-                    qr.make(fit=True)
-                    img = qr.make_image()
-                    buffer = BytesIO()
-                    img.save(buffer, format="PNG")
-                    img_str = base64.b64encode(buffer.getvalue())
-                    vals = {
-                         'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
-                         'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
-                         'certificate_number_emisor':document.attrib['NoCertificado'],
-                         'stamp_cfd':TimbreFiscalDigital.attrib['SelloCFD'],
-                         'stamp_sat':TimbreFiscalDigital.attrib['SelloSAT'],
-                         'original_string':payroll.cadena_original,
-                         'cfdi_issue_date':payroll.date_timbre,
-                         'UUID_sat':TimbreFiscalDigital.attrib['UUID'],
-                         'xml_timbre':xml_timbre.id,
-                         'invoice_status':'factura_correcta',
-                         'code_error':'',
-                         'error':'',
-                         'qr_timbre':img_str,
-                         'pdf': '',
-                        }
-                    payslip.write(vals)
-                    
-                    # Generate CFDI PDF
-                    payroll_data = {}
-                    payroll_data[payslip.id] = payslip.data_payroll_report(),
-                    data = {
-                        'payroll_data': payroll_data,
-                        'values': values,
-                        'docids': payslip.id,
-                    }
-                    pdf = self.env.ref('payroll_mexico.action_payroll_cfdi_report').render_qweb_pdf(payslip.id, data=data)[0]
-                    pdf_name = '%s_%s_%s' %(payslip.employee_id.complete_name, payslip.date_from, payslip.date_to) + '.pdf'
-                    
-                    attachment_id = payslip.env['ir.attachment'].create({
-                        'name': pdf_name,
-                        'res_id': payslip.id,
-                        'folder_id': folder_id,
-                        'res_model': payslip._name,
-                        'datas': base64.encodestring(pdf),
-                        'datas_fname': pdf_name,
-                        'description': 'CFDI PDF',
-                        'type': 'binary',
-                    })
-                    payslip.pdf = attachment_id.id
+            if payslip.invoice_status != 'factura_correcta':
+                tz = pytz.timezone(self.env.user.partner_id.tz)
+                csd_company = self.env['res.company.fiel.csd'].search([('company_id','=',payslip.company_id.id),('type','=','csd'),('predetermined','=',True),('state','=','valid')])
+                if csd_company.company_id.test_cfdi:
+                    url = csd_company.company_id.url_cfdi_test
+                    user = csd_company.company_id.user_cfdi_test
+                    password = csd_company.company_id.password_cfdi_test
                 else:
+                    url = csd_company.company_id.url_cfdi
+                    user = csd_company.company_id.user_cfdi
+                    password = csd_company.company_id.password_cfdi
+                if not url or not user or not password:
                     vals = {
-                         'invoice_date':'',
-                         'certificate_number':'',
-                         'certificate_number_emisor':'',
-                         'stamp_cfd':'',
-                         'stamp_sat':'',
-                         'original_string':'',
-                         'cfdi_issue_date':'',
-                         'UUID_sat':'',
-                         'xml_timbre':False,
-                         'invoice_status':'problemas_factura',
-                          'code_error':payroll.error_timbrado['codigoError'],
-                         'error':payroll.error_timbrado['error'],
-                         'qr_timbre': False,
-                         'pdf': False,
+                         'code_error':'Desconocido',
+                         'error':'Debe establecer la url el user y password para la conexción con el PAC',
+                         'invoice_status':'problemas_factura'
                         }
                     payslip.write(vals)
-                if payslip.settlement:
+                elif not csd_company:
+                    vals = {
+                         'code_error':'Desconocido',
+                         'error':'Debe establecer el registro predeterminado para los archivos .key y .cer',
+                         'invoice_status':'problemas_factura'
+                        }
+                    payslip.write(vals)
+                elif not csd_company.cer:
+                    vals = {
+                         'code_error':'Desconocido',
+                         'error':'Debe registrar su archivo .cer',
+                         'invoice_status':'problemas_factura'
+                        }
+                    payslip.write(vals)
+                elif not csd_company.key:
+                    vals = {
+                         'code_error':'Desconocido',
+                         'error':'Debe registrar su archivo .key',
+                         'invoice_status':'problemas_factura'
+                        }
+                    payslip.write(vals)
+                elif not csd_company.track:
+                    vals = {
+                         'code_error':'Desconocido',
+                         'error':'Debe registrar la pista para el archivo .key',
+                         'invoice_status':'problemas_factura'
+                        }
+                    payslip.write(vals)
+                else:
+                    if payslip.invoice_status != 'factura_correcta':
+                        values = payslip.to_json()
+                        payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
+                                                                password=csd_company.track, tz=tz, url=url, user=user, password_pac = password,  
+                                                                debug_mode=True,)
+                            
+                        if not payroll.error_timbrado:
+                            NSMAP = {
+                                 'xsi':'http://www.w3.org/2001/XMLSchema-instance',
+                                 'cfdi':'http://www.sat.gob.mx/cfd/3', 
+                                 'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
+                                 }
+                            file=payroll.document_path.read()
+                            document = ET.fromstring(file)
+                            Complemento = document.find('cfdi:Complemento', NSMAP)
+                            TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
+                            vals = {}
+                            xml = base64.b64encode(file)
+                            ir_attachment=self.env['ir.attachment']
+                            folder_id = payslip.get_folder()
+                            value={u'name': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to), 
+                                    u'url': False,
+                                    u'company_id': self.company_id.id, 
+                                    u'folder_id': folder_id, 
+                                    u'datas_fname': str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to)+'.xml', 
+                                    u'type': u'binary', 
+                                    u'public': False, 
+                                    u'datas':xml , 
+                                    u'description': False}
+                            xml_timbre = ir_attachment.create(value)
+                            
+                            
+                            qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=20, border=4)
+                            
+                            url_qr ='https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='+TimbreFiscalDigital.attrib['UUID']+'&re='+values['emitter_rfc']+'&rr='+values['receiver_rfc']+'&tt='+str(values['amount_total'])+'&fe='+TimbreFiscalDigital.attrib['SelloCFD'][-8:]
+                            qr.add_data(url_qr)
+                            qr.make(fit=True)
+                            img = qr.make_image()
+                            buffer = BytesIO()
+                            img.save(buffer, format="PNG")
+                            img_str = base64.b64encode(buffer.getvalue())
+                            vals = {
+                                 'invoice_date':TimbreFiscalDigital.attrib['FechaTimbrado'],
+                                 'certificate_number':TimbreFiscalDigital.attrib['NoCertificadoSAT'],
+                                 'certificate_number_emisor':document.attrib['NoCertificado'],
+                                 'stamp_cfd':TimbreFiscalDigital.attrib['SelloCFD'],
+                                 'stamp_sat':TimbreFiscalDigital.attrib['SelloSAT'],
+                                 'original_string':payroll.cadena_original,
+                                 'cfdi_issue_date':payroll.date_timbre,
+                                 'UUID_sat':TimbreFiscalDigital.attrib['UUID'],
+                                 'xml_timbre':xml_timbre.id,
+                                 'code_error':'',
+                                 'error':'',
+                                 'qr_timbre':img_str,
+                                 'pdf': '',
+                                }
+                            if not csd_company.company_id.test_cfdi:
+                                vals['invoice_status'] = 'factura_correcta' 
+                            payslip.write(vals)
+                            
+                            # Generate CFDI PDF
+                            payroll_data = {}
+                            payroll_data[payslip.id] = payslip.data_payroll_report(),
+                            data = {
+                                'payroll_data': payroll_data,
+                                'values': values,
+                                'docids': payslip.id,
+                            }
+                            pdf = self.env.ref('payroll_mexico.action_payroll_cfdi_report').render_qweb_pdf(payslip.id, data=data)[0]
+                            pdf_name = '%s_%s_%s' %(payslip.employee_id.complete_name, payslip.date_from, payslip.date_to) + '.pdf'
+                            
+                            attachment_id = payslip.env['ir.attachment'].create({
+                                'name': pdf_name,
+                                'res_id': payslip.id,
+                                'folder_id': folder_id,
+                                'res_model': payslip._name,
+                                'datas': base64.encodestring(pdf),
+                                'datas_fname': pdf_name,
+                                'description': 'CFDI PDF',
+                                'type': 'binary',
+                            })
+                            payslip.pdf = attachment_id.id
+                        else:
+                            vals = {
+                                 'invoice_date':'',
+                                 'certificate_number':'',
+                                 'certificate_number_emisor':'',
+                                 'stamp_cfd':'',
+                                 'stamp_sat':'',
+                                 'original_string':'',
+                                 'cfdi_issue_date':'',
+                                 'UUID_sat':'',
+                                 'xml_timbre':False,
+                                 'invoice_status':'problemas_factura',
+                                  'code_error':payroll.error_timbrado['codigoError'],
+                                 'error':payroll.error_timbrado['error'],
+                                 'qr_timbre': False,
+                                 'pdf': False,
+                                }
+                            payslip.write(vals)
+                if payslip.settlement and payslip.invoice_status_si != 'factura_correcta':
                     payslip.action_cfdi_compesation_generate(certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
-                                                        password=csd_company.track, tz=tz, url=url, user=user, password_pac = password)
+                                                        password=csd_company.track, tz=tz, url=url, user=user, password_pac = password, csd_company=csd_company)
         return True 
     
     
@@ -948,47 +958,146 @@ class HrPayslip(models.Model):
                 UTC_date = UTC.localize(date, is_dst=None) 
                 date_timbre = UTC_date.astimezone (tz)
                 date_timbre = str(date_timbre.isoformat())[:19]
-                file_xls = modules.get_module_resource('payroll_mexico', 'static/src/layout', 'cancelacion.xml')
-                import xml.etree.ElementTree as ET
-                tree = ET.parse(file_xls)
-                root = tree.getroot()
-                element = root[0]
-                root[1][0][0].text = str(self.company_id.rfc)
-                root[1][0][1].text = str(date_timbre)
-                root[1][0][2].text = str(self.UUID_sat)
-                root[1][0][3].text = csd_company.cer.datas.decode('utf8')
-                root[1][0][4].text = csd_company.key.datas.decode('utf8')
-                root[1][0][5].text = str(csd_company.track)
-                root[1][0][6][0].text = str(password)
-                root[1][0][6][1].text = str(user)
-                tree = ET.tostring(root, encoding='utf8', method='xml')
                 
-                import zeep
-                cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSCancelacionService?wsdl')
-                # ~ try:
-                    # ~ accesos_type = cliente.get_type("ns1:accesos")
-                    
-                    # ~ accesos = accesos_type(usuario=usuario, password=password)
+                try:
+                    cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSCancelacionService?wsdl')
+                    accesos_type = cliente.get_type("ns1:accesos")
+                    accesos = accesos_type(usuario=user, password=password)
+                    cfdi_cancel = cliente.service.Cancelacion_1(
+                                                            folios=[self.UUID_sat],
+                                                            fecha=str(date_timbre),
+                                                            rfcEmisor=str(self.company_id.rfc),
+                                                            publicKey=base64.decodebytes(csd_company.cer.datas),
+                                                            privateKey=base64.decodebytes(csd_company.key.datas),
+                                                            password=str(csd_company.track),
+                                                            accesos={'password':password,'usuario':user},
+                                                            )
+                except Exception as exception:
+                    print("Message %s" % exception)
                 
-                cfdi_cancel = cliente.service.Cancelacion_1(
-                                                        folios=[self.UUID_sat],
-                                                        fecha=str(date_timbre),
-                                                        rfcEmisor=str(self.company_id.rfc),
-                                                        publicKey=csd_company.cer.datas,
-                                                        privateKey=csd_company.key.datas,
-                                                        password=str(csd_company.track),
-                                                        accesos={'password':password,'usuario':user},
-                                                        )
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                print (cfdi_cancel)
-                # ~ return cfdi_timbrado  
-                # ~ except Exception as exception:
-                    # ~ print("Message %s" % exception)
+                if cfdi_cancel['codEstatus'] in ['201']:
+                    document = ET.XML(cfdi_cancel['acuse'].encode('utf-8'))
+                    document = ET.tostring(document, pretty_print=True, xml_declaration=True, encoding='utf-8')
+                    cached = BytesIO()
+                    cached.write(document is not None and document or u'')
+                    cached.seek(0)
+                    file=cached.read()
+                    xml = base64.b64encode(file)
+                    ir_attachment=self.env['ir.attachment']
+                    folder_id = payslip.get_folder()
+                    value={u'name': 'Cancelación_'+str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to), 
+                            u'url': False,
+                            u'company_id': self.company_id.id, 
+                            u'folder_id': folder_id, 
+                            u'datas_fname': 'Cancelación_'+str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to)+'.xml', 
+                            u'type': u'binary', 
+                            u'public': False, 
+                            u'datas':xml , 
+                            u'description': False}
+                    xml_timbre_cancel = ir_attachment.create(value)
+                    self.xml_cancel_cfdi = xml_timbre_cancel.id
+                    if not csd_company.company_id.test_cfdi:
+                        self.invoice_status = 'problemas_cancelada'
+                else:
+                    raise UserError(_(cfdi_cancel['mensaje']))
+        return True    
+            
+    @api.multi
+    def action_cfdi_nomina_cancel_si(self):
+        for payslip in self:
+            tz = pytz.timezone(self.env.user.partner_id.tz)
+            csd_company = self.env['res.company.fiel.csd'].search([('company_id','=',payslip.company_id.id),('type','=','csd'),('predetermined','=',True),('state','=','valid')])
+            if csd_company.company_id.test_cfdi:
+                url = csd_company.company_id.url_cfdi_test
+                user = csd_company.company_id.user_cfdi_test
+                password = csd_company.company_id.password_cfdi_test
+            else:
+                url = csd_company.company_id.url_cfdi
+                user = csd_company.company_id.user_cfdi
+                password = csd_company.company_id.password_cfdi
+            if not url or not user or not password:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer la url el user y password para la conexción con el PAC',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe establecer el registro predeterminado para los archivos .key y .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.cer:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .cer',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.key:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar su archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            elif not csd_company.track:
+                vals = {
+                     'code_error':'Desconocido',
+                     'error':'Debe registrar la pista para el archivo .key',
+                     'invoice_status':'problemas_factura'
+                    }
+                payslip.write(vals)
+            else:
+                date =  datetime.now()
+                UTC = pytz.timezone ("UTC") 
+                UTC_date = UTC.localize(date, is_dst=None) 
+                date_timbre = UTC_date.astimezone (tz)
+                date_timbre = str(date_timbre.isoformat())[:19]
                 
+                try:
+                    cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSCancelacionService?wsdl')
+                    accesos_type = cliente.get_type("ns1:accesos")
+                    accesos = accesos_type(usuario=user, password=password)
+                    cfdi_cancel = cliente.service.Cancelacion_1(
+                                                            folios=[self.UUID_sat_si],
+                                                            fecha=str(date_timbre),
+                                                            rfcEmisor=str(self.company_id.rfc),
+                                                            publicKey=base64.decodebytes(csd_company.cer.datas),
+                                                            privateKey=base64.decodebytes(csd_company.key.datas),
+                                                            password=str(csd_company.track),
+                                                            accesos={'password':password,'usuario':user},
+                                                            )
+                except Exception as exception:
+                    print("Message %s" % exception)
+                
+                if cfdi_cancel['codEstatus'] in ['201']:
+                    document = ET.XML(cfdi_cancel['acuse'].encode('utf-8'))
+                    document = ET.tostring(document, pretty_print=True, xml_declaration=True, encoding='utf-8')
+                    cached = BytesIO()
+                    cached.write(document is not None and document or u'')
+                    cached.seek(0)
+                    file=cached.read()
+                    xml = base64.b64encode(file)
+                    ir_attachment=self.env['ir.attachment']
+                    folder_id = payslip.get_folder()
+                    value={u'name': 'Cancelación_'+str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to), 
+                            u'url': False,
+                            u'company_id': self.company_id.id, 
+                            u'folder_id': folder_id, 
+                            u'datas_fname': 'Cancelación_'+str(self.employee_id.complete_name)+'_'+str(self.date_from)+'_'+str(self.date_to)+'.xml', 
+                            u'type': u'binary', 
+                            u'public': False, 
+                            u'datas':xml , 
+                            u'description': False}
+                    xml_timbre_cancel = ir_attachment.create(value)
+                    self.xml_cancel_cfdi = xml_timbre_cancel.id
+                    if not csd_company.company_id.test_cfdi:
+                        self.invoice_status_si = 'problemas_cancelada'
+                else:
+                    raise UserError(_(cfdi_cancel['mensaje']))
         return True        
             
         
@@ -1282,7 +1391,6 @@ class HrPayslip(models.Model):
 
     @api.model
     def get_inputs(self, contracts, date_from, date_to):
-
         res = []
         structure_ids = contracts.get_all_structures(self.struct_id)
         rule_ids = self.env['hr.payroll.structure'].browse(structure_ids).get_all_rules()
@@ -1291,13 +1399,11 @@ class HrPayslip(models.Model):
         hr_inputs = self.env['hr.inputs'].browse([])
         self.input_ids.write({'payslip':False,'state':'approve'})
         self.input_ids = False
-
         for contract in contracts:
             employee_id = (self.employee_id and self.employee_id.id) or (contract.employee_id and contract.employee_id.id)
             for input in inputs:
                 amount = 0.0
                 other_input_line = self.env['hr.inputs'].search([('employee_id', '=', employee_id),('input_id', '=', input.id),('state','in',['approve']),('payslip','=',False)])
-                print (other_input_line)
                 hr_inputs += other_input_line
                 for line in other_input_line:
                     amount += line.amount
@@ -1484,7 +1590,6 @@ class HrPayslip(models.Model):
             contract_ids = payslip.contract_id.ids or \
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
-            print (lines)
             payslip.write({'line_ids': lines, 'number': number, 'code_payslip':code_payslip, 'payment_date':payment_date})
             if payslip.settlement:
                 val = {

@@ -80,7 +80,7 @@ class HrFeeSettlement(models.Model):
     payment_type = fields.Selection([('1', 'Pago Oportuno'), ('2', 'Pago Extemporaneo')], string='Tipo de pago', required=True)
     payment_date = fields.Date(string='Fecha de pago')
     regulatory_payment_date = fields.Date(string='Fecha de pago reglamentaria', compute='get_date_payment')
-    index_update = fields.Float(string='Indice de actualizacion', compute='get_index_update',  digits=dp.get_precision('Payroll Rate'))
+    index_update = fields.Float(string='Indice de actualización', compute='get_index_update',  digits=dp.get_precision('Payroll Rate'))
     subtotal = fields.Float(string='Total')
     total = fields.Float(string='Total a pagar')
     amount_total_update = fields.Float(string='Total a pagar')

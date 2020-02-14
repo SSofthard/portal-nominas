@@ -33,7 +33,7 @@ class Company(models.Model):
     bank_account_ids = fields.One2many('bank.account.company','company_id', "Bank account", required=True)
     power_attorney_ids = fields.One2many('company.power.attorney','company_id', "Power Attorney", required=True)
     country_id = fields.Many2one('res.country', compute='_compute_address', inverse='_inverse_country', string="Country", default=lambda self: self.env.user.company_id.country_id.id)
-    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Mayoralty/Municipality')
     suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     tax_regime = fields.Selection(
         selection=[('601', _('General de Ley Personas Morales')),
@@ -154,11 +154,11 @@ class employerRegister(models.Model):
     
     company_id = fields.Many2one('res.company', "Company")
     employer_registry = fields.Char("Employer Registry", copy=False, required=True)
-    electronic_signature = fields.Many2many('ir.attachment', string="Electronic Signature", required=True)
-    validity_signature = fields.Date("Validity of Signature", required=True, copy=False)
+    electronic_signature = fields.Many2many('ir.attachment', string="Electronic Signature", required=False)
+    validity_signature = fields.Date("Validity of Signature", required=False, copy=False)
     
     delegacion_id = fields.Many2one('res.company.delegacion', "Delegacion", required=True)
-    subdelegacion_id = fields.Many2one('res.company.subdelegacion', "Sub-Delegacion", required=True)
+    subdelegacion_id = fields.Many2one('res.company.subdelegacion', "Sub-Delegación", required=True)
     economic_activity = fields.Char("Economic activity", copy=False, required=True)
     state = fields.Selection([
         ('valid', 'Valid'),
@@ -181,7 +181,7 @@ class employerRegister(models.Model):
     city = fields.Char(string="City")
     state_id = fields.Many2one('res.country.state', string="Fed. State")
     zip = fields.Char(string="ZIP")
-    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Mayoralty/Municipality')
     suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
@@ -235,7 +235,7 @@ class companyDelegacion(models.Model):
     
     name = fields.Char('Delegacion', required=True)
     code = fields.Char('Code', required=True)
-    subdelegacion_ids = fields.One2many('res.company.subdelegacion', 'delegacion_id', 'Sub-Delegacion')
+    subdelegacion_ids = fields.One2many('res.company.subdelegacion', 'delegacion_id', 'Sub-Delegación')
 
 
 class companySubDelegacion(models.Model):
@@ -243,7 +243,7 @@ class companySubDelegacion(models.Model):
     _name = 'res.company.subdelegacion'
     
     delegacion_id = fields.Many2one('res.company.delegacion', "Delegacion")
-    name = fields.Char('Sub-Delegacion', required=True)
+    name = fields.Char('Sub-Delegación', required=True)
     code = fields.Char('Code', required=True)
 
 
@@ -405,8 +405,15 @@ class Partner(models.Model):
     partner_company = fields.Boolean(string='Partner Company?', copy=False)
     branch_offices = fields.Boolean(string='Branch Offices?', copy=False)
     country_id = fields.Many2one(default=lambda self: self.env['res.country'].search([('code','=','MX')]))
-    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
-    suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Mayoralty/Municipality')
+    suburb_id = fields.Many2one('res.municipality.suburb', string='Suburb')
+    curp = fields.Char("CURP", copy=False)
+    manage_groups = fields.Boolean(string="Gestionar grupos/empresa")
+
+    _sql_constraints = [
+        ('curp_uniq', 'unique(curp)',
+         'CURP is already registered, this must be unique!')
+    ]
 
     @api.onchange('zip')
     def _onchange_zip(self):

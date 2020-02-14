@@ -490,7 +490,7 @@ class Employee(models.Model):
 
             if employee.wage_salaries_gross > 0:
                 val = {
-                    'name':employee.name+' - '+'Sueldos y Salarios',
+                    'name':employee.complete_name+' - '+'Sueldos y Salarios',
                     'employee_id':employee.id,
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
@@ -503,7 +503,7 @@ class Employee(models.Model):
                 list_contract.append(contract_obj.create(val).id)
             if employee.assimilated_salary_gross > 0:
                 val = {
-                    'name':employee.name+' - '+'Asimilado',
+                    'name':employee.complete_name+' - '+'Asimilado',
                     'employee_id':employee.id,
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
@@ -516,7 +516,7 @@ class Employee(models.Model):
                 list_contract.append(contract_obj.create(val).id)
             if employee.free_salary_gross > 0:
                 val = {
-                    'name':employee.name+' - '+'Libre',
+                    'name':employee.complete_name+' - '+'Libre',
                     'employee_id':employee.id,
                     'department_id':employee.department_id.id,
                     'job_id':employee.job_id.id,
@@ -550,7 +550,7 @@ class bankDetailsEmployee(models.Model):
     employee_id = fields.Many2one('hr.employee', "Employee", required=False)
     bank_id = fields.Many2one('res.bank', "Bank", required=True)
     beneficiary = fields.Char("Beneficiary", copy=False, required=True)
-    bank_account = fields.Char("Bank account", copy=False, required=True)
+    bank_account = fields.Char("Bank account", copy=False, required=False)
     reference = fields.Char("Reference", copy=False, required=True)
     location_branch = fields.Char("Location / Branch")
     predetermined = fields.Boolean("Predetermined", copy=False, required=False)
@@ -863,8 +863,6 @@ class hrWorkerHiringRegime(models.Model):
 class HrWorkCenters(models.Model):
     _name = "hr.work.center"
 
-    
-
     def _default_country(self):
         country_id = self.env['res.country'].search([('code','=','MX')], limit=1)
         return country_id
@@ -876,7 +874,7 @@ class HrWorkCenters(models.Model):
     city = fields.Char(string="City")
     state_id = fields.Many2one('res.country.state', string="Fed. State")
     zip = fields.Char(string="ZIP")
-    municipality_id = fields.Many2one('res.country.state.municipality', string='Municipality')
+    municipality_id = fields.Many2one('res.country.state.municipality', string='Mayoralty/Municipality')
     suburb_id = fields.Many2one('res.municipality.suburb', string='Colonia')
     street = fields.Char(string="Street")
     street2 = fields.Char(string="Street 2")
