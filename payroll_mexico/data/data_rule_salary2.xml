@@ -59,6 +59,7 @@
 
         <!--RULES SALARY GRABABLE -->
         
+<!--
         <record id="hr_salary_rule_G000" model="hr.salary.rule">
             <field name="name">SUELDO (GRABABLE)</field>
             <field name="code">G000</field>
@@ -711,9 +712,11 @@ result = "{0:.2f}".format(grabable)
             <field name="amount_python_compute">result="{0:.2f}".format(categories.G01)</field>
             <field name="note"></field>
         </record>
+-->
 
         <!--RULES SALARY-->
 
+<!--
         <record id="hr_salary_rule_UI001" model="hr.salary.rule">
             <field name="name">SUELDO BRUTO NÓMINA</field>
             <field name="code">UI001</field>
@@ -4316,6 +4319,7 @@ result="{0:.2f}".format(amount)
             <field name="amount_python_compute">result="{0:.2f}".format(P195-D103)</field>
             <field name="note"></field>
        </record>
+-->
 
     </data>
 </odoo>
