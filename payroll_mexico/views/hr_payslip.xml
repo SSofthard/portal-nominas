@@ -48,11 +48,7 @@
                 </xpath> 
             </field>
         </record>
-        
-        
-        
-        
-        
+
 			<record id="hr_rule_input_tree" model="ir.ui.view">
 				<field name="name">hr.rule.input.tree</field>
 				<field name="model">hr.rule.input</field>
