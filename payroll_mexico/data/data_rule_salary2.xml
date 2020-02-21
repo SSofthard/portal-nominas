@@ -4,44 +4,59 @@
 
         <!--CATEGORIES-->
 
+<!--
         <record id="PERCEPTIONS" model="hr.salary.rule.category">
-            <field name="name">Percepciones</field>
+            <field name="name">Percepciones2</field>
             <field name="code">PERCEPCIONES</field>
         </record>
         <record id="DED" model="hr.salary.rule.category">
-            <field name="name">Deducción</field>
+            <field name="name">Deducción2</field>
             <field name="code">DED</field>
         </record>
+-->
         <record id="UI" model="hr.salary.rule.category">
             <field name="name">Uso Interno</field>
             <field name="code">UI</field>
         </record>
+<!--
         <record id="G01" model="hr.salary.rule.category">
-            <field name="name">Grabable</field>
+            <field name="name">Grabable2</field>
             <field name="code">G01</field>
         </record>
+-->
+<!--
         <record id="BRUTOG" model="hr.salary.rule.category">
-            <field name="name">Bruto Grabable</field>
+            <field name="name">Bruto Grabable2</field>
             <field name="code">BRUTOG</field>
         </record>
+-->
+<!--
         <record id="BRUTO" model="hr.salary.rule.category">
-            <field name="name">Bruto</field>
+            <field name="name">Bruto2</field>
             <field name="code">BRUTOG</field>
         </record>
+-->
+<!--
         <record id="COMP" model="hr.salary.rule.category">
-            <field name="name">Contribución compañía</field>
+            <field name="name">Contribución compañía2</field>
             <field name="code">COMP</field>
         </record>
+-->
+<!--
         <record id="DEDT" model="hr.salary.rule.category">
-            <field name="name">Total Deducciones</field>
+            <field name="name">Total Deducciones2</field>
             <field name="code">DEDT</field>
         </record>
+-->
+<!--
 
         <record id="NET" model="hr.salary.rule.category">
-            <field name="name">Neto</field>
+            <field name="name">Neto2</field>
             <field name="code">NET</field>
         </record>
+-->
         
+<!--
         <record id="NET_EF" model="hr.salary.rule.category">
             <field name="name">Neto efectivo</field>
             <field name="code">NET</field>
@@ -56,9 +71,11 @@
             <field name="name">Fondo de ahorro</field>
             <field name="code">FONAHORRO</field>
         </record>
+-->
 
         <!--RULES SALARY GRABABLE -->
         
+<!--
         <record id="hr_salary_rule_G000" model="hr.salary.rule">
             <field name="name">SUELDO (GRABABLE)</field>
             <field name="code">G000</field>
@@ -711,9 +728,11 @@ result = "{0:.2f}".format(grabable)
             <field name="amount_python_compute">result="{0:.2f}".format(categories.G01)</field>
             <field name="note"></field>
         </record>
+-->
 
         <!--RULES SALARY-->
 
+<!--
         <record id="hr_salary_rule_UI001" model="hr.salary.rule">
             <field name="name">SUELDO BRUTO NÓMINA</field>
             <field name="code">UI001</field>
@@ -4316,6 +4335,7 @@ result="{0:.2f}".format(amount)
             <field name="amount_python_compute">result="{0:.2f}".format(P195-D103)</field>
             <field name="note"></field>
        </record>
+-->
 
     </data>
 </odoo>

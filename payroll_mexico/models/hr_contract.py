@@ -141,7 +141,7 @@ class Contract(models.Model):
                     compensation += proportion_days*float(SDI)
         return compensation
                                                               
-    def get_monthly_taxable_total(self,year,month,date_from,date_to):
+    def get_monthly_taxable_total(self,year,month,date_from,date_to,G190):
         taxable = 0
         day = calendar.monthrange(int(year), int(month))[1]
         date = str(year)+'-'+str(month)+'-'+str(day)
@@ -153,6 +153,8 @@ class Contract(models.Model):
                                                               ('slip_id.payroll_month','=',month),
                                                               ('slip_id.year','=',year),
                                                               ('slip_id.state','=','done'),]).mapped('total'))
+            if taxable > 0:
+                taxable += G190
         return taxable
         
     def subsidy_paid(self,payroll_month):
