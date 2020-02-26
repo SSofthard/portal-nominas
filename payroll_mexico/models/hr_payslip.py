@@ -1808,10 +1808,10 @@ class HrPayslip(models.Model):
             period = self.payroll_period
             if payroll_period:
                 period = payroll_period
-            if (to_full - from_full).days >= payroll_periods_days[period]:
-                cant_days = payroll_periods_days[period]*(days_factor/30)
-            else:
-                cant_days = (to_full - from_full).days*(days_factor/30)
+            # ~ if (to_full - from_full).days >= payroll_periods_days[period]:
+            cant_days = payroll_periods_days[period]*(days_factor/30)
+            # ~ else:
+                # ~ cant_days = (to_full - from_full).days*(days_factor/30)
             if cant_days < 0:
                 cant_days = 0
             if contract.contracting_regime == '02':
