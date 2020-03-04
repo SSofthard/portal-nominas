@@ -375,10 +375,11 @@ class Employee(models.Model):
                 
                 # ~ calculation of wages and salaries
                 
-                daily_salary = employee.wage_salaries/days
                 antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',0),('form_id','=',self.group_id.antique_table.id)])
                 minimum_integration_factor = float("{0:.4f}".format((antiguedad.factor/100) + 1)) 
                 
+                
+                daily_salary = employee.wage_salaries/days
                 integrated_daily_wage = daily_salary * minimum_integration_factor
                 salary = daily_salary*days
                 lower_limit = 0
@@ -398,15 +399,35 @@ class Employee(models.Model):
                         employment_subsidy = tsub.s_mensual
                 total_perceptions = salary+employment_subsidy
                 risk_factor = employee.employer_register_id.get_risk_factor(today)
+                
+                
+                variable_1 = lower_limit - fixed_fee
+                variable_2 = salary - variable_1
+                variable_3 = 1 - applicable_percentage
+                variable_4 = variable_2/variable_3
+                variable_5 = lower_limit+variable_4-employment_subsidy
+                # ~ daily_salary = variable_5/days
+                # ~ integrated_daily_wage = daily_salary * minimum_integration_factor
+                
+                
+                
                 work_irrigation = (integrated_daily_wage * risk_factor * days)/100
-                uma = table_id.uma_id.daily_amount
-                benefits_kind_fixed_fee_pattern = (uma*table_id.em_fixed_fee*days)/100
+                
+                
+                municipalities = self.env['res.country.state.municipality'].search([('state_id.code', '=', 'DIF')])
+                
+                SMVDF = municipalities[0].get_salary_min(fields.Date.context_today(self))
+                
+                
+                
+                
+                benefits_kind_fixed_fee_pattern = (SMVDF*table_id.em_fixed_fee*days)/100
                 benefits_kind_surplus_standard = 0
-                if integrated_daily_wage - (uma * 3) > 0:
-                    benefits_kind_surplus_standard = integrated_daily_wage - (uma * 3) * (table_id.em_surplus_p/100) * days
+                if integrated_daily_wage - (SMVDF * 3) > 0:
+                    benefits_kind_surplus_standard = integrated_daily_wage - (SMVDF * 3) * (table_id.em_surplus_p/100) * days
                 benefits_excess_insured_kind = 0
-                if integrated_daily_wage - (uma * 3) > 0:
-                    benefits_excess_insured_kind = (integrated_daily_wage - (uma * 3)) * (table_id.em_surplus_e/100) * days
+                if integrated_daily_wage - (SMVDF * 3) > 0:
+                    benefits_excess_insured_kind = (integrated_daily_wage - (SMVDF * 3)) * (table_id.em_surplus_e/100) * days
                 benefits_employer_unique_money = integrated_daily_wage * (table_id.em_cash_benefits_p/100) * days
                 benefits_insured_single_money = integrated_daily_wage * (table_id.em_cash_benefits_e/100) * days
                 pensioned_medical_expenses_employer = integrated_daily_wage * (table_id.em_personal_medical_expenses_p/100) * days
@@ -418,9 +439,117 @@ class Employee(models.Model):
                 unemployment_old_age_insured = integrated_daily_wage * (table_id.unemployment_old_age_e/100) * days
                 total_rcv_infonavit = unemployment_old_age_insured
                 total_deductions = isr_113  + total_imss_employee + total_rcv_infonavit
-                employee.wage_salaries_gross = employee.wage_salaries + total_deductions
+                
+                variable_5 += total_imss_employee+total_rcv_infonavit
+                print ('hola')
+                print ('hola')
+                print ('hola')
+                print ('hola')
+                print (isr_113)
+                print (employment_subsidy-isr_113)
+                print (total_imss_employee+total_rcv_infonavit)
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                # ~ daily_salary_2 = wage_salaries_gross/days
+                # ~ integrated_daily_wage_2 = daily_salary_2 * minimum_integration_factor
+                # ~ salary_2 = daily_salary_2*days
+                # ~ lower_limit = 0
+                # ~ applicable_percentage_2 = 0
+                # ~ fixed_fee_2 = 0
+                # ~ for table in table_id.isr_monthly_ids:
+                    # ~ if salary > table.lim_inf and salary < table.lim_sup:
+                        # ~ lower_limit_2 = table.lim_inf
+                        # ~ applicable_percentage_2 = (table.s_excedente)/100
+                        # ~ fixed_fee_2 = table.c_fija
+                # ~ lower_limit_surplus_2 = salary_2 - lower_limit_2
+                # ~ marginal_tax_2 = lower_limit_surplus_2*applicable_percentage_2
+                # ~ isr_113_2 = marginal_tax_2 + fixed_fee_2
+                # ~ employment_subsidy_2 = 0
+                # ~ for tsub in table_id.isr_monthly_subsidy_ids:
+                    # ~ if salary > tsub.lim_inf and salary < tsub.lim_sup:
+                        # ~ employment_subsidy_2 = tsub.s_mensual
+                # ~ total_perceptions_2 = salary_2+employment_subsidy_2
+                # ~ work_irrigation_2 = (integrated_daily_wage_2 * risk_factor * days)/100
+                
+                
+                
+                
+                # ~ benefits_kind_fixed_fee_pattern_2 = (SMVDF*table_id.em_fixed_fee*days)/100
+                # ~ benefits_kind_surplus_standard_2 = 0
+                # ~ if integrated_daily_wage_2 - (SMVDF * 3) > 0:
+                    # ~ benefits_kind_surplus_standard_2 = integrated_daily_wage_2 - (SMVDF * 3) * (table_id.em_surplus_p/100) * days
+                # ~ benefits_excess_insured_kind_2 = 0
+                # ~ if integrated_daily_wage_2 - (SMVDF * 3) > 0:
+                    # ~ benefits_excess_insured_kind_2 = (integrated_daily_wage_2 - (SMVDF * 3)) * (table_id.em_surplus_e/100) * days
+                # ~ benefits_employer_unique_money_2 = integrated_daily_wage_2 * (table_id.em_cash_benefits_p/100) * days
+                # ~ benefits_insured_single_money_2 = integrated_daily_wage_2 * (table_id.em_cash_benefits_e/100) * days
+                # ~ pensioned_medical_expenses_employer_2 = integrated_daily_wage_2 * (table_id.em_personal_medical_expenses_p/100) * days
+                # ~ pensioned_medical_expenses_insured_2 = integrated_daily_wage_2 * (table_id.em_personal_medical_expenses_e/100) * days
+                # ~ disability_life_employer_2 = integrated_daily_wage_2 * (table_id.disability_life_p/100) * days
+                # ~ disability_life_insured_2 = integrated_daily_wage_2 * (table_id.disability_life_e/100) * days
+                # ~ childcare_social_security_expenses_employer_2 = integrated_daily_wage_2 * (table_id.nursery_social_benefits/100) * days
+                # ~ total_imss_employee_2 = benefits_excess_insured_kind_2 + benefits_insured_single_money_2 + pensioned_medical_expenses_insured_2 + disability_life_insured_2
+                # ~ unemployment_old_age_insured_2 = integrated_daily_wage_2 * (table_id.unemployment_old_age_e/100) * days
+                # ~ total_rcv_infonavit_2 = unemployment_old_age_insured_2
+                # ~ total_deductions_2 = isr_113_2  + total_imss_employee_2 + total_rcv_infonavit_2
+                
+                # ~ wage_salaries_gross_2 = salary - employment_subsidy_2 + total_deductions_2
+                
+                # ~ print (employment_subsidy)
+                # ~ print (employment_subsidy_2)
+                # ~ print (total_rcv_infonavit)
+                # ~ print (total_rcv_infonavit_2)
+                # ~ print (total_imss_employee)
+                # ~ print (total_imss_employee_2)
+                # ~ print (isr_113)
+                # ~ print (isr_113_2)
+                # ~ print (employment_subsidy)
+                # ~ print (employment_subsidy_2)
+                # ~ print (wage_salaries_gross)
+                # ~ print (wage_salaries_gross_2)
+                # ~ print (wage_salaries_gross_2 - wage_salaries_gross)
+                # ~ print (isr_113_2)
+                # ~ print (total_imss_employee_2)
+                # ~ print (total_rcv_infonavit_2)
+                # ~ print (total_deductions)
+                # ~ print (total_deductions_2)
+                
+                # ~ diff = total_deductions_2 - total_deductions
+                # ~ print (diff)
+                # ~ print (diff)
+                # ~ print (diff)
+                # ~ print (diff)
+                
+                
+                
+                
+                
+                wage_salaries_gross = salary - employment_subsidy + total_deductions
+                print (wage_salaries_gross)
+                
+                
+                employee.wage_salaries_gross = salary - employment_subsidy + total_deductions
                 employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
                 employee.free_salary_gross = employee.free_salary
+                
+                # ~ print (isr_113)
+                # ~ print (total_imss_employee)
+                # ~ print (total_rcv_infonavit)
+                # ~ print (days)
+                # ~ print (daily_salary)
+                # ~ print (daily_salary)
+                # ~ print (salary)
+                # ~ print (employment_subsidy)
+                # ~ print (total_deductions)
+                # ~ print (salary - employment_subsidy + total_deductions)
+                
                 
                 # ~ calculation for assimilates
 
