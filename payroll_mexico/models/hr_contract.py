@@ -347,6 +347,11 @@ class Contract(models.Model):
         proportional_days = (float("{0:.4f}".format(antiquity.vacaciones/365))) * days
         return float("{0:.2f}".format(proportional_days))
         
+    def search_smvdf(self,date_payroll):
+        municipalities = self.env['res.country.state.municipality'].search([('state_id.code', '=', 'DIF')])
+        SMVDF = municipalities[0].get_salary_min(date_payroll)
+        return SMVDF
+    
     def holiday_bonus(self):
         years_antiquity = self.years_antiquity
         if years_antiquity == 0:
@@ -365,7 +370,8 @@ class Contract(models.Model):
         antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',self.employee_id.group_id.antique_table.id)])
         daily_salary = self.wage / self.employee_id.group_id.days if self.employee_id.group_id.days else self.wage / 30
         daily_salary = float("{0:.4f}".format(daily_salary))
-        integral_salary =  daily_salary + (daily_salary*(antiguedad.factor/100))
+        print (antiguedad.factor)
+        integral_salary =  daily_salary * round(((antiguedad.factor/100)+1),4)
         return float("{0:.4f}".format(integral_salary))
         
     def _get_integral_salary(self):
