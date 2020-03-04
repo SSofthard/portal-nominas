@@ -347,6 +347,11 @@ class Contract(models.Model):
         proportional_days = (float("{0:.4f}".format(antiquity.vacaciones/365))) * days
         return float("{0:.2f}".format(proportional_days))
         
+    def search_smvdf(self,date_payroll):
+        municipalities = self.env['res.country.state.municipality'].search([('state_id.code', '=', 'DIF')])
+        SMVDF = municipalities[0].get_salary_min(date_payroll)
+        return SMVDF
+    
     def holiday_bonus(self):
         years_antiquity = self.years_antiquity
         if years_antiquity == 0:
