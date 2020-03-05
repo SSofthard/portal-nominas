@@ -235,11 +235,11 @@ class Employee(models.Model):
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
-        ('identification_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
-        ('passport_uniq', 'unique (passport_id)', "An employee with this passport already exists.!"),
-        ('rfc_uniq', 'unique (rfc)', "An employee with this RFC already exists.!"),
-        ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
-        ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
+        # ~ ('identification_uniq', 'unique (identification_id)', "An employee with this ID already exists.!"),
+        # ~ ('passport_uniq', 'unique (passport_id)', "An employee with this passport already exists.!"),
+        # ~ ('rfc_uniq', 'unique (rfc)', "An employee with this RFC already exists.!"),
+        # ~ ('curp_uniq', 'unique (curp)', "An employee with this CURP already exists.!"),
+        # ~ ('ssnid_unique', 'unique (ssnid)', "An employee with this social security number already exists.!"),
     ]
 
     def get_bank(self):
@@ -621,6 +621,7 @@ class Employee(models.Model):
             bank_account_id = False
             if bank_account:
                 bank_account_id = bank_account.id
+            if employee.wage_salaries_gross > 0:
                 val = {
                     'name':employee.complete_name+' - '+'Sueldos y Salarios',
                     'employee_id':employee.id,
