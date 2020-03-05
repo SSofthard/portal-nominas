@@ -514,7 +514,28 @@
                 </tree>
             </field>
         </record>
-        
+
+        <record id="view_res_company_sector_economico_tree" model="ir.ui.view">
+            <field name="name">view.res.company.sector.economico.tree</field>
+            <field name="model">res.company.sector_economico</field>
+            <field name="arch" type="xml">
+                <tree string="Economic Sector">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_res_company_sector_economico_search" model="ir.ui.view">
+            <field name="name">view.res.company.sector.economico.search</field>
+            <field name="model">res.company.sector_economico</field>
+            <field name="arch" type="xml">
+                <search string="Economic Sector">
+                   <field name="name"/>
+                   <field name="code"/>
+                </search>
+            </field>
+        </record>
         
     </data>
 </odoo>

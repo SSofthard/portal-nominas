@@ -17,7 +17,7 @@ class Contract(models.Model):
     @api.multi
     @api.constrains('employee_id', 'contracting_regime', 'company_id', 'state')
     def _check_contract(self):
-        if not self.company_id:
+        if not self.company_id and self.contracting_regime not in ['05']:
             raise ValidationError(_(
                 'Select the company for the contract, if there is no company field in the form view, activate the multi company option'))
         contracting_regime = dict(
@@ -54,11 +54,14 @@ class Contract(models.Model):
     def _set_sequence_code(self):
         return self.env['ir.sequence'].with_context(force_company=self.env.user.company_id.id).next_by_code('Contract')
 
+    # def _default_bank_account(self):
+    #     return self.env['res.partner.category'].browse(self._context.get('category_id'))
+
     #Columns
     code = fields.Char('Code',required=True, default=_set_sequence_code)
     type_id = fields.Many2one(string="Type Contract")
     type_contract = fields.Selection(string="Type", related="type_id.type", invisible=True)
-    company_id = fields.Many2one('res.company', default = ['employee_id','=', False], required=True)
+    company_id = fields.Many2one('res.company', default = ['employee_id','=', False], required=False)
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
     contracting_regime = fields.Selection([
@@ -78,6 +81,15 @@ class Contract(models.Model):
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
     structure_type_id = fields.Many2one('hr.structure.types', string="Structure Types")
     bank_account_id = fields.Many2one('bank.account.employee', string="Bank account")
+
+    @api.onchange('employee_id')
+    def onchange_employee_id_default_bank_account(self):
+        if self.employee_id:
+            bank_account = self.employee_id.get_bank()
+            if bank_account:
+                self.bank_account_id = bank_account.id
+            else:
+                self.bank_account_id = False
 
     @api.multi
     def action_open(self):
