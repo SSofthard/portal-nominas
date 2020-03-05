@@ -621,6 +621,7 @@ class Employee(models.Model):
             bank_account_id = False
             if bank_account:
                 bank_account_id = bank_account.id
+            if employee.wage_salaries_gross > 0:
                 val = {
                     'name':employee.complete_name+' - '+'Sueldos y Salarios',
                     'employee_id':employee.id,
