@@ -226,7 +226,7 @@
 							Clave="{{ payment.key }}"
 							Concepto="{{ payment.concept }}"
 							Importe="{{ payment.amount }}">
-							{% if payment.subsidy %}
+							{% if payment.subsidy_boolean %}
 								<nomina12:SubsidioAlEmpleo
 									SubsidioCausado="{{ payment.subsidy }}"/>
 							{% endif %}

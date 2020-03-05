@@ -48,11 +48,7 @@
                 </xpath> 
             </field>
         </record>
-        
-        
-        
-        
-        
+
 			<record id="hr_rule_input_tree" model="ir.ui.view">
 				<field name="name">hr.rule.input.tree</field>
 				<field name="model">hr.rule.input</field>
@@ -134,7 +130,7 @@
                     <button string="Search Inputs" name="search_inputs" type="object" states="draft" class="oe_highlight"/>
                 </xpath> 
                 <xpath expr="//header" position="inside">
-                    <button string="Generar CFDI" name="action_cfdi_nomina_generate"  type="object" class="oe_sale" attrs="{'invisible': ['|',('state', '!=', 'done'),('invoice_status', 'in', ['factura_correcta','problemas_cancelada'])]}"/>
+                    <button string="Generar CFDI" name="action_cfdi_nomina_generate"  type="object" class="oe_sale" attrs="{'invisible': ['|','|',('state', '!=', 'done'),('contracting_regime', 'in', ['05']),('invoice_status', 'in', ['factura_correcta','problemas_cancelada'])]}"/>
 <!--
                     <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
@@ -215,6 +211,7 @@
                     <field name="group_id" readonly="1"/>
                     <field name="employer_register_id" domain="[('state','=','valid')]" readonly="1"/>
                     <field name="table_id" invisible="1"/>
+                    <field name="contracting_regime" invisible="1"/>
                 </xpath> 
                 <xpath expr="//notebook/page[1]" position="after">
                     <page string="Inpust reported on payroll">
@@ -242,7 +239,7 @@
                             <field name="note" placeholder="Add an internal note..."/>
                         </div>
                    </page>
-                   <page string="CFDI">
+                   <page string="CFDI" attrs="{'invisible': [('contracting_regime', 'in', ['05'])]}">
 					   <group>
 							<group string="Datos CFDI">
 								<field name="way_pay" readonly="1"/>

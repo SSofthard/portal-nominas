@@ -17,7 +17,7 @@ class Contract(models.Model):
     @api.multi
     @api.constrains('employee_id', 'contracting_regime', 'company_id', 'state')
     def _check_contract(self):
-        if not self.company_id:
+        if not self.company_id and self.contracting_regime not in ['05']:
             raise ValidationError(_(
                 'Select the company for the contract, if there is no company field in the form view, activate the multi company option'))
         contracting_regime = dict(
@@ -54,11 +54,14 @@ class Contract(models.Model):
     def _set_sequence_code(self):
         return self.env['ir.sequence'].with_context(force_company=self.env.user.company_id.id).next_by_code('Contract')
 
+    # def _default_bank_account(self):
+    #     return self.env['res.partner.category'].browse(self._context.get('category_id'))
+
     #Columns
     code = fields.Char('Code',required=True, default=_set_sequence_code)
     type_id = fields.Many2one(string="Type Contract")
     type_contract = fields.Selection(string="Type", related="type_id.type", invisible=True)
-    company_id = fields.Many2one('res.company', default = ['employee_id','=', False], required=True)
+    company_id = fields.Many2one('res.company', default = ['employee_id','=', False], required=False)
     previous_contract_date = fields.Date('Previous Contract Date', help="Start date of the previous contract for antiquity.")
     power_attorney_id = fields.Many2one('company.power.attorney',string="Power Attorney")
     contracting_regime = fields.Selection([
@@ -78,6 +81,15 @@ class Contract(models.Model):
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
     structure_type_id = fields.Many2one('hr.structure.types', string="Structure Types")
     bank_account_id = fields.Many2one('bank.account.employee', string="Bank account")
+
+    @api.onchange('employee_id')
+    def onchange_employee_id_default_bank_account(self):
+        if self.employee_id:
+            bank_account = self.employee_id.get_bank()
+            if bank_account:
+                self.bank_account_id = bank_account.id
+            else:
+                self.bank_account_id = False
 
     @api.multi
     def action_open(self):
@@ -141,7 +153,7 @@ class Contract(models.Model):
                     compensation += proportion_days*float(SDI)
         return compensation
                                                               
-    def get_monthly_taxable_total(self,year,month,date_from,date_to):
+    def get_monthly_taxable_total(self,year,month,date_from,date_to,G190):
         taxable = 0
         day = calendar.monthrange(int(year), int(month))[1]
         date = str(year)+'-'+str(month)+'-'+str(day)
@@ -153,6 +165,8 @@ class Contract(models.Model):
                                                               ('slip_id.payroll_month','=',month),
                                                               ('slip_id.year','=',year),
                                                               ('slip_id.state','=','done'),]).mapped('total'))
+            if taxable > 0:
+                taxable += G190
         return taxable
         
     def subsidy_paid(self,payroll_month):
@@ -345,6 +359,11 @@ class Contract(models.Model):
         proportional_days = (float("{0:.4f}".format(antiquity.vacaciones/365))) * days
         return float("{0:.2f}".format(proportional_days))
         
+    def search_smvdf(self,date_payroll):
+        municipalities = self.env['res.country.state.municipality'].search([('state_id.code', '=', 'DIF')])
+        SMVDF = municipalities[0].get_salary_min(date_payroll)
+        return SMVDF
+    
     def holiday_bonus(self):
         years_antiquity = self.years_antiquity
         if years_antiquity == 0:
@@ -363,7 +382,8 @@ class Contract(models.Model):
         antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',self.employee_id.group_id.antique_table.id)])
         daily_salary = self.wage / self.employee_id.group_id.days if self.employee_id.group_id.days else self.wage / 30
         daily_salary = float("{0:.4f}".format(daily_salary))
-        integral_salary =  daily_salary + (daily_salary*(antiguedad.factor/100))
+        print (antiguedad.factor)
+        integral_salary =  daily_salary * round(((antiguedad.factor/100)+1),4)
         return float("{0:.4f}".format(integral_salary))
         
     def _get_integral_salary(self):
