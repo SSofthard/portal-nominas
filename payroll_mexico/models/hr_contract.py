@@ -54,6 +54,9 @@ class Contract(models.Model):
     def _set_sequence_code(self):
         return self.env['ir.sequence'].with_context(force_company=self.env.user.company_id.id).next_by_code('Contract')
 
+    # def _default_bank_account(self):
+    #     return self.env['res.partner.category'].browse(self._context.get('category_id'))
+
     #Columns
     code = fields.Char('Code',required=True, default=_set_sequence_code)
     type_id = fields.Many2one(string="Type Contract")
@@ -78,6 +81,15 @@ class Contract(models.Model):
     fixed_concepts_ids = fields.One2many('hr.fixed.concepts','contract_id', "Fixed concepts")
     structure_type_id = fields.Many2one('hr.structure.types', string="Structure Types")
     bank_account_id = fields.Many2one('bank.account.employee', string="Bank account")
+
+    @api.onchange('employee_id')
+    def onchange_employee_id_default_bank_account(self):
+        if self.employee_id:
+            bank_account = self.employee_id.get_bank()
+            if bank_account:
+                self.bank_account_id = bank_account.id
+            else:
+                self.bank_account_id = False
 
     @api.multi
     def action_open(self):
