@@ -312,6 +312,19 @@ class HrPayslip(models.Model):
                 if o.salary_rule_id.type_other_payment== '002':
                     subsidy = self.env['hr.payslip.line'].search([('salary_rule_id.code','=',['UI106']),('slip_id','=',self.id)],limit=1)
                     other_dict['subsidy'] = subsidy.total
+                    other_dict['subsidy_boolean'] = True
+                other_list.append(other_dict)
+            elif o.total == 0 and o.salary_rule_id.type_other_payment== '002' and self.contract_id.contracting_regime == '02':
+                other_dict = {
+                            'type': o.salary_rule_id.type_other_payment,
+                            'key': o.salary_rule_id.code,
+                            'concept': o.salary_rule_id.name,
+                            'amount': o.total,
+                        }
+                if o.salary_rule_id.type_other_payment== '002':
+                    subsidy = self.env['hr.payslip.line'].search([('salary_rule_id.code','=',['UI106']),('slip_id','=',self.id)],limit=1)
+                    other_dict['subsidy'] = subsidy.total
+                    other_dict['subsidy_boolean'] = True
                 other_list.append(other_dict)
 
         data = {

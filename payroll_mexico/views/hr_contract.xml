@@ -39,7 +39,7 @@
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="attributes">
 					<attribute name="options">{"no_open": True, "no_create": True}</attribute>
-					<attribute name="attrs">{'invisible': [('contracting_regime','=','05')], 'readonly': [('state', 'not in', ('draft'))]}</attribute>
+					<attribute name="attrs">{'invisible': [('contracting_regime','=','05')], 'readonly': [('state', 'not in', ('draft'))],'required': [('contracting_regime', 'not in', ('05'))]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="after">
 					<field name="power_attorney_id" domain="[('company_id','=',company_id),('state','in',['valid'])]"

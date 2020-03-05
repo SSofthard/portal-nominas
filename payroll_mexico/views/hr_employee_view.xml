@@ -339,9 +339,9 @@
                                 <button name="%(action_hr_employee_contract)d" string="Generate contracts" class="oe_highlight" type="action" groups="hr.group_hr_user"/>
                             </group>
                             <group string="Assimilated contract" attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)]}">
-                                <field name="contracting_regime" attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)],'required': [('assimilated_salary_gross', '>', 0)]}"/>
+                                <field name="contracting_regime" attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)]}"/>
                                 <field name="company_assimilated_id" options='{"no_open": True, "no_create": True}' domain="[('id', '!=', company_id)]"
-                                    attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)],'required': [('assimilated_salary_gross', '>', 0)]}"/>
+                                    attrs="{'invisible': [('assimilated_salary_gross', '&lt;=', 0)]}"/>
                             </group>
                         </group>
                     </page>
@@ -634,7 +634,7 @@
             id="account.menu_finance"
             active="False"/>
         
-        <!-- Dirección de los empleados form-->
+        <!-- Dirección de los empleados form view-->
         <record id="view_partner_employee_address_form" model="ir.ui.view">
             <field name="name">res.partner.view.form.private</field>
             <field name="model">res.partner</field>
@@ -672,6 +672,7 @@
                                 </div>
                             </group>
                             <group>
+                                <field name="group_id" options='{"no_open": True}'/>
                                 <field name="phone" widget="phone"/>
                                 <field name="mobile" widget="phone"/>
                                 <field name="email"/>
@@ -681,6 +682,21 @@
                 </form>
             </field>
         </record>
+        <!-- Searc de los empleados tree-->
+        <record id="view_res_partner_filter_employee_address" model="ir.ui.view">
+        <field name="name">view.res.partner.filter.employee.address</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="type_person" position="before">
+                <field name="curp" string="CURP" filter_domain="[('curp','ilike', self)]"/>
+                <field name="group_id" string="Group" filter_domain="[('group_id','ilike', self)]"/>
+            </filter>
+            <filter name="salesperson" position="before">
+                <filter string="Group" name="group_id" context="{'group_by' : 'group_id'}" domain="[]"/>
+            </filter>
+        </field>
+    </record>
         <!-- Dirección de los empleados tree-->
         <record id="view_partner_employee_address_tree" model="ir.ui.view">
             <field name="name">view.partner.employee.address.tree</field>
@@ -731,6 +747,9 @@
         <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
         <field name="priority">1</field>
         <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                 <attribute name="import">false</attribute>
+            </xpath>
             <field name="name" position="replace">
                 <div>
                     <strong>
@@ -747,6 +766,9 @@
         <field name="inherit_id" ref="hr.view_employee_tree"/>
         <field name="priority">1</field>
         <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                 <attribute name="import">false</attribute>
+            </xpath>
             <xpath expr="//field[@name='name']" position="replace">
                 <field name="complete_name"/>
             </xpath>

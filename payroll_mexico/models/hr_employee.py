@@ -614,10 +614,13 @@ class Employee(models.Model):
                 raise UserError(_('The employee has currently open contracts.'))
             if not employee.company_id:
                 raise UserError(_('You must select a company for the salary and salary contract.'))
-            if not employee.company_assimilated_id and employee.assimilated_salary_gross > 0:
+            if not (employee.company_assimilated_id and employee.contracting_regime) and employee.assimilated_salary_gross > 0:
+                
                 raise UserError(_('You must select a company for the salary-like contract.'))
-
-            if employee.wage_salaries_gross > 0:
+            bank_account = self.get_bank()
+            bank_account_id = False
+            if bank_account:
+                bank_account_id = bank_account.id
                 val = {
                     'name':employee.complete_name+' - '+'Sueldos y Salarios',
                     'employee_id':employee.id,
@@ -628,6 +631,7 @@ class Employee(models.Model):
                     'company_id':employee.company_id.id,
                     'type_id':type_id.id,
                     'date_start':date,
+                    'bank_account_id': bank_account_id,
                         }
                 list_contract.append(contract_obj.create(val).id)
             if employee.assimilated_salary_gross > 0:
@@ -641,6 +645,7 @@ class Employee(models.Model):
                     'company_id':employee.company_assimilated_id.id,
                     'type_id':type_id.id,
                     'date_start':date,
+                    'bank_account_id':bank_account_id,
                         }
                 list_contract.append(contract_obj.create(val).id)
             if employee.free_salary_gross > 0:
@@ -654,8 +659,14 @@ class Employee(models.Model):
                     'company_id':employee.company_id.id,
                     'type_id':self.env.ref('payroll_mexico.hr_contract_type_services_other').id,
                     'date_start':date,
+                    'bank_account_id':bank_account_id,
                         }
                 list_contract.append(contract_obj.create(val).id)
+        print (list_contract)
+        print (list_contract)
+        print (list_contract)
+        print (list_contract)
+        print (list_contract)
         return list_contract
 
     def _get_fonacot_amount_debt(self):

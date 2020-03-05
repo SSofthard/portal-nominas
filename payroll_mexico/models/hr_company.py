@@ -304,7 +304,7 @@ class bankDetailsCompany(models.Model):
     bank_id = fields.Many2one('res.bank', "Bank", required=True)
     account_holder = fields.Char("Account holder", copy=False, required=True)
     bank_account = fields.Char("Bank account", copy=False, required=True)
-    reference = fields.Char("Reference", copy=False, required=True)
+    reference = fields.Char("Reference", copy=False)
     predetermined = fields.Boolean("Predetermined", copy=False, required=False)
     state = fields.Selection([
         ('active', 'Active'),
@@ -313,6 +313,7 @@ class bankDetailsCompany(models.Model):
     account_type = fields.Selection([
         ('clabe', 'Clabe'),
         ('tarjeta', 'Tarjeta'),
+        ('account', 'Account'),
     ],'Account Type ')
 
     @api.multi
@@ -409,6 +410,7 @@ class Partner(models.Model):
     suburb_id = fields.Many2one('res.municipality.suburb', string='Suburb')
     curp = fields.Char("CURP", copy=False)
     manage_groups = fields.Boolean(string="Gestionar grupos/empresa")
+    group_id = fields.Many2one('hr.group', "Group", required=True)
 
     _sql_constraints = [
         ('curp_uniq', 'unique(curp)',
