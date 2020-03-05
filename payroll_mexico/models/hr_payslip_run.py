@@ -588,14 +588,6 @@ class HrPayslipRun(models.Model):
     
     def recalculate_payroll(self):
         for payslip in self.slip_ids:
-            # ~ vals={
-                # ~ 'date_from':,
-                # ~ 'date_to':,
-                # ~ 'table_id':,
-                # ~ '':,
-                # ~ '':,
-                # ~ '':,
-            # ~ }
             worked_days_line_ids = payslip.get_worked_day_lines(payslip.contract_id, payslip.date_from, payslip.date_to)
             worked_days_lines = payslip.worked_days_line_ids.browse([])
             payslip.worked_days_line_ids = []
@@ -604,6 +596,16 @@ class HrPayslipRun(models.Model):
             payslip.worked_days_line_ids = worked_days_lines
             payslip.compute_sheet()
         return 
+    
+    @api.multi
+    def unlink(self):
+        for run in self:
+            if run.state in ['close']:
+                raise ValidationError(_('You cannot delete payroll processing in "Close" status.'))
+            for line in run.slip_ids:
+                if line.state in ['done','verify']:
+                    raise ValidationError(_('You cannot delete payroll in "Done" status.'))
+        return super(HrPayslipRun, self).unlink()
 
 class TaxDetails(models.Model):
     _name='hr.payroll.tax.details'

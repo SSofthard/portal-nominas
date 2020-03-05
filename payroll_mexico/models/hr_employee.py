@@ -614,7 +614,8 @@ class Employee(models.Model):
                 raise UserError(_('The employee has currently open contracts.'))
             if not employee.company_id:
                 raise UserError(_('You must select a company for the salary and salary contract.'))
-            if not employee.company_assimilated_id and employee.assimilated_salary_gross > 0:
+            if not (employee.company_assimilated_id and employee.contracting_regime) and employee.assimilated_salary_gross > 0:
+                
                 raise UserError(_('You must select a company for the salary-like contract.'))
             bank_account = self.get_bank()
             bank_account_id = False
@@ -661,6 +662,11 @@ class Employee(models.Model):
                     'bank_account_id':bank_account_id,
                         }
                 list_contract.append(contract_obj.create(val).id)
+        print (list_contract)
+        print (list_contract)
+        print (list_contract)
+        print (list_contract)
+        print (list_contract)
         return list_contract
 
     def _get_fonacot_amount_debt(self):
