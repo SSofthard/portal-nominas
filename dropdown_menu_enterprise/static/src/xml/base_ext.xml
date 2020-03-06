@@ -3,7 +3,7 @@
 
     <t t-extend="Menu">
         <t t-jquery="a[class='fa o_menu_toggle']" t-operation="before">
-            <a class="dropdown">
+<!--            <a class="dropdown">-->
                 <a class="full" data-toggle="dropdown" data-display="static" href="#">
                     <i class="fa fa-bars"/>
                 </a>
@@ -91,7 +91,7 @@
                         </a>
                     </t>
                 </div>
-            </a>
+<!--            </a>-->
         </t>
     </t>
 
