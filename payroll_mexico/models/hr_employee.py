@@ -803,7 +803,7 @@ class HrGroup(models.Model):
             if len(self.name) >= 3:
                 self.code = self.name[0:3].upper()
                 self.code_payslip = self.name[0:3].upper()
-            # ~ else:
+            else:
                 raise UserError(_('The group name must contain three or more characters.'))
 
     @api.onchange('type')

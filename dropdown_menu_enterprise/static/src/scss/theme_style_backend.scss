@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+
+
+/*Menu Bar*/
+.o_main_navbar .cybro-main-menu {
+  max-height: 100vh;
+  min-width: 100%;
+  overflow: auto;
+  margin-top: 0;
+  z-index: 99;
+  height: 100vh;
+  width: 280px;
+  overflow-y: scroll;
+  background: #000000;
+  background: -moz-linear-gradient(top,  #000000 24%, #2c2c2c 56%, #000000 74%);
+  background: -webkit-linear-gradient(top,  #000000 24%,#2c2c2c 56%,#000000 74%);
+  background: linear-gradient(to bottom,  #000000 24%,#2c2c2c 56%,#000000 74%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );   
+  box-shadow: 2px 0 32px rgba(0, 0, 0, .05);
+  -webkit-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
+  transform: none !important;
+  border: none;
+}
+
+i.fa.fa-bars {
+  font-size: 20px !important;
+  color: #ffffff !important;
+  line-height: 46px;
+}
+
+.cybro-main-menu a.dropdown-item.o_app {
+  position: relative;
+  display: block;
+  color: #8d97ad !important;
+  font-size: 15px;
+  text-transform: capitalize;
+  padding: 12px !important;
+  letter-spacing: 0;
+  font-weight: 400;
+  padding-left: 32px !important;
+}
+
+.cybro-main-menu a.dropdown-item.o_app:hover {
+  color: #ffffff !important;
+}
+
+.cybro-main-menu a:hover {
+  color: #fff !important;
+  background: #343942 !important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  color: #fff !important;
+  background: #5F6775;
+}
+
+img.cybro-menuicon {
+  width: 28px;
+  margin-right: 10px;
+}
+
+/*//Menu Bar*/
+/*Top bar*/
+
+.dropdown-menu a:hover {
+  color: #343942 !important;
+  background: #ffffff !important;
+}
+
+.cybro-main-menu a:hover {
+  color: #fff !important;
+  background: #343942 !important;
+}
+
+
+
+
+
+
+.dropdown-menu.cybro-main-menu.show {
+  padding: 0 !important;
+  width: 320px !important;
+}
+
+a.dropdown-item.o_app.cybro-mainmenu {
+  width: 100% !important;
+  text-align: left !important;
+  display: flex;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  flex-direction: row !important;
+  padding: 1rem 1rem 1rem 2rem !important;
+}
+
+.o_menu_apps .dropdown-menu.show .o-app-icon {
+  max-width: 3rem !important;
+  margin-right: 11px;
+}
+
+.cybro-main-menu .input-group {
+  order: 2;
+}
+
+.cybro-main-menu input.form-control {
+  order: 1;
+  border-bottom-left-radius: 30px !important;
+  border-top-left-radius: 30px !important;
+  font-size: 12px !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.cybro-main-menu .input-group-prepend {
+  order: 2;
+}
+
+.cybro-main-menu .input-group-text {
+  border-top-right-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
+  background-color: #cda434 !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+.o_menu_apps .dropdown-menu.show .form-row {
+  width: 100%;
+  margin: 25px 0px 0px 0px !important;
+}
+
+.o_main_navbar .dropdown-menu.show {
+    min-width: 8%;
+}
