@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-extend="Menu">
+        <t t-jquery="a[class='fa o_menu_toggle']" t-operation="before">
+<!--            <a class="dropdown">-->
+                <a class="full" data-toggle="dropdown" data-display="static" href="#">
+                    <i class="fa fa-bars"/>
+                </a>
+                <div class="dropdown-menu cybro-main-menu" role="menu">
+                    <t>
+                        <a role="menuitem" t-attf-href="#menu_id=91"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="91"
+                            t-att-data-menu-xmlid="menu_hr_root"
+                            t-att-data-action-id="130">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-employee.png" class="o_app_icon"/>
+                                <span>Empleados</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=191"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="191"
+                            t-att-data-menu-xmlid="menu_hr_payroll_root"
+                            t-att-data-action-id="315">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-payroll.png" class="o_app_icon"/>
+                                <span>Nómina</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=111"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="111"
+                            t-att-data-menu-xmlid="menu_hr_attendance_root"
+                            t-att-data-action-id="178">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-attendance.png" class="o_app_icon"/>
+                                <span>Asistencias</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=121"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="121"
+                            t-att-data-menu-xmlid="menu_hr_holidays_root"
+                            t-att-data-action-id="193">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-leaves.png" class="o_app_icon"/>
+                                <span>Ausencias</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=86"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="86"
+                            t-att-data-menu-xmlid="menu_hr_payroll_root"
+                            t-att-data-action-id="123">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-calendar.png" class="o_app_icon"/>
+                                <span>Calendario</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=79"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="79"
+                            t-att-data-menu-xmlid="menu_root_discuss"
+                            t-att-data-action-id="102">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-discuss.png" class="o_app_icon"/>
+                                <span>Mensajería</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=102"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="102"
+                            t-att-data-menu-xmlid="menu_root"
+                            t-att-data-action-id="169">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-document.png" class="o_app_icon"/>
+                                <span>Documentos</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=258"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="258"
+                            t-att-data-menu-xmlid="menu_root"
+                            t-att-data-action-id="428">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-expense.png" class="o_app_icon"/>
+                                <span>Gastos</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=4"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="4"
+                            t-att-data-menu-xmlid="menu_administration"
+                            t-att-data-action-id="77">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-setting.png" class="o_app_icon"/>
+                                <span>Ajustes</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=5"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="5"
+                            t-att-data-menu-xmlid="menu_management"
+                            t-att-data-action-id="32">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-apps.png" class="o_app_icon"/>
+                                <span>Aplicaciones</span>
+                        </a>
+                    </t>
+                </div>
+<!--            </a>-->
+        </t>
+    </t>
+
+</templates>
