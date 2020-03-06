@@ -342,6 +342,11 @@ class Employee(models.Model):
     
     @api.multi
     def calculate_salary_scheme(self):
+        print ('Entre por aca')
+        print ('Entre por aca')
+        print ('Entre por aca')
+        print ('Entre por aca')
+        print ('Entre por aca')
         for employee in self:
             if employee.monthly_salary <= 0:
                 raise UserError(_('Please indicate the monthly salary'))
@@ -364,7 +369,15 @@ class Employee(models.Model):
                     employee.wage_salaries_gross = employee.wage_salaries
                     employee.free_salary_gross = employee.free_salary
                     employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
-                    employee.assimilated_salary_gross = employee.monthly_salary - employee.wage_salaries - employee.free_salary
+                    employee.assimilated_salary_gross = round(employee.monthly_salary - employee.wage_salaries - employee.free_salary,2)
+                    
+                    print (employee.assimilated_salary)
+                    print (employee.assimilated_salary_gross)
+                    print (employee.assimilated_salary_gross)
+                    print (employee.assimilated_salary_gross)
+                    print (employee.assimilated_salary_gross)
+                    print (employee.assimilated_salary_gross)
+                    
             else:
                 today = date.today()
                 table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
@@ -532,12 +545,18 @@ class Employee(models.Model):
                 
                 
                 wage_salaries_gross = salary - employment_subsidy + total_deductions
-                print (wage_salaries_gross)
                 
                 
                 employee.wage_salaries_gross = salary - employment_subsidy + total_deductions
                 employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
                 employee.free_salary_gross = employee.free_salary
+                
+                print (employee.assimilated_salary)
+                print (employee.assimilated_salary)
+                print (employee.assimilated_salary)
+                print (employee.assimilated_salary)
+                print (employee.assimilated_salary)
+                print (employee.assimilated_salary)
                 
                 # ~ print (isr_113)
                 # ~ print (total_imss_employee)
@@ -784,7 +803,7 @@ class HrGroup(models.Model):
             if len(self.name) >= 3:
                 self.code = self.name[0:3].upper()
                 self.code_payslip = self.name[0:3].upper()
-            # ~ else:
+            else:
                 raise UserError(_('The group name must contain three or more characters.'))
 
     @api.onchange('type')
