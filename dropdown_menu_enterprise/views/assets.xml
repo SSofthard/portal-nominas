@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <template id="assets_backend" name="Backend Theme"
+                  inherit_id="web.assets_backend">
+            <xpath expr=".">
+                <link rel="stylesheet" 
+                    type="text/scss" href="/web/static/src/scss/dropdown_extra.scss"/>
+                <link rel="stylesheet"
+                      href="/dropdown_menu_enterprise/static/src/scss/theme_style_backend.scss"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>
