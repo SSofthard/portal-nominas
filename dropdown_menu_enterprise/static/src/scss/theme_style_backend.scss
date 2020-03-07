@@ -143,5 +143,9 @@ a.dropdown-item.o_app.cybro-mainmenu {
 }
 
 .o_main_navbar > ul > li > a, .o_main_navbar > ul > li > label {
-    padding: 0 6px;
+    padding: 0 5px;
+}
+
+.o_main_navbar > ul > li.o_extra_menu_items > a {
+    width: 32px;
 }
