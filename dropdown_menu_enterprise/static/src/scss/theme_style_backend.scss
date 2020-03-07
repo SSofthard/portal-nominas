@@ -27,7 +27,7 @@
 i.fa.fa-bars {
   font-size: 20px !important;
   color: #ffffff !important;
-  line-height: 46px;
+  line-height: 45px;
 }
 
 .cybro-main-menu a.dropdown-item.o_app {
@@ -40,6 +40,7 @@ i.fa.fa-bars {
   letter-spacing: 0;
   font-weight: 400;
   padding-left: 32px !important;
+
 }
 
 .cybro-main-menu a.dropdown-item.o_app:hover {
@@ -103,14 +104,6 @@ a.dropdown-item.o_app.cybro-mainmenu {
   order: 2;
 }
 
-.cybro-main-menu input.form-control {
-  order: 1;
-  border-bottom-left-radius: 30px !important;
-  border-top-left-radius: 30px !important;
-  font-size: 12px !important;
-  border: none !important;
-  outline: none !important;
-}
 
 .cybro-main-menu .input-group-prepend {
   order: 2;
@@ -131,4 +124,24 @@ a.dropdown-item.o_app.cybro-mainmenu {
 
 .o_main_navbar .dropdown-menu.show {
     min-width: 8%;
+}
+
+.o_main_navbar > a, .o_main_navbar > button {
+    padding: 0 6px 0 6px;
+}
+
+.o_main_navbar > .o_menu_brand {
+    margin-right: 10px;
+    font-size: 20px;
+    line-height: 45px;
+}
+
+@media (max-width: 767.98px) {
+    .o_main_navbar .o_app {
+        border-bottom: 1px solid #d7b65d;
+    }
+}
+
+.o_main_navbar > ul > li > a, .o_main_navbar > ul > li > label {
+    padding: 0 6px;
 }
