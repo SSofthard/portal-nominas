@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
+$brand-primary: #414141;
+$brand-secondary: #CDA434;
 
+$brand-primary-dark: darken($brand-primary, 10%);
+$brand-primary-light: lighten($brand-primary, 10%);
+$brand-secondary-dark: darken($brand-secondary, 10%);
+$brand-secondary-light: lighten($brand-secondary, 10%);
 
 /*Menu Bar*/
 .o_main_navbar .cybro-main-menu {
@@ -41,20 +47,11 @@ i.fa.fa-bars {
   font-weight: 400;
   padding-left: 32px !important;
 
+
 }
 
 .cybro-main-menu a.dropdown-item.o_app:hover {
   color: #ffffff !important;
-}
-
-.cybro-main-menu a:hover {
-  color: #fff !important;
-  background: #343942 !important;
-}
-
-.dropdown-item.active, .dropdown-item:active {
-  color: #fff !important;
-  background: #5F6775;
 }
 
 img.cybro-menuicon {
@@ -65,10 +62,6 @@ img.cybro-menuicon {
 /*//Menu Bar*/
 /*Top bar*/
 
-.dropdown-menu a:hover {
-  color: #343942 !important;
-  background: #ffffff !important;
-}
 
 .cybro-main-menu a:hover {
   color: #fff !important;
@@ -93,6 +86,7 @@ a.dropdown-item.o_app.cybro-mainmenu {
   align-items: center !important;
   flex-direction: row !important;
   padding: 1rem 1rem 1rem 2rem !important;
+  background-color: $brand-primary-light;
 }
 
 .o_menu_apps .dropdown-menu.show .o-app-icon {
@@ -148,4 +142,8 @@ a.dropdown-item.o_app.cybro-mainmenu {
 
 .o_main_navbar > ul > li.o_extra_menu_items > a {
     width: 32px;
+}
+
+.o_m2o_dropdown_option .ui-menu-item .ui-state-focus {
+    background-color: $brand-secondary-light !important;
 }

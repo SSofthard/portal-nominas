@@ -18,7 +18,7 @@
                 <footer>
                     <group>
                         <span>
-                            <button string="Send" type="object" class="oe_highlight" name="action_export_data"/>
+                            <button string="Generate Excel" type="object" class="oe_highlight" name="action_export_data"/>
                             <button string="Cancel" class="oe_link" special="cancel" />
                         </span>
                     </group>

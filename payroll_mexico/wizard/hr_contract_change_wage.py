@@ -315,8 +315,7 @@ class HrContractChangeWageImport(models.TransientModel):
     @api.multi
     def import_data(self):
         if not self.file_name:
-            raise UserError(
-                'Do not load with without a file, or with a file with incorrect data..')
+            raise UserError(_('Do not load with without a file, or with a file with incorrect data.'))
         contracts = self.read_document()
         if contracts:
             contract_obj = self.env['hr.contract']
@@ -347,7 +346,6 @@ class Contract(models.Model):
                 'salary':self.integral_salary,
                 'contracting_regime':self.contracting_regime,
             }
-            print (vals)
             self.env['hr.employee.affiliate.movements'].create(vals)
 
     @api.multi
@@ -355,16 +353,3 @@ class Contract(models.Model):
         res = super(Contract, self).write(vals)
         if 'update_wage' in self.env.context:
             self.create_move_affiliate()
-            print ('u')
-            print ('kk')
-            print ('r')
-            print ('r')
-            print ('kk')
-            print ('r')
-            print ('kk')
-            print(self.env.context)
-            print ('kk')
-            print ('kk')
-            print ('kk')
-            print ('kk')
-            # print (stop)
