@@ -225,7 +225,7 @@ a:hover {
 
 .ui-autocomplete .ui-menu-item {
     &.ui-state-focus {
-        background-color: $dropdown-link-hover-bg;
+        background-color: $brand-secondary-light;
     }
     &.ui-state-focus > a {
         color: $brand-secondary-light !important;

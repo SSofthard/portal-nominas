@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--    View Export Contract Data for update salary-->
+    <record id="contract_change_wage_export_view" model="ir.ui.view">
+        <field name="name">hr.contract.change.wage.export.view</field>
+        <field name="model">hr.contract.change.wage.export</field>
+        <field name="arch" type="xml">
+            <form string="Contract Change Wage">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="group_id"/>
+                            <field name="contracting_regime"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <group>
+                        <span>
+                            <button string="Send" type="object" class="oe_highlight" name="action_export_data"/>
+                            <button string="Cancel" class="oe_link" special="cancel" />
+                        </span>
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="contract_change_wage_export_action" model="ir.actions.act_window">
+        <field name="name">Contract Change Wage</field>
+        <field name="res_model">hr.contract.change.wage.export</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_change_wage_export_action"
+        name="Export contract data"
+        parent="payroll_mexico.menu_hr_employee_affiliate_movements_root"
+        action="contract_change_wage_export_action"
+        groups="hr.group_hr_manager"
+        sequence="50"/>
+
+    <!--View Wizard for Import Contract Data for update salary-->
+    <record id="view_change_wage_import_form" model="ir.ui.view">
+        <field name="name">view.change.wage.import.form</field>
+        <field name="model">hr.contract.change.wage.import</field>
+        <field name="arch" type="xml">
+        <form string="Contract Change Wage">
+            <group>
+                <field name="file_ids" widget="many2many_binary"/>
+                <label for="clean_file_ids" string=""/>
+                <div class="o_row">
+                    <button
+                        type="object"
+                        name="clean_file_ids"
+                        class="btn-sm btn-link mb4 fa fa-trash-o"
+                        aria-label="Remove File"
+                        title="Remove File"
+                        attrs="{'invisible':[('file_ids', '=', False)]}"
+                        help="Remaining leaves"
+                    />
+                </div>
+                <field name="file_name" readonly="1"/>
+            </group>
+            <group>
+                <group>
+                    <field name="date_move"/>
+                </group>
+            </group>
+            <div>
+                <h2>Load layout de update contract salary</h2>
+                <p></p>
+                <p>
+                    <ul>
+                        <li>Important. Complete the required fields.</li>
+                    </ul>
+                </p>
+                <p>Please proceed to upload the layout.</p>
+            </div>
+            <footer>
+                <button name="import_data" string="Update Salaries" type="object" class="btn-primary"/>
+                <button string="Cancel" special="cancel" class="btn-default"/>
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="contract_change_wage_import_action" model="ir.actions.act_window">
+        <field name="name">Update Contract Salary</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.contract.change.wage.import</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_change_wage_import_action"
+        name="Update Contract Salary"
+        parent="payroll_mexico.menu_hr_employee_affiliate_movements_root"
+        action="contract_change_wage_import_action"
+        sequence="60"/>
+
+</odoo>
