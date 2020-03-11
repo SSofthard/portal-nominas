@@ -573,20 +573,43 @@ class Employee(models.Model):
                 # ~ calculation for assimilates
 
                 daily_salary_assimilated = employee.assimilated_salary/days
-                salary_assimilated = daily_salary_assimilated*days
+                salary_assimilated = daily_salary_assimilated*days/2
                 fixed_fee_assimilated = 0
                 applicable_percentage_assimilated = 0
                 applicable_percentage_assimilated = 0
                 lower_limit_assimilated = 0
-                for table in table_id.isr_monthly_ids:
+                for table in table_id.isr_biweekly_ids:
                     if salary_assimilated > table.lim_inf and salary_assimilated < table.lim_sup:
                         lower_limit_assimilated = table.lim_inf
-                        applicable_percentage_assimilated = (table.s_excedente)/100
+                        applicable_percentage_assimilated = round((table.s_excedente)/100,4)
                         fixed_fee_assimilated = table.c_fija
+                print ('Esto es lo numeo')
+                print ('Esto es lo numeo')
+                print ('Esto es lo numeo')
+                print ('Esto es lo numeo')
+                print(salary_assimilated)
+                print(lower_limit_assimilated)
+                print(fixed_fee_assimilated)
+                print(applicable_percentage_assimilated)
+                
+                difference_limit_lower_fixed_fee = lower_limit_assimilated - fixed_fee_assimilated
+                salary_less_difference = salary_assimilated - difference_limit_lower_fixed_fee
+                unit_minus_applicable_rate = 1 - applicable_percentage_assimilated
+                salary_less_difference_factor = round(salary_less_difference / unit_minus_applicable_rate,2)
+                total_assimilated = salary_less_difference_factor + lower_limit_assimilated
+                print (total_assimilated)
+                print (total_assimilated)
+                print (total_assimilated)
+                print (total_assimilated)
+                
                 lower_limit_surplus_assimilated = salary_assimilated - lower_limit_assimilated
                 marginal_tax_assimilated = lower_limit_surplus_assimilated*applicable_percentage_assimilated
                 isr_assimilated = marginal_tax_assimilated + fixed_fee_assimilated
-                employee.assimilated_salary_gross = employee.assimilated_salary + isr_assimilated
+                
+                
+                
+                
+                employee.assimilated_salary_gross = total_assimilated
         return True
 
     def set_required_field(self, field_name):

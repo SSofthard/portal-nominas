@@ -1915,7 +1915,7 @@ class HrPayslip(models.Model):
         locale = self.env.context.get('lang') or 'en_US'
         res['value'].update({
             'name': _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
-            'company_id': employee.company_id.id,
+            # ~ 'company_id': employee.company_id.id,
         })
         if contract_id:
             #set the list of contract for which the input have to be filled
@@ -1934,6 +1934,7 @@ class HrPayslip(models.Model):
             return res
         res['value'].update({
             'struct_id': struct.id,
+            'company_id': contract.company_id.id,
         })
         #computation of the salary input
         contracts = self.env['hr.contract'].browse(contract_ids)
