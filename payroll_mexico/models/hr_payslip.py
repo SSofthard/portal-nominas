@@ -204,6 +204,9 @@ class HrPayslip(models.Model):
                                         )
     xml_cancel_cfdi = fields.Many2one('ir.attachment', string="XML Cancel CFDI", copy=False, readonly=True)
     xml_cancel_cfdi_si = fields.Many2one('ir.attachment', string="XML Cancel CFDI", copy=False, readonly=True)
+    
+    company_id = fields.Many2one('res.company', string='Company', readonly=True, copy=False,
+        states={'draft': [('readonly', False)]})
 
     def overtime(self,type_overtime):
         days = 0
@@ -1944,6 +1947,7 @@ class HrPayslip(models.Model):
             'worked_days_line_ids': worked_days_line_ids,
             # ~ 'input_line_ids': input_line_ids,
         })
+        print (res)
         return res
 
     @api.multi
