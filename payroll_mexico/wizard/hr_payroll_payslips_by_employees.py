@@ -116,7 +116,7 @@ class HrPayslipEmployees(models.TransientModel):
                 'date_to': to_date,
                 'payment_date': run_data.get('payment_date'),
                 'credit_note': run_data.get('credit_note'),
-                'company_id': employee.company_id.id,
+                'company_id': slip_data['value'].get('company_id'),
                 'payroll_type':slip_data['value'].get('payroll_type'),
                 'payroll_month':slip_data['value'].get('payroll_month'),
                 'payroll_of_month':slip_data['value'].get('payroll_of_month'),

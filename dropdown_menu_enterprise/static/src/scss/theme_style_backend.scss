@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
+$brand-primary: #414141;
+$brand-secondary: #CDA434;
 
+$brand-primary-dark: darken($brand-primary, 10%);
+$brand-primary-light: lighten($brand-primary, 10%);
+$brand-secondary-dark: darken($brand-secondary, 10%);
+$brand-secondary-light: lighten($brand-secondary, 10%);
 
 /*Menu Bar*/
 .o_main_navbar .cybro-main-menu {
@@ -16,7 +22,7 @@
   background: -moz-linear-gradient(top,  #000000 24%, #2c2c2c 56%, #000000 74%);
   background: -webkit-linear-gradient(top,  #000000 24%,#2c2c2c 56%,#000000 74%);
   background: linear-gradient(to bottom,  #000000 24%,#2c2c2c 56%,#000000 74%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );   
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );
   box-shadow: 2px 0 32px rgba(0, 0, 0, .05);
   -webkit-transition: all .3s ease 0s;
   transition: all .3s ease 0s;
@@ -27,7 +33,7 @@
 i.fa.fa-bars {
   font-size: 20px !important;
   color: #ffffff !important;
-  line-height: 46px;
+  line-height: 45px;
 }
 
 .cybro-main-menu a.dropdown-item.o_app {
@@ -40,20 +46,12 @@ i.fa.fa-bars {
   letter-spacing: 0;
   font-weight: 400;
   padding-left: 32px !important;
+
+
 }
 
 .cybro-main-menu a.dropdown-item.o_app:hover {
   color: #ffffff !important;
-}
-
-.cybro-main-menu a:hover {
-  color: #fff !important;
-  background: #343942 !important;
-}
-
-.dropdown-item.active, .dropdown-item:active {
-  color: #fff !important;
-  background: #5F6775;
 }
 
 img.cybro-menuicon {
@@ -64,10 +62,6 @@ img.cybro-menuicon {
 /*//Menu Bar*/
 /*Top bar*/
 
-.dropdown-menu a:hover {
-  color: #343942 !important;
-  background: #ffffff !important;
-}
 
 .cybro-main-menu a:hover {
   color: #fff !important;
@@ -92,6 +86,7 @@ a.dropdown-item.o_app.cybro-mainmenu {
   align-items: center !important;
   flex-direction: row !important;
   padding: 1rem 1rem 1rem 2rem !important;
+  background-color: $brand-primary-light;
 }
 
 .o_menu_apps .dropdown-menu.show .o-app-icon {
@@ -103,14 +98,6 @@ a.dropdown-item.o_app.cybro-mainmenu {
   order: 2;
 }
 
-.cybro-main-menu input.form-control {
-  order: 1;
-  border-bottom-left-radius: 30px !important;
-  border-top-left-radius: 30px !important;
-  font-size: 12px !important;
-  border: none !important;
-  outline: none !important;
-}
 
 .cybro-main-menu .input-group-prepend {
   order: 2;
@@ -131,4 +118,32 @@ a.dropdown-item.o_app.cybro-mainmenu {
 
 .o_main_navbar .dropdown-menu.show {
     min-width: 8%;
+}
+
+.o_main_navbar > a, .o_main_navbar > button {
+    padding: 0 6px 0 6px;
+}
+
+.o_main_navbar > .o_menu_brand {
+    margin-right: 10px;
+    font-size: 20px;
+    line-height: 45px;
+}
+
+@media (max-width: 767.98px) {
+    .o_main_navbar .o_app {
+        border-bottom: 1px solid #d7b65d;
+    }
+}
+
+.o_main_navbar > ul > li > a, .o_main_navbar > ul > li > label {
+    padding: 0 5px;
+}
+
+.o_main_navbar > ul > li.o_extra_menu_items > a {
+    width: 32px;
+}
+
+.o_m2o_dropdown_option .ui-menu-item .ui-state-focus {
+    background-color: $brand-secondary-light !important;
 }

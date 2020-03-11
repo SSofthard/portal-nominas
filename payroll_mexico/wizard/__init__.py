@@ -15,4 +15,5 @@ from . import wizard_compute_sdi_vars
 from . import wizard_credentialing
 from . import hr_employee_import
 from . import credential_zip_wizard
+from . import hr_contract_change_wage
 

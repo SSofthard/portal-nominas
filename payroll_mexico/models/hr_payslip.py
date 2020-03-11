@@ -204,6 +204,9 @@ class HrPayslip(models.Model):
                                         )
     xml_cancel_cfdi = fields.Many2one('ir.attachment', string="XML Cancel CFDI", copy=False, readonly=True)
     xml_cancel_cfdi_si = fields.Many2one('ir.attachment', string="XML Cancel CFDI", copy=False, readonly=True)
+    
+    company_id = fields.Many2one('res.company', string='Company', readonly=True, copy=False,
+        states={'draft': [('readonly', False)]})
 
     def overtime(self,type_overtime):
         days = 0
@@ -1822,11 +1825,11 @@ class HrPayslip(models.Model):
             if payroll_period:
                 
                 period = payroll_period
-            if (contract.date_start > date_from and contract.date_start < date_to) or (contract.date_end > date_from and contract.date_end < date_to):
-                cant_days = (to_full - from_full).days*(days_factor/30)
-            else:
+            # ~ if (contract.date_start > date_from and contract.date_start < date_to) or (contract.date_end > date_from and contract.date_end < date_to):
+                # ~ cant_days = (to_full - from_full).days*(days_factor/30)
+            # ~ else:
                 # ~ if (to_full - from_full).days >= payroll_periods_days[period]:
-                cant_days = payroll_periods_days[period]*(days_factor/30)
+            cant_days = payroll_periods_days[period]*(days_factor/30)
                 # ~ else:
                     # ~ cant_days = (to_full - from_full).days*(days_factor/30)
             if cant_days < 0:
@@ -1915,7 +1918,7 @@ class HrPayslip(models.Model):
         locale = self.env.context.get('lang') or 'en_US'
         res['value'].update({
             'name': _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
-            'company_id': employee.company_id.id,
+            # ~ 'company_id': employee.company_id.id,
         })
         if contract_id:
             #set the list of contract for which the input have to be filled
@@ -1934,6 +1937,7 @@ class HrPayslip(models.Model):
             return res
         res['value'].update({
             'struct_id': struct.id,
+            'company_id': contract.company_id.id,
         })
         #computation of the salary input
         contracts = self.env['hr.contract'].browse(contract_ids)
@@ -1943,6 +1947,7 @@ class HrPayslip(models.Model):
             'worked_days_line_ids': worked_days_line_ids,
             # ~ 'input_line_ids': input_line_ids,
         })
+        print (res)
         return res
 
     @api.multi
