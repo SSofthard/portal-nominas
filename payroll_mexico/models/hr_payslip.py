@@ -1819,9 +1819,9 @@ class HrPayslip(models.Model):
                 '99': 1,
                                 }
             period = self.payroll_period
-            # ~ if payroll_period:
+            if payroll_period:
                 
-                # ~ period = payroll_period
+                period = payroll_period
             # ~ if (contract.date_start > date_from and contract.date_start < date_to) or (contract.date_end > date_from and contract.date_end < date_to):
                 # ~ cant_days = (to_full - from_full).days*(days_factor/30)
             # ~ else:
