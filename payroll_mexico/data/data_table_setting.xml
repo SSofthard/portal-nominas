@@ -1485,7 +1485,7 @@
         <record id="table_isr_biweekly_27" model="table.isr.biweekly">
 			<field name="lim_inf">11951.86</field>
 			<field name="lim_sup">18837.75</field>
-			<field name="c_fija">1974.75</field>
+			<field name="c_fija">1914.75</field>
 			<field name="s_excedente">23.52</field>
 			<field name="sequence">7</field>
 			<field name="table_id" ref="table_setting_2"/>
