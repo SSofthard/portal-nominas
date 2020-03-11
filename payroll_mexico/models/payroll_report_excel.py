@@ -241,7 +241,7 @@ class HrPayslipRun(models.Model):
                             sheet.write(i, 3, line.get('curp', '') , report_format2) #CURP
                             sheet.write(i, 4, get_date_format(line.get('discharge_date', '') ), report_format2) #Fecha de Alta
                             sheet.write(i, 5, line.get('salary_type', '') , report_format2) #Tipo Salario
-                            col = 7
+                            col = 5
                             col += 1
                             for n, rule in enumerate(line['lines']):
                                 n += col
