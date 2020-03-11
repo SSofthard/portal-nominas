@@ -822,7 +822,7 @@ class HrGroup(models.Model):
     
     @api.onchange('name')
     def onchange_name(self):
-        if self.name:
+        if self.name and not len(self.env['hr.employee'].search([('group_id', 'in', self.ids)], limit=1)):
             if len(self.name) >= 3:
                 self.code = self.name[0:3].upper()
                 self.code_payslip = self.name[0:3].upper()
@@ -922,7 +922,7 @@ class HrGroup(models.Model):
     def write(self, vals):
         for group in self:
             if ('code' in vals and group.code != vals['code']):
-                if self.env['hr.employee'].search([('group_id', 'in', self.ids)], limit=1):
+                if len(self.env['hr.employee'].search([('group_id', 'in', self.ids)], limit=1)) > 0:
                     raise UserError(_('This group already contains items, therefore you cannot modify its name.'))
                 new_prefix = self._get_sequence_prefix(vals['code'])
                 group.sequence_id.write({'prefix': new_prefix})

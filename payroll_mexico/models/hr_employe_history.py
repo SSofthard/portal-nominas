@@ -13,6 +13,7 @@ from odoo.exceptions import ValidationError, AccessError, UserError
 class EmployeeAffiliateMovements(models.Model):
     _name = 'hr.employee.affiliate.movements'
     _rec_name = 'type'
+    _order = "create_date desc"
 
     contract_id = fields.Many2one('hr.contract', index=True, string='Contract')
     employee_id = fields.Many2one('hr.employee', index=True, string='Employee')
