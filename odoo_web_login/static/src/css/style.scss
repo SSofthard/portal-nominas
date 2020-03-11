@@ -224,8 +224,8 @@ a:hover {
 }
 
 .ui-autocomplete .ui-menu-item {
-    &.ui-state-focus {
-        background-color: $dropdown-link-hover-bg;
+    &.ui-state-focus > a{
+        background-color: $brand-primary-light;
     }
     &.ui-state-focus > a {
         color: $brand-secondary-light !important;
@@ -234,7 +234,7 @@ a:hover {
         }
     }
     &.o_m2o_dropdown_option > a,
-    &.ui-state-focus.o_m2o_dropdown_option > a {
+    &.ui-state-focus .o_m2o_dropdown_option > a {
         color: $brand-secondary-light !important;
         &:hover {
             color: $brand-secondary-dark !important;
