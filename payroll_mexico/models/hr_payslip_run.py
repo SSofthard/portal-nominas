@@ -122,7 +122,7 @@ class HrPayslipRun(models.Model):
         """ Function get data for dispersion layout Santander Bank"""
         line_data = []
         domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
-        lines_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.code == 'Neto-a-Cobrar')
+        lines_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.code == 'T001')
         accountEmployee = self.env['bank.account.employee']
         for line in lines_ids:
             bank_account = line.slip_id.contract_id.bank_account_id.bank_account
