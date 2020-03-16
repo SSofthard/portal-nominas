@@ -3,6 +3,7 @@
 import datetime
 from datetime import date, timedelta
 import base64
+from random import uniform,triangular
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
@@ -339,7 +340,156 @@ class Employee(models.Model):
         address = self.company_id.partner_id.address_get(['default'])
         self.address_id = address['default'] if address else False
         self.employer_register_id = False
-    
+
+    def get_percentage_applicate(self,sueldo_bruto):
+        today = fields.Date.context_today(self)
+        table_id = self.env['table.settings'].search([('year', '=', int(today.year))], limit=1)
+        res = self.env['table.isr.monthly'].search(
+            [('table_id', '=', table_id.id), ('lim_inf', '<', sueldo_bruto), ('lim_sup', '>', sueldo_bruto)])
+        if len(res):
+            return res.s_excedente
+        return 0
+
+    def get_cuota_fija(self,sueldo_bruto):
+        today = fields.Date.context_today(self)
+        table_id = self.env['table.settings'].search([('year', '=', int(today.year))], limit=1)
+        res = self.env['table.isr.monthly'].search(
+            [('table_id', '=', table_id.id), ('lim_inf', '<', sueldo_bruto), ('lim_sup', '>', sueldo_bruto)])
+        if len(res):
+            return res.c_fija
+        return 0
+
+    def get_lim_inf(self,sueldo_bruto):
+        today = fields.Date.context_today(self)
+        table_id = self.env['table.settings'].search([('year', '=', int(today.year))], limit=1)
+        res = self.env['table.isr.monthly'].search(
+            [('table_id', '=', table_id.id), ('lim_inf', '<', sueldo_bruto), ('lim_sup', '>', sueldo_bruto)])
+        if len(res):
+            return res.lim_inf
+        return 0
+
+    def calc_eli(self,sueldo_bruto):
+        lim_inf = self.get_lim_inf(sueldo_bruto)
+        return sueldo_bruto-lim_inf
+
+    def get_im(self,sueldo_bruto):
+        eli = self.calc_eli(sueldo_bruto)
+        pa = self.get_percentage_applicate(sueldo_bruto)
+        return eli*(pa/100)
+
+    def get_isr(self,sueldo_bruto):
+        im = self.get_im(sueldo_bruto)
+        cf = self.get_cuota_fija(sueldo_bruto)
+        return im+cf
+
+    def get_subsidio_empleo(self, sueldo_bruto):
+        '''Este metodo obtiene el monto de subsidio al empleo determinado por el sueldo bruto'''
+        sueldo_bruto = sueldo_bruto/30
+        today = fields.Date.context_today(self)
+        table_id = self.env['table.settings'].search([('year', '=', int(today.year))], limit=1)
+        subsidio = self.env['table.isr.daily.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        if len(subsidio):
+            return subsidio.s_mensual
+        return 0
+
+    def get_pe_excedente_asegurado(self,sueldo_bruto):
+        '''
+
+        :param SDI:
+        :return:
+        '''
+        sdi = self.get_sdi(sueldo_bruto)
+        smvdf = 84.49
+        if sdi > smvdf*3:
+            return ((sdi - (smvdf*3))*0.004)*30
+        else:
+            return 0.0
+
+    def get_pdu_asegurado(self,sueldo_bruto):
+        '''
+
+        :param SDI:
+        :return:
+        '''
+        sdi = self.get_sdi(sueldo_bruto)
+        return (sdi *0.0025)*30
+
+    def get_gmp_asegurado(self,sueldo_bruto):
+        '''
+
+        :param SDI:
+        :return:
+        '''
+        sdi = self.get_sdi(sueldo_bruto)
+        return (sdi *0.00375)*30
+
+    def get_iv_asegurado(self,sueldo_bruto):
+        '''
+
+        :param sueldo_bruto:
+        :return:
+        '''
+        sdi = self.get_sdi(sueldo_bruto)
+        return (sdi *0.00625)*30
+
+    def get_imss(self,sueldo_bruto):
+        print (sueldo_bruto)
+        return self.get_pe_excedente_asegurado(sueldo_bruto)+self.get_pdu_asegurado(sueldo_bruto)+self.get_gmp_asegurado(sueldo_bruto)+self.get_iv_asegurado(sueldo_bruto)
+
+    def get_rcv(self,sueldo_bruto):
+        sdi = self.get_sdi(sueldo_bruto)
+        return (sdi * 0.01125)*30
+
+    def get_sdi(self,sueldo_bruto):
+        s_bruto_diario = sueldo_bruto / 30
+        return s_bruto_diario*1.0452
+
+    def get_td(self,sueldo_bruto):
+        rcv = self.get_rcv(sueldo_bruto)
+        imss = self.get_imss(sueldo_bruto)
+        isr = self.get_isr(sueldo_bruto)
+        return isr+imss+rcv
+
+    def get_tp(self, sueldo_bruto):
+        sub_emp = self.get_subsidio_empleo(sueldo_bruto)
+        return sub_emp+sueldo_bruto
+
+    def calc_sueldo_neto(self, sueldo_bruto):
+        td = self.get_td(sueldo_bruto)
+        tp = self.get_tp(sueldo_bruto)
+        return tp-td
+
+    def get_rand_number(self,min_value, max_value):
+        """
+        This function gets a random number from a uniform distribution between
+        the two input values [min_value, max_value] inclusively
+        Args:
+        - min_value (float)
+        - max_value (float)
+        Return:
+        - Random number between this range (float)
+        """
+        range = max_value - min_value
+        choice = triangular(0, 1)
+        return min_value + range * choice
+
+    def get_value_objetive(self, valor_esperado):
+        sueldo_bruto = 0.0
+        sueldo_neto = 0.0
+        min_value = valor_esperado
+        max_value = valor_esperado*2
+        count = 0
+        while (abs(valor_esperado - sueldo_neto)) > 0.00000000001:
+            count+=1
+            sueldo_bruto = self.env['hr.employee'].get_rand_number(min_value, max_value)
+            sueldo_neto = self.env['hr.employee'].calc_sueldo_neto(sueldo_bruto)
+            if (valor_esperado - sueldo_neto) < -0.00000000001:
+                max_value = sueldo_bruto
+            if (valor_esperado - sueldo_neto) > 0.00000000001:
+                min_value = sueldo_bruto
+        print (count)
+        return sueldo_bruto
+
     @api.multi
     def calculate_salary_scheme(self):
         print ('Entre por aca')
@@ -354,6 +504,12 @@ class Employee(models.Model):
                 raise UserError(_('The amount of wages and salaries must be greater than 0'))
             if employee.free_salary < 0:
                 raise UserError(_('The amount of free salary must be greater than or equal to 0'))
+            print ('employee.monthly_salary')
+            print (employee.monthly_salary)
+            print ('employee.wage_salaries')
+            print (employee.wage_salaries)
+            print ('employee.free_salary')
+            print (employee.free_salary)
             total_salaries = employee.wage_salaries + employee.free_salary
             if total_salaries > employee.monthly_salary:
                 raise UserError(_(
@@ -547,7 +703,7 @@ class Employee(models.Model):
                 wage_salaries_gross = salary - employment_subsidy + total_deductions
                 
                 
-                employee.wage_salaries_gross = salary - employment_subsidy + total_deductions
+                employee.wage_salaries_gross = self.get_value_objetive(self.wage_salaries)
                 employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
                 employee.free_salary_gross = employee.free_salary
                 
