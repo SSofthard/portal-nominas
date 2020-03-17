@@ -381,9 +381,12 @@ class Contract(models.Model):
         years_antiquity = self.years_antiquity + 1 if self.days_rest > 0 else self.years_antiquity
         antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',self.employee_id.group_id.antique_table.id)])
         daily_salary = self.wage / self.employee_id.group_id.days if self.employee_id.group_id.days else self.wage / 30
+        print (daily_salary)
         daily_salary = float("{0:.4f}".format(daily_salary))
         print (antiguedad.factor)
+        print (round(((antiguedad.factor/100)+1),4))
         integral_salary =  daily_salary * round(((antiguedad.factor/100)+1),4)
+        print (integral_salary)
         return float("{0:.4f}".format(integral_salary))
         
     def _get_integral_salary(self):
