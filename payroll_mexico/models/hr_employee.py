@@ -343,7 +343,6 @@ class Employee(models.Model):
 
     def get_subsidio_empleo(self, sueldo_bruto):
         '''Este metodo obtiene el monto de subsidio al empleo determinado por el sueldo bruto'''
-        sueldo_bruto = sueldo_bruto/30
         today = fields.Date.context_today(self)
         table_id = self.env['table.settings'].search([('year', '=', int(today.year))], limit=1)
         subsidio = self.env['table.isr.monthly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
@@ -427,9 +426,11 @@ class Employee(models.Model):
         return min_value + range * choice
 
     def get_value_objetive(self, valor_esperado, days, table_id, antiguedad, risk_factor):
+        print (risk_factor)
+        print (antiguedad)
         sueldo_bruto = 0.0
         sueldo_neto = 0.0
-        min_value = valor_esperado
+        min_value = 0.0
         max_value = valor_esperado*2
         count = 0
         while (abs(valor_esperado - sueldo_neto)) > 0.00000000001:
