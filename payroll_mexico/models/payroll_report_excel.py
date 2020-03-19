@@ -41,23 +41,33 @@ class HrPayslipRun(models.Model):
             slip.slip_ids.print_payroll_receipt()
         
     def prepare_header(self):
-        header = [ 
-            {'sequence': 0.1, 'name': 'Clave', 'larg': 10, 'col': {}},
-            {'sequence': 0.2, 'name': 'Nombre del trabajador', 'larg': 40, 'sequence': 0.2, 'col': {}},
-            {'sequence': 0.3, 'name': 'NSS', 'larg': 10, 'col': {}},
-            {'sequence': 0.4, 'name': 'RFC', 'larg': 10, 'col': {}},
-            {'sequence': 0.5, 'name': 'CURP', 'larg': 10, 'col': {}},
-            {'sequence': 0.6, 'name': 'Fecha\nde\nAlta', 'larg': 15, 'col': {}},
-            {'sequence': 0.7, 'name': 'Departamento', 'larg': 5, 'col': {}},
-            {'sequence': 0.8, 'name': 'Tipo\nSalario', 'larg': 10, 'col': {}},
-        ]
+        if self.contracting_regime == '02':
+            header = [ 
+                {'sequence': 0.1, 'name': 'Clave', 'larg': 10, 'col': {}},
+                {'sequence': 0.2, 'name': 'Nombre del trabajador', 'larg': 40, 'sequence': 0.2, 'col': {}},
+                {'sequence': 0.3, 'name': 'NSS', 'larg': 10, 'col': {}},
+                {'sequence': 0.4, 'name': 'RFC', 'larg': 10, 'col': {}},
+                {'sequence': 0.5, 'name': 'CURP', 'larg': 10, 'col': {}},
+                {'sequence': 0.6, 'name': 'Fecha\nde\nAlta', 'larg': 15, 'col': {}},
+                {'sequence': 0.7, 'name': 'Departamento', 'larg': 5, 'col': {}},
+                {'sequence': 0.8, 'name': 'Tipo\nSalario', 'larg': 10, 'col': {}},
+            ]
+        else:
+            header = [ 
+                {'sequence': 0.1, 'name': 'Clave', 'larg': 10, 'col': {}},
+                {'sequence': 0.2, 'name': 'Nombre del trabajador', 'larg': 40, 'sequence': 0.2, 'col': {}},
+                {'sequence': 0.4, 'name': 'RFC', 'larg': 10, 'col': {}},
+                {'sequence': 0.5, 'name': 'CURP', 'larg': 10, 'col': {}},
+                {'sequence': 0.6, 'name': 'Fecha\nde\nAlta', 'larg': 15, 'col': {}},
+                {'sequence': 0.8, 'name': 'Tipo\nSalario', 'larg': 10, 'col': {}},
+            ]
         domain = [('slip_id.payslip_run_id','=', self.id), ('total','!=',0)]
         rule_ids = self.env['hr.payslip.line'].search(domain).filtered(lambda r: r.salary_rule_id.print_to_excel == True).mapped('salary_rule_id')
         for rule in rule_ids:
             header.append({
                 'sequence': rule.sequence,
                 'name': rule.name.replace(' ', '\n'), 
-                'larg': 10,
+                'larg': 15,
                 'code': rule.code,
                 'col': {'total_function': 'sum', 'total_row': 1},})
         header_sort = sorted(header, key=lambda k: k['sequence'])
@@ -88,19 +98,32 @@ class HrPayslipRun(models.Model):
                         'total': 0,
                     })
             line_data_sort = sorted(line_data, key=lambda k: k['sequence'])
-            employee_data.append({
-                'enrollment': payroll.employee_id.enrollment,
-                'employee_name': payroll.employee_id.name_get()[0][1],
-                'nss': payroll.employee_id.ssnid,
-                'rfc': payroll.employee_id.rfc,
-                'curp': payroll.employee_id.curp,
-                'discharge_date': payroll.contract_id.date_start,
-                'department': payroll.employee_id.department_id.name,
-                'salary_type': dict(payroll.employee_id._fields['salary_type']._description_selection(self.env)).get(payroll.employee_id.salary_type),
-                'wage': payroll.contract_id.wage,
-                'lines': line_data_sort,
-                
-            })
+            if self.contracting_regime == '02':
+                employee_data.append({
+                    'enrollment': payroll.employee_id.enrollment,
+                    'employee_name': payroll.employee_id.name_get()[0][1],
+                    'nss': payroll.employee_id.ssnid,
+                    'rfc': payroll.employee_id.rfc,
+                    'curp': payroll.employee_id.curp,
+                    'discharge_date': payroll.contract_id.date_start,
+                    'department': payroll.employee_id.department_id.name,
+                    'salary_type': dict(payroll.employee_id._fields['salary_type']._description_selection(self.env)).get(payroll.employee_id.salary_type),
+                    'wage': payroll.contract_id.wage,
+                    'lines': line_data_sort,
+                    
+                })
+            else:
+                employee_data.append({
+                    'enrollment': payroll.employee_id.enrollment,
+                    'employee_name': payroll.employee_id.name_get()[0][1],
+                    'rfc': payroll.employee_id.rfc,
+                    'curp': payroll.employee_id.curp,
+                    'discharge_date': payroll.contract_id.date_start,
+                    'salary_type': dict(payroll.employee_id._fields['salary_type']._description_selection(self.env)).get(payroll.employee_id.salary_type),
+                    'wage': payroll.contract_id.wage,
+                    'lines': line_data_sort,
+                    
+                })
         return employee_data
 
     @api.multi
@@ -185,29 +208,52 @@ class HrPayslipRun(models.Model):
                     row += 1
                     start_row = row
                     n = 0
-                    for i, line in enumerate(all_lines):
-                        i += row
-                        sheet.write(i, 0, line.get('enrollment', ''), report_format2) #Clave
-                        sheet.write(i, 1, line.get('employee_name', ''), report_format) #Nombre del trabajador
-                        sheet.write(i, 2, line.get('nss', '') , report_format2) # NSS
-                        sheet.write(i, 3, line.get('rfc', '') , report_format2) #RFC
-                        sheet.write(i, 4, line.get('curp', '') , report_format2) #CURP
-                        sheet.write(i, 5, get_date_format(line.get('discharge_date', '') ), report_format2) #Fecha de Alta
-                        sheet.write(i, 6, line.get('department', '') , report_format2) #Departamento
-                        sheet.write(i, 7, line.get('salary_type', '') , report_format2) #Tipo Salario
-                        col = 7
-                        col += 1
-                        for n, rule in enumerate(line['lines']):
-                            n += col
-                            if h.get('sequence', '') == rule.get('sequence', ''):
-                                sheet.write(i, n, _get_data_float(rule.get('total', '')) , currency_format) # Montos
-                            start_range = xl_rowcol_to_cell(11, n)
-                            end_range = xl_rowcol_to_cell(len(all_lines) + 11, n)
-                            fila_formula = xl_rowcol_to_cell(len(all_lines) + 11 +1, n)
-                            formula = "=SUM({:s}:{:s})".format(start_range, end_range)
-                            sheet.write_formula(fila_formula, formula, formula_format, True) 
-                        col = n
-                    row = i
+                    if self.contracting_regime == '02':
+                        for i, line in enumerate(all_lines):
+                            i += row
+                            sheet.write(i, 0, line.get('enrollment', ''), report_format2) #Clave
+                            sheet.write(i, 1, line.get('employee_name', ''), report_format) #Nombre del trabajador
+                            sheet.write(i, 2, line.get('nss', '') , report_format2) # NSS
+                            sheet.write(i, 3, line.get('rfc', '') , report_format2) #RFC
+                            sheet.write(i, 4, line.get('curp', '') , report_format2) #CURP
+                            sheet.write(i, 5, get_date_format(line.get('discharge_date', '') ), report_format2) #Fecha de Alta
+                            sheet.write(i, 6, line.get('department', '') , report_format2) #Departamento
+                            sheet.write(i, 7, line.get('salary_type', '') , report_format2) #Tipo Salario
+                            col = 7
+                            col += 1
+                            for n, rule in enumerate(line['lines']):
+                                n += col
+                                if h.get('sequence', '') == rule.get('sequence', ''):
+                                    sheet.write(i, n, _get_data_float(rule.get('total', '')) , currency_format) # Montos
+                                start_range = xl_rowcol_to_cell(11, n)
+                                end_range = xl_rowcol_to_cell(len(all_lines) + 11, n)
+                                fila_formula = xl_rowcol_to_cell(len(all_lines) + 11 +1, n)
+                                formula = "=SUM({:s}:{:s})".format(start_range, end_range)
+                                sheet.write_formula(fila_formula, formula, formula_format, True) 
+                            col = n
+                        row = i
+                    else:
+                        for i, line in enumerate(all_lines):
+                            i += row
+                            sheet.write(i, 0, line.get('enrollment', ''), report_format2) #Clave
+                            sheet.write(i, 1, line.get('employee_name', ''), report_format) #Nombre del trabajador
+                            sheet.write(i, 2, line.get('rfc', '') , report_format2) #RFC
+                            sheet.write(i, 3, line.get('curp', '') , report_format2) #CURP
+                            sheet.write(i, 4, get_date_format(line.get('discharge_date', '') ), report_format2) #Fecha de Alta
+                            sheet.write(i, 5, line.get('salary_type', '') , report_format2) #Tipo Salario
+                            col = 5
+                            col += 1
+                            for n, rule in enumerate(line['lines']):
+                                n += col
+                                if h.get('sequence', '') == rule.get('sequence', ''):
+                                    sheet.write(i, n, _get_data_float(rule.get('total', '')) , currency_format) # Montos
+                                start_range = xl_rowcol_to_cell(11, n)
+                                end_range = xl_rowcol_to_cell(len(all_lines) + 11, n)
+                                fila_formula = xl_rowcol_to_cell(len(all_lines) + 11 +1, n)
+                                formula = "=SUM({:s}:{:s})".format(start_range, end_range)
+                                sheet.write_formula(fila_formula, formula, formula_format, True) 
+                            col = n
+                        row = i
                     
                     for j, h in enumerate(self.prepare_header()):
                         sheet.set_column(j, j, h['larg'])

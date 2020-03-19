@@ -320,6 +320,7 @@
                             </group>
                             <group>
                                 <field name="monthly_salary"/>
+                                <field name="payroll_period"/>
                             </group>
                         </group>
                         <group>

@@ -67,8 +67,7 @@ class HrPayslipRun(models.Model):
             ('02', 'Weekly'),
             ('10', 'Decennial'),
             ('04', 'Biweekly'),
-            ('05', 'Monthly'),
-            ('99', 'Otra Periodicidad'),],
+            ('05', 'Monthly'),],
             string='Payroll period', 
             default="04",
             required=True,
@@ -105,7 +104,7 @@ class HrPayslipRun(models.Model):
     ], string='Aplicar honorarios sobre', index=True, copy=False,
         readonly=True, states={'draft': [('readonly', False)]})
     year = fields.Integer(string='Año', compute='_ge_year_period', store=True)
-    generated = fields.Boolean('Generated', default=False)
+    generated = fields.Boolean('Generated', default=False, copy=False)
     group_id = fields.Many2one('hr.group', string="Grupo/Empresa",readonly=True, states={'draft': [('readonly', False)]})
     payment_date = fields.Date(string='Fecha de pago', required=True,
         readonly=True, states={'draft': [('readonly', False)]})
