@@ -46,6 +46,7 @@
         'views/table_antiguedades_view.xml',
         'views/hr_fees_settlement_view.xml',
         'views/hr_table_index_consume_price_view.xml',
+        'views/assets.xml',
         'wizard/hr_contract_change_wage_view.xml',
         'security/ir.model.access.csv',
         'security/security.xml',
@@ -98,6 +99,9 @@
         'data/data_sector_economico.xml',
         # ~ 'data/data_hr_perceptions.xml',
 
+    ],
+    'qweb': [
+        'static/src/xml/tree_view_buttons.xml'
     ],
     "active": True,
     "installable": True,
