@@ -233,6 +233,16 @@ class Employee(models.Model):
         ('09', 'Honorary Assimilates'),
         ('11', 'Assimilated others'),
     ], string='Contracting Regime Assimilated',)
+    payroll_period = fields.Selection([
+            ('01', 'Daily'),
+            ('02', 'Weekly'),
+            ('10', 'Decennial'),
+            ('04', 'Biweekly'),
+            ('05', 'Monthly'),
+            ('99', 'Otra Periodicidad'),],
+            string='Payroll period', 
+            default="04",
+            required=True,)
 
     _sql_constraints = [
         ('enrollment_uniq', 'unique (enrollment)', "There is already an employee with this registration.!"),
@@ -341,11 +351,19 @@ class Employee(models.Model):
         self.address_id = address['default'] if address else False
         self.employer_register_id = False
 
-    def get_subsidio_empleo(self, sueldo_bruto):
+    def get_subsidio_empleo(self, sueldo_bruto,table_id):
         '''Este metodo obtiene el monto de subsidio al empleo determinado por el sueldo bruto'''
         today = fields.Date.context_today(self)
-        table_id = self.env['table.settings'].search([('year', '=', int(today.year))], limit=1)
-        subsidio = self.env['table.isr.monthly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        if self.payroll_period == '01':
+            subsidio = self.env['table.isr.daily.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        if self.payroll_period == '02':
+            subsidio = self.env['table.isr.weekly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        if self.payroll_period == '10':
+            subsidio = self.env['table.isr.decennial.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        if self.payroll_period == '04':
+            subsidio = self.env['table.isr.biweekly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        if self.payroll_period == '05':
+            subsidio = self.env['table.isr.monthly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
         if len(subsidio):
             return subsidio.s_mensual
         return 0
@@ -356,19 +374,40 @@ class Employee(models.Model):
         lower_limit = 0
         applicable_percentage = 0
         fixed_fee = 0
-        for table in table_id.isr_monthly_ids:
-            if salary > table.lim_inf and salary < table.lim_sup:
-                lower_limit = table.lim_inf
-                applicable_percentage = (table.s_excedente)/100
-                fixed_fee = table.c_fija
+        if self.payroll_period == '01':
+            for table in table_id.isr_daily_ids:
+                if salary > table.lim_inf and salary < table.lim_sup:
+                    lower_limit = table.lim_inf
+                    applicable_percentage = (table.s_excedente)/100
+                    fixed_fee = table.c_fija
+        if self.payroll_period == '02':
+            for table in table_id.isr_weekly_ids:
+                if salary > table.lim_inf and salary < table.lim_sup:
+                    lower_limit = table.lim_inf
+                    applicable_percentage = (table.s_excedente)/100
+                    fixed_fee = table.c_fija
+        if self.payroll_period == '10':
+            for table in table_id.isr_decennial_ids:
+                if salary > table.lim_inf and salary < table.lim_sup:
+                    lower_limit = table.lim_inf
+                    applicable_percentage = (table.s_excedente)/100
+                    fixed_fee = table.c_fija
+        if self.payroll_period == '04':
+            for table in table_id.isr_biweekly_ids:
+                if salary > table.lim_inf and salary < table.lim_sup:
+                    lower_limit = table.lim_inf
+                    applicable_percentage = (table.s_excedente)/100
+                    fixed_fee = table.c_fija
+        if self.payroll_period == '05':
+            for table in table_id.isr_monthly_ids:
+                if salary > table.lim_inf and salary < table.lim_sup:
+                    lower_limit = table.lim_inf
+                    applicable_percentage = (table.s_excedente)/100
+                    fixed_fee = table.c_fija
         lower_limit_surplus = salary - lower_limit
         marginal_tax = lower_limit_surplus*applicable_percentage
         isr_113 = marginal_tax + fixed_fee
-        employment_subsidy = 0
-        for tsub in table_id.isr_monthly_subsidy_ids:
-            if salary > tsub.lim_inf and salary < tsub.lim_sup:
-                employment_subsidy = tsub.s_mensual
-        return abs(isr_113)
+        return isr_113
 
     def get_imss_rcv(self,sueldo_bruto, days, table_id, antiguedad, risk_factor):
         for employee in self:
@@ -397,18 +436,22 @@ class Employee(models.Model):
             total_rcv_infonavit = unemployment_old_age_insured
         return total_imss_employee + total_rcv_infonavit
 
-    def get_td(self,sueldo_bruto,  days, table_id, antiguedad, risk_factor):
-        imss = self.get_imss_rcv(sueldo_bruto,  days, table_id, antiguedad, risk_factor)
+    def get_td(self,sueldo_bruto,  days, table_id, antiguedad, risk_factor,assimilated=False):
+        imss = 0
+        if not assimilated:
+            imss = self.get_imss_rcv(sueldo_bruto,  days, table_id, antiguedad, risk_factor)
         isr = self.get_isr(sueldo_bruto,days,table_id)
         return isr+imss
 
-    def get_tp(self, sueldo_bruto):
-        sub_emp = self.get_subsidio_empleo(sueldo_bruto)
+    def get_tp(self, sueldo_bruto,table_id,assimilated=False):
+        sub_emp = 0
+        if not assimilated:
+            sub_emp = self.get_subsidio_empleo(sueldo_bruto,table_id)
         return sub_emp+sueldo_bruto
 
-    def calc_sueldo_neto(self, sueldo_bruto, days, table_id, antiguedad, risk_factor):
-        td = self.get_td(sueldo_bruto, days, table_id, antiguedad, risk_factor)
-        tp = self.get_tp(sueldo_bruto)
+    def calc_sueldo_neto(self, sueldo_bruto, days, table_id, antiguedad, risk_factor,assimilated=False):
+        td = self.get_td(sueldo_bruto, days, table_id, antiguedad, risk_factor,assimilated=assimilated)
+        tp = self.get_tp(sueldo_bruto,table_id,assimilated=assimilated)
         return tp-td
 
     def get_rand_number(self,min_value, max_value):
@@ -425,9 +468,7 @@ class Employee(models.Model):
         choice = triangular(0, 1)
         return min_value + range * choice
 
-    def get_value_objetive(self, valor_esperado, days, table_id, antiguedad, risk_factor):
-        print (risk_factor)
-        print (antiguedad)
+    def get_value_objetive(self, valor_esperado, days, table_id, antiguedad, risk_factor, assimilated = False):
         sueldo_bruto = 0.0
         sueldo_neto = 0.0
         min_value = 0.0
@@ -436,12 +477,11 @@ class Employee(models.Model):
         while (abs(valor_esperado - sueldo_neto)) > 0.00000000001:
             count+=1
             sueldo_bruto = self.get_rand_number(min_value, max_value)
-            sueldo_neto = self.calc_sueldo_neto(sueldo_bruto,days,table_id,antiguedad,risk_factor)
+            sueldo_neto = self.calc_sueldo_neto(sueldo_bruto,days,table_id,antiguedad,risk_factor,assimilated=assimilated)
             if (valor_esperado - sueldo_neto) < -0.00000000001:
                 max_value = sueldo_bruto
             if (valor_esperado - sueldo_neto) > 0.00000000001:
                 min_value = sueldo_bruto
-            print (abs(valor_esperado - sueldo_neto))
         return sueldo_bruto
 
     @api.multi
@@ -461,150 +501,42 @@ class Employee(models.Model):
                     employee.assimilated_salary = 0
                     employee.free_salary = 0
                 elif employee.wage_salaries < employee.monthly_salary:
-                    employee.wage_salaries_gross = employee.wage_salaries
-                    employee.free_salary_gross = employee.free_salary
-                    employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
+                    employee.wage_salaries_gross = round(employee.wage_salaries,2)
+                    employee.free_salary_gross = round(employee.free_salary,2)
+                    employee.assimilated_salary = round(employee.monthly_salary - employee.wage_salaries - employee.free_salary,2)
                     employee.assimilated_salary_gross = round(employee.monthly_salary - employee.wage_salaries - employee.free_salary,2)
             else:
                 today = date.today()
-                days = employee.group_id.days
-                
+                payroll_periods_days = {
+                        '05': 30,
+                        '04': 15,
+                        '02': 7,
+                        '10': 10,
+                        '01': 1,
+                        '99': 1,
+                        }
+                days = payroll_periods_days[employee.payroll_period]*(employee.group_id.days/30)
                 if not employee.employer_register_id and employee.wage_salaries > 0:
                     raise UserError(_('Por favor seleccione un registro patronal'))
-                
                 if employee.wage_salaries > 0:
                     table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
                     antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',0),('form_id','=',self.group_id.antique_table.id)])
                     risk_factor = employee.employer_register_id.get_risk_factor(today)
-                    amount_wage_salaries = self.get_value_objetive(self.wage_salaries, days, table_id, antiguedad, risk_factor)
-                    print (amount_wage_salaries)
-                    print (amount_wage_salaries)
-                    print (amount_wage_salaries)
-                    print (amount_wage_salaries)
-                    print (amount_wage_salaries)
-                    print (amount_wage_salaries)
+                    amount_wage_salaries = self.get_value_objetive(round((self.wage_salaries/employee.group_id.days)*days,2), days, table_id, antiguedad, risk_factor)
+                    amount_wage_salaries = round((amount_wage_salaries/days)*employee.group_id.days,2)
+                    employee.wage_salaries_gross = round(amount_wage_salaries,2)
+                if employee.free_salary > 0:
+                    employee.free_salary_gross = round(employee.free_salary,2)
+                    
+                if (employee.free_salary+employee.wage_salaries) <  employee.monthly_salary:
+                    employee.assimilated_salary = round(employee.monthly_salary - employee.wage_salaries - employee.free_salary,2)
+                    amount_asimilated_salaries = self.get_value_objetive(round(employee.assimilated_salary/employee.group_id.days*days,2), days, table_id, antiguedad, risk_factor, True)
+                    amount_asimilated_salaries = round((amount_asimilated_salaries/days)*employee.group_id.days,2)
+                    employee.assimilated_salary_gross = amount_asimilated_salaries
+        return True    
             
             
             
-            
-            
-            # ~ else:
-                # ~ today = date.today()
-                # ~ table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
-                # ~ days = employee.group_id.days
-                
-                # ~ if not employee.employer_register_id:
-                    # ~ raise UserError(_('Por favor seleccione un registro patronal'))
-                
-                
-                # ~ antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',0),('form_id','=',self.group_id.antique_table.id)])
-                # ~ minimum_integration_factor = float("{0:.4f}".format((antiguedad.factor/100) + 1)) 
-                
-                
-                # ~ daily_salary = employee.wage_salaries/days
-                # ~ integrated_daily_wage = daily_salary * minimum_integration_factor
-                # ~ salary = daily_salary*days
-                # ~ lower_limit = 0
-                # ~ applicable_percentage = 0
-                # ~ fixed_fee = 0
-                # ~ for table in table_id.isr_monthly_ids:
-                    # ~ if salary > table.lim_inf and salary < table.lim_sup:
-                        # ~ lower_limit = table.lim_inf
-                        # ~ applicable_percentage = (table.s_excedente)/100
-                        # ~ fixed_fee = table.c_fija
-                # ~ lower_limit_surplus = salary - lower_limit
-                # ~ marginal_tax = lower_limit_surplus*applicable_percentage
-                # ~ isr_113 = marginal_tax + fixed_fee
-                # ~ employment_subsidy = 0
-                # ~ for tsub in table_id.isr_monthly_subsidy_ids:
-                    # ~ if salary > tsub.lim_inf and salary < tsub.lim_sup:
-                        # ~ employment_subsidy = tsub.s_mensual
-                # ~ total_perceptions = salary+employment_subsidy
-                # ~ risk_factor = employee.employer_register_id.get_risk_factor(today)
-                
-                
-                # ~ variable_1 = lower_limit - fixed_fee
-                # ~ variable_2 = salary - variable_1
-                # ~ variable_3 = 1 - applicable_percentage
-                # ~ variable_4 = variable_2/variable_3
-                # ~ variable_5 = lower_limit+variable_4-employment_subsidy
-                
-                
-                # ~ work_irrigation = (integrated_daily_wage * risk_factor * days)/100
-                
-                
-                # ~ municipalities = self.env['res.country.state.municipality'].search([('state_id.code', '=', 'DIF')])
-                
-                # ~ SMVDF = municipalities[0].get_salary_min(fields.Date.context_today(self))
-                
-                
-                
-                
-                # ~ benefits_kind_fixed_fee_pattern = (SMVDF*table_id.em_fixed_fee*days)/100
-                # ~ benefits_kind_surplus_standard = 0
-                # ~ if integrated_daily_wage - (SMVDF * 3) > 0:
-                    # ~ benefits_kind_surplus_standard = integrated_daily_wage - (SMVDF * 3) * (table_id.em_surplus_p/100) * days
-                # ~ benefits_excess_insured_kind = 0
-                # ~ if integrated_daily_wage - (SMVDF * 3) > 0:
-                    # ~ benefits_excess_insured_kind = (integrated_daily_wage - (SMVDF * 3)) * (table_id.em_surplus_e/100) * days
-                # ~ benefits_employer_unique_money = integrated_daily_wage * (table_id.em_cash_benefits_p/100) * days
-                # ~ benefits_insured_single_money = integrated_daily_wage * (table_id.em_cash_benefits_e/100) * days
-                # ~ pensioned_medical_expenses_employer = integrated_daily_wage * (table_id.em_personal_medical_expenses_p/100) * days
-                # ~ pensioned_medical_expenses_insured = integrated_daily_wage * (table_id.em_personal_medical_expenses_e/100) * days
-                # ~ disability_life_employer = integrated_daily_wage * (table_id.disability_life_p/100) * days
-                # ~ disability_life_insured = integrated_daily_wage * (table_id.disability_life_e/100) * days
-                # ~ childcare_social_security_expenses_employer = integrated_daily_wage * (table_id.nursery_social_benefits/100) * days
-                # ~ total_imss_employee = benefits_excess_insured_kind + benefits_insured_single_money + pensioned_medical_expenses_insured + disability_life_insured
-                # ~ unemployment_old_age_insured = integrated_daily_wage * (table_id.unemployment_old_age_e/100) * days
-                # ~ total_rcv_infonavit = unemployment_old_age_insured
-                # ~ total_deductions = isr_113  + total_imss_employee + total_rcv_infonavit
-                
-                # ~ variable_5 += total_imss_employee+total_rcv_infonavit
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                # ~ wage_salaries_gross = salary - employment_subsidy + total_deductions
-                
-                
-                # ~ employee.wage_salaries_gross = self.get_value_objetive(self.wage_salaries)
-                # ~ employee.assimilated_salary = employee.monthly_salary - employee.wage_salaries - employee.free_salary
-                # ~ employee.free_salary_gross = employee.free_salary
-                
-                
-
-                # ~ daily_salary_assimilated = employee.assimilated_salary/days
-                # ~ salary_assimilated = daily_salary_assimilated*days/2
-                # ~ fixed_fee_assimilated = 0
-                # ~ applicable_percentage_assimilated = 0
-                # ~ applicable_percentage_assimilated = 0
-                # ~ lower_limit_assimilated = 0
-                # ~ for table in table_id.isr_biweekly_ids:
-                    # ~ if salary_assimilated > table.lim_inf and salary_assimilated < table.lim_sup:
-                        # ~ lower_limit_assimilated = table.lim_inf
-                        # ~ applicable_percentage_assimilated = round((table.s_excedente)/100,4)
-                        # ~ fixed_fee_assimilated = table.c_fija
-                
-                # ~ difference_limit_lower_fixed_fee = lower_limit_assimilated - fixed_fee_assimilated
-                # ~ salary_less_difference = salary_assimilated - difference_limit_lower_fixed_fee
-                # ~ unit_minus_applicable_rate = 1 - applicable_percentage_assimilated
-                # ~ salary_less_difference_factor = round(salary_less_difference / unit_minus_applicable_rate,2)
-                # ~ total_assimilated = salary_less_difference_factor + lower_limit_assimilated
-                
-                # ~ lower_limit_surplus_assimilated = salary_assimilated - lower_limit_assimilated
-                # ~ marginal_tax_assimilated = lower_limit_surplus_assimilated*applicable_percentage_assimilated
-                # ~ isr_assimilated = marginal_tax_assimilated + fixed_fee_assimilated
-                
-                
-                
-                
-                # ~ employee.assimilated_salary_gross = total_assimilated
-        # ~ return True
 
     def set_required_field(self, field_name):
         raise UserError(_('The following fields are required: %s.') %field_name)
