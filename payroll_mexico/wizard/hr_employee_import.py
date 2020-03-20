@@ -107,7 +107,7 @@ class HrEmployeeImport(models.TransientModel):
                 lines = {}
                 bank_data = {}
                 for col in range(sheet.ncols):
-                    if col <= 19 and col != 2 and sheet.cell_value(row,col) == '':
+                    if col <= 19 and col != 2 and sheet.cell_value(row,col) == '' or col == 60 and not sheet.cell_value(row,col):
                         msg_required.append('%s en la fila %s. \n' %(sheet.cell_value(head,col).upper(), str(row+1)))
                     lines['tz'] = self.env.user.tz
                     if col == 0 and sheet.cell_value(row,col):
@@ -603,6 +603,14 @@ class HrEmployeeImport(models.TransientModel):
                                 lines['type_working_day'] = value
                             else:
                                 msg_not_found.append('%s con la clave (%s) en la fila %s. POSIBLES VALORES %s \n' %(sheet.cell_value(head,col).upper(), cell_value, str(row+1),list(type_working_day.keys())))
+                        if col in [60]:
+                            payroll_period = dict(self.env['hr.employee']._fields.get('payroll_period').selection)
+                            cell_value = self.float_to_string(sheet.cell_value(row,col))
+                            value = self.check_selection1(cell_value.strip(), payroll_period)
+                            if value:
+                                lines['payroll_period'] = value
+                            else:
+                                msg_not_found.append('%s con la clave (%s) en la fila %s. POSIBLES VALORES %s \n' %(sheet.cell_value(head,col).upper(), cell_value, str(row+1),list(payroll_period.keys())))
                     if bank_data:
                         lines['bank_account_ids'] = [(0, 0, bank_data)]
                 employees.append(lines)

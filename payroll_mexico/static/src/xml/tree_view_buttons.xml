@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+  <t t-extend="ListView.buttons">
+    <t t-jquery="button.o_list_button_discard" t-operation="after">
+          <t t-if = "widget.modelName == 'hr.employee'">
+            <button name="download_xls"
+            class="btn btn-sm btn-default oe_highlight import_employee_tree_view_button"
+            type="button" model="hr.employee">Importar Empleados</button>
+          </t>
+    </t>
+  </t>
+</templates>

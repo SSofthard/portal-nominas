@@ -58,10 +58,12 @@
             sequence="15"/>
 -->
 
+<!--
         <menuitem
             id="menu_open_employee_import"
             name="Importar empleados"
             parent="hr.menu_hr_root"
             action="action_employee_import_form"
             sequence="20"/>
+-->
 </odoo>
