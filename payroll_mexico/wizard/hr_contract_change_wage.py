@@ -120,7 +120,6 @@ class HrContractChangeWageExport(models.TransientModel):
         rounding = self.env.user.company_id.currency_id.decimal_places or 2
         lang_code = self.env.user.lang or 'en_US'
         date_format = self.env['res.lang']._lang_get(lang_code).date_format
-        date_format = self.env['res.lang']._lang_get(lang_code).date_format
         time_format = self.env['res.lang']._lang_get(lang_code).time_format
 
         row = 1
