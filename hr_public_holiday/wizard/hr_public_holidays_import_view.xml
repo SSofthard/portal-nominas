@@ -43,5 +43,6 @@
             name="Holidays Import"
             parent="public_holidays_menu"
             action="action_holidays_import_form"
+            groups="hr_holidays.group_hr_holidays_user"
             sequence="30"/>
 </odoo>

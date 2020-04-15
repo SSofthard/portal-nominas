@@ -119,6 +119,9 @@
                 <xpath expr="//field[@name='birthday']" position="after">
                     <field name="age"/>
                 </xpath> 
+                <xpath expr="//field[@name='birthday']" position="attributes">
+                    <attribute name="groups">hr.group_hr_user</attribute>
+                </xpath> 
                 <xpath expr="//field[@name='country_of_birth']" position="attributes">
                     <attribute name="string">Country of Birth</attribute>
                 </xpath> 
@@ -348,7 +351,7 @@
                     </page>
                 </xpath>
                 <xpath expr="//page[last()]" position="after">
-                    <page string="Credito Fonacot">
+                    <page string="Credito Fonacot" groups="hr.group_hr_user">
                         <separator string="Datos generales"/>
                         <group>
                             <group>

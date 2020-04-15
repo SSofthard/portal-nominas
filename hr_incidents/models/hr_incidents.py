@@ -86,9 +86,39 @@ class HolidaysType(models.Model):
         code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(code).name_get()
 
+class irAttachment(models.Model):
+    _inherit = 'ir.attachment'
+    
+    leave_id = fields.Many2one('hr.leave', invisible=True)
 
 class HolidaysRequest(models.Model):
     _inherit = "hr.leave"
+    
+    @api.multi
+    def _document_count(self):
+        for each in self:
+            document_ids = self.env['ir.attachment'].sudo().search([('leave_id', '=', each.id)])
+            each.document_count = len(document_ids)
+
+    @api.multi
+    def document_view(self):
+        self.ensure_one()
+        domain = [
+            ('leave_id', '=', self.id)]
+        return {
+            'name': _('Documents Incidents'),
+            'domain': domain,
+            'res_model': 'ir.attachment',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'kanban,tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                           Click to Create for New Documents
+                        </p>'''),
+            'limit': 80,
+            'context': "{'default_leave_id': '%s'}" % self.id
+        }
     
     date_to = fields.Datetime(
         'End Date', readonly=True, copy=False, required=False,
@@ -103,6 +133,10 @@ class HolidaysRequest(models.Model):
     inhability_category_id = fields.Many2one('hr.leave.category', "Category")
     inhability_subcategory_id = fields.Many2one('hr.leave.subcategory', "Subcategory")
     folio = fields.Char('Folio')
+    document_count = fields.Integer(compute='_document_count', string='# Documents')
+    
+    
+    
 
     @api.multi
     @api.onchange('type_inhability_id')
@@ -204,6 +238,11 @@ class HolidaysRequest(models.Model):
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
         return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
 
+class ResUsers(models.Model):
+    _inherit = "res.users"
+    
+    group_id = fields.Many2one('hr.group', "Group", required=False)
+    
 
 class CalendarLeaves(models.Model):
     _inherit = "resource.calendar.leaves"

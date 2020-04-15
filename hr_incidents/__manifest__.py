@@ -7,6 +7,7 @@
     "website" : "http://www.solucionesofthard.com",
     "depends": ['web','hr','hr_holidays','payroll_mexico'],
     "data": [ 
+			'security/hr_holidays_security.xml',
             'security/ir.model.access.csv',
             'report/hr_incidents_report.xml',
             'report/report_inhability_absenteeism_template.xml',

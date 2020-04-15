@@ -491,7 +491,8 @@
             name="Detalles de la nómina"
             action="payroll_mexico.action_report_payslip_line_details" 
             id="report_payslip_line_details" 
-            parent="menu_payroll_line_report_root" 
+            parent="menu_payroll_line_report_root"
+            groups="hr_payroll.group_hr_payroll_user"
             sequence="5"/>
         
     </data>

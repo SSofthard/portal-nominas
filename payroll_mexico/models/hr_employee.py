@@ -131,6 +131,7 @@ class Employee(models.Model):
     bank_account_ids = fields.One2many('bank.account.employee','employee_id', "Bank account", required=True)
     group_id = fields.Many2one('hr.group', "Group", required=True)
     family_ids = fields.One2many('hr.family.burden','employee_id', "Family")
+    birthday = fields.Date('Date of Birth', groups="")
     age = fields.Integer("Age", compute='calculate_age_compute')
     infonavit_ids = fields.One2many('hr.infonavit.credit.line','employee_id', "INFONAVIT credit")
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
