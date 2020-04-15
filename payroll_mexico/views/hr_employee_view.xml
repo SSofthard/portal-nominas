@@ -230,6 +230,7 @@
                                     <field name="beneficiary" />
                                     <field name="reference" />
                                     <field name="bank_account" />
+                                    <field name="account_type" />
                                     <field name="location_branch" />
                                     <field name="predetermined" />
                                 </group>
@@ -239,6 +240,7 @@
                                 <field name="reference" />
                                 <field name="beneficiary" />
                                 <field name="bank_account" />
+                                <field name="account_type" />
                                 <field name="location_branch" />
                                 <field name="predetermined" />
                                 <field name="state" />
