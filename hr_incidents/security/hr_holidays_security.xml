@@ -32,7 +32,7 @@
 	<record id="hr_holidays.hr_leave_rule_employee_update" model="ir.rule">
         <field name="name">Leaves: employee: create/write/unlink not validated own</field>
         <field name="model_id" ref="model_hr_leave"/>
-        <field name="domain_force">['|','|',('group_id','=',user.group_id.id),('employee_id.user_id','=',user.id), ('state', 'in', ['draft', 'confirm', 'cancel', 'refuse'])]</field>
+        <field name="domain_force">['|','|',('group_id','=',user.group_id.id),('employee_id.user_id','=',user.id), ('state', 'in', ['draft', 'confirm', 'cancel', 'refuse','validate1','validate'])]</field>
         <field name="perm_read" eval="False"/>
         <field name="groups" eval="[(4,ref('base.group_user'))]"/>
     </record>
@@ -45,6 +45,20 @@
         <field name="perm_write" eval="False"/>
         <field name="perm_unlink" eval="False"/>
         <field name="groups" eval="[(4,ref('base.group_user')),(4,ref('group_hr_holidays_creation_groups'))]"/>
+    </record>
+    
+    <record id="hr_holidays.hr_leave_allocation_rule_manager" model="ir.rule">
+        <field name="name">Allocations: manager external: no limit</field>
+        <field name="model_id" ref="hr_holidays.model_hr_leave_allocation"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr_holidays.group_hr_holidays_manager')),(4, ref('group_hr_holidays_manager_groups'))]"/>
+    </record>
+    
+    <record id="hr_holidays.resource_leaves_officer" model="ir.rule">
+        <field name="name">Leaves Resources Officer</field>
+        <field name="model_id" ref="resource.model_resource_calendar_leaves"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4,ref('hr_holidays.group_hr_holidays_user')),(4,ref('group_hr_holidays_user_groups'))]"/>
     </record>
 
 </odoo>
