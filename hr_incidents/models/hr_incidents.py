@@ -275,11 +275,6 @@ class HolidaysRequest(models.Model):
             values['date_to'] = request_parameters.get('date_to')
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
         return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
-
-class ResUsers(models.Model):
-    _inherit = "res.users"
-    
-    group_id = fields.Many2one('hr.group', "Group", required=False)
     
 
 class CalendarLeaves(models.Model):

@@ -2171,6 +2171,7 @@ class HrInputs(models.Model):
     input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'confirm': [('readonly', False)]})
     code = fields.Char(string='Code', related="input_id.code")
     state = fields.Selection([
+        ('cancel', 'Cancelled'),
         ('confirm', 'To Approve'),
         ('validate1', 'Second Approval'),
         ('approve', 'Approved'),
@@ -2195,8 +2196,12 @@ class HrInputs(models.Model):
         for inp in self:
             if inp.state == 'confirm':
                 is_officer = self.env.user.has_group('hr_payroll.group_hr_payroll_user')
+                is_officer_external = self.env.user.has_group('payroll_mexico.group_hr_payroll_inputs_user_groups')
                 if not is_officer:
-                    inp.can_approve = False
+                    if not is_officer_external:
+                        inp.can_approve = False
+                    else:
+                        inp.can_approve = True
                 else:
                     inp.can_approve = True
             else:
@@ -2206,22 +2211,31 @@ class HrInputs(models.Model):
     def action_approve(self):
         for inp in self:
             is_officer = self.env.user.has_group('hr_payroll.group_hr_payroll_user')
-            if inp.input_id.double_validation and is_officer:
-                inp.write({'state':'validate1'})
+            is_officer_external = self.env.user.has_group('payroll_mexico.group_hr_payroll_inputs_user_groups')
+            if is_officer or is_officer_external:
+                if inp.input_id.double_validation:
+                    inp.write({'state':'validate1'})
+                else:
+                    inp.write({'state':'approve'})
             else:
-                inp.write({'state':'approve'})
+                raise UserError(_('Only Nomina Manager/Oficial can approve or reject entry records.'))
         return 
         
     @api.multi
     def action_validate(self):
         for inp in self:
             is_manager = self.env.user.has_group('hr_payroll.group_hr_payroll_manager')
-            if is_manager:
+            is_manager_external = self.env.user.has_group('payroll_mexico.group_hr_payroll_inputs_manager_groups')
+            if is_manager or is_manager_external:
                 inp.write({'state':'approve'})
             else:
                 raise UserError(_('Only Nomina Manager can validate or reject entry records.'))
-        return 
-                    
+        return
+    
+    @api.multi
+    def action_refuse(self):
+        for inp in self:
+            inp.write({'state':'cancel'})
 
 
 class HrRuleInput(models.Model):

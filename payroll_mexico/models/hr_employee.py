@@ -632,11 +632,6 @@ class Employee(models.Model):
                     'bank_account_id':bank_account_id,
                         }
                 list_contract.append(contract_obj.create(val).id)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
         return list_contract
 
     def _get_fonacot_amount_debt(self):
@@ -1061,3 +1056,8 @@ class hrCreditsEmployeeAccount(models.Model):
             'employee_id': employee.id,
         }
         return self.create(vals)
+        
+class ResUsers(models.Model):
+    _inherit = "res.users"
+    
+    group_id = fields.Many2one('hr.group', "Group", required=False)

@@ -79,3 +79,6 @@ access_compute_sdi_vars_lines,hr_compute_sdi_vars_lines,model_compute_sdi_vars_l
 access_hr_payslip_line_details,hr_payslip_line_details,model_hr_payslip_line_details,hr_payroll.group_hr_payroll_user,1,1,1,1
 access_wizard_infonavit_employee_details,wizard_infonavit_employee,model_wizard_infonavit_employee,hr_payroll.group_hr_payroll_user,1,1,1,1
 access_hr_contract_holidays,Contract (Holidays),model_hr_contract,hr_holidays.group_hr_holidays_user,1,0,0,0
+acces_inputs_user_creation_groups,Inputs_user (Creation Groups),model_hr_inputs,group_hr_payroll_inputs_creation_groups,1,1,1,0
+acces_inputs_user_creation_user,Inputs_user (Creation Users),model_hr_inputs,group_hr_payroll_inputs_user_groups,1,1,1,0
+acces_hr_rule_input_creation_user,Rule Inputs_user (Creation Users),model_hr_rule_input,group_hr_payroll_inputs_creation_groups,1,0,0,0
