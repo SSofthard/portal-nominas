@@ -47,6 +47,7 @@ class HrEmployeeImport(models.TransientModel):
 
     file_ids = fields.Many2many(string='Layout de empleados', comodel_name='ir.attachment',required=True)
     file_name = fields.Char('Nombre del archivo', related='file_ids.name')
+    create_contract = fields.Boolean(string='Create contract', default=True)
 
     @api.onchange('file_ids')
     def onchange_file_ids(self):

@@ -8,20 +8,27 @@
             <field name="arch" type="xml">
             <form string="Importar Empleados">
                 <group>
-                    <field name="file_ids" widget="many2many_binary"/>
-                    <label for="clean_file_ids" string=""/>
-                    <div class="o_row">
-                        <button
-                            type="object"
-                            name="clean_file_ids"
-                            class="btn-sm btn-link mb4 fa fa-trash-o"
-                            aria-label="Remove File"
-                            title="Remove File"
-                            attrs="{'invisible':[('file_ids', '=', False)]}"
-                            help="Remaining leaves"
-                        />
-                    </div>
-                    <field name="file_name" readonly="1"/>
+                    <group>
+                        <field name="file_ids" widget="many2many_binary"/>
+                        <label for="clean_file_ids" string=""/>
+                        <div class="o_row">
+                            <button
+                                type="object"
+                                name="clean_file_ids"
+                                class="btn-sm btn-link mb4 fa fa-trash-o"
+                                aria-label="Remove File"
+                                title="Remove File"
+                                attrs="{'invisible':[('file_ids', '=', False)]}"
+                                help="Remaining leaves"
+                            />
+                        </div>
+                        <field name="file_name" readonly="1"/>
+                    </group>
+                    <group>
+                        <separator string="Create contract"/>
+                        <field name="create_contract" nolabel="1"/>
+                    </group>
+                    
                 </group>
                 <div>
                     <h2>Cargar layout de empleados</h2>
