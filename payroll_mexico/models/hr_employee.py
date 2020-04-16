@@ -131,6 +131,7 @@ class Employee(models.Model):
     bank_account_ids = fields.One2many('bank.account.employee','employee_id', "Bank account", required=True)
     group_id = fields.Many2one('hr.group', "Group", required=True)
     family_ids = fields.One2many('hr.family.burden','employee_id', "Family")
+    birthday = fields.Date('Date of Birth', groups="")
     age = fields.Integer("Age", compute='calculate_age_compute')
     infonavit_ids = fields.One2many('hr.infonavit.credit.line','employee_id', "INFONAVIT credit")
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
@@ -631,11 +632,6 @@ class Employee(models.Model):
                     'bank_account_id':bank_account_id,
                         }
                 list_contract.append(contract_obj.create(val).id)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
         return list_contract
 
     def _get_fonacot_amount_debt(self):
@@ -1060,3 +1056,17 @@ class hrCreditsEmployeeAccount(models.Model):
             'employee_id': employee.id,
         }
         return self.create(vals)
+        
+class ResUsers(models.Model):
+    _inherit = "res.users"
+    
+    group_id = fields.Many2one('hr.group', "Group", required=False)
+    
+    @api.multi
+    def write(self, values):
+        res = super(ResUsers, self).write(values)
+        if 'group_id' in values:
+            # ~ self.env['ir.model.access'].call_cache_clearing_methods()
+            self.env['ir.rule'].clear_caches()
+            # ~ self.has_group.clear_cache(self)
+        return res

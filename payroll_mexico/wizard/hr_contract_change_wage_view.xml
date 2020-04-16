@@ -102,6 +102,7 @@
         name="Update Contract Salary"
         parent="payroll_mexico.menu_hr_employee_affiliate_movements_root"
         action="contract_change_wage_import_action"
-        sequence="60"/>
+        sequence="60"
+        groups="hr_payroll.group_hr_payroll_manager,hr.group_hr_manager"/>
 
 </odoo>
