@@ -2165,19 +2165,22 @@ class HrSalaryRule(models.Model):
 class HrInputs(models.Model):
     _name = 'hr.inputs'
     
-    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'approve': [('readonly', False)]})
+    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'confirm': [('readonly', False)]})
     payslip = fields.Boolean('Payroll?')
-    amount = fields.Float('Amount', readonly=True, states={'approve': [('readonly', False)]}, digits=(16, 2))
-    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'approve': [('readonly', False)]})
+    amount = fields.Float('Amount', readonly=True, states={'confirm': [('readonly', False)]}, digits=(16, 2))
+    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'confirm': [('readonly', False)]})
     code = fields.Char(string='Code', related="input_id.code")
     state = fields.Selection([
+        ('confirm', 'To Approve'),
+        ('validate1', 'Second Approval'),
         ('approve', 'Approved'),
-        ('paid', 'Reported on payroll')], string='Status', readonly=True, default='approve')
+        ('paid', 'Reported on payroll')], string='Status', readonly=True, default='confirm')
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, store=True)
     group_id = fields.Many2one('hr.group', "Group", related= 'employee_id.group_id', readonly=True, store=True)
-    date_overtime = fields.Date('Fecha', readonly=True, states={'approve': [('readonly', False)]})
+    date_overtime = fields.Date('Fecha', readonly=True, states={'confirm': [('readonly', False)]})
+    can_approve = fields.Boolean('Can Approve', compute='_compute_can_approve')
 
     @api.multi
     def name_get(self):
@@ -2186,6 +2189,39 @@ class HrInputs(models.Model):
             name = '%s %s %s' %(inputs.employee_id.name.upper(), inputs.input_id.name.upper(), str(inputs.amount))
             result.append((inputs.id, name))
         return result
+    
+    @api.depends('state', 'input_id')
+    def _compute_can_approve(self):
+        for inp in self:
+            if inp.state == 'confirm':
+                is_officer = self.env.user.has_group('hr_payroll.group_hr_payroll_user')
+                if not is_officer:
+                    inp.can_approve = False
+                else:
+                    inp.can_approve = True
+            else:
+                inp.can_approve = False
+    
+    @api.multi
+    def action_approve(self):
+        for inp in self:
+            is_officer = self.env.user.has_group('hr_payroll.group_hr_payroll_user')
+            if inp.input_id.double_validation and is_officer:
+                inp.write({'state':'validate1'})
+            else:
+                inp.write({'state':'approve'})
+        return 
+        
+    @api.multi
+    def action_validate(self):
+        for inp in self:
+            is_manager = self.env.user.has_group('hr_payroll.group_hr_payroll_manager')
+            if is_manager:
+                inp.write({'state':'approve'})
+            else:
+                raise UserError(_('Only Nomina Manager can validate or reject entry records.'))
+        return 
+                    
 
 
 class HrRuleInput(models.Model):
@@ -2204,6 +2240,8 @@ class HrRuleInput(models.Model):
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', required=True)
     input_id = fields.Many2one('hr.salary.rule', string='Salary Rule Input', required=False)
+    double_validation = fields.Boolean(string='Apply Double Validation',
+        help="When selected, inputs for this type require a second validation to be approved.")
     
 class HrPayslipLine(models.Model):
     _inherit = 'hr.payslip.line'

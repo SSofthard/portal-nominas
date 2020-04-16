@@ -10,6 +10,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field/tree/field[@name='code']" position="after">
                     <field name="type"/>
+                    <field name="double_validation"/>
                 </xpath> 
                 <xpath expr="//field[@name='register_id']" position="after">
 					<separator colspan="4" string="Regla Asociada (Monto Gravado)" attrs="{'invisible': ['|',('type', '!=', 'perception'),('type_perception', 'in', ['022','023','025'])]}"/>
@@ -57,6 +58,7 @@
 						<field name="name"/>
 						<field name="code"/>
 						<field name="input_id"/>
+						<field name="double_validation"/>
 					</tree>
 				</field>
 			</record>
@@ -71,6 +73,7 @@
 						<group col="4">
 						   <field name="code"/>
 						   <field name="input_id" />
+						   <field name="double_validation" />
 						</group>
 					</form>
 				</field>
@@ -281,8 +284,11 @@
             <field name="model">hr.inputs</field>
             <field name="arch" type="xml">
                 <form string="Inputs">
+					  <field name="can_approve" invisible="1"/>
                       <header>
-                        <field name="state" widget="statusbar" statusbar_visible="approve,paid"/>
+						  <button string="Approve" name="action_approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('can_approve', '=', False), ('state', '!=', 'confirm')]}"/>
+						  <button string="Validate" name="action_validate" states="validate1" type="object" groups="hr_payroll.group_hr_payroll_manager" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="confirm,approve,paid"/>
                       </header>
                       <sheet>
                           <group>
