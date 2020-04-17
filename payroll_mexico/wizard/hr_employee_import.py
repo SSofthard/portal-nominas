@@ -39,6 +39,7 @@ MARITAL = {'Soltero': 'single', 'Casado': 'married', 'Cohabitante legal': 'cohab
 BLOOD_TYPE = {'O-': 'O-', 'O+': 'O+', 'A-': 'A-', 'A+': 'A+', 'B-': 'B-', 'B+': 'B+', 'AB-': 'AB-', 'AB+': 'AB+'}
 CERTIFICATE = {'Licenciado': 'bachelor', 'Máster': 'master', 'Otro': 'other'}
 TYPE_SALARY = {'Bruto': 'gross', 'Neto': 'net'}
+TYPE_CONTRACT = {'Con antigüedad': 'with_seniority', 'Sin antigüedad': 'without_seniority', 'No aplica': 'na'}
 
 
 class HrEmployeeImport(models.TransientModel):
@@ -107,6 +108,8 @@ class HrEmployeeImport(models.TransientModel):
             for row in range(1, sheet.nrows):
                 lines = {}
                 bank_data = {}
+                contracts = {}
+                contracts['row'] = row + 1
                 for col in range(sheet.ncols):
                     if col <= 19 and col != 2 and sheet.cell_value(row,col) == '' or col == 60 and not sheet.cell_value(row,col):
                         msg_required.append('%s en la fila %s. \n' %(sheet.cell_value(head,col).upper(), str(row+1)))
@@ -168,6 +171,7 @@ class HrEmployeeImport(models.TransientModel):
                                 msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                             else:
                                 lines['department_id'] = department_id.id
+                                contracts['department_id'] = department_id.id
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col == 7 and sheet.cell_value(row,col):
@@ -179,6 +183,7 @@ class HrEmployeeImport(models.TransientModel):
                                 msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                             else:
                                 lines['job_id'] = job_id.id
+                                contracts['job_id'] = job_id.id
                                 lines['job_title'] = self.env['hr.job'].search([('id','=',job_id.id)]).name
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
@@ -271,6 +276,7 @@ class HrEmployeeImport(models.TransientModel):
                                 msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                             else:
                                 lines['company_id'] = company_id.id
+                                contracts['company_id'] = company_id.id
                         else:
                             msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                     if col in [16] and sheet.cell_value(row,col):
@@ -508,6 +514,7 @@ class HrEmployeeImport(models.TransientModel):
                             type_salary_50 = self.check_selection(sheet.cell_value(row,col), TYPE_SALARY)
                             if type_salary_50:
                                 lines['type_salary'] = str(type_salary_50)
+                                contracts['type_salary'] = str(type_salary_50)
                             else:
                                 msg_not_found.append('%s con la clave (%s) en la fila %s. POSIBLES VALORES %s \n' 
                                     %(sheet.cell_value(head,col).upper(), sheet.cell_value(row,col), str(row+1),list(TYPE_SALARY.keys())))
@@ -553,6 +560,7 @@ class HrEmployeeImport(models.TransientModel):
                                     bank_data['reference'] = value[0:4]
                                     bank_data['beneficiary'] = '%s %s' %(name, last_name)
                                     bank_data['predetermined'] = True
+                                    contracts['employee'] = '%s %s' %(name, last_name)
                                 else:
                                     msg_not_format.append('%s del valor (%s) en la fila %s.  debe contener 10, 11 ó 18 dígitos\n' 
                                         %(sheet.cell_value(head,col).upper(), sheet.cell_value(row,col), str(row+1)))
@@ -614,7 +622,134 @@ class HrEmployeeImport(models.TransientModel):
                                 msg_not_found.append('%s con la clave (%s) en la fila %s. POSIBLES VALORES %s \n' %(sheet.cell_value(head,col).upper(), cell_value, str(row+1),list(payroll_period.keys())))
                     if bank_data:
                         lines['bank_account_ids'] = [(0, 0, bank_data)]
+                    # Contracts Data
+                    if self.create_contract:
+                        if col in [50]:
+                            monthly_salary = self.validate_float(sheet.cell_value(row,col))
+                            if not monthly_salary:
+                                msg_required.append('%s en la fila %s. \n' %(sheet.cell_value(head,col).upper(), str(row+1)))
+                        if col in [61]:
+                            value = self.float_to_string(sheet.cell_value(row,col)).strip()
+                            domain = [('name','=', value)]
+                            company_assimilated_id = self.check_field_many2one(domain, model='res.company')
+                            if company_assimilated_id:
+                                if len(company_assimilated_id) > 1:
+                                    msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                                else:
+                                    lines['company_id'] = company_id.id
+                                    contracts['company_assimilated_id'] = company_assimilated_id.id
+                            else:
+                                msg_required.append('%s en la fila %s. \n' %(sheet.cell_value(head,col).upper(), str(row+1)))
+                        if col in [62]:
+                            type_contract = self.float_to_string(sheet.cell_value(row,col)).strip()
+                            domain = [('code','=', type_contract)]
+                            type_contract_id = self.check_field_many2one(domain, model='hr.contract.type')
+                            if not type_contract_id:
+                                msg_required.append('%s en la fila %s. \n' %(sheet.cell_value(head,col).upper(), str(row+1)))
+                        if col in [63]:
+                            with_antiquity = self.check_selection(sheet.cell_value(row,col), TYPE_CONTRACT)
+                            if with_antiquity:
+                                type_id = type_contract_id.filtered(lambda t: t.type == with_antiquity and t.report_id)
+                                if not type_id:
+                                    msg_not_found.append('TIPO DE CONTRATO Y %s con las claves ( %s y %s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), type_contract, sheet.cell_value(row,col), str(row+1)))
+                                else:
+                                    contracts['with_antiquity'] = with_antiquity
+                                    contracts['type_id'] = type_id.id
+                            else:
+                                msg_not_found.append('%s con la clave (%s) en la fila %s. POSIBLES VALORES %s \n' %(sheet.cell_value(head,col).upper(), sheet.cell_value(row,col), str(row+1),list(TYPE_CONTRACT.keys())))
+                        if col in [64]:
+                            try:
+                                is_datetime_start = sheet.cell_value(row,col) % 1 != 0.0
+                                dt_start = datetime(*xlrd.xldate.xldate_as_tuple(sheet.cell_value(row,col), book.datemode))
+                                date_start = dt_start.strftime(DEFAULT_SERVER_DATE_FORMAT)
+                                contracts['date_start'] = date_start
+                            except:
+                                msg_required.append('%s en la fila %s. \n' %(sheet.cell_value(head,col).upper(), str(row+1)))
+                        if col in [65]:
+                            if sheet.cell_value(row,col):
+                                try:
+                                    is_datetime_end = sheet.cell_value(row,col) % 1 != 0.0
+                                    dt_end = datetime(*xlrd.xldate.xldate_as_tuple(sheet.cell_value(row,col), book.datemode))
+                                    date_end = dt_end.strftime(DEFAULT_SERVER_DATE_FORMAT)
+                                    contracts['date_end'] = date_end
+                                except:
+                                    msg_not_format.append('%s del valor (%s) en la fila %s (INGRESE FECHAS). \n' %(sheet.cell_value(head,col).upper(), sheet.cell_value(row,col), str(row+1)))
+                        if col in [66]:
+                            if with_antiquity == 'with_seniority':
+                                try:
+                                    is_datetime_prev = sheet.cell_value(row,col) % 1 != 0.0
+                                    dt_prev = datetime(*xlrd.xldate.xldate_as_tuple(sheet.cell_value(row,col), book.datemode))
+                                    date_prev = dt_prev.strftime(DEFAULT_SERVER_DATE_FORMAT)
+                                    contracts['previous_contract_date'] = date_prev
+                                except:
+                                    msg_required.append('%s en la fila %s. \n' %(sheet.cell_value(head,col).upper(), str(row+1)))
+                        if col in [67]:
+                            structure_ss = self.float_to_string(sheet.cell_value(row,col)).strip()
+                            if structure_ss:
+                                domain = [('name','=', structure_ss)]
+                                structure_ss_id = self.check_field_many2one(domain, model='hr.structure.types')
+                                if structure_ss_id:
+                                    if len(structure_ss_id) > 1:
+                                        msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                                    else:
+                                        contracts['structure_ss_id'] = structure_ss_id.id
+                                else:
+                                    msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), structure_ss, str(row+1)))
+                        if col in [68]:
+                            structure_as = self.float_to_string(sheet.cell_value(row,col)).strip()
+                            if structure_as:
+                                domain = [('name','=', structure_as)]
+                                structure_as_id = self.check_field_many2one(domain, model='hr.structure.types')
+                                if structure_as_id:
+                                    if len(structure_as_id) > 1:
+                                        msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                                    else:
+                                        contracts['structure_as_id'] = structure_as_id.id
+                                else:
+                                    msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), structure_as, str(row+1)))
+                        if col in [69]:
+                            structure_free = self.float_to_string(sheet.cell_value(row,col)).strip()
+                            if structure_free:
+                                domain = [('name','=', structure_free)]
+                                structure_free_id = self.check_field_many2one(domain, model='hr.structure.types')
+                                if structure_free_id:
+                                    if len(structure_free_id) > 1:
+                                        msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
+                                    else:
+                                        contracts['structure_free_id'] = structure_free_id.id
+                                else:
+                                    msg_not_found.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), structure_free, str(row+1)))
+                        if col in [70]:
+                            contracting_regime_dic = dict(self.env['hr.employee']._fields.get('contracting_regime').selection)
+                            contracting_regime_value = self.float_to_string(sheet.cell_value(row,col))
+                            if contracting_regime_value:
+                                contracting_regime = self.check_selection1(contracting_regime_value.strip(), contracting_regime_dic)
+                                if contracting_regime:
+                                    contracts['contracting_regime'] = contracting_regime
+                                else:
+                                    msg_not_found.append('%s con la clave (%s) en la fila %s. POSIBLES VALORES %s \n' %(sheet.cell_value(head,col).upper(), contracting_regime_value, str(row+1),list(contracting_regime_dic.keys())))
+                
+                
+                monthly_salary_emp = lines['monthly_salary'] if 'monthly_salary' in lines else 0
+                wage_salaries_emp = lines['wage_salaries'] if 'wage_salaries' in lines else 0
+                free_salary_emp = lines['free_salary'] if 'free_salary' in lines else 0
+                contracts['monthly_salary'] = monthly_salary_emp
+                contracts['wage_salaries'] = wage_salaries_emp
+                contracts['free_salary'] = free_salary_emp
+                lines['contract_ids'] = self._prepare_contract(contracts)
+                
+                # ~ lines['contract_ids'] = 'Aqui va todos los contratos'
+                print (lines)
+                # ~ print (monthly_salary_emp)
+                # ~ print (wage_salaries_emp)
+                # ~ print (free_salary_emp)
+                print ('lines')
+                
                 employees.append(lines)
+            
+            monthly_salary = 0
+            wage_salaries = 0
+            free_salary = 0
             msgs = []
             fields_import = []
             if len(msg_required) > 1:
@@ -630,7 +765,91 @@ class HrEmployeeImport(models.TransientModel):
                 msg_raise="".join(msgs)
                 raise  ValidationError(_(msg_raise))
             return employees
-
+    
+    def _prepare_contract(self, contracts_rows):
+        """ Function doc """
+        # ~ contracts_rows['type_id'] = [(0, 0, bank_data)]
+        contracts = []
+        contract_data = {}
+        if self.create_contract:
+            print (contracts_rows)
+            if contracts_rows['monthly_salary'] <= 0:
+                raise UserError(_('Please indicate the Monthly Salary in row %s') %contracts_rows['row'])
+            total_salaries = contracts_rows['wage_salaries'] + contracts_rows['free_salary']
+            if total_salaries > contracts_rows['monthly_salary']:
+                raise UserError(_(
+                    'The amount of wages and salaries plus the free amount cannot exceed the monthly salary.'))
+            # ~ if contracts_rows['type_salary'] == 'gross':
+            if contracts_rows['wage_salaries'] > 0:
+                contract_data = {
+                    'name': '%s - Sueldos y Salarios' %contracts_rows['employee'],
+                    'department_id': contracts_rows['department_id'],
+                    'job_id': contracts_rows['job_id'],
+                    'wage': contracts_rows['wage_salaries'],
+                    'contracting_regime': '02',
+                    'company_id': contracts_rows['company_id'],
+                    'type_id':contracts_rows['type_id'],
+                    'date_start': contracts_rows['date_start'],
+                    'date_end': contracts_rows['date_end'],
+                    # ~ 'bank_account_id': bank_account_id,
+                    'structure_type_id': contracts_rows['structure_ss_id'],
+                    'state': 'open',
+                }
+                contracts.append((0, 0, contract_data))
+            if contracts_rows['wage_salaries'] < contracts_rows['monthly_salary'] and contracts_rows['free_salary'] <= 0:
+                assimilated_salary = round(contracts_rows['monthly_salary'] - contracts_rows['wage_salaries'], 2)
+                
+                contract_data = {
+                    'name': '%s - Asimilado' %contracts_rows['employee'],
+                    'department_id': contracts_rows['department_id'],
+                    'job_id': contracts_rows['job_id'],
+                    'wage': assimilated_salary,
+                    'contracting_regime': contracts_rows['contracting_regime'],
+                    'company_id': contracts_rows['company_assimilated_id'],
+                    'type_id':contracts_rows['type_id'],
+                    'date_start': contracts_rows['date_start'],
+                    'date_end': contracts_rows['date_end'],
+                    'structure_type_id': contracts_rows['structure_as_id'],
+                    'state': 'open',
+                }
+                contracts.append((0, 0, contract_data))
+            if contracts_rows['wage_salaries'] < contracts_rows['monthly_salary'] and contracts_rows['free_salary'] > 0:
+                assimilated_salary = round(contracts_rows['monthly_salary'] - contracts_rows['wage_salaries'], 2)
+                
+                contract_data = {
+                    'name': '%s - Libre' %contracts_rows['employee'],
+                    'department_id': contracts_rows['department_id'],
+                    'job_id': contracts_rows['job_id'],
+                    'wage': contracts_rows['free_salary'],
+                    'contracting_regime': '05',
+                    # ~ 'company_id': contracts_rows['company_assimilated_id'],
+                    'type_id':contracts_rows['type_id'],
+                    'date_start': contracts_rows['date_start'],
+                    'date_end': contracts_rows['date_end'],
+                    # ~ 'bank_account_id': bank_account_id,
+                    'structure_type_id': contracts_rows['structure_free_id'],
+                    'state': 'open',
+                }
+                contracts.append((0, 0, contract_data))
+            assimilated_salaryw = contracts_rows['free_salary'] + contracts_rows['wage_salaries']
+            if assimilated_salaryw < contracts_rows['monthly_salary'] and contracts_rows['free_salary']  > 0:
+                contract_data = {
+                    'name': '%s - Asimilado' %contracts_rows['employee'],
+                    'department_id': contracts_rows['department_id'],
+                    'job_id': contracts_rows['job_id'],
+                    'wage': assimilated_salaryw,
+                    'contracting_regime': contracts_rows['contracting_regime'],
+                    'company_id': contracts_rows['company_assimilated_id'],
+                    'type_id':contracts_rows['type_id'],
+                    'date_start': contracts_rows['date_start'],
+                    'date_end': contracts_rows['date_end'],
+                    'structure_type_id': contracts_rows['structure_as_id'],
+                    'state': 'open',
+                }
+                contracts.append((0, 0, contract_data))
+        return contracts
+        
+    
     @api.multi
     def clean_file_ids(self):
         self.ensure_one()

@@ -24,9 +24,8 @@
                         </div>
                         <field name="file_name" readonly="1"/>
                     </group>
-                    <group>
-                        <separator string="Create contract"/>
-                        <field name="create_contract" nolabel="1"/>
+                    <group string="Create contract?">
+                        <field name="create_contract"/>
                     </group>
                     
                 </group>

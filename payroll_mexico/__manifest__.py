@@ -48,8 +48,8 @@
         'views/hr_table_index_consume_price_view.xml',
         'views/assets.xml',
         'wizard/hr_contract_change_wage_view.xml',
-        'security/ir.model.access.csv',
         'security/security.xml',
+        'security/ir.model.access.csv',
         #Reports
 
         'report/base_layout.xml',
