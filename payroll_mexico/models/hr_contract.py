@@ -372,16 +372,6 @@ class Contract(models.Model):
             if contract.contracting_regime == '02':
                 contract.integral_salary = contract._calculate_integral_salary()
     
-    contracting_regime = fields.Selection([
-        ('02', 'Wages and salaries'),
-        ('05', 'Free'),
-        ('08', 'Assimilated commission agents'),
-        ('09', 'Honorary Assimilates'),
-        ('11', 'Assimilated others'),
-        ('99', 'Other regime'),
-    ], string='Contracting Regime', required=True, default="02")
-    
-    
     def calculate_salary_scheme(self,wage):
         today = date.today()
         payroll_periods_days = {
