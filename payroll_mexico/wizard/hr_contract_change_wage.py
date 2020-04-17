@@ -358,7 +358,6 @@ class Contract(models.Model):
     _inherit = 'hr.contract'
 
     def create_move_affiliate(self):
-        print (self.contracting_regime)
         if self.contracting_regime and self.contracting_regime != '02':
             vals = {
                 'contract_id': self.id,

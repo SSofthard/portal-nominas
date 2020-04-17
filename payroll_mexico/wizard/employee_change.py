@@ -11,18 +11,24 @@ class EmployeeChangeHistoryWizard(models.TransientModel):
     contract_id = fields.Many2one('hr.contract', index=True, string='Contract')
     wage = fields.Float('Wage', digits=(16, 2), help="Employee's monthly gross wage.")
     date_from = fields.Date(string="Start Date", default=fields.Date.today())
+    type_salary = fields.Selection([
+        ('gross', 'Gross'),
+        ('net', 'Net'),
+    ],"Real Salary", default="gross", required=True)
 
     def apply_change(self):
         affiliate_movements = self.env['hr.employee.affiliate.movements'].search([('contract_id','=',self.contract_id.id),('type','=','07'),('state','in',['draft','generated']),('contracting_regime','in',['02'])])
         if affiliate_movements:
             raise ValidationError(_('There is already an affiliate movement for salary change in draft or generated status, please check and if you want to generate a new one, delete the current one.'))
-        self.contract_id.wage = self.wage
+        
+        if self.type_salary == 'gross':
+            wage = self.wage
+        else:
+            wage = self.contract_id.calculate_salary_scheme(self.wage)
+                    
+        
+        self.contract_id.wage = wage
         integral_salary = self.contract_id._calculate_integral_salary()
-        print (integral_salary)
-        print (integral_salary)
-        print (integral_salary)
-        print (integral_salary)
-        print (integral_salary)
         self.contract_id.integral_salary = integral_salary
         val = {
             'contract_id':self.contract_id.id,
