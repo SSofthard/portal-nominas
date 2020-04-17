@@ -49,6 +49,12 @@
                             string="Imprimir detalles de nómina"
                         >
                         </button>
+                        <button name="%(action_wizard_payroll_dispersion_txt)d"
+                            type="action"
+                            string="Imprimir dispersión txt"
+                        >
+                        </button>
+
                 </xpath>
                 <xpath expr="//field[@name='date_start']" position="attributes">
                     <attribute name="attrs">{'readonly': [('generated','=',True)]}</attribute>

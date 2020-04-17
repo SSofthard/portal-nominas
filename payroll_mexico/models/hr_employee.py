@@ -664,6 +664,11 @@ class bankDetailsEmployee(models.Model):
     reference = fields.Char("Reference", copy=False, required=True)
     location_branch = fields.Char("Location / Branch")
     predetermined = fields.Boolean("Predetermined", copy=False, required=False)
+    account_type = fields.Selection([
+        ('001', 'Cuenta'),
+        ('040', 'CLABE'),
+        ('003', 'Tarjeta de débito'),
+    ], "Tipo de cuenta", required=False)
     state = fields.Selection([
         ('active', 'Active'),
         ('inactive', 'Inactive'),
