@@ -859,7 +859,7 @@ class HrEmployeeImport(models.TransientModel):
     @api.multi
     def import_data(self):
         if not self.file_name:
-            raise UserError('Do not load with without a file, or with a file with incorrect data..')
+            raise UserError('Do not load with without a file, or with a file with incorrect data.')
         employees = self.read_document()
         if employees:
              for emp in employees:
