@@ -797,8 +797,7 @@ class HrEmployeeImport(models.TransientModel):
                 }
                 contracts.append((0, 0, contract_data))
             if contracts_rows['wage_salaries'] < contracts_rows['monthly_salary'] and contracts_rows['free_salary'] <= 0:
-                assimilated_salary = round(contracts_rows['monthly_salary'] - contracts_rows['wage_salaries'], 2)
-                
+                assimilated_salary = round(contracts_rows['monthly_salary'] - (contracts_rows['wage_salaries'] + contracts_rows['free_salary']), 2)
                 contract_data = {
                     'name': '%s - Asimilado' %contracts_rows['employee'],
                     'department_id': contracts_rows['department_id'],
@@ -814,8 +813,6 @@ class HrEmployeeImport(models.TransientModel):
                 }
                 contracts.append((0, 0, contract_data))
             if contracts_rows['wage_salaries'] < contracts_rows['monthly_salary'] and contracts_rows['free_salary'] > 0:
-                assimilated_salary = round(contracts_rows['monthly_salary'] - contracts_rows['wage_salaries'], 2)
-                
                 contract_data = {
                     'name': '%s - Libre' %contracts_rows['employee'],
                     'department_id': contracts_rows['department_id'],
@@ -831,10 +828,10 @@ class HrEmployeeImport(models.TransientModel):
                     'state': 'open',
                 }
                 contracts.append((0, 0, contract_data))
-            assimilated_salaryw = contracts_rows['free_salary'] + contracts_rows['wage_salaries']
+            assimilated_salaryw = round(contracts_rows['monthly_salary'] - (contracts_rows['wage_salaries'] + contracts_rows['free_salary']), 2)
             if assimilated_salaryw < contracts_rows['monthly_salary'] and contracts_rows['free_salary']  > 0:
                 contract_data = {
-                    'name': '%s - Asimilado' %contracts_rows['employee'],
+                    'name': '%s - Asimilado ss' %contracts_rows['employee'],
                     'department_id': contracts_rows['department_id'],
                     'job_id': contracts_rows['job_id'],
                     'wage': assimilated_salaryw,
@@ -846,6 +843,7 @@ class HrEmployeeImport(models.TransientModel):
                     'structure_type_id': contracts_rows['structure_as_id'],
                     'state': 'open',
                 }
+                print (contract_data)
                 contracts.append((0, 0, contract_data))
         return contracts
         
