@@ -292,43 +292,21 @@ class Contract(models.Model):
     def time_worked_year(self,date_payroll,settlement=None):
         date_from = self.date_start
         date_to = self.date_end
-        print (date_from)
-        print (date_to)
         days = 0
         if self.type_id.type == 'with_seniority':
             date_from = self.previous_contract_date
         date1 =datetime.strptime(str(str(date_payroll.year)+'-01-01'), DEFAULT_SERVER_DATE_FORMAT).date()
-        print (date1)
         if date_from <= date1:
-            print (8888)
-            print (8888)
-            print (8888)
-            print (8888)
             days = 365
             if settlement:
                 date2 =datetime.strptime(str(str(date_payroll.year)+'-01-01'), DEFAULT_SERVER_DATE_FORMAT).date()
                 days =  (date_to - date2).days
         else:
-            print (9999)
-            print (9999)
-            print (9999)
-            print (9999)
-            print (9999)
             if not settlement:
                 date2 =datetime.strptime(str(str(date_payroll.year)+'-12-31'), DEFAULT_SERVER_DATE_FORMAT).date()
                 days = (date2 - date_from).days
             else:
-                print ('estoy por aca')
-                print ('estoy por aca')
-                print ('estoy por aca')
-                print ('estoy por aca')
                 days = (date_to - date_from).days
-        
-        print (days)
-        print (days)
-        print (days)
-        print (days)
-        print (days)
         worked_days = self.env['hr.payslip.worked_days']
         days_discount = sum(worked_days.search([('payslip_id.employee_id','=',self.employee_id.id),
                                             ('code','in',['F01','F04']),
@@ -381,12 +359,8 @@ class Contract(models.Model):
         years_antiquity = self.years_antiquity + 1 if self.days_rest > 0 else self.years_antiquity
         antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',years_antiquity),('form_id','=',self.employee_id.group_id.antique_table.id)])
         daily_salary = self.wage / self.employee_id.group_id.days if self.employee_id.group_id.days else self.wage / 30
-        print (daily_salary)
         daily_salary = float("{0:.4f}".format(daily_salary))
-        print (antiguedad.factor)
-        print (round(((antiguedad.factor/100)+1),4))
         integral_salary =  daily_salary * round(((antiguedad.factor/100)+1),4)
-        print (integral_salary)
         return float("{0:.4f}".format(integral_salary))
         
     def _get_integral_salary(self):
@@ -397,6 +371,32 @@ class Contract(models.Model):
         for contract in contracts:
             if contract.contracting_regime == '02':
                 contract.integral_salary = contract._calculate_integral_salary()
+    
+    def calculate_salary_scheme(self,wage):
+        today = date.today()
+        payroll_periods_days = {
+                '05': 30,
+                '04': 15,
+                '02': 7,
+                '10': 10,
+                '01': 1,
+                '99': 1,
+                }
+        days = payroll_periods_days[self.employee_id.payroll_period]*(self.employee_id.group_id.days/30)
+        table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
+        risk_factor = self.employee_id.employer_register_id.get_risk_factor(today)
+        years_antiquity = self.years_antiquity + 1 if self.days_rest > 0 else self.years_antiquity
+        antiquity = self.env['tablas.antiguedades.line'].search([('antiguedad','=',int(years_antiquity)),('form_id','=',self.employee_id.group_id.antique_table.id)])
+        amount_wage_salaries = 0
+        if self.contracting_regime == '02':
+            amount_wage_salaries = self.employee_id.get_value_objetive(round((wage/self.employee_id.group_id.days)*days,2), days, table_id, antiquity, risk_factor)
+            amount_wage_salaries = round((amount_wage_salaries/days)*self.employee_id.group_id.days,2)
+        elif self.contracting_regime in ['05','99']:
+            amount_wage_salaries = wage
+        else:
+            amount_wage_salaries = self.employee_id.get_value_objetive(round(wage/self.employee_id.group_id.days*days,2), days, table_id, antiquity, risk_factor, True)
+            amount_wage_salaries = round((amount_wage_salaries/days)*self.employee_id.group_id.days,2)
+        return amount_wage_salaries
         
 
 class FixedConcepts(models.Model):
