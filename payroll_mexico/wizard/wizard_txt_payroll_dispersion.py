@@ -105,17 +105,22 @@ class payrollDispersionTxtWizard(models.TransientModel):
         for payslip in slip_ids:
             company_bank_account = payslip.company_id.bank_account_ids.filtered(lambda account: account.predetermined)
             bank_account = payslip.employee_id.bank_account_ids.filtered(lambda account: account.predetermined)
+            operation = ''
+            if bank_account.account_type == '001':
+                operation = '02'
+            if bank_account.account_type == '040':
+                operation = '04'
             content+='%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' % (
-                '04',
+                operation,
                 payslip.employee_id.barcode.ljust(13),
                 company_bank_account.bank_account.ljust(10) if company_bank_account else ''.ljust(10),
                 bank_account.bank_account.ljust(20),
                 payslip.line_ids.filtered(lambda line: line.category_id.code == 'NET').total,
-                payslip.payment_date,
+                payslip.payment_date.strftime('%d%m%y'),
                 'pago',
                 payslip.company_id.rfc.ljust(13),
-                payslip.amount_tax,
-                payslip.payment_date,
+                0,
+                payslip.payment_date.strftime('%d%m%Y'),
                 'x',
                 '0',
             )
