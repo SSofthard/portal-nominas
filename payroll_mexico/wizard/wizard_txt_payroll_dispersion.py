@@ -119,7 +119,7 @@ class payrollDispersionTxtWizard(models.TransientModel):
                 payslip.payment_date.strftime('%d%m%y'),
                 'pago',
                 payslip.company_id.rfc.ljust(13),
-                payslip.amount_tax,
+                0,
                 payslip.payment_date.strftime('%d%m%Y'),
                 'x',
                 '0',
