@@ -79,3 +79,55 @@ class payrollDispersionTxtWizard(models.TransientModel):
             'views': [(False, 'form')],
             'target': 'new',
         }
+
+    @api.multi
+    def report_print_payments(self):
+        '''
+        Este metodo es para imprimir el txt de los movimientso afiliatorios
+        '''
+        output = io.BytesIO()
+        payslip_run_id = self.env.context.get('active_id')
+        payslip_run = self.env['hr.payslip.run'].browse([payslip_run_id])
+        f_name = 'Dispersion %s' % (payslip_run.name)
+        slip_ids = payslip_run.slip_ids
+        if self.bank_id:
+            slip_ids = slip_ids.filtered(
+                    lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
+                        lambda account: account.predetermined).bank_id.id == self.bank_id.id)
+        if self.account_type:
+            slip_ids = slip_ids.filtered(
+            lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
+                lambda account: account.predetermined).account_type == self.account_type)
+        content = ''
+        if not slip_ids:
+            raise UserError('No existen registros para los filtros definidos')
+        count = 0
+        for payslip in slip_ids:
+            company_bank_account = payslip.company_id.bank_account_ids.filtered(lambda account: account.predetermined)
+            bank_account = payslip.employee_id.bank_account_ids.filtered(lambda account: account.predetermined)
+            content+='%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' % (
+                '04',
+                payslip.employee_id.barcode.ljust(13),
+                company_bank_account.bank_account.ljust(10) if company_bank_account else ''.ljust(10),
+                bank_account.bank_account.ljust(20),
+                payslip.line_ids.filtered(lambda line: line.category_id.code == 'NET').total,
+                payslip.payment_date,
+                'pago',
+                payslip.company_id.rfc.ljust(13),
+                payslip.amount_tax,
+                payslip.payment_date,
+                'x',
+                '0',
+            )
+        data = base64.encodebytes(bytes(content, 'utf-8'))
+        export_id = self.env['payroll.dispersion.txt'].create(
+            {'txt_file': data, 'file_name': f_name + '.txt'})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'payroll.dispersion.txt',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': export_id.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
