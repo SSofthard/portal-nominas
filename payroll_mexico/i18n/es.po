@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 07:59+0000\n"
-"PO-Revision-Date: 2020-04-16 07:59+0000\n"
+"POT-Creation-Date: 2020-04-17 06:50+0000\n"
+"PO-Revision-Date: 2020-04-17 06:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,8 +33,8 @@ msgid "%g días restantes de %g"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:811
-#: code:addons/payroll_mexico/models/hr_employee.py:826
+#: code:addons/payroll_mexico/models/hr_employee.py:816
+#: code:addons/payroll_mexico/models/hr_employee.py:831
 #, python-format
 msgid "%s Sequence"
 msgstr "%s Secuencia"
@@ -3112,7 +3112,7 @@ msgid "Amount of the agreement"
 msgstr "Monto del acuerdo"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:911
+#: code:addons/payroll_mexico/models/hr_employee.py:916
 #, python-format
 msgid "An active INFONAVIT credit already exists for the employee."
 msgstr "Ya existe un crédito de INFONAVIT activo para el empleado"
@@ -5012,7 +5012,7 @@ msgstr ""
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:87
 #: code:addons/payroll_mexico/models/hr_company.py:428
-#: code:addons/payroll_mexico/models/hr_employee.py:997
+#: code:addons/payroll_mexico/models/hr_employee.py:1002
 #, python-format
 msgid "Código Postal incorrecto"
 msgstr ""
@@ -5582,7 +5582,7 @@ msgid "Do not grant if the following incidents occur."
 msgstr "No otorgar si ocurren los siguientes incidentes"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:343
+#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:347
 #, python-format
 msgid "Do not load with without a file, or with a file with incorrect data."
 msgstr "Debe seleccionar un archivo excel, con datos correctos."
@@ -5596,7 +5596,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_ir_attachment
 msgid "Document"
-msgstr "Documento"
+msgstr ""
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_fees_settlement_form_view
@@ -6840,7 +6840,9 @@ msgid "Gratificación Anual (Aguinaldo)"
 msgstr ""
 
 #. module: payroll_mexico
+#: selection:hr.contract.change.wage.import,type_salary:0
 #: selection:hr.employee,type_salary:0
+#: selection:hr.employee.change.history.wizard,type_salary:0
 msgid "Gross"
 msgstr "Bruto"
 
@@ -6897,8 +6899,8 @@ msgid "Group/Company"
 msgstr "Grupo/Empresa"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:809
-#: code:addons/payroll_mexico/models/hr_employee.py:824
+#: code:addons/payroll_mexico/models/hr_employee.py:814
+#: code:addons/payroll_mexico/models/hr_employee.py:829
 #, python-format
 msgid "Group: "
 msgstr "Grupo/Empresa: "
@@ -8864,7 +8866,9 @@ msgid "Nationality (Country)"
 msgstr "Nacionalidad (País)"
 
 #. module: payroll_mexico
+#: selection:hr.contract.change.wage.import,type_salary:0
 #: selection:hr.employee,type_salary:0
+#: selection:hr.employee.change.history.wizard,type_salary:0
 msgid "Net"
 msgstr "Neto"
 
@@ -10465,8 +10469,10 @@ msgid "Razón de la baja"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract_change_wage_import__type_salary
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__real_salary
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__type_salary
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_change_history_wizard__type_salary
 msgid "Real Salary"
 msgstr "Salario Real"
 
@@ -11761,28 +11767,28 @@ msgid "The date cannot be less than the date of registration of the INFONAVIT cr
 msgstr "La fecha no puede ser inferior a la fecha de registro del crédito INFONAVIT."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:583
+#: code:addons/payroll_mexico/models/hr_employee.py:588
 #, python-format
 msgid "The employee has currently open contracts."
 msgstr "El empleado tiene contratos abiertos actualmente."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/employee_change.py:129
+#: code:addons/payroll_mexico/wizard/employee_change.py:135
 #: code:addons/payroll_mexico/wizard/wizard_compute_sdi_vars.py:156
 #: code:addons/payroll_mexico/wizard/wizard_employee_catalogs.py:91
 #: code:addons/payroll_mexico/wizard/wizard_expired_contracts.py:67
 #, python-format
 msgid "The end date cannot be less than the start date "
-msgstr "La fecha de finalización no puede ser inferior a la fecha de inicio"
+msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:543
+#: code:addons/payroll_mexico/models/hr_employee.py:548
 #, python-format
 msgid "The following fields are required: %s."
 msgstr "Se requieren los siguientes campos: %s."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:752
+#: code:addons/payroll_mexico/models/hr_employee.py:757
 #, python-format
 msgid "The group name must contain three or more characters."
 msgstr "El nombre del grupo debe contener tres o más caracteres."
@@ -11793,7 +11799,7 @@ msgid "The next sequence number will be used for the next invoice."
 msgstr "El siguiente número de secuencia se usará para la próxima factura."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:706
+#: code:addons/payroll_mexico/models/hr_employee.py:711
 #, python-format
 msgid "The number of days cannot be less than or equal to zero."
 msgstr "El número de días no puede ser menor o igual a cero."
@@ -11827,7 +11833,7 @@ msgid "There is already a record with the same year.!"
 msgstr "Ya hay un registro con el mismo año.!"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/employee_change.py:18
+#: code:addons/payroll_mexico/wizard/employee_change.py:22
 #, python-format
 msgid "There is already an affiliate movement for salary change in draft or generated status, please check and if you want to generate a new one, delete the current one."
 msgstr "Ya existe un movimiento de afiliados para el cambio de salario en el estado de borrador o generado, verifique y si desea generar uno nuevo, elimine el actual."
@@ -11865,7 +11871,7 @@ msgid "This field contains information related to the numbering of employees est
 msgstr "Este campo contiene información relacionada con la numeración de empleados establecida por grupo."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:848
+#: code:addons/payroll_mexico/models/hr_employee.py:853
 #, python-format
 msgid "This group already contains items, therefore you cannot modify its name."
 msgstr "Este grupo ya contiene elementos, por lo tanto, no puede modificar su nombre."
@@ -12802,7 +12808,7 @@ msgid "Wages and salaries"
 msgstr "Sueldos y salarios"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:232
+#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:236
 #: code:addons/payroll_mexico/wizard/hr_employee_import.py:91
 #, python-format
 msgid "Warning! \n"
@@ -12953,13 +12959,13 @@ msgid "You cannot delete payroll processing in \"Close\" status."
 msgstr "No puede eliminar procesamientos de nóminas en estado 'Cerrado'"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:585
+#: code:addons/payroll_mexico/models/hr_employee.py:590
 #, python-format
 msgid "You must select a company for the salary and salary contract."
 msgstr "Debe seleccionar una empresa para el salario y el contrato salarial."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:588
+#: code:addons/payroll_mexico/models/hr_employee.py:593
 #, python-format
 msgid "You must select a company for the salary-like contract."
 msgstr "Debe seleccionar una empresa para el contrato salarial."
@@ -13348,8 +13354,8 @@ msgid "mismo que señala para todos los fines legales derivados o que se deriven
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:809
-#: code:addons/payroll_mexico/models/hr_employee.py:824
+#: code:addons/payroll_mexico/models/hr_employee.py:814
+#: code:addons/payroll_mexico/models/hr_employee.py:829
 #, python-format
 msgid "name"
 msgstr "Nombre"
