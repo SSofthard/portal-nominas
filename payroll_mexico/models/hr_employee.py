@@ -355,6 +355,7 @@ class Employee(models.Model):
     def get_subsidio_empleo(self, sueldo_bruto,table_id):
         '''Este metodo obtiene el monto de subsidio al empleo determinado por el sueldo bruto'''
         today = fields.Date.context_today(self)
+        subsidio = ''
         if self.payroll_period == '01':
             subsidio = self.env['table.isr.daily.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
         if self.payroll_period == '02':
