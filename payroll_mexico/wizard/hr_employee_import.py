@@ -793,16 +793,16 @@ class HrEmployeeImport(models.TransientModel):
         if employee_id.wage_salaries_gross > 0:
             # Create contracts WAGES AND SALARIES - SS
             if 'structure_ss_id' not in contracts_data:
-                msg = 'SALARY STRUCTURE (WAGES AND SALARIES) is required in the row %s.\n' %contracts_data['row']
+                msg = 'ESTRUCTURA DE SALARIAL (SUELDOS Y SALARIOS) es requeirodo en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'type_id' not in contracts_data:
-                msg = 'TYPE OF CONTRACT is required in the row %s.\n' %contracts_data['row']
+                msg = 'TIPO DE CONTRATO es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'date_start' not in contracts_data:
-                msg = 'DATE START is required in the row %s.\n' %contracts_data['row']
+                msg = 'FECHA DE INICIO es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'with_antiquity' in contracts_data and contracts_data['with_antiquity'] == 'with_antiquity' and not 'previous_contract_date' in contracts_data:
-                msg = 'PREVIOUS CONTRACT DATE is required in the row %s.\n' %contracts_data['row']
+                msg = 'FECHA DE CONTRATO ANTERIOR es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if msgs:
                 msg_raise="".join(msgs)
@@ -828,19 +828,19 @@ class HrEmployeeImport(models.TransientModel):
         if employee_id.assimilated_salary_gross > 0:
             # Create contracts ASSIMILATED - AS
             if 'structure_as_id' not in contracts_data:
-                msg = 'SALARY STRUCTURE (ASSIMILATED) is required in the row %s.\n' %contracts_data['row']
+                msg = 'ESTRUCTURA SALARIAL (ASIMILADOS) es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'type_id' not in contracts_data:
-                msg = 'TYPE OF CONTRACT is required in the row %s.\n' %contracts_data['row']
+                msg = 'TIPO DE CONTRATO es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'date_start' not in contracts_data:
-                msg = 'DATE START is required in the row %s.\n' %contracts_data['row']
+                msg = 'FECHA DE INICIO es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'contracting_regime' not in contracts_data:
-                msg = 'CONTRACTING REGIME is required in the row %s.\n' %contracts_data['row']
+                msg = 'CONTRACTING REGIME es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'with_antiquity' in contracts_data and contracts_data['with_antiquity'] == 'with_antiquity' and not 'previous_contract_date' in contracts_data:
-                msg = 'PREVIOUS CONTRACT DATE is required in the row %s.\n' %contracts_data['row']
+                msg = 'FECHA DE CONTRATO ANTERIOR es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if msgs:
                 msg_raise="".join(msgs)
@@ -867,16 +867,16 @@ class HrEmployeeImport(models.TransientModel):
         if employee_id.free_salary_gross > 0:
             # Create contracts FREE
             if 'structure_free_id' not in contracts_data:
-                msg = 'SALARY STRUCTURE (FREE) is required in the row %s.\n' %contracts_data['row']
+                msg = 'ESTRUCTURA SALARIAL (LIBRE) es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'type_id' not in contracts_data:
-                msg = 'TYPE OF CONTRACT is required in the row %s.\n' %contracts_data['row']
+                msg = 'TIPO DE CONTRATO es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'date_start' not in contracts_data:
-                msg = 'DATE START is required in the row %s.\n' %contracts_data['row']
+                msg = 'FECHA DE INICIO es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if 'with_antiquity' in contracts_data and contracts_data['with_antiquity'] == 'with_antiquity' and not 'previous_contract_date' in contracts_data:
-                msg = 'PREVIOUS CONTRACT DATE is required in the row %s.\n' %contracts_data['row']
+                msg = 'FECHA DE CONTRATO ANTERIOR es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
             if msgs:
                 msg_raise="".join(msgs)
@@ -911,12 +911,13 @@ class HrEmployeeImport(models.TransientModel):
     @api.multi
     def import_data(self):
         if not self.file_name:
-            raise UserError('Do not load with without a file, or with a file with incorrect data.')
+            raise UserError(_('Do not load with without a file, or with a file with incorrect data.'))
         employees = self.read_document()
         if employees:
              for emp in employees:
                 contract_data = emp['contract_data']
                 del emp['contract_data']
                 employee_id = self.env['hr.employee'].create(emp).sudo()
-                self._prepare_contract(employee_id, contract_data)
+                if self.create_contract:
+                    self._prepare_contract(employee_id, contract_data)
         return {'type': 'ir.actions.client', 'tag': 'reload'}
