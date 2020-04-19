@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-17 19:50+0000\n"
-"PO-Revision-Date: 2020-04-17 19:50+0000\n"
+"POT-Creation-Date: 2020-04-19 08:16+0000\n"
+"PO-Revision-Date: 2020-04-19 08:16+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -955,8 +955,8 @@ msgstr "<p class=\"oe_view_nocontent_create\">\n"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:389
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:456
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:480
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:476
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:500
 #, python-format
 msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                           Click to Create for New Documents\n"
@@ -3468,7 +3468,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_payslip.py:1693
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:495
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:515
 #, python-format
 msgid "Aviso!"
 msgstr ""
@@ -3577,7 +3577,7 @@ msgid "Base 30 días mensuales"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:473
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:493
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_mexico_form
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_mexico_form
 #, python-format
@@ -5384,7 +5384,7 @@ msgid "Detalles de Impuestos"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:449
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:469
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.report_payslip_line_template
 #, python-format
 msgid "Detalles de Nómina"
@@ -5640,7 +5640,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_ir_attachment
 msgid "Document"
-msgstr "Documento"
+msgstr ""
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_fees_settlement_form_view
@@ -6928,6 +6928,7 @@ msgstr "Salario bruto"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__group_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_work_center__group_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__group_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__group_companys_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_users__group_id
 #: model:ir.ui.menu,name:payroll_mexico.menu_group_configuration
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_mployee_inherit_search
@@ -7675,6 +7676,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__incapacidades
 msgid "Incapacidades"
 msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__incidence_awaiting_approval
+msgid "Incidence awaiting approval"
+msgstr "Incidencia en espera de aprobación"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:51
@@ -9129,7 +9135,7 @@ msgid "Nos reservamos el derecho de efectuar en cualquier momento modificaciones
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:297
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:317
 #, python-format
 msgid "Nose encontraron valores para totalizar en la categoría NETO."
 msgstr "No se encontraron valores para totalizar en la categoría NETO"
@@ -9150,6 +9156,11 @@ msgstr "Número de notario público"
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_users__notary_public
 msgid "Notary Public?"
 msgstr "Notario público?"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_mexico_form
+msgid "Notice! There are records of Incidents (Absences or Entries) awaiting approval for the payroll period."
+msgstr "¡Aviso! Hay registros de incidentes (ausencias o entradas) en espera de aprobación para el período de nómina."
 
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
@@ -9611,7 +9622,7 @@ msgid "Pantry Voucher (UMA)"
 msgstr "Vale de despensa (UMA)"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:290
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:310
 #, python-format
 msgid "Para Cargar 'Honorarios' a la nómina establesca el valor del porcentaje al registro del 'Grupo/Empresa'."
 msgstr ""
@@ -9655,7 +9666,7 @@ msgid "Para invalidez e Infonavit (UMA)"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:561
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:581
 #, python-format
 msgid "Para poder cerrar la nómina debe agregar la Fecha de pago."
 msgstr ""
@@ -13040,13 +13051,13 @@ msgid "You cannot delete affiliate movements that are not in \"Draft\" status."
 msgstr "No puede eliminar movimientos de afiliados que no estén en estado \"Borrador\"."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:606
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:626
 #, python-format
 msgid "You cannot delete payroll in \"Done\" status."
 msgstr "No puede eliminar nóminas en estado 'Hecho'"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:603
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:623
 #, python-format
 msgid "You cannot delete payroll processing in \"Close\" status."
 msgstr "No puede eliminar procesamientos de nóminas en estado 'Cerrado'"

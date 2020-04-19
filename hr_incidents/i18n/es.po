@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 07:48+0000\n"
-"PO-Revision-Date: 2020-04-16 07:48+0000\n"
+"POT-Creation-Date: 2020-04-19 08:09+0000\n"
+"PO-Revision-Date: 2020-04-19 08:09+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -202,7 +202,7 @@ msgstr "Creado el"
 #. module: hr_incidents
 #: model:res.groups,name:hr_incidents.group_hr_holidays_creation_groups
 msgid "Creations"
-msgstr "Cración"
+msgstr "Creación"
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability_absenteeism_wizard__department_ids
@@ -225,7 +225,7 @@ msgstr "Nombre mostrado"
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_ir_attachment
 msgid "Document"
-msgstr "Documentos"
+msgstr "Documento"
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_form
@@ -566,7 +566,7 @@ msgstr "La solicitud de licencia debe confirmarse (\"Para aprobar\") para aproba
 #. module: hr_incidents
 #: model:ir.module.category,name:hr_incidents.module_category_hr_holidays_groups
 msgid "Leaves (Groups/Company)"
-msgstr ""
+msgstr "Ausencias (Grupo/Empresa)"
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
@@ -925,11 +925,6 @@ msgstr "Subir archivo"
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
 msgid "Upload the excel file"
 msgstr "Sube el archivo de Excel"
-
-#. module: hr_incidents
-#: model:ir.model,name:hr_incidents.model_res_users
-msgid "Users"
-msgstr "Usuarios"
 
 #. module: hr_incidents
 #: model:hr.leave.type,name:hr_incidents.leave_type_22
