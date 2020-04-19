@@ -25,14 +25,14 @@
     <record id="hr_employee_per_group_creation" model="ir.rule">
         <field name="name">Employees filtered by group</field>
         <field name="model_id" ref="hr.model_hr_employee"/>
-        <field name="domain_force">[('group_id','=',user.group_id.id)]</field>
+        <field name="domain_force">[('group_id','=',user.group_companys_id.ids)]</field>
         <field name="groups" eval="[(4,ref('group_hr_holidays_creation_groups'))]"/>
     </record>
 
 	<record id="hr_holidays.hr_leave_rule_employee_update" model="ir.rule">
         <field name="name">Leaves: employee: create/write/unlink not validated own</field>
         <field name="model_id" ref="model_hr_leave"/>
-        <field name="domain_force">['|','|',('group_id','=',user.group_id.id),('employee_id.user_id','=',user.id), ('state', 'in', ['draft', 'confirm', 'cancel', 'refuse','validate1','validate'])]</field>
+        <field name="domain_force">['|','|',('group_id','=',user.group_companys_id.ids),('employee_id.user_id','=',user.id), ('state', 'in', ['draft', 'confirm', 'cancel', 'refuse','validate1','validate'])]</field>
         <field name="perm_read" eval="False"/>
         <field name="groups" eval="[(4,ref('base.group_user'))]"/>
     </record>
@@ -40,7 +40,7 @@
 	<record id="hr_holidays.hr_leave_rule_employee" model="ir.rule">
         <field name="name">Leaves: employee: read all</field>
         <field name="model_id" ref="model_hr_leave"/>
-        <field name="domain_force">['|',('group_id','in',[user.group_id.id,False]),('employee_id.user_id','=',user.id)]</field>
+        <field name="domain_force">['|',('group_id','in',user.group_companys_id.ids+[False]),('employee_id.user_id','=',user.id)]</field>
         <field name="perm_create" eval="False"/>
         <field name="perm_write" eval="False"/>
         <field name="perm_unlink" eval="False"/>

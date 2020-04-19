@@ -48,14 +48,14 @@
     <record id="hr_employee_per_group_inputs_creation" model="ir.rule">
         <field name="name">Employees filtered by group (Inputs)</field>
         <field name="model_id" ref="hr.model_hr_employee"/>
-        <field name="domain_force">[('group_id','=',user.group_id.id)]</field>
+        <field name="domain_force">[('group_id','=',user.group_companys_id.ids)]</field>
         <field name="groups" eval="[(4,ref('group_hr_payroll_inputs_creation_groups'))]"/>
     </record>
     
     <record id="hr_inputs_rule_groups" model="ir.rule">
         <field name="name">Inputs: read all</field>
         <field name="model_id" ref="model_hr_inputs"/>
-        <field name="domain_force">[('group_id','in',[user.group_id.id,False])]</field>
+        <field name="domain_force">[('group_id','in',user.group_companys_id.ids+[False])]</field>
         <field name="perm_create" eval="False"/>
         <field name="perm_write" eval="False"/>
         <field name="perm_unlink" eval="False"/>

@@ -35,7 +35,7 @@ class Holidays(models.Model):
         '''
         Este metodo agrega el contrato al formulario
         '''
-        self.contract_id = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('contracting_regime','=','02'),('state','=','open')])
+        self.contract_id = self.env['hr.contract'].search([('employee_id','=',self.employee_id.id),('contracting_regime','=','02'),('state','=','open')],limit=1)
 
     @api.multi
     def action_validate(self):

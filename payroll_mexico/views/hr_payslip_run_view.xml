@@ -44,6 +44,7 @@
             <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
             <field name="arch" type="xml">
 				<xpath expr="//header" position="inside">
+					<field name="incidence_awaiting_approval" invisible="1"/>
                         <button name="print_payslip_run_details"
                             type="object"
                             string="Imprimir detalles de nómina"
@@ -143,6 +144,9 @@
                     </group>
                     <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('bonus_date','=',False)]}">
 						You can select the option "Pay bonus?" to take into account for this nomination the calculation of the bonuses.
+					</div>
+                    <div class="alert alert-danger" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('incidence_awaiting_approval','=',False)]}">
+						Notice! There are records of Incidents (Absences or Entries) awaiting approval for the payroll period.
 					</div>
                 </xpath>
                 <xpath expr="//button[@name='close_payslip_run']" position="before">
