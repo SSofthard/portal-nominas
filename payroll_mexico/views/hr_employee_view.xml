@@ -788,6 +788,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='company_id']" position="after">
                     <field name="group_id"/>
+                    <field name="group_companys_id" widget="many2many_tags"/>
                 </xpath>
             </field>
         </record>
