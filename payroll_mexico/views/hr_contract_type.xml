@@ -10,7 +10,9 @@
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="code"/>
                     <field name="report_id"/>
+                    <field name="key" attrs="{'invisible':[('key', '=', False)]}"/>
                     <field name="type" widget="radio"/>
+                    <button name="set_key" string="Set Key Layout" type="object" class="btn-primary" attrs="{'invisible':[('key', '!=', False)]}"/>
                 </xpath>
             </field>
         </record>
@@ -24,6 +26,7 @@
                     <field name="code"/>
                     <field name="type"/>
                     <field name="report_id"/>
+                    <field name="key"/>
                 </xpath>
             </field>
         </record>
