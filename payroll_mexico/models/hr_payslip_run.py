@@ -109,7 +109,27 @@ class HrPayslipRun(models.Model):
     payment_date = fields.Date(string='Fecha de pago', required=True,
         readonly=True, states={'draft': [('readonly', False)]})
     company_bank_id = fields.Many2one('bank.account.company', "Company bank", required=True)
+    incidence_awaiting_approval = fields.Boolean('Incidence awaiting approval', compute='_incidence_awaiting_approval')
 
+    @api.multi
+    def _incidence_awaiting_approval(self):
+        self.onchange_group_id()
+        return
+    
+    @api.onchange('group_id','date_start','date_end')
+    def onchange_group_id(self):
+        if self.group_id:
+            leave = self.env['hr.leave'].search([('group_id','=',self.group_id.id),
+                                                 ('state','in',['confirm','validate1']),
+                                                 '|','&',('request_date_from','>=',self.date_start),('request_date_from','<=',self.date_end),
+                                                 '&',('request_date_to','<=',self.date_end),('request_date_to','>=',self.date_start),])
+            inputs = self.env['hr.inputs'].search([('group_id','=',self.group_id.id),
+                                                 ('state','in',['confirm','validate1']),])
+            if leave or inputs:
+                self.incidence_awaiting_approval = True
+            else:
+                self.incidence_awaiting_approval = False
+    
     def action_layout_dispersion(self):
         """ Get Layout Dispersion """
         if self.company_bank_id.bank_id.code == '014':

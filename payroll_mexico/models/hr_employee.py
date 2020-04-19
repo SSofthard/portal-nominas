@@ -1070,7 +1070,6 @@ class hrCreditsEmployeeAccount(models.Model):
 class ResUsers(models.Model):
     _inherit = "res.users"
     
-    group_id = fields.Many2one('hr.group', "Group", required=False)
     group_companys_id = fields.Many2many('hr.group','user_group_company_rel','uid','group_company_id', "Group", required=False)
     
     @api.multi
