@@ -274,7 +274,18 @@ class HolidaysRequest(models.Model):
             values['date_from'] = request_parameters.get('date_from')
             values['date_to'] = request_parameters.get('date_to')
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
-        return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
+        leave = super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
+        rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_incidents.group_hr_holidays_user_groups')
+        rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_holidays.group_hr_holidays_user')
+        partners = self.env['res.users'].search([('group_companys_id','in',[leave.group_id.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+        mail_invite = self.env['mail.wizard.invite'].create({
+                                                            'res_model':'hr.leave',
+                                                            'res_id':leave.id,
+                                                            'partner_ids':[[6, False, partners]],
+                                                            'send_mail':False,
+                                                            })
+        mail_invite.add_followers()
+        return leave
     
 
 class CalendarLeaves(models.Model):
@@ -282,13 +293,6 @@ class CalendarLeaves(models.Model):
 
     time_type = fields.Selection(selection_add=[('inability', 'Incapacidad')])
 
-# ~ def string_to_datetime(value):
-    # ~ """ Convert the given string value to a datetime in UTC. """
-    # ~ return utc.localize(fields.Datetime.from_string(value))
-
-# ~ def datetime_to_string(dt):
-    # ~ """ Convert the given datetime (converted in UTC) to a string value. """
-    # ~ return fields.Datetime.to_string(dt.astimezone(utc))
 
 class ResourceCalendar(models.Model):
     _inherit = "resource.calendar"

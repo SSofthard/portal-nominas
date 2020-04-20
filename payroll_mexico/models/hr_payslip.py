@@ -2164,18 +2164,21 @@ class HrSalaryRule(models.Model):
 
 class HrInputs(models.Model):
     _name = 'hr.inputs'
+    _description = "Input"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _mail_post_access = 'read'
     
-    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'confirm': [('readonly', False)]})
+    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'confirm': [('readonly', False)]}, track_visibility='onchange')
     payslip = fields.Boolean('Payroll?')
-    amount = fields.Float('Amount', readonly=True, states={'confirm': [('readonly', False)]}, digits=(16, 2))
-    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'confirm': [('readonly', False)]})
+    amount = fields.Float('Amount', readonly=True, states={'confirm': [('readonly', False)]}, digits=(16, 2),track_visibility='onchange')
+    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'confirm': [('readonly', False)]},track_visibility='onchange')
     code = fields.Char(string='Code', related="input_id.code")
     state = fields.Selection([
         ('cancel', 'Cancelled'),
         ('confirm', 'To Approve'),
         ('validate1', 'Second Approval'),
         ('approve', 'Approved'),
-        ('paid', 'Reported on payroll')], string='Status', readonly=True, default='confirm')
+        ('paid', 'Reported on payroll')], string='Status', readonly=True, default='confirm', track_visibility='onchange')
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, store=True)
@@ -2187,7 +2190,7 @@ class HrInputs(models.Model):
     def name_get(self):
         result = []
         for inputs in self:
-            name = '%s %s %s' %(inputs.employee_id.name.upper(), inputs.input_id.name.upper(), str(inputs.amount))
+            name = '%s / Entrada: %s' %(inputs.employee_id.complete_name.upper(), inputs.input_id.name.upper())
             result.append((inputs.id, name))
         return result
     
@@ -2207,6 +2210,7 @@ class HrInputs(models.Model):
             else:
                 inp.can_approve = False
     
+    
     @api.multi
     def action_approve(self):
         for inp in self:
@@ -2215,11 +2219,15 @@ class HrInputs(models.Model):
             if is_officer or is_officer_external:
                 if inp.input_id.double_validation:
                     inp.write({'state':'validate1'})
+                    inp.activity_feedback(['payroll_mexico.mail_act_inputs_approval'])
+                    inp.activity_schedule(
+                        'payroll_mexico.mail_act_inputs_second_approval',
+                        user_id=self.env.user.id)
                 else:
                     inp.write({'state':'approve'})
             else:
                 raise UserError(_('Only Nomina Manager/Oficial can approve or reject entry records.'))
-        return 
+        return
         
     @api.multi
     def action_validate(self):
@@ -2236,6 +2244,24 @@ class HrInputs(models.Model):
     def action_refuse(self):
         for inp in self:
             inp.write({'state':'cancel'})
+    
+    @api.model
+    def create(self, values):
+        inputs = super(HrInputs,self).create(values)
+        inputs.activity_schedule(
+            'payroll_mexico.mail_act_inputs_approval',
+            user_id=self.env.user.id)
+        rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'payroll_mexico.group_hr_payroll_inputs_user_groups')
+        rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_payroll.group_hr_payroll_user')
+        partners = self.env['res.users'].search([('group_companys_id','in',[inputs.group_id.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+        mail_invite = self.env['mail.wizard.invite'].create({
+                                                            'res_model':'hr.inputs',
+                                                            'res_id':inputs.id,
+                                                            'partner_ids':[[6, False, partners]],
+                                                            'send_mail':False,
+                                                            })
+        mail_invite.add_followers()
+        return inputs
 
 
 class HrRuleInput(models.Model):
