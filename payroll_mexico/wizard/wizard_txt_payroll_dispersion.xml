@@ -32,7 +32,7 @@
                     <group>
                         <field name="account_type"/>
                     </group>
-                        <field name="payslip_run_id" invisible="False"/>
+                        <field name="payslip_run_id" invisible="True"/>
                     <field name="payslip_ids" domain="[('payslip_run_id','=',payslip_run_id)]">
                         <tree>
                             <field name="complete_name"/>
