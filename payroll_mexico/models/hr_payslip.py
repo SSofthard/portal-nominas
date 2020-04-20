@@ -2245,6 +2245,185 @@ class HrInputs(models.Model):
         for inp in self:
             inp.write({'state':'cancel'})
     
+    def action_send_email_approve(self):
+        groups = self.env['hr.group'].search([])
+        
+        company = self.env['ir.model.data'].xmlid_to_res_id( 'base.main_company')
+        company = self.env['res.company'].search([('id','=',company)])
+        for group in groups:
+            inputs_confirm = self.env['hr.inputs'].search([('group_id','=',group.id),('state','in',['confirm'])])
+            inputs_validate = self.env['hr.inputs'].search([('group_id','=',group.id),('state','in',['validate1'])])
+            
+            if inputs_confirm:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'payroll_mexico.group_hr_payroll_inputs_user_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_payroll.group_hr_payroll_user')
+                partners_confirm = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Aprobación de Entradas</span>\
+                                                        </td>\
+                                                    </tr>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Entradas se encuentran en espera de aprobación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Entrada</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for inp in inputs_confirm:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(inp.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(inp.input_id.name)+'</td>'
+                    if inp.type =='perception':
+                        body_html += '<td style="text-align:center">Percepción</td>'
+                    else:
+                        body_html += '<td style="text-align:center">Deducción</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                mail_confirm = self.env['mail.mail'].create({
+                                        'recipient_ids':[[6, False, partners_confirm]],
+                                        'subject':'Aviso! Entradas en espera de aprobación.',
+                                        'body_html':body_html
+                                        })
+                mail_confirm.send()
+            if inputs_validate:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'payroll_mexico.group_hr_payroll_inputs_manager_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_payroll.group_hr_payroll_manager')
+                partners_validate = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Validación de Entradas</span>\
+                                                        </td>\
+                                                    </tr>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Entradas se encuentran en espera de validación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Entrada</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for inp in inputs_validate:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(inp.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(inp.input_id.name)+'</td>'
+                    if inp.type =='perception':
+                        body_html += '<td style="text-align:center">Percepción</td>'
+                    else:
+                        body_html += '<td style="text-align:center">Deducción</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                
+                
+                mail_validate = self.env['mail.mail'].create({
+                                                'recipient_ids':[[6, False, partners_validate]],
+                                                'subject':'Aviso! Entradas en espera de validación.',
+                                                'body_html':body_html,
+                                                })
+                mail_validate.send()
+        return
+        
+    
     @api.model
     def create(self, values):
         inputs = super(HrInputs,self).create(values)

@@ -70,6 +70,7 @@
                     </div>
                 </xpath>
                 <xpath expr="//field[@name='holiday_status_id']" position="after">
+                   <button string="email" name="action_send_email_approve" type="object"  class="oe_highlight"/>
                     <field name="time_type" attrs="{'invisible': 1}"/>
                     <field name="folio" attrs="{'invisible': [('time_type', '!=', 'inability')], 'required': [('time_type', '=', 'inability')]}"/>
                     <field name="type_inhability_id" 

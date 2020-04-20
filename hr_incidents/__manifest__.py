@@ -18,6 +18,7 @@
             'views/hr_incidents.xml',
             'data/incidents_data.xml',
             'data/inhability_data.xml',
+            'data/ir_cron_data.xml',
             
     ],
 }

@@ -96,6 +96,7 @@
         'data/data_inpc.xml',
         'data/data_sector_economico.xml',
         'data/mail_data.xml',
+        'data/ir_cron_data.xml',
     ],
     'qweb': [
         'static/src/xml/tree_view_buttons.xml'
