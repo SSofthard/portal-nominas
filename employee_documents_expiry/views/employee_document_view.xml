@@ -60,7 +60,7 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             <div class="oe_button_box" position="inside">
-                <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+                <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol" groups="hr.group_hr_user">
                     <field string="Documents" name="document_count" widget="statinfo"/>
                 </button>
             </div>

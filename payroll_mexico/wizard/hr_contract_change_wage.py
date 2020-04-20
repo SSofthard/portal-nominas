@@ -196,6 +196,10 @@ class HrContractChangeWageImport(models.TransientModel):
     date_move = fields.Date(string='Move Date',
                             default=lambda self:fields.Date.to_string(date.today()),
                             help="Keep empty to use the current date. This date will be applied in the affiliate movement",)
+    type_salary = fields.Selection([
+        ('gross', 'Gross'),
+        ('net', 'Net'),
+        ],"Real Salary", default="gross", required=True)
 
     @api.multi
     def clean_file_ids(self):
@@ -345,11 +349,14 @@ class HrContractChangeWageImport(models.TransientModel):
         if contracts:
             contract_obj = self.env['hr.contract']
             for contract in contracts:
+                wage = contract['wage']
                 contract_id = contract_obj.browse(contract['contract_id'])
+                if contract_id.contracting_regime in ['08','09','11'] and self.type_salary == 'net':
+                    wage = contract_id.calculate_salary_scheme(contract['wage'])
                 contract_id.with_context(
                     date_move=self.date_move or fields.Date.today(),
                     update_wage=True).write({
-                    'wage':contract['wage'],})
+                    'wage':wage,})
         return {'type':'ir.actions.client', 'tag':'reload',
                 'res_model':'hr.contract',
                 'context':"{'model': 'hr.contract'}"}
@@ -358,7 +365,6 @@ class Contract(models.Model):
     _inherit = 'hr.contract'
 
     def create_move_affiliate(self):
-        print (self.contracting_regime)
         if self.contracting_regime and self.contracting_regime != '02':
             vals = {
                 'contract_id': self.id,

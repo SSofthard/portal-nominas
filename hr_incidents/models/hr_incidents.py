@@ -86,9 +86,39 @@ class HolidaysType(models.Model):
         code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(code).name_get()
 
+class irAttachment(models.Model):
+    _inherit = 'ir.attachment'
+    
+    leave_id = fields.Many2one('hr.leave', invisible=True)
 
 class HolidaysRequest(models.Model):
     _inherit = "hr.leave"
+    
+    @api.multi
+    def _document_count(self):
+        for each in self:
+            document_ids = self.env['ir.attachment'].sudo().search([('leave_id', '=', each.id)])
+            each.document_count = len(document_ids)
+
+    @api.multi
+    def document_view(self):
+        self.ensure_one()
+        domain = [
+            ('leave_id', '=', self.id)]
+        return {
+            'name': _('Documents Incidents'),
+            'domain': domain,
+            'res_model': 'ir.attachment',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'kanban,tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                           Click to Create for New Documents
+                        </p>'''),
+            'limit': 80,
+            'context': "{'default_leave_id': '%s'}" % self.id
+        }
     
     date_to = fields.Datetime(
         'End Date', readonly=True, copy=False, required=False,
@@ -103,6 +133,10 @@ class HolidaysRequest(models.Model):
     inhability_category_id = fields.Many2one('hr.leave.category', "Category")
     inhability_subcategory_id = fields.Many2one('hr.leave.subcategory', "Subcategory")
     folio = fields.Char('Folio')
+    document_count = fields.Integer(compute='_document_count', string='# Documents')
+    
+    
+    
 
     @api.multi
     @api.onchange('type_inhability_id')
@@ -138,6 +172,44 @@ class HolidaysRequest(models.Model):
         if not self.env.context.get('leave_fast_create'):
             self.activity_update()
         return True
+    
+    def _check_approval_update(self, state):
+        """ Check if target state is achievable. """
+        current_employee = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
+        is_officer = self.env.user.has_group('hr_holidays.group_hr_holidays_user')
+        is_officer_external = self.env.user.has_group('hr_incidents.group_hr_holidays_user_groups')
+        is_manager = self.env.user.has_group('hr_holidays.group_hr_holidays_manager')
+        is_manager_external = self.env.user.has_group('hr_incidents.group_hr_holidays_manager_groups')
+        for holiday in self:
+            val_type = holiday.holiday_status_id.validation_type
+            if state == 'confirm':
+                continue
+
+            if state == 'draft':
+                if holiday.employee_id != current_employee and not is_manager:
+                    raise UserError(_('Only a Leave Manager can reset other people leaves.'))
+                continue
+            if not is_officer:
+                if not is_officer_external:
+                    raise UserError(_('Only a Leave Officer or Manager can approve or refuse leave requests.'))
+            if is_officer or is_officer_external:
+                # use ir.rule based first access check: department, members, ... (see security.xml)
+                holiday.check_access_rule('write')
+
+            if holiday.employee_id == current_employee and not is_manager:
+                if not is_manager_external:
+                    raise UserError(_('Only a Leave Manager can approve its own requests.'))
+
+            if (state == 'validate1' and val_type == 'both') or (state == 'validate' and val_type == 'manager'):
+                manager = holiday.employee_id.parent_id or holiday.employee_id.department_id.manager_id
+                if (manager and manager != current_employee) and not self.env.user.has_group('hr_holidays.group_hr_holidays_manager'):
+                    if not is_manager_external:
+                        raise UserError(_('You must be either %s\'s manager or Leave manager to approve this leave') % (holiday.employee_id.name))
+
+            if state == 'validate' and val_type == 'both':
+                if not self.env.user.has_group('hr_holidays.group_hr_holidays_manager'):
+                    if not is_officer_external:
+                        raise UserError(_('Only an Leave Manager can apply the second approval on leave requests.'))
     
     def request_parameters(self, employee, request_date_from, number_of_days, request_date_from_period):
         if not number_of_days or number_of_days < 0:
@@ -203,7 +275,7 @@ class HolidaysRequest(models.Model):
             values['date_to'] = request_parameters.get('date_to')
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
         return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
-
+    
 
 class CalendarLeaves(models.Model):
     _inherit = "resource.calendar.leaves"

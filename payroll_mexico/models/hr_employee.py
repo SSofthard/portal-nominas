@@ -131,6 +131,7 @@ class Employee(models.Model):
     bank_account_ids = fields.One2many('bank.account.employee','employee_id', "Bank account", required=True)
     group_id = fields.Many2one('hr.group', "Group", required=True)
     family_ids = fields.One2many('hr.family.burden','employee_id', "Family")
+    birthday = fields.Date('Date of Birth', groups="")
     age = fields.Integer("Age", compute='calculate_age_compute')
     infonavit_ids = fields.One2many('hr.infonavit.credit.line','employee_id', "INFONAVIT credit")
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
@@ -354,6 +355,7 @@ class Employee(models.Model):
     def get_subsidio_empleo(self, sueldo_bruto,table_id):
         '''Este metodo obtiene el monto de subsidio al empleo determinado por el sueldo bruto'''
         today = fields.Date.context_today(self)
+        subsidio = ''
         if self.payroll_period == '01':
             subsidio = self.env['table.isr.daily.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
         if self.payroll_period == '02':
@@ -518,21 +520,26 @@ class Employee(models.Model):
                 days = payroll_periods_days[employee.payroll_period]*(employee.group_id.days/30)
                 if not employee.employer_register_id and employee.wage_salaries > 0:
                     raise UserError(_('Por favor seleccione un registro patronal'))
+                table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
+                antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',0),('form_id','=',self.group_id.antique_table.id)])
+                risk_factor = employee.employer_register_id.get_risk_factor(today)
                 if employee.wage_salaries > 0:
-                    table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
-                    antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',0),('form_id','=',self.group_id.antique_table.id)])
-                    risk_factor = employee.employer_register_id.get_risk_factor(today)
                     amount_wage_salaries = self.get_value_objetive(round((self.wage_salaries/employee.group_id.days)*days,2), days, table_id, antiguedad, risk_factor)
                     amount_wage_salaries = round((amount_wage_salaries/days)*employee.group_id.days,2)
                     employee.wage_salaries_gross = round(amount_wage_salaries,2)
                 if employee.free_salary > 0:
                     employee.free_salary_gross = round(employee.free_salary,2)
+                else:
+                    employee.free_salary_gross = 0
                     
                 if (employee.free_salary+employee.wage_salaries) <  employee.monthly_salary:
                     employee.assimilated_salary = round(employee.monthly_salary - employee.wage_salaries - employee.free_salary,2)
                     amount_asimilated_salaries = self.get_value_objetive(round(employee.assimilated_salary/employee.group_id.days*days,2), days, table_id, antiguedad, risk_factor, True)
                     amount_asimilated_salaries = round((amount_asimilated_salaries/days)*employee.group_id.days,2)
                     employee.assimilated_salary_gross = amount_asimilated_salaries
+                else:
+                    employee.assimilated_salary = 0
+                    employee.assimilated_salary_gross = 0
         return True    
             
             
@@ -631,11 +638,6 @@ class Employee(models.Model):
                     'bank_account_id':bank_account_id,
                         }
                 list_contract.append(contract_obj.create(val).id)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
         return list_contract
 
     def _get_fonacot_amount_debt(self):
@@ -1065,3 +1067,15 @@ class hrCreditsEmployeeAccount(models.Model):
             'employee_id': employee.id,
         }
         return self.create(vals)
+        
+class ResUsers(models.Model):
+    _inherit = "res.users"
+    
+    group_companys_id = fields.Many2many('hr.group','user_group_company_rel','uid','group_company_id', "Group", required=False)
+    
+    @api.multi
+    def write(self, values):
+        res = super(ResUsers, self).write(values)
+        if 'group_companys_id' in values:
+            self.env['ir.rule'].clear_caches()
+        return res

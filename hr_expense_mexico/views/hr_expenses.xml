@@ -249,6 +249,13 @@
                 </xpath>
             </field>
         </record>
+        
+        <delete model="ir.ui.menu" id="hr_expense.hr_expense_menu_config_activity_type" />
+        
+        <menuitem id="hr_expense_menu_config_activity_type_1"
+        action="hr_expense.mail_activity_type_action_config_hr_expense"
+        parent="hr_expense.menu_hr_expense_configuration"
+        groups="hr_expense.group_hr_expense_manager"/>
 
     </data>
 </odoo>
