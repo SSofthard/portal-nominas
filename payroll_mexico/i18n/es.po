@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-19 08:16+0000\n"
-"PO-Revision-Date: 2020-04-19 08:16+0000\n"
+"POT-Creation-Date: 2020-04-20 12:54+0000\n"
+"PO-Revision-Date: 2020-04-20 12:54+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2325,6 +2325,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_needaction
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_needaction
 msgid "Action Needed"
 msgstr "Acción Necesaria"
 
@@ -2356,12 +2357,14 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_ids
 msgid "Activities"
 msgstr "Actividades"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_state
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_state
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_state
 msgid "Activity State"
 msgstr "Estado de la actividad"
 
@@ -3407,6 +3410,7 @@ msgstr "Documento adjunto"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_attachment_count
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_attachment_count
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_attachment_count
 msgid "Attachment Count"
 msgstr "Conteo de archivos adjuntos"
 
@@ -5640,7 +5644,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_ir_attachment
 msgid "Document"
-msgstr ""
+msgstr "Documento"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_fees_settlement_form_view
@@ -6623,18 +6627,21 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_follower_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_follower_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_follower_ids
 msgid "Followers"
 msgstr "Seguidores"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_channel_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_channel_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_channel_ids
 msgid "Followers (Channels)"
 msgstr "Seguidores (Canales)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_partner_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_partner_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (Empresas)"
 
@@ -6853,7 +6860,7 @@ msgstr "Generar contratos"
 #. module: payroll_mexico
 #: model:ir.actions.act_window,name:payroll_mexico.action_wizard_payroll_dispersion_txt
 msgid "Generate dispersion txt dispersion"
-msgstr ""
+msgstr "Generar dispersión TXT"
 
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_payslip_employees
@@ -7448,6 +7455,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_unread
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_unread
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_unread
 msgid "If checked new messages require your attention."
 msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
 
@@ -7464,12 +7472,14 @@ msgstr "Si está marcado, se pagan días feriados al empleado."
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_needaction
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_has_error
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_has_error
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
 
@@ -7852,14 +7862,25 @@ msgid "Inpust reported on settlemen"
 msgstr "Entrada para la liquidación"
 
 #. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_inputs
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__input_id
 msgid "Input"
 msgstr "Entrada"
 
 #. module: payroll_mexico
+#: model:mail.activity.type,name:payroll_mexico.mail_act_inputs_approval
+msgid "Input Approval"
+msgstr "Aprobación de entrada"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_form
 msgid "Input Data"
 msgstr "Datos de entrada"
+
+#. module: payroll_mexico
+#: model:mail.activity.type,name:payroll_mexico.mail_act_inputs_second_approval
+msgid "Input Second Approve"
+msgstr "Aprobación de entrada (Segunda Aprobación)"
 
 #. module: payroll_mexico
 #: model:ir.ui.menu,name:payroll_mexico.menu_hr_inputs
@@ -7921,6 +7942,7 @@ msgstr "Estado factura"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_is_follower
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_is_follower
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_is_follower
 msgid "Is Follower"
 msgstr "Es un seguidor"
 
@@ -8580,6 +8602,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_main_attachment_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_main_attachment_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Adjuntos principales"
 
@@ -8712,12 +8735,14 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_has_error
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_has_error
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_has_error
 msgid "Message Delivery error"
 msgstr "Error de Envío de Mensaje"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_ids
 msgid "Messages"
 msgstr "Mensajes"
 
@@ -8959,18 +8984,21 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_date_deadline
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_date_deadline
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Siguiente plazo de actividad"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_summary
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_summary
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_summary
 msgid "Next Activity Summary"
 msgstr "Resumen de la siguiente actividad"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_type_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_type_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_type_id
 msgid "Next Activity Type"
 msgstr "Siguiente tipo de actividad"
 
@@ -9163,6 +9191,13 @@ msgid "Notice! There are records of Incidents (Absences or Entries) awaiting app
 msgstr "¡Aviso! Hay registros de incidentes (ausencias o entradas) en espera de aprobación para el período de nómina."
 
 #. module: payroll_mexico
+#: model:ir.actions.server,name:payroll_mexico.mail_input_approve_validate_ir_actions_server
+#: model:ir.cron,cron_name:payroll_mexico.mail_input_approve_validate
+#: model:ir.cron,name:payroll_mexico.mail_input_approve_validate
+msgid "Notification of approval and validation of inputs."
+msgstr "Notificación de aprobación y validación de entradas."
+
+#. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
 msgid "November"
@@ -9201,30 +9236,35 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction_counter
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_needaction_counter
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Número de acciones"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_has_error_counter
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_has_error_counter
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_has_error_counter
 msgid "Number of error"
 msgstr "Número de error"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction_counter
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_needaction_counter
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_needaction_counter
 msgid "Number of messages which requires an action"
 msgstr "Número de mensajes que requieren una acción"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_has_error_counter
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_has_error_counter
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Número de mensajes con error de envío"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_unread_counter
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_unread_counter
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_unread_counter
 msgid "Number of unread messages"
 msgstr "Número de mensajes no leidos"
 
@@ -9325,13 +9365,13 @@ msgid "Officer"
 msgstr "Oficial"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip.py:2232
+#: code:addons/payroll_mexico/models/hr_payslip.py:2240
 #, python-format
 msgid "Only Nomina Manager can validate or reject entry records."
 msgstr "Solo un gerente de Nómina puede validar o rechazar registros de entrada"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip.py:2221
+#: code:addons/payroll_mexico/models/hr_payslip.py:2229
 #, python-format
 msgid "Only Nomina Manager/Oficial can approve or reject entry records."
 msgstr "Solo un Gerente / Oficial de nómina puede aprobar o rechazar registros de entrada"
@@ -9451,6 +9491,7 @@ msgstr "Sobre excedente (%)"
 #. module: payroll_mexico
 #: selection:company.power.attorney,activity_state:0
 #: selection:hr.fees.settlement,activity_state:0
+#: selection:hr.inputs,activity_state:0
 msgid "Overdue"
 msgstr "Vencido"
 
@@ -9988,6 +10029,7 @@ msgstr "Lugar de nacimiento"
 #. module: payroll_mexico
 #: selection:company.power.attorney,activity_state:0
 #: selection:hr.fees.settlement,activity_state:0
+#: selection:hr.inputs,activity_state:0
 msgid "Planned"
 msgstr "Planificado"
 
@@ -10816,6 +10858,7 @@ msgstr "Rescursos de Tiempo de trabajo"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_user_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_user_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_user_id
 msgid "Responsible User"
 msgstr "Usuario responsable"
 
@@ -11520,6 +11563,7 @@ msgstr "Estado"
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__activity_state
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__activity_state
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__activity_state
 msgid "Status based on activities\n"
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
@@ -12170,6 +12214,7 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:company.power.attorney,activity_state:0
 #: selection:hr.fees.settlement,activity_state:0
+#: selection:hr.inputs,activity_state:0
 msgid "Today"
 msgstr "Hoy"
 
@@ -12658,12 +12703,14 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_unread
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_unread
 msgid "Unread Messages"
 msgstr "Mensajes por leer"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread_counter
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_unread_counter
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_unread_counter
 msgid "Unread Messages Counter"
 msgstr "Contador de mensajes sin leer"
 
@@ -12923,12 +12970,14 @@ msgstr "Advertencia! \n"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__website_message_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__website_message_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__website_message_ids
 msgid "Website Messages"
 msgstr "Mensajes del sitio web"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__website_message_ids
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__website_message_ids
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__website_message_ids
 msgid "Website communication history"
 msgstr "Historial de comunicaciones del sitio web"
 
@@ -13304,6 +13353,11 @@ msgid "e.j. Plantilla 01"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_inputs_form
+msgid "email"
+msgstr ""
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.determinate_contract_with_seniority
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.determinate_contract_without_seniority
@@ -13385,11 +13439,6 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_infonavit_credit_line
 msgid "hr.infonavit.credit.line"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_inputs
-msgid "hr.inputs"
 msgstr ""
 
 #. module: payroll_mexico
@@ -13932,4 +13981,3 @@ msgstr "Puestos de trabajo"
 #: selection:hr.contract,state:0
 msgid "Running"
 msgstr "Activo"
-
