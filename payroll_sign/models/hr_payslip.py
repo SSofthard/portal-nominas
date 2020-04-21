@@ -71,6 +71,7 @@ class HrPayslip(models.Model):
                 'role_id':self.env['sign.item.role'].search([('name','=','Empleado')]).id,
                 'partner_id':self.employee_id.address_home_id.id,
             })],
+            'signers_count':1,
             'signer_id': self.employee_id.address_home_id.id,
             'subject':_("Signature Request - %s") % (sign_template.attachment_id.name)
         })
