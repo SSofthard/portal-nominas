@@ -159,7 +159,7 @@ class HrPayslip(models.Model):
     xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)", readonly=True)
     qr_timbre = fields.Binary(string="Qr", readonly=True)
     # PDF Stamped
-    pdf = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False, readonly=True)
+    pdf = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False, readonly=False)
     filename = fields.Char(string='Filename', related="pdf.name", copy=False, readonly=True)
     filedata = fields.Binary(string='Filedatas', related="pdf.datas", copy=False, readonly=True)
     
@@ -816,7 +816,7 @@ class HrPayslip(models.Model):
                 else:
                     if payslip.invoice_status != 'factura_correcta':
                         values = payslip.to_json()
-                        payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
+                        payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas,
                                                                 password=csd_company.track, tz=tz, url=url, user=user, password_pac = password,  
                                                                 debug_mode=True,)
                             
