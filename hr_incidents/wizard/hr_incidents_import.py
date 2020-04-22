@@ -231,7 +231,7 @@ class HrIncidentsImport(models.TransientModel):
                         date_overtime = dt.strftime(DEFAULT_SERVER_DATETIME_FORMAT) if is_datetime else dt.strftime(DEFAULT_SERVER_DATE_FORMAT)
                             
                     perceptions.append(
-                                    {'employee_id': employee_id, 
+                                    {'employee_id': employee_id.id, 
                                     'input_id': rule_input_id,
                                     'amount': amount,
                                     'date_overtime': date_overtime,
@@ -246,7 +246,7 @@ class HrIncidentsImport(models.TransientModel):
                     is_float = value % 1 != 0.0
                     amount = pycompat.text_type(value) if is_float else pycompat.text_type(int(value))
                     deductions.append(
-                                            {'employee_id': employee_id, 
+                                            {'employee_id': employee_id.id, 
                                             'input_id': rule_input_id,
                                             'amount': amount,
                                             'type': 'deductions',}
