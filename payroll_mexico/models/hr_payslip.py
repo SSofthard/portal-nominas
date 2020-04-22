@@ -1910,7 +1910,7 @@ class HrPayslip(models.Model):
             }
         }
         if run_data['employer_register_id']:
-            res['value']['employer_register_id'] = run_data['employer_register_id'][0]
+            res['value']['employer_register_id'] = run_data['employer_register_id']
         if (not employee_id) or (not date_from) or (not date_to):
             return res
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
