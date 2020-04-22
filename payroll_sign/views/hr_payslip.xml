@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        
+        <record model="ir.ui.view" id="view_hr_payslip_sign_form">
+            <field name="name">hr.payslip.inherit.sign</field>
+            <field name="model">hr.payslip</field>
+            <field name="priority">6</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//header" position="inside">
+                    <button name="action_sign_payslip_document"
+                        class="oe_stat_button"
+                        string="Firmar nomina"
+                        icon="fa-file"
+                        type="object"
+                        >
+                    </button>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
