@@ -8,8 +8,7 @@
       <field name="arch" type="xml">
             <xpath expr="//group" position="after">
                 <group>
-                    <field name="estructure_id" required="1"/>
-                    <field name="contracting_regime" required="1"/>
+                    <field name="estructures_id" widget="many2many_tags" required="1"/>
                 </group>
             </xpath>
       </field>

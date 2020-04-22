@@ -29,43 +29,55 @@ class payrollDispersionTxtWizard(models.TransientModel):
                                     ('003','Tarjeta de débito'),
                                      ], "Tipo de cuenta", required=False)
     bank_id = fields.Many2one('res.bank', "Bank", required=False)
+    payslip_ids = fields.Many2many('hr.payslip', readonly=False)
+    payslip_run_id = fields.Many2one('hr.payslip.run', 'Procesamiento de nómina', default=lambda self: self._context.get('active_id'))
+
+    @api.onchange('bank_id','account_type')
+    def onchange_bank_account_type(self):
+        '''
+        Este metodo agrega el domain para la lista de nominas que se desean agregar a la dispersion de nomina
+        :return:
+        '''
+        slip_ids = self.payslip_run_id.slip_ids
+        if self.bank_id:
+            slip_ids = slip_ids.filtered(
+                lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
+                    lambda account: account.predetermined).bank_id.id == self.bank_id.id)
+        if self.account_type:
+            print(slip_ids)
+            slip_ids = slip_ids.filtered(
+                lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
+                    lambda account: account.predetermined).account_type == self.account_type)
+        return {'domain': {'payslip_ids': [('id', 'in', slip_ids._ids)]}}
 
 
     @api.multi
     def report_print(self):
         '''
-        Este metodo es para imprimir el txt de los movimientso afiliatorios
+        Este metodo es para imprimir el txt de la dipersion bancaria (Layout de catalogo)
         '''
         output = io.BytesIO()
         payslip_run_id = self.env.context.get('active_id')
         payslip_run = self.env['hr.payslip.run'].browse([payslip_run_id])
         f_name = 'Dispersion %s' % (payslip_run.name)
-        slip_ids = payslip_run.slip_ids
-        if self.bank_id:
-            slip_ids = slip_ids.filtered(
-                    lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
-                        lambda account: account.predetermined).bank_id.id == self.bank_id.id)
-        if self.account_type:
-            slip_ids = slip_ids.filtered(
-            lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
-                lambda account: account.predetermined).account_type == self.account_type)
+        slip_ids = self.payslip_ids
         content = ''
         if not slip_ids:
             raise UserError('No existen registros para los filtros definidos')
         for payslip in slip_ids:
             bank_account = payslip.employee_id.bank_account_ids.filtered(lambda account: account.predetermined)
             content+='%s\tAR\t%s\t%s\t%s\t%s\t%s\t\t\tx\n%s\tAC\t\t\t\t\t\t%s\t%s\t%s\t%s\n' % (
-                payslip.employee_id.barcode.ljust(8),
+                payslip.employee_id.barcode.ljust(8) if payslip.employee_id.barcode else ''.ljust(8),
                 payslip.employee_id.complete_name.ljust(36),
                 payslip.employee_id.rfc.ljust(13),
                 payslip.employee_id.personal_phone.ljust(15) if payslip.employee_id.personal_phone else ''.ljust(15),
                 'R Romo',
-                payslip.employee_id.work_email.ljust(20),
-                payslip.employee_id.barcode.ljust(8),
+                payslip.employee_id.work_email.ljust(20) if payslip.employee_id.work_email else ''.ljust(20),
+                payslip.employee_id.barcode.ljust(8) if payslip.employee_id.barcode else ''.ljust(8),
                 bank_account.account_type,
                 'PESOS',
-                bank_account.reference.ljust(4),
-                bank_account.bank_account.ljust(18)
+                bank_account.reference.ljust(4) if bank_account.reference else ''.ljust(4),
+                bank_account.bank_account.ljust(18) if bank_account.bank_account else ''.ljust(18)
             )
         data = base64.encodebytes(bytes(content, 'utf-8'))
         export_id = self.env['payroll.dispersion.txt'].create(
@@ -83,21 +95,13 @@ class payrollDispersionTxtWizard(models.TransientModel):
     @api.multi
     def report_print_payments(self):
         '''
-        Este metodo es para imprimir el txt de los movimientso afiliatorios
+        Este metodo es para imprimir el txt de la dipersion bancaria (Layout de pagos)
         '''
         output = io.BytesIO()
         payslip_run_id = self.env.context.get('active_id')
         payslip_run = self.env['hr.payslip.run'].browse([payslip_run_id])
         f_name = 'Dispersion %s' % (payslip_run.name)
-        slip_ids = payslip_run.slip_ids
-        if self.bank_id:
-            slip_ids = slip_ids.filtered(
-                    lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
-                        lambda account: account.predetermined).bank_id.id == self.bank_id.id)
-        if self.account_type:
-            slip_ids = slip_ids.filtered(
-            lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
-                lambda account: account.predetermined).account_type == self.account_type)
+        slip_ids = self.payslip_ids
         content = ''
         if not slip_ids:
             raise UserError('No existen registros para los filtros definidos')
@@ -114,7 +118,7 @@ class payrollDispersionTxtWizard(models.TransientModel):
                 operation,
                 payslip.employee_id.barcode.ljust(13),
                 company_bank_account.bank_account.ljust(10) if company_bank_account else ''.ljust(10),
-                bank_account.bank_account.ljust(20),
+                bank_account.bank_account.ljust(20) if bank_account.bank_account else ''.ljust(20),
                 payslip.line_ids.filtered(lambda line: line.category_id.code == 'NET').total,
                 payslip.payment_date.strftime('%d%m%y'),
                 'pago',

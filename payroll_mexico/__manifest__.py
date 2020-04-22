@@ -84,11 +84,8 @@
         'report/report_employee_bagde.xml',
         'data/data.xml',
         'data/sequence_data.xml',
-        # 'data/data_table_cfdi.xml',
         'data/data_table_setting.xml',
         'data/res.bank.csv',
-        # ~ 'data/payroll_data.xml',
-        # ~ 'data/data_rule_salary.xml',
         'data/data_rule_salary2.xml',
         'data/data_isn.xml',
         'data/data_isn_2020.xml',
@@ -98,8 +95,8 @@
         'data/data_delegacion.xml',
         'data/data_inpc.xml',
         'data/data_sector_economico.xml',
-        # ~ 'data/data_hr_perceptions.xml',
-
+        'data/mail_data.xml',
+        'data/ir_cron_data.xml',
     ],
     'qweb': [
         'static/src/xml/tree_view_buttons.xml'

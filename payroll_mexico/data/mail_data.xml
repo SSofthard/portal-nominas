@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Leave specific activities -->
+        <record id="mail_act_inputs_approval" model="mail.activity.type">
+            <field name="name">Input Approval</field>
+            <field name="icon">fa-sun-o</field>
+            <field name="res_model_id" ref="payroll_mexico.model_hr_inputs"/>
+        </record>
+        <record id="mail_act_inputs_second_approval" model="mail.activity.type">
+            <field name="name">Input Second Approve</field>
+            <field name="icon">fa-sun-o</field>
+            <field name="res_model_id" ref="payroll_mexico.model_hr_inputs"/>
+        </record>
+    </data>
+</odoo>
