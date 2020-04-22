@@ -134,7 +134,7 @@ class HolidaysRequest(models.Model):
     inhability_subcategory_id = fields.Many2one('hr.leave.subcategory', "Subcategory")
     folio = fields.Char('Folio')
     document_count = fields.Integer(compute='_document_count', string='# Documents')
-    
+    document_ids = fields.One2many('ir.attachment', 'leave_id', string="Documents", copy=False, readonly=True)
     
     
 

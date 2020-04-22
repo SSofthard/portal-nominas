@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-19 08:09+0000\n"
-"PO-Revision-Date: 2020-04-19 08:09+0000\n"
+"POT-Creation-Date: 2020-04-22 15:07+0000\n"
+"PO-Revision-Date: 2020-04-22 15:07+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -92,6 +92,11 @@ msgid "Assimilated others"
 msgstr "Otros Asimilados"
 
 #. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Attach Documents"
+msgstr "Adjuntar documentos"
+
+#. module: hr_incidents
 #: selection:hr.leave.type,time_type:0
 msgid "Ausentismo"
 msgstr ""
@@ -144,6 +149,11 @@ msgid "Classification"
 msgstr "Clasificación"
 
 #. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Clean field Incidents File"
+msgstr "Limpiar campo archivo de incidencias"
+
+#. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_classification__code
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability__code
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__code
@@ -151,7 +161,7 @@ msgstr "Clasificación"
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_holiday_status_normal_tree_inherit
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_holidays_status_filter_inherit
 msgid "Code"
-msgstr "Código"
+msgstr "Clave"
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__color_name
@@ -172,6 +182,11 @@ msgstr "Compañía"
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability_absenteeism_wizard__contracting_regime
 msgid "Contracting Regime"
 msgstr "Régimen de contratación"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__create_document
+msgid "Create Documents"
+msgstr "Crear documentos"
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__create_uid
@@ -202,7 +217,7 @@ msgstr "Creado el"
 #. module: hr_incidents
 #: model:res.groups,name:hr_incidents.group_hr_holidays_creation_groups
 msgid "Creations"
-msgstr "Creación"
+msgstr "Cración"
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability_absenteeism_wizard__department_ids
@@ -228,6 +243,7 @@ msgid "Document"
 msgstr "Documento"
 
 #. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__document_ids
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_form
 msgid "Documents"
 msgstr "Documentos"
@@ -281,7 +297,7 @@ msgid "Es se paga?"
 msgstr "Se paga?"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizard/hr_incidents_import.py:95
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:228
 #, python-format
 msgid "Está agregando Horas Extras, Es Requerido Indicar la Fecha. Fila %s, Clave %s."
 msgstr ""
@@ -328,6 +344,18 @@ msgid "Fecha y hora de la generación del Reporte: %s"
 msgstr ""
 
 #. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__file_zip
+msgid "File Content Document"
+msgstr "Archivo ZIP"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:77
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:143
+#, python-format
+msgid "File Content Document is required."
+msgstr "Archivo ZIP es rquerido."
+
+#. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__file_name
 msgid "File name"
 msgstr "Nombre del archivo"
@@ -363,7 +391,7 @@ msgstr "Dorado"
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability_absenteeism_wizard__group_id
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_search
 msgid "Group"
-msgstr "Grupo"
+msgstr "Grupo/Empresa"
 
 #. module: hr_incidents
 #: model:ir.module.category,description:hr_incidents.module_category_hr_holidays_groups
@@ -444,6 +472,11 @@ msgstr ""
 #: model:ir.ui.menu,name:hr_incidents.menu_action_inhability_absenteeism_wizard
 msgid "Incapacidades y Ausentismos"
 msgstr ""
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Incident File"
+msgstr "Archivo de incidencias"
 
 #. module: hr_incidents
 #: model:ir.ui.menu,name:hr_incidents.hr_incidents_import
@@ -653,17 +686,23 @@ msgstr "Nombre"
 
 #. module: hr_incidents
 #: code:addons/hr_incidents/models/hr_incidents.py:216
-#: code:addons/hr_incidents/wizard/hr_incidents_import.py:131
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:264
 #, python-format
 msgid "Negative or empty values ​​are not allowed for the number of days."
 msgstr "No se permiten valores negativos o vacíos para la cantidad de días."
 
 #. module: hr_incidents
 #: code:addons/hr_incidents/models/hr_incidents.py:221
-#: code:addons/hr_incidents/wizard/hr_incidents_import.py:136
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:269
 #, python-format
 msgid "No employees found for the key %s."
 msgstr "No se encontraron empleados para la clave %s"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:203
+#, python-format
+msgid "No se encontro el archivo con el nombre %s, en el archivo .ZIP en la Fila %s,"
+msgstr ""
 
 #. module: hr_incidents
 #: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:90
@@ -711,6 +750,13 @@ msgstr "Solo un Oficial o Gerente de Ausencias puede aprobar o rechazar solicitu
 #, python-format
 msgid "Only an Leave Manager can apply the second approval on leave requests."
 msgstr "Solo un administrador de ausencias puede aplicar la segunda aprobación a las solicitudes de ausencia"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:71
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:138
+#, python-format
+msgid "Only zip files are supported."
+msgstr "Solo se admiten archivos ZIP"
 
 #. module: hr_incidents
 #: selection:hr.leave.type,color_name:0
@@ -775,6 +821,11 @@ msgstr "Rojo"
 #, python-format
 msgid "Registro patronal: %s"
 msgstr ""
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Remove File"
+msgstr "Remover archivo"
 
 #. module: hr_incidents
 #: model:ir.actions.act_window,name:hr_incidents.action_wizard_hr_incidents
@@ -852,7 +903,7 @@ msgstr "El código debe ser único."
 
 #. module: hr_incidents
 #: code:addons/hr_incidents/models/hr_incidents.py:218
-#: code:addons/hr_incidents/wizard/hr_incidents_import.py:133
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:266
 #, python-format
 msgid "The employee is required."
 msgstr "Se requiere el empleado."
