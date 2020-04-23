@@ -49,11 +49,13 @@
                         <button name="%(action_wizard_payroll_run_details)d"
                             type="action"
                             string="Imprimir detalles de nómina"
+                            states="close"
                         >
                         </button>
                         <button name="%(action_wizard_payroll_dispersion_txt)d"
                             type="action"
                             string="Imprimir dispersión txt"
+                            states="close"
                         >
                         </button>
 
