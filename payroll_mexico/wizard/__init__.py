@@ -17,4 +17,5 @@ from . import hr_employee_import
 from . import credential_zip_wizard
 from . import hr_contract_change_wage
 from . import wizard_txt_payroll_dispersion
+from . import wizard_payroll_run_details
 
