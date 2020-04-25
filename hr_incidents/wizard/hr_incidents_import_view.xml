@@ -8,8 +8,25 @@
             <field name="arch" type="xml">
             <form string="Incidents Import">
                 <group>
-                    <field name="file_ids" widget="many2many_binary"/>
-                    <field name="file_name" readonly="1"/>
+                    <group string="Attach Documents">
+                        <field name="create_document"/>
+                        <field name="file_zip"/>
+                    </group>
+                    <group string="Incident File">
+                        <field name="file_ids" widget="many2many_binary"/>
+                        <label for="clean_file_ids" string=""/>
+                        <div class="o_row">
+                            <button
+                                type="object"
+                                name="clean_file_ids"
+                                class="btn-sm btn-link mb4 fa fa-trash-o"
+                                aria-label="Remove File"
+                                title="Remove File"
+                                help="Clean field Incidents File"
+                            />
+                        </div>
+                        <field name="file_name" readonly="1"/>
+                    </group>
                 </group>
                 <div>
                     <h2>Upload the excel file</h2>

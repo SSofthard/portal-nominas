@@ -73,6 +73,41 @@ class HrPayslipRun(models.Model):
         header_sort = sorted(header, key=lambda k: k['sequence'])
         return header_sort
 
+    @api.model
+    def prepare_report_data(self):
+        PayslipObj = self.env['hr.payslip'].sudo()
+        domain = [
+            ('payslip_run_id', '>=', self.id),
+        ]
+        all_lines = {}
+        result = {}
+        header = {}
+        payslips = PayslipObj.search(domain, order="date_from asc, id asc")
+        
+        for payslip in payslips:
+            if payslip.employee_id not in all_lines:
+                all_lines[payslip.employee_id] = {}
+            if payslip.struct_id not in all_lines[payslip.employee_id]:
+                all_lines[payslip.employee_id][payslip.struct_id] = []
+            all_lines[payslip.employee_id][payslip.struct_id].append(
+                payslip.line_ids.filtered(
+                    lambda i: i.code == 'T001'
+                ).mapped('total')[0]
+            )
+            if payslip.struct_id not in header:
+                header[payslip.struct_id] = payslip.line_ids.filtered(
+                    lambda i: i.slip_id.struct_id.id == payslip.struct_id.id and i.total > 0 and i.salary_rule_id.print_to_excel == True
+                ).sorted(key=lambda l: l.sequence).mapped('name')
+            if payslip.company_id not in result:
+                result[payslip.company_id] = {}
+            if payslip.struct_id not in result[payslip.company_id]:
+                result[payslip.company_id][payslip.struct_id] = []
+            lines = [payslip.line_ids.filtered(
+                lambda i: i.slip_id.struct_id.id == payslip.struct_id.id and i.total > 0 and i.salary_rule_id.print_to_excel == True
+            ).sorted(key=lambda l: l.sequence)]
+            result[payslip.company_id][payslip.struct_id].append((payslip, lines))
+        return {'result': result, 'header':header, 'all_lines': all_lines}
+
     def get_line_for_report(self):
         payroll_data = {}
         employee_data = []
@@ -125,6 +160,250 @@ class HrPayslipRun(models.Model):
                     
                 })
         return employee_data
+
+    @api.multi
+    def action_print_report_group_by(self):
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output)
+        
+        num_format = self.env.user.company_id.currency_id.excel_format
+        bold = workbook.add_format({'bold': True})
+        header_format = workbook.add_format({'bold': True, 'border': 1, 'top': 1, 'font_size': 8, 'align': 'center', 'valign': 'vcenter', 'fg_color': '#CCCCFF', 'font_color':'#3341BE', 'font_name':'MS Sans Serif'})
+        middle = workbook.add_format({'bold': True, 'top': 1})
+        left = workbook.add_format({'left': 1, 'top': 1, 'bold': True})
+        right = workbook.add_format({'right': 1, 'top': 1})
+        top = workbook.add_format({'top': 1})
+        currency_format = workbook.add_format({'num_format': num_format, 'bold': True, 'border': 1, 'top': 1, 'font_size': 8, 'align': 'center', 'valign': 'vcenter', 'fg_color': '#CCCCFF', 'font_color':'#3341BE', 'font_name':'MS Sans Serif'})
+        formula_format = workbook.add_format({'num_format': num_format, 'bold': True, 'border': 1, 'top': 1, 'font_size': 8, 'align': 'center', 'valign': 'vcenter', 'fg_color': '#CCCCFF', 'font_name':'MS Sans Serif'})
+        c_middle = workbook.add_format({'border': 1, 'bold': True, 'top': 1, 'num_format': num_format})
+        report_format2 = workbook.add_format({'border': 1, 'bold': True, 'font_size': 8, 'fg_color': '#CCCCFF','font_color':'#3341BE', 'font_name':'MS Sans Serif', 'align': 'center'})
+        report_format = workbook.add_format({'border': 1, 'bold': True, 'font_size': 8, 'fg_color': '#CCCCFF','font_color':'#3341BE', 'font_name':'MS Sans Serif'})
+        rounding = self.env.user.company_id.currency_id.decimal_places or 2
+        lang_code = self.env.user.lang or 'en_US'
+        date_format = self.env['res.lang']._lang_get(lang_code).date_format
+        time_format = self.env['res.lang']._lang_get(lang_code).time_format
+        
+        payroll_dic = {} 
+        company_ids = self.mapped('slip_ids').mapped('company_id')
+        company_names =  ', '.join(company_ids.mapped('name'))
+        company_rfc =  ', '.join(company_ids.mapped('rfc'))
+        
+        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+        date_start = self.date_start.strftime("%d/%b/%Y").title()
+        date_end = self.date_end.strftime("%d/%b/%Y").title()
+        f_name = 'Periodo de Pago: Del %s al %s' %(date_start, date_end)
+        print_time = fields.Datetime.context_timestamp(self.with_context(tz=self.env.user.tz), fields.Datetime.now()).strftime(('%s %s') % (date_format, time_format)),
+        
+        def _get_data_float(data):
+            if data is None or not data:
+                return 0.0
+            else:
+                return company_ids[0].currency_id.round(data) + 0.0
+        
+        def get_date_format(date):
+            if date:
+                # date = datetime.strptime(date, DEFAULT_SERVER_DATE_FORMAT)
+                date = date.strftime(date_format)
+            return date
+        
+        results = self.prepare_report_data()
+        result = results['result']
+        header = results['header']
+        all_lines = results['all_lines']
+        
+        # All lines Consolidated Report
+        sheet_all_name = _('Consolidated %s') % self.name
+        sheet_all = workbook.add_worksheet(sheet_all_name.upper())
+        row = 6
+        col = 0
+        row += 1
+        start_row = row
+            
+        def _header_sheet_all(sheet_all):
+            sheet_all.merge_range('A1:B1','', report_format)
+            sheet_all.merge_range('A2:B2','', report_format)
+            sheet_all.merge_range('A3:B3','', report_format)
+            sheet_all.merge_range('A4:B4','', report_format)
+            sheet_all.merge_range('A5:B5','', report_format)
+            sheet_all.merge_range('A6:B6','', report_format)
+            sheet_all.merge_range('A7:B7','', report_format)
+            sheet_all.merge_range('A8:B8','', report_format)
+            sheet_all.merge_range('A9:B9','', report_format)
+            sheet_all.merge_range('A10:B10','', report_format)
+            sheet_all.write(0, 0, _('Nombre de la Empresa(s): %s') % company_names, report_format)
+            sheet_all.write(1, 0, _('Fecha de emisión del reporte: %s') % get_date_format(date.today()), report_format)
+            sheet_all.write(2, 0, _('RFC: %s') % company_rfc, report_format)
+            sheet_all.write(3, 0, _('Número de la Nómina: %s') % self.payroll_of_month, report_format)
+            sheet_all.write(4, 0, _('Título de Reporte: Reporte de la nómina'), report_format)
+            sheet_all.write(5, 0, _('Clasificación: ??????????'), report_format)
+            sheet_all.write(6, 0, _('Rango de Departamentos: ') , report_format)
+            sheet_all.write(7, 0, _('%s: ') % f_name, report_format)
+            sheet_all.write(8, 0, _('Fecha y hora de la generación del Reporte: %s') % print_time, report_format)
+        _header_sheet_all(sheet_all)
+        
+        struct_dic = {}
+        def _insert_table_all(estructures_id, all_lines):
+            main_col_count = 0
+            row_count = 11
+            sheet_all.set_row(row_count, 40, )
+            sheet_all.write(row_count, main_col_count, 'CLAVE', header_format)
+            sheet_all.set_column(row_count, main_col_count, 20)
+            main_col_count += 1
+            sheet_all.write(row_count, main_col_count, 'NOMBRE\nDEL\nTRABAJADOR', header_format)
+            main_col_count += 1
+            
+            for struct in estructures_id:
+                col_name = struct.name.replace(' ', '\n')
+                sheet_all.write(row_count, main_col_count, col_name, header_format)
+                sheet_all.set_column(row_count, main_col_count, 15)
+                main_col_count += 1
+            
+            sheet_all.write(row_count, main_col_count, 'TOTAL', header_format)
+            main_col_count += 1
+            
+            row_count += 1
+            for employee in all_lines:
+                col_count = 0
+                sheet_all.write(row_count, col_count, employee.enrollment, report_format2) #Clave
+                col_count += 1
+                sheet_all.write(row_count, col_count, employee.complete_name, report_format2) #Nombre del trabajador
+                col_count += 1
+                
+                line_drl = {}
+                for line in all_lines[employee]:
+                    line_drl[line.name] = [sum(all_lines[employee][line])]
+                    if 'total' not in line_drl:
+                        line_drl['total'] = []
+                    line_drl['total'].append(line_drl[line.name][0])
+                estructures = estructures_id.mapped('name')
+                for name in estructures + ['total']:
+                    if name not in line_drl:
+                        sheet_all.write(
+                            row_count, col_count, '-', currency_format
+                        )
+                    else:
+                        sheet_all.write(
+                            row_count, col_count, _get_data_float(sum(line_drl[name])), currency_format
+                        )
+                    start_range = xl_rowcol_to_cell(11, col_count)
+                    end_range = xl_rowcol_to_cell(len(all_lines) + 11, col_count)
+                    fila_formula = xl_rowcol_to_cell(len(all_lines) + 11 +2, col_count)
+                    formula = "=SUM({:s}:{:s})".format(start_range, end_range)
+                    sheet_all.write_formula(fila_formula, formula, formula_format, True)
+                    col_count += 1
+                row_count += 1
+        _insert_table_all(self.estructures_id, all_lines)
+        
+        # Group by Company and Struture Salary
+        def _header_sheet(sheet, company, struct_id):
+            sheet.merge_range('A1:B1','', report_format)
+            sheet.merge_range('A2:B2','', report_format)
+            sheet.merge_range('A3:B3','', report_format)
+            sheet.merge_range('A4:B4','', report_format)
+            sheet.merge_range('A5:B5','', report_format)
+            sheet.merge_range('A6:B6','', report_format)
+            sheet.merge_range('A7:B7','', report_format)
+            sheet.merge_range('A8:B8','', report_format)
+            sheet.merge_range('A9:B9','', report_format)
+            sheet.merge_range('A10:B10','', report_format)
+            sheet.write(0, 0, _('Nombre de la Empresa: %s') % company.name, report_format)
+            sheet.write(1, 0, _('Fecha de emisión del reporte: %s') % get_date_format(date.today()), report_format)
+            sheet.write(2, 0, _('RFC: %s') % company.rfc, report_format)
+            sheet.write(3, 0, _('Número de la Nómina: %s') % self.payroll_of_month, report_format)
+            sheet.write(4, 0, _('Título de Reporte: Reporte de la nómina %s ') %struct_id.name, report_format)
+            sheet.write(5, 0, _('Clasificación: ??????????'), report_format)
+            sheet.write(6, 0, _('Rango de Departamentos: ') , report_format)
+            sheet.write(7, 0, _('%s: ') % f_name, report_format)
+            sheet.write(8, 0, _('Fecha y hora de la generación del Reporte: %s') % print_time, report_format)
+
+        def _header_table(header, struct_dic):
+            main_col_count = 0
+            row_count = 11
+            sheet.set_row(row_count, 40, )
+            sheet.write(row_count, main_col_count, 'Clave', header_format)
+            sheet.set_column(row_count, main_col_count, 20)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Nombre del trabajador', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'NSS', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'RFC', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'CURP', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Fecha\nde\nAlta', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Departamento', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Tipo\nSalario', header_format)
+            main_col_count += 1
+            
+            for head in header:
+                col_name = head.replace(' ', '\n')
+                sheet.write(row_count, main_col_count, col_name, header_format)
+                sheet.set_column(row_count, main_col_count, 15)
+                main_col_count += 1
+
+            row_count += 1
+            for payslip in struct_dic:
+                col_count = 0
+                name_list = payslip[1][0].mapped('name')
+                sheet.write(row_count, col_count, payslip[0].employee_id.enrollment, report_format2) #Clave
+                col_count += 1
+                sheet.write(row_count, col_count, payslip[0].employee_id.complete_name, report_format2) #Nombre del trabajador
+                col_count += 1
+                sheet.write(row_count, col_count, payslip[0].employee_id.ssnid, report_format2) #NSS
+                col_count += 1
+                sheet.write(row_count, col_count, payslip[0].employee_id.rfc, report_format2) #RFC
+                col_count += 1
+                sheet.write(row_count, col_count, payslip[0].employee_id.curp, report_format2) #CURP
+                col_count += 1
+                sheet.write(row_count, col_count, get_date_format(payslip[0].contract_id.date_start), report_format2) #Fecha de Alta
+                col_count += 1
+                sheet.write(row_count, col_count, payslip[0].employee_id.department_id.name, report_format2) #Departamento
+                col_count += 1
+                salary_type = dict(payslip[0].employee_id._fields['salary_type']._description_selection(self.env)).get(payslip[0].employee_id.salary_type).upper()
+                sheet.write(row_count, col_count, salary_type, report_format2) #Tipo Salario
+                col_count += 1
+                
+                list_drl = {}
+                for line in payslip[1][0]:
+                    list_drl[line.name] = line.total
+                
+                for name in header:
+                    if name not in list_drl:
+                        sheet.write(
+                            row_count, col_count, '-', currency_format
+                        )
+                    else:
+                        sheet.write(
+                            row_count, col_count, _get_data_float(list_drl[name]), currency_format
+                        )
+                    start_range = xl_rowcol_to_cell(11, col_count)
+                    end_range = xl_rowcol_to_cell(len(struct_dic) + 11, col_count)
+                    fila_formula = xl_rowcol_to_cell(len(struct_dic) + 11 +2, col_count)
+                    formula = "=SUM({:s}:{:s})".format(start_range, end_range)
+                    sheet.write_formula(fila_formula, formula, formula_format, True)
+                    col_count += 1
+                row_count += 1
+        
+        for company in result:
+            for struct in result[company]:
+                sheet_name = '%s - %s' % (struct.code, company.name)
+                sheet = workbook.add_worksheet(sheet_name)
+                _header_sheet(sheet, company, struct)
+                _header_table(header[struct], result[company][struct])
+        workbook.close()
+        xlsx_data = output.getvalue()
+        export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsx'})
+        return {
+            'view_mode': 'form',
+            'res_id': export_id.id,
+            'res_model': 'hr.payslip.run.export.excel',
+            'view_type': 'form',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }
 
     @api.multi
     def action_print_report(self):
@@ -186,7 +465,7 @@ class HrPayslipRun(models.Model):
             sheet.merge_range('A8:B8','', report_format)
             sheet.merge_range('A9:B9','', report_format)
             sheet.merge_range('A10:B10','', report_format)
-            sheet.write(0, 0, _('Nombre de la Empresa: %s') % company.name, report_format)
+            sheet.write(0, 0, _('Nombre de la Empresa: %s') % company, report_format)
             sheet.write(1, 0, _('Fecha de emisión del reporte: %s') % get_date_format(date.today()), report_format)
             sheet.write(2, 0, _('RFC: %s') % company.rfc, report_format)
             sheet.write(3, 0, _('Número de la Nómina: %s') % self.payroll_of_month, report_format)
