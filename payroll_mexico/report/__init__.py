@@ -11,3 +11,4 @@ from . import fee_settlement_report
 from . import fee_imss_employee_report
 from . import report_payroll_cfdi
 from . import report_credentaling
+from . import report_settlement
