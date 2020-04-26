@@ -109,15 +109,19 @@ class HrSumaryReport(models.TransientModel):
         metadata['payroll_month'] = dict(self._fields['payroll_month']._description_selection(self.env)).get(self.payroll_month)
         
         PayslipObj = self.env['hr.payslip'].sudo()
+        contracting_domain = []
         domain = [('payslip_run_id','=',self.payslip_run_id.id)]
         if self.company_ids:
             domain += [('company_id','in', self.company_ids.ids)]
+        
         if self.wage:
-            domain += [('contracting_regime','=', '02')]
+            contracting_domain += ['02']
         if self.free:
-            domain += [('contracting_regime','in', ['05','99'])]
+            contracting_domain += ['05','99']
         if self.assimilated:
-            domain += [('contracting_regime','in', ['08','09','11'])]
+            contracting_domain += ['08','09','11']
+        if contracting_domain:
+            domain += [('contracting_regime','in', contracting_domain)]
         payslips = PayslipObj.search(domain, order="date_from asc, id asc")
         
         for payslip in payslips:

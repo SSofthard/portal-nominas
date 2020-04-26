@@ -13,9 +13,18 @@
                             <field name="rule_id" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                         <group>
-<!--
-                            <field name="employee_id" options="{'no_create': True, 'no_open': True}"/>
--->
+                            <label for="wage" string="Contracting Regime"/>
+                            <div>
+                                <div class="o_row">
+                                    <field name="wage"/> <label for="wage"/>
+                                </div>
+                                <div class="o_row">
+                                   <field name="assimilated"/> <label for="assimilated"/>
+                                </div>
+                                <div class="o_row">
+                                   <field name="free"/> <label for="free"/>
+                                </div>
+                            </div>
                         </group>
                     </group>
                 </sheet>
