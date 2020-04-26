@@ -18,5 +18,6 @@ class reportPayrollSettlement(models.TransientModel):
             'doc_model': 'hr.employee',
             'docs': '',
             'data': data,
+            'company_id': self.env.user.company_id,
         }
 

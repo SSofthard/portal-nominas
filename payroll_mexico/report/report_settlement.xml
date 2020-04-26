@@ -31,39 +31,115 @@
         <template id="template_report_settlement_low" >
             <t t-call="web.internal_layout">
                 <t t-call="web.html_container">
-                    <div class="page" style="font-size:12px">
+                    <div class="page">
                         <h4 class="text-center" style="background-color: #ABAFAF;">FINIQUITOS Y BAJAS</h4>
+                        <h6 class="text-center"  style="background-color: #ABAFAF;" >Período: <span t-esc="data['date_from']" t-options="{'widget':'date'}"/> AL <span t-esc="data['date_to']" t-options="{'widget':'date'}"/></h6>
+                        <h6 class="text-center">Grupo/Empresa: <span t-esc="data['group_id']"/></h6>
                         <br/>
-                        <table class="table table-condensed">
-                                <tbody>
-                                    <tr>
-                                        <td class="text-center">
-                                            <strong>Clave</strong>
-                                        </td>
-                                        <td class="text-center" colspan="3">
-                                            <strong>Nombre del Empleado</strong>
-                                        </td>
-                                        <td class="text-center">
-                                            <strong>Fecha de Baja</strong>
-                                        </td>
-                                        <td class="text-center">
-                                            <strong>Percepciones</strong>
-                                        </td>
-                                        <td class="text-center">
-                                            <strong>Deducciones</strong>
-                                        </td>
-                                        <td class="text-center">
-                                            <strong>Total</strong>
-                                        </td>
-                                        <td class="text-center">
-                                            <strong>Finiquito Total</strong>
-                                        </td>
-                                        <td class="text-center">
-                                            <strong>Motivo</strong>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div t-if="data['type']=='2'">
+                            <t t-set="colspan" t-value="len(data['salary_rule_list'])"/>
+                            <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>N°</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Clave</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Nombre del Empleado</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Fecha de Baja</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Fecha de Finiquito/Liquidación</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Percepciones</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Deducciones</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Total</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Finiquito Total</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Motivo</strong></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <t t-foreach="data['salary_rule_list']" t-as="rule">
+                                                <td class="text-center" colspan="10">
+                                                    <span style="font-size:xx-small"><strong><span t-esc="rule"/></strong></span>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                        <t t-set="cont" t-value="1"/>
+                                        <t t-foreach="data['per_employee'].keys()" t-as="employee">
+                                            <tr>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="cont"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['code']"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['complete_name']"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['low_date']" t-options="{'widget':'date'}"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['settlemen_date']" t-options="{'widget':'date'}"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="float(data['per_employee'][employee]['perception'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                     <span style="font-size:xx-small"><span t-esc="float(data['per_employee'][employee]['deduction'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="float(data['per_employee'][employee]['total'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="float(data['per_employee'][employee]['settlement_total'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['reason_liquidation']"/></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <t t-foreach="data['salary_rule_list']" t-as="rule">
+                                                    <td class="text-center" colspan="10">
+                                                        <span style="font-size:xx-small"><span t-esc="float(data['per_employee'][employee]['salary_rule_employee'][rule])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></span>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                            <t t-set="cont" t-value="cont+1"/>
+                                    </t>
+                                    </tbody>
+                                </table>
+                                <table class="table table-condensed" style="width: 25%; font-size:xx-small">
+                                    <tbody style="background-color: #ABAFAF;">
+                                        <tr>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Leyenda</strong></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div t-if="data['type']=='1'">
+                            hola
+                            hola
+                            hola
+                            hola
+                        </div>
                     </div>
                 </t>
             </t>
