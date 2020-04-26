@@ -310,7 +310,7 @@ class HrPayslipRun(models.Model):
                     self.amount_honorarium = ((self.group_id.percent_honorarium / 100) * base_salary)
             else:
                 raise ValidationError(_("Para Cargar 'Honorarios' a la nómina establesca el valor del porcentaje al registro del 'Grupo/Empresa'."))
-        subtotal = neto + imss_rcv_infonavit + isr + isn + self.amount_honorarium
+        subtotal = base_salary + imss_rcv_infonavit + isr + isn + self.amount_honorarium
         iva = ((self.iva_tax / 100) * subtotal)
         if self.iva_tax > 0:
             self.iva_amount = iva
@@ -362,49 +362,19 @@ class HrPayslipRun(models.Model):
         return self.env.ref('payroll_mexico.action_payroll_summary_report').report_action(self,data)       
 
     @api.multi
-    def print_payroll_deposit_report(self):
-        payrolls = self.filtered(lambda s: s.state in ['close'])
-        payroll_dic = {}
-        employees = []
-        total = 0
-        for payroll in payrolls:
-            payroll_dic['payroll_of_month'] = payroll.payroll_of_month
-            payroll_dic['date_large'] = '%s a %s' %(payroll.date_start.strftime("%d/%b/%Y").title(), payroll.date_end.strftime("%d/%b/%Y").title())
-            company = payroll.mapped('slip_ids').mapped('company_id')
-            payroll_dic['rfc'] = company.rfc
-            payroll_dic['employer_registry'] = company.employer_register_ids.filtered(lambda r: r.state == 'valid').mapped('employer_registry')[0] or ''
-            for slip in payroll.slip_ids:
-                total += sum(slip.line_ids.filtered(lambda r: r.category_id.code == 'NET').mapped('total'))
-                employees.append({
-                    'enrollment': slip.employee_id.enrollment,
-                    'name': slip.employee_id.name_get()[0][1],
-                    'bank_key': slip.employee_id.get_bank().bank_id.code if slip.employee_id.get_bank() else '',
-                    'bank': slip.employee_id.get_bank().bank_id.name if slip.employee_id.get_bank() else '',
-                    'account': slip.employee_id.get_bank().bank_account if slip.employee_id.get_bank() else '',
-                    'total': slip.line_ids.filtered(lambda r: r.category_id.code == 'NET').mapped('total')[0] or self.not_total(),
-                })
-            payroll_dic['employees'] = employees
-            payroll_dic['total_records'] = len(payroll.slip_ids)
-        payroll_dic['total'] = total
-        data={
-            'payroll_data':payroll_dic
-            }
-        return self.env.ref('payroll_mexico.payroll_deposit_report_template').report_action(self,data)       
-
-    @api.multi
     def print_fault_report(self):
         payroll_dic = {}
         payrolls = self.filtered(lambda s: s.state not in ['cancel'])
         leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
+        employees = []
         for payroll in payrolls:
             company = payroll.mapped('slip_ids').mapped('company_id')
-            payroll_dic['rfc'] = company.rfc
             payroll_dic['date_start'] = '%s/%s/%s' %(payroll.date_start.strftime("%d"), payroll.date_start.strftime("%b").title(), payroll.date_start.strftime("%Y"))
             payroll_dic['date_end'] = '%s/%s/%s' %(payroll.date_end.strftime("%d"), payroll.date_end.strftime("%b").title(), payroll.date_end.strftime("%Y"))
             employee_ids = payroll.slip_ids.mapped('employee_id')
             fault_data = []
+            
             for employee in employee_ids:
-                
                 for slip in payroll.slip_ids:
                     if employee.id == slip.employee_id.id:
                         total = 0
@@ -419,7 +389,8 @@ class HrPayslipRun(models.Model):
                                     if leave.time_type == 'leave':
                                         absenteeism += wl.number_of_days
                         total += inhability + absenteeism
-                        if total > 0:
+                        if total > 0 and employee.id not in employees:
+                            employees.append(employee.id)
                             fault_data.append({
                                 'enrollment': employee.enrollment,
                                 'name': employee.name_get()[0][1],
@@ -431,7 +402,7 @@ class HrPayslipRun(models.Model):
                                 'absenteeism': round(absenteeism, 2),
                             })
                 payroll_dic['employee_data'] = fault_data
-        
+
         data={
             'payroll_data': payroll_dic
             }

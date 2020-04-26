@@ -68,13 +68,15 @@
                 </xpath> 
                 <xpath expr="//header" position="inside">
                     <button name="action_layout_dispersion" string="Layout Dispersion" type="object" class="o_sale_print"/>
-                    <button name="print_payroll_deposit_report" string="Payroll Deposit Report" type="object" states="close" class="o_sale_print"/>
-                    <button name="print_fault_report" string="Reporte de faltas" type="object" class="o_sale_print" attrs="{'invisible': [('payroll_type','!=','O')]}"/>
+                    <button name="%(payroll_mexico.action_wizard_deposit_report)d" string="Payroll Deposit Report" type="action" class="o_sale_print"/>
+                    <button name="print_fault_report" string="Reporte de faltas" type="object" class="o_sale_print"/>
                     <button name="%(payroll_mexico.action_payslip_run_rule_details)d" string="Reporte detalles de calculos" type="action" class="o_sale_print"/>
+                    
                     <button name="action_print_report" string="Reporte de Nómina Excel" type="object" class="o_sale_print" attrs="{'invisible': [('before_multiple_structure','=', False)]}"/>
                     <button name="action_print_report_group_by" string="Reporte de Nómina Excel" type="object" class="o_sale_print" attrs="{'invisible': [('before_multiple_structure','!=', False)]}"/>
                     <!-- <button name="set_tax_iva_honorarium" string="Calcular IVA & Honorarios" type="object" class="o_sale_print"/> -->
-                    <button name="print_payroll_summary_report" string="Resumen de Nómina" type="object" class="o_sale_print"/>
+                    <button name="print_payroll_summary_report" string="Resumen de Nómina" type="object" class="o_sale_print" attrs="{'invisible': [('before_multiple_structure','=', False)]}"/>
+                    <button name="%(payroll_mexico.action_wizard_sumary_report)d" string="Resumen de Nómina" type="action" class="o_sale_print" attrs="{'invisible': [('before_multiple_structure','!=', False)]}"/>
                     <button name="generate_cfdi" string="Generar CFDI" type="object" class="o_sale_print" attrs="{'invisible': ['|',('contracting_regime','in',['05']),('state','not in',['close'])]}"/>
                 </xpath>
                 <xpath expr="//field[@name='name']" position="before">

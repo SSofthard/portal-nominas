@@ -15,8 +15,6 @@
                 <t t-call="web.internal_layout">
                     <h6 class="text-left">
                         <t t-esc="payroll_data['date_end']"/>
-                        <br/><strong>RFC: </strong>:
-                        <t t-esc="payroll_data['rfc']"/>
                     </h6>
                     <h4 align="center" style="background-color: #ABAFAF;"><b>Reporte de faltas</b></h4>
                     <div class="page" >
