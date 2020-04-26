@@ -17,7 +17,7 @@ from datetime import date
 from datetime import datetime, time as datetime_time, timedelta
 
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError, AccessError
+from odoo.exceptions import UserError, AccessError
 
 
 class HrSumaryReport(models.TransientModel):
@@ -123,9 +123,10 @@ class HrSumaryReport(models.TransientModel):
         if contracting_domain:
             domain += [('contracting_regime','in', contracting_domain)]
         payslips = PayslipObj.search(domain, order="date_from asc, id asc")
-        
-        for payslip in payslips:
+        if not payslips:
+            raise UserError(_('No results found.'))
             
+        for payslip in payslips:
             base_salary = []
             net = []
             imss_rcv_infonavit = []
