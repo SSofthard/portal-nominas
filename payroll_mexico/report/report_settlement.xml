@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--
+    <record id="paperformat_letter_landscape" model="report.paperformat">
+        <field name="name"> Letter Landscape</field>
+        <field name="default" eval="True" />
+        <field name="format">Letter</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">23</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+-->
+    
+        <report id="report_settlement_low"
+          string="Report settlement and low"
+          model="payroll.report.settlement" 
+          report_type="qweb-pdf" 
+          name="payroll_mexico.template_report_settlement_low"
+          paperformat="payroll_mexico.paperformat_letter_landscape"
+         />
+         
+        <template id="template_report_settlement_low" >
+            <t t-call="web.internal_layout">
+                <t t-call="web.html_container">
+                    <div class="page" style="font-size:12px">
+                        <h4 class="text-center" style="background-color: #ABAFAF;">FINIQUITOS Y BAJAS</h4>
+                        <br/>
+                        <table class="table table-condensed">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <strong>Clave</strong>
+                                        </td>
+                                        <td class="text-center" colspan="3">
+                                            <strong>Nombre del Empleado</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Fecha de Baja</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Percepciones</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Deducciones</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Total</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Finiquito Total</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Motivo</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

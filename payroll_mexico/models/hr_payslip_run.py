@@ -398,7 +398,7 @@ class HrPayslipRun(models.Model):
         leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
         for payroll in payrolls:
             company = payroll.mapped('slip_ids').mapped('company_id')
-            payroll_dic['rfc'] = company.rfc
+            payroll_dic['rfc'] = company[0].rfc
             payroll_dic['date_start'] = '%s/%s/%s' %(payroll.date_start.strftime("%d"), payroll.date_start.strftime("%b").title(), payroll.date_start.strftime("%Y"))
             payroll_dic['date_end'] = '%s/%s/%s' %(payroll.date_end.strftime("%d"), payroll.date_end.strftime("%b").title(), payroll.date_end.strftime("%Y"))
             employee_ids = payroll.slip_ids.mapped('employee_id')

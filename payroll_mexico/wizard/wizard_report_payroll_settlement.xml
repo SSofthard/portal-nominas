@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    
+    <record id="wizard_payroll_report_settlement" model="ir.ui.view">
+        <field name="name">payroll.report.settlement</field>
+        <field name="model">payroll.report.settlement</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                         <field name="group_id"/>
+                         <field name="type"/>
+                    </group>
+                    <group>
+                         <field name="date_from"/>
+                         <field name="date_to"/>
+                    </group>
+                </group>
+                <field name="employee_ids" domain="[('group_id','=',group_id)]">
+                    <tree>
+                        <field name="complete_name"/>
+                    </tree>
+                </field>
+                <field name="salary_rule_ids">
+                    <tree>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </tree>
+                </field>
+           <footer>
+                <button string="Print pdf" name="report_print" type="object" default_focus="1" class="btn-primary"/>
+                <button string="Cancel" class="btn-default" special="cancel"/>
+            </footer>
+           </form>
+        </field>
+    </record>
+    
+    <act_window
+        id="action_wizard_payroll_report_settlement"
+        name="Settlement and low"
+        res_model="payroll.report.settlement"
+        view_mode="form"
+        multi="True"
+        target="new"
+       />
+
+    <menuitem
+        name="Settlement and low" 
+        id="menu_wizard_payroll_report_settlement" 
+        action="action_wizard_payroll_report_settlement" 
+        parent="payroll_mexico.menu_payroll_line_report_root"
+        groups="hr_payroll.group_hr_payroll_user"/>
+    
+</odoo>

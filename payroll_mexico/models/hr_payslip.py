@@ -1873,8 +1873,8 @@ class HrPayslip(models.Model):
             res.append(count_days_weeks)
             res.append(attendances)
             res.append(prima_dominical)
-            if self.payroll_period == 'O' or self.settlement == True: 
-                res.extend(leaves.values())
+            # ~ if self.payroll_period == 'O' or self.settlement == True: 
+            res.extend(leaves.values())
         return res
         
     @api.onchange('contract_id')

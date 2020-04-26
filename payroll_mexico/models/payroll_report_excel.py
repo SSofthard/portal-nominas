@@ -77,7 +77,7 @@ class HrPayslipRun(models.Model):
     def prepare_report_data(self):
         PayslipObj = self.env['hr.payslip'].sudo()
         domain = [
-            ('payslip_run_id', '>=', self.id),
+            ('payslip_run_id', '=', self.id),
         ]
         all_lines = {}
         result = {}
