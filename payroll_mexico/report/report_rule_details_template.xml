@@ -15,8 +15,6 @@
                 <t t-call="web.internal_layout">
                     <h6 class="text-left">
                         <t t-esc="payroll_data['date_end']"/>
-                        <br/><strong>RFC</strong>:
-                        <t t-esc="payroll_data['rfc']"/>
                     </h6>
                     <h5 align="center" style="background-color: #ABAFAF;"><b>Detalles de Cálculos Salarial</b></h5>
                     <h6 align="center" >
@@ -35,6 +33,7 @@
                                 <tr>
                                     <th class="text-left">Clave</th>
                                     <th class="text-center">Nombre del trabajador</th>
+                                    <th class="text-center">Structura Salarial</th>
                                     <th class="text-right">Importe</th>
                                 </tr>
                             </thead>
@@ -46,6 +45,9 @@
                                         </td>
                                         <td class="text-center">
                                             <t t-esc="employee['name']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="employee['struct']"/>
                                         </td>
                                         <td class="text-right">
                                             <t t-esc="employee['total']" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
