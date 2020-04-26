@@ -310,7 +310,7 @@ class HrPayslipRun(models.Model):
                     self.amount_honorarium = ((self.group_id.percent_honorarium / 100) * base_salary)
             else:
                 raise ValidationError(_("Para Cargar 'Honorarios' a la nómina establesca el valor del porcentaje al registro del 'Grupo/Empresa'."))
-        subtotal = neto + imss_rcv_infonavit + isr + isn + self.amount_honorarium
+        subtotal = base_salary + imss_rcv_infonavit + isr + isn + self.amount_honorarium
         iva = ((self.iva_tax / 100) * subtotal)
         if self.iva_tax > 0:
             self.iva_amount = iva

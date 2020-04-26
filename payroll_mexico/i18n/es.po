@@ -3288,6 +3288,7 @@ msgstr "Aprobado"
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "April"
 msgstr "Abril"
 

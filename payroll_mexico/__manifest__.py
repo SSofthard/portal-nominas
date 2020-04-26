@@ -35,6 +35,7 @@
         'wizard/wizard_infonavit_employee.xml',
         'wizard/wizard_compute_sdi_vars.xml',
         'wizard/hr_employee_import_view.xml',
+        'wizard/wizard_sumary_report_view.xml',
         'views/compute_sdi_vars_lines_processed.xml',
         'views/res_company_view.xml',
         'views/table_settings.xml',
