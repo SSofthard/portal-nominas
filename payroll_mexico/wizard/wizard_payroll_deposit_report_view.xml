@@ -41,7 +41,7 @@
     </record>
     
     <record id="action_wizard_deposit_report" model="ir.actions.act_window">
-        <field name="name">deposit.report</field>
+        <field name="name">Deposit Report</field>
         <field name="res_model">hr.wizard.deposit.report</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
