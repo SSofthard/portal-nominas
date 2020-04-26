@@ -47,21 +47,35 @@ class payrollReportSettlement(models.TransientModel):
                             ('slip_id.struct_id.settlement','=',True),
                             ('total','>',0)]
             per_employee = {}
+            amount_total = {}
             if self.employee_ids:
                 domain.append(('employee_id','in',self.employee_ids.ids))
             if self.salary_rule_ids:
                 domain_rule.append(('salary_rule_id','in',self.salary_rule_ids.ids))
             settlement_ids = self.env['hr.payslip'].search(domain)
+            if not settlement_ids:
+                raise UserError(_('There are no settlements for the requested search..'))
             salary_rule_list =   list(map(lambda x: x.code, self.env['hr.payslip.line'].search(domain_rule).mapped('salary_rule_id')))
+            salary_rule_list_leyend =   list(map(lambda x: x.code+' - '+x.name, self.env['hr.payslip.line'].search(domain_rule).mapped('salary_rule_id')))
+            perception_total = 0
+            deduction_total = 0
+            total_general = 0
+            settlement_total = 0
             for settlement in settlement_ids:
                 salary_rule_employee={}
                 perception = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['GROSS']),('slip_id','=',settlement.id)]).mapped('total'))
                 deduction = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['DEDT']),('slip_id','=',settlement.id)]).mapped('total'))
                 total = sum(self.env['hr.payslip.line'].search([('category_id.code','in',['NET']),('slip_id','=',settlement.id)]).mapped('total'))
-                
+                perception_total += perception
+                total_general += total
+                deduction_total += deduction
                 for code in salary_rule_list:
                      amount = sum(self.env['hr.payslip.line'].search([('salary_rule_id.code','=',code),('total','>',0),('slip_id','=',settlement.id)]).mapped('total'))
                      salary_rule_employee[code] = amount
+                     if code in amount_total:
+                         amount_total[code] = float(amount_total[code])+amount
+                     else:
+                         amount_total[code] = amount
                 per_employee[settlement.employee_id.id]={
                                           'complete_name':settlement.employee_id.complete_name,
                                           'code':settlement.employee_id.enrollment,
@@ -76,7 +90,13 @@ class payrollReportSettlement(models.TransientModel):
                                           }
             data['per_employee'] = per_employee
             data['salary_rule_list'] = salary_rule_list
+            data['salary_rule_list_leyend'] = salary_rule_list_leyend
+            data['amount_total'] = amount_total
             data['type'] = '2'
+            data['perception_total'] = perception_total
+            data['deduction_total'] = deduction_total
+            data['total_general'] = total_general
+            data['settlement_total'] = settlement_total
         else:
             data['type'] = '1'
         data['date_from'] = self.date_from

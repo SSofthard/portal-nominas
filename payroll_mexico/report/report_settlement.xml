@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
-<!--
-    <record id="paperformat_letter_landscape" model="report.paperformat">
-        <field name="name"> Letter Landscape</field>
-        <field name="default" eval="True" />
-        <field name="format">Letter</field>
-        <field name="page_height">0</field>
-        <field name="page_width">0</field>
-        <field name="orientation">Landscape</field>
-        <field name="margin_top">40</field>
-        <field name="margin_bottom">23</field>
-        <field name="margin_left">7</field>
-        <field name="margin_right">7</field>
-        <field name="header_line" eval="False" />
-        <field name="header_spacing">35</field>
-        <field name="dpi">90</field>
-    </record>
--->
     
         <report id="report_settlement_low"
           string="Report settlement and low"
@@ -122,15 +104,61 @@
                                             </tr>
                                             <t t-set="cont" t-value="cont+1"/>
                                     </t>
+                                    <tr>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong><span style="font-size:xx-small" t-esc="float(data['perception_total'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong><span style="font-size:xx-small" t-esc="float(data['deduction_total'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong><span style="font-size:xx-small" t-esc="float(data['total_general'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong><span style="font-size:xx-small" t-esc="float(data['settlement_total'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                           <t t-foreach="data['salary_rule_list']" t-as="rule">
+                                                <td class="text-center" colspan="10">
+                                                    <strong><span style="font-size:xx-small" t-esc="float(data['amount_total'][rule])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></strong>
+                                                </td>
+                                            </t>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <table class="table table-condensed" style="width: 25%; font-size:xx-small">
-                                    <tbody style="background-color: #ABAFAF;">
-                                        <tr>
-                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                    <tbody>
+                                        <tr style="background-color: #ABAFAF;">
+                                            <td class="text-center">
                                                 <span style="font-size:xx-small"><strong>Leyenda</strong></span>
                                             </td>
                                         </tr>
+                                        <t t-foreach="data['salary_rule_list_leyend']" t-as="rule">
+                                            <tr>
+                                                <td class="text-center" colspan="10">
+                                                    <span style="font-size:xx-small"><span t-esc="rule"/></span>
+                                                </td>
+                                            </tr>
+                                        </t>
                                     </tbody>
                                 </table>
                             </div>
