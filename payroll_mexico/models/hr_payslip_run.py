@@ -396,6 +396,7 @@ class HrPayslipRun(models.Model):
         payroll_dic = {}
         payrolls = self.filtered(lambda s: s.state not in ['cancel'])
         leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
+        employees = []
         for payroll in payrolls:
             company = payroll.mapped('slip_ids').mapped('company_id')
             payroll_dic['rfc'] = company[0].rfc
@@ -403,8 +404,8 @@ class HrPayslipRun(models.Model):
             payroll_dic['date_end'] = '%s/%s/%s' %(payroll.date_end.strftime("%d"), payroll.date_end.strftime("%b").title(), payroll.date_end.strftime("%Y"))
             employee_ids = payroll.slip_ids.mapped('employee_id')
             fault_data = []
+            
             for employee in employee_ids:
-                
                 for slip in payroll.slip_ids:
                     if employee.id == slip.employee_id.id:
                         total = 0
@@ -419,7 +420,8 @@ class HrPayslipRun(models.Model):
                                     if leave.time_type == 'leave':
                                         absenteeism += wl.number_of_days
                         total += inhability + absenteeism
-                        if total > 0:
+                        if total > 0 and employee.id not in employees:
+                            employees.append(employee.id)
                             fault_data.append({
                                 'enrollment': employee.enrollment,
                                 'name': employee.name_get()[0][1],
@@ -431,7 +433,7 @@ class HrPayslipRun(models.Model):
                                 'absenteeism': round(absenteeism, 2),
                             })
                 payroll_dic['employee_data'] = fault_data
-        
+
         data={
             'payroll_data': payroll_dic
             }
