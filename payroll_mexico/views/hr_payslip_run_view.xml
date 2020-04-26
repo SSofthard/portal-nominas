@@ -46,14 +46,16 @@
 				<xpath expr="//header" position="inside">
 					<field name="before_multiple_structure" invisible="1"/>
 					<field name="incidence_awaiting_approval" invisible="1"/>
-                        <button name="print_payslip_run_details"
-                            type="object"
+                        <button name="%(action_wizard_payroll_run_details)d"
+                            type="action"
                             string="Imprimir detalles de nómina"
+                            states="close"
                         >
                         </button>
                         <button name="%(action_wizard_payroll_dispersion_txt)d"
                             type="action"
                             string="Imprimir dispersión txt"
+                            states="close"
                         >
                         </button>
 

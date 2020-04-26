@@ -467,9 +467,10 @@ class HrPayslipRun(models.Model):
     
     @api.multi
     def action_view_payslip(self):
+        domain = [('slip_id','in',self.slip_ids._ids)]
         return {
             'name': _('Detalles de Nómina'),
-            # ~ 'domain': domain,
+            'domain': domain,
             'res_model': 'hr.payslip.line',
             'type': 'ir.actions.act_window',
             'view_id': False,
