@@ -37,14 +37,18 @@ class payrollReportSettlement(models.TransientModel):
     @api.multi
     def report_print(self):
         data={}
-        
         if self.type == '2':
-            domain = [('struct_id.settlement','=',True),('settlemen_date', '>=', self.date_from),('settlemen_date', '<=', self.date_to),('group_id', '=', self.group_id.id)]
+            domain = [('struct_id.settlement','=',True),
+                      ('settlemen_date', '>=', self.date_from),
+                      ('settlemen_date', '<=', self.date_to),
+                      ('group_id', '=', self.group_id.id),
+                      ('state', 'in', ['done'])]
             domain_rule = [('salary_rule_id.print_to_excel','=',True),
                             ('slip_id.settlemen_date', '>=', self.date_from),
                             ('slip_id.settlemen_date', '<=', self.date_to),
                             ('slip_id.group_id', '<=', self.group_id.id),
                             ('slip_id.struct_id.settlement','=',True),
+                            ('slip_id.state','in',['done']),
                             ('total','>',0)]
             per_employee = {}
             amount_total = {}
@@ -73,18 +77,18 @@ class payrollReportSettlement(models.TransientModel):
                      amount = sum(self.env['hr.payslip.line'].search([('salary_rule_id.code','=',code),('total','>',0),('slip_id','=',settlement.id)]).mapped('total'))
                      salary_rule_employee[code] = amount
                      if code in amount_total:
-                         amount_total[code] = float(amount_total[code])+amount
+                         amount_total[code] = float(amount_total[code])+round(amount,2)
                      else:
-                         amount_total[code] = amount
+                         amount_total[code] = round(amount,2)
                 per_employee[settlement.employee_id.id]={
                                           'complete_name':settlement.employee_id.complete_name,
                                           'code':settlement.employee_id.enrollment,
                                           'low_date':settlement.date_end,
                                           'settlemen_date':settlement.settlemen_date,
-                                          'perception':perception,
-                                          'deduction':deduction,
-                                          'total':total,
-                                          'settlement_total':'0',
+                                          'perception':round(perception,2),
+                                          'deduction':round(deduction,2),
+                                          'total':round(total,2),
+                                          'settlement_total':round(0,2),
                                           'reason_liquidation':dict(settlement._fields['reason_liquidation']._description_selection(self.env)).get(settlement.reason_liquidation),
                                           'salary_rule_employee':salary_rule_employee,
                                           }
@@ -93,15 +97,51 @@ class payrollReportSettlement(models.TransientModel):
             data['salary_rule_list_leyend'] = salary_rule_list_leyend
             data['amount_total'] = amount_total
             data['type'] = '2'
-            data['perception_total'] = perception_total
-            data['deduction_total'] = deduction_total
-            data['total_general'] = total_general
-            data['settlement_total'] = settlement_total
+            data['perception_total'] = round(perception_total,2)
+            data['deduction_total'] = round(deduction_total,2)
+            data['total_general'] = round(total_general,2)
+            data['settlement_total'] = round(settlement_total,2)
         else:
+            rules_amount_dict = {}
+            settlement_dict = {}
+            domain_rule = [('salary_rule_id.print_to_excel','=',True),
+                        ('slip_id.settlemen_date', '>=', self.date_from),
+                        ('slip_id.settlemen_date', '<=', self.date_to),
+                        ('slip_id.group_id', '<=', self.group_id.id),
+                        ('slip_id.struct_id.settlement','=',True),
+                        ('slip_id.state','in',['done']),
+                        ]
+            if self.salary_rule_ids:
+                domain_rule.append(('salary_rule_id','in',self.salary_rule_ids.ids))
+            if self.employee_ids:
+                domain_rule.append(('slip_id.employee_id','in',self.employee_ids.ids))
+            salary_rule_list =   list(map(lambda x: x.code, self.env['hr.payslip.line'].search(domain_rule).mapped('salary_rule_id')))
+            if not salary_rule_list:
+                raise UserError(_('There are no settlements for the requested search..'))
+            settlement_ids = self.env['hr.payslip.line'].search(domain_rule).mapped('slip_id')
+            for code in salary_rule_list:
+                rule = self.env['hr.payslip.line'].search([('salary_rule_id.code','=',code)]+domain_rule)
+                rules_amount_dict[code]={
+                                        'amount':round(sum(rule.mapped('total')),2),
+                                        'code':code,
+                                        'name':rule[0].name,
+                                        }
+            for settlement in settlement_ids:
+                settlement_dict[settlement.id]={
+                                        'settlement':settlement.code_payslip+str(settlement.number),
+                                        'employee':settlement.employee_id.complete_name,
+                                        'settlemen_date':settlement.settlemen_date,
+                                        'contract':settlement.contract_id.name,
+                                        }
             data['type'] = '1'
+            data['rules_amount_dict'] = rules_amount_dict
+            data['settlement_dict'] = settlement_dict
         data['date_from'] = self.date_from
         data['date_to'] = self.date_to
         data['group_id'] = self.group_id.name
         return self.env.ref('payroll_mexico.report_settlement_low').report_action([], data=data)
-
+    
+    @api.multi
+    def report_print_excel(self):
+        return
     

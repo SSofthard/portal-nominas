@@ -5,7 +5,7 @@
         <report id="report_settlement_low"
           string="Report settlement and low"
           model="payroll.report.settlement" 
-          report_type="qweb-pdf" 
+          report_type="qweb-html" 
           name="payroll_mexico.template_report_settlement_low"
           paperformat="payroll_mexico.paperformat_letter_landscape"
          />
@@ -163,10 +163,87 @@
                                 </table>
                             </div>
                         <div t-if="data['type']=='1'">
-                            hola
-                            hola
-                            hola
-                            hola
+                            <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" colspan="1">
+                                                <span style="font-size:xx-small"><strong>N°</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="2">
+                                                <span style="font-size:xx-small"><strong>Clave</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="6">
+                                                <span style="font-size:xx-small"><strong>Nombre de la regla</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="3">
+                                                <span style="font-size:xx-small"><strong>Monto</strong></span>
+                                            </td>
+                                        </tr>
+                                        <t t-set="cont" t-value="1"/>
+                                        <t t-foreach="data['rules_amount_dict'].keys()" t-as="rule">
+                                            <tr>
+                                                <td class="text-center" colspan="1">
+                                                    <span style="font-size:xx-small" t-esc="cont"/>
+                                                </td>
+                                                <td class="text-center" colspan="2">
+                                                    <span style="font-size:xx-small" t-esc="data['rules_amount_dict'][rule]['code']"/>
+                                                </td>
+                                                <td class="text-center" colspan="6">
+                                                    <span style="font-size:xx-small" t-esc="data['rules_amount_dict'][rule]['name']"/>
+                                                </td>
+                                                <td class="text-center" colspan="3">
+                                                    <span style="font-size:xx-small" t-esc="float(data['rules_amount_dict'][rule]['amount'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                            <t t-set="cont" t-value="cont+1"/>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                
+                                <span style="font-size:xx-small">Finiquitos/Liquidación tomados en cuenta para el calculo del consolidado.</span>
+                                
+                                <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" colspan="1">
+                                                <span style="font-size:xx-small"><strong>N°</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="3">
+                                                <span style="font-size:xx-small"><strong>Finiquito/Liquidación</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="6">
+                                                <span style="font-size:xx-small"><strong>Empleado</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="3">
+                                                <span style="font-size:xx-small"><strong>Fecha de Finiquito/Liquidación</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="6">
+                                                <span style="font-size:xx-small"><strong>Contrato</strong></span>
+                                            </td>
+                                        </tr>
+                                        <t t-set="cont" t-value="1"/>
+                                        <t t-foreach="data['settlement_dict'].keys()" t-as="settlement">
+                                            <tr>
+                                                <td class="text-center" colspan="1">
+                                                    <span style="font-size:xx-small" t-esc="cont"/>
+                                                </td>
+                                                <td class="text-center" colspan="2">
+                                                    <span style="font-size:xx-small" t-esc="data['settlement_dict'][settlement]['settlement']"/>
+                                                </td>
+                                                <td class="text-center" colspan="6">
+                                                    <span style="font-size:xx-small" t-esc="data['settlement_dict'][settlement]['employee']"/>
+                                                </td>
+                                                <td class="text-center" colspan="6">
+                                                    <span style="font-size:xx-small" t-esc="data['settlement_dict'][settlement]['settlemen_date']"/>
+                                                </td>
+                                                <td class="text-center" colspan="6">
+                                                    <span style="font-size:xx-small" t-esc="data['settlement_dict'][settlement]['contract']"/>
+                                                </td>
+                                            </tr>
+                                            <t t-set="cont" t-value="cont+1"/>
+                                        </t>
+                                    </tbody>
+                                </table>
                         </div>
                     </div>
                 </t>
