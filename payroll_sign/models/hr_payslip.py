@@ -27,6 +27,9 @@ class HrPayslip(models.Model):
 
     #Columns
     pdf_signed = fields.Boolean(string='Document Signed')
+    sign_status = fields.Selection(related='sign_request_id.state')
+    sign_request_id = fields.Many2one(string='Solicitud de firmado')
+
 
     def send_pdf_to_sign(self):
         '''
@@ -52,16 +55,6 @@ class HrPayslip(models.Model):
                 'height': 0.040,
                                          })],
         })
-        # sign_request = sign_request_obj.create({
-        #     'template_id': sign_template.id,
-        #     'reference': sign_template.name,
-        #     'request_item_ids': [(0, False,{
-        #         'partner_id':self.employee_id.address_home_id.id,
-        #         'role_id':self.env['sign.item.role'].search([('name','=','Empleado')]).id,
-        #         'signer_email': self.employee_id.work_email,
-        #         })],
-        #     'completed_document': sign_template.datas,
-        # })
         print (self.env['sign.item.role'].search([('name', '=', 'Empleado')]).id)
         print (self.env['sign.item.role'].search([('name', '=', 'Empleado')]).id)
         sign_send_request = sign_send_request_obj.create({
