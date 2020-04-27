@@ -12320,8 +12320,9 @@ msgid "The work center name must be unique !"
 msgstr "El nombre del centro de trabajo debe ser único!"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:61
-#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:120
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:65
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:124
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:208
 #, python-format
 msgid "There are no settlements for the requested search.."
 msgstr "No hay finiquitos para la búsqueda solicitada."

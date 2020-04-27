@@ -171,16 +171,214 @@ class payrollReportSettlement(models.TransientModel):
         lang_code = self.env.user.lang or 'en_US'
         date_format = self.env['res.lang']._lang_get(lang_code).date_format
         time_format = self.env['res.lang']._lang_get(lang_code).time_format
+        print_time = fields.Datetime.context_timestamp(self.with_context(tz=self.env.user.tz), fields.Datetime.now()).strftime(('%s %s') % (date_format, time_format)),
+        
+        def _get_data_float(data):
+            if data is None or not data:
+                return 0.0
+            else:
+                return company_ids[0].currency_id.round(data) + 0.0
+        
+        def get_date_format(date):
+            if date:
+                # date = datetime.strptime(date, DEFAULT_SERVER_DATE_FORMAT)
+                date = date.strftime(date_format)
+            return date
         
         locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
         date_start = self.date_from.strftime("%d/%b/%Y").title()
         date_end = self.date_to.strftime("%d/%b/%Y").title()
         f_name = '%s - %s al %s' %(self.group_id.name, date_start, date_end)
-        sheet_all_name = self.group_id.name
-        sheet_all = workbook.add_worksheet(sheet_all_name.upper())
+        sheet_name = self.group_id.name
+        sheet = workbook.add_worksheet(sheet_name.upper())
+        
+        def _header_sheet(sheet):
+            sheet.merge_range('A1:D1','', report_format)
+            sheet.merge_range('A2:D2','', report_format)
+            sheet.merge_range('A3:D3','', report_format)
+            sheet.merge_range('A4:D4','', report_format)
+            sheet.write(0, 0, _('FINIQUITOS Y BAJAS'), report_format)
+            sheet.write(1, 0, _('Período: %s al %s') %(get_date_format(self.date_from), get_date_format(self.date_to)), report_format)
+            sheet.write(2, 0, _('Grupo/Empresa: %s') %(self.group_id.name), report_format)
+            sheet.write(3, 0, _('Fecha y hora de la generación del Reporte: %s') % print_time, report_format)
+        _header_sheet(sheet)
         
         data = self.get_report_data()
+        if not data:
+            raise UserError(_('There are no settlements for the requested search..'))
         print (data)
+        
+        def _insert_table_consolidated():
+            main_col_count = 0
+            row_count = 5
+            sheet.set_row(row_count, 40, )
+            sheet.write(row_count, main_col_count, 'N°', header_format)
+            sheet.set_column(row_count, main_col_count, 20)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Clave', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Nombre\nde la\nRegla', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Monto', header_format)
+            main_col_count += 1
+        
+            row_count += 1
+            
+            col_count = 0
+            count = 0
+            for rule in data['rules_amount_dict']:
+                count += 1
+                sheet.write(row_count, col_count, count, report_format2)
+                col_count += 1
+                sheet.write(row_count, col_count, data['rules_amount_dict'][rule]['code'], report_format2)
+                col_count += 1
+                sheet.write(row_count, col_count, data['rules_amount_dict'][rule]['name'], report_format2)
+                col_count += 1
+                sheet.write(row_count, col_count, data['rules_amount_dict'][rule]['amount'], currency_format)
+                col_count = 0
+                row_count += 1
+            row_count += 1
+            start_range = xl_rowcol_to_cell(row_count, 0)
+            end_range = xl_rowcol_to_cell(row_count, 4)
+            merge_range = formula = "{:s}:{:s}".format(start_range, end_range)
+            sheet.merge_range(merge_range,'Finiquitos/Liquidación tomados en cuenta para el calculo del consolidado.', report_format)
+            row_count += 1
+            
+            # Second Table head
+            main_col_count = 0
+            sheet.set_row(row_count, 40, )
+            sheet.write(row_count, main_col_count, 'N°', header_format)
+            sheet.set_column(row_count, main_col_count, 20)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Finiquito/Liquidación', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Nombre\ndel\nEmpleado', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Fecha de\nFiniquito/Liquidación', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Contrato', header_format)
+            row_count += 1
+            
+            count2 = 0
+            col_count2 = 0
+            for settlement in data['settlement_dict']:
+                count2 += 1
+                sheet.write(row_count, col_count2, count2, report_format2)
+                col_count2 += 1
+                sheet.write(row_count, col_count2, data['settlement_dict'][settlement]['settlement'], report_format2)
+                col_count2 += 1
+                sheet.write(row_count, col_count2, data['settlement_dict'][settlement]['employee'], report_format2)
+                col_count2 += 1
+                settlemen_date = get_date_format(data['settlement_dict'][settlement]['settlemen_date'])
+                sheet.write(row_count, col_count2, settlemen_date, report_format2)
+                col_count2 += 1
+                sheet.write(row_count, col_count2, data['settlement_dict'][settlement]['contract'], report_format2)
+                col_count2 = 0
+                row_count += 1
+            row_count += 1
+        
+        
+        if data['type'] == '1':
+            _insert_table_consolidated()
+            
+        #Excel Settlement Groub By Employee
+        def _head_employee(list_head):
+            header = {}
+            for h in list_head:
+                code, name = h.split('-')
+                header[code.strip()] = name.strip()
+            return header
+            
+        def _head_employee2(list_head):
+            header = []
+            for h in list_head:
+                code, name = h.split('-')
+                header.append(name.strip())
+            return header
+            
+        def _insert_table_employee(header_rules):
+            main_col_count = 0
+            row_count = 5
+            sheet.set_row(row_count, 40, )
+            sheet.write(row_count, main_col_count, 'N°', header_format)
+            sheet.set_column(row_count, main_col_count, 20)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Clave', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Nombre\ndel\nEmpleado', header_format)
+            sheet.set_column(row_count, main_col_count, 60)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Fecha\nde\nBaja', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Fecha de\nFiniquito/Liquidación', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Percepciones', header_format)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Deducciones', header_format)
+            sheet.set_column(row_count, main_col_count, 20)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Total', header_format)
+            sheet.set_column(row_count, main_col_count, 20)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Finiquito\nTotal', header_format)
+            sheet.set_column(row_count, main_col_count, 20)
+            main_col_count += 1
+            sheet.write(row_count, main_col_count, 'Motivo', header_format)
+            sheet.set_column(row_count, main_col_count, 20)
+            main_col_count += 1
+            for code in header_rules:
+                col_name = header_rules[code].replace(' ', '\n')
+                sheet.write(row_count, main_col_count, col_name, header_format)
+                sheet.set_column(row_count, main_col_count, 20)
+                main_col_count += 1
+            
+            row_count += 1
+            
+            col_count = 0
+            count = 0
+            for employee in data['per_employee']:
+                count += 1
+                sheet.write(row_count, col_count, count, report_format2)
+                col_count += 1
+                sheet.write(row_count, col_count, data['per_employee'][employee]['code'], report_format2)
+                col_count += 1
+                sheet.write(row_count, col_count, data['per_employee'][employee]['complete_name'], report_format2)
+                col_count += 1
+                low_date = get_date_format(data['per_employee'][employee]['low_date'])
+                sheet.write(row_count, col_count, low_date, report_format2)
+                col_count += 1
+                settlemen_date = get_date_format(data['per_employee'][employee]['settlemen_date'])
+                sheet.write(row_count, col_count, settlemen_date, report_format2)
+                col_count += 1
+                sheet.write(row_count, col_count, data['per_employee'][employee]['perception'], currency_format)
+                col_count += 1
+                sheet.write(row_count, col_count, data['per_employee'][employee]['deduction'], currency_format)
+                col_count += 1
+                sheet.write(row_count, col_count, data['per_employee'][employee]['total'], currency_format)
+                col_count += 1
+                sheet.write(row_count, col_count, data['per_employee'][employee]['settlement_total'], currency_format)
+                col_count += 1
+                sheet.write(row_count, col_count, data['per_employee'][employee]['reason_liquidation'], report_format2)
+                col_count += 1
+                
+                salary_rule_employee = data['per_employee'][employee]['salary_rule_employee']
+                for rule in salary_rule_employee:
+                    sheet.write(row_count, col_count, salary_rule_employee[rule], currency_format)
+                    start_range = xl_rowcol_to_cell(6, col_count)
+                    end_range = xl_rowcol_to_cell(len(data['per_employee']) + 6, col_count)
+                    fila_formula = xl_rowcol_to_cell(len(data['per_employee']) + 6 +1, col_count)
+                    formula = "=SUM({:s}:{:s})".format(start_range, end_range)
+                    sheet.write_formula(fila_formula, formula, formula_format, True)
+                    col_count += 1
+                    
+                col_count = 0
+                row_count += 1
+            row_count += 1
+            
+        if data['type'] == '2':
+            head_rules = _head_employee(data['salary_rule_list_leyend'])
+            _insert_table_employee(head_rules)
+        
         workbook.close()
         xlsx_data = output.getvalue()
         export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsx'})
