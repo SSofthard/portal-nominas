@@ -617,6 +617,8 @@ class HrPayslipRun(models.Model):
                 worked_days_lines += worked_days_lines.new(r)
             payslip.worked_days_line_ids = worked_days_lines
             payslip.compute_sheet()
+            self.slip_ids.compute_amount_untaxed()
+            self.compute_amount_untaxed()
         return 
     
     @api.multi
