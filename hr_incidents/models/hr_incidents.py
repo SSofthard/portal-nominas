@@ -274,7 +274,186 @@ class HolidaysRequest(models.Model):
             values['date_from'] = request_parameters.get('date_from')
             values['date_to'] = request_parameters.get('date_to')
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
-        return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
+        leave = super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
+        rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_incidents.group_hr_holidays_user_groups')
+        rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_holidays.group_hr_holidays_user')
+        partners = self.env['res.users'].search([('group_companys_id','in',[leave.group_id.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+        mail_invite = self.env['mail.wizard.invite'].create({
+                                                            'res_model':'hr.leave',
+                                                            'res_id':leave.id,
+                                                            'partner_ids':[[6, False, partners]],
+                                                            'send_mail':False,
+                                                            })
+        mail_invite.add_followers()
+        return leave
+    
+    def action_send_email_approve(self):
+        groups = self.env['hr.group'].search([])
+        
+        company = self.env['ir.model.data'].xmlid_to_res_id( 'base.main_company')
+        company = self.env['res.company'].search([('id','=',company)])
+        for group in groups:
+            leaves_confirm = self.env['hr.leave'].search([('group_id','=',group.id),('state','in',['confirm'])])
+            leaves_validate = self.env['hr.leave'].search([('group_id','=',group.id),('state','in',['validate1'])])
+            
+            if leaves_confirm:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_incidents.group_hr_holidays_user_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_holidays.group_hr_holidays_user')
+                partners_confirm = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Aprobación de Ausencias</span>\
+                                                        </td>\
+                                                    </tr>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Ausencias se encuentran en espera de aprobación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for leave in leaves_confirm:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(leave.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(leave.holiday_status_id.name)+'</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                mail_confirm = self.env['mail.mail'].create({
+                                        'recipient_ids':[[6, False, partners_confirm]],
+                                        'subject':'Aviso! Ausencias en espera de aprobación.',
+                                        'body_html':body_html
+                                        })
+                mail_confirm.send()
+            if leaves_validate:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_incidents.group_hr_holidays_manager_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_holidays.group_hr_holidays_manager')
+                partners_validate = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Validación de Ausencias</span>\
+                                                        </td>\
+                                                    </tr>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Ausencias se encuentran en espera de validación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for leave in leaves_validate:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(leave.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(leave.holiday_status_id.name)+'</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                
+                
+                mail_validate = self.env['mail.mail'].create({
+                                                'recipient_ids':[[6, False, partners_validate]],
+                                                'subject':'Aviso! Ausencias en espera de validación.',
+                                                'body_html':body_html,
+                                                })
+                mail_validate.send()
+        return
     
 
 class CalendarLeaves(models.Model):
@@ -282,13 +461,6 @@ class CalendarLeaves(models.Model):
 
     time_type = fields.Selection(selection_add=[('inability', 'Incapacidad')])
 
-# ~ def string_to_datetime(value):
-    # ~ """ Convert the given string value to a datetime in UTC. """
-    # ~ return utc.localize(fields.Datetime.from_string(value))
-
-# ~ def datetime_to_string(dt):
-    # ~ """ Convert the given datetime (converted in UTC) to a string value. """
-    # ~ return fields.Datetime.to_string(dt.astimezone(utc))
 
 class ResourceCalendar(models.Model):
     _inherit = "resource.calendar"

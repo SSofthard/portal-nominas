@@ -18,7 +18,9 @@ class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
     _order = 'create_date desc'
     
-    estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', required=True)
+    estructure_id = fields.Many2one('hr.payroll.structure', 'Structure', required=False)
+    estructures_id = fields.Many2many('hr.payroll.structure', 'payroll_run_structure_rel', 'run_id', 'structure_id', 'Structures', required=False)
+    before_multiple_structure = fields.Boolean('Before multiple structure')
     contracting_regime = fields.Selection([
         ('02', 'Wages and salaries'),
         ('05', 'Free'),
@@ -26,7 +28,7 @@ class HrPayslipRun(models.Model):
         ('09', 'Honorary Assimilates'),
         ('11', 'Assimilated others'),
         ('99', 'Other regime'),
-    ], string='Contracting Regime', required=True, default="02")
+    ], string='Contracting Regime', required=False,)
     payroll_type = fields.Selection([
             ('O', 'Ordinary Payroll'),
             ('E', 'Extraordinary Payroll')], 
@@ -465,9 +467,10 @@ class HrPayslipRun(models.Model):
     
     @api.multi
     def action_view_payslip(self):
+        domain = [('slip_id','in',self.slip_ids._ids)]
         return {
             'name': _('Detalles de Nómina'),
-            # ~ 'domain': domain,
+            'domain': domain,
             'res_model': 'hr.payslip.line',
             'type': 'ir.actions.act_window',
             'view_id': False,

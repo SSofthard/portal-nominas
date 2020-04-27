@@ -44,15 +44,18 @@
             <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
             <field name="arch" type="xml">
 				<xpath expr="//header" position="inside">
+					<field name="before_multiple_structure" invisible="1"/>
 					<field name="incidence_awaiting_approval" invisible="1"/>
-                        <button name="print_payslip_run_details"
-                            type="object"
+                        <button name="%(action_wizard_payroll_run_details)d"
+                            type="action"
                             string="Imprimir detalles de nómina"
+                            states="close"
                         >
                         </button>
                         <button name="%(action_wizard_payroll_dispersion_txt)d"
                             type="action"
                             string="Imprimir dispersión txt"
+                            states="close"
                         >
                         </button>
 
@@ -103,7 +106,30 @@
                     <attribute name="states">close,cancel</attribute>
                 </xpath>
                 <xpath expr="//sheet/group" position="after">
-                    <group>
+                    <group col="4">
+                        <field name="estructure_id" attrs="{'readonly': [('generated','=',True)],'invisible': [('before_multiple_structure','=', False)]}"/>
+                        <field name="contracting_regime" attrs="{'readonly': [('generated','=',True)], 'invisible': [('before_multiple_structure','=', False)],}"/>
+                        <field name="employer_register_id"
+                        domain="[('state','=','valid')]"
+                            attrs="{'invisible': [('contracting_regime','!=','02'),('before_multiple_structure','=', False)], 'readonly': [('generated','=',True)]}"/>
+                        <field name="payroll_type" attrs="{'invisible': [('state','=','draft')]}"/>
+                        <field name="payroll_month" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="payroll_of_month" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="payroll_period" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="company_bank_id" attrs="{'readonly': [('state','=','close')]}" domain="[('state','=', 'active')]" options='{"no_open": True, "no_create": True}'/>
+                        <field name="year" attrs="{'readonly': [('generated','=',True)]}"/>
+                        <field name="pay_bonus" attrs="{'invisible': [('bonus_date','!=',True)]}"/>
+                        <field name="table_id" invisible="0"/>
+                        <field name="bonus_date" invisible="1"/>
+                        <field name="generated" readonly="1" invisible="1"/>
+                    </group>
+                    <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('bonus_date','=',False)]}">
+						You can select the option "Pay bonus?" to take into account for this nomination the calculation of the bonuses.
+					</div>
+                    <div class="alert alert-danger" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('incidence_awaiting_approval','=',False)]}">
+						Notice! There are records of Incidents (Absences or Entries) awaiting approval for the payroll period.
+					</div>
+					<group>
                         <group col="4" string="Impuestos">
                             <field name="subtotal_amount_untaxed"/>
                                      <button name="compute_amount_untaxed" type="object" class="oe_left oe_link" states="draft">Cálcular impuesto de la nómina</button>
@@ -125,29 +151,6 @@
                             <field name="amount_honorarium" attrs="{'invisible': ['|', '|', ('apply_honorarium','=', False),('amount_honorarium','=', 0), ('state','=', 'draft')], 'required': [('apply_honorarium','=', True)]}"/>
                         </group>
                     </group>
-                    <group col="4">
-                        <field name="company_bank_id" attrs="{'readonly': [('state','=','close')]}" domain="[('state','=', 'active')]" options='{"no_open": True, "no_create": True}'/>
-                        <field name="estructure_id" attrs="{'readonly': [('generated','=',True)]}"/>
-                        <field name="contracting_regime" attrs="{'readonly': [('generated','=',True)]}"/>
-                        <field name="employer_register_id"
-                        domain="[('state','=','valid')]"
-                            attrs="{'invisible': [('contracting_regime','!=','02')],'required': [('contracting_regime','=','02')], 'readonly': [('generated','=',True)]}"/>
-                        <field name="payroll_type" attrs="{'invisible': [('state','=','draft')]}"/>
-                        <field name="payroll_month" attrs="{'readonly': [('generated','=',True)]}"/>
-                        <field name="payroll_of_month" attrs="{'readonly': [('generated','=',True)]}"/>
-                        <field name="payroll_period" attrs="{'readonly': [('generated','=',True)]}"/>
-                        <field name="year" attrs="{'readonly': [('generated','=',True)]}"/>
-                        <field name="pay_bonus" attrs="{'invisible': [('bonus_date','!=',True)]}"/>
-                        <field name="table_id" invisible="0"/>
-                        <field name="bonus_date" invisible="1"/>
-                        <field name="generated" readonly="1" invisible="1"/>
-                    </group>
-                    <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('bonus_date','=',False)]}">
-						You can select the option "Pay bonus?" to take into account for this nomination the calculation of the bonuses.
-					</div>
-                    <div class="alert alert-danger" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('incidence_awaiting_approval','=',False)]}">
-						Notice! There are records of Incidents (Absences or Entries) awaiting approval for the payroll period.
-					</div>
                 </xpath>
                 <xpath expr="//button[@name='close_payslip_run']" position="before">
 					<button name="recalculate_payroll" type="object" string="Recalculate payroll" states="draft" class="oe_highlight"/>

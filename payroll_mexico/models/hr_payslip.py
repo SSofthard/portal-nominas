@@ -1910,7 +1910,7 @@ class HrPayslip(models.Model):
             }
         }
         if run_data['employer_register_id']:
-            res['value']['employer_register_id'] = run_data['employer_register_id'][0]
+            res['value']['employer_register_id'] = run_data['employer_register_id']
         if (not employee_id) or (not date_from) or (not date_to):
             return res
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
@@ -2164,18 +2164,21 @@ class HrSalaryRule(models.Model):
 
 class HrInputs(models.Model):
     _name = 'hr.inputs'
+    _description = "Input"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _mail_post_access = 'read'
     
-    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'confirm': [('readonly', False)]})
+    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'confirm': [('readonly', False)]}, track_visibility='onchange')
     payslip = fields.Boolean('Payroll?')
-    amount = fields.Float('Amount', readonly=True, states={'confirm': [('readonly', False)]}, digits=(16, 2))
-    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'confirm': [('readonly', False)]})
+    amount = fields.Float('Amount', readonly=True, states={'confirm': [('readonly', False)]}, digits=(16, 2),track_visibility='onchange')
+    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'confirm': [('readonly', False)]},track_visibility='onchange')
     code = fields.Char(string='Code', related="input_id.code")
     state = fields.Selection([
         ('cancel', 'Cancelled'),
         ('confirm', 'To Approve'),
         ('validate1', 'Second Approval'),
         ('approve', 'Approved'),
-        ('paid', 'Reported on payroll')], string='Status', readonly=True, default='confirm')
+        ('paid', 'Reported on payroll')], string='Status', readonly=True, default='confirm', track_visibility='onchange')
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, store=True)
@@ -2187,7 +2190,7 @@ class HrInputs(models.Model):
     def name_get(self):
         result = []
         for inputs in self:
-            name = '%s %s %s' %(inputs.employee_id.name.upper(), inputs.input_id.name.upper(), str(inputs.amount))
+            name = '%s / Entrada: %s' %(inputs.employee_id.complete_name.upper(), inputs.input_id.name.upper())
             result.append((inputs.id, name))
         return result
     
@@ -2207,6 +2210,7 @@ class HrInputs(models.Model):
             else:
                 inp.can_approve = False
     
+    
     @api.multi
     def action_approve(self):
         for inp in self:
@@ -2215,11 +2219,15 @@ class HrInputs(models.Model):
             if is_officer or is_officer_external:
                 if inp.input_id.double_validation:
                     inp.write({'state':'validate1'})
+                    inp.activity_feedback(['payroll_mexico.mail_act_inputs_approval'])
+                    inp.activity_schedule(
+                        'payroll_mexico.mail_act_inputs_second_approval',
+                        user_id=self.env.user.id)
                 else:
                     inp.write({'state':'approve'})
             else:
                 raise UserError(_('Only Nomina Manager/Oficial can approve or reject entry records.'))
-        return 
+        return
         
     @api.multi
     def action_validate(self):
@@ -2236,6 +2244,203 @@ class HrInputs(models.Model):
     def action_refuse(self):
         for inp in self:
             inp.write({'state':'cancel'})
+    
+    def action_send_email_approve(self):
+        groups = self.env['hr.group'].search([])
+        
+        company = self.env['ir.model.data'].xmlid_to_res_id( 'base.main_company')
+        company = self.env['res.company'].search([('id','=',company)])
+        for group in groups:
+            inputs_confirm = self.env['hr.inputs'].search([('group_id','=',group.id),('state','in',['confirm'])])
+            inputs_validate = self.env['hr.inputs'].search([('group_id','=',group.id),('state','in',['validate1'])])
+            
+            if inputs_confirm:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'payroll_mexico.group_hr_payroll_inputs_user_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_payroll.group_hr_payroll_user')
+                partners_confirm = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Aprobación de Entradas</span>\
+                                                        </td>\
+                                                    </tr>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Entradas se encuentran en espera de aprobación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Entrada</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for inp in inputs_confirm:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(inp.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(inp.input_id.name)+'</td>'
+                    if inp.type =='perception':
+                        body_html += '<td style="text-align:center">Percepción</td>'
+                    else:
+                        body_html += '<td style="text-align:center">Deducción</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                mail_confirm = self.env['mail.mail'].create({
+                                        'recipient_ids':[[6, False, partners_confirm]],
+                                        'subject':'Aviso! Entradas en espera de aprobación.',
+                                        'body_html':body_html
+                                        })
+                mail_confirm.send()
+            if inputs_validate:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'payroll_mexico.group_hr_payroll_inputs_manager_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_payroll.group_hr_payroll_manager')
+                partners_validate = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Validación de Entradas</span>\
+                                                        </td>\
+                                                    </tr>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Entradas se encuentran en espera de validación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Entrada</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for inp in inputs_validate:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(inp.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(inp.input_id.name)+'</td>'
+                    if inp.type =='perception':
+                        body_html += '<td style="text-align:center">Percepción</td>'
+                    else:
+                        body_html += '<td style="text-align:center">Deducción</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                
+                
+                mail_validate = self.env['mail.mail'].create({
+                                                'recipient_ids':[[6, False, partners_validate]],
+                                                'subject':'Aviso! Entradas en espera de validación.',
+                                                'body_html':body_html,
+                                                })
+                mail_validate.send()
+        return
+        
+    
+    @api.model
+    def create(self, values):
+        inputs = super(HrInputs,self).create(values)
+        inputs.activity_schedule(
+            'payroll_mexico.mail_act_inputs_approval',
+            user_id=self.env.user.id)
+        rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'payroll_mexico.group_hr_payroll_inputs_user_groups')
+        rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_payroll.group_hr_payroll_user')
+        partners = self.env['res.users'].search([('group_companys_id','in',[inputs.group_id.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+        mail_invite = self.env['mail.wizard.invite'].create({
+                                                            'res_model':'hr.inputs',
+                                                            'res_id':inputs.id,
+                                                            'partner_ids':[[6, False, partners]],
+                                                            'send_mail':False,
+                                                            })
+        mail_invite.add_followers()
+        return inputs
 
 
 class HrRuleInput(models.Model):

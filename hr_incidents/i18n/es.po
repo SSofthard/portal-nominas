@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-19 08:09+0000\n"
-"PO-Revision-Date: 2020-04-19 08:09+0000\n"
+"POT-Creation-Date: 2020-04-20 12:50+0000\n"
+"PO-Revision-Date: 2020-04-20 12:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -225,7 +225,7 @@ msgstr "Nombre mostrado"
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_ir_attachment
 msgid "Document"
-msgstr "Documento"
+msgstr "Documentos"
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_form
@@ -684,6 +684,13 @@ msgid "Nombre de la Empresa: %s"
 msgstr ""
 
 #. module: hr_incidents
+#: model:ir.actions.server,name:hr_incidents.mail_leave_approve_validate_ir_actions_server
+#: model:ir.cron,cron_name:hr_incidents.mail_leave_approve_validate
+#: model:ir.cron,name:hr_incidents.mail_leave_approve_validate
+msgid "Notification of approval and validation of leave."
+msgstr "Aviso de aprobación y notificacion de ausencias"
+
+#. module: hr_incidents
 #: model:res.groups,name:hr_incidents.group_hr_holidays_user_groups
 msgid "Officer"
 msgstr "Oficial"
@@ -710,7 +717,7 @@ msgstr "Solo un Oficial o Gerente de Ausencias puede aprobar o rechazar solicitu
 #: code:addons/hr_incidents/models/hr_incidents.py:212
 #, python-format
 msgid "Only an Leave Manager can apply the second approval on leave requests."
-msgstr "Solo un administrador de ausencias puede aplicar la segunda aprobación a las solicitudes de ausencia"
+msgstr "Solo un administrador de ausencias puede aplicar la segunda aprobación a las solicitudes de ausencia"y an Leave Manager can apply the second approval on leave requests."
 
 #. module: hr_incidents
 #: selection:hr.leave.type,color_name:0
@@ -984,6 +991,11 @@ msgstr "Clave"
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_form
 msgid "e.g. Report to the next month..."
 msgstr "p.e. Informar el siguiente mes..."
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_form
+msgid "email"
+msgstr ""
 
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_report_hr_incidents_hr_leave_incidents_report
