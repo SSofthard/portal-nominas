@@ -10175,7 +10175,7 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:payroll.report.settlement,type:0
 msgid "Per employee"
-msgstr ""
+msgstr "Por empleado"
 
 #. module: payroll_mexico
 #: selection:hr.fixed.concepts,type_application:0
@@ -10573,7 +10573,7 @@ msgstr "Imprimir contrato"
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_payroll_report_settlement
 msgid "Print Excel"
-msgstr ""
+msgstr "Imprimir Excel"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_deposit_report_view

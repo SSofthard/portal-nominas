@@ -2,9 +2,13 @@
 
 import io
 import base64
+import xlsxwriter
+import locale
 
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 from dateutil.relativedelta import relativedelta
+from xlsxwriter.workbook import Workbook
+from xlsxwriter.utility import xl_rowcol_to_cell
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
@@ -35,7 +39,7 @@ class payrollReportSettlement(models.TransientModel):
 
 
     @api.multi
-    def report_print(self):
+    def get_report_data(self):
         data={}
         if self.type == '2':
             domain = [('struct_id.settlement','=',True),
@@ -139,9 +143,53 @@ class payrollReportSettlement(models.TransientModel):
         data['date_from'] = self.date_from
         data['date_to'] = self.date_to
         data['group_id'] = self.group_id.name
+        return data
+
+    @api.multi
+    def report_print(self):
+        data = self.get_report_data()
         return self.env.ref('payroll_mexico.report_settlement_low').report_action([], data=data)
     
     @api.multi
     def report_print_excel(self):
-        return
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output)
+        
+        num_format = self.env.user.company_id.currency_id.excel_format
+        bold = workbook.add_format({'bold': True})
+        header_format = workbook.add_format({'bold': True, 'border': 1, 'top': 1, 'font_size': 8, 'align': 'center', 'valign': 'vcenter', 'fg_color': '#CCCCFF', 'font_color':'#3341BE', 'font_name':'MS Sans Serif'})
+        middle = workbook.add_format({'bold': True, 'top': 1})
+        left = workbook.add_format({'left': 1, 'top': 1, 'bold': True})
+        right = workbook.add_format({'right': 1, 'top': 1})
+        top = workbook.add_format({'top': 1})
+        currency_format = workbook.add_format({'num_format': num_format, 'bold': True, 'border': 1, 'top': 1, 'font_size': 8, 'align': 'center', 'valign': 'vcenter', 'fg_color': '#CCCCFF', 'font_color':'#3341BE', 'font_name':'MS Sans Serif'})
+        formula_format = workbook.add_format({'num_format': num_format, 'bold': True, 'border': 1, 'top': 1, 'font_size': 8, 'align': 'center', 'valign': 'vcenter', 'fg_color': '#CCCCFF', 'font_name':'MS Sans Serif'})
+        c_middle = workbook.add_format({'border': 1, 'bold': True, 'top': 1, 'num_format': num_format})
+        report_format2 = workbook.add_format({'border': 1, 'bold': True, 'font_size': 8, 'fg_color': '#CCCCFF','font_color':'#3341BE', 'font_name':'MS Sans Serif', 'align': 'center'})
+        report_format = workbook.add_format({'border': 1, 'bold': True, 'font_size': 8, 'fg_color': '#CCCCFF','font_color':'#3341BE', 'font_name':'MS Sans Serif'})
+        rounding = self.env.user.company_id.currency_id.decimal_places or 2
+        lang_code = self.env.user.lang or 'en_US'
+        date_format = self.env['res.lang']._lang_get(lang_code).date_format
+        time_format = self.env['res.lang']._lang_get(lang_code).time_format
+        
+        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+        date_start = self.date_from.strftime("%d/%b/%Y").title()
+        date_end = self.date_to.strftime("%d/%b/%Y").title()
+        f_name = '%s - %s al %s' %(self.group_id.name, date_start, date_end)
+        sheet_all_name = self.group_id.name
+        sheet_all = workbook.add_worksheet(sheet_all_name.upper())
+        
+        data = self.get_report_data()
+        print (data)
+        workbook.close()
+        xlsx_data = output.getvalue()
+        export_id = self.env['hr.payslip.run.export.excel'].create({ 'excel_file': base64.encodestring(xlsx_data),'file_name': f_name + '.xlsx'})
+        return {
+            'view_mode': 'form',
+            'res_id': export_id.id,
+            'res_model': 'hr.payslip.run.export.excel',
+            'view_type': 'form',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }
     
