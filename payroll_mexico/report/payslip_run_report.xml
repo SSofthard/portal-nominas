@@ -95,7 +95,7 @@
 <!--                            <t t-set="sum_sueldo" t-value="0"/>-->
 
                             <t t-set="c" t-value="0"/>
-                            <table class="table table-condensed">
+                            <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td class="text-center">
@@ -330,7 +330,7 @@
                             <center><h6>Percepciones</h6></center>
                             <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
                                 <center><t t-esc="struct.name"/></center>
-                                <table class="table table-condensed">
+                                <table class="table table-condensed table-striped">
                                 <tbody>
                                     <t t-set="total_perceptions" t-value="0"/>
                                     <tr>
@@ -367,7 +367,7 @@
                                 </tbody>
                             </table>
                             </t>
-                            <table class="table table-condensed">
+                            <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td colspan="2" class="text-right" style="border: white 1px solid;">
@@ -382,7 +382,7 @@
                             <center><h6 style="background-color: #ABAFAF;">Deducciones</h6></center>
                             <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
                                 <center><t t-esc="struct.name"/></center>
-                                <table class="table table-condensed">
+                                <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td class="text-right" style="border: white 1px solid;">
@@ -439,7 +439,7 @@
                                 </tbody>
                             </table>
                             </t>
-                            <table class="table table-condensed">
+                            <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td colspan="2" class="text-right" style="border: white 1px solid;">
@@ -452,9 +452,9 @@
                                 </tbody>
                             </table>
                             <center><h6 style="background-color: #ABAFAF;">Totales</h6></center>
-<!--                            <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">-->
-<!--                                <center><h4><t t-esc="struct.name"/></h4></center>-->
-                                <table class="table table-condensed">
+                            <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
+                                <center><t t-esc="struct.name"/></center>
+                                <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td class="text-right" style="border: white 1px solid;">
@@ -463,7 +463,7 @@
                                         <td class="text-left" style="border: white 1px solid;">
 <!--                                             <span t-if="len(slip_ids.mapped('line_ids').filtered(lambda line: line.category_id.code == 'NETE'))" t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(slip_ids.mapped('line_ids').filtered(lambda line: line.category_id.code == 'NETE').mapped('total'))"/>-->
 <!--                                             <span t-if="not len(slip_ids.mapped('line_ids').filtered(lambda line: line.category_id.code == 'NETE'))" t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(slip_ids.mapped('line_ids').filtered(lambda line: line.category_id.code == 'GROSS').mapped('total'))"/>-->
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(slip_ids.filtered(lambda slip: not any(line.category_id.code == 'NETE' for line in slip.mapped('line_ids'))).mapped('line_ids').filtered(lambda line: line.category_id.code == 'GROSS').mapped('total'))+sum(slip_ids.mapped('line_ids').filtered(lambda line: line.category_id.code == 'NETE').mapped('total'))"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="total_efectivo[struct.id]"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -471,7 +471,7 @@
                                              Neto Pagado
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'T001').mapped('total'))"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="neto_pagado[struct.id]"/>
                                         </td>
                                     </tr>
                                         <tr>
@@ -479,7 +479,7 @@
                                              Total gravable
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(slip_ids.mapped('line_ids').filtered(lambda line: line.salary_rule_id.payroll_tax).mapped('total'))"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="total_gravable[struct.id]"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -487,7 +487,7 @@
                                              Subs. Empleo
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(sum_subs_empleo.values())"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_empleo[struct.id]"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -495,12 +495,12 @@
                                              Total en especie
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(slip_ids.mapped('line_ids').filtered(lambda line: line.category_id.code == 'NETESPECIE').mapped('total'))"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="total_especie[struct.id]"/>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-<!--                            </t>-->
+                            </t>
                             <p>Las percepciones marcadas con * se pagan en especie. </p>
                             <p>EL NETO PAGADO incluye el total en efectivo y el total en especie.</p>
                         </div>
