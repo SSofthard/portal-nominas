@@ -95,7 +95,7 @@
 <!--                            <t t-set="sum_sueldo" t-value="0"/>-->
 
                             <t t-set="c" t-value="0"/>
-                            <table class="table table-condensed">
+                            <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td class="text-center">
@@ -330,7 +330,7 @@
                             <center><h6>Percepciones</h6></center>
                             <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
                                 <center><t t-esc="struct.name"/></center>
-                                <table class="table table-condensed">
+                                <table class="table table-condensed table-striped">
                                 <tbody>
                                     <t t-set="total_perceptions" t-value="0"/>
                                     <tr>
@@ -367,7 +367,7 @@
                                 </tbody>
                             </table>
                             </t>
-                            <table class="table table-condensed">
+                            <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td colspan="2" class="text-right" style="border: white 1px solid;">
@@ -382,7 +382,7 @@
                             <center><h6 style="background-color: #ABAFAF;">Deducciones</h6></center>
                             <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
                                 <center><t t-esc="struct.name"/></center>
-                                <table class="table table-condensed">
+                                <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td class="text-right" style="border: white 1px solid;">
@@ -439,7 +439,7 @@
                                 </tbody>
                             </table>
                             </t>
-                            <table class="table table-condensed">
+                            <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td colspan="2" class="text-right" style="border: white 1px solid;">
@@ -454,7 +454,7 @@
                             <center><h6 style="background-color: #ABAFAF;">Totales</h6></center>
                             <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
                                 <center><t t-esc="struct.name"/></center>
-                                <table class="table table-condensed">
+                                <table class="table table-condensed table-striped">
                                 <tbody>
                                     <tr>
                                         <td class="text-right" style="border: white 1px solid;">
