@@ -32,6 +32,7 @@
                             <strong>
                                 <span class="text-left" >NÓMINA DEL MES DE</span>
                                 <t t-esc="metadata['payroll_month'].upper()"/>
+                                
                             </strong>
                         </div>
                         <div style="color: #4F81BD;">
@@ -98,14 +99,20 @@
                                     </td>
                                     <t t-set="total_base_isn" t-value="0"/>
                                     <t t-foreach="data" t-as="d">
-                                        <td class="text-rigth">
-                                            <t t-esc="data[d]['isn']"
-                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
-                                            <t t-set="total_base_isn" t-value="total_base_isn + data[d]['isn']"/>
-                                        </td>
+                                        <t t-if="'02' in data[d]['regimen']">
+                                            <td class="text-rigth">
+                                                <t t-esc="metadata['isn']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td>
+                                                <span>N/A</span>
+                                            </td>
+                                        </t>
                                     </t>
                                     <td class="text-rigth">
-                                        <span t-esc="total_base_isn" 
+                                        <span t-esc="metadata['isn']" 
                                             t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
                                     </td>
                                 </tr>
