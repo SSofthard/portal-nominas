@@ -27,7 +27,7 @@ class HrPayslip(models.Model):
 
     #Columns
     pdf_signed = fields.Boolean(string='Document Signed')
-    sign_status = fields.Selection(related='sign_request_id.state')
+    # sign_status = fields.Selection(related='sign_request_id.state')
     sign_request_id = fields.Many2one(string='Solicitud de firmado')
 
 
