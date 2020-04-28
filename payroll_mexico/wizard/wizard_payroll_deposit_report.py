@@ -73,6 +73,15 @@ class HrPayrollDepositReport(models.TransientModel):
 
     @api.multi
     def report_print(self, data):
+        regime = {
+            '02': 'SUELDOS Y SALARIOS',
+            '05': 'SUELDO LIBRE',
+            '08': 'ASIMILADOS COMISIONISTAS',
+            '09': 'ASIMILADOS HONORARIOS',
+            '11': 'ASIMILADOS OTROS',
+            '99': 'OTRO REGIMEN',
+        }
+        
         contracting_domain = []
         PayslipObj = self.env['hr.payslip'].sudo()
         domain = [('payslip_run_id','=',self.payslip_run_id.id)]
@@ -101,7 +110,7 @@ class HrPayrollDepositReport(models.TransientModel):
             employees.append({
                 'enrollment': slip.employee_id.enrollment,
                 'name': slip.employee_id.complete_name,
-                'contracting_regime': dict(slip._fields['contracting_regime']._description_selection(self.env)).get(slip.contracting_regime).upper(),
+                'contracting_regime': regime[slip.contracting_regime],
                 'bank_key': slip.contract_id.bank_account_id.bank_id.code,
                 'bank': slip.contract_id.bank_account_id.bank_id.name,
                 'account': slip.contract_id.bank_account_id.bank_account,

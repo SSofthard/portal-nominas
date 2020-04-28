@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-26 11:37+0000\n"
-"PO-Revision-Date: 2020-04-26 11:37+0000\n"
+"POT-Creation-Date: 2020-04-28 03:09+0000\n"
+"PO-Revision-Date: 2020-04-28 03:09+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -375,6 +375,8 @@ msgstr ""
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:102
 #: code:addons/payroll_mexico/models/table_settings.py:103
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_surplus_e
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_surplus_p
 #, python-format
 msgid "3 UMA surplus (%)"
 msgstr "Excedente de 3 UMA (%)"
@@ -1037,7 +1039,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
 msgid "<span class=\"text-muted\">(If fixed-term contract)</span>"
-msgstr ""
+msgstr "<span class=\"text-muted\">(Si es un contrato a plazo fijo)</span>"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
@@ -1138,6 +1140,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span>FACTURACIÓN</span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
+msgid "<span>N/A</span>"
 msgstr ""
 
 #. module: payroll_mexico
@@ -1467,6 +1474,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_cfdi_report_document
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_receipt_report_document
 msgid "<strong>FIRMA DEL TRABAJADOR</strong>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.report_settlement_template
+msgid "<strong>FIRMA</strong>"
 msgstr ""
 
 #. module: payroll_mexico
@@ -2629,16 +2641,6 @@ msgid "Aguinaldo/Días"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_bonus_factor
-msgid "Aguinaldos"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__bonus_factor
-msgid "Aguinaldos (UMA)"
-msgstr ""
-
-#. module: payroll_mexico
 #: selection:hr.payslip.line,type_deduction:0
 #: selection:hr.salary.rule,type_deduction:0
 msgid "Ajuste a ingresos asimilados a salarios gravados"
@@ -3334,11 +3336,6 @@ msgid "Aportación Patronal sin crédito"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__infonavit_contribution
-msgid "Aportación al INFONAVIT (%)"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__aportacion_patronal_cc
 msgid "Aportación patronal con credito"
 msgstr ""
@@ -3501,7 +3498,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit23
 msgid "Attach Document"
-msgstr "Documento adjunto"
+msgstr "Adjuntar documento"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_attachment_count
@@ -3552,6 +3549,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:95
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__average_active_life
 #, python-format
 msgid "Average Active Life (años)"
 msgstr "Promedio de vida activa (años)"
@@ -3775,12 +3773,14 @@ msgstr "Tipo de fondo"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:83
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_bonus_factor
 #, python-format
 msgid "Bonus"
 msgstr "Aguinaldos"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:74
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__bonus_factor
 #, python-format
 msgid "Bonus (UMA)"
 msgstr "Aguinaldos (UMA)"
@@ -4210,6 +4210,8 @@ msgstr ""
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:105
 #: code:addons/payroll_mexico/models/table_settings.py:106
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_cash_benefits_e
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_cash_benefits_p
 #, python-format
 msgid "Cash benefits (%)"
 msgstr "Prestaciones en dinero (%)"
@@ -4320,12 +4322,6 @@ msgid "Cesantía y Vejez<br/>\n"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__unemployment_old_age_e
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__unemployment_old_age_p
-msgid "Cesantía y vejez (%)"
-msgstr ""
-
-#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_view_form_change_history
 msgid "Change Job Position"
 msgstr "Cambiar puesto de trabajo"
@@ -4408,12 +4404,14 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:87
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_clearance_factor
 #, python-format
 msgid "Clearance"
 msgstr "Liquidación"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:78
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__clearance_factor
 #, python-format
 msgid "Clearance (UMA)"
 msgstr "Liquidación (UMA)"
@@ -4451,7 +4449,7 @@ msgstr "Cerrado"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_company_form_inherit23
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_work_center_form
 msgid "Code"
-msgstr "Código"
+msgstr "Clave"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract_type__key
@@ -4512,6 +4510,7 @@ msgstr "Compañías"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__company_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__company_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types__company_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__company_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__company_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__company_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__company_id
@@ -5125,11 +5124,6 @@ msgid "Cuota Fija<br/>\n"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_fixed_fee
-msgid "Cuota fija (%)"
-msgstr ""
-
-#. module: payroll_mexico
 #: selection:hr.payslip.line,type_perception:0
 #: selection:hr.salary.rule,type_perception:0
 msgid "Cuotas Sindicales Pagadas por el Patrón"
@@ -5656,6 +5650,8 @@ msgstr "Incapacidades"
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:111
 #: code:addons/payroll_mexico/models/table_settings.py:112
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__disability_life_e
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__disability_life_p
 #, python-format
 msgid "Disability and life (%)"
 msgstr "Invalidez y vida (%)"
@@ -5785,7 +5781,7 @@ msgstr "No otorgar si ocurren los siguientes incidentes"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:347
-#: code:addons/payroll_mexico/wizard/hr_employee_import.py:914
+#: code:addons/payroll_mexico/wizard/hr_employee_import.py:915
 #, python-format
 msgid "Do not load with without a file, or with a file with incorrect data."
 msgstr "Debe seleccionar un archivo excel, con datos correctos."
@@ -6150,6 +6146,7 @@ msgstr "Los empleados de este grupo se matricularán usando este prefijo"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_affiliate_move__employer_register_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__employer_register_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__employer_register_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__employer_register_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__employer_register_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__employer_register_ids
 msgid "Employer Register"
@@ -6349,6 +6346,7 @@ msgid "Este campo corresponde a la firma del empleado, limitado a 1024x1024px."
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__estructure_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__estructure_ids
 msgid "Estructure"
 msgstr "Estructura salarial"
@@ -6377,12 +6375,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__exedente_3uma_obrero
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__exedente_3uma_patronal
 msgid "Excedente a 3 UMA"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_surplus_e
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_surplus_p
-msgid "Excedente de 3 UMA (%)"
 msgstr ""
 
 #. module: payroll_mexico
@@ -6457,12 +6449,14 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:85
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_extra_time_factor
 #, python-format
 msgid "Extra Time"
 msgstr "Tiempo extra"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:76
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__extra_time_factor
 #, python-format
 msgid "Extra Time (UMA)"
 msgstr "Tiempo extra (UMA)"
@@ -6530,7 +6524,9 @@ msgid "FINIQUITO %s for %s"
 msgstr ""
 
 #. module: payroll_mexico
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:200
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+#, python-format
 msgid "FINIQUITOS Y BAJAS"
 msgstr ""
 
@@ -6553,11 +6549,6 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_antiguedades_line__factor
 msgid "Factor de integración"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__premium_factor
-msgid "Factor de prima"
 msgstr ""
 
 #. module: payroll_mexico
@@ -6698,6 +6689,7 @@ msgstr ""
 #: code:addons/payroll_mexico/models/payroll_report_excel.py:241
 #: code:addons/payroll_mexico/models/payroll_report_excel.py:317
 #: code:addons/payroll_mexico/models/payroll_report_excel.py:476
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:203
 #, python-format
 msgid "Fecha y hora de la generación del Reporte: %s"
 msgstr ""
@@ -6763,6 +6755,7 @@ msgstr "Monto fijo"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:101
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_fixed_fee
 #, python-format
 msgid "Fixed Fee (%)"
 msgstr "Cuota fija (%)"
@@ -6818,23 +6811,14 @@ msgid "Fondo"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__savings_fund_factor
-msgid "Fondo de Ahorro (UMA)"
-msgstr ""
-
-#. module: payroll_mexico
 #: selection:hr.payslip.line,type_perception:0
 #: selection:hr.salary.rule,type_perception:0
 msgid "Fondo de ahorro"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_savings_fund_factor
-msgid "Fondo de ahorros"
-msgstr ""
-
-#. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:93
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__sbcm_inv_inf
 #, python-format
 msgid "For disability and Infonavit (UMA)"
 msgstr "Para invalidez e Infonavit (UMA)"
@@ -6931,12 +6915,6 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__gmp_patronal
 msgid "Gastos medicos pensionados (Patronal)"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_personal_medical_expenses_e
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_personal_medical_expenses_p
-msgid "Gastos médicos personales (%)"
 msgstr ""
 
 #. module: payroll_mexico
@@ -7194,13 +7172,14 @@ msgid "Grupo/Empresa:"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__guarderia_ps
-msgid "Guarderia y Prestaciones sociales"
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:202
+#, python-format
+msgid "Grupo/Empresa: %s"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__nursery_social_benefits
-msgid "Guardería y prestaciones sociales (%)"
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__guarderia_ps
+msgid "Guarderia y Prestaciones sociales"
 msgstr ""
 
 #. module: payroll_mexico
@@ -7324,12 +7303,14 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:82
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_holiday_bonus_factor
 #, python-format
 msgid "Holiday Bonus"
 msgstr "Prima Vacacional"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:73
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__holiday_bonus_factor
 #, python-format
 msgid "Holiday Bonus (UMA)"
 msgstr "Prima vacacional (UMA)"
@@ -7538,6 +7519,7 @@ msgstr "Número de crédito INFONAVIT"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:90
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__infonavit_contribution
 #, python-format
 msgid "INFONAVIT contribution (%)"
 msgstr "Aportación al INFONAVIT (%)"
@@ -8148,12 +8130,6 @@ msgid "Invalidez y vida"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__disability_life_e
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__disability_life_p
-msgid "Invalidez y vida (%)"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__invoice_status
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__invoice_status_si
 msgid "Invoice Status"
@@ -8709,16 +8685,6 @@ msgid "Liquidaciones de cuotas IMSS e Infonavit"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_clearance_factor
-msgid "Liquidación"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__clearance_factor
-msgid "Liquidación (UMA)"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__sheet_settlement_id
 msgid "Liquidación de cuotas"
 msgstr ""
@@ -8908,12 +8874,14 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:98
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__maximum_premium
 #, python-format
 msgid "Maximum Premium (%)"
 msgstr "Prima máxima (%)"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:99
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__maximum_premium_variation
 #, python-format
 msgid "Maximum Premium Variation (%)"
 msgstr "Variación máxima de prima (%)"
@@ -9008,6 +8976,7 @@ msgstr "Centrado-Superior"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:97
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__minimum_premium
 #, python-format
 msgid "Minimum Premium (%)"
 msgstr "Prima mínima (%)"
@@ -9292,8 +9261,8 @@ msgstr "No se encontró información con los datos especificados."
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/wizard/report_payslip_run_rule_details.py:50
-#: code:addons/payroll_mexico/wizard/wizard_payroll_deposit_report.py:92
-#: code:addons/payroll_mexico/wizard/wizard_sumary_report.py:127
+#: code:addons/payroll_mexico/wizard/wizard_payroll_deposit_report.py:101
+#: code:addons/payroll_mexico/wizard/wizard_sumary_report.py:128
 #, python-format
 msgid "No results found."
 msgstr "No se encontraron resultados"
@@ -9537,6 +9506,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:118
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__nursery_social_benefits
 #, python-format
 msgid "Nursery and social benefits (%)"
 msgstr "Guardería y prestaciones sociales (%)"
@@ -9916,12 +9886,14 @@ msgstr "Despensa"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:81
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_pantry_voucher_factor
 #, python-format
 msgid "Pantry Voucher"
 msgstr "Vale de despensa"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:72
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__pantry_voucher_factor
 #, python-format
 msgid "Pantry Voucher (UMA)"
 msgstr "Vale de despensa (UMA)"
@@ -9969,11 +9941,6 @@ msgstr ""
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_fees_employees_bimonthly
 msgid "Para el cálculo del ramo de C. V. y de Vivienda se utilizará el tope salarial establecido en la ley respectiva."
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__sbcm_inv_inf
-msgid "Para invalidez e Infonavit (UMA)"
 msgstr ""
 
 #. module: payroll_mexico
@@ -10266,6 +10233,8 @@ msgstr "Email personal"
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:107
 #: code:addons/payroll_mexico/models/table_settings.py:108
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_personal_medical_expenses_e
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_personal_medical_expenses_p
 #, python-format
 msgid "Personal medical expenses (%)"
 msgstr "Gastos médicos personales (%)"
@@ -10301,6 +10270,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_infonavit_employee_amount
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
 msgid "Período:"
+msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:201
+#, python-format
+msgid "Período: %s al %s"
 msgstr ""
 
 #. module: payroll_mexico
@@ -10458,6 +10433,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:96
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__premium_factor
 #, python-format
 msgid "Premium Factor"
 msgstr "Factor de prima"
@@ -10470,12 +10446,6 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__prestaciones_en_dinero
 msgid "Prestaciones en dinero"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_cash_benefits_e
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__em_cash_benefits_p
-msgid "Prestaciones en dinero (%)"
 msgstr ""
 
 #. module: payroll_mexico
@@ -10500,11 +10470,6 @@ msgid "Previous Contract Date"
 msgstr "Fecha de contrato anterior"
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_holiday_bonus_factor
-msgid "Prima Vacacional"
-msgstr ""
-
-#. module: payroll_mexico
 #: selection:hr.payslip.line,type_perception:0
 #: selection:hr.salary.rule,type_perception:0
 msgid "Prima de Seguro de vida"
@@ -10513,23 +10478,7 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:hr.payslip.line,type_perception:0
 #: selection:hr.salary.rule,type_perception:0
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_sunday_prime_factor
 msgid "Prima dominical"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__sunday_prime_factor
-msgid "Prima dominical (UMA)"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__maximum_premium
-msgid "Prima máxima (%)"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__minimum_premium
-msgid "Prima mínima (%)"
 msgstr ""
 
 #. module: payroll_mexico
@@ -10548,11 +10497,6 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_tablas_antiguedades_line__prima_vac
 msgid "Prima vacacional (%)"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__holiday_bonus_factor
-msgid "Prima vacacional (UMA)"
 msgstr ""
 
 #. module: payroll_mexico
@@ -10616,11 +10560,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
 msgid "Process Contract"
 msgstr "Procesar Contrato"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__average_active_life
-msgid "Promedio de vida activa (años)"
-msgstr ""
 
 #. module: payroll_mexico
 #: selection:hr.group,type:0
@@ -11198,6 +11137,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:117
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__retirement
 #, python-format
 msgid "Retirement (%)"
 msgstr "Retiro (%)"
@@ -11207,11 +11147,6 @@ msgstr "Retiro (%)"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__retiro
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_fees_employees_bimonthly
 msgid "Retiro"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__retirement
-msgid "Retiro (%)"
 msgstr ""
 
 #. module: payroll_mexico
@@ -11285,11 +11220,6 @@ msgstr ""
 #: selection:res.company,tax_regime:0
 #, python-format
 msgid "Régimen de los ingresos por obtención de premios"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__tax_regime
-msgid "Régimen fiscal"
 msgstr ""
 
 #. module: payroll_mexico
@@ -11424,12 +11354,14 @@ msgstr "Fondo de ahorros"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:84
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_savings_fund_factor
 #, python-format
 msgid "Savings Fund"
 msgstr "Fondo de ahorros"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:75
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__savings_fund_factor
 #, python-format
 msgid "Savings Fund (UMA)"
 msgstr "Fondo de Ahorro (UMA)"
@@ -12088,12 +12020,14 @@ msgstr "Reporte Resumen de Nómina"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:86
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_sunday_prime_factor
 #, python-format
 msgid "Sunday prime"
 msgstr "Prima dominical"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:77
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__sunday_prime_factor
 #, python-format
 msgid "Sunday prime (UMA)"
 msgstr "Prima dominical (UMA)"
@@ -12223,6 +12157,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:60
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_company__tax_regime
 #, python-format
 msgid "Tax regime"
 msgstr "Régimen fiscal"
@@ -12259,7 +12194,7 @@ msgstr "La fecha no puede ser inferior a la fecha de registro del crédito INFON
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_employee.py:589
-#: code:addons/payroll_mexico/wizard/hr_employee_import.py:775
+#: code:addons/payroll_mexico/wizard/hr_employee_import.py:773
 #, python-format
 msgid "The employee has currently open contracts."
 msgstr "El empleado tiene contratos abiertos actualmente."
@@ -12389,16 +12324,6 @@ msgid "Tiempo Indeterminado"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_extra_time_factor
-msgid "Tiempo extra"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__extra_time_factor
-msgid "Tiempo extra (UMA)"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__xml_timbre
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__xml_timbre_si
 msgid "Timbre (XML)"
@@ -12468,12 +12393,6 @@ msgid "Tipo de cuenta"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_deduction
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_deduction
-msgid "Tipo de deducción"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_leave_type__input_type
 msgid "Tipo de entrada"
 msgstr ""
@@ -12498,12 +12417,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__payment_type
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__pay_type
 msgid "Tipo de pago"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_perception
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_perception
-msgid "Tipo de percepción"
 msgstr ""
 
 #. module: payroll_mexico
@@ -12958,12 +12871,16 @@ msgstr "Tipo de aplicación"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_payslip.py:2122
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_deduction
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_deduction
 #, python-format
 msgid "Type of deduction"
 msgstr "Tipo de deducción"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_payslip.py:2011
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_perception
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_perception
 #, python-format
 msgid "Type of perception"
 msgstr "Tipo de percepción"
@@ -13005,14 +12922,10 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:91
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__umi
 #, python-format
 msgid "UMI (Mixed Unit INFONAVIT)"
 msgstr "UMI (Unidad Mixta INFONAVIT)"
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__umi
-msgid "UMI (Unidad Mixta INFONAVIT)"
-msgstr ""
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_receipt_report_document
@@ -13052,6 +12965,8 @@ msgstr ""
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:114
 #: code:addons/payroll_mexico/models/table_settings.py:115
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__unemployment_old_age_e
+#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__unemployment_old_age_p
 #, python-format
 msgid "Unemployment and old age (%)"
 msgstr "Cesantía y vejez (%)"
@@ -13071,7 +12986,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_unread
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_unread
 msgid "Unread Messages"
-msgstr "Mensajes por leer"
+msgstr "Mensajes sin leer"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread_counter
@@ -13190,16 +13105,6 @@ msgid "Vacaciones/Días"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__ex_pantry_voucher_factor
-msgid "Vale de despensa"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__pantry_voucher_factor
-msgid "Vale de despensa (UMA)"
-msgstr ""
-
-#. module: payroll_mexico
 #: selection:hr.payslip.line,type_perception:0
 #: selection:hr.salary.rule,type_perception:0
 msgid "Vales de despensa"
@@ -13260,11 +13165,6 @@ msgstr "Valor"
 #. module: payroll_mexico
 #: selection:hr.employee,salary_type:0
 msgid "Variable"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_table_settings__maximum_premium_variation
-msgid "Variación máxima de prima (%)"
 msgstr ""
 
 #. module: payroll_mexico
@@ -13473,27 +13373,27 @@ msgid "You cannot delete affiliate movements that are not in \"Draft\" status."
 msgstr "No puede eliminar movimientos de afiliados que no estén en estado \"Borrador\"."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:600
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:602
 #, python-format
 msgid "You cannot delete payroll in \"Done\" status."
 msgstr "No puede eliminar nóminas en estado 'Hecho'"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:597
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:599
 #, python-format
 msgid "You cannot delete payroll processing in \"Close\" status."
 msgstr "No puede eliminar procesamientos de nóminas en estado 'Cerrado'"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_employee.py:591
-#: code:addons/payroll_mexico/wizard/hr_employee_import.py:777
+#: code:addons/payroll_mexico/wizard/hr_employee_import.py:775
 #, python-format
 msgid "You must select a company for the salary and salary contract."
 msgstr "Debe seleccionar una empresa para el salario y el contrato salarial."
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_employee.py:594
-#: code:addons/payroll_mexico/wizard/hr_employee_import.py:781
+#: code:addons/payroll_mexico/wizard/hr_employee_import.py:779
 #, python-format
 msgid "You must select a company for the salary-like contract."
 msgstr "Debe seleccionar una empresa para el contrato salarial."
@@ -14354,5 +14254,4 @@ msgstr "Puestos de trabajo"
 #: selection:hr.contract,state:0
 msgid "Running"
 msgstr "Activo"
-
 

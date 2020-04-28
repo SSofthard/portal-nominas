@@ -107,6 +107,7 @@ class HrSumaryReport(models.TransientModel):
         result = {}
         metadata = {}
         metadata['payroll_month'] = dict(self._fields['payroll_month']._description_selection(self.env)).get(self.payroll_month)
+        metadata['isn'] = self.payslip_run_id.amount_tax
         
         PayslipObj = self.env['hr.payslip'].sudo()
         contracting_domain = []
@@ -157,13 +158,21 @@ class HrSumaryReport(models.TransientModel):
             net.append(sum(payslip.line_ids.filtered(lambda l: l.code == 'T001').mapped('total')))
             imss_rcv_infonavit.append(sum(payslip.line_ids.filtered(lambda l: l.code in ('C001', 'D002', 'UI126', 'UI127', 'UI128')).mapped('total')))
             isr.append(sum(payslip.line_ids.filtered(lambda l: l.code == 'D001').mapped('total')))
-            
+            if payslip.contracting_regime not in result[contracting_regime]['regimen']:
+                result[contracting_regime]['regimen'].append(payslip.contracting_regime)
             result[contracting_regime]['base_salary'] += round(sum(base_salary), 2)
             result[contracting_regime]['net'] += round(sum(net), 2)
             result[contracting_regime]['imss_rcv_infonavit'] += round(sum(imss_rcv_infonavit), 2)
             result[contracting_regime]['isr'] += round(sum(isr), 2)
             result[contracting_regime]['honorarium'] = cal_honorarium(result[contracting_regime]['base_salary'], result[contracting_regime]['net'])
-            result[contracting_regime]['subtotal']  = result[contracting_regime]['base_salary'] + \
+            if payslip.contracting_regime == '02':
+                result[contracting_regime]['subtotal']  = result[contracting_regime]['net'] + \
+                                                    result[contracting_regime]['imss_rcv_infonavit'] + \
+                                                    result[contracting_regime]['isr'] + \
+                                                    result[contracting_regime]['honorarium']+ \
+                                                    metadata['isn']
+            else:
+                result[contracting_regime]['subtotal']  = result[contracting_regime]['net'] + \
                                                     result[contracting_regime]['imss_rcv_infonavit'] + \
                                                     result[contracting_regime]['isr'] +\
                                                     result[contracting_regime]['honorarium']

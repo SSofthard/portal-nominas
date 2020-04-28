@@ -537,6 +537,7 @@ class HrEmployeeImport(models.TransientModel):
                             if free_salary:
                                 lines['free_salary'] = free_salary
                             else:
+                                free_salary = 0
                                 msg_not_format.append('%s del valor (%s) en la fila %s. INGRESE VALORES NUMÉRICOS \n' 
                                     %(sheet.cell_value(head,col).upper(), sheet.cell_value(row,col), str(row+1)))
                     #Cuentas bancarias
@@ -640,10 +641,7 @@ class HrEmployeeImport(models.TransientModel):
                                 if len(company_assimilated_id) > 1:
                                     msg_more.append('%s con la clave (%s) en la fila %s. \n' %(sheet.cell_value(head,col).upper(), value, str(row+1)))
                                 else:
-                                    lines['company_id'] = company_id.id
                                     contracts['company_assimilated_id'] = company_assimilated_id.id
-                            else:
-                                msg_required.append('%s en la fila %s. \n' %(sheet.cell_value(head,col).upper(), str(row+1)))
                         if col in [63]:
                             type_contract = self.float_to_string(sheet.cell_value(row,col)).strip()
                             domain = [('key','=', type_contract)]
@@ -779,9 +777,8 @@ class HrEmployeeImport(models.TransientModel):
             and employee_id.assimilated_salary_gross > 0 \
             and 'contracting_regime' not in contracts_data:
             raise UserError(_('You must select a company for the salary-like contract.'))
-        vals = {
-            'company_assimilated_id': contracts_data['company_assimilated_id']
-        }
+        vals = {}
+            
         bank_account = employee_id.get_bank()
         bank_account_id = False
         msgs = []
@@ -827,6 +824,9 @@ class HrEmployeeImport(models.TransientModel):
             list_contract.append((0, 0, val))
         if employee_id.assimilated_salary_gross > 0:
             # Create contracts ASSIMILATED - AS
+            if 'company_assimilated_id' not in contracts_data:
+                msg = 'COMPAÑÍA (ASIMILADO) es requerido en la fila %s.\n' %contracts_data['row']
+                msgs.append(msg)
             if 'structure_as_id' not in contracts_data:
                 msg = 'ESTRUCTURA SALARIAL (ASIMILADOS) es requerido en la fila %s.\n' %contracts_data['row']
                 msgs.append(msg)
@@ -846,6 +846,7 @@ class HrEmployeeImport(models.TransientModel):
                 msg_raise="".join(msgs)
                 raise ValidationError(_(msg_raise))
             vals['contracting_regime'] = contracts_data['contracting_regime']
+            vals['company_assimilated_id'] = contracts_data['company_assimilated_id']
             val = {
                 'name': '%s - %s' %(employee_id.complete_name, contracts_data['structure_as_id'].name),
                 # ~ 'employee_id': employee_id.id,
