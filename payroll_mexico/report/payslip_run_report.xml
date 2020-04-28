@@ -58,6 +58,21 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
+                                <t t-set="sum_subs_empleo[struct.id]" t-value="0"/>
+                                <t t-set="sum_subs_isr[struct.id]" t-value="0"/>
+                                <t t-set="sum_IMSS[struct.id]" t-value="0"/>
+                                <t t-set="sum_otras_deducciones[struct.id]" t-value="0"/>
+                                <t t-set="sum_total_percepciones[struct.id]" t-value="0"/>
+                                <t t-set="sum_otras_percepciones[struct.id]" t-value="0"/>
+                                <t t-set="sum_sueldo[struct.id]" t-value="0"/>
+                            </t>
+                            ////<t t-esc="slip_ids"/>////
+                            <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
+                                <t t-esc="struct.name"/>
+                                <t t-esc="struct.id"/>
+                                <t t-esc="sum_subs_isr"/>
+                            </t>///
                             <t t-set="sum_subs_empleo" t-value="0"/>
                             <t t-set="sum_subs_isr" t-value="0"/>
                             <t t-set="sum_IMSS" t-value="0"/>
@@ -65,6 +80,7 @@
                             <t t-set="sum_total_percepciones" t-value="0"/>
                             <t t-set="sum_otras_percepciones" t-value="0"/>
                             <t t-set="sum_sueldo" t-value="0"/>
+
                             <t t-set="c" t-value="0"/>
                             <table class="table table-condensed">
                                 <tbody>
@@ -72,8 +88,11 @@
                                         <td class="text-center">
                                             <strong>Clave</strong>
                                         </td>
-                                        <td class="text-center" colspan="3">
+                                        <td class="text-center" colspan="2">
                                             <strong>Nombre del Trabajador</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Régimen de contratación</strong>
                                         </td>
                                         <td class="text-center">
                                             <strong>Dias Trabajados</strong>
@@ -154,8 +173,11 @@
                                         <td class="text-center">
                                             <span t-field="payslip.employee_id.enrollment"/>
                                         </td>
-                                        <td class="text-center" colspan="3">
+                                        <td class="text-center" colspan="2">
                                             <span t-esc="payslip.employee_id.name_get()[0][1]"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="payslip.struct_id.name"/>
                                         </td>
                                         <td class="text-center">
                                             <span t-field="payslip.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100').number_of_days"/>
