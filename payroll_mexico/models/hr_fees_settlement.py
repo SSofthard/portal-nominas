@@ -80,7 +80,7 @@ class HrFeeSettlement(models.Model):
     payment_type = fields.Selection([('1', 'Pago Oportuno'), ('2', 'Pago Extemporaneo')], string='Tipo de pago', required=True)
     payment_date = fields.Date(string='Fecha de pago')
     regulatory_payment_date = fields.Date(string='Fecha de pago reglamentaria', compute='get_date_payment')
-    index_update = fields.Float(string='Indice de actualización', compute='get_index_update',  digits=dp.get_precision('Payroll Rate'))
+    index_update = fields.Float(string='Indice de actualización',  digits=dp.get_precision('Payroll Rate'))
     subtotal = fields.Float(string='Total')
     total = fields.Float(string='Total a pagar')
     amount_total_update = fields.Float(string='Total a pagar')
@@ -108,8 +108,8 @@ class HrFeeSettlement(models.Model):
         if self.payment_type == '1':
             self.payment_date = self.regulatory_payment_date
 
-    @api.one
-    @api.depends('year', 'month', 'payment_date')
+    # @api.one
+    # @api.depends('year', 'month', 'payment_date')
     def get_index_update(self):
         '''
         Este metodo obtiene el indice de actualización basado en la fechas de la liquidación / la fecha de pago
@@ -124,7 +124,7 @@ class HrFeeSettlement(models.Model):
             if not index_payment:
                 raise UserError(
                    '''No se encontraron valores en la tabla de indice nacional de precios al consumidor para el mes de pago indicado.
-                      Por favor cargue los indices correspondientes al mes %s - %s.  
+                      Por favor cargue los indices correspondientes al mes %s - %s.
                    ''' % (dict(self._fields['month']._description_selection(self.env)).get(self.payment_date.month), self.payment_date.year))
             self.index_update = index_payment/index_document if self.payment_type == '2' else 1
 
@@ -151,6 +151,7 @@ class HrFeeSettlement(models.Model):
         Este metodo obtiene los valores correspondiente para cada uno de los elementos declarados con relacion a las nominas ejecutadas en el mes.
         que se corre la liquidación de cuotas de IMSS
         '''
+        self.get_index_update()
         self.fees_settlement_lines.unlink()
         if self.payment_type == '2':
             interes_range = self.payment_date - self.regulatory_payment_date
