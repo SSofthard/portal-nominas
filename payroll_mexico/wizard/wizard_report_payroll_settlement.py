@@ -320,9 +320,9 @@ class payrollReportSettlement(models.TransientModel):
             sheet.write(row_count, main_col_count, 'Total', header_format)
             sheet.set_column(row_count, main_col_count, 20)
             main_col_count += 1
-            sheet.write(row_count, main_col_count, 'Finiquito\nTotal', header_format)
-            sheet.set_column(row_count, main_col_count, 20)
-            main_col_count += 1
+            # ~ sheet.write(row_count, main_col_count, 'Finiquito\nTotal', header_format)
+            # ~ sheet.set_column(row_count, main_col_count, 20)
+            # ~ main_col_count += 1
             sheet.write(row_count, main_col_count, 'Motivo', header_format)
             sheet.set_column(row_count, main_col_count, 20)
             main_col_count += 1
@@ -356,8 +356,8 @@ class payrollReportSettlement(models.TransientModel):
                 col_count += 1
                 sheet.write(row_count, col_count, data['per_employee'][employee]['total'], currency_format)
                 col_count += 1
-                sheet.write(row_count, col_count, data['per_employee'][employee]['settlement_total'], currency_format)
-                col_count += 1
+                # ~ sheet.write(row_count, col_count, data['per_employee'][employee]['settlement_total'], currency_format)
+                # ~ col_count += 1
                 sheet.write(row_count, col_count, data['per_employee'][employee]['reason_liquidation'], report_format2)
                 col_count += 1
                 
