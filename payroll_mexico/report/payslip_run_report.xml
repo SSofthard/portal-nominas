@@ -58,13 +58,42 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <t t-set="sum_subs_empleo" t-value="0"/>
-                            <t t-set="sum_subs_isr" t-value="0"/>
-                            <t t-set="sum_IMSS" t-value="0"/>
-                            <t t-set="sum_otras_deducciones" t-value="0"/>
-                            <t t-set="sum_total_percepciones" t-value="0"/>
-                            <t t-set="sum_otras_percepciones" t-value="0"/>
-                            <t t-set="sum_sueldo" t-value="0"/>
+
+
+<!--                            <t t-set="sum_subs_empleo" t-value="{}"/>-->
+<!--                            <t t-set="sum_subs_isr" t-value="{}"/>-->
+<!--                            <t t-set="sum_IMSS" t-value="{}"/>-->
+<!--                            <t t-set="sum_otras_deducciones" t-value="{}"/>-->
+<!--                            <t t-set="sum_total_percepciones" t-value="{}"/>-->
+<!--                            <t t-set="sum_otras_percepciones" t-value="{}"/>-->
+<!--                            <t t-set="sum_sueldo" t-value="{}"/>-->
+<!--                            <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">-->
+<!--                                <t t-set="sum_subs_empleo" t-esc="sum_subs_empleo.update({struct.id:0})"/>-->
+<!--                                <t t-set="sum_subs_isr" t-esc="sum_subs_isr.update({struct.id:0})"/>-->
+<!--                                <t t-set="sum_IMSS" t-esc="sum_IMSS.update({struct.id:0})"/>-->
+<!--                                <t t-set="sum_otras_deducciones" t-esc="sum_otras_deducciones.update({struct.id:0})"/>-->
+<!--                                <t t-set="sum_total_percepciones" t-esc="sum_total_percepciones.update({struct.id:0})"/>-->
+<!--                                <t t-set="sum_otras_percepciones" t-esc="sum_otras_percepciones.update({struct.id:0})"/>-->
+<!--                                <t t-set="sum_sueldo" t-esc="sum_sueldo.update({struct.id:0})"/>-->
+<!--                            </t>-->
+<!--                           <t t-set="sum_subs_empleo" t-esc="sum_subs_empleo.update({12:sum_subs_empleo[12]+1})"/>-->
+<!--                            ////<t t-esc="slip_ids"/>////-->
+<!--                            <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">-->
+<!--                                <t t-esc="struct.name"/>-->
+<!--                                <t t-esc="struct.id"/>-->
+<!--                                <t t-esc="sum_subs_isr"/>-->
+<!--                            </t>///-->
+<!--                            <t t-esc="sum_subs_empleo"/>-->
+<!--                            <t t-esc="sum_subs_empleo"/>-->
+<!--                            <t t-esc="sum_subs_empleo"/>-->
+<!--                            <t t-set="sum_subs_empleo" t-value="0"/>-->
+<!--                            <t t-set="sum_subs_isr" t-value="0"/>-->
+<!--                            <t t-set="sum_IMSS" t-value="0"/>-->
+<!--                            <t t-set="sum_otras_deducciones" t-value="0"/>-->
+<!--                            <t t-set="sum_total_percepciones" t-value="0"/>-->
+<!--                            <t t-set="sum_otras_percepciones" t-value="0"/>-->
+<!--                            <t t-set="sum_sueldo" t-value="0"/>-->
+
                             <t t-set="c" t-value="0"/>
                             <table class="table table-condensed">
                                 <tbody>
@@ -72,8 +101,11 @@
                                         <td class="text-center">
                                             <strong>Clave</strong>
                                         </td>
-                                        <td class="text-center" colspan="3">
+                                        <td class="text-center" colspan="2">
                                             <strong>Nombre del Trabajador</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong>Régimen de contratación</strong>
                                         </td>
                                         <td class="text-center">
                                             <strong>Dias Trabajados</strong>
@@ -154,23 +186,26 @@
                                         <td class="text-center">
                                             <span t-field="payslip.employee_id.enrollment"/>
                                         </td>
-                                        <td class="text-center" colspan="3">
+                                        <td class="text-center" colspan="2">
                                             <span t-esc="payslip.employee_id.name_get()[0][1]"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="payslip.struct_id.name"/>
                                         </td>
                                         <td class="text-center">
                                             <span t-field="payslip.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100').number_of_days"/>
                                         </td>
                                         <td class="text-center">
-                                            <t t-set="sum_sueldo" t-value="sum_sueldo + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code == 'P001').mapped('total'))"/>
+<!--                                            <t t-set="sum_sueldo" t-value="sum_sueldo + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code == 'P001').mapped('total'))"/>-->
                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code == 'P001').mapped('total'))
 "/>
                                         </td>
                                         <td class="text-center">
-                                            <t t-set="sum_otras_percepciones" t-value="sum_otras_percepciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code != 'P001').mapped('total'))"/>
+<!--                                            <t t-set="sum_otras_percepciones" t-value="sum_otras_percepciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code != 'P001').mapped('total'))"/>-->
                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'perception' and line.code != 'P001').mapped('total'))"/>
                                         </td>
                                         <td class="text-center">
-                                            <t t-set="sum_total_percepciones" t-value="sum_total_percepciones + payslip.line_ids.filtered(lambda line: line.code == 'P195').total"/>
+<!--                                            <t t-set="sum_total_percepciones" t-value="sum_total_percepciones + payslip.line_ids.filtered(lambda line: line.code == 'P195').total"/>-->
                                             <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'P195').total"/>
                                         </td>
                                         <td class="text-center">
@@ -187,22 +222,22 @@
                                              <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.salary_rule_id.code == 'UI002').total/WORKHOUR"/>
                                         </td>
                                         <td class="text-center">
-                                            <t t-set="sum_IMSS" t-value="sum_IMSS+payslip.line_ids.filtered(lambda line: line.code == 'D002').total or 0"/>
+<!--                                            <t t-set="sum_IMSS" t-value="sum_IMSS+payslip.line_ids.filtered(lambda line: line.code == 'D002').total or 0"/>-->
                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="payslip.line_ids.filtered(lambda line: line.code == 'D002').total or 0"/>
                                         </td>
                                         <td class="text-center">
                                             <span t-esc="WORKHOUR"/>
                                         </td>
                                         <td class="text-center">
-                                            <t t-set="sum_subs_isr" t-value="sum_subs_isr+sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deductions' and line.salary_rule_id.type_deduction == '002').mapped('total'))"/>
+<!--                                            <t t-set="sum_subs_isr" t-value="sum_subs_isr+sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deductions' and line.salary_rule_id.type_deduction == '002').mapped('total'))"/>-->
                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deductions' and line.salary_rule_id.type_deduction == '002').mapped('total'))"/>
                                         </td>
                                         <td class="text-center">
-                                            <t t-set="sum_subs_empleo" t-value="sum_subs_empleo+payslip.line_ids.filtered(lambda line: line.code == 'P105').total"/>
+<!--                                            <t t-set="sum_subs_empleo" t-value="sum_subs_empleo+payslip.line_ids.filtered(lambda line: line.code == 'P105').total"/>-->
                                             <span t-field="payslip.line_ids.filtered(lambda line: line.code == 'P105').total"/>
                                         </td>
                                         <td class="text-center">
-                                                <t t-set="sum_otras_deducciones" t-value="sum_otras_deducciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>
+<!--                                                <t t-set="sum_otras_deducciones" t-value="sum_otras_deducciones + sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>-->
                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(payslip.line_ids.filtered(lambda line: line.salary_rule_id.type == 'deduction').mapped('total'))"/>
                                         </td>
                                         <td class="text-center">
@@ -293,7 +328,9 @@
                                 </tbody>
                             </table>
                             <center><h6>Percepciones</h6></center>
-                            <table class="table table-condensed">
+                            <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
+                                <center><t t-esc="struct.name"/></center>
+                                <table class="table table-condensed">
                                 <tbody>
                                     <t t-set="total_perceptions" t-value="0"/>
                                     <tr>
@@ -304,7 +341,7 @@
                                             SUELDOS
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_sueldo"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_sueldo[struct.id]"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -315,13 +352,13 @@
                                             OTRAS PERCEPCIONES
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_otras_percepciones"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_otras_percepciones[struct.id]"/>
                                         </td>
-                                        <t t-set="total_perceptions" t-value="sum_sueldo+sum_otras_percepciones"/>
+                                        <t t-set="total_perceptions" t-value="sum_sueldo[struct.id]+sum_otras_percepciones[struct.id]"/>
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="text-right" style="border: white 1px solid;">
-                                             Total percepciones
+                                             Total percepciones (<t t-esc="struct.name"/>)
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="total_perceptions"/>
@@ -329,8 +366,23 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <center><h6 style="background-color: #ABAFAF;">Deducciones</h6></center>
+                            </t>
                             <table class="table table-condensed">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="text-right" style="border: white 1px solid;">
+                                             Total percepciones
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(sum_sueldo.values())+sum(sum_otras_percepciones.values())"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <center><h6 style="background-color: #ABAFAF;">Deducciones</h6></center>
+                            <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">
+                                <center><t t-esc="struct.name"/></center>
+                                <table class="table table-condensed">
                                 <tbody>
                                     <tr>
                                         <td class="text-right" style="border: white 1px solid;">
@@ -340,7 +392,7 @@
                                             ISR
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_isr"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_isr[struct.id]"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -351,7 +403,7 @@
                                             IMSS
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_IMSS"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_IMSS[struct.id]"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -362,7 +414,7 @@
                                             SUBSIDIO PARA EL EMPLEO
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_empleo"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_empleo[struct.id]"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -373,21 +425,36 @@
                                             OTRAS DEDUCCIONES
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_otras_deducciones"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_otras_deducciones[struct.id]"/>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-right" style="border: white 1px solid;">
+                                             Total deducciones (<t t-esc="struct.name"/>)
+                                        </td>
+                                        <td class="text-left" style="border: white 1px solid;">
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_isr[struct.id]+sum_IMSS[struct.id]+sum_otras_deducciones[struct.id]"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </t>
+                            <table class="table table-condensed">
+                                <tbody>
                                     <tr>
                                         <td colspan="2" class="text-right" style="border: white 1px solid;">
                                              Total deducciones
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum_subs_isr+sum_subs_isr+sum_IMSS+sum_otras_deducciones"/>
+                                            <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(sum_subs_isr.values())+sum(sum_IMSS.values())+sum(sum_otras_deducciones.values())"/>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <center><h6 style="background-color: #ABAFAF;">Totales</h6></center>
-                            <table class="table table-condensed">
+<!--                            <t t-foreach="slip_ids.mapped('struct_id')" t-as="struct">-->
+<!--                                <center><h4><t t-esc="struct.name"/></h4></center>-->
+                                <table class="table table-condensed">
                                 <tbody>
                                     <tr>
                                         <td class="text-right" style="border: white 1px solid;">
@@ -420,7 +487,7 @@
                                              Subs. Empleo
                                         </td>
                                         <td class="text-left" style="border: white 1px solid;">
-                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(slip_ids.mapped('line_ids').filtered(lambda line: line.code == 'P105').mapped('total'))"/>
+                                             <span t-options="{'widget': 'float', 'precision':currency_precision}" t-esc="sum(sum_subs_empleo.values())"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -433,6 +500,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+<!--                            </t>-->
                             <p>Las percepciones marcadas con * se pagan en especie. </p>
                             <p>EL NETO PAGADO incluye el total en efectivo y el total en especie.</p>
                         </div>
