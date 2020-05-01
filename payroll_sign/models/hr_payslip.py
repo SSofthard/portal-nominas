@@ -26,10 +26,18 @@ class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
 
     #Columns
-    pdf_signed = fields.Boolean(string='Document Signed')
-    # sign_status = fields.Selection(related='sign_request_id.state')
-    sign_request_id = fields.Many2one(string='Solicitud de firmado')
+    # sign_token = fields.sign_request_id
+    sign_status = fields.Selection([("sent", "Signatures in Progress"),
+                                    ("signed", "Fully Signed"),
+                                    ("canceled", "Canceled")],related='sign_request_id.state')
+    sign_request_id = fields.Many2one('sign.request', string='Solicitud de firmado')
 
+    def get_doc_completed_signed(self):
+        '''
+        Este metodo obtiene el documento firmado de la nomina
+        :return:
+        '''
+        return self.sign_request_id.get_completed_document()
 
     def send_pdf_to_sign(self):
         '''
@@ -62,11 +70,13 @@ class HrPayslip(models.Model):
             'filename': sign_template.name,
             'signer_ids':[(0, False,{
                 'role_id':self.env['sign.item.role'].search([('name','=','Empleado')]).id,
-                'partner_id':self.employee_id.address_home_id.id,
+                'partner_id':self.employee_id.user_id.partner_id.id if self.employee_id.user_id else self.employee_id.address_home_id.id,
             })],
             'signers_count':1,
             'signer_id': self.employee_id.address_home_id.id,
             'subject':_("Signature Request - %s") % (sign_template.attachment_id.name)
         })
-        return sign_send_request.create_request()
+        sign_request = sign_send_request.create_request()
+        self.sign_request_id = sign_request['id']
+        return sign_request
 

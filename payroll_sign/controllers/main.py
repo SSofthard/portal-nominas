@@ -32,7 +32,7 @@ SITEMAP_CACHE_TIME = datetime.timedelta(hours=12)
 
 class PayslipsSign(http.Controller):
 
-    @http.route('/mypayslips', type='http', auth="public", website=True)
+    @http.route('/mypayslips', type='http', auth="user", website=True)
     def main(self):
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
@@ -43,5 +43,12 @@ class PayslipsSign(http.Controller):
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         user = request.env['res.users'].browse(request.uid)
-        sign_request = request.env['sign.request.item'].search([('partner_id', '=',user.partner_id.id)]).mapped('sign_request_id')
+        sign_request = request.env['sign.request.item'].sudo().search([('partner_id', '=',user.partner_id.id)]).mapped('sign_request_id')
         return request.render('payroll_sign.payslip_receipt', {'sign_request':sign_request})
+
+    @http.route('/signdoc/<request_id>/', type='http', auth="portal", website=True)
+    def sign(self, request_id):
+        print (request_id)
+        print (request_id)
+        print (request_id)
+        return request.env['sign.request'].browse(request_id).sudo().go_to_document()

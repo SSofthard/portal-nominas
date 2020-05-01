@@ -17,6 +17,13 @@
                         >
                     </button>
                 </xpath>
+				<xpath expr="//page[last()]" position="inside">
+                    <group string="Firma del Recibo">
+                      <field name="sign_request_id"/>
+                      <field name="sign_status"/>
+                        <button name="get_doc_completed_signed" type="object" icon="fa-download" string="Descargar Documento Firmado"></button>
+                    </group>
+                </xpath>
             </field>
         </record>
         
