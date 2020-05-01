@@ -5,6 +5,7 @@
             <t t-set = "title"> Recibos de Nómina </t>
             <div class = "oe_structure" >
                 <div class = "container">
+                    <t t-call="portal.portal_searchbar"/>
                     <table class="table table-striped">
                         <thead>
                             <th>Nro</th>
@@ -21,8 +22,10 @@
                                 <td><t t-esc="o.reference"/></td>
                                 <td><t t-esc="o.request_item_ids.mapped('partner_id').name"/></td>
                                 <td><t t-esc="dict(o._fields['state']._description_selection(o.env)).get(o.state)"/></td>
-                                <td><a class="button" name="Sign_document" t-att-href="'/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
-                                    <span class="fa-pencil"></span><t t-esc="'Firmar' if o.state == 'sent' else 'Ver'"/></a></td>
+                                <td><a t-if="o.state == 'sent'" class="btn btn-sm btn-primary" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
+                                    <span class="fa fa-pencil"></span>  Firmar</a>
+                                    <a t-if="o.state != 'sent'" class="btn btn-sm btn-light" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
+                                    <span class="fa fa-eye"></span>  Ver</a></td>
 
                             </tr>
                         </tbody>
