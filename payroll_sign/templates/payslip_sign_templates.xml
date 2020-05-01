@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="payroll_sign.payslip_receipt">
-        <t t-call = "website.layout">
-            <t t-set = "title"> Recibos de Nómina </t>
+        <t t-call = "portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set = "title"> Recibos de Nómina </t>
+            </t>
             <div class = "oe_structure" >
                 <div class = "container">
-                    <t t-call="portal.portal_searchbar"/>
-                    <table class="table table-striped">
+
+                    <t t-call="portal.portal_table">
                         <thead>
                             <th>Nro</th>
                             <th>Nombre del archivo</th>
@@ -29,7 +32,7 @@
 
                             </tr>
                         </tbody>
-                    </table>
+                    </t>
                 </div>
             </div>
         </t>
