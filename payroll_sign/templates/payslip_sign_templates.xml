@@ -2,6 +2,9 @@
 <odoo>
     <template id="payroll_sign.payslip_receipt">
         <t t-call = "portal.portal_layout">
+            <t t-set="sortby" t-value="state"/>
+            <t t-set="searchbar_sortings">"{'state': {'label': _('Estado'), 'order': 'state desc'}}"</t>
+            <t t-set="o_portal_search_panel" t-value="True"/>
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
             <t t-call="portal.portal_searchbar">
                 <t t-set = "title"> Recibos de Nómina </t>
@@ -11,11 +14,13 @@
 
                     <t t-call="portal.portal_table">
                         <thead>
-                            <th>Nro</th>
-                            <th>Nombre del archivo</th>
-                            <th>Empleado</th>
-                            <th>Estado</th>
-                            <th>Firmar</th>
+                            <tr class="active">
+                                <th>Nro</th>
+                                <th>Nombre del archivo</th>
+                                <th>Empleado</th>
+                                <th>Estado</th>
+                                <th>Firmar</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <t t-set="count" t-value="0"/>

@@ -32,8 +32,11 @@ SITEMAP_CACHE_TIME = datetime.timedelta(hours=12)
 
 class PayslipsSign(http.Controller):
 
-    @http.route('/mypayslips', type='http', auth="user", website=True)
-    def main(self):
+    items_per_page = 20
+
+    @http.route(['/my/payslips', '/my/payslips/page/<int:page>'], type='http', auth="user", website=True)
+    def portal_my_payslips(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
+        values = {}
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
@@ -44,7 +47,35 @@ class PayslipsSign(http.Controller):
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         user = request.env['res.users'].browse(request.uid)
         sign_request = request.env['sign.request.item'].sudo().search([('partner_id', '=',user.partner_id.id)]).mapped('sign_request_id')
-        return request.render('payroll_sign.payslip_receipt', {'sign_request':sign_request})
+        sign_request_count = request.env['sign.request.item'].sudo().search_count([('partner_id', '=',user.partner_id.id)])
+        searchbar_sortings = {
+            'stage': {'label': _('Stage'), 'order': 'state'},
+            'name': {'label': _('Reference'), 'order': 'name'},
+        }
+        if not sortby:
+            sortby = 'stage'
+        sort_order = searchbar_sortings[sortby]['order']
+        pager = portal_pager(
+            url="/my/payslips",
+            url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby},
+            total=sign_request_count,
+            page=page,
+            step=self.items_per_page
+        )
+        values.update({
+            'date': date_begin,
+            'sign_request': sign_request,
+            'page_name': 'payslips',
+            'pager': pager,
+            # 'archive_groups': archive_groups,
+            'default_url': '/my/payslips',
+            'searchbar_sortings': searchbar_sortings,
+            'sortby': sortby,
+        })
+        print (searchbar_sortings)
+        print (searchbar_sortings)
+        print (searchbar_sortings[sortby].get('label', 'Newest'))
+        return request.render('payroll_sign.payslip_receipt', values)
 
     @http.route('/signdoc/<request_id>/', type='http', auth="portal", website=True)
     def sign(self, request_id):
