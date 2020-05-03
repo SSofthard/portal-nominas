@@ -2,8 +2,8 @@
 <odoo>
     <template id="payroll_sign.payslip_receipt">
         <t t-call = "portal.portal_layout">
-            <t t-set="sortby" t-value="state"/>
-            <t t-set="searchbar_sortings">"{'state': {'label': _('Estado'), 'order': 'state desc'}}"</t>
+<!--            <t t-set="sortby" t-value="state"/>-->
+<!--            <t t-set="searchbar_sortings">"{'state': {'label': _('Estado'), 'order': 'state desc'}}"</t>-->
             <t t-set="o_portal_search_panel" t-value="True"/>
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
             <t t-call="portal.portal_searchbar">
@@ -31,7 +31,7 @@
                                 <td><t t-esc="o.request_item_ids.mapped('partner_id').name"/></td>
                                 <td><t t-esc="dict(o._fields['state']._description_selection(o.env)).get(o.state)"/></td>
                                 <td><a t-if="o.state == 'sent'" class="btn btn-sm btn-primary" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
-                                    <span class="fa fa-pencil"></span>  Firmar</a>
+                                    <span class="fa fa-pencil-square-o"></span>  Firmar</a>
                                     <a t-if="o.state != 'sent'" class="btn btn-sm btn-light" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
                                     <span class="fa fa-eye"></span>  Ver</a></td>
 

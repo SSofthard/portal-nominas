@@ -19,7 +19,7 @@ from odoo.http import request
 from odoo.tools import pycompat, OrderedSet
 from odoo.addons.http_routing.models.ir_http import slug, _guess_mimetype
 from odoo.addons.web.controllers.main import Binary
-from odoo.addons.portal.controllers.portal import pager as portal_pager
+from odoo.addons.portal.controllers.portal import CustomerPortal,pager as portal_pager
 from odoo.addons.portal.controllers.web import Home
 
 logger = logging.getLogger(__name__)
@@ -30,9 +30,7 @@ LOC_PER_SITEMAP = 45000
 SITEMAP_CACHE_TIME = datetime.timedelta(hours=12)
 
 
-class PayslipsSign(http.Controller):
-
-    items_per_page = 20
+class PayslipsSign(CustomerPortal):
 
     @http.route(['/my/payslips', '/my/payslips/page/<int:page>'], type='http', auth="user", website=True)
     def portal_my_payslips(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
@@ -46,11 +44,12 @@ class PayslipsSign(http.Controller):
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         user = request.env['res.users'].browse(request.uid)
-        sign_request = request.env['sign.request.item'].sudo().search([('partner_id', '=',user.partner_id.id)]).mapped('sign_request_id')
+        sign_request_ids = request.env['sign.request.item'].sudo().search([('partner_id', '=',user.partner_id.id)]).mapped('sign_request_id')._ids
+        sign_request = request.env['sign.request'].sudo().search([('id', 'in',sign_request_ids)], order=sortby)
         sign_request_count = request.env['sign.request.item'].sudo().search_count([('partner_id', '=',user.partner_id.id)])
         searchbar_sortings = {
-            'stage': {'label': _('Stage'), 'order': 'state'},
-            'name': {'label': _('Reference'), 'order': 'name'},
+            'state': {'label': _('State'), 'order': 'state'},
+            'reference': {'label': _('Reference'), 'order': 'reference'},
         }
         if not sortby:
             sortby = 'stage'
@@ -60,7 +59,7 @@ class PayslipsSign(http.Controller):
             url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby},
             total=sign_request_count,
             page=page,
-            step=self.items_per_page
+            step=self._items_per_page
         )
         values.update({
             'date': date_begin,
