@@ -52,7 +52,7 @@ class PayslipsSign(CustomerPortal):
             'reference': {'label': _('Reference'), 'order': 'reference'},
         }
         if not sortby:
-            sortby = 'stage'
+            sortby = 'state'
         sort_order = searchbar_sortings[sortby]['order']
         pager = portal_pager(
             url="/my/payslips",
