@@ -12,7 +12,7 @@
 ##############################################################################
 
 from . import hr_payslip
-# from . import sign_request
+from . import sign
 
 
 

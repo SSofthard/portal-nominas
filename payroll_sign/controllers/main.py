@@ -65,16 +65,24 @@ class PayslipsSign(CustomerPortal):
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         print ('dskdjsodnsldjnsdkjnsdkjsndkjsdn')
         user = request.env['res.users'].browse(request.uid)
-        sign_request_ids = request.env['sign.request.item'].sudo().search([('partner_id', '=',user.partner_id.id)]).mapped('sign_request_id')._ids
-        sign_request = request.env['sign.request'].sudo().search([('id', 'in',sign_request_ids)], order=sortby)
-        sign_request_count = request.env['sign.request.item'].sudo().search_count([('partner_id', '=',user.partner_id.id)])
+        print (self._items_per_page)
+        print (self._items_per_page)
+        print (self._items_per_page)
+
         searchbar_sortings = {
-            'state': {'label': _('State'), 'order': 'state'},
+            'state': {'label': _('Estado'), 'order': 'state'},
             'reference': {'label': _('Reference'), 'order': 'reference'},
+            'create_date': {'label': _('Mas reciente'), 'order': 'create_date desc'},
+            'res_name': {'label': _('Nombre del recurso'), 'order': 'res_name'},
         }
         if not sortby:
             sortby = 'state'
         sort_order = searchbar_sortings[sortby]['order']
+        sign_request_ids = request.env['sign.request.item'].sudo().search([('partner_id', '=', user.partner_id.id)]).mapped('sign_request_id')._ids
+        sign_request = request.env['sign.request'].sudo().search([('id', 'in', sign_request_ids)], order=sort_order,
+                                                                 limit=self._items_per_page,
+                                                                 offset=(page - 1) * self._items_per_page)
+        sign_request_count = request.env['sign.request.item'].sudo().search_count([('partner_id', '=', user.partner_id.id)])
         pager = portal_pager(
             url="/my/payslips",
             url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby},

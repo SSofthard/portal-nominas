@@ -11,6 +11,32 @@
         </xpath>
     </template>
 
+    <template id="portal_table_striped" name="Portal My Home : sign request entries" inherit_id="portal.portal_table" priority="21">
+        <xpath expr="//table" position="attributes">
+            <attribute name="class">
+                table table-striped rounded mb-0 bg-white o_portal_my_doc_table
+            </attribute>
+        </xpath>
+    </template>
+
+    <template id="doc_sign_logo" inherit_id="sign.doc_sign" priority="21">
+        <xpath expr="//header/div/a/img" position="replace">
+            <t t-esc="current_request_item.state"/>
+                <img t-if="sign_request.create_uid.company_id.logo" t-att-src="image_data_uri(sign_request.create_uid.company_id.logo)" class="float-left" alt="Logo"/>
+        </xpath>
+        <xpath expr="//header/div/a[last()]/img" position="replace">
+                <img t-if="sign_request.create_uid.company_id.logo" t-att-src="image_data_uri(sign_request.create_uid.company_id.logo)" alt="Signed"/>
+        </xpath>
+    </template>
+
+<!--    <template id="doc_sign_button_cancel" inherit_id="sign._doc_sign">-->
+<!--        <xpath expr="//div" position="after">-->
+<!--            <div t-if="sign_request.state != 'signed'" class="o_sign_sign_document_button">-->
+<!--                <button type="button" class="btn btn-danger">Cancel Document</button>-->
+<!--            </div>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
     <template id="payroll_sign.payslip_receipt">
         <t t-call = "portal.portal_layout">
 <!--            <t t-set="sortby" t-value="state"/>-->
