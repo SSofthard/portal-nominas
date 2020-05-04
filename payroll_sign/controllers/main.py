@@ -32,6 +32,27 @@ SITEMAP_CACHE_TIME = datetime.timedelta(hours=12)
 
 class PayslipsSign(CustomerPortal):
 
+    def _prepare_portal_layout_values(self):
+        values = super(PayslipsSign, self)._prepare_portal_layout_values()
+        partner = request.env.user.partner_id
+
+        sign_request = request.env['sign.request']
+        sign_request_count = request.env['sign.request.item'].sudo().search_count([('partner_id', '=',partner.id)])
+
+
+        values.update({
+            'sign_request': sign_request_count,
+        })
+        print ('lksnlasnkansaknslknaslkasnlk')
+        print ('lksnlasnkansaknslknaslkasnlk')
+        print ('lksnlasnkansaknslknaslkasnlk')
+        print ('lksnlasnkansaknslknaslkasnlk')
+        print ('lksnlasnkansaknslknaslkasnlk')
+        print ('lksnlasnkansaknslknaslkasnlk')
+        print ('lksnlasnkansaknslknaslkasnlk')
+        print (values)
+        return values
+
     @http.route(['/my/payslips', '/my/payslips/page/<int:page>'], type='http', auth="user", website=True)
     def portal_my_payslips(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
         values = {}

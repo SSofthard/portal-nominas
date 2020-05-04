@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <template id="portal_my_home_sign" name="Portal My Home : sign request entries" inherit_id="portal.portal_my_home" priority="21">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="sign_request" t-call="portal.portal_docs_entry">
+                <t t-set="title">Kiosko de Empleado</t>
+                <t t-set="url" t-value="'/my/payslips'"/>
+                <t t-set="count" t-value="sign_request"/>
+            </t>
+        </xpath>
+    </template>
+
     <template id="payroll_sign.payslip_receipt">
         <t t-call = "portal.portal_layout">
 <!--            <t t-set="sortby" t-value="state"/>-->
@@ -17,7 +28,8 @@
                             <tr class="active">
                                 <th>Nro</th>
                                 <th>Nombre del archivo</th>
-                                <th>Empleado</th>
+                                <th>Documento relacionado</th>
+                                <th>Fecha</th>
                                 <th>Estado</th>
                                 <th>Firmar</th>
                             </tr>
@@ -28,8 +40,11 @@
                                 <t t-set="count" t-value="count+1"/>
                                 <td><t t-esc="count"/></td>
                                 <td><t t-esc="o.reference"/></td>
-                                <td><t t-esc="o.request_item_ids.mapped('partner_id').name"/></td>
-                                <td><t t-esc="dict(o._fields['state']._description_selection(o.env)).get(o.state)"/></td>
+                                <td><t t-esc="o.template_id.attachment_id.res_name"/></td>
+                                <td><t t-esc="o.create_date.strftime('%d/%m/%Y')"/></td>
+<!--                                <td><t t-esc="dict(o._fields['state']._description_selection(o.env)).get(o.state)"/></td>-->
+                                <td t-if="o.state == 'sent'" >Por firmar</td>
+                                <td t-if="o.state == 'signed'" >Firmado</td>
                                 <td><a t-if="o.state == 'sent'" class="btn btn-sm btn-primary" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
                                     <span class="fa fa-pencil-square-o"></span>  Firmar</a>
                                     <a t-if="o.state != 'sent'" class="btn btn-sm btn-light" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
