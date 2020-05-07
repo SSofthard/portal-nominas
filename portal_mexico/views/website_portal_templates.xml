@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <template id="portal_my_home_pentaho" name="Portal My Home : sign request entries" inherit_id="portal.portal_my_home" priority="21">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Sistema de Nómina</t>
+                <t t-set="url" t-value="'/web'"/>
+<!--                <t t-set="count" t-value="sign_request"/>-->
+                <t t-set="icon">fas fa-calculator</t>
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Analitica de Nóminas</t>
+                <t t-set="url" t-value="'http://pentaho.solucionesofthard.com'"/>
+<!--                <t t-set="count" t-value="sign_request"/>-->
+                <t t-set="icon">fas fa-chart-area</t>
+            </t>
+        </xpath>
+    </template>
+
     <template id="portal.portal_my_home">
         <head>
             <meta charset="utf-8"/>

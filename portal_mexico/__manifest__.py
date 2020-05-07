@@ -11,6 +11,7 @@
     'license': 'OPL-1',	
     'depends': ['portal'],
     'data': [
+        'views/assets.xml',
         'views/website_portal_templates.xml',
     ],
     'qweb': [
