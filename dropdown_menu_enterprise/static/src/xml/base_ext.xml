@@ -73,6 +73,14 @@
                                 <img src="/dropdown_menu_enterprise/static/src/img/icon-expense.png" class="o_app_icon"/>
                                 <span>Gastos</span>
                         </a>
+                        <a role="menuitem" t-attf-href="#menu_id=321"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="321"
+                            t-att-data-menu-xmlid="menu_helpdesk_root"
+                            t-att-data-action-id="521">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-expense.png" class="o_app_icon"/>
+                                <span>Servicio de Asistencia</span>
+                        </a>
                         <a role="menuitem" t-attf-href="#menu_id=4"
                             class="dropdown-item o_app"
                             t-att-data-menu-id="4"

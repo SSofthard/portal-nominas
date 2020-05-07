@@ -1,0 +1,12 @@
+<templates id="template" xml:space="preserve">
+    <t t-extend="portal.chatter_composer">
+        <t t-jquery="form.o_portal_chatter_composer_form" t-operation="attributes">
+            <attribute name="enctype">multipart/form-data</attribute>
+        </t>
+        <t t-jquery="input[name='res_model']" t-operation="after">
+            <div class="mb-2 mt-3">
+                <input id="file-upload" type="file" multiple="true" name="attachments" />
+            </div>
+        </t>
+    </t>
+</templates>
