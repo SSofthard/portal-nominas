@@ -7,9 +7,10 @@
     "website" : "",
     "description": "Module that adapts sign process for payroll documents.",
     'summary': "Module that adapts sign process for payroll documents.",
-    "depends": ['base','payroll_mexico','sign'],
+    "depends": ['base','payroll_mexico','sign','website','portal_mexico'],
     "data": [
-    'views/hr_payslip.xml'
+    'views/hr_payslip.xml',
+    'templates/payslip_sign_templates.xml'
     ],
     "active": True,
     "installable": True,

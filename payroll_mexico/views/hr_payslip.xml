@@ -138,7 +138,7 @@
                     <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
 -->
-                    <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale" attrs="{'invisible': [('invoice_status', '!=', 'factura_correcta')]}"/>
+                    <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale"/>
                     <button string="Cancel CFDI" name="action_cfdi_nomina_cancel" type="object" class="oe_sale" attrs="{'invisible': [('invoice_status', '!=', 'factura_correcta')]}"/>
                 </xpath> 
                 <xpath expr="//button[@name='refund_sheet']" position="attributes">

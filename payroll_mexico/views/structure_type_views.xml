@@ -77,7 +77,7 @@
                         <field name="before_multiple_structure" invisible="1"/>
                         <field name="generated" invisible="True"/>
                         <field name="group_id" required="1" attrs="{'readonly': [('generated','=',True)]}"/>
-                        <field name="estructures_id" widget="many2many_tags" attrs="{'required': [('before_multiple_structure','=',False)],'invisible': [('before_multiple_structure','=',True)], 'readonly': [('generated','=',True)]}"/>
+<!--                        <field name="estructures_id" widget="many2many_tags" attrs="{'required': [('before_multiple_structure','=',False)],'invisible': [('before_multiple_structure','=',True)], 'readonly': [('generated','=',True)]}"/>-->
                     </group>
                     <group>
                         <field name="payment_date"/>
