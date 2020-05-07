@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_pentaho" name="Portal My Home : sign request entries" inherit_id="portal.portal_my_home" priority="21">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Sistema de Nómina</t>
+                <t t-set="url" t-value="'/web'"/>
+<!--                <t t-set="count" t-value="sign_request"/>-->
+                <t t-set="icon">fas fa-calculator</t>
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Analitica de Nóminas</t>
+                <t t-set="url" t-value="'http://pentaho.solucionesofthard.com'"/>
+<!--                <t t-set="count" t-value="sign_request"/>-->
+                <t t-set="icon">fas fa-chart-area</t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal.portal_my_home">
+        <head>
+            <meta charset="utf-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <link rel="stylesheet" href="/portal_mexico/static/src/css/globalstyles_home.css"/>
+            <title>Rosales &amp; Asociados</title>
+        </head>
+
+        <body class="home">
+            <header>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col col-md-4 offset-md-8 d-flex justify-content-end">
+                      <a href="https://facebook.com" target="_blank" class="btn social"><i class="fab fa-facebook-f fa-2x"></i></a>
+                      <a href="https://twitter.com" target="_blank" class="btn social"><i class="fab fa-twitter fa-2x"></i></a>
+                    </div>
+                  </div>
+                </div>
+
+            </header>
+            <main class="container">
+                <div id="logo" class="animated delay-1s flipInY">
+                    <img src="/portal_mexico/static/src/img/logo.png" id="logoimg" class="img-fluid"/>
+                    <h4 id="subtitulo" class="animated delay-3s flipInX">Gestión Integral de Servicios de Nómina</h4>
+                    <!--                                  <p class="text-center"><a href="/web/login" class="btn btn-outline-light entrar gotolink">ENTRAR</a></p>-->
+                    <div id="main" class="main-principal">
+                        <div class="o_portal_docs list-group" style="display:contents">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="slider" class="slider slide carousel-fade" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="/theme_nice_black/static/src/img/slide01.jpg" class="d-block w-100" alt="..."/>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/theme_nice_black/static/src/img/slide02.jpg" class="d-block w-100" alt="..."/>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/theme_nice_black/static/src/img/slide03.jpg" class="d-block w-100" alt="..."/>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/theme_nice_black/static/src/img/slide04.jpg" class="d-block w-100" alt="..."/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row d-none animated fadeInUp" id="contenidohome">
+                    <div class="col col-md-8 offset-md-4" id="mensajes">
+                        <div id="carousel" class="carousel slide carousel-fade mensaje" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="carousel-caption">
+                                        <h2>Gestión de Nóminas</h2>
+
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="carousel-caption">
+                                        <h2>Asesoría y Gestión de Contratos Laborales</h2>
+
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="carousel-caption">
+                                        <h2>Gestión de Prestaciones</h2>
+
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="carousel-caption">
+                                        <h2>Gestión de RH de Nómina</h2>
+
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="carousel-caption">
+                                        <h2>Gestión de Viáticos</h2>
+
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="carousel-caption">
+                                        <h2>Credencialización, Control de Asistencias y Accesos</h2>
+
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="carousel-caption">
+                                        <h2>Analítica de Nóminas</h2>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer>
+                <p class="text-white text-center">D.R. Rosales &amp; Asociados 2020</p>
+            </footer>
+
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+                    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                    crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+                    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                    crossorigin="anonymous"></script>
+            <script src="/portal_mexico/static/src/js/jquery.vide.js"></script>
+            <script src="/portal_mexico/static/src/js/animations_home.js"></script>
+            <script>
+                //$(document).ready(function () {$(document.body).vide('img/video/ocean');});
+            </script>
+        </body>
+    </template>
+
+    <template id="portal_layout_docs_entry" inherit_id="portal.portal_docs_entry">
+        <xpath expr="//a" position="replace">
+            <div class="menu-item-principal" data-toggle="tooltip" data-placement="bottom" title="Clientes">
+                <a t-att-href="url" t-att-title="title"><i t-att-class="icon"></i></a>
+                <p class="service-name"><t t-esc="title"/></p>
+            </div>
+        </xpath>
+    </template>
+    <template id="portal_layout_main_class" inherit_id="portal.frontend_layout">
+        <xpath expr="//main" position="attributes">
+            <attribute name="class">
+                main-principal
+            </attribute>
+        </xpath>
+    </template>
+
+
+</odoo>

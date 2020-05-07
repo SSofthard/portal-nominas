@@ -352,6 +352,9 @@
                         </group>
                     </page>
                 </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="context">{'default_partner_id':address_home_id}</attribute>
+                </xpath>
                 <xpath expr="//page[last()]" position="after">
                     <page string="Credito Fonacot" groups="hr.group_hr_user">
                         <separator string="Datos generales"/>

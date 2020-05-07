@@ -15,6 +15,7 @@
         'website_theme_install',
         'web_enterprise',
         'odoo_web_login',
+        'portal',
     ],
     'data': [
         'views/menu.xml',

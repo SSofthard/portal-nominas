@@ -11,6 +11,7 @@
         <script src="/theme_nice_black/static/src/js/jquery.vide.js"></script>
         <script src="/theme_nice_black/static/src/js/homescripts.js"></script>
         <script src="/theme_nice_black/static/src/js/animations.js"></script>
+        <script src="https://kit.fontawesome.com/a855ca47e7.js" crossorigin="anonymous"></script>
       </xpath>
     </template>
     
@@ -19,7 +20,8 @@
     </template>
     
     <template id="customize_header_style_2" inherit_id="portal.frontend_layout" active="True">
-        <xpath expr="//div[@id='wrapwrap']/header" position="replace"></xpath>
+        <xpath expr="//div[@id='wrapwrap']/header" position="replace">
+        </xpath>
     </template>
     
     <template id="customize_language_selector" inherit_id="website.language_selector" active="True">
