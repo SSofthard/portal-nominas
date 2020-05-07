@@ -7,6 +7,7 @@
                 <t t-set="title">Kiosko de Empleado</t>
                 <t t-set="url" t-value="'/my/payslips'"/>
                 <t t-set="count" t-value="sign_request"/>
+                <t t-set="icon">fas fa-users</t>
             </t>
         </xpath>
     </template>
@@ -29,13 +30,13 @@
         </xpath>
     </template>
 
-<!--    <template id="doc_sign_button_cancel" inherit_id="sign._doc_sign">-->
-<!--        <xpath expr="//div" position="after">-->
-<!--            <div t-if="sign_request.state != 'signed'" class="o_sign_sign_document_button">-->
-<!--                <button type="button" class="btn btn-danger">Cancel Document</button>-->
-<!--            </div>-->
-<!--        </xpath>-->
-<!--    </template>-->
+    <!--    <template id="doc_sign_button_cancel" inherit_id="sign._doc_sign">-->
+    <!--        <xpath expr="//div" position="after">-->
+    <!--            <div t-if="sign_request.state != 'signed'" class="o_sign_sign_document_button">-->
+    <!--                <button type="button" class="btn btn-danger">Cancel Document</button>-->
+    <!--            </div>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
 
     <template id="payroll_sign.payslip_receipt">
         <t t-call = "portal.portal_layout">
