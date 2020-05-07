@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+		<template id="assets_frontend" name="Enterprise Backend Ttheme" inherit_id="web.assets_frontend">
+            <xpath expr=".">
+                <link rel="stylesheet" type="text/scss" href="/portal_mexico/static/src/css/style.css"/>
+			</xpath>
+		</template>
+
+        <menuitem id="hr_attendance.menu_hr_attendance_my_attendances"
+            active="False"/>
+        <menuitem id="hr_attendance.menu_hr_attendance_kiosk_mode"
+            active="False"/>
+
+    </data>
+</odoo>
