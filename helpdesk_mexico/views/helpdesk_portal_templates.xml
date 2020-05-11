@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <template id="helpdesk.portal_my_home_helpdesk_ticket" name="Portal My Home : Helpdesk Ticket" inherit_id="portal.portal_my_home" priority="50">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="ticket_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Tickets</t>
+                <t t-set="url" t-value="'/my/tickets'"/>
+                <t t-set="count" t-value="ticket_count"/>
+                <t t-set="icon">fas fa-headset</t>
+            </t>
+        </xpath>
+    </template>
+    
+    
+    <template id="helpdesk.portal_helpdesk_ticket" name="Helpdesk Ticket">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Tickets</t>
+            </t>
+	    
+	    <nav class="navbar navbar-light  border  o_portal_navbar">
+		<button class="btn btn-primary btn-sm btn-warning" data-toggle="collapse" data-target="#collapse1">New ticket</button>
+	    </nav>
+	    <div id="collapse1" class="panel-collapse collapse">
+		  <ul class="list-group">
+		    <t t-if="len(teams)> 0">
+			<t t-foreach="teams" t-as="team">
+			    <t t-if="team.use_website_helpdesk_form">
+				<a id="submit-ticket" t-attf-href="/helpdesk/#{team.id}/submit">
+				    <li class="list-group-item"><span t-field="team.name"/></li>
+				</a>
+			    </t>
+			</t>
+		    </t>
+		    <li t-if="not teams" class="alert alert-info">
+			There are no service teams available to send new tickets.
+		    </li>
+		  </ul>
+	    </div>
+            <div t-if="not tickets" class="alert alert-info">
+                There are currently no Ticket for your account.
+            </div>
+            <t t-if="tickets" t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th class="text-right">Ref</th>
+                        <th class="">Description</th><th/>
+                        <th class="">Category</th><th/>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <t t-foreach="tickets" t-as="ticket">
+                    <tr>
+                        <td class="text-right"><a t-attf-href="/helpdesk/ticket/#{ticket.id}"><small>#</small><t t-esc="ticket.id"/></a></td>
+                        <td><a t-attf-href="/helpdesk/ticket/#{ticket.id}"><span t-field="ticket.name"/></a></td><td/>
+                        <td><a t-attf-href="/helpdesk/ticket/#{ticket.id}"><span t-field="ticket.ticket_type_id"/></a></td><td/>
+                        <td class="text-center"><span class="badge badge-pill badge-info" t-field="ticket.stage_id.name"/></td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+    
+     <template id="website_helpdesk.team" name="Helpdesk Team">
+        <t t-call="website.layout">
+	    <t t-set="is_portal" t-value="True"/>
+            <t t-set="additional_title">Helpdesk Team</t>
+            <div class="container mt16">
+                <div class="navbar navbar-expand-md navbar-light bg-light">
+                    <div class="navbar-brand">Helpdesk</div>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#o-helpdesk-teams-navbar-collapse">
+                        <span class="navbar-toggler-icon"/>
+                    </button>
+                    <div class="collapse navbar-collapse" id="o-helpdesk-teams-navbar-collapse">
+                        <t t-if="len(teams)>1">
+                            <ul class="navbar-nav team_menu">
+                                <t t-foreach="teams" t-as="tteam">
+                                    <li class="nav-item">
+                                        <a t-attf-href="/helpdesk/#{slug(tteam)}" class="nav-link">
+                                            <span t-field="tteam.name"/>
+                                        </a>
+                                    </li>
+                                </t>
+                            </ul>
+                        </t>
+                        <form class="form-inline ml-auto" role="search" t-attf-action="#" method="get">
+                            <t t-call="website.website_search_box"/>
+                            <span class="dropdown ml-2" groups="helpdesk.group_helpdesk_manager">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuSupport" data-toggle="dropdown" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <i class="fa fa-cog"/>
+                                </button>
+                                <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSupport">
+                                    <a role="menuitem" tabindex="-1" class="dropdown-item" t-attf-href="/web#id=#{team.id}&amp;view_type=form&amp;model=helpdesk.team">Team Settings</a>
+                                </div>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="wrap" class="container">
+                <div class="row mb16">
+                    <div class="oe_structure" id="oe_structure_website_helpdesk_team_1"/>
+                    <div class="col-md-9">
+                        <h2 class="o_page_header mt0 d-none" id="team-page"/>
+                    </div>
+                    <div class="col-md-3" id="right-column">
+                        <div id="website_published_button" groups="helpdesk.group_helpdesk_manager">
+                            <t t-call="website.publish_management">
+                              <t t-set="object" t-value="team"/>
+                              <t t-set="publish_edit" t-value="True"/>
+                              <t t-set="action" t-value="'helpdesk.helpdesk_team_action'"/>
+                            </t>
+                        </div>
+                        <div class="oe_structure" id="oe_structure_website_helpdesk_team_2"/>
+                        <t t-if="team.use_website_helpdesk_form">
+                            <div class="btn-group btn-block mb16" style="margin-top: 2em">
+                                <a id="submit-ticket" t-attf-href="/helpdesk/#{team.id}/submit">
+                                 <button t-attf-class="btn btn-primary #{'col-md-10' if multi_type else 'col-md-12'}">Submit a Ticket</button>
+                                </a>
+                            </div>
+                        </t>
+                        <t t-if="team.use_website_helpdesk_form">
+                            <div class="btn-group btn-block mb16">
+                                <a id="submit-ticket" t-attf-href="/my/tickets">
+                                 <button t-attf-class="btn btn-primary #{'col-md-10' if multi_type else 'col-md-12'}">View my Tickets</button>
+                                </a>
+                            </div>
+                        </t>
+                        <t t-if="team.description">
+                            <div class="card" id="about_team">
+                                <h3 class="card-header">Description</h3>
+                                <div class="card-body">
+                                    <span t-field="team.description"/>
+                                </div>
+                            </div>
+                        </t>
+                        <div class="oe_structure" id="oe_structure_website_helpdesk_team_3"/>
+                    </div>
+                </div>
+                <div class="oe_structure" id="oe_structure_website_helpdesk_team_4"/>
+            </div>
+        </t>
+    </template>
+    
+    <template id="tickets_followup_inherit" name="Helpdesk Ticket Inherit" inherit_id="helpdesk.tickets_followup">
+        <xpath expr="//div[4]" position="after">
+	    <div class="row mb-4">
+		<strong class="col-lg-2" t-if="ticket.group_id">Group / Company</strong>
+		<span class="col-lg-10" t-if="ticket.group_id" t-field="ticket.group_id"/>
+		<strong class="col-lg-2">Category</strong>
+		<span class="col-lg-10" t-field="ticket.ticket_type_id"/>
+	    </div>
+        </xpath>
+    </template>
+    
+    
+    <template id="website_helpdesk_form.ticket_submit" name="Helpdesk: Submit a Ticket">
+        <t name="Helpdesk" priority="29" t-name="website.helpdesk">
+            <t t-call="website.layout">
+                <t t-set="is_portal" t-value="True"/>
+                <t t-set="additional_title">Ticket</t>
+                <div id="wrap" class="oe_structure oe_empt">
+                    
+                    <div class="container">
+                        <br></br>
+                        <nav class="navbar navbar-light border o_portal_navbar">
+                            <span><a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a> <a href="/my/tickets">My tickets</a> /  <t t-esc="team.name"/></span>
+                        </nav>
+                         <t t-call="portal.portal_record_layout">
+                            <t t-set="card_header">
+                                <h4 class="title">New Tiket</h4>
+                            </t>
+                            <div class="">
+                            <t t-set="card_body">
+                            <section id="forms">
+                                <form action="/website_form/" method="post" class="s_website_form container-fluid mt32" enctype="multipart/form-data" data-model_name="helpdesk.ticket" data-success_page="/your-ticket-has-been-submitted" data-editable-form="false">
+                                    <input type="hidden" name="team_id" t-att-value="team and team.id or False"/>
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="form-group row form-field o_website_form_required">
+                                        <div class="col-lg-3 col-md-4 text-right">
+                                            <label class="col-form-label" for="partner_name">Your Name</label>
+                                        </div>
+                                        <div class="col-lg-7 col-md-8">
+                                            <input type="text" class="form-control o_website_form_input" name="partner_name" t-att-value="default_values.get('name', '')" required="1"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row form-field o_website_form_required">
+                                        <div class="col-lg-3 col-md-4 text-right">
+                                            <label class="col-form-label" for="partner_email">Your Email</label>
+                                        </div>
+                                        <div class="col-lg-7 col-md-8">
+                                            <input type='email' class='form-control o_website_form_input' name="partner_email" t-att-value="default_values.get('email', '')" required="1"/>
+                                        </div>
+                                    </div>
+				    <div t-if="len(default_values.get('group_ids', '')) > 0" class="form-group row form-field">    
+                                        <div class="col-lg-3 col-md-4 text-right">
+                                            <label class="col-form-label" for="name">Group / Company</label>
+                                        </div>
+                                        <div class="col-lg-7 col-md-8">
+                                            <select id="group_id" name="group_id" class="form-control o_website_form_input">
+                                                <t t-foreach="default_values.get('group_ids', '')" t-as="group">                
+                                                    <option t-att-value="group.id" t-esc="group.name"/>
+                                                </t>        
+                                            </select>    
+                                        </div>
+                                    </div>
+                                    <div class="form-group row form-field o_website_form_required">
+                                        <div class="col-lg-3 col-md-4 text-right">
+                                            <label class="col-form-label" for="name">Subject</label>
+                                        </div>
+                                        <div class="col-lg-7 col-md-8">
+                                            <input type="text" class="form-control o_website_form_input" name="name" required="1"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row form-field o_website_form_required">    
+                                        <div class="col-lg-3 col-md-4 text-right">
+                                            <label class="col-form-label" for="name">Category</label>
+                                        </div>
+                                        <div class="col-lg-7 col-md-8">
+                                            <select id="ticket_type_id" name="ticket_type_id" class="form-control o_website_form_input"  required="1">
+                                                <option value=""/>            
+                                                <t t-foreach="default_values.get('ticket_type_ids', '')" t-as="ticket_type">                
+                                                    <option t-att-value="ticket_type.id" t-esc="ticket_type.complete_name"/>
+                                                </t>        
+                                            </select>    
+                                        </div>
+                                    </div>
+                                    <div class="form-group row form-field o_website_form_required">
+                                        <div class="col-lg-3 col-md-4 text-right">
+                                            <label class="col-form-label" for="description">Description</label>
+                                        </div>
+                                        <div class="col-lg-7 col-md-8">
+                                            <textarea class="form-control o_website_form_input" name="description" required="1"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row form-field">
+                                        <div class="col-lg-3 col-md-4 text-right">
+                                            <label class="col-form-label" for="attachments">Attachment(s)</label>
+                                        </div>
+                                        <div class="col-lg-7 col-md-8">
+                                            <input type="file" name="attachments" class="form-control o_website_form_input" multiple="true" accept="image/*,application/pdf,video/*"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-lg-3 offset-md-4 col-md-8 col-lg-7">
+                                            <button type="submit" class="btn btn-primary btn-lg o_website_form_send o_default_snippet_text">Send</button>
+                                            <span id="o_website_form_result"></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
+                            </t>
+                        </div> 
+                    </t>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+    
+
+</data>
+</odoo>

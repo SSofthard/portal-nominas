@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <delete model="ir.rule" id="helpdesk.helpdesk_ticket_company_rule"/>
+        <delete model="ir.rule" id="helpdesk.helpdesk_sla_company_rule"/>
+        
+        
+        <record id="helpdesk_ticket_group_rule" model="ir.rule">
+            <field name="name">Project: multi-group</field>
+            <field name="model_id" ref="helpdesk.model_helpdesk_ticket"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('group_id','in',user.group_companys_id.ids+[False])]</field>
+            <field name="groups" eval="[(4,ref('helpdesk.group_helpdesk_user'))]"/>
+        </record>
+        
+        <record model="ir.rule" id="helpdesk_team_company_rule">
+            <field name="name">Project: multi-company</field>
+            <field name="model_id" ref="helpdesk.model_helpdesk_team"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[]</field>
+        </record>
+    </data>
+</odoo>
