@@ -19,6 +19,16 @@
     border-color: #00A09D;
 }
 
+.btn-secondary {
+    color: #fff;
+    background-color: #777777;
+    border-color: #777777;
+}
+
+html, body {
+    overflow: auto;
+}
+
 .dropdown-item.active, .dropdown-item:active {
     color: #FFFFFF;
     text-decoration: none;
