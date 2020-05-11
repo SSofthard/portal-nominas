@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
-    "name" : "Helpdesk",
+    "name" : "Helpdesk (Gestión de solicitudes)",
     "author": "Soluciones SoftHard",
     "category": "Helpdesk",
     "website" : "http://www.solucionesofthard.com",

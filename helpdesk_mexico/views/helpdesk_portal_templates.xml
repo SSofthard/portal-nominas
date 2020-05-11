@@ -4,7 +4,7 @@
 
     <template id="helpdesk.portal_my_home_helpdesk_ticket" name="Portal My Home : Helpdesk Ticket" inherit_id="portal.portal_my_home" priority="50">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
-            <t t-if="ticket_count" t-call="portal.portal_docs_entry">
+            <t t-call="portal.portal_docs_entry">
                 <t t-set="title">Tickets</t>
                 <t t-set="url" t-value="'/my/tickets'"/>
                 <t t-set="count" t-value="ticket_count"/>
@@ -23,7 +23,7 @@
             </t>
 	    
 	    <nav class="navbar navbar-light  border  o_portal_navbar">
-		<button class="btn btn-primary btn-sm btn-warning" data-toggle="collapse" data-target="#collapse1">New ticket</button>
+		<button class="btn btn-primary btn-sm btn-warning" data-toggle="collapse" data-target="#collapse1">Nuevo ticket</button>
 	    </nav>
 	    <div id="collapse1" class="panel-collapse collapse">
 		  <ul class="list-group">
@@ -49,7 +49,7 @@
                     <tr>
                         <th class="text-right">Ref</th>
                         <th class="">Description</th><th/>
-                        <th class="">Category</th><th/>
+                        <th class="">Categoría</th><th/>
                         <th class="text-center">Status</th>
                     </tr>
                 </thead>
@@ -168,11 +168,11 @@
                     <div class="container">
                         <br></br>
                         <nav class="navbar navbar-light border o_portal_navbar">
-                            <span><a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a> <a href="/my/tickets">My tickets</a> /  <t t-esc="team.name"/></span>
+                            <span><a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a> <a href="/my/tickets">Mis tickets</a> /  <t t-esc="team.name"/></span>
                         </nav>
                          <t t-call="portal.portal_record_layout">
                             <t t-set="card_header">
-                                <h4 class="title">New Tiket</h4>
+                                <h4 class="title">Nuevo Tiket</h4>
                             </t>
                             <div class="">
                             <t t-set="card_body">
@@ -198,7 +198,7 @@
                                     </div>
 				    <div t-if="len(default_values.get('group_ids', '')) > 0" class="form-group row form-field">    
                                         <div class="col-lg-3 col-md-4 text-right">
-                                            <label class="col-form-label" for="name">Group / Company</label>
+                                            <label class="col-form-label" for="name">Grupo / Empresa</label>
                                         </div>
                                         <div class="col-lg-7 col-md-8">
                                             <select id="group_id" name="group_id" class="form-control o_website_form_input">
@@ -218,7 +218,7 @@
                                     </div>
                                     <div class="form-group row form-field o_website_form_required">    
                                         <div class="col-lg-3 col-md-4 text-right">
-                                            <label class="col-form-label" for="name">Category</label>
+                                            <label class="col-form-label" for="name">Categoría</label>
                                         </div>
                                         <div class="col-lg-7 col-md-8">
                                             <select id="ticket_type_id" name="ticket_type_id" class="form-control o_website_form_input"  required="1">

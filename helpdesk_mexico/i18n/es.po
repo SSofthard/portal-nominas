@@ -1,0 +1,244 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* helpdesk_mexico
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-11 16:59+0000\n"
+"PO-Revision-Date: 2020-05-11 16:59+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.tickets_followup_inherit
+msgid "<strong class=\"col-lg-2\">Category</strong>"
+msgstr "<strong class=\"col-lg-2\">Categoría</strong>"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_19
+msgid "Baja por Despido"
+msgstr "Baja por Despido"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_18
+msgid "Baja por Renuncia Voluntaria"
+msgstr "Baja por Renuncia Voluntaria"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_20
+msgid "Bonos / Comisiones"
+msgstr "Bonos / Comisiones"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_5
+msgid "Capacitación"
+msgstr "Capacitación"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_type_action2
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__ticket_type_id
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_ticket_type_menu2
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_ticket_type_view_form
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_ticket_view_form_inherit_mexico
+msgid "Category"
+msgstr "Categoría"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__child_id
+msgid "Child Categories"
+msgstr "Categorías hijas"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__complete_name
+msgid "Complete Name"
+msgstr "Nombre completo"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_10
+msgid "Contratos"
+msgstr "Contratos"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_type_action2
+msgid "Create a new ticket type"
+msgstr "Crear un nuevo tipo de ticket"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_12
+msgid "General"
+msgstr "General"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.tickets_followup_inherit
+msgid "Group / Company"
+msgstr "Grupo/Empresa"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__group_id
+msgid "Grupo"
+msgstr "Grupo/Empresa"
+
+#. module: helpdesk_mexico
+#: model:ir.model,name:helpdesk_mexico.model_helpdesk_stage
+msgid "Helpdesk Stage"
+msgstr "Etapa del Servicio de Asistencia"
+
+#. module: helpdesk_mexico
+#: model:ir.model,name:helpdesk_mexico.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr "Ticket del Servicio de Asistencia"
+
+#. module: helpdesk_mexico
+#: model:ir.model,name:helpdesk_mexico.model_helpdesk_ticket_type
+msgid "Helpdesk Ticket Type"
+msgstr "Tipo de Ticket del Servicio de asistencia técnica"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_9
+msgid "Información de Empleados"
+msgstr "Información de Empleados"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:47
+#, python-format
+msgid "Newest"
+msgstr "El mas nuevo"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_7
+msgid "Otros"
+msgstr "Otros"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_11
+msgid "Otros "
+msgstr "Otros"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__parent_id
+msgid "Parent"
+msgstr "Padre"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__parent_path
+msgid "Parent Path"
+msgstr "Ruta padre"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_6
+msgid "Quejas"
+msgstr "Quejas"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_14
+msgid "Reporte de Ausencias por Faltas"
+msgstr "Reporte de Ausencias por Faltas"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_13
+msgid "Reporte de Ausencias por Incapacidades"
+msgstr "Reporte de Ausencias por Incapacidades"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_15
+msgid "Reporte de Ausencias por Permisos"
+msgstr "Reporte de Ausencias por Permisos"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_2
+msgid "Reporte de Incidencias"
+msgstr "Reporte de Incidencias"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_8
+msgid "Reporte de Nóminas"
+msgstr "Reporte de Nóminas"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_16
+msgid "Reporte de Vacaciones"
+msgstr "Reporte de Vacaciones"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:37
+#, python-format
+msgid "Salesperson"
+msgstr "Vendedor"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:51
+#, python-format
+msgid "Search <span class=\"nolabel\"> (in Content)</span>"
+msgstr "Search <span class=\"nolabel\"> (en el Contenido)</span>"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:54
+#, python-format
+msgid "Search ID"
+msgstr "ID de búsqueda"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:55
+#, python-format
+msgid "Search in All"
+msgstr "Buscar en todos"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:53
+#, python-format
+msgid "Search in Customer"
+msgstr "Buscar en el cliente"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:52
+#, python-format
+msgid "Search in Messages"
+msgstr "Buscar en mensajes"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_1
+msgid "Solicitud de Información de Nóminas"
+msgstr "Solicitud de Información de Nóminas"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_3
+msgid "Solicitud de nuevos servicios de nómina"
+msgstr "Solicitud de nuevos servicios de nómina"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_4
+msgid "Soporte Técnico"
+msgstr "Soporte Técnico"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__stage_id
+msgid "Stage"
+msgstr "Etapa"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:48
+#, python-format
+msgid "Subject"
+msgstr "Asunto"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_stage__ticket_type_ids
+msgid "Ticket type"
+msgstr "Categoría"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_17
+msgid "Tiempo Extra"
+msgstr "Tiempo Extra"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_type_action2
+msgid "Type allows to organize tickets."
+msgstr "Tipos permitidos para organizar tickets."
+
