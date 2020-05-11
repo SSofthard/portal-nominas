@@ -31,57 +31,37 @@ class payrollDispersionTxtWizard(models.TransientModel):
     bank_id = fields.Many2one('res.bank', "Bank", required=False)
     payslip_ids = fields.Many2many('hr.payslip', readonly=False)
     payslip_run_id = fields.Many2one('hr.payslip.run', 'Procesamiento de nómina', default=lambda self: self._context.get('active_id'))
-    estructure_ids = fields.Many2many('hr.payroll.structure', required=True,
-                                      default=lambda self: self.env['hr.payslip.run'].browse(
-                                          [self._context.get('active_id')]).mapped('slip_ids.struct_id')._ids,
+    estructure_id = fields.Many2one('hr.payroll.structure', required=True,
                                       domain=lambda self: [
                                           ('id',
                                            'in',
                                            self.env['hr.payslip.run'].browse([self._context.get('active_id')]).mapped(
                                                'slip_ids.struct_id')._ids)])
-    company_ids = fields.Many2many('res.company',
+    company_id = fields.Many2one('res.company',
                                    required=True,
-                                   default=lambda self: self.env['hr.payslip.run'].browse(
-                                       [self._context.get('active_id')]).mapped('slip_ids.company_id')._ids,
                                    domain=lambda self: [
                                        ('id',
                                         'in',
                                         self.env['hr.payslip.run'].browse([self._context.get('active_id')]).mapped(
-                                            'slip_ids.company_id')._ids)])
-    employer_register_ids = fields.Many2many('res.employer.register', required=True,
-                                             default=lambda self: self.env['hr.payslip.run'].browse(
-                                                 [self._context.get('active_id')]).mapped(
-                                                 'slip_ids.employer_register_id')._ids,
-                                             domain=lambda self: [
-                                                 ('id',
-                                                  'in',
-                                                  self.env['hr.payslip.run'].browse(
-                                                      [self._context.get('active_id')]).mapped(
-                                                      'slip_ids.employer_register_id')._ids)]
-                                             )
+                                        'slip_ids.company_id')._ids)])
 
-    @api.onchange('bank_id','account_type','estructure_ids','company_ids','employer_register_ids')
+    @api.onchange('bank_id','account_type','estructure_id','company_id')
     def onchange_bank_account_type(self):
         '''
         Este metodo agrega el domain para la lista de nominas que se desean agregar a la dispersion de nomina
         :return:
         '''
         payslips = self.env['hr.payslip'].search([('payslip_run_id', '=', self.payslip_run_id.id),
-                                                  ('struct_id', 'in', self.estructure_ids._ids),
-                                                  ('company_id', 'in', self.company_ids._ids),
-                                                  ('employer_register_id', 'in', self.employer_register_ids._ids)
+                                                  ('struct_id', '=', self.estructure_id.id),
+                                                  ('company_id', '=', self.company_id.id),
                                                   ],
                                                  order='complete_name ASC')
-        print (payslips)
-        print (payslips)
-        print (payslips)
         slip_ids = payslips
         if self.bank_id:
             slip_ids = slip_ids.filtered(
                 lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
                     lambda account: account.predetermined).bank_id.id == self.bank_id.id)
         if self.account_type:
-            print(slip_ids)
             slip_ids = slip_ids.filtered(
                 lambda slip: slip.employee_id.mapped('bank_account_ids').filtered(
                     lambda account: account.predetermined).account_type == self.account_type)
