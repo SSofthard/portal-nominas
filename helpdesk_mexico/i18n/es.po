@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-11 16:59+0000\n"
-"PO-Revision-Date: 2020-05-11 16:59+0000\n"
+"POT-Creation-Date: 2020-05-15 04:53+0000\n"
+"PO-Revision-Date: 2020-05-15 04:53+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,37 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:helpdesk_mexico.tickets_followup_inherit
 msgid "<strong class=\"col-lg-2\">Category</strong>"
 msgstr "<strong class=\"col-lg-2\">Categoría</strong>"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_menu_config_activity_type2
+msgid "Activity Types"
+msgstr "Tipos de actividad"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_main2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_main_tree2
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_ticket_menu_main2
+msgid "All Service Requests"
+msgstr "Todas las solicitudes de servicio"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_analysis_action2
+msgid "Analysis of service requests"
+msgstr "Analisis (SDS)"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:104
+#, python-format
+msgid "Avg 7 days"
+msgstr "7 días promedio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:35
+#, python-format
+msgid "Avg Open Hours"
+msgstr "Horario promedio"
 
 #. module: helpdesk_mexico
 #: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_19
@@ -55,9 +86,39 @@ msgid "Child Categories"
 msgstr "Categorías hijas"
 
 #. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:123
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:127
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:136
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:140
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:149
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:153
+#, python-format
+msgid "Click to set"
+msgstr "Haga clic para configurar"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:81
+#, python-format
+msgid "Closed Service Requests"
+msgstr "Solicitudes de servicio cerrado"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_7days_analysis2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_close_analysis2
+msgid "Closed Service Requests Analysis"
+msgstr "Análisis de solicitudes de servicio cerrado"
+
+#. module: helpdesk_mexico
 #: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__complete_name
 msgid "Complete Name"
 msgstr "Nombre completo"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_menu_config2
+msgid "Configuration"
+msgstr "Configuración"
 
 #. module: helpdesk_mexico
 #: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_10
@@ -65,9 +126,67 @@ msgid "Contratos"
 msgstr "Contratos"
 
 #. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.action_upcoming_sla_fail_all_tickets2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.action_upcoming_sla_fail_tickets2
+msgid "Create a new Service Request"
+msgstr "Crear una nueva solicitud de servicio"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_Archived2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_slafailed2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_team2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_unassigned2
+msgid "Create a new Service Requests"
+msgstr "Crear una nueva solicitud de servicio"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_tag_action2
+msgid "Create a new tag"
+msgstr "Crea una nueva etiqueta"
+
+#. module: helpdesk_mexico
 #: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_type_action2
 msgid "Create a new ticket type"
 msgstr "Crear un nuevo tipo de ticket"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_main2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_main_tree2
+msgid "Create your first Service Request."
+msgstr "Crea tu primera solicitud de servicio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:89
+#, python-format
+msgid "Customer Rating"
+msgstr "Valoraciones de clientes"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.menu_helpdesk_root2
+msgid "Customer Service"
+msgstr "Servicio al Cliente"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:85
+#, python-format
+msgid "Customer satisfaction analysis"
+msgstr "Análisis de satisfacción del cliente"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:121
+#, python-format
+msgid "Daily Target"
+msgstr "Objetivo diario"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/js/helpdesk_dashboard.js:227
+#, python-format
+msgid "Dashboard"
+msgstr "Tablero"
 
 #. module: helpdesk_mexico
 #: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_12
@@ -90,9 +209,14 @@ msgid "Helpdesk Stage"
 msgstr "Etapa del Servicio de Asistencia"
 
 #. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_team_menu2
+msgid "Helpdesk Teams"
+msgstr "Equipos del Servicio de Asistencia"
+
+#. module: helpdesk_mexico
 #: model:ir.model,name:helpdesk_mexico.model_helpdesk_ticket
 msgid "Helpdesk Ticket"
-msgstr "Ticket del Servicio de Asistencia"
+msgstr "Solicitud de servicios"
 
 #. module: helpdesk_mexico
 #: model:ir.model,name:helpdesk_mexico.model_helpdesk_ticket_type
@@ -100,15 +224,73 @@ msgid "Helpdesk Ticket Type"
 msgstr "Tipo de Ticket del Servicio de asistencia técnica"
 
 #. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:23
+#, python-format
+msgid "High Priority ("
+msgstr "Alta prioridad ("
+
+#. module: helpdesk_mexico
 #: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_9
 msgid "Información de Empleados"
 msgstr "Información de Empleados"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:74
+#, python-format
+msgid "My Performance"
+msgstr "Mi rendimiento"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:13
+#, python-format
+msgid "My Service Requests"
+msgstr "Mis solicitudes de servicio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:21
+#, python-format
+msgid "My high priority tickets"
+msgstr "Mis boletos de alta prioridad"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:15
+#, python-format
+msgid "My open tickets"
+msgstr "Mis entradas abiertas"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:27
+#, python-format
+msgid "My urgent tickets"
+msgstr "Mis entradas urgentes"
 
 #. module: helpdesk_mexico
 #: code:addons/helpdesk_mexico/controller/main.py:47
 #, python-format
 msgid "Newest"
 msgstr "El mas nuevo"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_high_priorities2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_sla2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_sla_high2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_sla_urgent2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_urgent2
+msgid "No Service Requests to display"
+msgstr "No hay solicitudes de servicio para mostrar"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/js/helpdesk_dashboard.js:190
+#, python-format
+msgid "Only Integer Value should be valid."
+msgstr "Solo el valor entero debe ser válido"
 
 #. module: helpdesk_mexico
 #: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_7
@@ -121,6 +303,11 @@ msgid "Otros "
 msgstr "Otros"
 
 #. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_menu_team_dashboard2
+msgid "Overview"
+msgstr "Información general"
+
+#. module: helpdesk_mexico
 #: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__parent_id
 msgid "Parent"
 msgstr "Padre"
@@ -131,9 +318,23 @@ msgid "Parent Path"
 msgstr "Ruta padre"
 
 #. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:77
+#, python-format
+msgid "Performance Report"
+msgstr "Reporte de desempeño"
+
+#. module: helpdesk_mexico
 #: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_6
 msgid "Quejas"
 msgstr "Quejas"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:170
+#, python-format
+msgid "Ready to boost your customer service?"
+msgstr "¿Listo para impulsar su servicio al cliente?"
 
 #. module: helpdesk_mexico
 #: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_14
@@ -166,6 +367,23 @@ msgid "Reporte de Vacaciones"
 msgstr "Reporte de Vacaciones"
 
 #. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_ticket_report_menu_main2
+msgid "Reporting"
+msgstr "Informes"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:51
+#, python-format
+msgid "SLA Failed"
+msgstr "SLA Fallido"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_sla_menu_main2
+msgid "SLA Policies"
+msgstr "Políticas ANS"
+
+#. module: helpdesk_mexico
 #: code:addons/helpdesk_mexico/controller/main.py:37
 #, python-format
 msgid "Salesperson"
@@ -175,7 +393,7 @@ msgstr "Vendedor"
 #: code:addons/helpdesk_mexico/controller/main.py:51
 #, python-format
 msgid "Search <span class=\"nolabel\"> (in Content)</span>"
-msgstr "Search <span class=\"nolabel\"> (en el Contenido)</span>"
+msgstr 	"Buscar <span class=\"nolabel\"> (en el contenido)</span>"
 
 #. module: helpdesk_mexico
 #: code:addons/helpdesk_mexico/controller/main.py:54
@@ -202,6 +420,44 @@ msgid "Search in Messages"
 msgstr "Buscar en mensajes"
 
 #. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:173
+#, python-format
+msgid "Send an email to"
+msgstr "Enviar un correo electrónico a"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_team_dashboard_action_main2
+msgid "Service Request Overview"
+msgstr "Descripción general de la solicitud de servicio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:17
+#: model:ir.actions.act_window,name:helpdesk_mexico.action_upcoming_sla_fail_all_tickets2
+#: model:ir.actions.act_window,name:helpdesk_mexico.action_upcoming_sla_fail_tickets2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_Archived2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_high_priorities2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_sla2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_sla_high2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_sla_urgent2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_slafailed2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_team2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_unassigned2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_urgent2
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_ticket_report_menu2
+#, python-format
+msgid "Service Requests"
+msgstr "Solicitudes de servicio"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_dashboard2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_dashboard_high_priority2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_dashboard_urgent2
+msgid "Service Requests Analysis"
+msgstr "Análisis de solicitudes de servicio"
+
+#. module: helpdesk_mexico
 #: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_1
 msgid "Solicitud de Información de Nóminas"
 msgstr "Solicitud de Información de Nóminas"
@@ -222,10 +478,54 @@ msgid "Stage"
 msgstr "Etapa"
 
 #. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_stage_menu2
+msgid "Stages"
+msgstr "Etapas"
+
+#. module: helpdesk_mexico
 #: code:addons/helpdesk_mexico/controller/main.py:48
 #, python-format
 msgid "Subject"
 msgstr "Asunto"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:98
+#, python-format
+msgid "Success Rate"
+msgstr "Tasa de éxito"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_tag_action2
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_tag_menu2
+msgid "Tags"
+msgstr "Etiquetas"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_tag_action2
+msgid "Tags allows to organize service requests."
+msgstr "Etiquetas permite organizar solicitudes de servicio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:94
+#, python-format
+msgid "The success rate is based on the tickets which passed the SLA policies successfully."
+msgstr "La tasa de éxito se basa en los tickets que pasaron con éxito las políticas de SLA"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:171
+#, python-format
+msgid "This dashboard will activate once you have created your first ticket."
+msgstr "Este tablero se activará una vez que haya creado su primer boleto"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:30
+#, python-format
+msgid "Three stars, maximum score"
+msgstr "Three stars, maximum score"
 
 #. module: helpdesk_mexico
 #: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_stage__ticket_type_ids
@@ -238,7 +538,75 @@ msgid "Tiempo Extra"
 msgstr "Tiempo Extra"
 
 #. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:74
+#, python-format
+msgid "Today"
+msgstr "Hoy"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:24
+#, python-format
+msgid "Two stars, with a maximum of three"
+msgstr "Dos estrellas, con un máximo de tres."
+
+#. module: helpdesk_mexico
 #: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_type_action2
 msgid "Type allows to organize tickets."
 msgstr "Tipos permitidos para organizar tickets."
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:29
+#, python-format
+msgid "Urgent ("
+msgstr "Urgente ("
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:52
+#, python-format
+msgid "View failed tickets"
+msgstr "Ver tickets fallidos"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:57
+#, python-format
+msgid "View high priority failed tickets"
+msgstr "Ver tickets fallidos de alta prioridad"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:62
+#, python-format
+msgid "View urgent failed tickets"
+msgstr "Ver tickets fallidos urgentes"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:167
+#, python-format
+msgid "Welcome"
+msgstr "Bienvenidos"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/js/helpdesk_dashboard.js:190
+#, python-format
+msgid "Wrong value entered!"
+msgstr "Valor incorrecto ingresado!"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_team_dashboard_action_main2
+msgid "Your teams will appear here"
+msgstr "Sus equipos aparecerán aquí"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:173
+#, python-format
+msgid "to create a ticket."
+msgstr "para crear una solicitud de servicio"
 

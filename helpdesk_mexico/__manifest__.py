@@ -8,10 +8,15 @@
     "depends": ['helpdesk','payroll_mexico','website_helpdesk','website_helpdesk_form'],
     "data": [ 
             'security/helpdesk_security.xml',
+	    'views/assets.xml',
+	    'views/helpdesk_menu.xml',
             'views/helpdesk_ticket.xml',
             'views/helpdesk_portal_templates.xml',
             'data/helpdesk_data.xml',
             'data/website_helpdesk.xml',
+    ],
+    'qweb': [
+        "static/src/xml/helpdesk_team_templates.xml",
     ],
 }
 

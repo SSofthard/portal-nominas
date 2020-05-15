@@ -77,8 +77,10 @@
 	    </field>
 	</record>
 
+<!--
 	<menuitem id="helpdesk_ticket_type_menu2" action="helpdesk_ticket_type_action2"
 	    sequence="1" parent="helpdesk.helpdesk_menu_config"/>
+-->
 	
 	<record id="helpdesk_team_view_form_inherit_mexico" model="ir.ui.view">
             <field name="name">helpdesk.team.inherit.mexico</field>
@@ -90,6 +92,82 @@
                 </xpath>
             </field>
         </record>
-	     
+	<record id="helpdesk.helpdesk_team_view_kanban" model="ir.ui.view" >
+        <field name="name">helpdesk.team.dashboard</field>
+        <field name="model">helpdesk.team</field>
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_helpdesk_kanban" create="0" js_class="helpdesk_dashboard2">
+                <field name="name"/>
+                <field name="color"/>
+                <field name="use_alias"/>
+                <field name="alias_name"/>
+                <field name="alias_domain"/>
+                <field name="alias_id"/>
+                <field name="use_rating"/>
+                <field name="percentage_satisfaction" invisible="1"/>
+                <field name="use_sla"/>
+                <field name="upcoming_sla_fail_tickets"/>
+                <field name="unassigned_tickets"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)}">
+                            <span class="oe_kanban_color_help" t-attf-title="In #{kanban_getcolorname(record.color.raw_value)}" role="img" t-attf-aria-label="In #{kanban_getcolorname(record.color.raw_value)}"/>
+                            <div t-attf-class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><field name="name"/></div>
+                                    <small t-if="record.use_alias.value and record.alias_name.value and record.alias_domain.value"><i class="fa fa-envelope-o" title="Domain alias" role="img" aria-label="Domain alias"></i>&amp;nbsp; <t t-esc="record.alias_id.value"/></small>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6 o_kanban_primary_left">
+                                        <button class="btn btn-primary" name="%(helpdesk_ticket_action_team2)d" type="action">Solicitudes de Servicio</button>
+                                    </div>
+                                    <div class="col-6 o_kanban_primary_right">
+                                        <div class="mb4" groups="helpdesk.group_use_sla" attrs="{'invisible': [('use_sla', '=', False)]}">
+                                            <a name="%(action_upcoming_sla_fail_all_tickets2)d" type="action"  context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.upcoming_sla_fail_tickets.raw_value"/> Solicitudes de servicio para revisar</a>
+                                        </div>
+                                        <div class="mb4">
+                                            <a name="%(helpdesk_ticket_action_unassigned2)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.unassigned_tickets.raw_value"/> Solicitudes de servicio no asignadas</a>
+                                        </div>
+                                        <div class="mb4" t-if="record.use_rating.raw_value">
+                                            <a name="action_view_all_rating" type="object">Ver Solicitudes de Servici</a>
+                                        </div>
+                                        <div class="mb4" t-if="record.use_sla.raw_value">
+                                            <a name="%(helpdesk.helpdesk_sla_action_main)d" type="action"
+                                                    context="{'search_default_team_id': active_id, 'default_team_id': active_id}">
+                                                See SLAs
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div><!-- Smiley indicator of rating:
+                                <div t-if="record.use_rating.raw_value and record.percentage_satisfaction.raw_value &gt;= 0" class="row text-center">
+                                    <a name="action_view_all_rating" type="object" title="Percentage of happy people about this team" class="float-right">
+                                        <h5 t-attf-class="badge #{record.percentage_satisfaction.raw_value &gt;= 50 ? 'badge-success' : 'badge-warning'}">
+                                            <i t-attf-class="fa #{record.percentage_satisfaction.raw_value &gt;= 50 ? 'fa-smile-o' : 'fa-frown-o'}" role="img" aria-label="Satisfaction rate" title="Satisfaction rate"/> <t t-raw="record.percentage_satisfaction.raw_value"/> %
+                                        </h5>
+                                    </a>
+                                </div> -->
+                            </div><div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                    <div role="menuitem" aria-haspopup="true" class="col-8">
+                                        <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
+                                    </div>
+                                    <div role="menuitem" class="col-4 text-right">
+                                        <a type="edit">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
     </data>
 </odoo>

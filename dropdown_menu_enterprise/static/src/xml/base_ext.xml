@@ -73,13 +73,21 @@
                                 <img src="/dropdown_menu_enterprise/static/src/img/icon-expense.png" class="o_app_icon"/>
                                 <span>Gastos</span>
                         </a>
-                        <a role="menuitem" t-attf-href="#menu_id=354"
+                        <a role="menuitem" t-attf-href="#menu_id=667"
                             class="dropdown-item o_app"
-                            t-att-data-menu-id="548"
+                            t-att-data-menu-id="667"
                             t-att-data-menu-xmlid="menu_helpdesk_root"
-                            t-att-data-action-id="531">
+                            t-att-data-action-id="613">
                                 <img src="/dropdown_menu_enterprise/static/src/img/icon-expense.png" class="o_app_icon"/>
-                                <span>Servicio de Asistencia</span>
+                                <span>Servicio al ciente</span>
+                        </a>
+                        <a role="menuitem" t-attf-href="#menu_id=560"
+                            class="dropdown-item o_app"
+                            t-att-data-menu-id="560"
+                            t-att-data-menu-xmlid="menu_helpdesk_root"
+                            t-att-data-action-id="537">
+                                <img src="/dropdown_menu_enterprise/static/src/img/icon-expense.png" class="o_app_icon"/>
+                                <span>Charla en vivo</span>
                         </a>
                         <a role="menuitem" t-attf-href="#menu_id=4"
                             class="dropdown-item o_app"
