@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_reminder_unattended_request" model="ir.cron">
+        <field name="name">Reminder of unattended request.</field>
+        <field name="model_id" ref="model_helpdesk_ticket"/>
+        <field name="state">code</field>
+        <field name="code">env['helpdesk.ticket'].send_reminder_email_cron()</field>
+        <field name='interval_number'>5</field>
+        <field name='interval_type'>hours</field>
+        <field name="numbercall">-1</field>
+    </record>
+</odoo>

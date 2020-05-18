@@ -14,6 +14,8 @@
             'views/helpdesk_portal_templates.xml',
             'data/helpdesk_data.xml',
             'data/website_helpdesk.xml',
+            'data/mail_data.xml',
+            'data/ir_cron_data.xml',
     ],
     'qweb': [
         "static/src/xml/helpdesk_team_templates.xml",

@@ -76,11 +76,6 @@
 	      </p>
 	    </field>
 	</record>
-
-<!--
-	<menuitem id="helpdesk_ticket_type_menu2" action="helpdesk_ticket_type_action2"
-	    sequence="1" parent="helpdesk.helpdesk_menu_config"/>
--->
 	
 	<record id="helpdesk_team_view_form_inherit_mexico" model="ir.ui.view">
             <field name="name">helpdesk.team.inherit.mexico</field>
@@ -169,5 +164,28 @@
             </kanban>
         </field>
     </record>
+    
+    <record id="helpdesk_team_view_form_inherit_mexico" model="ir.ui.view">
+        <field name="name">helpdesk.team.inherit.mexico</field>
+        <field name="model">helpdesk.team</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_team_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='api_doc']" position="after">
+            
+            <div class="col-lg-6 o_setting_box">
+                <div class="o_setting_right_pane">
+                <label for="reminder_time"/>
+                <div class="text-muted">
+                    Time for automatic sending of reminders
+                </div>
+                <div>
+                    <field name="reminder_time"/>
+                </div>
+                </div>
+            </div>
+            </xpath>
+        </field>
+        </record>
+
     </data>
 </odoo>
