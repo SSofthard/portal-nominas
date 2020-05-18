@@ -289,9 +289,8 @@ class HolidaysRequest(models.Model):
     
     def action_send_email_approve(self):
         groups = self.env['hr.group'].search([])
-        
-        company = self.env['ir.model.data'].xmlid_to_res_id( 'base.main_company')
-        company = self.env['res.company'].search([('id','=',company)])
+        company = self.env['res.company'].search([('id','=',self.env.user.company_id.id)])
+        url = self.env['ir.config_parameter'].search([('key','=','web.base.url')]).value
         for group in groups:
             leaves_confirm = self.env['hr.leave'].search([('group_id','=',group.id),('state','in',['confirm'])])
             leaves_validate = self.env['hr.leave'].search([('group_id','=',group.id),('state','in',['validate1'])])
@@ -312,6 +311,9 @@ class HolidaysRequest(models.Model):
                                                             <span style="font-size:16px; color:white; font-weight: bold;">Aprobación de Ausencias</span>\
                                                         </td>\
                                                     </tr>\
+                                                    <td valign="middle" align="right">\
+                                                        <img style="padding:0px;margin:0px;height:48px;color:white;" src="/logo.png?company='+str(company.id)+'" alt="'+company.name+'" class="CToWUd">\
+                                                    </td>\
                                                 </tbody>\
                                             </table>\
                                         </td>\
@@ -344,7 +346,7 @@ class HolidaysRequest(models.Model):
                 body_html+='</table>\
                             <br>\
                                 <center>\
-                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <a href="'+url+'" style="background-color: #d7b65d; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
                                     <br>\
                                 </center>\
                                 <br>\
@@ -388,6 +390,9 @@ class HolidaysRequest(models.Model):
                                                         <td valign="middle" align="left">\
                                                             <span style="font-size:16px; color:white; font-weight: bold;">Validación de Ausencias</span>\
                                                         </td>\
+                                                        <td valign="middle" align="right">\
+                                                        <img style="padding:0px;margin:0px;height:48px;color:white;" src="/logo.png?company='+str(company.id)+'" alt="'+company.name+'" class="CToWUd">\
+                                                    </td>\
                                                     </tr>\
                                                 </tbody>\
                                             </table>\
@@ -421,7 +426,7 @@ class HolidaysRequest(models.Model):
                 body_html+='</table>\
                             <br>\
                                 <center>\
-                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <a href="'+url+'" style="background-color: #d7b65d; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
                                     <br>\
                                 </center>\
                                 <br>\
