@@ -101,12 +101,13 @@ class AuthSignupHome(Home):
     
     @http.route('/web', type='http', auth="user")
     def web_client(self, s_action=None, **kw):
+        if request.env['res.users'].sudo(user=request.session.uid).has_group('base.group_portal'):
+            kw.update({'redirect':'/my/home'})
         ensure_db()
         if not request.session.uid:
             return werkzeug.utils.redirect('/web/login', 303)
         if kw.get('redirect'):
             return werkzeug.utils.redirect(kw.get('redirect'), 303)
-
         request.uid = request.session.uid
         try:
             httpObj=request.env['ir.http']
