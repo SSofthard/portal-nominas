@@ -130,7 +130,7 @@
                                             <a name="%(helpdesk_ticket_action_unassigned2)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.unassigned_tickets.raw_value"/> Solicitudes de servicio no asignadas</a>
                                         </div>
                                         <div class="mb4" t-if="record.use_rating.raw_value">
-                                            <a name="action_view_all_rating" type="object">Ver Solicitudes de Servici</a>
+                                            <a name="action_view_all_rating" type="object">Ver Solicitudes de Servici0</a>
                                         </div>
                                         <div class="mb4" t-if="record.use_sla.raw_value">
                                             <a name="%(helpdesk.helpdesk_sla_action_main)d" type="action"
@@ -179,7 +179,10 @@
                     Time for automatic sending of reminders
                 </div>
                 <div>
-                    <field name="reminder_time"/>
+                    <field name="reminder_time"/> (Normal) <br/>
+                    <field name="reminder_time_low_priority"/> (Low Priority) <br/>
+                    <field name="reminder_time_high_priority"/> (High Priority) <br/>
+                    <field name="reminder_time_urgent"/> (Urgent) <br/>
                 </div>
                 </div>
             </div>
@@ -190,7 +193,10 @@
                     Delivery time for escalation notifications
                 </div>
                 <div>
-                    <field name="reminder_time_escalation"/>
+                    <field name="reminder_time_escalation"/> (Normal) <br/>
+                    <field name="reminder_time_escalation_low_priority"/> (Low Priority) <br/>
+                    <field name="reminder_time_escalation_high_priority"/> (High Priority) <br/>
+                    <field name="reminder_time_escalation_urgent"/> (Urgent) <br/>
                 </div>
                 </div>
                 <div class="o_setting_right_pane">

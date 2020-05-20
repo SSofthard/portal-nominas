@@ -1,22 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="mail_reminder_unattended_request" model="ir.cron">
-        <field name="name">Reminder of unattended request.</field>
-        <field name="model_id" ref="model_helpdesk_ticket"/>
-        <field name="state">code</field>
-        <field name="code">env['helpdesk.ticket'].send_reminder_email_cron()</field>
-        <field name='interval_number'>5</field>
-        <field name='interval_type'>hours</field>
-        <field name="numbercall">-1</field>
-    </record>
-    
-    <record id="mail_notification_escalation_requests_services_attended" model="ir.cron">
-        <field name="name">Notification of escalation of requests for services not attended.</field>
-        <field name="model_id" ref="model_helpdesk_ticket"/>
-        <field name="state">code</field>
-        <field name="code">env['helpdesk.ticket'].send_escalation_notification_mail()</field>
-        <field name='interval_number'>5</field>
-        <field name='interval_type'>hours</field>
-        <field name="numbercall">-1</field>
-    </record>
+    <data noupdate="0">
+	<record id="mail_reminder_unattended_request" model="ir.cron">
+	    <field name="name">Reminder of unattended request.</field>
+	    <field name="model_id" ref="model_helpdesk_ticket"/>
+	    <field name="state">code</field>
+	    <field name="code">env['helpdesk.ticket'].send_reminder_email_cron('0')</field>
+	    <field name='interval_number'>5</field>
+	    <field name='interval_type'>hours</field>
+	    <field name="numbercall">-1</field>
+	</record>
+	<record id="mail_reminder_unattended_request_low_priority" model="ir.cron">
+	    <field name="name">Reminder of unattended request. (Low Priority)</field>
+	    <field name="model_id" ref="model_helpdesk_ticket"/>
+	    <field name="state">code</field>
+	    <field name="code">env['helpdesk.ticket'].send_reminder_email_cron('1')</field>
+	    <field name='interval_number'>5</field>
+	    <field name='interval_type'>hours</field>
+	    <field name="numbercall">-1</field>
+	</record>
+	<record id="mail_reminder_unattended_request_high_priotity" model="ir.cron">
+	    <field name="name">Reminder of unattended request. (High Priority)</field>
+	    <field name="model_id" ref="model_helpdesk_ticket"/>
+	    <field name="state">code</field>
+	    <field name="code">env['helpdesk.ticket'].send_reminder_email_cron('2')</field>
+	    <field name='interval_number'>5</field>
+	    <field name='interval_type'>hours</field>
+	    <field name="numbercall">-1</field>
+	</record>
+	<record id="mail_reminder_unattended_request_urgent" model="ir.cron">
+	    <field name="name">Reminder of unattended request. (Urgent)</field>
+	    <field name="model_id" ref="model_helpdesk_ticket"/>
+	    <field name="state">code</field>
+	    <field name="code">env['helpdesk.ticket'].send_reminder_email_cron('3')</field>
+	    <field name='interval_number'>5</field>
+	    <field name='interval_type'>hours</field>
+	    <field name="numbercall">-1</field>
+	</record>
+	
+	<record id="mail_notification_escalation_requests_services_attended" model="ir.cron">
+	    <field name="name">Notification of escalation of requests for services not attended.</field>
+	    <field name="model_id" ref="model_helpdesk_ticket"/>
+	    <field name="state">code</field>
+	    <field name="code">env['helpdesk.ticket'].send_escalation_notification_mail('0')</field>
+	    <field name='interval_number'>5</field>
+	    <field name='interval_type'>hours</field>
+	    <field name="numbercall">-1</field>
+	</record>
+	<record id="mail_notification_escalation_requests_services_attended_low_priority" model="ir.cron">
+	    <field name="name">Notification of escalation of requests for services not attended. (Low Priority)</field>
+	    <field name="model_id" ref="model_helpdesk_ticket"/>
+	    <field name="state">code</field>
+	    <field name="code">env['helpdesk.ticket'].send_escalation_notification_mail('1')</field>
+	    <field name='interval_number'>5</field>
+	    <field name='interval_type'>hours</field>
+	    <field name="numbercall">-1</field>
+	</record>
+	<record id="mail_notification_escalation_requests_services_attended_high_priority" model="ir.cron">
+	    <field name="name">Notification of escalation of requests for services not attended. (High Priority)</field>
+	    <field name="model_id" ref="model_helpdesk_ticket"/>
+	    <field name="state">code</field>
+	    <field name="code">env['helpdesk.ticket'].send_escalation_notification_mail('2')</field>
+	    <field name='interval_number'>5</field>
+	    <field name='interval_type'>hours</field>
+	    <field name="numbercall">-1</field>
+	</record>
+	<record id="mail_notification_escalation_requests_services_attended_urgent" model="ir.cron">
+	    <field name="name">Notification of escalation of requests for services not attended. (Urgent)</field>
+	    <field name="model_id" ref="model_helpdesk_ticket"/>
+	    <field name="state">code</field>
+	    <field name="code">env['helpdesk.ticket'].send_escalation_notification_mail('3')</field>
+	    <field name='interval_number'>5</field>
+	    <field name='interval_type'>hours</field>
+	    <field name="numbercall">-1</field>
+	</record>
+    </data>
 </odoo>

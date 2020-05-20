@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-11 18:59+0000\n"
-"PO-Revision-Date: 2020-05-11 18:59+0000\n"
+"POT-Creation-Date: 2020-05-19 15:34+0000\n"
+"PO-Revision-Date: 2020-05-19 15:34+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1037,7 +1037,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
 msgid "<span class=\"text-muted\">(If fixed-term contract)</span>"
-msgstr ""
+msgstr "<span class=\"text-muted\">(Si es un contrato a plazo fijo)</span>"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
@@ -2392,6 +2392,11 @@ msgid "Abril"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_groups
+msgid "Access Groups"
+msgstr "Grupos de acceso"
+
+#. module: payroll_mexico
 #: selection:bank.account.company,account_type:0
 msgid "Account"
 msgstr "Cuenta"
@@ -2400,6 +2405,11 @@ msgstr "Cuenta"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__account_executive_id
 msgid "Account Executive"
 msgstr "Ejecutivo de cuentas"
+
+#. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_account_executive
+msgid "Account Executive / Implant"
+msgstr "Ejecutivo de cuentas / Implant"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__account_type
@@ -2459,6 +2469,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_ids
 msgid "Activities"
 msgstr "Actividades"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_mail_activity
+msgid "Activity"
+msgstr "Actividad"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_state
@@ -3449,6 +3464,11 @@ msgid "Art. 33<br/>\n"
 "                                            INC<br/>\n"
 "                                            AUS"
 msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_mail_activity__user_id
+msgid "Assigned to"
+msgstr "Asignada a"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__assimilated_salary
@@ -4506,6 +4526,11 @@ msgstr ""
 #: selection:hr.salary.rule,type_perception:0
 msgid "Comisiones"
 msgstr ""
+
+#. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_commercial_executive
+msgid "Commercial executive"
+msgstr "Ejecutivo comercial"
 
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_res_company
@@ -6897,7 +6922,7 @@ msgstr "Libre"
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_holidays_form
 msgid "From"
-msgstr "Desde"
+msgstr "De"
 
 #. module: payroll_mexico
 #: selection:credential.fields,sheet:0
@@ -6981,6 +7006,11 @@ msgstr "Salarios mínimos generales"
 #, python-format
 msgid "General de Ley Personas Morales"
 msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.module.category,name:payroll_mexico.module_general_permissions
+msgid "General permissions"
+msgstr "Permisos Generales"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payroll_run_details_wizard
@@ -10114,6 +10144,16 @@ msgstr "Impuesto sobre la nómina"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__payroll_type
 msgid "Payroll Type"
 msgstr "Tipo de nómina"
+
+#. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_payroll_analyst
+msgid "Payroll analyst"
+msgstr "Analista de nómina"
+
+#. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_payroll_manager
+msgid "Payroll manager"
+msgstr "Gerente de Nómina"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__payroll_month

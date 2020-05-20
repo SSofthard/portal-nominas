@@ -11,6 +11,7 @@
             'partner_id',
             'ticket_type_id',
             'group_id',
+            'priority',
         ]"/>
     </function>
 </odoo>

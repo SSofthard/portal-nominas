@@ -168,6 +168,8 @@
     <template id="tickets_followup_inherit" name="Helpdesk Ticket Inherit" inherit_id="helpdesk.tickets_followup">
         <xpath expr="//div[4]" position="after">
 	    <div class="row mb-4">
+		<strong class="col-lg-2">Prioridad</strong>
+		<span class="col-lg-10" t-field="ticket.priority"/>
 		<strong class="col-lg-2" t-if="ticket.group_id">Group / Company</strong>
 		<span class="col-lg-10" t-if="ticket.group_id" t-field="ticket.group_id"/>
 		<strong class="col-lg-2">Category</strong>
@@ -234,6 +236,19 @@
                                         </div>
                                         <div class="col-lg-7 col-md-8">
                                             <input type="text" class="form-control o_website_form_input" name="name" required="1"/>
+                                        </div>
+                                    </div>
+				    <div class="form-group row form-field o_website_form_required">    
+                                        <div class="col-lg-3 col-md-4 text-right">
+                                            <label class="col-form-label" for="name">Prioridad</label>
+                                        </div>
+                                        <div class="col-lg-7 col-md-8">
+                                            <select id="priority" name="priority" class="form-control o_website_form_input"  required="1">
+						<option value="0">Normal</option>
+						<option value="1">Prioridad Baja</option>
+						<option value="2">Prioridad Alta</option>
+						<option value="3">Urgente</option>
+                                            </select>    
                                         </div>
                                     </div>
                                     <div class="form-group row form-field o_website_form_required">    

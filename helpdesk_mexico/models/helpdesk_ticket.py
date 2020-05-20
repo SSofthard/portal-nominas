@@ -8,6 +8,13 @@ from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError, AccessError
 from odoo.tools import pycompat
 
+TICKET_PRIORITY = [
+    ('0', 'All'),
+    ('1', 'Low priority'),
+    ('2', 'High priority'),
+    ('3', 'Urgent'),
+        ]
+
 class HelpdeskTicket(models.Model):
     _inherit = 'helpdesk.ticket'
     
@@ -40,12 +47,22 @@ class HelpdeskTicket(models.Model):
     last_assign_hours = fields.Integer(string='Last assignment time (hours)', compute='_compute_assign_hours')
     last_close_date = fields.Datetime(string='Closing date of last assignment', track_visibility='onchange')
     last_close_hours = fields.Integer(string='Last assignment open time (hours)', compute='_compute_close_hours', store=True)
+    priority = fields.Selection(TICKET_PRIORITY, string='Priority', default='0', track_visibility='onchange')
+
     
-    def send_escalation_notification_mail(self):
+    def send_escalation_notification_mail(self,priority):
         company = self.env['res.company'].search([('id','=',self.env.user.company_id.id)])
         url = self.env['ir.config_parameter'].search([('key','=','web.base.url')]).value
         team_ids = self.env['helpdesk.team'].search([])
         for team in team_ids:
+            if priority == '0':
+                hours = team.reminder_time_escalation
+            elif priority == '1':
+                hours = team.reminder_time_escalation_low_priority
+            elif priority == '2':
+                hours = team.reminder_time_escalation_high_priority
+            elif priority == '3':
+                hours = team.reminder_time_escalation_urgent
             body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
                                 <tbody>\
                                     <tr>\
@@ -74,14 +91,16 @@ class HelpdeskTicket(models.Model):
                                                         Estimado(s),<br><br>\
                                                         Las solicitudes que se muestran a continuación se encuentran en espera de atencion por parte de los Analistas del Equipo <strong>'+str(team.name)+'</strong> con tiempos que superan las '+str(team.reminder_time_escalation)+' Horas.<br><br>'
             
-            tiket_ids = self.search([('stage_id.is_close','=',False),('team_id','=',team.id)])
+            tiket_ids = self.search([('stage_id.is_close','=',False),('team_id','=',team.id),('priority','=',priority)])
             head = True
+            send = False
             cont = 0
             for ticket in tiket_ids:
-                if int(ticket.last_assign_hours) >= int(ticket.team_id.reminder_time_escalation):
+                if int(ticket.last_assign_hours) >= int(hours):
                     cont += 1
                     if head:
                         head = False
+                        send = True
                         body_html += '<table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
                                      <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
                                      <tr>\
@@ -129,20 +148,20 @@ class HelpdeskTicket(models.Model):
                         </table>\
                         </body>\
                         </html>'
-            if team.users_notification_ids:
+            if team.users_notification_ids and send:
                 list_recipient = []
                 for user in team.users_notification_ids:
                     list_recipient.append(user.partner_id.id)
                 mail_validate = self.env['mail.mail'].create({
                                         'recipient_ids':[[6, False, list_recipient]],
-                                        'subject':'Notificación! Solicitudes de servicio sin atención.',
+                                        'subject':'Notificación! Solicitudes de servicio sin atención. (%s)' %(dict(self._fields['priority']._description_selection(self.env)).get(ticket.priority)),
                                         'body_html':body_html,
                                         })
                 mail_validate.send()
         return
         
-    def send_reminder_email_cron(self):
-        tiket_ids = self.search([('stage_id.is_close','=',False)])
+    def send_reminder_email_cron(self,priority):
+        tiket_ids = self.search([('stage_id.is_close','=',False),('priority','=',priority)])
         for tiket in tiket_ids:
             tiket.send_reminder_email()
         return
@@ -232,5 +251,11 @@ class HelpdeskTeam(models.Model):
     _inherit = "helpdesk.team"
     
     reminder_time = fields.Integer('Reminder time (Hours)', default=5)
+    reminder_time_low_priority = fields.Integer('Reminder time (Hours - Low Priority)', default=5)
+    reminder_time_high_priority = fields.Integer('Reminder time (Hours - High Priority)', default=5)
+    reminder_time_urgent = fields.Integer('Reminder time (Hours - Urgent)', default=5)
     reminder_time_escalation = fields.Integer('Reminder time (Hours)', default=5)
+    reminder_time_escalation_low_priority = fields.Integer('Reminder time (Hours - Low Priority)', default=5)
+    reminder_time_escalation_high_priority = fields.Integer('Reminder time (Hours - High Priority)', default=5)
+    reminder_time_escalation_urgent = fields.Integer('Reminder time (Hours - Urgent)', default=5)
     users_notification_ids = fields.Many2many('res.users', 'helpdesk_team_user','team_id', 'user_id', string='Notification to Users', domain=lambda self: [('groups_id', 'in', self.env.ref('helpdesk.group_helpdesk_user').id)])
