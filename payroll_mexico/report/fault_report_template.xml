@@ -15,8 +15,6 @@
                 <t t-call="web.internal_layout">
                     <h6 class="text-left">
                         <t t-esc="payroll_data['date_end']"/>
-                        <br/><strong>RFC: </strong>:
-                        <t t-esc="payroll_data['rfc']"/>
                     </h6>
                     <h4 align="center" style="background-color: #ABAFAF;"><b>Reporte de faltas</b></h4>
                     <div class="page" >
@@ -42,7 +40,7 @@
                             <strong>Hasta periodo</strong>:
                             <t t-esc="payroll_data['date_end']"/>
                         </h6>
-                        <table class="table table-sm o_main_table" style="font-size:9px;">
+                        <table class="table table-sm table-striped" style="font-size:9px;">
                             <thead>
                                 <tr>
                                     <th class="text-left">Clave</th>

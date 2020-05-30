@@ -25,7 +25,6 @@ class Contract(models.Model):
                 self.env)).get(self.contracting_regime)
         domain = [
             ('employee_id','=', self.employee_id.id),
-            ('company_id','=', self.company_id.id),
             ('contracting_regime','=', self.contracting_regime),
             ('state','=','open')
         ]

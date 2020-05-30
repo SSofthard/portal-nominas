@@ -17,10 +17,14 @@
         </button>
     </t>
 
+<!--
     <t t-extend="KanbanView.buttons">
-        <t t-jquery="button" t-operation="after">
-            <t t-call="ImportEmployeeView.import_button"/>
-        </t>
+	<t t-if = "widget.modelName == 'hr.employee'">
+	    <t t-jquery="button" t-operation="after">
+		<t t-call="ImportEmployeeView.import_button"/>
+	    </t>
+	</t>
     </t>
+-->
 
 </templates>

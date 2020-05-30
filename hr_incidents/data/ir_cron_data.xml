@@ -3,7 +3,6 @@
     <record id="mail_leave_approve_validate" model="ir.cron">
         <field name="name">Notification of approval and validation of leave.</field>
         <field name="model_id" ref="model_hr_leave"/>
-        <field name="user_id" ref="base.user_admin"/>
         <field name="state">code</field>
         <field name="code">env['hr.leave'].action_send_email_approve()</field>
         <field name='interval_number'>1</field>

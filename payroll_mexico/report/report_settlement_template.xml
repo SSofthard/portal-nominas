@@ -95,7 +95,18 @@
                                 
                             </tbody>
                         </table>
-
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="row">
+                            <div id="sing" class="col-4 offset-4 text-center" name="sing">
+                                <table class="table-sm" border="0" style="width:100%;">
+                                    <tr class="border-black text-center">
+                                        <td><strong>FIRMA</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                         </div>
                     </t>
                 </t>

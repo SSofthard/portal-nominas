@@ -27,11 +27,12 @@
                                 <span>Período: </span><t t-esc="payroll_data['date_large']"/>
                             </t>
                         </h6>
-                        <table class="table table-sm o_main_table" style="font-size:9px;">
+                        <table class="table table-sm table-striped" style="font-size:9px;">
                             <thead>
                                 <tr>
                                     <th class="text-center">Clave</th>
                                     <th class="text-left">Nombre del trabajador</th>
+                                    <th class="text-left">Regimen de contratación</th>
                                     <th class="text-center">Clave</th>
                                     <th class="text-center">Nombre banco</th>
                                     <th class="text-center">No. de cuenta</th>
@@ -46,6 +47,9 @@
                                         </td>
                                         <td class="text-left">
                                             <t t-esc="employee['name']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-esc="employee['contracting_regime']"/>
                                         </td>
                                         <td class="text-center">
                                             <t t-esc="employee['bank_key']"/>
