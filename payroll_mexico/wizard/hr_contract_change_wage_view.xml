@@ -60,7 +60,6 @@
                         aria-label="Remove File"
                         title="Remove File"
                         attrs="{'invisible':[('file_ids', '=', False)]}"
-                        help="Remaining leaves"
                     />
                 </div>
                 <field name="file_name" readonly="1"/>

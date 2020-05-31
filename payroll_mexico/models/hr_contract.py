@@ -373,15 +373,10 @@ class Contract(models.Model):
     
     def calculate_salary_scheme(self,wage):
         today = date.today()
-        payroll_periods_days = {
-                '05': 30,
-                '04': 15,
-                '02': 7,
-                '10': 10,
-                '01': 1,
-                '99': 1,
-                }
-        days = payroll_periods_days[self.employee_id.payroll_period]*(self.employee_id.group_id.days/30)
+        if self.employee_id.group_id.type == 'governmental':
+            days = 30.4166
+        elif self.employee_id.group_id.type == 'private':
+            days = 30
         table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
         risk_factor = self.employee_id.employer_register_id.get_risk_factor(today)
         years_antiquity = self.years_antiquity + 1 if self.days_rest > 0 else self.years_antiquity
