@@ -1,0 +1,137 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* payroll_sign
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-30 05:07+0000\n"
+"PO-Revision-Date: 2020-05-30 05:07+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "<span class=\"fa fa-eye\"/>  Ver"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "<span class=\"fa fa-pencil-square-o\"/>  Firmar"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.view_hr_payslip_sign_form
+msgid "Descargar Documento Firmado"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "Documento relacionado"
+msgstr ""
+
+#. module: payroll_sign
+#: code:addons/payroll_sign/controllers/main.py:73
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+#, python-format
+msgid "Estado"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "Fecha"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.view_hr_payslip_sign_form
+msgid "Firma del Recibo"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "Firmado"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "Firmar"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.view_hr_payslip_sign_form
+msgid "Firmar nomina"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.portal_my_home_sign
+msgid "Kiosko de Empleado"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.doc_sign_logo
+msgid "Logo"
+msgstr ""
+
+#. module: payroll_sign
+#: code:addons/payroll_sign/controllers/main.py:75
+#, python-format
+msgid "Mas reciente"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "Nombre del archivo"
+msgstr ""
+
+#. module: payroll_sign
+#: code:addons/payroll_sign/controllers/main.py:76
+#, python-format
+msgid "Nombre del recurso"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "Nro"
+msgstr "Nro"
+
+#. module: payroll_sign
+#: model:ir.model,name:payroll_sign.model_hr_payslip
+msgid "Pay Slip"
+msgstr "Nómina"
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "Por firmar"
+msgstr ""
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.payslip_receipt
+msgid "Recibos de Nómina"
+msgstr ""
+
+#. module: payroll_sign
+#: code:addons/payroll_sign/controllers/main.py:74
+#, python-format
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: payroll_sign
+#: model:ir.model,name:payroll_sign.model_sign_request
+msgid "Signature Request"
+msgstr "Petición de firma"
+
+#. module: payroll_sign
+#: code:addons/payroll_sign/models/hr_payslip.py:76
+#, python-format
+msgid "Signature Request - %s"
+msgstr "Petición de firma - %s"
+
+#. module: payroll_sign
+#: model_terms:ir.ui.view,arch_db:payroll_sign.doc_sign_logo
+msgid "Signed"
+msgstr "Firmado"
