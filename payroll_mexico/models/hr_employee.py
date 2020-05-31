@@ -373,6 +373,13 @@ class Employee(models.Model):
     def get_isr(self,sueldo_bruto,days,table_id):
         daily_salary = sueldo_bruto/days
         salary = daily_salary*days
+        if self.group_id.type == 'governmental':
+            day_period = 30.40
+        elif self.group_id.type == 'private':
+            day_period = 30
+        
+        factor = day_period/days
+        salary = salary*factor
         lower_limit = 0
         applicable_percentage = 0
         fixed_fee = 0
