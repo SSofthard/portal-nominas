@@ -735,7 +735,7 @@ class HrGroup(models.Model):
     type = fields.Selection([
         ('governmental', 'Proporción 30,4'),
         ('private', 'En base a los días del año'),
-        ], string='type', required=True)
+        ], string='type', required=True, default='governmental')
     days = fields.Float("Days", required=False)
     country_id = fields.Many2one('res.country', string='Country', store=True,
         default=lambda self: self.env['res.company']._company_default_get().country_id)
