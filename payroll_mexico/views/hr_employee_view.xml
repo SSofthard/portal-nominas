@@ -473,9 +473,7 @@
                         </group>
                         <group>
                             <field name="type" widget="radio"/>
-<!--
-                            <field name="days"/>
--->
+                            <field name="days" invisible="1"/>
                             <field name="antique_table"/>
                             <field name="pay_three_days_disability"/>
                             <field name="signature_group" widget="image" class="oe_avatar"/>
