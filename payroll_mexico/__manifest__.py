@@ -9,6 +9,8 @@
     'summary': "Module that adapts Mexico's own characteristics of the human resources process.",
     "depends": ['base','account','hr_attendance','hr_payroll','hr_holidays','hr','employee_documents_expiry','web'],
     "data": [
+        'security/security.xml',
+        'security/ir.model.access.csv',
         'wizard/wizard_payroll_deposit_report_view.xml',
         'wizard/wizard_txt_payroll_dispersion.xml',
         'wizard/payroll_report_excel_view.xml',
@@ -53,8 +55,6 @@
         'views/hr_table_index_consume_price_view.xml',
         'views/assets.xml',
         'wizard/hr_contract_change_wage_view.xml',
-        'security/security.xml',
-        'security/ir.model.access.csv',
         #Reports
 
         'report/base_layout.xml',
