@@ -45,7 +45,6 @@
             </t>
             <div class = "oe_structure" >
                 <div class = "container">
-
                     <t t-call="portal.portal_table">
                         <thead>
                             <tr class="active">
@@ -68,9 +67,9 @@
 <!--                                <td><t t-esc="dict(o._fields['state']._description_selection(o.env)).get(o.state)"/></td>-->
                                 <td t-if="o.state == 'sent'" >Por firmar</td>
                                 <td t-if="o.state == 'signed'" >Firmado</td>
-                                <td><a t-if="o.state == 'sent'" class="btn btn-sm btn-primary" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
+                                <td><a t-if="o.state == 'sent'" class="btn btn-sm btn-primary" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/es_ES/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
                                     <span class="fa fa-pencil-square-o"></span>  Firmar</a>
-                                    <a t-if="o.state != 'sent'" class="btn btn-sm btn-light" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
+                                    <a t-if="o.state != 'sent'" class="btn btn-sm btn-light" icon="fa-pencil-square-o" role="button" name="Sign_document" t-att-href="'/es_ES/sign/document/%d/%s' % (o.id,o.request_item_ids.mapped('access_token')[0])">
                                     <span class="fa fa-eye"></span>  Ver</a></td>
 
                             </tr>
