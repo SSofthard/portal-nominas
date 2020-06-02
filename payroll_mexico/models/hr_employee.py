@@ -716,11 +716,11 @@ class HrGroup(models.Model):
         image_path = get_module_resource('payroll_mexico', 'static/img', 'default_signature_default.png')
         return tools.image_resize_image_big(base64.b64encode(open(image_path, 'rb').read()))
 
-    @api.constrains('days')
-    def validate_ssnid(self):
-        for record in self:
-            if record.days <= 0:
-                raise ValidationError(_('The number of days cannot be less than or equal to zero.'))
+    # ~ @api.constrains('days')
+    # ~ def validate_ssnid(self):
+        # ~ for record in self:
+            # ~ if record.days <= 0:
+                # ~ raise ValidationError(_('The number of days cannot be less than or equal to zero.'))
 
     name = fields.Char("Name", copy=False, required=True)
     implant_id = fields.Many2one('res.partner', "Implant", required=True)
