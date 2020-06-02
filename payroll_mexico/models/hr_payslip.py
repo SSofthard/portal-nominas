@@ -21,6 +21,8 @@ from odoo.addons.payroll_mexico.cfdilib_payroll import cfdilib, cfdv32, cfdv33
 
 from odoo.addons import decimal_precision as dp
 
+import calendar as calendar2
+
 _logger = logging.getLogger(__name__)
 
 class HrPayslip(models.Model):
@@ -1780,6 +1782,9 @@ class HrPayslip(models.Model):
                             if float(current_leave_struct['number_of_days']) > 3:
                                 total_leave_days += hours / work_hours
                                 hours_leave_days += hours
+                        else:
+                            total_leave_days += hours / work_hours
+                            hours_leave_days += hours
                     else:
                         total_leave_days += hours / work_hours
                         hours_leave_days += hours
@@ -1799,20 +1804,14 @@ class HrPayslip(models.Model):
                 'number_of_hours': attendances_hours,
                 'contract_id': contract.id,
             }
-            days_factor = contract.employee_id.group_id.days
-            elemento_calculo = {
-                'name': _("Periodo mensual"),
-                'sequence': 1,
-                'code': 'PERIODO100',
-                'number_of_days': days_factor,
-                'number_of_hours': 0,
-                'contract_id': contract.id,
-            }
-            res.append(elemento_calculo)
-            date_start = date_from if contract.date_start < date_from else contract.date_start
-            date_end =  contract.date_end if contract.date_end and contract.date_end < date_to else date_to
-            from_full = date_start
-            to_full = date_end + timedelta(days=1)
+            payroll_periods = {
+                '05': 12,
+                '04': 24,
+                '02': 52.1429,
+                '10': 36.5,
+                '01': 365,
+                '99': 365,
+                                }
             payroll_periods_days = {
                 '05': 30,
                 '04': 15,
@@ -1823,21 +1822,43 @@ class HrPayslip(models.Model):
                                 }
             period = self.payroll_period
             if payroll_period:
-                
                 period = payroll_period
-            # ~ if (contract.date_start > date_from and contract.date_start < date_to) or (contract.date_end > date_from and contract.date_end < date_to):
-                # ~ cant_days = (to_full - from_full).days*(days_factor/30)
-            # ~ else:
-                # ~ if (to_full - from_full).days >= payroll_periods_days[period]:
-            cant_days = payroll_periods_days[period]*(days_factor/30)
-                # ~ else:
-                    # ~ cant_days = (to_full - from_full).days*(days_factor/30)
+            days_off_payroll = 0
+            if (contract.date_start > date_from and contract.date_start < date_to) and (contract.date_end < date_to and contract.date_end > date_from):
+                days_off_payroll = abs(date_from - contract.date_start).days + abs(date_to - contract.date_end).days
+            elif contract.date_start > date_from and contract.date_start < date_to:
+                days_off_payroll = abs(date_from - contract.date_start).days
+            elif contract.date_end:
+                if contract.date_end < date_to and contract.date_end > date_from:
+                    days_off_payroll = abs(date_to - contract.date_end).days
+            
+            if contract.employee_id.group_id.type == 'governmental':
+                days_factor = 30.4166
+                cant_days = float("{0:.4f}".format(365/payroll_periods[period]))
+                factor = cant_days/payroll_periods_days[period]
+                days_off_payroll = float("{0:.4f}".format(days_off_payroll*factor))
+                cant_days -= days_off_payroll
+                total_leave_days = float("{0:.4f}".format(total_leave_days*factor))
+                inability = float("{0:.4f}".format(inability*factor))
+                for lev in leaves:
+                    leaves[lev]['number_of_days'] = float("{0:.4f}".format(float(leaves[lev]['number_of_days'])*factor))
+            elif contract.employee_id.group_id.type == 'private':
+                days_factor = calendar2.monthrange(int(str(date_from).split('-')[0]), int(str(date_from).split('-')[1]))[1]
+                cant_days = abs(date_to - date_from).days + 1 - days_off_payroll
             if cant_days < 0:
                 cant_days = 0
+            elemento_calculo = {
+                'name': _("Periodo mensual"),
+                'sequence': 1,
+                'code': 'PERIODO100',
+                'number_of_days': days_factor,
+                'number_of_hours': 0,
+                'contract_id': contract.id,
+            }
             if contract.contracting_regime == '02':
                 cant_days_IMSS = {
                     'name': _("Días a cotizar en la nómina"),
-                    'sequence': 1,
+                    'sequence': 4,
                     'code': 'DIASIMSS',
                     'number_of_days': cant_days - inability,
                     'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day) - inability_hours ,
@@ -1847,7 +1868,7 @@ class HrPayslip(models.Model):
             if contract.employee_id.pay_holiday:
                 dias_feriados = {
                     'name': _("Días feriados"),
-                    'sequence': 1,
+                    'sequence': 5,
                     'code': 'FERIADO',
                     'number_of_days': work_data['public_days'],
                     'number_of_hours': work_data['public_days_hours'],
@@ -1856,7 +1877,7 @@ class HrPayslip(models.Model):
                 res.append(dias_feriados)
             prima_dominical = {
                 'name': _("DOMINGO"),
-                'sequence': 1,
+                'sequence': 6,
                 'code': 'DOMINGO',
                 'number_of_days': work_data['sundays'],
                 'number_of_hours': work_data['sundays_hours'],
@@ -1870,11 +1891,12 @@ class HrPayslip(models.Model):
                 'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day) - hours_leave_days,
                 'contract_id': contract.id,
             }
+            res.append(elemento_calculo)
             res.append(count_days_weeks)
             res.append(attendances)
             res.append(prima_dominical)
-            # ~ if self.payroll_period == 'O' or self.settlement == True: 
             res.extend(leaves.values())
+            print (res)
         return res
         
     @api.onchange('contract_id')
@@ -2467,3 +2489,8 @@ class HrPayslipLine(models.Model):
     
     payroll_tax = fields.Boolean('Apply payroll tax?', related='salary_rule_id.payroll_tax', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
     total = fields.Float(compute='', string='Total', digits=dp.get_precision('Payroll'), store=True)
+
+class HrPayslipWorkedDays(models.Model):
+    _inherit = 'hr.payslip.worked_days'
+
+    number_of_days = fields.Float(string='Number of Days', digits=dp.get_precision('Payroll Rate'))

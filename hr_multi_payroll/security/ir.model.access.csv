@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_hr_payroll_structure_types_user,Payroll Structure Types (User),model_hr_payroll_structure_types,hr_payroll.group_hr_payroll_user,1,0,0,0
-access_hr_payroll_structure_types_manager,Payroll Structure Types (Manager),model_hr_payroll_structure_types,hr_payroll.group_hr_payroll_manager,1,1,1,1
