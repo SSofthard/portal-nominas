@@ -119,6 +119,9 @@
                 <xpath expr="//field[@name='birthday']" position="after">
                     <field name="age"/>
                 </xpath> 
+                <xpath expr="//field[@name='birthday']" position="attributes">
+                    <attribute name="groups">hr.group_hr_user</attribute>
+                </xpath> 
                 <xpath expr="//field[@name='country_of_birth']" position="attributes">
                     <attribute name="string">Country of Birth</attribute>
                 </xpath> 
@@ -230,6 +233,7 @@
                                     <field name="beneficiary" />
                                     <field name="reference" />
                                     <field name="bank_account" />
+                                    <field name="account_type" />
                                     <field name="location_branch" />
                                     <field name="predetermined" />
                                 </group>
@@ -239,6 +243,7 @@
                                 <field name="reference" />
                                 <field name="beneficiary" />
                                 <field name="bank_account" />
+                                <field name="account_type" />
                                 <field name="location_branch" />
                                 <field name="predetermined" />
                                 <field name="state" />
@@ -347,8 +352,11 @@
                         </group>
                     </page>
                 </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="context">{'default_partner_id':address_home_id}</attribute>
+                </xpath>
                 <xpath expr="//page[last()]" position="after">
-                    <page string="Credito Fonacot">
+                    <page string="Credito Fonacot" groups="hr.group_hr_user">
                         <separator string="Datos generales"/>
                         <group>
                             <group>
@@ -464,8 +472,8 @@
                             </div>
                         </group>
                         <group>
-                            <field name="type" widget="selection"/>
-                            <field name="days"/>
+                            <field name="type" widget="radio"/>
+                            <field name="days" invisible="1"/>
                             <field name="antique_table"/>
                             <field name="pay_three_days_disability"/>
                             <field name="signature_group" widget="image" class="oe_avatar"/>
@@ -775,6 +783,17 @@
             </xpath>
         </field>
     </record>
+    
+     <record id="view_users_form_inherit" model="ir.ui.view">
+            <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="group_companys_id" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
         
     </data>
 </odoo>

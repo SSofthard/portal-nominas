@@ -86,9 +86,39 @@ class HolidaysType(models.Model):
         code = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(code).name_get()
 
+class irAttachment(models.Model):
+    _inherit = 'ir.attachment'
+    
+    leave_id = fields.Many2one('hr.leave', invisible=True)
 
 class HolidaysRequest(models.Model):
     _inherit = "hr.leave"
+    
+    @api.multi
+    def _document_count(self):
+        for each in self:
+            document_ids = self.env['ir.attachment'].sudo().search([('leave_id', '=', each.id)])
+            each.document_count = len(document_ids)
+
+    @api.multi
+    def document_view(self):
+        self.ensure_one()
+        domain = [
+            ('leave_id', '=', self.id)]
+        return {
+            'name': _('Documents Incidents'),
+            'domain': domain,
+            'res_model': 'ir.attachment',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'kanban,tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                           Click to Create for New Documents
+                        </p>'''),
+            'limit': 80,
+            'context': "{'default_leave_id': '%s'}" % self.id
+        }
     
     date_to = fields.Datetime(
         'End Date', readonly=True, copy=False, required=False,
@@ -103,6 +133,10 @@ class HolidaysRequest(models.Model):
     inhability_category_id = fields.Many2one('hr.leave.category', "Category")
     inhability_subcategory_id = fields.Many2one('hr.leave.subcategory', "Subcategory")
     folio = fields.Char('Folio')
+    document_count = fields.Integer(compute='_document_count', string='# Documents')
+    document_ids = fields.One2many('ir.attachment', 'leave_id', string="Documents", copy=False, readonly=True)
+    
+    
 
     @api.multi
     @api.onchange('type_inhability_id')
@@ -138,6 +172,44 @@ class HolidaysRequest(models.Model):
         if not self.env.context.get('leave_fast_create'):
             self.activity_update()
         return True
+    
+    def _check_approval_update(self, state):
+        """ Check if target state is achievable. """
+        current_employee = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
+        is_officer = self.env.user.has_group('hr_holidays.group_hr_holidays_user')
+        is_officer_external = self.env.user.has_group('hr_incidents.group_hr_holidays_user_groups')
+        is_manager = self.env.user.has_group('hr_holidays.group_hr_holidays_manager')
+        is_manager_external = self.env.user.has_group('hr_incidents.group_hr_holidays_manager_groups')
+        for holiday in self:
+            val_type = holiday.holiday_status_id.validation_type
+            if state == 'confirm':
+                continue
+
+            if state == 'draft':
+                if holiday.employee_id != current_employee and not is_manager:
+                    raise UserError(_('Only a Leave Manager can reset other people leaves.'))
+                continue
+            if not is_officer:
+                if not is_officer_external:
+                    raise UserError(_('Only a Leave Officer or Manager can approve or refuse leave requests.'))
+            if is_officer or is_officer_external:
+                # use ir.rule based first access check: department, members, ... (see security.xml)
+                holiday.check_access_rule('write')
+
+            if holiday.employee_id == current_employee and not is_manager:
+                if not is_manager_external:
+                    raise UserError(_('Only a Leave Manager can approve its own requests.'))
+
+            if (state == 'validate1' and val_type == 'both') or (state == 'validate' and val_type == 'manager'):
+                manager = holiday.employee_id.parent_id or holiday.employee_id.department_id.manager_id
+                if (manager and manager != current_employee) and not self.env.user.has_group('hr_holidays.group_hr_holidays_manager'):
+                    if not is_manager_external:
+                        raise UserError(_('You must be either %s\'s manager or Leave manager to approve this leave') % (holiday.employee_id.name))
+
+            if state == 'validate' and val_type == 'both':
+                if not self.env.user.has_group('hr_holidays.group_hr_holidays_manager'):
+                    if not is_officer_external:
+                        raise UserError(_('Only an Leave Manager can apply the second approval on leave requests.'))
     
     def request_parameters(self, employee, request_date_from, number_of_days, request_date_from_period):
         if not number_of_days or number_of_days < 0:
@@ -202,21 +274,198 @@ class HolidaysRequest(models.Model):
             values['date_from'] = request_parameters.get('date_from')
             values['date_to'] = request_parameters.get('date_to')
             values['request_date_from_period'] = request_parameters.get('request_date_from_period') if request_parameters.get('request_date_from_period') else None
-        return super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
-
+        leave = super(HolidaysRequest, self.with_context(mail_create_nolog=True, mail_create_nosubscribe=True)).create(values)
+        rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_incidents.group_hr_holidays_user_groups')
+        rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_holidays.group_hr_holidays_user')
+        partners = self.env['res.users'].search([('group_companys_id','in',[leave.group_id.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+        mail_invite = self.env['mail.wizard.invite'].create({
+                                                            'res_model':'hr.leave',
+                                                            'res_id':leave.id,
+                                                            'partner_ids':[[6, False, partners]],
+                                                            'send_mail':False,
+                                                            })
+        mail_invite.add_followers()
+        return leave
+    
+    def action_send_email_approve(self):
+        groups = self.env['hr.group'].search([])
+        company = self.env['res.company'].search([('id','=',self.env.user.company_id.id)])
+        url = self.env['ir.config_parameter'].search([('key','=','web.base.url')]).value
+        for group in groups:
+            leaves_confirm = self.env['hr.leave'].search([('group_id','=',group.id),('state','in',['confirm'])])
+            leaves_validate = self.env['hr.leave'].search([('group_id','=',group.id),('state','in',['validate1'])])
+            
+            if leaves_confirm:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_incidents.group_hr_holidays_user_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_holidays.group_hr_holidays_user')
+                partners_confirm = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Aprobación de Ausencias</span>\
+                                                        </td>\
+                                                    </tr>\
+                                                    <td valign="middle" align="right">\
+                                                        <img style="padding:0px;margin:0px;height:48px;color:white;" src="/logo.png?company='+str(company.id)+'" alt="'+company.name+'" class="CToWUd">\
+                                                    </td>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Ausencias se encuentran en espera de aprobación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for leave in leaves_confirm:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(leave.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(leave.holiday_status_id.name)+'</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="'+url+'" style="background-color: #d7b65d; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                mail_confirm = self.env['mail.mail'].create({
+                                        'recipient_ids':[[6, False, partners_confirm]],
+                                        'subject':'Aviso! Ausencias en espera de aprobación.',
+                                        'body_html':body_html
+                                        })
+                mail_confirm.send()
+            if leaves_validate:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_incidents.group_hr_holidays_manager_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_holidays.group_hr_holidays_manager')
+                partners_validate = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Validación de Ausencias</span>\
+                                                        </td>\
+                                                        <td valign="middle" align="right">\
+                                                        <img style="padding:0px;margin:0px;height:48px;color:white;" src="/logo.png?company='+str(company.id)+'" alt="'+company.name+'" class="CToWUd">\
+                                                    </td>\
+                                                    </tr>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Ausencias se encuentran en espera de validación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for leave in leaves_validate:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(leave.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(leave.holiday_status_id.name)+'</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="'+url+'" style="background-color: #d7b65d; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                
+                
+                mail_validate = self.env['mail.mail'].create({
+                                                'recipient_ids':[[6, False, partners_validate]],
+                                                'subject':'Aviso! Ausencias en espera de validación.',
+                                                'body_html':body_html,
+                                                })
+                mail_validate.send()
+        return
+    
 
 class CalendarLeaves(models.Model):
     _inherit = "resource.calendar.leaves"
 
     time_type = fields.Selection(selection_add=[('inability', 'Incapacidad')])
 
-# ~ def string_to_datetime(value):
-    # ~ """ Convert the given string value to a datetime in UTC. """
-    # ~ return utc.localize(fields.Datetime.from_string(value))
-
-# ~ def datetime_to_string(dt):
-    # ~ """ Convert the given datetime (converted in UTC) to a string value. """
-    # ~ return fields.Datetime.to_string(dt.astimezone(utc))
 
 class ResourceCalendar(models.Model):
     _inherit = "resource.calendar"

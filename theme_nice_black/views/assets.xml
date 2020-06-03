@@ -19,7 +19,8 @@
     </template>
     
     <template id="customize_header_style_2" inherit_id="portal.frontend_layout" active="True">
-        <xpath expr="//div[@id='wrapwrap']/header" position="replace"></xpath>
+        <xpath expr="//div[@id='wrapwrap']/header" position="replace">
+        </xpath>
     </template>
     
     <template id="customize_language_selector" inherit_id="website.language_selector" active="True">

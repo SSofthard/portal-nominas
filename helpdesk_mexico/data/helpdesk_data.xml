@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">  
+        <record id="type_type_1" model="helpdesk.ticket.type">
+            <field name="name">Solicitud de Información de Nóminas</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="type_type_8" model="helpdesk.ticket.type">
+            <field name="name">Reporte de Nóminas</field>
+	    <field name="parent_id" ref="type_type_1"/>
+	    <field name="sequence">20</field>
+        </record>
+        <record id="type_type_9" model="helpdesk.ticket.type">
+            <field name="name">Información de Empleados</field>
+	    <field name="parent_id" ref="type_type_1"/>
+	    <field name="sequence">30</field>
+        </record>
+        <record id="type_type_10" model="helpdesk.ticket.type">
+            <field name="name">Contratos</field>
+	    <field name="parent_id" ref="type_type_1"/>
+	    <field name="sequence">40</field>
+        </record>
+        <record id="type_type_11" model="helpdesk.ticket.type">
+            <field name="name">Otros </field>
+	    <field name="parent_id" ref="type_type_1"/>
+	    <field name="sequence">50</field>
+        </record>
+	<record id="type_type_2" model="helpdesk.ticket.type">
+            <field name="name">Reporte de Incidencias</field>
+	    <field name="sequence">60</field>
+        </record>
+	<record id="type_type_12" model="helpdesk.ticket.type">
+            <field name="name">General</field>
+	    <field name="parent_id" ref="type_type_2"/>
+	    <field name="sequence">70</field>
+        </record>
+        <record id="type_type_13" model="helpdesk.ticket.type">
+            <field name="name">Reporte de Ausencias por Incapacidades</field>
+	    <field name="parent_id" ref="type_type_2"/>
+	    <field name="sequence">80</field>
+        </record>
+        <record id="type_type_14" model="helpdesk.ticket.type">
+            <field name="name">Reporte de Ausencias por Faltas</field>
+	    <field name="parent_id" ref="type_type_2"/>
+	    <field name="sequence">90</field>
+        </record>
+        <record id="type_type_15" model="helpdesk.ticket.type">
+            <field name="name">Reporte de Ausencias por Permisos</field>
+	    <field name="parent_id" ref="type_type_2"/>
+	    <field name="sequence">100</field>
+        </record>
+        <record id="type_type_16" model="helpdesk.ticket.type">
+            <field name="name">Reporte de Vacaciones</field>
+	    <field name="parent_id" ref="type_type_2"/>
+	    <field name="sequence">110</field>
+        </record>
+        <record id="type_type_17" model="helpdesk.ticket.type">
+            <field name="name">Tiempo Extra</field>
+	    <field name="parent_id" ref="type_type_2"/>
+	    <field name="sequence">120</field>
+        </record>
+        <record id="type_type_18" model="helpdesk.ticket.type">
+            <field name="name">Baja por Renuncia Voluntaria</field>
+	    <field name="parent_id" ref="type_type_2"/>
+	    <field name="sequence">130</field>
+        </record>
+        <record id="type_type_19" model="helpdesk.ticket.type">
+            <field name="name">Baja por Despido</field>
+	    <field name="parent_id" ref="type_type_2"/>
+	    <field name="sequence">140</field>
+        </record>
+        <record id="type_type_20" model="helpdesk.ticket.type">
+            <field name="name">Bonos / Comisiones</field>
+	    <field name="parent_id" ref="type_type_2"/>
+	    <field name="sequence">150</field>
+        </record>
+        <record id="type_type_3" model="helpdesk.ticket.type">
+            <field name="name">Solicitud de nuevos servicios de nómina</field>
+	    <field name="sequence">160</field>
+        </record>
+        <record id="type_type_4" model="helpdesk.ticket.type">
+            <field name="name">Soporte Técnico</field>
+	    <field name="sequence">170</field>
+        </record>
+        <record id="type_type_5" model="helpdesk.ticket.type">
+            <field name="name">Capacitación</field>
+	    <field name="sequence">180</field> 
+        </record>
+        <record id="type_type_6" model="helpdesk.ticket.type">
+            <field name="name">Quejas</field>
+	    <field name="sequence">190</field>
+        </record>
+        <record id="type_type_7" model="helpdesk.ticket.type">
+            <field name="name">Otros</field>
+	    <field name="sequence">200</field>
+        </record>
+	<delete model="helpdesk.ticket.type" id="helpdesk.type_question"/>
+	<delete model="helpdesk.ticket.type" id="helpdesk.type_incident"/>
+   </data>
+</odoo>

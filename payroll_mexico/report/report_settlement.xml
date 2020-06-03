@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+        <report id="report_settlement_low"
+          string="Report settlement and low"
+          model="payroll.report.settlement" 
+          report_type="qweb-pdf" 
+          name="payroll_mexico.template_report_settlement_low"
+          paperformat="payroll_mexico.paperformat_letter_landscape"
+         />
+         
+        <template id="template_report_settlement_low" >
+            <t t-call="web.internal_layout">
+                <t t-call="web.html_container">
+                    <div class="page">
+                        <h4 class="text-center" style="background-color: #ABAFAF;">FINIQUITOS Y BAJAS</h4>
+                        <h6 class="text-center"  style="background-color: #ABAFAF;" >Período: <span t-esc="data['date_from']" t-options="{'widget':'date'}"/> AL <span t-esc="data['date_to']" t-options="{'widget':'date'}"/></h6>
+                        <h6 class="text-center">Grupo/Empresa: <span t-esc="data['group_id']"/></h6>
+                        <br/>
+                        <div t-if="data['type']=='2'">
+                            <t t-set="colspan" t-value="len(data['salary_rule_list'])"/>
+                            <table class="table table-condensed table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>N°</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Clave</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Nombre del Empleado</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Fecha de Baja</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Fecha de Finiquito/Liquidación</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Percepciones</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Deducciones</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Total</strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong>Motivo</strong></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <t t-foreach="data['salary_rule_list']" t-as="rule">
+                                                <td class="text-center" colspan="9">
+                                                    <span style="font-size:xx-small"><strong><span t-esc="rule"/></strong></span>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                        <t t-set="cont" t-value="1"/>
+                                        <t t-foreach="data['per_employee'].keys()" t-as="employee">
+                                            <tr>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="cont"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['code']"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['complete_name']"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['low_date']" t-options="{'widget':'date'}"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['settlemen_date']" t-options="{'widget':'date'}"/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="float(data['per_employee'][employee]['perception'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                     <span style="font-size:xx-small"><span t-esc="float(data['per_employee'][employee]['deduction'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="float(data['per_employee'][employee]['total'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></span>
+                                                </td>
+                                                <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                    <span style="font-size:xx-small"><span t-esc="data['per_employee'][employee]['reason_liquidation']"/></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <t t-foreach="data['salary_rule_list']" t-as="rule">
+                                                    <td class="text-center" colspan="9">
+                                                        <span style="font-size:xx-small"><span t-esc="float(data['per_employee'][employee]['salary_rule_employee'][rule])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></span>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                            <t t-set="cont" t-value="cont+1"/>
+                                    </t>
+                                    <tr>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong><span style="font-size:xx-small" t-esc="float(data['perception_total'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong><span style="font-size:xx-small" t-esc="float(data['deduction_total'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"><strong><span style="font-size:xx-small" t-esc="float(data['total_general'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></strong></span>
+                                            </td>
+                                            <td class="text-center" t-att-colspan="'%s' % (colspan)">
+                                                <span style="font-size:xx-small"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                           <t t-foreach="data['salary_rule_list']" t-as="rule">
+                                                <td class="text-center" colspan="9">
+                                                    <strong><span style="font-size:xx-small" t-esc="float(data['amount_total'][rule])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/></strong>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-condensed table-striped" style="width: 25%; font-size:xx-small">
+                                    <tbody>
+                                        <tr style="background-color: #ABAFAF;">
+                                            <td class="text-center">
+                                                <span style="font-size:xx-small"><strong>Leyenda</strong></span>
+                                            </td>
+                                        </tr>
+                                        <t t-foreach="data['salary_rule_list_leyend']" t-as="rule">
+                                            <tr>
+                                                <td class="text-center" colspan="10">
+                                                    <span style="font-size:xx-small"><span t-esc="rule"/></span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div t-if="data['type']=='1'">
+			    <t t-set="color" t-value="F96C5E"/>
+                            <table class="table table-condensed table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" colspan="1">
+                                                <span style="font-size:xx-small"><strong>N°</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="2">
+                                                <span style="font-size:xx-small"><strong>Clave</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="6">
+                                                <span style="font-size:xx-small"><strong>Nombre de la regla</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="3">
+                                                <span style="font-size:xx-small"><strong>Monto</strong></span>
+                                            </td>
+                                        </tr>
+                                        <t t-set="cont" t-value="1"/>
+                                        <t t-set="color" t-value="active"/>
+                                        <t t-foreach="data['rules_amount_dict'].keys()" t-as="rule">
+                                            <tr class="active">
+                                                <td class="text-center" colspan="1">
+                                                    <span style="font-size:xx-small" t-esc="cont"/>
+                                                </td>
+                                                <td class="text-center" colspan="2">
+                                                    <span style="font-size:xx-small" t-esc="data['rules_amount_dict'][rule]['code']"/>
+                                                </td>
+                                                <td class="text-center" colspan="6">
+                                                    <span style="font-size:xx-small" t-esc="data['rules_amount_dict'][rule]['name']"/>
+                                                </td>
+                                                <td class="text-center" colspan="3">
+                                                    <span style="font-size:xx-small" t-esc="float(data['rules_amount_dict'][rule]['amount'])" t-options='{"widget": "monetary", "display_currency": company_id.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                            <t t-set="cont" t-value="cont+1"/>
+					    <t t-set="color" t-value=""/>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                
+                                <span style="font-size:xx-small">Finiquitos/Liquidación tomados en cuenta para el calculo del consolidado.</span>
+                                
+                                <table class="table table-condensed table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" colspan="1">
+                                                <span style="font-size:xx-small"><strong>N°</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="3">
+                                                <span style="font-size:xx-small"><strong>Finiquito/Liquidación</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="6">
+                                                <span style="font-size:xx-small"><strong>Empleado</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="3">
+                                                <span style="font-size:xx-small"><strong>Fecha de Finiquito/Liquidación</strong></span>
+                                            </td>
+                                            <td class="text-center" colspan="6">
+                                                <span style="font-size:xx-small"><strong>Contrato</strong></span>
+                                            </td>
+                                        </tr>
+                                        <t t-set="cont" t-value="1"/>
+                                        <t t-foreach="data['settlement_dict'].keys()" t-as="settlement">
+                                            <tr>
+                                                <td class="text-center" colspan="1">
+                                                    <span style="font-size:xx-small" t-esc="cont"/>
+                                                </td>
+                                                <td class="text-center" colspan="2">
+                                                    <span style="font-size:xx-small" t-esc="data['settlement_dict'][settlement]['settlement']"/>
+                                                </td>
+                                                <td class="text-center" colspan="6">
+                                                    <span style="font-size:xx-small" t-esc="data['settlement_dict'][settlement]['employee']"/>
+                                                </td>
+                                                <td class="text-center" colspan="6">
+                                                    <span style="font-size:xx-small" t-esc="data['settlement_dict'][settlement]['settlemen_date']"/>
+                                                </td>
+                                                <td class="text-center" colspan="6">
+                                                    <span style="font-size:xx-small" t-esc="data['settlement_dict'][settlement]['contract']"/>
+                                                </td>
+                                            </tr>
+                                            <t t-set="cont" t-value="cont+1"/>
+                                        </t>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

@@ -1,0 +1,379 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+	
+	<menuitem id="menu_helpdesk_root2" name="Customer Service"
+	    sequence="25"
+	    web_icon="helpdesk,static/description/icon.png"
+	    groups="helpdesk.group_helpdesk_user"/>
+	
+	<menuitem id="helpdesk_menu_config2" name="Configuration"
+        sequence="100" parent="menu_helpdesk_root2"
+        groups="helpdesk.group_helpdesk_manager"/>
+	
+	<record id="helpdesk_tag_action2" model="ir.actions.act_window">
+	    <field name="name">Tags</field>
+	    <field name="res_model">helpdesk.tag</field>
+	    <field name="view_type">form</field>
+	    <field name="view_mode">tree,form</field>
+	    <field name="help" type="html">
+	      <p class="o_view_nocontent_smiling_face">
+		Create a new tag
+	      </p><p>
+		Tags allows to organize service requests.
+	      </p>
+	    </field>
+	</record>
+
+    <menuitem id="helpdesk_tag_menu2" action="helpdesk_tag_action2"
+        sequence="1" parent="helpdesk_menu_config2"
+        groups="base.group_no_one"/>
+        
+    <record id="helpdesk_ticket_type_action2" model="ir.actions.act_window">
+	    <field name="name">Category</field>
+	    <field name="res_model">helpdesk.ticket.type</field>
+	    <field name="view_type">form</field>
+	    <field name="view_mode">tree,form</field>
+	    <field name="help" type="html">
+	      <p class="o_view_nocontent_smiling_face">
+		Create a new Service Requests type
+	      </p><p>
+		Type allows to organize Service Requests.
+	      </p>
+	    </field>
+	</record>
+
+    
+    <menuitem id="helpdesk_ticket_type_menu2" action="helpdesk_ticket_type_action2"
+        sequence="1" parent="helpdesk_menu_config2"/>
+    
+    <menuitem id="helpdesk_stage_menu2" action="helpdesk.helpdesk_stage_action"
+        sequence="3" parent="helpdesk_menu_config2"/>
+    
+    <menuitem id="helpdesk_sla_menu_main2" action="helpdesk.helpdesk_sla_action_main"
+        sequence="4" parent="helpdesk_menu_config2"
+        groups="helpdesk.group_use_sla"/>
+    
+    <menuitem id="helpdesk_ticket_report_menu_main2" name="Reporting"
+	sequence="20" parent="menu_helpdesk_root2"
+	groups="helpdesk.group_helpdesk_manager"/>
+    
+    <record id="helpdesk_ticket_analysis_action2" model="ir.actions.act_window">
+       <field name="name">Analysis of service requests</field>
+       <field name="res_model">helpdesk.ticket</field>
+       <field name="view_type">form</field>
+       <field name="view_mode">pivot,graph</field>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                      (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk.helpdesk_ticket_view_graph_analysis')}),
+                      (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk.helpdesk_ticket_view_pivot_analysis')})]"/>
+    </record>
+
+    <menuitem id="helpdesk_ticket_report_menu2" name="Service Requests" action="helpdesk_ticket_analysis_action2"
+        sequence="10" parent="helpdesk_ticket_report_menu_main2"
+        groups="helpdesk.group_helpdesk_manager"/>
+        
+        
+    <record id="helpdesk_ticket_action_main2" model="ir.actions.act_window">
+        <field name="name">All Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
+        <field name="context">{'search_default_my_ticket': True, 'search_default_is_open': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Service Request.
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_main_tree2" model="ir.actions.act_window">
+        <field name="name">All Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form,activity</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="context">{'search_default_is_open': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Service Request.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_upcoming_sla_fail_tickets2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form,pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="context">{'search_default_my_ticket': True, 'search_default_upcoming_sla_fail': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Service Request
+            </p>
+        </field>
+    </record>
+
+    <record id="action_upcoming_sla_fail_all_tickets2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form,pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="context">{'search_default_upcoming_sla_fail': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Service Request
+            </p>
+        </field>
+    </record>
+
+    <!-- Action for dashboard button -->
+    <record id="helpdesk_ticket_action_high_priorities2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
+        <field name="domain">[('priority', '=', '2')]</field>
+        <field name="context">{'default_priority': '2', 'search_default_is_open': True, 'search_default_my_ticket': True}</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No Service Requests to display
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_urgent2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
+        <field name="domain">[('priority', '=', '3')]</field>
+        <field name="context">{'default_priority': '3', 'search_default_is_open': True, 'search_default_my_ticket': True}</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No Service Requests to display
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_sla2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
+        <field name="domain">[('priority', '!=', False)]</field>
+        <field name="context">{'search_default_is_open': True, 'search_default_my_ticket': True, 'search_default_sla_failed': True}</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No Service Requests to display
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_sla_high2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
+        <field name="domain">[('priority', '=', '2')]</field>
+        <field name="context">{'default_priority': '2', 'search_default_is_open': True, 'search_default_my_ticket': True, 'search_default_sla_failed': True}</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No Service Requests to display
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_sla_urgent2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
+        <field name="domain">[('priority', '=', '3')]</field>
+        <field name="context">{'default_priority': '3', 'search_default_is_open': True, 'search_default_my_ticket': True, 'search_default_sla_failed': True}</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No Service Requests to display
+            </p>
+        </field>
+    </record>
+
+    <!-- Reporting action for dashboard -->
+    <record id="helpdesk_ticket_action_close_analysis2" model="ir.actions.act_window">
+        <field name="name">Closed Service Requests Analysis</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_ticket_view_search_analysis_closed"/>
+        <field name="domain" eval="[('close_date', '>=', (DateTime.today() - relativedelta(hours=12)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+        <field name="context">{'search_default_my_ticket': True}</field>
+        <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk.helpdesk_ticket_view_graph_analysis')}),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk.helpdesk_ticket_view_pivot_analysis')})]"/>
+    </record>
+
+    <record id="helpdesk_ticket_action_7days_analysis2" model="ir.actions.act_window">
+        <field name="name">Closed Service Requests Analysis</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_ticket_view_search_analysis_closed"/>
+        <field name="domain" eval="[('close_date', '>=', (DateTime.today() - relativedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+        <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk.helpdesk_ticket_view_graph_analysis')}),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk.helpdesk_ticket_view_pivot_analysis')})]"/>
+        <field name="context">{'search_default_my_ticket': True, 'search_default_close': True}</field>
+    </record>
+
+    <!-- action for halpdask team -->
+    <record id="helpdesk_ticket_action_team2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="context">{'search_default_team_id': active_id}</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Service Requests
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_unassigned2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="context">{'search_default_team_id': active_id, 'search_default_unassigned': True}</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Service Requests
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_Archived2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="context">{'search_default_team_id': active_ids, 'search_default_archive': True}</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Service Requests
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_slafailed2" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="context">{'search_default_team_id': active_id, 'search_default_sla_failed': True}</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Service Requests
+            </p>
+        </field>
+    </record>
+ 
+    <record id="helpdesk_ticket_action_dashboard2" model="ir.actions.act_window">
+        <field name="name">Service Requests Analysis</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_ticket_view_search_analysis"/>
+        <field name="domain">[('stage_id.is_close', '=', False)]</field>
+        <field name="context">{'search_default_my_ticket': True, 'pivot_measures': ['close_hours', '__count__']}</field>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                      (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk.helpdesk_team_view_graph_analysis')}),
+                      (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk.helpdesk_team_view_pivot_analysis')})]"/>
+    </record>
+
+    <record id="helpdesk_ticket_action_dashboard_high_priority2" model="ir.actions.act_window">
+        <field name="name">Service Requests Analysis</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_ticket_view_search_analysis"/>
+        <field name="domain">[('stage_id.is_close', '=', False), ('priority', '=', '2')]</field>
+        <field name="context">{'search_default_my_ticket': True, 'pivot_measures': ['close_hours', '__count__']}</field>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                      (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk.helpdesk_team_view_graph_analysis')}),
+                      (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk.helpdesk_team_view_pivot_analysis')})]"/>
+    </record>
+
+    <record id="helpdesk_ticket_action_dashboard_urgent2" model="ir.actions.act_window">
+        <field name="name">Service Requests Analysis</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk.helpdesk_ticket_view_search_analysis"/>
+        <field name="domain">[('stage_id.is_close', '=', False), ('priority', '=', '3')]</field>
+        <field name="context">{'search_default_my_ticket': True, 'pivot_measures': ['close_hours', '__count__']}</field>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                      (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk.helpdesk_team_view_graph_analysis')}),
+                      (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk.helpdesk_team_view_pivot_analysis')})]"/>
+    </record>
+
+    <menuitem id="helpdesk_ticket_menu_main2" action="helpdesk_ticket_action_main_tree2"
+        sequence="10" parent="menu_helpdesk_root2"/>
+        
+        
+    <menuitem id="helpdesk_team_menu2" name="Helpdesk Teams" action="helpdesk.helpdesk_team_action"
+        sequence="0" parent="helpdesk_menu_config2"
+        groups="helpdesk.group_helpdesk_manager"/>    
+        
+        
+    <record id="helpdesk_team_dashboard_action_main2" model="ir.actions.act_window">
+        <field name="name">Service Request Overview</field>
+        <field name="res_model">helpdesk.team</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{}</field>
+        <field name="view_id" ref="helpdesk.helpdesk_team_view_kanban"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Your teams will appear here
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="helpdesk_menu_team_dashboard2" action="helpdesk_team_dashboard_action_main2"
+        sequence="5" parent="menu_helpdesk_root2" name="Overview"
+        groups="helpdesk.group_helpdesk_user"/>
+        
+    
+    <menuitem id="helpdesk_menu_config_activity_type2"
+        action="helpdesk.mail_activity_type_action_config_helpdesk"
+        parent="helpdesk_menu_config2"
+        groups="base.group_no_one"/>
+        
+        
+	
+    </data>
+</odoo>

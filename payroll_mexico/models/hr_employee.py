@@ -131,6 +131,7 @@ class Employee(models.Model):
     bank_account_ids = fields.One2many('bank.account.employee','employee_id', "Bank account", required=True)
     group_id = fields.Many2one('hr.group', "Group", required=True)
     family_ids = fields.One2many('hr.family.burden','employee_id', "Family")
+    birthday = fields.Date('Date of Birth', groups="")
     age = fields.Integer("Age", compute='calculate_age_compute')
     infonavit_ids = fields.One2many('hr.infonavit.credit.line','employee_id', "INFONAVIT credit")
     hiring_regime_ids = fields.Many2many('hr.worker.hiring.regime', string="Hiring Regime")
@@ -354,16 +355,17 @@ class Employee(models.Model):
     def get_subsidio_empleo(self, sueldo_bruto,table_id):
         '''Este metodo obtiene el monto de subsidio al empleo determinado por el sueldo bruto'''
         today = fields.Date.context_today(self)
-        if self.payroll_period == '01':
-            subsidio = self.env['table.isr.daily.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
-        if self.payroll_period == '02':
-            subsidio = self.env['table.isr.weekly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
-        if self.payroll_period == '10':
-            subsidio = self.env['table.isr.decennial.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
-        if self.payroll_period == '04':
-            subsidio = self.env['table.isr.biweekly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
-        if self.payroll_period == '05':
-            subsidio = self.env['table.isr.monthly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        subsidio = ''
+        # ~ if self.payroll_period == '01':
+            # ~ subsidio = self.env['table.isr.daily.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        # ~ if self.payroll_period == '02':
+            # ~ subsidio = self.env['table.isr.weekly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        # ~ if self.payroll_period == '10':
+            # ~ subsidio = self.env['table.isr.decennial.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        # ~ if self.payroll_period == '04':
+            # ~ subsidio = self.env['table.isr.biweekly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
+        # ~ if self.payroll_period == '05':
+        subsidio = self.env['table.isr.monthly.subsidy'].search([('table_id','=',table_id.id),('lim_inf','<',sueldo_bruto),('lim_sup','>',sueldo_bruto)])
         if len(subsidio):
             return subsidio.s_mensual
         return 0
@@ -371,39 +373,46 @@ class Employee(models.Model):
     def get_isr(self,sueldo_bruto,days,table_id):
         daily_salary = sueldo_bruto/days
         salary = daily_salary*days
+        if self.group_id.type == 'governmental':
+            day_period = 30.40
+        elif self.group_id.type == 'private':
+            day_period = 30
+        
+        factor = day_period/days
+        salary = salary*factor
         lower_limit = 0
         applicable_percentage = 0
         fixed_fee = 0
-        if self.payroll_period == '01':
-            for table in table_id.isr_daily_ids:
-                if salary > table.lim_inf and salary < table.lim_sup:
-                    lower_limit = table.lim_inf
-                    applicable_percentage = (table.s_excedente)/100
-                    fixed_fee = table.c_fija
-        if self.payroll_period == '02':
-            for table in table_id.isr_weekly_ids:
-                if salary > table.lim_inf and salary < table.lim_sup:
-                    lower_limit = table.lim_inf
-                    applicable_percentage = (table.s_excedente)/100
-                    fixed_fee = table.c_fija
-        if self.payroll_period == '10':
-            for table in table_id.isr_decennial_ids:
-                if salary > table.lim_inf and salary < table.lim_sup:
-                    lower_limit = table.lim_inf
-                    applicable_percentage = (table.s_excedente)/100
-                    fixed_fee = table.c_fija
-        if self.payroll_period == '04':
-            for table in table_id.isr_biweekly_ids:
-                if salary > table.lim_inf and salary < table.lim_sup:
-                    lower_limit = table.lim_inf
-                    applicable_percentage = (table.s_excedente)/100
-                    fixed_fee = table.c_fija
-        if self.payroll_period == '05':
-            for table in table_id.isr_monthly_ids:
-                if salary > table.lim_inf and salary < table.lim_sup:
-                    lower_limit = table.lim_inf
-                    applicable_percentage = (table.s_excedente)/100
-                    fixed_fee = table.c_fija
+        # ~ if self.payroll_period == '01':
+            # ~ for table in table_id.isr_daily_ids:
+                # ~ if salary > table.lim_inf and salary < table.lim_sup:
+                    # ~ lower_limit = table.lim_inf
+                    # ~ applicable_percentage = (table.s_excedente)/100
+                    # ~ fixed_fee = table.c_fija
+        # ~ if self.payroll_period == '02':
+            # ~ for table in table_id.isr_weekly_ids:
+                # ~ if salary > table.lim_inf and salary < table.lim_sup:
+                    # ~ lower_limit = table.lim_inf
+                    # ~ applicable_percentage = (table.s_excedente)/100
+                    # ~ fixed_fee = table.c_fija
+        # ~ if self.payroll_period == '10':
+            # ~ for table in table_id.isr_decennial_ids:
+                # ~ if salary > table.lim_inf and salary < table.lim_sup:
+                    # ~ lower_limit = table.lim_inf
+                    # ~ applicable_percentage = (table.s_excedente)/100
+                    # ~ fixed_fee = table.c_fija
+        # ~ if self.payroll_period == '04':
+            # ~ for table in table_id.isr_biweekly_ids:
+                # ~ if salary > table.lim_inf and salary < table.lim_sup:
+                    # ~ lower_limit = table.lim_inf
+                    # ~ applicable_percentage = (table.s_excedente)/100
+                    # ~ fixed_fee = table.c_fija
+        # ~ if self.payroll_period == '05':
+        for table in table_id.isr_monthly_ids:
+            if salary > table.lim_inf and salary < table.lim_sup:
+                lower_limit = table.lim_inf
+                applicable_percentage = (table.s_excedente)/100
+                fixed_fee = table.c_fija
         lower_limit_surplus = salary - lower_limit
         marginal_tax = lower_limit_surplus*applicable_percentage
         isr_113 = marginal_tax + fixed_fee
@@ -507,32 +516,36 @@ class Employee(models.Model):
                     employee.assimilated_salary_gross = round(employee.monthly_salary - employee.wage_salaries - employee.free_salary,2)
             else:
                 today = date.today()
-                payroll_periods_days = {
-                        '05': 30,
-                        '04': 15,
-                        '02': 7,
-                        '10': 10,
-                        '01': 1,
-                        '99': 1,
-                        }
-                days = payroll_periods_days[employee.payroll_period]*(employee.group_id.days/30)
+                
+                if employee.group_id.type == 'governmental':
+                    days = 30.4166
+                elif employee.group_id.type == 'private':
+                    days = 30
+                    
                 if not employee.employer_register_id and employee.wage_salaries > 0:
                     raise UserError(_('Por favor seleccione un registro patronal'))
+                table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
+                antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',0),('form_id','=',self.group_id.antique_table.id)])
+                risk_factor = employee.employer_register_id.get_risk_factor(today)
                 if employee.wage_salaries > 0:
-                    table_id = self.env['table.settings'].search([('year','=',int(today.year))],limit=1)
-                    antiguedad = self.env['tablas.antiguedades.line'].search([('antiguedad','=',0),('form_id','=',self.group_id.antique_table.id)])
-                    risk_factor = employee.employer_register_id.get_risk_factor(today)
                     amount_wage_salaries = self.get_value_objetive(round((self.wage_salaries/employee.group_id.days)*days,2), days, table_id, antiguedad, risk_factor)
                     amount_wage_salaries = round((amount_wage_salaries/days)*employee.group_id.days,2)
                     employee.wage_salaries_gross = round(amount_wage_salaries,2)
+                else:
+                    employee.wage_salaries_gross = 0
                 if employee.free_salary > 0:
                     employee.free_salary_gross = round(employee.free_salary,2)
+                else:
+                    employee.free_salary_gross = 0
                     
                 if (employee.free_salary+employee.wage_salaries) <  employee.monthly_salary:
                     employee.assimilated_salary = round(employee.monthly_salary - employee.wage_salaries - employee.free_salary,2)
                     amount_asimilated_salaries = self.get_value_objetive(round(employee.assimilated_salary/employee.group_id.days*days,2), days, table_id, antiguedad, risk_factor, True)
                     amount_asimilated_salaries = round((amount_asimilated_salaries/days)*employee.group_id.days,2)
                     employee.assimilated_salary_gross = amount_asimilated_salaries
+                else:
+                    employee.assimilated_salary = 0
+                    employee.assimilated_salary_gross = 0
         return True    
             
             
@@ -631,11 +644,6 @@ class Employee(models.Model):
                     'bank_account_id':bank_account_id,
                         }
                 list_contract.append(contract_obj.create(val).id)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
-        print (list_contract)
         return list_contract
 
     def _get_fonacot_amount_debt(self):
@@ -663,6 +671,11 @@ class bankDetailsEmployee(models.Model):
     reference = fields.Char("Reference", copy=False, required=True)
     location_branch = fields.Char("Location / Branch")
     predetermined = fields.Boolean("Predetermined", copy=False, required=False)
+    account_type = fields.Selection([
+        ('001', 'Cuenta'),
+        ('040', 'CLABE'),
+        ('003', 'Tarjeta de débito'),
+    ], "Tipo de cuenta", required=False)
     state = fields.Selection([
         ('active', 'Active'),
         ('inactive', 'Inactive'),
@@ -703,11 +716,11 @@ class HrGroup(models.Model):
         image_path = get_module_resource('payroll_mexico', 'static/img', 'default_signature_default.png')
         return tools.image_resize_image_big(base64.b64encode(open(image_path, 'rb').read()))
 
-    @api.constrains('days')
-    def validate_ssnid(self):
-        for record in self:
-            if record.days <= 0:
-                raise ValidationError(_('The number of days cannot be less than or equal to zero.'))
+    # ~ @api.constrains('days')
+    # ~ def validate_ssnid(self):
+        # ~ for record in self:
+            # ~ if record.days <= 0:
+                # ~ raise ValidationError(_('The number of days cannot be less than or equal to zero.'))
 
     name = fields.Char("Name", copy=False, required=True)
     implant_id = fields.Many2one('res.partner', "Implant", required=True)
@@ -721,9 +734,9 @@ class HrGroup(models.Model):
         inverse='_inverse_seq_number_next')
     type = fields.Selection([
         ('governmental', 'Proporción 30,4'),
-        ('private', 'Base 30 días mensuales'),
-        ], string='type', required=True)
-    days = fields.Float("Days", required=True)
+        ('private', 'En base a los días del año'),
+        ], string='type', required=True, default='governmental')
+    days = fields.Float("Days", required=False)
     country_id = fields.Many2one('res.country', string='Country', store=True,
         default=lambda self: self.env['res.company']._company_default_get().country_id)
     state_id = fields.Many2one('res.country.state', string='State', required=True)
@@ -755,13 +768,13 @@ class HrGroup(models.Model):
             else:
                 raise UserError(_('The group name must contain three or more characters.'))
 
-    @api.onchange('type')
-    def onchange_type(self):
-        if self.type:
-            if self.type == 'governmental':
-                self.days = 30.4
-            if self.type == 'private':
-                self.days = 30.0
+    # ~ @api.onchange('type')
+    # ~ def onchange_type(self):
+        # ~ if self.type:
+            # ~ if self.type == 'governmental':
+                # ~ self.days = 30.4
+            # ~ if self.type == 'private':
+                # ~ self.days = 30.0
 
     @api.onchange('code')
     def onchange_code(self):
@@ -1060,3 +1073,15 @@ class hrCreditsEmployeeAccount(models.Model):
             'employee_id': employee.id,
         }
         return self.create(vals)
+        
+class ResUsers(models.Model):
+    _inherit = "res.users"
+    
+    group_companys_id = fields.Many2many('hr.group','user_group_company_rel','uid','group_company_id', "Group", required=False)
+    
+    @api.multi
+    def write(self, values):
+        res = super(ResUsers, self).write(values)
+        if 'group_companys_id' in values:
+            self.env['ir.rule'].clear_caches()
+        return res

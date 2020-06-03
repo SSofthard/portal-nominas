@@ -55,6 +55,7 @@ class HrContractChangeWageExport(models.TransientModel):
             {'name': 'MATRÍCULA EMPLEADO', 'larg': 14, 'col': {}},
             {'name': 'CURP', 'larg':18, 'col':{}},
             {'name': 'NOMBRE DEL EMPLEADO', 'larg': 40, 'col': {}},
+            {'name': 'PERIODO DE NÓMINA', 'larg': 15, 'col': {}},
             {'name': 'CLAVE DEL GRUPO', 'larg': 15, 'col': {}},
             {'name': 'CLAVE DEL CONTRATO', 'larg': 15, 'col': {}},
             {'name': 'MONTO DEL SUELDO', 'larg': 15, 'col': {}},
@@ -76,6 +77,7 @@ class HrContractChangeWageExport(models.TransientModel):
                 'enrollment':contract.employee_id.enrollment,
                 'curp':contract.employee_id.curp,
                 'employee_name':contract.employee_id.complete_name,
+                'payroll_period':contract.employee_id.payroll_period,
                 'group':contract.group_id.code,
                 'contract_code':contract.code,
                 'wage':contract.wage,
@@ -118,7 +120,6 @@ class HrContractChangeWageExport(models.TransientModel):
         rounding = self.env.user.company_id.currency_id.decimal_places or 2
         lang_code = self.env.user.lang or 'en_US'
         date_format = self.env['res.lang']._lang_get(lang_code).date_format
-        date_format = self.env['res.lang']._lang_get(lang_code).date_format
         time_format = self.env['res.lang']._lang_get(lang_code).time_format
 
         row = 1
@@ -141,13 +142,13 @@ class HrContractChangeWageExport(models.TransientModel):
         locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
         today = fields.Date.today().strftime("%d/%b/%Y").title()
         timetoday = fields.Datetime.now().strftime("%d/%b/%Y %I:%M:%S").title()
-        f_name = '%s %s %s' % (self._description.upper(), self.group_id.name, today)
-        sheet = workbook.add_worksheet(f_name)
+        f_name = '%s %s' % (self.group_id.name, today)
+        sheet = workbook.add_worksheet(self.group_id.name)
 
         def _header_sheet(sheet):
             sheet.merge_range('A1:C1','', report_format)
             sheet.write(0, 0, _('GRUPO: %s') % self.group_id.name.upper(), report_format)
-            sheet.merge_range('D1:F1','', report_format)
+            sheet.merge_range('D1:G1','', report_format)
             sheet.write(0, 3, _('HORA DE IMPRESIÓN: %s') % timetoday, report_format)
 
         if f_name:
@@ -162,9 +163,10 @@ class HrContractChangeWageExport(models.TransientModel):
                     sheet.write(i, 0, line.get('enrollment', ''), report_format2)  # Clave
                     sheet.write(i, 1, line.get('curp', ''), report_format2)  # CURP
                     sheet.write(i, 2, line.get('employee_name', ''), report_format2)  # Nombre del trabajador
-                    sheet.write(i, 3, line.get('group', ''), report_format2)  # GRUPO
-                    sheet.write(i, 4, line.get('contract_code', ''), report_format2)  # GRUPO
-                    sheet.write(i, 5, line.get('wage', ''), currency_format)  # SUELDO
+                    sheet.write(i, 3, line.get('payroll_period', ''), report_format2)  # PERIODO DE NÓMINA
+                    sheet.write(i, 4, line.get('group', ''), report_format2)  # GRUPO
+                    sheet.write(i, 5, line.get('contract_code', ''), report_format2)  # CÓDIGO DEL CONTRATO
+                    sheet.write(i, 6, line.get('wage', ''), currency_format)  # SUELDO
                 row = i
                 for j, h in enumerate(self.prepare_header()):
                     sheet.set_column(j, j, h['larg'])
@@ -194,6 +196,10 @@ class HrContractChangeWageImport(models.TransientModel):
     date_move = fields.Date(string='Move Date',
                             default=lambda self:fields.Date.to_string(date.today()),
                             help="Keep empty to use the current date. This date will be applied in the affiliate movement",)
+    type_salary = fields.Selection([
+        ('gross', 'Gross'),
+        ('net', 'Net'),
+        ],"Real Salary", default="gross", required=True)
 
     @api.multi
     def clean_file_ids(self):
@@ -219,6 +225,10 @@ class HrContractChangeWageImport(models.TransientModel):
     def validate_float(self, value):
         if not isinstance(value, str):
             return value
+    
+    def check_selection(self, value, selection):
+        if value in selection.keys():
+            return value.strip()
 
     @api.multi
     def read_document(self):
@@ -231,6 +241,7 @@ class HrContractChangeWageImport(models.TransientModel):
         msg_not_found = ['\nNo se encontrarron resultados para: \n']
         msg_not_format = ['\nFormato incorrecto, en las columnas: \n']
         msg_more = ['\nSe encontraron dos o más coincidencias, en las columnas: \n']
+        msg_not_apply = ['\nLos valores no corresponden: \n']
         if datafile:
             book = open_workbook(file_contents=datafile)
             sheet = book.sheet_by_index(0)
@@ -260,7 +271,23 @@ class HrContractChangeWageImport(models.TransientModel):
                         else:
                             msg_required.append('%s en la fila %s. \n' % (
                             sheet.cell_value(head, col).upper(), str(row + 1)))
-                    if col == 4:
+                    if col == 3:
+                        if sheet.cell_value(row, col):
+                            payroll_period = dict(self.env['hr.employee']._fields.get('payroll_period').selection)
+                            cell_value = self.float_to_string(sheet.cell_value(row,col))
+                            payroll_period_value = self.check_selection(cell_value.strip(), payroll_period)
+                            if payroll_period_value:
+                                if payroll_period_value != employee_id.payroll_period:
+                                    msg_not_apply.append(
+                                        '%s con la clave (%s) para el empleado (%s) en la fila %s. \n' % (
+                                        sheet.cell_value(head, col).upper(), payroll_period_value, employee_id.enrollment, str(row + 1)))
+                            else:
+                                msg_not_found.append('%s con la clave (%s) en la fila %s. POSIBLES VALORES %s \n' 
+                                    %(sheet.cell_value(head,col).upper(), cell_value, str(row+1),list(payroll_period.keys())))
+                        else:
+                            msg_required.append('%s en la fila %s. \n' % (
+                                sheet.cell_value(head, col).upper(), str(row + 1)))
+                    if col == 5:
                         if sheet.cell_value(row, col):
                             value = self.float_to_string(sheet.cell_value(row, col)).strip()
                             domain = [('code', '=', value),('employee_id', '=', employee_id.id)]
@@ -280,7 +307,7 @@ class HrContractChangeWageImport(models.TransientModel):
                         else:
                             msg_required.append('%s en la fila %s. \n' % (
                             sheet.cell_value(head, col).upper(), str(row + 1)))
-                    if col == 5:
+                    if col == 6:
                         if sheet.cell_value(row, col):
                             wage = self.validate_float(sheet.cell_value(row, col))
                             if wage:
@@ -306,6 +333,8 @@ class HrContractChangeWageImport(models.TransientModel):
                 msgs += msg_not_format
             if len(msg_more) > 1:
                 msgs += msg_more
+            if len(msg_not_apply) > 1:
+                msgs += msg_not_apply
             if len(msgs):
                 self.file_ids = False
                 msg_raise = "".join(msgs)
@@ -320,11 +349,14 @@ class HrContractChangeWageImport(models.TransientModel):
         if contracts:
             contract_obj = self.env['hr.contract']
             for contract in contracts:
+                wage = contract['wage']
                 contract_id = contract_obj.browse(contract['contract_id'])
+                if contract_id.contracting_regime in ['08','09','11'] and self.type_salary == 'net':
+                    wage = contract_id.calculate_salary_scheme(contract['wage'])
                 contract_id.with_context(
                     date_move=self.date_move or fields.Date.today(),
                     update_wage=True).write({
-                    'wage':contract['wage'],})
+                    'wage':wage,})
         return {'type':'ir.actions.client', 'tag':'reload',
                 'res_model':'hr.contract',
                 'context':"{'model': 'hr.contract'}"}
@@ -333,7 +365,6 @@ class Contract(models.Model):
     _inherit = 'hr.contract'
 
     def create_move_affiliate(self):
-        print (self.contracting_regime)
         if self.contracting_regime and self.contracting_regime != '02':
             vals = {
                 'contract_id': self.id,

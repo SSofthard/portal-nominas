@@ -18,7 +18,9 @@ class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
     _order = 'create_date desc'
     
-    estructure_id = fields.Many2one('hr.payroll.structure', 'Estructure', required=True)
+    estructure_id = fields.Many2one('hr.payroll.structure', 'Structure', required=False)
+    estructures_id = fields.Many2many('hr.payroll.structure', 'payroll_run_structure_rel', 'run_id', 'structure_id', 'Structures', required=False)
+    before_multiple_structure = fields.Boolean('Before multiple structure')
     contracting_regime = fields.Selection([
         ('02', 'Wages and salaries'),
         ('05', 'Free'),
@@ -26,7 +28,7 @@ class HrPayslipRun(models.Model):
         ('09', 'Honorary Assimilates'),
         ('11', 'Assimilated others'),
         ('99', 'Other regime'),
-    ], string='Contracting Regime', required=True, default="02")
+    ], string='Contracting Regime', required=False,)
     payroll_type = fields.Selection([
             ('O', 'Ordinary Payroll'),
             ('E', 'Extraordinary Payroll')], 
@@ -109,7 +111,27 @@ class HrPayslipRun(models.Model):
     payment_date = fields.Date(string='Fecha de pago', required=True,
         readonly=True, states={'draft': [('readonly', False)]})
     company_bank_id = fields.Many2one('bank.account.company', "Company bank", required=True)
+    incidence_awaiting_approval = fields.Boolean('Incidence awaiting approval', compute='_incidence_awaiting_approval')
 
+    @api.multi
+    def _incidence_awaiting_approval(self):
+        self.onchange_group_id()
+        return
+    
+    @api.onchange('group_id','date_start','date_end')
+    def onchange_group_id(self):
+        if self.group_id:
+            leave = self.env['hr.leave'].search([('group_id','=',self.group_id.id),
+                                                 ('state','in',['confirm','validate1']),
+                                                 '|','&',('request_date_from','>=',self.date_start),('request_date_from','<=',self.date_end),
+                                                 '&',('request_date_to','<=',self.date_end),('request_date_to','>=',self.date_start),])
+            inputs = self.env['hr.inputs'].search([('group_id','=',self.group_id.id),
+                                                 ('state','in',['confirm','validate1']),])
+            if leave or inputs:
+                self.incidence_awaiting_approval = True
+            else:
+                self.incidence_awaiting_approval = False
+    
     def action_layout_dispersion(self):
         """ Get Layout Dispersion """
         if self.company_bank_id.bank_id.code == '014':
@@ -340,49 +362,19 @@ class HrPayslipRun(models.Model):
         return self.env.ref('payroll_mexico.action_payroll_summary_report').report_action(self,data)       
 
     @api.multi
-    def print_payroll_deposit_report(self):
-        payrolls = self.filtered(lambda s: s.state in ['close'])
-        payroll_dic = {}
-        employees = []
-        total = 0
-        for payroll in payrolls:
-            payroll_dic['payroll_of_month'] = payroll.payroll_of_month
-            payroll_dic['date_large'] = '%s a %s' %(payroll.date_start.strftime("%d/%b/%Y").title(), payroll.date_end.strftime("%d/%b/%Y").title())
-            company = payroll.mapped('slip_ids').mapped('company_id')
-            payroll_dic['rfc'] = company.rfc
-            payroll_dic['employer_registry'] = company.employer_register_ids.filtered(lambda r: r.state == 'valid').mapped('employer_registry')[0] or ''
-            for slip in payroll.slip_ids:
-                total += sum(slip.line_ids.filtered(lambda r: r.category_id.code == 'NET').mapped('total'))
-                employees.append({
-                    'enrollment': slip.employee_id.enrollment,
-                    'name': slip.employee_id.name_get()[0][1],
-                    'bank_key': slip.employee_id.get_bank().bank_id.code if slip.employee_id.get_bank() else '',
-                    'bank': slip.employee_id.get_bank().bank_id.name if slip.employee_id.get_bank() else '',
-                    'account': slip.employee_id.get_bank().bank_account if slip.employee_id.get_bank() else '',
-                    'total': slip.line_ids.filtered(lambda r: r.category_id.code == 'NET').mapped('total')[0] or self.not_total(),
-                })
-            payroll_dic['employees'] = employees
-            payroll_dic['total_records'] = len(payroll.slip_ids)
-        payroll_dic['total'] = total
-        data={
-            'payroll_data':payroll_dic
-            }
-        return self.env.ref('payroll_mexico.payroll_deposit_report_template').report_action(self,data)       
-
-    @api.multi
     def print_fault_report(self):
         payroll_dic = {}
         payrolls = self.filtered(lambda s: s.state not in ['cancel'])
         leave_type = self.env['hr.leave.type'].search([('code','!=',False)])
+        employees = []
         for payroll in payrolls:
             company = payroll.mapped('slip_ids').mapped('company_id')
-            payroll_dic['rfc'] = company.rfc
             payroll_dic['date_start'] = '%s/%s/%s' %(payroll.date_start.strftime("%d"), payroll.date_start.strftime("%b").title(), payroll.date_start.strftime("%Y"))
             payroll_dic['date_end'] = '%s/%s/%s' %(payroll.date_end.strftime("%d"), payroll.date_end.strftime("%b").title(), payroll.date_end.strftime("%Y"))
             employee_ids = payroll.slip_ids.mapped('employee_id')
             fault_data = []
+            
             for employee in employee_ids:
-                
                 for slip in payroll.slip_ids:
                     if employee.id == slip.employee_id.id:
                         total = 0
@@ -397,7 +389,8 @@ class HrPayslipRun(models.Model):
                                     if leave.time_type == 'leave':
                                         absenteeism += wl.number_of_days
                         total += inhability + absenteeism
-                        if total > 0:
+                        if total > 0 and employee.id not in employees:
+                            employees.append(employee.id)
                             fault_data.append({
                                 'enrollment': employee.enrollment,
                                 'name': employee.name_get()[0][1],
@@ -409,7 +402,7 @@ class HrPayslipRun(models.Model):
                                 'absenteeism': round(absenteeism, 2),
                             })
                 payroll_dic['employee_data'] = fault_data
-        
+
         data={
             'payroll_data': payroll_dic
             }
@@ -445,9 +438,10 @@ class HrPayslipRun(models.Model):
     
     @api.multi
     def action_view_payslip(self):
+        domain = [('slip_id','in',self.slip_ids._ids)]
         return {
             'name': _('Detalles de Nómina'),
-            # ~ 'domain': domain,
+            'domain': domain,
             'res_model': 'hr.payslip.line',
             'type': 'ir.actions.act_window',
             'view_id': False,
@@ -594,6 +588,8 @@ class HrPayslipRun(models.Model):
                 worked_days_lines += worked_days_lines.new(r)
             payslip.worked_days_line_ids = worked_days_lines
             payslip.compute_sheet()
+            self.slip_ids.compute_amount_untaxed()
+            self.compute_amount_untaxed()
         return 
     
     @api.multi

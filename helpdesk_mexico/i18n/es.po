@@ -1,0 +1,823 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* helpdesk_mexico
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-20 23:12+0000\n"
+"PO-Revision-Date: 2020-05-20 23:12+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_team_view_form_inherit_mexico
+msgid "(High Priority) <br/>"
+msgstr "(Prioridad Alta)"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_team_view_form_inherit_mexico
+msgid "(Low Priority) <br/>"
+msgstr "(Prioridad Baja)"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_team_view_form_inherit_mexico
+msgid "(Normal) <br/>"
+msgstr "(Normal)"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_team_view_form_inherit_mexico
+msgid "(Urgent) <br/>"
+msgstr "(Urgente)"
+
+#. module: helpdesk_mexico
+#: model:mail.template,body_html:helpdesk_mexico.assigned_ticket_reminder_request_email_template
+msgid "<?xml version=\"1.0\"?>\n"
+"<div>\n"
+"		Dear ${object.sudo().user_id.partner_id.name or 'Madam/Sir'},<br/><br/>\n"
+"		The request\n"
+"		% if object.get_portal_url():\n"
+"		<a href=\"/helpdesk/ticket/${object.id}/${object.access_token}\">${object.name}</a>\n"
+"		% endif\n"
+"		assigned to you is awaiting processing, with a time from your assignment of <strong>${object.last_assign_hours} Hours.</strong><br/>\n"
+"		Thanks you,<br/><br/>\n"
+"	    </div>\n"
+"        "
+msgstr "<?xml version=\"1.0\"?>\n"
+"		<div>\n"
+"		Estimado ${object.sudo().user_id.partner_id.name or 'Señor/Señora'},<br/><br/>\n"
+"		La Solicitud\n"
+"		% if object.get_portal_url():\n"
+"		<a href=\"/helpdesk/ticket/${object.id}/${object.access_token}\">${object.name}</a>\n"
+"		% endif\n"
+"		asignado a usted está en espera de procesamiento, con un tiempo desde su asignación de <strong>${object.last_assign_hours} Horas.</strong><br/>\n"
+"		Gracias,<br/><br/>\n"
+"	    </div>\n"
+"        "
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.tickets_followup_inherit
+msgid "<strong class=\"col-lg-2\">Category</strong>"
+msgstr "<strong class=\"col-lg-2\">Categoría</strong>"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.tickets_followup_inherit
+msgid "<strong class=\"col-lg-2\">Prioridad</strong>"
+msgstr "<strong class=\"col-lg-2\">Prioridad</strong>"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_menu_config_activity_type2
+msgid "Activity Types"
+msgstr "Tipos de actividad"
+
+#. module: helpdesk_mexico
+#: selection:helpdesk.ticket,priority:0
+msgid "All"
+msgstr "Todos"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_main2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_main_tree2
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_ticket_menu_main2
+msgid "All Service Requests"
+msgstr "Todas las solicitudes de servicio"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_analysis_action2
+msgid "Analysis of service requests"
+msgstr "Analisis (SDS)"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:104
+#, python-format
+msgid "Avg 7 days"
+msgstr "7 días promedio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:35
+#, python-format
+msgid "Avg Open Hours"
+msgstr "Horario promedio"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_19
+msgid "Baja por Despido"
+msgstr "Baja por Despido"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_18
+msgid "Baja por Renuncia Voluntaria"
+msgstr "Baja por Renuncia Voluntaria"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_20
+msgid "Bonos / Comisiones"
+msgstr "Bonos / Comisiones"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/models/helpdesk_ticket.py:214
+#, python-format
+msgid "Cannot delete service request records."
+msgstr "No se pueden eliminar registros de solicitud de servicio"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_5
+msgid "Capacitación"
+msgstr "Capacitación"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_type_action2
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__ticket_type_id
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_ticket_type_menu2
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_ticket_type_view_form
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_ticket_view_form_inherit_mexico
+msgid "Category"
+msgstr "Categoría"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__child_id
+msgid "Child Categories"
+msgstr "Categorías hijas"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:123
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:127
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:136
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:140
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:149
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:153
+#, python-format
+msgid "Click to set"
+msgstr "Click to set"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:81
+#, python-format
+msgid "Closed Service Requests"
+msgstr "Solicitudes de servicio cerrado"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_7days_analysis2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_close_analysis2
+msgid "Closed Service Requests Analysis"
+msgstr "Análisis de solicitudes de servicio cerrado"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__last_close_date
+msgid "Closing date of last assignment"
+msgstr "Fecha de cierre de la última asignación"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__complete_name
+msgid "Complete Name"
+msgstr "Nombre completo"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_menu_config2
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_10
+msgid "Contratos"
+msgstr "Contratos"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.action_upcoming_sla_fail_all_tickets2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.action_upcoming_sla_fail_tickets2
+msgid "Create a new Service Request"
+msgstr "Crear una nueva solicitud de servicio"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_Archived2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_slafailed2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_team2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_unassigned2
+msgid "Create a new Service Requests"
+msgstr "Crear una nueva solicitud de servicio"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_tag_action2
+msgid "Create a new tag"
+msgstr "Crea una nueva etiqueta"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_type_action2
+msgid "Create a new ticket type"
+msgstr "Crear un nuevo tipo de ticket"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_main2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_main_tree2
+msgid "Create your first Service Request."
+msgstr "Crea tu primera solicitud de servicio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:89
+#, python-format
+msgid "Customer Rating"
+msgstr "Customer Rating"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.menu_helpdesk_root2
+msgid "Customer Service"
+msgstr "Servicio al Cliente"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:85
+#, python-format
+msgid "Customer satisfaction analysis"
+msgstr "Análisis de satisfacción del cliente"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:121
+#, python-format
+msgid "Daily Target"
+msgstr "Objetivo diario"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/js/helpdesk_dashboard.js:227
+#, python-format
+msgid "Dashboard"
+msgstr "Tablero"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_team_view_form_inherit_mexico
+msgid "Delivery time for escalation notifications"
+msgstr "Tiempo para notificaciones de escalación"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_12
+msgid "General"
+msgstr "General"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.tickets_followup_inherit
+msgid "Group / Company"
+msgstr "Grupo/Empresa"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__group_id
+msgid "Grupo"
+msgstr "Grupo/Empresa"
+
+#. module: helpdesk_mexico
+#: model:ir.model,name:helpdesk_mexico.model_helpdesk_stage
+msgid "Helpdesk Stage"
+msgstr "Etapa del Servicio de Asistencia"
+
+#. module: helpdesk_mexico
+#: model:ir.model,name:helpdesk_mexico.model_helpdesk_team
+msgid "Helpdesk Team"
+msgstr "ayuda de servicio de asistencia"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_team_menu2
+msgid "Helpdesk Teams"
+msgstr "Equipos del Servicio de Asistencia"
+
+#. module: helpdesk_mexico
+#: model:ir.model,name:helpdesk_mexico.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr "Ticket del Servicio de Asistencia"
+
+#. module: helpdesk_mexico
+#: model:ir.model,name:helpdesk_mexico.model_helpdesk_ticket_type
+msgid "Helpdesk Ticket Type"
+msgstr "Tipo de Ticket del Servicio de asistencia técnica"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:23
+#, python-format
+msgid "High Priority ("
+msgstr "Alta prioridad ("
+
+#. module: helpdesk_mexico
+#: selection:helpdesk.ticket,priority:0
+msgid "High priority"
+msgstr "Alta prioridad"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_9
+msgid "Información de Empleados"
+msgstr "Información de Empleados"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__last_assign_date
+msgid "Last assignment date"
+msgstr "Última fecha de asignación"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__last_close_hours
+msgid "Last assignment open time (hours)"
+msgstr "Última asignación tiempo abierto (horas)"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__last_assign_hours
+msgid "Last assignment time (hours)"
+msgstr "Último tiempo de asignación (horas)"
+
+#. module: helpdesk_mexico
+#: selection:helpdesk.ticket,priority:0
+msgid "Low priority"
+msgstr "Prioridad baja"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:74
+#, python-format
+msgid "My Performance"
+msgstr "My Performance"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:13
+#, python-format
+msgid "My Service Requests"
+msgstr "Mis solicitudes de servicio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:21
+#, python-format
+msgid "My high priority tickets"
+msgstr "Mis solicitudes de alta prioridad"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:15
+#, python-format
+msgid "My open tickets"
+msgstr "Mis solicitudes abiertas"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:27
+#, python-format
+msgid "My urgent tickets"
+msgstr "Mis solicitudes uregente"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:47
+#, python-format
+msgid "Newest"
+msgstr "El mas nuevo"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_high_priorities2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_sla2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_sla_high2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_sla_urgent2
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_action_urgent2
+msgid "No Service Requests to display"
+msgstr "No hay solicitudes de servicio para mostrar"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.server,name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mexico.mail_notification_escalation_requests_services_attended
+#: model:ir.cron,name:helpdesk_mexico.mail_notification_escalation_requests_services_attended
+msgid "Notification of escalation of requests for services not attended."
+msgstr "Notificación de escalada de solicitudes de servicios no atendidos"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.server,name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_high_priority_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_high_priority
+#: model:ir.cron,name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_high_priority
+msgid "Notification of escalation of requests for services not attended. (High Priority)"
+msgstr "Notificación de escalada de solicitudes de servicios no atendidos. (Alta prioridad)"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.server,name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_low_priority_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_low_priority
+#: model:ir.cron,name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_low_priority
+msgid "Notification of escalation of requests for services not attended. (Low Priority)"
+msgstr "Notificación de escalada de solicitudes de servicios no atendidos. (Baja prioridad)"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.server,name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_urgent_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_urgent
+#: model:ir.cron,name:helpdesk_mexico.mail_notification_escalation_requests_services_attended_urgent
+msgid "Notification of escalation of requests for services not attended. (Urgent)"
+msgstr "Notificación de escalada de solicitudes de servicios no atendidos. (Urgente)"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_team__users_notification_ids
+msgid "Notification to Users"
+msgstr "Notificación a los usuarios"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/js/helpdesk_dashboard.js:190
+#, python-format
+msgid "Only Integer Value should be valid."
+msgstr "Solo un valor entero es válido."
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_7
+msgid "Otros"
+msgstr "Otros"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_11
+msgid "Otros "
+msgstr "Otros"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_menu_team_dashboard2
+msgid "Overview"
+msgstr "Información general"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__parent_id
+msgid "Parent"
+msgstr "Padre"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket_type__parent_path
+msgid "Parent Path"
+msgstr "Ruta padre"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:77
+#, python-format
+msgid "Performance Report"
+msgstr "Reporte de desempeño"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__priority
+msgid "Priority"
+msgstr "Prioridad"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_6
+msgid "Quejas"
+msgstr "Quejas"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:170
+#, python-format
+msgid "Ready to boost your customer service?"
+msgstr "¿Listo para impulsar su servicio al cliente?"
+
+#. module: helpdesk_mexico
+#: model:mail.template,subject:helpdesk_mexico.assigned_ticket_reminder_request_email_template
+msgid "Reminder (${object.display_name})"
+msgstr "Recordatorio (${object.display_name})"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.server,name:helpdesk_mexico.mail_reminder_unattended_request_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mexico.mail_reminder_unattended_request
+#: model:ir.cron,name:helpdesk_mexico.mail_reminder_unattended_request
+msgid "Reminder of unattended request."
+msgstr "Recordatorio de solicitud desatendida"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.server,name:helpdesk_mexico.mail_reminder_unattended_request_high_priotity_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mexico.mail_reminder_unattended_request_high_priotity
+#: model:ir.cron,name:helpdesk_mexico.mail_reminder_unattended_request_high_priotity
+msgid "Reminder of unattended request. (High Priority)"
+msgstr "Recordatorio de solicitud desatendida. (Alta prioridad)"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.server,name:helpdesk_mexico.mail_reminder_unattended_request_low_priority_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mexico.mail_reminder_unattended_request_low_priority
+#: model:ir.cron,name:helpdesk_mexico.mail_reminder_unattended_request_low_priority
+msgid "Reminder of unattended request. (Low Priority)"
+msgstr "Recordatorio de solicitud desatendida. (Baja prioridad)"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.server,name:helpdesk_mexico.mail_reminder_unattended_request_urgent_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mexico.mail_reminder_unattended_request_urgent
+#: model:ir.cron,name:helpdesk_mexico.mail_reminder_unattended_request_urgent
+msgid "Reminder of unattended request. (Urgent)"
+msgstr "Recordatorio de solicitud desatendida. (Urgente)"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_team__reminder_time_escalation_high_priority
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_team__reminder_time_high_priority
+msgid "Reminder time (Hours - High Priority)"
+msgstr "Recordatorio (Horas - Alta prioridad)"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_team__reminder_time_escalation_low_priority
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_team__reminder_time_low_priority
+msgid "Reminder time (Hours - Low Priority)"
+msgstr "Recordatorio (Horas - Baja prioridad)"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_team__reminder_time_escalation_urgent
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_team__reminder_time_urgent
+msgid "Reminder time (Hours - Urgent)"
+msgstr "Recordatorio (Horas - Urgente)"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_team__reminder_time
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_team__reminder_time_escalation
+msgid "Reminder time (Hours)"
+msgstr "Recordatorio (horas)"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_14
+msgid "Reporte de Ausencias por Faltas"
+msgstr "Reporte de Ausencias por Faltas"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_13
+msgid "Reporte de Ausencias por Incapacidades"
+msgstr "Reporte de Ausencias por Incapacidades"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_15
+msgid "Reporte de Ausencias por Permisos"
+msgstr "Reporte de Ausencias por Permisos"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_2
+msgid "Reporte de Incidencias"
+msgstr "Reporte de Incidencias"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_8
+msgid "Reporte de Nóminas"
+msgstr "Reporte de Nóminas"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_16
+msgid "Reporte de Vacaciones"
+msgstr "Reporte de Vacaciones"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_ticket_report_menu_main2
+msgid "Reporting"
+msgstr "Informes"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:51
+#, python-format
+msgid "SLA Failed"
+msgstr "SLA Fallido"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_sla_menu_main2
+msgid "SLA Policies"
+msgstr "Políticas ANS"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:37
+#, python-format
+msgid "Salesperson"
+msgstr "Vendedor"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:51
+#, python-format
+msgid "Search <span class=\"nolabel\"> (in Content)</span>"
+msgstr "Buscar <span class=\"nolabel\"> (en Contenido)</span>"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:54
+#, python-format
+msgid "Search ID"
+msgstr "ID de búsqueda"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:55
+#, python-format
+msgid "Search in All"
+msgstr "Buscar en Todo"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:53
+#, python-format
+msgid "Search in Customer"
+msgstr "Buscar por cliente"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:52
+#, python-format
+msgid "Search in Messages"
+msgstr "Buscar por cliente"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:173
+#, python-format
+msgid "Send an email to"
+msgstr "Enviar un correo electrónico a"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_team_dashboard_action_main2
+msgid "Service Request Overview"
+msgstr "Descripción general de la solicitud de servicio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:17
+#: model:ir.actions.act_window,name:helpdesk_mexico.action_upcoming_sla_fail_all_tickets2
+#: model:ir.actions.act_window,name:helpdesk_mexico.action_upcoming_sla_fail_tickets2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_Archived2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_high_priorities2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_sla2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_sla_high2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_sla_urgent2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_slafailed2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_team2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_unassigned2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_urgent2
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_ticket_report_menu2
+#, python-format
+msgid "Service Requests"
+msgstr "Solicitudes de servicio"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_dashboard2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_dashboard_high_priority2
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_ticket_action_dashboard_urgent2
+msgid "Service Requests Analysis"
+msgstr "Análisis de solicitudes de servicio"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_1
+msgid "Solicitud de Información de Nóminas"
+msgstr "Solicitud de Información de Nóminas"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_3
+msgid "Solicitud de nuevos servicios de nómina"
+msgstr "Solicitud de nuevos servicios de nómina"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_4
+msgid "Soporte Técnico"
+msgstr "Soporte Técnico"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_ticket__stage_id
+msgid "Stage"
+msgstr "Etapa"
+
+#. module: helpdesk_mexico
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_stage_menu2
+msgid "Stages"
+msgstr "Etapas"
+
+#. module: helpdesk_mexico
+#: code:addons/helpdesk_mexico/controller/main.py:48
+#, python-format
+msgid "Subject"
+msgstr "Asunto"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:98
+#, python-format
+msgid "Success Rate"
+msgstr "Tasa de éxito"
+
+#. module: helpdesk_mexico
+#: model:ir.actions.act_window,name:helpdesk_mexico.helpdesk_tag_action2
+#: model:ir.ui.menu,name:helpdesk_mexico.helpdesk_tag_menu2
+msgid "Tags"
+msgstr "Etiquetas"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_tag_action2
+msgid "Tags allows to organize service requests."
+msgstr "Etiquetas permite organizar solicitudes de servicio"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:94
+#, python-format
+msgid "The success rate is based on the tickets which passed the SLA policies successfully."
+msgstr "La tasa de éxito se basa en los tickets que pasaron con éxito las políticas de SLA."
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:171
+#, python-format
+msgid "This dashboard will activate once you have created your first ticket."
+msgstr "Este tablero se activará una vez que haya creado su primer boleto."
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:30
+#, python-format
+msgid "Three stars, maximum score"
+msgstr "Tres estrellas, puntaje máximo"
+
+#. module: helpdesk_mexico
+#: model:ir.model.fields,field_description:helpdesk_mexico.field_helpdesk_stage__ticket_type_ids
+msgid "Ticket type"
+msgstr "Categoría"
+
+#. module: helpdesk_mexico
+#: model:helpdesk.ticket.type,name:helpdesk_mexico.type_type_17
+msgid "Tiempo Extra"
+msgstr "Tiempo Extra"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_team_view_form_inherit_mexico
+msgid "Time for automatic sending of reminders"
+msgstr "Hora de envío automático de recordatorios."
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:74
+#, python-format
+msgid "Today"
+msgstr "Hoy"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:24
+#, python-format
+msgid "Two stars, with a maximum of three"
+msgstr "Dos estrellas, con un máximo de tres."
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_ticket_type_action2
+msgid "Type allows to organize tickets."
+msgstr "Tipos permitidos para organizar tickets."
+
+#. module: helpdesk_mexico
+#: selection:helpdesk.ticket,priority:0
+msgid "Urgent"
+msgstr "Urgente"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:29
+#, python-format
+msgid "Urgent ("
+msgstr "Urgente ("
+
+#. module: helpdesk_mexico
+#: model_terms:ir.ui.view,arch_db:helpdesk_mexico.helpdesk_team_view_form_inherit_mexico
+msgid "Users to whom notifications will be sent"
+msgstr "Usuarios a quienes se enviarán notificaciones"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:52
+#, python-format
+msgid "View failed tickets"
+msgstr "Ver solicitudes fallidas"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:57
+#, python-format
+msgid "View high priority failed tickets"
+msgstr "Ver solicitudes fallidas de alta prioridad"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:62
+#, python-format
+msgid "View urgent failed tickets"
+msgstr "Ver solicitudes fallidas urgentes"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:167
+#, python-format
+msgid "Welcome"
+msgstr "Bienvenido"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/js/helpdesk_dashboard.js:190
+#, python-format
+msgid "Wrong value entered!"
+msgstr "Valor incorrecto ingresado!"
+
+#. module: helpdesk_mexico
+#: model_terms:ir.actions.act_window,help:helpdesk_mexico.helpdesk_team_dashboard_action_main2
+msgid "Your teams will appear here"
+msgstr "Sus equipos aparecerán aquí"
+
+#. module: helpdesk_mexico
+#. openerp-web
+#: code:addons/helpdesk_mexico/static/src/xml/helpdesk_team_templates.xml:173
+#, python-format
+msgid "to create a ticket."
+msgstr "para crear una solicitud."
+

@@ -2,6 +2,15 @@
 <odoo>
     <data>
 
+        <record id="view_hr_holidays_filter_incident_inherit" model="ir.ui.view">
+            <field name="name">hr.leave.form.inherit</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.view_hr_holidays_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='department']" position="replace">
+                </xpath>
+            </field>
+        </record>
         <record id="hr_leave_type_form_inherit" model="ir.ui.view">
             <field name="name">hr.leave.type.form.inherit</field>
             <field name="model">hr.leave.type</field>
@@ -47,8 +56,18 @@
             <field name="model">hr.leave</field>
             <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
             <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_validate']" position="attributes">
+                   <attribute name="groups">hr_holidays.group_hr_holidays_manager,hr_incidents.group_hr_holidays_manager_groups</attribute>
+                </xpath>
                 <xpath expr="//field[@name='employee_id']" position="after">
                     <field name="group_id"/>
+                </xpath>
+                <xpath expr="//field[@name='leave_type_request_unit']" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+							<field string="Documents" name="document_count" widget="statinfo"/>
+						</button>
+                    </div>
                 </xpath>
                 <xpath expr="//field[@name='holiday_status_id']" position="after">
                     <field name="time_type" attrs="{'invisible': 1}"/>
@@ -66,6 +85,27 @@
                     attrs="{'invisible': [('time_type', '!=', 'inability')], 'required': [('time_type', '=', 'inability')]}"
                     options='{"no_open": True, "no_create": True}'
                         />
+                </xpath>
+                <xpath expr="//field[@name='holiday_type']" position="attributes">
+                    <attribute name="groups">hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_creation_groups</attribute>
+                </xpath>
+                <xpath expr="//field[@name='employee_id']" position="attributes">
+                    <attribute name="groups">hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_creation_groups</attribute>
+                </xpath>
+                <xpath expr="//field[@name='mode_company_id']" position="attributes">
+                    <attribute name="groups">hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_creation_groups</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="attributes">
+                    <attribute name="groups">hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_creation_groups</attribute>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="attributes">
+                    <attribute name="groups">hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_creation_groups</attribute>
+                </xpath>
+                <xpath expr="//div[@groups='hr_holidays.group_hr_holidays_manager']" position="replace">
+                    <div groups="hr_holidays.group_hr_holidays_manager,hr_incidents.group_hr_holidays_manager">
+						<separator string="Comment by Manager"/>
+						<field name="report_note" placeholder="e.g. Report to the next month..."/>
+					</div>
                 </xpath>
             </field>
         </record>
@@ -86,89 +126,116 @@
         <delete model="ir.ui.menu" id="hr_holidays.menu_open_allocation" />
         <delete model="ir.ui.menu" id="hr_holidays.hr_leave_menu_my" />
         <delete model="ir.ui.menu" id="hr_holidays.menu_hr_holidays_summary_dept" />
+        <delete model="ir.ui.menu" id="hr_holidays.hr_holidays_menu_config_activity_type" />
         
-        <menuitem
-            id="hr_holidays_menu_manager_payroll_to_report"
-            name="Hojas para Imprimir"
-            parent="hr_holidays.hr_holidays_menu_manager_payroll"
-            groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
-            action="hr_holidays.hr_leave_action_payroll"
-            sequence="1"/>
+	<menuitem
+        name="Leaves"
+        id="hr_holidays.menu_hr_holidays_root"
+        sequence="95"
+        web_icon="hr_holidays,static/description/icon.png"
+        groups="base.group_user,hr_incidents.group_hr_holidays_creation_groups"/>
+
+    <menuitem
+        id="hr_holidays.menu_hr_holidays_approvals"
+        name="Managers"
+        parent="hr_holidays.menu_hr_holidays_root"
+        sequence="4"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_creation_groups"/>
+    <menuitem
+        id="hr_holidays.hr_holidays_menu_manager_approve"
+        name="To Approve"
+        parent="hr_holidays.menu_hr_holidays_approvals"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_user_groups"
+        sequence="1"/>
+     <menuitem
+        id="hr_holidays.menu_open_department_leave_approve"
+        name="Leaves"
+        parent="hr_holidays.hr_holidays_menu_manager_approve"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_user_groups"
+        action="hr_holidays.hr_leave_action_action_approve_department"
+        sequence="1"/>
+     <menuitem
+        id="hr_holidays.hr_holidays_menu_manager_all"
+        name="All"
+        parent="hr_holidays.menu_hr_holidays_approvals"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_creation_groups"
+        sequence="2"/>
+     <menuitem
+        id="hr_holidays.menu_open_employee_leave"
+        name="Leaves"
+        parent="hr_holidays.hr_holidays_menu_manager_all"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,hr_incidents.group_hr_holidays_creation_groups"
+        action="hr_holidays.hr_leave_action_all"
+        sequence="1"/>
+
+    <menuitem
+        id="hr_holidays_menu_manager_payroll_to_report"
+        name="Hojas para Imprimir"
+        parent="hr_holidays.hr_holidays_menu_manager_payroll"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
+        action="hr_holidays.hr_leave_action_payroll"
+        sequence="1"/>
+     
+     <menuitem id="hr_holidays_menu_config_activity_type_2"
+        action="hr_holidays.mail_activity_type_action_config_hr_holidays"
+        parent="hr_holidays.menu_hr_holidays_configuration"
+        groups="hr_holidays.group_hr_holidays_manager"/>
         
-<!--
-       <menuitem
-            id="menu_open_allocation"
-            name="Solicitudes de asignaciones"
-            parent="hr_holidays.menu_hr_holidays_my_leaves"
-            action="hr_holidays.hr_leave_allocation_action_my"
-            sequence="6"/>  
--->
-            
-<!--
-       <menuitem
-            id="hr_leave_menu_my"
-            name="Solicitudes de hojas"
-            parent="hr_holidays.menu_hr_holidays_my_leaves"
-            action="hr_holidays.hr_leave_action_my"
-            sequence="4"/>
--->
-            
-       <menuitem
+     <menuitem
             id="menu_hr_holidays_summary_dept"
             name="Informe por departamento"
             parent="hr_holidays.menu_hr_holidays_report"
             action="hr_holidays.action_hr_holidays_summary_dept"
             />
             
-<!--
-       <record id="view_hr_leave_type_pivot" model="ir.ui.view">
-            <field name="name">hr.leave.pivot</field>
-            <field name="model">hr.leave</field>
-            <field name="arch" type="xml">
-                <pivot string="Hr leave">
-                    <field name="holiday_status_id" type="row"/>
-                    <field name="employee_id" type="row"/>
-                    <field name="request_date_from" type="col"/>
-                    <field name="request_date_to" type="col"/>
-                </pivot>
-            </field>
-        </record>
-        
-       <record id="view_hr_leave_action" model="ir.actions.act_window">
-            <field name="name">Hr Leaves</field>
-            <field name="res_model">hr.leave</field>
-            <field name="view_mode">pivot</field>
-            <field name="view_id" eval="view_hr_leave_type_pivot"/>
-        </record>
--->
     <!-- Add by JJ -->
-     <menuitem
-        name="Report by Employee or type"
-        id="menu_hr_incidents_report"
-        action="action_wizard_hr_incidents"
-        parent="hr_holidays.menu_hr_holidays_report" sequence="10"/>
+         <menuitem
+            name="Report by Employee or type"
+            id="menu_hr_incidents_report"
+            action="action_wizard_hr_incidents"
+            parent="hr_holidays.menu_hr_holidays_report" sequence="10"/>
 
-    <menuitem
-        id="hr_holidays.menu_hr_holidays_my_leaves"
-        active="False"/>
-    <menuitem
-        id="hr_holidays.hr_leave_menu_new_request"
-        active="False"/>
-    <menuitem
-        id="hr_holidays.hr_leave_menu_my"
-        active="False"/>
+        <menuitem
+            id="hr_holidays.menu_hr_holidays_my_leaves"
+            active="False"/>
+        <menuitem
+            id="hr_holidays.hr_leave_menu_new_request"
+            active="False"/>
+        <menuitem
+            id="hr_holidays.hr_leave_menu_my"
+            active="False"/>
 
-    <record model="ir.ui.menu" id="hr_holidays.menu_hr_holidays_approvals">
-      <field name="name">Leaves</field>
-    </record>
+        <record model="ir.ui.menu" id="hr_holidays.menu_hr_holidays_approvals">
+          <field name="name">Leaves</field>
+        </record>
 
-<!--
-     <menuitem
-        name="Report pivot"
-        id="menu_hr_incidents_pivot_report"
-        action="view_hr_leave_action"
-        parent="hr_holidays.menu_hr_holidays_report" sequence="15"/>
--->
+	<menuitem name="Documents" id="documents.dashboard" parent="documents.menu_root" action="documents.document_action" sequence="0" groups="hr.group_hr_user"/>
+	<menuitem name="Configuration" id="documents.Config" parent="documents.menu_root" sequence="1" groups="hr.group_hr_user"/>
+    
+    <menuitem
+            name="Holidays"
+            id="payroll_mexico.menu_hr_holidays"
+            parent="hr_holidays.hr_holidays_menu_manager_all"
+            sequence="30"
+            action="payroll_mexico.view_hr_holidays_action"
+            groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
+        />
+    <menuitem
+        name="Holidays Dashboard"
+        id="payroll_mexico.menu_hr_holidays_dashboard"
+        parent="hr_holidays.hr_holidays_menu_manager_all"
+        sequence="30"
+        action="payroll_mexico.action_hr_holidays_dashboard"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
+        />
+        
+    <menuitem 
+        id="hr_public_holiday.hr_days_public_holidays_menu" 
+        name="Public Holidays Days" 
+        parent="hr_public_holiday.public_holidays_menu"   
+        action="hr_public_holiday.hr_days_public_holidays_action" 
+        sequence="15"
+        groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user" />
         
     </data>
 </odoo>

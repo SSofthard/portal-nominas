@@ -21,6 +21,8 @@ from odoo.addons.payroll_mexico.cfdilib_payroll import cfdilib, cfdv32, cfdv33
 
 from odoo.addons import decimal_precision as dp
 
+import calendar as calendar2
+
 _logger = logging.getLogger(__name__)
 
 class HrPayslip(models.Model):
@@ -159,7 +161,7 @@ class HrPayslip(models.Model):
     xml_timbre = fields.Many2one('ir.attachment', string="Timbre (XML)", readonly=True)
     qr_timbre = fields.Binary(string="Qr", readonly=True)
     # PDF Stamped
-    pdf = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False, readonly=True)
+    pdf = fields.Many2one('ir.attachment', string="CFDI PDF", copy=False, readonly=False)
     filename = fields.Char(string='Filename', related="pdf.name", copy=False, readonly=True)
     filedata = fields.Binary(string='Filedatas', related="pdf.datas", copy=False, readonly=True)
     
@@ -816,7 +818,7 @@ class HrPayslip(models.Model):
                 else:
                     if payslip.invoice_status != 'factura_correcta':
                         values = payslip.to_json()
-                        payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas, 
+                        payroll = cfdv33.get_payroll(values, certificado=csd_company.cer.datas, llave_privada=csd_company.key.datas,
                                                                 password=csd_company.track, tz=tz, url=url, user=user, password_pac = password,  
                                                                 debug_mode=True,)
                             
@@ -919,7 +921,6 @@ class HrPayslip(models.Model):
                                                         password=csd_company.track, tz=tz, url=url, user=user, password_pac = password, csd_company=csd_company)
         return True 
     
-    
     @api.multi
     def action_cfdi_nomina_cancel(self):
         for payslip in self:
@@ -977,8 +978,6 @@ class HrPayslip(models.Model):
                 
                 try:
                     cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSCancelacionService?wsdl')
-                    accesos_type = cliente.get_type("ns1:accesos")
-                    accesos = accesos_type(usuario=user, password=password)
                     cfdi_cancel = cliente.service.Cancelacion_1(
                                                             folios=[self.UUID_sat],
                                                             fecha=str(date_timbre),
@@ -1015,6 +1014,12 @@ class HrPayslip(models.Model):
                     if not csd_company.company_id.test_cfdi:
                         self.invoice_status = 'problemas_cancelada'
                 else:
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel)
                     raise UserError(_(cfdi_cancel['mensaje']))
         return True    
             
@@ -1780,6 +1785,9 @@ class HrPayslip(models.Model):
                             if float(current_leave_struct['number_of_days']) > 3:
                                 total_leave_days += hours / work_hours
                                 hours_leave_days += hours
+                        else:
+                            total_leave_days += hours / work_hours
+                            hours_leave_days += hours
                     else:
                         total_leave_days += hours / work_hours
                         hours_leave_days += hours
@@ -1799,20 +1807,14 @@ class HrPayslip(models.Model):
                 'number_of_hours': attendances_hours,
                 'contract_id': contract.id,
             }
-            days_factor = contract.employee_id.group_id.days
-            elemento_calculo = {
-                'name': _("Periodo mensual"),
-                'sequence': 1,
-                'code': 'PERIODO100',
-                'number_of_days': days_factor,
-                'number_of_hours': 0,
-                'contract_id': contract.id,
-            }
-            res.append(elemento_calculo)
-            date_start = date_from if contract.date_start < date_from else contract.date_start
-            date_end =  contract.date_end if contract.date_end and contract.date_end < date_to else date_to
-            from_full = date_start
-            to_full = date_end + timedelta(days=1)
+            payroll_periods = {
+                '05': 12,
+                '04': 24,
+                '02': 52.1429,
+                '10': 36.5,
+                '01': 365,
+                '99': 365,
+                                }
             payroll_periods_days = {
                 '05': 30,
                 '04': 15,
@@ -1823,21 +1825,43 @@ class HrPayslip(models.Model):
                                 }
             period = self.payroll_period
             if payroll_period:
-                
                 period = payroll_period
-            # ~ if (contract.date_start > date_from and contract.date_start < date_to) or (contract.date_end > date_from and contract.date_end < date_to):
-                # ~ cant_days = (to_full - from_full).days*(days_factor/30)
-            # ~ else:
-                # ~ if (to_full - from_full).days >= payroll_periods_days[period]:
-            cant_days = payroll_periods_days[period]*(days_factor/30)
-                # ~ else:
-                    # ~ cant_days = (to_full - from_full).days*(days_factor/30)
+            days_off_payroll = 0
+            if (contract.date_start > date_from and contract.date_start < date_to) and (contract.date_end and (contract.date_end < date_to and contract.date_end > date_from)):
+                days_off_payroll = abs(date_from - contract.date_start).days + abs(date_to - contract.date_end).days
+            elif contract.date_start > date_from and contract.date_start < date_to:
+                days_off_payroll = abs(date_from - contract.date_start).days
+            elif contract.date_end:
+                if contract.date_end < date_to and contract.date_end > date_from:
+                    days_off_payroll = abs(date_to - contract.date_end).days
+            
+            if contract.employee_id.group_id.type == 'governmental':
+                days_factor = 30.4166
+                cant_days = float("{0:.4f}".format(365/payroll_periods[period]))
+                factor = cant_days/payroll_periods_days[period]
+                days_off_payroll = float("{0:.4f}".format(days_off_payroll*factor))
+                cant_days -= days_off_payroll
+                total_leave_days = float("{0:.4f}".format(total_leave_days*factor))
+                inability = float("{0:.4f}".format(inability*factor))
+                for lev in leaves:
+                    leaves[lev]['number_of_days'] = float("{0:.4f}".format(float(leaves[lev]['number_of_days'])*factor))
+            elif contract.employee_id.group_id.type == 'private':
+                days_factor = calendar2.monthrange(int(str(date_from).split('-')[0]), int(str(date_from).split('-')[1]))[1]
+                cant_days = abs(date_to - date_from).days + 1 - days_off_payroll
             if cant_days < 0:
                 cant_days = 0
+            elemento_calculo = {
+                'name': _("Periodo mensual"),
+                'sequence': 1,
+                'code': 'PERIODO100',
+                'number_of_days': days_factor,
+                'number_of_hours': 0,
+                'contract_id': contract.id,
+            }
             if contract.contracting_regime == '02':
                 cant_days_IMSS = {
                     'name': _("Días a cotizar en la nómina"),
-                    'sequence': 1,
+                    'sequence': 4,
                     'code': 'DIASIMSS',
                     'number_of_days': cant_days - inability,
                     'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day) - inability_hours ,
@@ -1847,7 +1871,7 @@ class HrPayslip(models.Model):
             if contract.employee_id.pay_holiday:
                 dias_feriados = {
                     'name': _("Días feriados"),
-                    'sequence': 1,
+                    'sequence': 5,
                     'code': 'FERIADO',
                     'number_of_days': work_data['public_days'],
                     'number_of_hours': work_data['public_days_hours'],
@@ -1856,7 +1880,7 @@ class HrPayslip(models.Model):
                 res.append(dias_feriados)
             prima_dominical = {
                 'name': _("DOMINGO"),
-                'sequence': 1,
+                'sequence': 6,
                 'code': 'DOMINGO',
                 'number_of_days': work_data['sundays'],
                 'number_of_hours': work_data['sundays_hours'],
@@ -1870,11 +1894,12 @@ class HrPayslip(models.Model):
                 'number_of_hours': (cant_days * contract.resource_calendar_id.hours_per_day) - hours_leave_days,
                 'contract_id': contract.id,
             }
+            res.append(elemento_calculo)
             res.append(count_days_weeks)
             res.append(attendances)
             res.append(prima_dominical)
-            if self.payroll_period == 'O' or self.settlement == True: 
-                res.extend(leaves.values())
+            res.extend(leaves.values())
+            print (res)
         return res
         
     @api.onchange('contract_id')
@@ -1910,7 +1935,7 @@ class HrPayslip(models.Model):
             }
         }
         if run_data['employer_register_id']:
-            res['value']['employer_register_id'] = run_data['employer_register_id'][0]
+            res['value']['employer_register_id'] = run_data['employer_register_id']
         if (not employee_id) or (not date_from) or (not date_to):
             return res
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
@@ -2164,28 +2189,283 @@ class HrSalaryRule(models.Model):
 
 class HrInputs(models.Model):
     _name = 'hr.inputs'
+    _description = "Input"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _mail_post_access = 'read'
     
-    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'approve': [('readonly', False)]})
+    employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True, states={'confirm': [('readonly', False)]}, track_visibility='onchange')
     payslip = fields.Boolean('Payroll?')
-    amount = fields.Float('Amount', readonly=True, states={'approve': [('readonly', False)]}, digits=(16, 2))
-    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'approve': [('readonly', False)]})
+    amount = fields.Float('Amount', readonly=True, states={'confirm': [('readonly', False)]}, digits=(16, 2),track_visibility='onchange')
+    input_id = fields.Many2one('hr.rule.input', string='Input', required=True, readonly=True, states={'confirm': [('readonly', False)]},track_visibility='onchange')
     code = fields.Char(string='Code', related="input_id.code")
     state = fields.Selection([
+        ('cancel', 'Cancelled'),
+        ('confirm', 'To Approve'),
+        ('validate1', 'Second Approval'),
         ('approve', 'Approved'),
-        ('paid', 'Reported on payroll')], string='Status', readonly=True, default='approve')
+        ('paid', 'Reported on payroll')], string='Status', readonly=True, default='confirm', track_visibility='onchange')
     type = fields.Selection([
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', related= 'input_id.type', readonly=True, store=True)
     group_id = fields.Many2one('hr.group', "Group", related= 'employee_id.group_id', readonly=True, store=True)
-    date_overtime = fields.Date('Fecha', readonly=True, states={'approve': [('readonly', False)]})
+    date_overtime = fields.Date('Fecha', readonly=True, states={'confirm': [('readonly', False)]})
+    can_approve = fields.Boolean('Can Approve', compute='_compute_can_approve')
 
     @api.multi
     def name_get(self):
         result = []
         for inputs in self:
-            name = '%s %s %s' %(inputs.employee_id.name.upper(), inputs.input_id.name.upper(), str(inputs.amount))
+            name = '%s / Entrada: %s' %(inputs.employee_id.complete_name.upper(), inputs.input_id.name.upper())
             result.append((inputs.id, name))
         return result
+    
+    @api.depends('state', 'input_id')
+    def _compute_can_approve(self):
+        for inp in self:
+            if inp.state == 'confirm':
+                is_officer = self.env.user.has_group('hr_payroll.group_hr_payroll_user')
+                is_officer_external = self.env.user.has_group('payroll_mexico.group_hr_payroll_inputs_user_groups')
+                if not is_officer:
+                    if not is_officer_external:
+                        inp.can_approve = False
+                    else:
+                        inp.can_approve = True
+                else:
+                    inp.can_approve = True
+            else:
+                inp.can_approve = False
+    
+    
+    @api.multi
+    def action_approve(self):
+        for inp in self:
+            is_officer = self.env.user.has_group('hr_payroll.group_hr_payroll_user')
+            is_officer_external = self.env.user.has_group('payroll_mexico.group_hr_payroll_inputs_user_groups')
+            if is_officer or is_officer_external:
+                if inp.input_id.double_validation:
+                    inp.write({'state':'validate1'})
+                    inp.activity_feedback(['payroll_mexico.mail_act_inputs_approval'])
+                    inp.activity_schedule(
+                        'payroll_mexico.mail_act_inputs_second_approval',
+                        user_id=self.env.user.id)
+                else:
+                    inp.write({'state':'approve'})
+            else:
+                raise UserError(_('Only Nomina Manager/Oficial can approve or reject entry records.'))
+        return
+        
+    @api.multi
+    def action_validate(self):
+        for inp in self:
+            is_manager = self.env.user.has_group('hr_payroll.group_hr_payroll_manager')
+            is_manager_external = self.env.user.has_group('payroll_mexico.group_hr_payroll_inputs_manager_groups')
+            if is_manager or is_manager_external:
+                inp.write({'state':'approve'})
+            else:
+                raise UserError(_('Only Nomina Manager can validate or reject entry records.'))
+        return
+    
+    @api.multi
+    def action_refuse(self):
+        for inp in self:
+            inp.write({'state':'cancel'})
+    
+    def action_send_email_approve(self):
+        groups = self.env['hr.group'].search([])
+        
+        company = self.env['ir.model.data'].xmlid_to_res_id( 'base.main_company')
+        company = self.env['res.company'].search([('id','=',company)])
+        for group in groups:
+            inputs_confirm = self.env['hr.inputs'].search([('group_id','=',group.id),('state','in',['confirm'])])
+            inputs_validate = self.env['hr.inputs'].search([('group_id','=',group.id),('state','in',['validate1'])])
+            
+            if inputs_confirm:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'payroll_mexico.group_hr_payroll_inputs_user_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_payroll.group_hr_payroll_user')
+                partners_confirm = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Aprobación de Entradas</span>\
+                                                        </td>\
+                                                    </tr>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Entradas se encuentran en espera de aprobación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Entrada</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for inp in inputs_confirm:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(inp.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(inp.input_id.name)+'</td>'
+                    if inp.type =='perception':
+                        body_html += '<td style="text-align:center">Percepción</td>'
+                    else:
+                        body_html += '<td style="text-align:center">Deducción</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                mail_confirm = self.env['mail.mail'].create({
+                                        'recipient_ids':[[6, False, partners_confirm]],
+                                        'subject':'Aviso! Entradas en espera de aprobación.',
+                                        'body_html':body_html
+                                        })
+                mail_confirm.send()
+            if inputs_validate:
+                rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'payroll_mexico.group_hr_payroll_inputs_manager_groups')
+                rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_payroll.group_hr_payroll_manager')
+                partners_validate = self.env['res.users'].search([('group_companys_id','in',[group.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+                body_html = '<table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;" summary="o_mail_notification">\
+                                <tbody>\
+                                    <tr>\
+                                        <td align="center" style="min-width: 590px;">\
+                                            <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                                <tbody>\
+                                                    <tr>\
+                                                        <td valign="middle" align="left">\
+                                                            <span style="font-size:16px; color:white; font-weight: bold;">Validación de Entradas</span>\
+                                                        </td>\
+                                                    </tr>\
+                                                </tbody>\
+                                            </table>\
+                                        </td>\
+                                    </tr>\
+                                    <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">\
+                                            <tbody>\
+                                                <tr>\
+                                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">\
+                                                    Los siguientes registros de Entradas se encuentran en espera de validación:\
+                                                    <p>\
+                                                        <table class="table table-hover" border="0" width="100%" summary="o_mail_notification">\
+                                                            <thead style="color:#FFFFFF; padding: 20px; background-color: #414141; border-collapse:separate;">\
+                                                                <tr>\
+                                                                    <th>N°</th>\
+                                                                    <th>Empleado</th>\
+                                                                    <th>Entrada</th>\
+                                                                    <th>Tipo</th>\
+                                                                </tr>\
+                                                            </thead>\
+                                                            <tbody style="padding: 20px; border-collapse:separate;">'
+                cont = 1
+                for inp in inputs_validate:
+                    body_html += '<tr>\
+                                    <td style="text-align:center">'+str(cont)+'</td>\
+                                    <td style="text-align:center">'+str(inp.employee_id.complete_name)+'</td>\
+                                    <td style="text-align:center">'+str(inp.input_id.name)+'</td>'
+                    if inp.type =='perception':
+                        body_html += '<td style="text-align:center">Percepción</td>'
+                    else:
+                        body_html += '<td style="text-align:center">Deducción</td>'
+                    body_html += '</tr>'
+                    cont += 1
+                body_html+='</table>\
+                            <br>\
+                                <center>\
+                                    <a href="https://ositech2020-portal-nominas.odoo.com/web" style="background-color: #414141; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" >Portal de Gestión de Nómina</a>\
+                                    <br>\
+                                </center>\
+                                <br>\
+                                <p>Si tiene alguna pregunta, contacte con el Administrador del portal de Gestión de Nómina.</p>\
+                                <p>Muchas Gracias,</p>\
+                                </td>\
+                                </tr></tbody>\
+                                </table>\
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                    <td align="center" style="min-width: 590px;">\
+                                        <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: #414141; padding: 20px; border-collapse:separate;">\
+                                        <tbody><tr>\
+                                        <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">\
+                                            '+company.name.upper()+'<br><p></p><p>\
+                                          </p></td>\
+                                          </tr>\
+                                          </tbody></table>\
+                                        </td>\
+                                      </tr>\
+                                    </tbody>\
+                                </table>'
+                
+                
+                mail_validate = self.env['mail.mail'].create({
+                                                'recipient_ids':[[6, False, partners_validate]],
+                                                'subject':'Aviso! Entradas en espera de validación.',
+                                                'body_html':body_html,
+                                                })
+                mail_validate.send()
+        return
+        
+    
+    @api.model
+    def create(self, values):
+        inputs = super(HrInputs,self).create(values)
+        inputs.activity_schedule(
+            'payroll_mexico.mail_act_inputs_approval',
+            user_id=self.env.user.id)
+        rol1 = self.env['ir.model.data'].xmlid_to_res_id( 'payroll_mexico.group_hr_payroll_inputs_user_groups')
+        rol2 = self.env['ir.model.data'].xmlid_to_res_id( 'hr_payroll.group_hr_payroll_user')
+        partners = self.env['res.users'].search([('group_companys_id','in',[inputs.group_id.id]),('groups_id','in',[rol1,rol2])]).mapped('partner_id').ids
+        mail_invite = self.env['mail.wizard.invite'].create({
+                                                            'res_model':'hr.inputs',
+                                                            'res_id':inputs.id,
+                                                            'partner_ids':[[6, False, partners]],
+                                                            'send_mail':False,
+                                                            })
+        mail_invite.add_followers()
+        return inputs
 
 
 class HrRuleInput(models.Model):
@@ -2204,9 +2484,16 @@ class HrRuleInput(models.Model):
         ('perception', 'Perception'),
         ('deductions', 'Deductions')], string='Type', required=True)
     input_id = fields.Many2one('hr.salary.rule', string='Salary Rule Input', required=False)
+    double_validation = fields.Boolean(string='Apply Double Validation',
+        help="When selected, inputs for this type require a second validation to be approved.")
     
 class HrPayslipLine(models.Model):
     _inherit = 'hr.payslip.line'
     
     payroll_tax = fields.Boolean('Apply payroll tax?', related='salary_rule_id.payroll_tax', default=False, help="If selected, this rule will be taken for the calculation of payroll tax.")
     total = fields.Float(compute='', string='Total', digits=dp.get_precision('Payroll'), store=True)
+
+class HrPayslipWorkedDays(models.Model):
+    _inherit = 'hr.payslip.worked_days'
+
+    number_of_days = fields.Float(string='Number of Days', digits=dp.get_precision('Payroll Rate'))

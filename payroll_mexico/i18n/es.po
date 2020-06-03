@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-19 01:48+0000\n"
-"PO-Revision-Date: 2020-03-19 01:48+0000\n"
+"POT-Creation-Date: 2020-05-19 15:34+0000\n"
+"PO-Revision-Date: 2020-05-19 15:34+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,8 +33,8 @@ msgid "%g días restantes de %g"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:815
-#: code:addons/payroll_mexico/models/hr_employee.py:830
+#: code:addons/payroll_mexico/models/hr_employee.py:822
+#: code:addons/payroll_mexico/models/hr_employee.py:837
 #, python-format
 msgid "%s Sequence"
 msgstr "%s Secuencia"
@@ -934,16 +934,6 @@ msgid "<b>“EL TRABAJADOR”</b> gozará en todos los casos de una hora diaria 
 msgstr ""
 
 #. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.fault_report_template
-msgid "<br/><strong>RFC: </strong>:"
-msgstr ""
-
-#. module: payroll_mexico
-#: model_terms:ir.ui.view,arch_db:payroll_mexico.report_rule_details_template
-msgid "<br/><strong>RFC</strong>:"
-msgstr ""
-
-#. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_employe_history.py:215
 #, python-format
 msgid "<p class=\"oe_view_nocontent_create\">\n"
@@ -955,8 +945,8 @@ msgstr "<p class=\"oe_view_nocontent_create\">\n"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:389
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:456
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:480
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:450
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:474
 #, python-format
 msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                           Click to Create for New Documents\n"
@@ -985,51 +975,61 @@ msgstr "<span class=\"oe_inline\" attrs=\"{'invisible': ['|', ('request_unit_hal
 "                                        </span>"
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">(+) Honorarios</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">(+) IMSS, RCV E INFONAVIT</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">(+) IVA</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">(+) Impuesto Sobre Nóminas</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">(+) Retención ISR</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">(=) Subtotal</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">(=) Total</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">Neto a percibir</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">NÓMINA DEL MES DE</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span class=\"text-left\">Sueldo Base (Informativo)</span>"
 msgstr ""
@@ -1038,6 +1038,81 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_inherit
 msgid "<span class=\"text-muted\">(If fixed-term contract)</span>"
 msgstr "<span class=\"text-muted\">(Si es un contrato a plazo fijo)</span>"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Clave</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Contrato</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Deducciones</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Empleado</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Fecha de Baja</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Fecha de Finiquito/Liquidación</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Finiquito/Liquidación</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Leyenda</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Monto</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Motivo</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Nombre de la regla</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Nombre del Empleado</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Percepciones</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\"><strong>Total</strong></span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "<span style=\"font-size:xx-small\">Finiquitos/Liquidación tomados en cuenta para el calculo del consolidado.</span>"
+msgstr ""
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_view_form_change_history
@@ -1055,8 +1130,14 @@ msgid "<span>Días</span>"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "<span>FACTURACIÓN</span>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
+msgid "<span>N/A</span>"
 msgstr ""
 
 #. module: payroll_mexico
@@ -1074,6 +1155,13 @@ msgstr ""
 msgid "<strong>\n"
 "                                    <span class=\"text-left\">NOMBRE</span>\n"
 "                                </strong>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
+msgid "<strong>\n"
+"                                <span class=\"text-left\">NOMBRE</span>\n"
+"                            </strong>"
 msgstr ""
 
 #. module: payroll_mexico
@@ -1379,6 +1467,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_cfdi_report_document
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_receipt_report_document
 msgid "<strong>FIRMA DEL TRABAJADOR</strong>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.report_settlement_template
+msgid "<strong>FIRMA</strong>"
 msgstr ""
 
 #. module: payroll_mexico
@@ -1885,6 +1978,11 @@ msgstr ""
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payslip_run_template
+msgid "<strong>Régimen de contratación</strong>"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payslip_run_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_infonavit_employee
 msgid "<strong>S.D.I.</strong>"
 msgstr ""
@@ -2276,6 +2374,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_employee_history
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_infonavit_employee
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_infonavit_employee_amount
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
 msgid "AL"
 msgstr ""
 
@@ -2293,6 +2392,11 @@ msgid "Abril"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_groups
+msgid "Access Groups"
+msgstr "Grupos de acceso"
+
+#. module: payroll_mexico
 #: selection:bank.account.company,account_type:0
 msgid "Account"
 msgstr "Cuenta"
@@ -2301,6 +2405,11 @@ msgstr "Cuenta"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_group__account_executive_id
 msgid "Account Executive"
 msgstr "Ejecutivo de cuentas"
+
+#. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_account_executive
+msgid "Account Executive / Implant"
+msgstr "Ejecutivo de cuentas / Implant"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__account_type
@@ -2325,6 +2434,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_needaction
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_needaction
 msgid "Action Needed"
 msgstr "Acción Necesaria"
 
@@ -2356,12 +2466,19 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_ids
 msgid "Activities"
 msgstr "Actividades"
 
 #. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_mail_activity
+msgid "Activity"
+msgstr "Actividad"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_state
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_state
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_state
 msgid "Activity State"
 msgstr "Estado de la actividad"
 
@@ -3112,7 +3229,7 @@ msgid "Amount of the agreement"
 msgstr "Monto del acuerdo"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:915
+#: code:addons/payroll_mexico/models/hr_employee.py:922
 #, python-format
 msgid "An active INFONAVIT credit already exists for the employee."
 msgstr "Ya existe un crédito de INFONAVIT activo para el empleado"
@@ -3267,6 +3384,11 @@ msgid "Aporte Voluntario Infonavit"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_rule_input__double_validation
+msgid "Apply Double Validation"
+msgstr "Aplicar doble validación"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__apply_variable_compute
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__apply_variable_compute
 msgid "Apply for variable salary calculation"
@@ -3280,6 +3402,11 @@ msgid "Apply payroll tax?"
 msgstr "Aplicar impuesto sobre la nómina?"
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_inputs_form
+msgid "Approve"
+msgstr "Aprobar"
+
+#. module: payroll_mexico
 #: selection:hr.employee.affiliate.movements,state:0
 #: selection:hr.inputs,state:0
 msgid "Approved"
@@ -3288,6 +3415,8 @@ msgstr "Aprobado"
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "April"
 msgstr "Abril"
 
@@ -3337,6 +3466,11 @@ msgid "Art. 33<br/>\n"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_mail_activity__user_id
+msgid "Assigned to"
+msgstr "Asignada a"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__assimilated_salary
 msgid "Assimilated Salary"
 msgstr "Salario asimilado"
@@ -3347,7 +3481,6 @@ msgstr "Salario asimilado"
 #: selection:hr.employee,contracting_regime:0
 #: selection:hr.employee.credentialing.wizard,contracting_regime:0
 #: selection:hr.fees.settlement,contracting_regime:0
-#: selection:hr.payslip.employees,contracting_regime:0
 #: selection:hr.payslip.line.details,contracting_regime:0
 #: selection:hr.payslip.run,contracting_regime:0
 #: selection:wizard.compute.sdi.vars,contracting_regime:0
@@ -3367,7 +3500,6 @@ msgstr "Asimilados comisionistas"
 #: selection:hr.employee,contracting_regime:0
 #: selection:hr.employee.credentialing.wizard,contracting_regime:0
 #: selection:hr.fees.settlement,contracting_regime:0
-#: selection:hr.payslip.employees,contracting_regime:0
 #: selection:hr.payslip.line.details,contracting_regime:0
 #: selection:hr.payslip.run,contracting_regime:0
 #: selection:wizard.compute.sdi.vars,contracting_regime:0
@@ -3375,6 +3507,13 @@ msgstr "Asimilados comisionistas"
 #: selection:wizard.employee.history,contracting_regime:0
 msgid "Assimilated others"
 msgstr "Asimilados otros"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run_rule_details__assimilated
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__assimilated
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__assimilated
+msgid "Assimilated to salary"
+msgstr "Asimilados a salario"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_without_seniority
@@ -3397,6 +3536,7 @@ msgstr "Documento adjunto"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_attachment_count
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_attachment_count
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_attachment_count
 msgid "Attachment Count"
 msgstr "Conteo de archivos adjuntos"
 
@@ -3408,6 +3548,8 @@ msgstr "Bono de asistencia"
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "August"
 msgstr "Agosto"
 
@@ -3451,14 +3593,14 @@ msgid "Averías"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:339
+#: code:addons/payroll_mexico/models/hr_employee.py:340
 #, python-format
 msgid "Aviso para Unidad de Medicina Familiar"
 msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_payslip.py:1693
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:495
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:489
 #, python-format
 msgid "Aviso!"
 msgstr ""
@@ -3538,6 +3680,7 @@ msgstr ""
 #: model:ir.model,name:payroll_mexico.model_res_bank
 #: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__bank_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__bank_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__bank_id
 msgid "Bank"
 msgstr "Banco"
 
@@ -3566,7 +3709,7 @@ msgid "Base 30 días mensuales"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:473
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:467
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_mexico_form
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_mexico_form
 #, python-format
@@ -3603,6 +3746,11 @@ msgstr "Asegúrese de confirmar el proceso de finiquito / liquidación, una vez 
 #: selection:hr.payslip.line,type_perception:0
 #: selection:hr.salary.rule,type_perception:0
 msgid "Becas para trabajadores y/o hijos"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__before_multiple_structure
+msgid "Before multiple structure"
 msgstr ""
 
 #. module: payroll_mexico
@@ -3725,6 +3873,11 @@ msgid "Business Name"
 msgstr "Razón Social"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run_rule_details__rule_id
+msgid "Business Rule"
+msgstr "Regla de negocio"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_bank__business_name
 msgid "Business name"
 msgstr "Razón Social"
@@ -3817,6 +3970,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.res_config_settings_payroll_mexico_view_form
 msgid "CFDI tables"
 msgstr "tablas CFDI"
+
+#. module: payroll_mexico
+#: selection:bank.account.employee,account_type:0
+#: selection:payroll.dispersion.txt.wizard,account_type:0
+msgid "CLABE"
+msgstr ""
 
 #. module: payroll_mexico
 #: selection:hr.change.job,low_reason:0
@@ -3999,6 +4158,11 @@ msgid "Campos agregados"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__can_approve
+msgid "Can Approve"
+msgstr "Puede aprobar"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.contract_change_wage_export_view
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_change_history_wizard_view
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_change_job_wizard_view
@@ -4010,10 +4174,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_employee_contract_wizard
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_update_fonacot_wizard
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_compute_sdi_vars
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_deposit_report_view
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_employee_catalogs
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_employee_history
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_expired_contracts
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_infonavit_employee_wizard
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_payroll_dispersion_form_wizard
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_payroll_report_settlement
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_sumary_report_view
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -4044,6 +4212,7 @@ msgid "Cancelar CFDI (Liquidación)"
 msgstr ""
 
 #. module: payroll_mexico
+#: selection:hr.inputs,state:0
 #: selection:hr.payslip.run,state:0
 msgid "Cancelled"
 msgstr "Cancelado"
@@ -4133,6 +4302,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_credential_zip_wizard
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_employee_affiliate_export_txt
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_employee_affiliate_movements_report
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payroll_dispersion_export_txt
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payroll_run_details_wizard
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_export_excel
 msgid "Cerrar"
 msgstr ""
@@ -4240,7 +4411,9 @@ msgid "Clase V"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/payroll_report_excel.py:194
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:238
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:314
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:473
 #, python-format
 msgid "Clasificación: ??????????"
 msgstr ""
@@ -4311,6 +4484,11 @@ msgid "Code"
 msgstr "Código"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract_type__key
+msgid "Code Layout"
+msgstr "Clave Layout"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_res_municipality_suburb__code
 msgid "Codigo corto de la colonia max. cinco carácteres."
 msgstr ""
@@ -4350,7 +4528,14 @@ msgid "Comisiones"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_commercial_executive
+msgid "Commercial executive"
+msgstr "Ejecutivo comercial"
+
+#. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_res_company
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__company_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__company_ids
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_filter
 msgid "Companies"
@@ -4362,6 +4547,8 @@ msgstr "Compañías"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__company_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__company_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types__company_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__company_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__company_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__company_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__company_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_partner__company_id
@@ -4453,10 +4640,25 @@ msgstr ""
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:44
-#: selection:res.company,tax_regime:0
 #, python-format
 msgid "Consolidación"
+msgstr "Consolidado"
+
+#. module: payroll_mexico
+#: selection:res.company,tax_regime:0
+msgid "Consolidado"
 msgstr ""
+
+#. module: payroll_mexico
+#: selection:payroll.report.settlement,type:0
+msgid "Consolidated"
+msgstr "Consolidado"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:215
+#, python-format
+msgid "Consolidated %s"
+msgstr "Consolidado %s"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__constitution_date
@@ -4519,13 +4721,15 @@ msgstr "Tipo de contrato"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_credentialing_wizard__contracting_regime
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__contracting_regime
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__contracting_regime
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_employees__contracting_regime
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line_details__contracting_regime
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__contracting_regime
 #: model:ir.model.fields,field_description:payroll_mexico.field_wizard_compute_sdi_vars__contracting_regime
 #: model:ir.model.fields,field_description:payroll_mexico.field_wizard_employee_catalogs__contracting_regime
 #: model:ir.model.fields,field_description:payroll_mexico.field_wizard_employee_history__contracting_regime
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_affiliate_movements_view_filter
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_payslip_run_rule_details_view
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_deposit_report_view
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_sumary_report_view
 msgid "Contracting Regime"
 msgstr "Régimen de contratación"
 
@@ -4542,7 +4746,7 @@ msgstr "Régimen de contratación asimilados"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_change_job__contract_id
 msgid "Contracto"
-msgstr ""
+msgstr "Contrato"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_compute_sdi_vars_lines__contract_id
@@ -4669,6 +4873,21 @@ msgid "Country state"
 msgstr "Estado"
 
 #. module: payroll_mexico
+#: model_terms:ir.actions.act_window,help:payroll_mexico.action_partner_employee_address_form
+msgid "Crear un nuevo documento"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_import__create_contract
+msgid "Create contract"
+msgstr "Crear contratos"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_employee_import_form
+msgid "Create contract?"
+msgstr "Crear contratos?"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_company__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__create_uid
@@ -4709,9 +4928,15 @@ msgstr "Estado"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_table_index_consume_price__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_update_fonacot__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_work_center__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_worker_hiring_regime__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_infonavit_change_history_wizard__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_action_payroll_deposit_report__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_contract_type_template__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_fault_report_template__create_uid
@@ -4727,6 +4952,7 @@ msgstr "Estado"
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_expired_contracts__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee_amount__create_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_report_settlement_low__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_delegacion__create_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__create_uid
@@ -4804,9 +5030,15 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_table_index_consume_price__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_update_fonacot__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_work_center__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_worker_hiring_regime__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_infonavit_change_history_wizard__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_action_payroll_deposit_report__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_contract_type_template__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_fault_report_template__create_date
@@ -4822,6 +5054,7 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_expired_contracts__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee_amount__create_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_report_settlement_low__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_delegacion__create_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__create_date
@@ -4859,6 +5092,11 @@ msgid "Created on"
 msgstr "Creado el"
 
 #. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_hr_payroll_inputs_creation_groups
+msgid "Creations"
+msgstr "Creación"
+
+#. module: payroll_mexico
 #: model:ir.ui.menu,name:payroll_mexico.menu_employee_credentialing_wizard
 msgid "Credencialización"
 msgstr ""
@@ -4881,6 +5119,12 @@ msgstr ""
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.report_hr_employee_document
 msgid "Crédito Fonacot"
+msgstr ""
+
+#. module: payroll_mexico
+#: selection:bank.account.employee,account_type:0
+#: selection:payroll.dispersion.txt.wizard,account_type:0
+msgid "Cuenta"
 msgstr ""
 
 #. module: payroll_mexico
@@ -4986,7 +5230,7 @@ msgstr ""
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:87
 #: code:addons/payroll_mexico/models/hr_company.py:428
-#: code:addons/payroll_mexico/models/hr_employee.py:1001
+#: code:addons/payroll_mexico/models/hr_employee.py:1008
 #, python-format
 msgid "Código Postal incorrecto"
 msgstr ""
@@ -5103,13 +5347,20 @@ msgstr "Fecha"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_affiliate_movements_report__date_from
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__date_from
 msgid "Date From"
 msgstr "Fecha desde"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_affiliate_movements_report__date_to
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__date_to
 msgid "Date To"
 msgstr "Fecha hasta"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__birthday
+msgid "Date of Birth"
+msgstr "Fecha de nacimiento"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_mexico_form
@@ -5155,6 +5406,8 @@ msgstr "Debe"
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "December"
 msgstr "Diciembre"
 
@@ -5227,6 +5480,12 @@ msgid "Department"
 msgstr "Departamento"
 
 #. module: payroll_mexico
+#: model:ir.actions.act_window,name:payroll_mexico.action_wizard_deposit_report
+#: model:ir.model,name:payroll_mexico.model_hr_wizard_deposit_report
+msgid "Deposit Report"
+msgstr "Reporte Deposito de Nómina"
+
+#. module: payroll_mexico
 #: selection:credential.fields,align:0
 msgid "Derecha"
 msgstr ""
@@ -5247,12 +5506,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_report_txt__txt_file
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run_export_excel__excel_file
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run_export_excel__file_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt__file_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt__txt_file
 msgid "Descargar"
 msgstr ""
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_export_excel
 msgid "Descargar Reporte de Nómina Excel"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payroll_dispersion_export_txt
+msgid "Descargar TXT Dispersion de Nómina"
 msgstr ""
 
 #. module: payroll_mexico
@@ -5312,7 +5578,7 @@ msgid "Detalles de Impuestos"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:449
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:443
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.report_payslip_line_template
 #, python-format
 msgid "Detalles de Nómina"
@@ -5343,6 +5609,7 @@ msgid "Detalles de la Nómina"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.actions.act_window,name:payroll_mexico.action_report_payslip_line_details
 #: model:ir.ui.menu,name:payroll_mexico.report_payslip_line_details
 msgid "Detalles de la nómina"
 msgstr ""
@@ -5361,11 +5628,6 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.actions.report,name:payroll_mexico.report_payslip_run_template
 msgid "Detalles de nómina"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.actions.act_window,name:payroll_mexico.action_report_payslip_line_details
-msgid "Detalles la nómina"
 msgstr ""
 
 #. module: payroll_mexico
@@ -5490,9 +5752,15 @@ msgstr "Enfermedades y maternidad"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_table_index_consume_price__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_update_fonacot__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_work_center__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_worker_hiring_regime__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_infonavit_change_history_wizard__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_action_payroll_deposit_report__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_contract_type_template__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_fault_report_template__display_name
@@ -5508,6 +5776,7 @@ msgstr "Enfermedades y maternidad"
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_expired_contracts__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee_amount__display_name
+#: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_report_settlement_low__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_delegacion__display_name
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__display_name
@@ -5555,7 +5824,8 @@ msgid "Do not grant if the following incidents occur."
 msgstr "No otorgar si ocurren los siguientes incidentes"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:318
+#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:347
+#: code:addons/payroll_mexico/wizard/hr_employee_import.py:915
 #, python-format
 msgid "Do not load with without a file, or with a file with incorrect data."
 msgstr "Debe seleccionar un archivo excel, con datos correctos."
@@ -5800,7 +6070,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: model:ir.actions.act_window,name:payroll_mexico.action_wizard_infonavit_employee
-#: model:ir.ui.menu,name:payroll_mexico.infonavit_employee_menu
+#: model:ir.ui.menu,name:payroll_mexico.infonavit_employee_menu_2
 msgid "Empleados con credito INFONAVIT"
 msgstr ""
 
@@ -5905,6 +6175,7 @@ msgstr "Salario bruto mensual por empleado."
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_contract__employee_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_update_fonacot__employee_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__employee_ids
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_filter
 msgid "Employees"
 msgstr "Empleados"
@@ -5919,6 +6190,7 @@ msgstr "Los empleados de este grupo se matricularán usando este prefijo"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_affiliate_move__employer_register_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__employer_register_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__employer_register_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__employer_register_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company__employer_register_ids
 msgid "Employer Register"
 msgstr "Registro Patronal"
@@ -6117,8 +6389,8 @@ msgid "Este campo corresponde a la firma del empleado, limitado a 1024x1024px."
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_employees__estructure_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__estructure_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__estructure_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__estructure_ids
 msgid "Estructure"
 msgstr "Estructura salarial"
 
@@ -6192,6 +6464,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_employee_affiliate_export_txt
+#: model:ir.model,name:payroll_mexico.model_payroll_dispersion_txt
 msgid "Exportar TXT Movimientos Afiliatorios"
 msgstr ""
 
@@ -6298,6 +6571,13 @@ msgid "FINIQUITO %s for %s"
 msgstr ""
 
 #. module: payroll_mexico
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:200
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+#, python-format
+msgid "FINIQUITOS Y BAJAS"
+msgstr ""
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__move_infonacot_id
 msgid "FONACOT Move"
 msgstr "Movimientos FONACOT"
@@ -6381,6 +6661,8 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "February"
 msgstr "Febrero"
 
@@ -6426,7 +6708,9 @@ msgid "Fecha de emisión"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/payroll_report_excel.py:190
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:234
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:310
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:469
 #, python-format
 msgid "Fecha de emisión del reporte: %s"
 msgstr ""
@@ -6454,7 +6738,10 @@ msgid "Fecha de vencimiento"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/payroll_report_excel.py:197
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:241
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:317
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:476
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:203
 #, python-format
 msgid "Fecha y hora de la generación del Reporte: %s"
 msgstr ""
@@ -6551,18 +6838,21 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_follower_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_follower_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_follower_ids
 msgid "Followers"
 msgstr "Seguidores"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_channel_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_channel_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_channel_ids
 msgid "Followers (Channels)"
 msgstr "Seguidores (Canales)"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_partner_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_partner_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (Empresas)"
 
@@ -6617,10 +6907,12 @@ msgstr ""
 #: selection:hr.contract.change.wage.export,contracting_regime:0
 #: selection:hr.employee.credentialing.wizard,contracting_regime:0
 #: selection:hr.fees.settlement,contracting_regime:0
-#: selection:hr.payslip.employees,contracting_regime:0
 #: selection:hr.payslip.line.details,contracting_regime:0
 #: selection:hr.payslip.run,contracting_regime:0
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__free_salary
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run_rule_details__free
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__free
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__free
 #: selection:wizard.compute.sdi.vars,contracting_regime:0
 #: selection:wizard.employee.catalogs,contracting_regime:0
 #: selection:wizard.employee.history,contracting_regime:0
@@ -6660,7 +6952,7 @@ msgid "G.P.S."
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:149
+#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:150
 #, python-format
 msgid "GRUPO: %s"
 msgstr ""
@@ -6716,6 +7008,16 @@ msgid "General de Ley Personas Morales"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.module.category,name:payroll_mexico.module_general_permissions
+msgid "General permissions"
+msgstr "Permisos Generales"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payroll_run_details_wizard
+msgid "Generar"
+msgstr ""
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_mexico_form
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_mexico_form
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_form
@@ -6730,6 +7032,21 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.ui.menu,name:payroll_mexico.new_menu_compute_sdi_vars
 msgid "Generar cálculo de variables"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_payroll_dispersion_form_wizard
+msgid "Generar layout catalogo"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_payroll_dispersion_form_wizard
+msgid "Generar layout pagos"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payroll_run_details_wizard
+msgid "Generar reporte de detalles de la Nómina"
 msgstr ""
 
 #. module: payroll_mexico
@@ -6767,6 +7084,16 @@ msgstr "Generar TXT"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_inherit_form
 msgid "Generate contracts"
 msgstr "Generar contratos"
+
+#. module: payroll_mexico
+#: model:ir.actions.act_window,name:payroll_mexico.action_wizard_payroll_dispersion_txt
+msgid "Generate dispersion txt dispersion"
+msgstr "Generar dispersión TXT"
+
+#. module: payroll_mexico
+#: model:ir.actions.act_window,name:payroll_mexico.action_wizard_payroll_run_details
+msgid "Generate payroll details"
+msgstr "Generar detalles de nómina"
 
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_payslip_employees
@@ -6813,7 +7140,9 @@ msgid "Gratificación Anual (Aguinaldo)"
 msgstr ""
 
 #. module: payroll_mexico
+#: selection:hr.contract.change.wage.import,type_salary:0
 #: selection:hr.employee,type_salary:0
+#: selection:hr.employee.change.history.wizard,type_salary:0
 msgid "Gross"
 msgstr "Bruto"
 
@@ -6839,6 +7168,7 @@ msgstr "Salario bruto"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__group_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_work_center__group_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_partner__group_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_res_users__group_companys_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_users__group_id
 #: model:ir.ui.menu,name:payroll_mexico.menu_group_configuration
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_mployee_inherit_search
@@ -6870,16 +7200,22 @@ msgid "Group/Company"
 msgstr "Grupo/Empresa"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:813
-#: code:addons/payroll_mexico/models/hr_employee.py:828
+#: code:addons/payroll_mexico/models/hr_employee.py:820
+#: code:addons/payroll_mexico/models/hr_employee.py:835
 #, python-format
 msgid "Group: "
 msgstr "Grupo/Empresa: "
 
 #. module: payroll_mexico
+#: model:ir.module.category,description:payroll_mexico.module_category_hr_payroll_inputs_groups
+msgid "Groups for Inputs management by groups or companies."
+msgstr "Grupos para la gestión de insumos por grupos o empresas"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract__group_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_affiliate_movements_report__group_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_credentialing_wizard__group_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__group_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_wizard_compute_sdi_vars__group_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_wizard_employee_catalogs__group_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_wizard_employee_history__group_id
@@ -6899,6 +7235,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__group_id
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_affiliate_movements_view_filter
 msgid "Grupo/Empresa"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
+msgid "Grupo/Empresa:"
+msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:202
+#, python-format
+msgid "Grupo/Empresa: %s"
 msgstr ""
 
 #. module: payroll_mexico
@@ -6952,7 +7299,7 @@ msgid "H6"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:151
+#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:152
 #, python-format
 msgid "HORA DE IMPRESIÓN: %s"
 msgstr ""
@@ -7000,9 +7347,30 @@ msgid "High or Reentry"
 msgstr "Alta o reingreso"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_payslip_run_rule_details__assimilated
+#: model:ir.model.fields,help:payroll_mexico.field_hr_wizard_deposit_report__assimilated
+#: model:ir.model.fields,help:payroll_mexico.field_hr_wizard_sumary_report__assimilated
+msgid "Hiring Assimilated to salary."
+msgstr "Contrataciones asimilidados a salario"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__hiring_regime_ids
 msgid "Hiring Regime"
 msgstr "Régimen de contratación"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_payslip_run_rule_details__free
+#: model:ir.model.fields,help:payroll_mexico.field_hr_wizard_deposit_report__free
+#: model:ir.model.fields,help:payroll_mexico.field_hr_wizard_sumary_report__free
+msgid "Hiring free."
+msgstr "Contrataciones sueldo libre."
+
+#. module: payroll_mexico
+#: model:ir.model.fields,help:payroll_mexico.field_hr_payslip_run_rule_details__wage
+#: model:ir.model.fields,help:payroll_mexico.field_hr_wizard_deposit_report__wage
+#: model:ir.model.fields,help:payroll_mexico.field_hr_wizard_sumary_report__wage
+msgid "Hiring wages and salaries."
+msgstr "Contrataciones sueldos y salarios."
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_infonavit_credit_line__history_ids
@@ -7045,7 +7413,6 @@ msgstr "Prima total de vacaciones"
 #: selection:hr.employee,contracting_regime:0
 #: selection:hr.employee.credentialing.wizard,contracting_regime:0
 #: selection:hr.fees.settlement,contracting_regime:0
-#: selection:hr.payslip.employees,contracting_regime:0
 #: selection:hr.payslip.line.details,contracting_regime:0
 #: selection:hr.payslip.run,contracting_regime:0
 #: selection:wizard.compute.sdi.vars,contracting_regime:0
@@ -7127,9 +7494,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_table_index_consume_price__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_update_fonacot__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_work_center__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_worker_hiring_regime__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_infonavit_change_history_wizard__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_action_payroll_deposit_report__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_contract_type_template__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_fault_report_template__id
@@ -7145,6 +7518,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_expired_contracts__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee_amount__id
+#: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_report_settlement_low__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_delegacion__id
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__id
@@ -7351,6 +7725,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_unread
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_unread
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_unread
 msgid "If checked new messages require your attention."
 msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
 
@@ -7367,12 +7742,14 @@ msgstr "Si está marcado, se pagan días feriados al empleado."
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_needaction
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_has_error
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_has_error
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
 
@@ -7453,15 +7830,16 @@ msgid "Importante. Completar los campos requeridos."
 msgstr ""
 
 #. module: payroll_mexico
+#. openerp-web
+#: code:addons/payroll_mexico/static/src/js/tree_view_buttons.js:23
+#: code:addons/payroll_mexico/static/src/js/tree_view_buttons.js:49
+#: code:addons/payroll_mexico/static/src/xml/tree_view_buttons.xml:9
+#: code:addons/payroll_mexico/static/src/xml/tree_view_buttons.xml:15
 #: model:ir.actions.act_window,name:payroll_mexico.action_employee_import_form
 #: model:ir.model,name:payroll_mexico.model_hr_employee_import
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_employee_import_form
+#, python-format
 msgid "Importar Empleados"
-msgstr ""
-
-#. module: payroll_mexico
-#: model:ir.ui.menu,name:payroll_mexico.menu_open_employee_import
-msgid "Importar empleados"
 msgstr ""
 
 #. module: payroll_mexico
@@ -7505,8 +7883,18 @@ msgid "Imprimir CFDI (Liquidación)"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_payroll_run_details_wizard
+msgid "Imprimir detalles de la nómina"
+msgstr ""
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_mexico_form
 msgid "Imprimir detalles de nómina"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_mexico_form
+msgid "Imprimir dispersión txt"
 msgstr ""
 
 #. module: payroll_mexico
@@ -7573,6 +7961,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement_details__incapacidades
 msgid "Incapacidades"
 msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__incidence_awaiting_approval
+msgid "Incidence awaiting approval"
+msgstr "Incidencia en espera de aprobación"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:51
@@ -7744,9 +8137,15 @@ msgid "Inpust reported on settlemen"
 msgstr "Entrada para la liquidación"
 
 #. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_hr_inputs
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__input_id
 msgid "Input"
 msgstr "Entrada"
+
+#. module: payroll_mexico
+#: model:mail.activity.type,name:payroll_mexico.mail_act_inputs_approval
+msgid "Input Approval"
+msgstr "Aprobación de entrada"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_form
@@ -7754,11 +8153,21 @@ msgid "Input Data"
 msgstr "Datos de entrada"
 
 #. module: payroll_mexico
+#: model:mail.activity.type,name:payroll_mexico.mail_act_inputs_second_approval
+msgid "Input Second Approve"
+msgstr "Aprobación de entrada (Segunda Aprobación)"
+
+#. module: payroll_mexico
 #: model:ir.ui.menu,name:payroll_mexico.menu_hr_inputs
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_inputs_form
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_inputs_pivot
 msgid "Inputs"
 msgstr "Entradas"
+
+#. module: payroll_mexico
+#: model:ir.module.category,name:payroll_mexico.module_category_hr_payroll_inputs_groups
+msgid "Inputs (Groups/Company)"
+msgstr "Entradas (Grupos / Empresa)"
 
 #. module: payroll_mexico
 #: model:ir.actions.act_window,name:payroll_mexico.view_hr_inputs_perceptions_action
@@ -7808,6 +8217,7 @@ msgstr "Estado factura"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_is_follower
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_is_follower
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_is_follower
 msgid "Is Follower"
 msgstr "Es un seguidor"
 
@@ -7831,6 +8241,8 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "January"
 msgstr "Enero"
 
@@ -7881,12 +8293,16 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "July"
 msgstr "Julio"
 
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "June"
 msgstr "Junio"
 
@@ -7904,7 +8320,7 @@ msgstr "Falta justificada"
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_hr_contract_change_wage_import__date_move
 msgid "Keep empty to use the current date. This date will be applied in the affiliate movement"
-msgstr ""
+msgstr "Mantener vacío para usar la fecha actual. Esta fecha se aplicará en el movimiento de afiliados."
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__km_home_work
@@ -8004,9 +8420,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_table_index_consume_price____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_update_fonacot____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_work_center____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_worker_hiring_regime____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_infonavit_change_history_wizard____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_action_payroll_deposit_report____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_contract_type_template____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_fault_report_template____last_update
@@ -8022,6 +8444,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_expired_contracts____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee_amount____last_update
+#: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_report_settlement_low____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_delegacion____last_update
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd____last_update
@@ -8105,9 +8528,15 @@ msgstr "Apellido Paterno"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_table_index_consume_price__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_update_fonacot__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_work_center__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_worker_hiring_regime__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_infonavit_change_history_wizard__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_action_payroll_deposit_report__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_contract_type_template__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_fault_report_template__write_uid
@@ -8123,6 +8552,7 @@ msgstr "Apellido Paterno"
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_expired_contracts__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee_amount__write_uid
+#: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_report_settlement_low__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_delegacion__write_uid
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__write_uid
@@ -8200,9 +8630,15 @@ msgstr "Última actualización por"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_table_index_consume_price__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_update_fonacot__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_work_center__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_worker_hiring_regime__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_infonavit_change_history_wizard__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_run_details_wizard__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_action_payroll_deposit_report__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_contract_type_template__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_fault_report_template__write_date
@@ -8218,6 +8654,7 @@ msgstr "Última actualización por"
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_expired_contracts__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_infonavit_employee_amount__write_date
+#: model:ir.model.fields,field_description:payroll_mexico.field_report_payroll_mexico_template_report_settlement_low__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_branch_offices__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_delegacion__write_date
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__write_date
@@ -8461,6 +8898,7 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_main_attachment_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_main_attachment_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Adjuntos principales"
 
@@ -8468,6 +8906,11 @@ msgstr "Adjuntos principales"
 #: selection:hr.employee,gender:0
 msgid "Male"
 msgstr "Hombre"
+
+#. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_hr_payroll_inputs_manager_groups
+msgid "Manager"
+msgstr "Responsable"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -8480,6 +8923,8 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "March"
 msgstr "Marzo"
 
@@ -8531,6 +8976,8 @@ msgstr "Variación máxima de prima (%)"
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "May"
 msgstr "Mayo"
 
@@ -8588,12 +9035,14 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_has_error
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_has_error
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_has_error
 msgid "Message Delivery error"
 msgstr "Error de Envío de Mensaje"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_ids
 msgid "Messages"
 msgstr "Mensajes"
 
@@ -8821,7 +9270,9 @@ msgid "Nationality (Country)"
 msgstr "Nacionalidad (País)"
 
 #. module: payroll_mexico
+#: selection:hr.contract.change.wage.import,type_salary:0
 #: selection:hr.employee,type_salary:0
+#: selection:hr.employee.change.history.wizard,type_salary:0
 msgid "Net"
 msgstr "Neto"
 
@@ -8833,18 +9284,21 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_date_deadline
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_date_deadline
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Siguiente plazo de actividad"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_summary
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_summary
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_summary
 msgid "Next Activity Summary"
 msgstr "Resumen de la siguiente actividad"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_type_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_type_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_type_id
 msgid "Next Activity Type"
 msgstr "Siguiente tipo de actividad"
 
@@ -8878,7 +9332,7 @@ msgstr ""
 #: code:addons/payroll_mexico/models/hr_employe_history.py:265
 #: code:addons/payroll_mexico/models/hr_employe_history.py:354
 #: code:addons/payroll_mexico/models/hr_employe_history.py:379
-#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:73
+#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:74
 #: code:addons/payroll_mexico/wizard/report_payslip_line_details.py:60
 #, python-format
 msgid "No information was found with the data provided."
@@ -8890,6 +9344,14 @@ msgstr "No se encontró información con los datos especificados."
 #, python-format
 msgid "No information was found with the specified data"
 msgstr "No se encontró información con los datos especificados."
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/wizard/report_payslip_run_rule_details.py:50
+#: code:addons/payroll_mexico/wizard/wizard_payroll_deposit_report.py:101
+#: code:addons/payroll_mexico/wizard/wizard_sumary_report.py:128
+#, python-format
+msgid "No results found."
+msgstr "No se encontraron resultados"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/wizard/wizard_employee_catalogs.py:49
@@ -8947,7 +9409,14 @@ msgid "Nombre completo"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/payroll_report_excel.py:189
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:233
+#, python-format
+msgid "Nombre de la Empresa(s): %s"
+msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:309
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:468
 #, python-format
 msgid "Nombre de la Empresa: %s"
 msgstr ""
@@ -9009,7 +9478,7 @@ msgid "Nos reservamos el derecho de efectuar en cualquier momento modificaciones
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:297
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:319
 #, python-format
 msgid "Nose encontraron valores para totalizar en la categoría NETO."
 msgstr "No se encontraron valores para totalizar en la categoría NETO"
@@ -9032,8 +9501,22 @@ msgid "Notary Public?"
 msgstr "Notario público?"
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_mexico_form
+msgid "Notice! There are records of Incidents (Absences or Entries) awaiting approval for the payroll period."
+msgstr "¡Aviso! Hay registros de incidentes (ausencias o entradas) en espera de aprobación para el período de nómina."
+
+#. module: payroll_mexico
+#: model:ir.actions.server,name:payroll_mexico.mail_input_approve_validate_ir_actions_server
+#: model:ir.cron,cron_name:payroll_mexico.mail_input_approve_validate
+#: model:ir.cron,name:payroll_mexico.mail_input_approve_validate
+msgid "Notification of approval and validation of inputs."
+msgstr "Notificación de aprobación y validación de entradas."
+
+#. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "November"
 msgstr "Noviembre"
 
@@ -9070,30 +9553,35 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_needaction_counter
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_needaction_counter
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Número de acciones"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_has_error_counter
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_has_error_counter
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_has_error_counter
 msgid "Number of error"
 msgstr "Número de error"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_needaction_counter
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_needaction_counter
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_needaction_counter
 msgid "Number of messages which requires an action"
 msgstr "Número de mensajes que requieren una acción"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_has_error_counter
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_has_error_counter
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Número de mensajes con error de envío"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__message_unread_counter
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__message_unread_counter
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__message_unread_counter
 msgid "Number of unread messages"
 msgstr "Número de mensajes no leidos"
 
@@ -9121,7 +9609,6 @@ msgid "N° de Serie del CSD del SAT"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run_rule_details__payslip_run_id
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payroll_tax_details_filter
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_line_filter_inherit
 msgid "Nómina"
@@ -9143,7 +9630,9 @@ msgid "Número de crédito INFONAVIT"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/payroll_report_excel.py:192
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:236
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:312
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:471
 #, python-format
 msgid "Número de la Nómina: %s"
 msgstr ""
@@ -9179,6 +9668,8 @@ msgstr "Riesgo de trabajo"
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "October"
 msgstr "Octubre"
 
@@ -9187,6 +9678,23 @@ msgstr "Octubre"
 #: selection:hr.table.index.consume.price,month:0
 msgid "Octubre"
 msgstr ""
+
+#. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_hr_payroll_inputs_user_groups
+msgid "Officer"
+msgstr "Oficial"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_payslip.py:2240
+#, python-format
+msgid "Only Nomina Manager can validate or reject entry records."
+msgstr "Solo un gerente de Nómina puede validar o rechazar registros de entrada"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_payslip.py:2229
+#, python-format
+msgid "Only Nomina Manager/Oficial can approve or reject entry records."
+msgstr "Solo un Gerente / Oficial de nómina puede aprobar o rechazar registros de entrada"
 
 #. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:53
@@ -9244,7 +9752,6 @@ msgstr "Otras percepciones"
 #: selection:hr.contract.change.wage.export,contracting_regime:0
 #: selection:hr.employee.credentialing.wizard,contracting_regime:0
 #: selection:hr.fees.settlement,contracting_regime:0
-#: selection:hr.payslip.employees,contracting_regime:0
 #: selection:hr.payslip.line.details,contracting_regime:0
 #: selection:hr.payslip.run,contracting_regime:0
 #: selection:wizard.compute.sdi.vars,contracting_regime:0
@@ -9303,6 +9810,7 @@ msgstr "Sobre excedente (%)"
 #. module: payroll_mexico
 #: selection:company.power.attorney,activity_state:0
 #: selection:hr.fees.settlement,activity_state:0
+#: selection:hr.inputs,activity_state:0
 msgid "Overdue"
 msgstr "Vencido"
 
@@ -9474,7 +9982,13 @@ msgid "Pantry Voucher (UMA)"
 msgstr "Vale de despensa (UMA)"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:290
+#: code:addons/payroll_mexico/wizard/wizard_sumary_report.py:97
+#, python-format
+msgid "Para Cargar 'Honorarios' a la nómina establesca el valor del porcentaje al 'Grupo/Empresa'."
+msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:312
 #, python-format
 msgid "Para Cargar 'Honorarios' a la nómina establesca el valor del porcentaje al registro del 'Grupo/Empresa'."
 msgstr ""
@@ -9518,7 +10032,7 @@ msgid "Para invalidez e Infonavit (UMA)"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:561
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:555
 #, python-format
 msgid "Para poder cerrar la nómina debe agregar la Fecha de pago."
 msgstr ""
@@ -9632,8 +10146,20 @@ msgid "Payroll Type"
 msgstr "Tipo de nómina"
 
 #. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_payroll_analyst
+msgid "Payroll analyst"
+msgstr "Analista de nómina"
+
+#. module: payroll_mexico
+#: model:res.groups,name:payroll_mexico.group_payroll_manager
+msgid "Payroll manager"
+msgstr "Gerente de Nómina"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__payroll_month
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__payroll_month
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__payroll_month
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__payroll_month
 msgid "Payroll month"
 msgstr "Mes de la nómina"
 
@@ -9656,6 +10182,7 @@ msgid "Payroll?"
 msgstr "¿Nómina de sueldos?"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__payslip_ids
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_run_mexico_form
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_form
 msgid "Payslip"
@@ -9663,6 +10190,9 @@ msgstr "Nómina"
 
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_payslip_run
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run_rule_details__payslip_run_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__payslip_run_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__payslip_run_id
 msgid "Payslip Batches"
 msgstr "Procesamientos de nóminas"
 
@@ -9706,6 +10236,11 @@ msgstr ""
 #: selection:credential.fields,image_size:0
 msgid "Pequeña"
 msgstr ""
+
+#. module: payroll_mexico
+#: selection:payroll.report.settlement,type:0
+msgid "Per employee"
+msgstr "Por empleado"
 
 #. module: payroll_mexico
 #: selection:hr.fixed.concepts,type_application:0
@@ -9829,7 +10364,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_employee_history
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_infonavit_employee
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.template_infonavit_employee_amount
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.template_report_settlement_low
 msgid "Período:"
+msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:201
+#, python-format
+msgid "Período: %s al %s"
 msgstr ""
 
 #. module: payroll_mexico
@@ -9840,6 +10382,7 @@ msgstr "Lugar de nacimiento"
 #. module: payroll_mexico
 #: selection:company.power.attorney,activity_state:0
 #: selection:hr.fees.settlement,activity_state:0
+#: selection:hr.inputs,activity_state:0
 msgid "Planned"
 msgstr "Planificado"
 
@@ -9866,13 +10409,13 @@ msgid "Plantillas de Credencialización"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:301
+#: code:addons/payroll_mexico/models/hr_employee.py:302
 #, python-format
 msgid "Please define a sequence on the group."
 msgstr "Defina una secuencia en el grupo/empresa."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:491
+#: code:addons/payroll_mexico/models/hr_employee.py:493
 #, python-format
 msgid "Please indicate the monthly salary"
 msgstr "Por favor indique el salario mensual"
@@ -9899,7 +10442,7 @@ msgid "Por favor proceda a subir el layout."
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:520
+#: code:addons/payroll_mexico/models/hr_employee.py:522
 #, python-format
 msgid "Por favor seleccione un registro patronal"
 msgstr ""
@@ -10099,6 +10642,22 @@ msgid "Print Contract"
 msgstr "Imprimir contrato"
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_payroll_report_settlement
+msgid "Print Excel"
+msgstr "Imprimir Excel"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_deposit_report_view
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_sumary_report_view
+msgid "Print Report"
+msgstr "Imprimir Reporte"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.wizard_payroll_report_settlement
+msgid "Print pdf"
+msgstr "Imprimir pdf"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_partner_employee_address_form
 msgid "Private Address"
 msgstr "Dirección privada"
@@ -10112,6 +10671,11 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payroll_tax_details__payslip_run_id
 msgid "Procesamiento de nomina"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__payslip_run_id
+msgid "Procesamiento de nómina"
 msgstr ""
 
 #. module: payroll_mexico
@@ -10358,7 +10922,9 @@ msgid "RFC:"
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/payroll_report_excel.py:191
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:235
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:311
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:470
 #, python-format
 msgid "RFC: %s"
 msgstr ""
@@ -10389,7 +10955,9 @@ msgid "Range"
 msgstr "Distancia"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/payroll_report_excel.py:195
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:239
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:315
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:474
 #, python-format
 msgid "Rango de Departamentos: "
 msgstr ""
@@ -10405,8 +10973,10 @@ msgid "Razón de la baja"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_contract_change_wage_import__type_salary
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__real_salary
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__type_salary
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee_change_history_wizard__type_salary
 msgid "Real Salary"
 msgstr "Salario Real"
 
@@ -10484,6 +11054,12 @@ msgid "Referencia"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_inputs_form
+msgid "Refuse"
+msgstr "Rechazar"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.report_payroll_deposit_report_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.report_payslip_line_template
 msgid "Regimen de contratación"
 msgstr ""
@@ -10521,7 +11097,6 @@ msgstr ""
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line_details__rule_id
-#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run_rule_details__rule_id
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.report_payslip_line_template
 msgid "Regla de negocio"
 msgstr ""
@@ -10588,8 +11163,14 @@ msgid "Report settlement"
 msgstr "Informe de liquidación"
 
 #. module: payroll_mexico
+#: model:ir.actions.report,name:payroll_mexico.report_settlement_low
+msgid "Report settlement and low"
+msgstr "Reporte de bajas y finiquitos"
+
+#. module: payroll_mexico
 #: model:ir.actions.act_window,name:payroll_mexico.action_view_hr_employee_affiliate_export_txt
 #: model:ir.model,name:payroll_mexico.model_hr_employee_affiliate_movements_report
+#: model:ir.model,name:payroll_mexico.model_payroll_dispersion_txt_wizard
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_employee_affiliate_movements_report
 msgid "Reporte Movimientos Afiliatorios"
 msgstr ""
@@ -10660,6 +11241,7 @@ msgstr "Rescursos de Tiempo de trabajo"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__activity_user_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__activity_user_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__activity_user_id
 msgid "Responsible User"
 msgstr "Usuario responsable"
 
@@ -10681,6 +11263,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: model:ir.actions.report,name:payroll_mexico.action_payroll_summary_report
+#: model:ir.actions.report,name:payroll_mexico.action_payroll_summary_report_multi
 msgid "Resumén de la Nómina"
 msgstr ""
 
@@ -10901,6 +11484,11 @@ msgid "Salary change"
 msgstr "Cambio de salario"
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__salary_rule_ids
+msgid "Salary rules"
+msgstr ""
+
+#. module: payroll_mexico
 #: selection:hr.fixed.concepts,type:0
 msgid "Saving Fund"
 msgstr "Fondo de ahorros"
@@ -10938,6 +11526,7 @@ msgstr ""
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_employee_affiliate_export_txt
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payroll_dispersion_export_txt
 msgid "Se generado el Reporte TXT correctamente, proceda a descargarlo."
 msgstr ""
 
@@ -10986,6 +11575,11 @@ msgstr "Buscar zona del municipio"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_filter
 msgid "Search Payslips"
 msgstr "Buscar nóminas"
+
+#. module: payroll_mexico
+#: selection:hr.inputs,state:0
+msgid "Second Approval"
+msgstr "Segunda aprobación"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_sector_economico__name
@@ -11066,6 +11660,8 @@ msgstr "Enviar"
 #. module: payroll_mexico
 #: selection:hr.payslip,payroll_month:0
 #: selection:hr.payslip.run,payroll_month:0
+#: selection:hr.wizard.deposit.report,payroll_month:0
+#: selection:hr.wizard.sumary.report,payroll_month:0
 msgid "September"
 msgstr "Septiembre"
 
@@ -11115,6 +11711,11 @@ msgid "Serie/Folio"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_contract_type_inherit
+msgid "Set Key Layout"
+msgstr "Establecer Clave Layout"
+
+#. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_hr_employee__emergency_address
 msgid "Set emergency contact address"
 msgstr "Establezca la dirección de contacto de emergencia"
@@ -11152,6 +11753,17 @@ msgstr "Fecha de liquidación"
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_form
 msgid "Settlement"
 msgstr "Finiquito"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_payroll_report_settlement
+msgid "Settlement Report"
+msgstr "Reporte de Finiquito"
+
+#. module: payroll_mexico
+#: model:ir.actions.act_window,name:payroll_mexico.action_wizard_payroll_report_settlement
+#: model:ir.ui.menu,name:payroll_mexico.menu_wizard_payroll_report_settlement
+msgid "Settlement and low"
+msgstr "Bajas y finiquitos"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payroll_structure__settlement
@@ -11353,6 +11965,7 @@ msgstr "Estado"
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__activity_state
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__activity_state
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__activity_state
 msgid "Status based on activities\n"
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
@@ -11399,6 +12012,12 @@ msgid "Street..."
 msgstr "Calle..."
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.report_rule_details_template
+msgid "Structura Salarial"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__estructure_id
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_structure_types__structure_ids
 msgid "Structure"
 msgstr "Estructura"
@@ -11420,6 +12039,12 @@ msgstr "Nombre de tipo de estructura salarial"
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__structure_type_id
 msgid "Structure Types"
 msgstr "Tipo de estructura salarial"
+
+#. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_employees__estructures_id
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run__estructures_id
+msgid "Structures"
+msgstr "Estructuras"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.independent_services_pa
@@ -11527,6 +12152,12 @@ msgid "Suma"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.actions.act_window,name:payroll_mexico.action_wizard_sumary_report
+#: model:ir.model,name:payroll_mexico.model_hr_wizard_sumary_report
+msgid "Sumary Report"
+msgstr "Reporte Resumen de Nómina"
+
+#. module: payroll_mexico
 #: code:addons/payroll_mexico/models/table_settings.py:86
 #, python-format
 msgid "Sunday prime"
@@ -11571,6 +12202,7 @@ msgid "TITULO TERCERO"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_template
 msgid "TOTAL"
 msgstr ""
@@ -11655,6 +12287,12 @@ msgid "Tarjeta"
 msgstr ""
 
 #. module: payroll_mexico
+#: selection:bank.account.employee,account_type:0
+#: selection:payroll.dispersion.txt.wizard,account_type:0
+msgid "Tarjeta de débito"
+msgstr ""
+
+#. module: payroll_mexico
 #: code:addons/payroll_mexico/models/hr_company.py:60
 #, python-format
 msgid "Tax regime"
@@ -11674,7 +12312,7 @@ msgid "The Excel file was generated correctly, proceed to download it."
 msgstr "El archivo Excel se generó correctamente, proceda a descargarlo."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:494
+#: code:addons/payroll_mexico/models/hr_employee.py:496
 #, python-format
 msgid "The amount of wages and salaries plus the free amount cannot exceed the monthly salary."
 msgstr "La cantidad de sueldos y salarios más la cantidad de sueldo libre no pueden exceder el salario mensual."
@@ -11691,14 +12329,15 @@ msgid "The date cannot be less than the date of registration of the INFONAVIT cr
 msgstr "La fecha no puede ser inferior a la fecha de registro del crédito INFONAVIT."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:582
+#: code:addons/payroll_mexico/models/hr_employee.py:589
+#: code:addons/payroll_mexico/wizard/hr_employee_import.py:773
 #, python-format
 msgid "The employee has currently open contracts."
 msgstr "El empleado tiene contratos abiertos actualmente."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/employee_change.py:129
-#: code:addons/payroll_mexico/wizard/wizard_compute_sdi_vars.py:156
+#: code:addons/payroll_mexico/wizard/employee_change.py:135
+#: code:addons/payroll_mexico/wizard/wizard_compute_sdi_vars.py:147
 #: code:addons/payroll_mexico/wizard/wizard_employee_catalogs.py:91
 #: code:addons/payroll_mexico/wizard/wizard_expired_contracts.py:67
 #, python-format
@@ -11706,13 +12345,13 @@ msgid "The end date cannot be less than the start date "
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:542
+#: code:addons/payroll_mexico/models/hr_employee.py:549
 #, python-format
 msgid "The following fields are required: %s."
 msgstr "Se requieren los siguientes campos: %s."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:756
+#: code:addons/payroll_mexico/models/hr_employee.py:763
 #, python-format
 msgid "The group name must contain three or more characters."
 msgstr "El nombre del grupo debe contener tres o más caracteres."
@@ -11723,7 +12362,7 @@ msgid "The next sequence number will be used for the next invoice."
 msgstr "El siguiente número de secuencia se usará para la próxima factura."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:710
+#: code:addons/payroll_mexico/models/hr_employee.py:717
 #, python-format
 msgid "The number of days cannot be less than or equal to zero."
 msgstr "El número de días no puede ser menor o igual a cero."
@@ -11752,12 +12391,20 @@ msgid "The work center name must be unique !"
 msgstr "El nombre del centro de trabajo debe ser único!"
 
 #. module: payroll_mexico
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:65
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:124
+#: code:addons/payroll_mexico/wizard/wizard_report_payroll_settlement.py:208
+#, python-format
+msgid "There are no settlements for the requested search.."
+msgstr "No hay finiquitos para la búsqueda solicitada."
+
+#. module: payroll_mexico
 #: sql_constraint:table.uma:0
 msgid "There is already a record with the same year.!"
 msgstr "Ya hay un registro con el mismo año.!"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/employee_change.py:18
+#: code:addons/payroll_mexico/wizard/employee_change.py:22
 #, python-format
 msgid "There is already an affiliate movement for salary change in draft or generated status, please check and if you want to generate a new one, delete the current one."
 msgstr "Ya existe un movimiento de afiliados para el cambio de salario en el estado de borrador o generado, verifique y si desea generar uno nuevo, elimine el actual."
@@ -11768,7 +12415,7 @@ msgid "There is already an employee with this registration.!"
 msgstr "Ya hay un empleado con este registro."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_contract.py:34
+#: code:addons/payroll_mexico/models/hr_contract.py:33
 #, python-format
 msgid "There is already an open contract with the hiring regime \"%s\" for the employee \"%s\"."
 msgstr "Ya existe un contrato abierto con el régimen de contratación \"%s\" para el empleado \"%s\"."
@@ -11795,7 +12442,7 @@ msgid "This field contains information related to the numbering of employees est
 msgstr "Este campo contiene información relacionada con la numeración de empleados establecida por grupo."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:852
+#: code:addons/payroll_mexico/models/hr_employee.py:859
 #, python-format
 msgid "This group already contains items, therefore you cannot modify its name."
 msgstr "Este grupo ya contiene elementos, por lo tanto, no puede modificar su nombre."
@@ -11886,6 +12533,12 @@ msgid "Tipo de contrato"
 msgstr ""
 
 #. module: payroll_mexico
+#: model:ir.model.fields,field_description:payroll_mexico.field_bank_account_employee__account_type
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_dispersion_txt_wizard__account_type
+msgid "Tipo de cuenta"
+msgstr ""
+
+#. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type_deduction
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type_deduction
 msgid "Tipo de deducción"
@@ -11960,6 +12613,11 @@ msgid "To"
 msgstr "Hasta"
 
 #. module: payroll_mexico
+#: selection:hr.inputs,state:0
+msgid "To Approve"
+msgstr "Para aprobar"
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_payslip_settlement_form
 msgid "To complete calculating a settlement you must select a contract with the defined end date."
 msgstr "Para completar el cálculo de una liquidación, debe seleccionar un contrato con la fecha de finalización definida."
@@ -11985,6 +12643,7 @@ msgstr ""
 #. module: payroll_mexico
 #: selection:company.power.attorney,activity_state:0
 #: selection:hr.fees.settlement,activity_state:0
+#: selection:hr.inputs,activity_state:0
 msgid "Today"
 msgstr "Hoy"
 
@@ -12161,6 +12820,11 @@ msgid "Total deducciones"
 msgstr ""
 
 #. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payslip_run_template
+msgid "Total deducciones ("
+msgstr ""
+
+#. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_cfdi_report_document
 msgid "Total deduciones sin ISR:"
 msgstr ""
@@ -12225,6 +12889,11 @@ msgstr ""
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.payslip_run_template
 msgid "Total percepciones"
+msgstr ""
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payslip_run_template
+msgid "Total percepciones ("
 msgstr ""
 
 #. module: payroll_mexico
@@ -12346,6 +13015,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_line__type
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_rule_input__type
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_salary_rule__type
+#: model:ir.model.fields,field_description:payroll_mexico.field_payroll_report_settlement__type
 #: model:ir.model.fields,field_description:payroll_mexico.field_res_company_fiel_csd__type
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_inputs_filter
 msgid "Type"
@@ -12380,9 +13050,16 @@ msgid "Type of perception"
 msgstr "Tipo de percepción"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/payroll_report_excel.py:193
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:237
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:472
 #, python-format
 msgid "Título de Reporte: Reporte de la nómina"
+msgstr ""
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/payroll_report_excel.py:313
+#, python-format
+msgid "Título de Reporte: Reporte de la nómina %s "
 msgstr ""
 
 #. module: payroll_mexico
@@ -12473,12 +13150,14 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_unread
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_unread
 msgid "Unread Messages"
 msgstr "Mensajes por leer"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__message_unread_counter
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__message_unread_counter
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__message_unread_counter
 msgid "Unread Messages Counter"
 msgstr "Contador de mensajes sin leer"
 
@@ -12508,6 +13187,11 @@ msgstr "Actualizar Sueldos"
 #: model:ir.model.fields,field_description:payroll_mexico.field_table_isr_weekly_subsidy__lim_sup
 msgid "Upper limit"
 msgstr "Límite superior"
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_res_users
+msgid "Users"
+msgstr "Usuarios"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip__cfdi_use
@@ -12629,6 +13313,7 @@ msgstr "Válido"
 
 #. module: payroll_mexico
 #: model_terms:ir.ui.view,arch_db:payroll_mexico.hr_employee_affiliate_move_view
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.view_hr_inputs_form
 msgid "Validate"
 msgstr "Validar"
 
@@ -12710,10 +13395,12 @@ msgstr "Sueldos y salarios brutos"
 #: selection:hr.contract,contracting_regime:0
 #: selection:hr.employee.credentialing.wizard,contracting_regime:0
 #: selection:hr.fees.settlement,contracting_regime:0
-#: selection:hr.payslip.employees,contracting_regime:0
 #: selection:hr.payslip.line.details,contracting_regime:0
 #: selection:hr.payslip.run,contracting_regime:0
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_employee__wage_salaries
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_payslip_run_rule_details__wage
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_deposit_report__wage
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_wizard_sumary_report__wage
 #: selection:wizard.compute.sdi.vars,contracting_regime:0
 #: selection:wizard.employee.catalogs,contracting_regime:0
 #: selection:wizard.employee.history,contracting_regime:0
@@ -12721,8 +13408,8 @@ msgid "Wages and salaries"
 msgstr "Sueldos y salarios"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:226
-#: code:addons/payroll_mexico/wizard/hr_employee_import.py:91
+#: code:addons/payroll_mexico/wizard/hr_contract_change_wage.py:236
+#: code:addons/payroll_mexico/wizard/hr_employee_import.py:93
 #, python-format
 msgid "Warning! \n"
 "You can only load one excel file. Please, to remove the files, press Remove file button."
@@ -12732,12 +13419,14 @@ msgstr "Advertencia! \n"
 #. module: payroll_mexico
 #: model:ir.model.fields,field_description:payroll_mexico.field_company_power_attorney__website_message_ids
 #: model:ir.model.fields,field_description:payroll_mexico.field_hr_fees_settlement__website_message_ids
+#: model:ir.model.fields,field_description:payroll_mexico.field_hr_inputs__website_message_ids
 msgid "Website Messages"
 msgstr "Mensajes del sitio web"
 
 #. module: payroll_mexico
 #: model:ir.model.fields,help:payroll_mexico.field_company_power_attorney__website_message_ids
 #: model:ir.model.fields,help:payroll_mexico.field_hr_fees_settlement__website_message_ids
+#: model:ir.model.fields,help:payroll_mexico.field_hr_inputs__website_message_ids
 msgid "Website communication history"
 msgstr "Historial de comunicaciones del sitio web"
 
@@ -12754,14 +13443,24 @@ msgid "Weekly allowance"
 msgstr "Pensión semanal"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_contract_type.py:21
+#: model:ir.model.fields,help:payroll_mexico.field_hr_rule_input__double_validation
+msgid "When selected, inputs for this type require a second validation to be approved."
+msgstr "Cuando se selecciona, las entradas para este tipo requieren una segunda validación para ser aprobadas"
+
+#. module: payroll_mexico
+#: model_terms:ir.ui.view,arch_db:payroll_mexico.payroll_summary_report_multi_template
+msgid "White Space"
+msgstr "Espacio en blanco"
+
+#. module: payroll_mexico
+#: code:addons/payroll_mexico/models/hr_contract_type.py:22
 #: selection:hr.contract.type,type:0
 #, python-format
 msgid "With Seniority"
 msgstr "Con antigüedad"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_contract_type.py:23
+#: code:addons/payroll_mexico/models/hr_contract_type.py:24
 #: selection:hr.contract.type,type:0
 #, python-format
 msgid "Without Seniority"
@@ -12855,31 +13554,33 @@ msgid "You cannot delete affiliate movements that are not in \"Draft\" status."
 msgstr "No puede eliminar movimientos de afiliados que no estén en estado \"Borrador\"."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:606
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:602
 #, python-format
 msgid "You cannot delete payroll in \"Done\" status."
 msgstr "No puede eliminar nóminas en estado 'Hecho'"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_payslip_run.py:603
+#: code:addons/payroll_mexico/models/hr_payslip_run.py:599
 #, python-format
 msgid "You cannot delete payroll processing in \"Close\" status."
 msgstr "No puede eliminar procesamientos de nóminas en estado 'Cerrado'"
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:584
+#: code:addons/payroll_mexico/models/hr_employee.py:591
+#: code:addons/payroll_mexico/wizard/hr_employee_import.py:775
 #, python-format
 msgid "You must select a company for the salary and salary contract."
 msgstr "Debe seleccionar una empresa para el salario y el contrato salarial."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:587
+#: code:addons/payroll_mexico/models/hr_employee.py:594
+#: code:addons/payroll_mexico/wizard/hr_employee_import.py:779
 #, python-format
 msgid "You must select a company for the salary-like contract."
 msgstr "Debe seleccionar una empresa para el contrato salarial."
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/wizard/hr_payroll_payslips_by_employees.py:99
+#: code:addons/payroll_mexico/wizard/hr_payroll_payslips_by_employees.py:100
 #, python-format
 msgid "You must select employee(s) to generate payslip(s)."
 msgstr "Debe seleccionar empleados) para generar recibos de sueldo)."
@@ -13190,11 +13891,6 @@ msgid "hr.infonavit.credit.line"
 msgstr ""
 
 #. module: payroll_mexico
-#: model:ir.model,name:payroll_mexico.model_hr_inputs
-msgid "hr.inputs"
-msgstr ""
-
-#. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_hr_isn_range_line
 msgid "hr.isn.range.line"
 msgstr ""
@@ -13262,8 +13958,8 @@ msgid "mismo que señala para todos los fines legales derivados o que se deriven
 msgstr ""
 
 #. module: payroll_mexico
-#: code:addons/payroll_mexico/models/hr_employee.py:813
-#: code:addons/payroll_mexico/models/hr_employee.py:828
+#: code:addons/payroll_mexico/models/hr_employee.py:820
+#: code:addons/payroll_mexico/models/hr_employee.py:835
 #, python-format
 msgid "name"
 msgstr "Nombre"
@@ -13390,6 +14086,11 @@ msgstr ""
 #. module: payroll_mexico
 #: model:ir.model,name:payroll_mexico.model_report_payroll_mexico_template_infonavit_employee_amount
 msgid "report.payroll_mexico.template_infonavit_employee_amount"
+msgstr ""
+
+#. module: payroll_mexico
+#: model:ir.model,name:payroll_mexico.model_report_payroll_mexico_template_report_settlement_low
+msgid "report.payroll_mexico.template_report_settlement_low"
 msgstr ""
 
 #. module: payroll_mexico

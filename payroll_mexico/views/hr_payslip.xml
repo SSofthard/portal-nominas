@@ -10,6 +10,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field/tree/field[@name='code']" position="after">
                     <field name="type"/>
+                    <field name="double_validation"/>
                 </xpath> 
                 <xpath expr="//field[@name='register_id']" position="after">
 					<separator colspan="4" string="Regla Asociada (Monto Gravado)" attrs="{'invisible': ['|',('type', '!=', 'perception'),('type_perception', 'in', ['022','023','025'])]}"/>
@@ -57,6 +58,7 @@
 						<field name="name"/>
 						<field name="code"/>
 						<field name="input_id"/>
+						<field name="double_validation"/>
 					</tree>
 				</field>
 			</record>
@@ -71,6 +73,7 @@
 						<group col="4">
 						   <field name="code"/>
 						   <field name="input_id" />
+						   <field name="double_validation" />
 						</group>
 					</form>
 				</field>
@@ -135,7 +138,7 @@
                     <button string="Recibo de Pago Timbre" name="print_payroll_receipt_timbrado" type="object" class="oe_sale"/>
                     <button string="Recibo de Pago" name="print_payroll_receipt" type="object" class="oe_sale"/>
 -->
-                    <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale" attrs="{'invisible': [('invoice_status', '!=', 'factura_correcta')]}"/>
+                    <button string="Download CFDI" name="get_pdf_cfdi" type="object" class="oe_sale"/>
                     <button string="Cancel CFDI" name="action_cfdi_nomina_cancel" type="object" class="oe_sale" attrs="{'invisible': [('invoice_status', '!=', 'factura_correcta')]}"/>
                 </xpath> 
                 <xpath expr="//button[@name='refund_sheet']" position="attributes">
@@ -281,8 +284,12 @@
             <field name="model">hr.inputs</field>
             <field name="arch" type="xml">
                 <form string="Inputs">
+					  <field name="can_approve" invisible="1"/>
                       <header>
-                        <field name="state" widget="statusbar" statusbar_visible="approve,paid"/>
+						  <button string="Approve" name="action_approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('can_approve', '=', False), ('state', '!=', 'confirm')]}"/>
+						  <button string="Validate" name="action_validate" states="validate1" type="object" groups="hr_payroll.group_hr_payroll_manager,payroll_mexico.group_hr_payroll_inputs_manager_groups" class="oe_highlight"/>
+						  <button string="Refuse" name="action_refuse"  type="object" states="confirm,validate1,approve" groups="hr_payroll.group_hr_payroll_manager,payroll_mexico.group_hr_payroll_inputs_manager_groups,payroll_mexico.group_hr_payroll_inputs_user_groups"/>
+                        <field name="state" widget="statusbar" statusbar_visible="confirm,approve,paid"/>
                       </header>
                       <sheet>
                           <group>
@@ -299,6 +306,11 @@
                               </group>
                           </group>
                       </sheet>
+                      <div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="activity_ids" widget="mail_activity"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
                 </form>
              </field>
         </record>
@@ -491,7 +503,8 @@
             name="Detalles de la nómina"
             action="payroll_mexico.action_report_payslip_line_details" 
             id="report_payslip_line_details" 
-            parent="menu_payroll_line_report_root" 
+            parent="menu_payroll_line_report_root"
+            groups="hr_payroll.group_hr_payroll_user"
             sequence="5"/>
         
     </data>

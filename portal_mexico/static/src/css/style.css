@@ -1,0 +1,37 @@
+@import url('bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,500,800&display=swap');
+@import url('fontawesome/all.min.css');
+@import url('animate.css');
+
+.btn-primary {
+    background-color: #CDA434 !important;
+    border-color: #d7b65d !important;
+}
+.btn-primary, .btn-secondary {
+    text-transform: uppercase;
+}
+.btn, .btn-group > .btn {
+    border-radius: 0px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #00A09D;
+    border-color: #00A09D;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #777777;
+    border-color: #777777;
+}
+
+html, body {
+    overflow: auto;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #FFFFFF;
+    text-decoration: none;
+    background-color: #CDA434 !important;
+    border-color: #d7b65d !important;
+}

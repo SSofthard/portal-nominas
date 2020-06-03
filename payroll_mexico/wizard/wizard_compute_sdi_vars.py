@@ -75,21 +75,12 @@ class WizardComputeSDIVar(models.TransientModel):
             [('state','=','open'),('employee_id.group_id', '=', self.group_id.id),] + domain_register + domain_work_center + domain_contract_processed)
         for contract in contract_ids:
             salary_var = 0.0
-            print (contract)
-            print (contract)
-            print (contract)
-            print (months)
-            print (months)
-            print (months)
             payslips = self.env['hr.payslip'].search([('state','=','done'),
                                                       ('payroll_month','in',months),
                                                       ('contract_id', '=', contract.id),
                                                       ('year','=',year),
                                                       ('payroll_type','=','O'),
                                                       ])
-            print (payslips)
-            print (payslips)
-            print (payslips)
             if payslips:
                 if contract.employee_id.salary_type == '1':
                     salary_var = self._compute_integral_variable_salary(payslips,days_bimestre,contract)
@@ -179,12 +170,8 @@ class WizardComputeSDIVar(models.TransientModel):
         '''
         code_perceptions = list_percepcions.mapped('salary_rule_id.type_perception')
         perception_bimonthly = {code_perceptions[i]:0 for i in range(len(code_perceptions))}
-        print (perception_bimonthly)
-        print (perception_bimonthly)
-        print (perception_bimonthly)
         for key in perception_bimonthly.keys():
             perception_bimonthly[key] = sum(list_percepcions.filtered(lambda line: line.salary_rule_id.type_perception == key).mapped('total'))
-        print (perception_bimonthly)
         return perception_bimonthly
 
     def get_total_perceptions_to_sv(self, perceptions, payslips,days_bimestre, contract):
@@ -193,8 +180,6 @@ class WizardComputeSDIVar(models.TransientModel):
         '''
         vals = {}
         leave_codes = self.env['hr.leave.type'].search([('time_type', '=', 'leave'),('code','!=',False)]).mapped('code')
-        print ('leave_codes')
-        print (leave_codes)
         leave_days = sum(payslips.mapped('worked_days_line_ids').filtered(lambda line: line.code in leave_codes).mapped(
             'number_of_days'))
         bimonthly_days = days_bimestre-leave_days
@@ -227,9 +212,6 @@ class WizardComputeSDIVar(models.TransientModel):
             if key == '019':
                 print('''el generado dentro de los límites señalados en la Ley Federal del Trabajo (LFT), esto es que no
                              exceda de tres horas diarias ni de tres veces en una semana''')
-                print (perceptions[key])
-                print (perceptions[key])
-                print (bimonthly_days)
                 vals[key] = perceptions[key]/bimonthly_days
             if key in ['029']:
                 print('''si su importe no rebasa el 40% del SMGVDF, de lo contrario el excedente se integrará''')
@@ -245,12 +227,7 @@ class WizardComputeSDIVar(models.TransientModel):
                     print(restante)
                     vals[key] = restante
             else:
-                print (key)
-                print(perceptions[key]/bimonthly_days)
                 vals[key] = perceptions[key]/bimonthly_days
-        print (vals)
-        print (vals)
-        print (sum(vals.values()))
         return sum(vals.values())
 
 

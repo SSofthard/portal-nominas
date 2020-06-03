@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0+e-201905\n"
+"Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-25 22:09+0000\n"
-"PO-Revision-Date: 2019-12-25 22:09+0000\n"
+"POT-Creation-Date: 2020-04-22 15:28+0000\n"
+"PO-Revision-Date: 2020-04-22 15:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,23 +16,21 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_incidents
-#: model:ir.ui.menu,name:hr_incidents.menu_hr_holidays_approvals
-msgid "Leaves"
-msgstr "Ausencias"
-
-#. module: hr_holidays
-#: model:ir.ui.menu,name:hr_holidays.menu_hr_holidays_approvals
-msgid "Leaves"
-msgstr "Ausencias"
-
-#. module: hr_holidays
-#: model:ir.model.fields,field_description:hr_holidays.field_hr_leave_allocation__number_of_days_display
-msgid "Duration (days)"
-msgstr "Duración (días)"
-
-#. module: hr_incidents
 #: model:ir.model.fields,help:hr_incidents.field_hr_leave_type__allocation_type
 msgid "	Corregido por HR: asignado por HR y no se puede omitir; los usuarios pueden solicitar hojas;	Solucionado por solicitud de asignación de recursos humanos +: asignado por recursos humanos y los usuarios pueden solicitar permisos y asignaciones;	Sin asignación: sin asignación por defecto, los usuarios pueden solicitar permisos libremente;"
+msgstr ""
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__document_count
+msgid "# Documents"
+msgstr "Documentos"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:116
+#, python-format
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                           Click to Create for New Documents\n"
+"                        </p>"
 msgstr ""
 
 #. module: hr_incidents
@@ -69,6 +67,11 @@ msgid "Active"
 msgstr "Activo"
 
 #. module: hr_incidents
+#: model:ir.ui.menu,name:hr_incidents.hr_holidays_menu_config_activity_type_2
+msgid "Activity Types"
+msgstr "Tipos de actividad"
+
+#. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
 msgid "Analyze from"
 msgstr "Analizar de"
@@ -80,16 +83,20 @@ msgstr ""
 
 #. module: hr_incidents
 #: selection:hr.leave.inhability.absenteeism.wizard,contracting_regime:0
-msgid "Assimilated to wages"
-msgstr "Asimiliados a salarios"
+msgid "Assimilated commission agents"
+msgstr "Asimilados a Comisionistas"
 
 #. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_9
-msgid "Ausent. sin 7o. dia"
-msgstr ""
+#: selection:hr.leave.inhability.absenteeism.wizard,contracting_regime:0
+msgid "Assimilated others"
+msgstr "Otros Asimilados"
 
 #. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_2
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Attach Documents"
+msgstr "Adjuntar documentos"
+
+#. module: hr_incidents
 #: selection:hr.leave.type,time_type:0
 msgid "Ausentismo"
 msgstr ""
@@ -124,7 +131,6 @@ msgstr "Cancelar"
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__inhability_category_id
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_classification__category_ids
-#: model:ir.ui.menu,name:hr_incidents.menu_action_tree_hr_leave_category
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_category_search
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_category_tree
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_classification_form
@@ -136,12 +142,16 @@ msgstr "Categoría"
 #: model:ir.model,name:hr_incidents.model_hr_leave_classification
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__inhability_classification_id
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability__classification_ids
-#: model:ir.ui.menu,name:hr_incidents.menu_action_tree_hr_leave_classification
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_classification_search
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_classification_tree
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_inhability_form
 msgid "Classification"
 msgstr "Clasificación"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Clean field Incidents File"
+msgstr "Limpiar campo archivo de incidencias"
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_classification__code
@@ -151,12 +161,17 @@ msgstr "Clasificación"
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_holiday_status_normal_tree_inherit
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_holidays_status_filter_inherit
 msgid "Code"
-msgstr "Código"
+msgstr "Clave"
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__color_name
 msgid "Color in Report"
 msgstr "Color en informe"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_form
+msgid "Comment by Manager"
+msgstr "Comentario del responsable"
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability_absenteeism_wizard__company_id
@@ -167,6 +182,11 @@ msgstr "Compañía"
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability_absenteeism_wizard__contracting_regime
 msgid "Contracting Regime"
 msgstr "Régimen de contratación"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__create_document
+msgid "Create Documents"
+msgstr "Crear documentos"
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__create_uid
@@ -195,6 +215,11 @@ msgid "Created on"
 msgstr "Creado el"
 
 #. module: hr_incidents
+#: model:res.groups,name:hr_incidents.group_hr_holidays_creation_groups
+msgid "Creations"
+msgstr "Cración"
+
+#. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability_absenteeism_wizard__department_ids
 msgid "Department(s)"
 msgstr "Departmento(s)"
@@ -210,7 +235,24 @@ msgstr "Departmento(s)"
 #: model:ir.model.fields,field_description:hr_incidents.field_report_hr_incidents_inhability_absenteeism_report_view__display_name
 #: model:ir.model.fields,field_description:hr_incidents.field_wizard_hr_incidents__display_name
 msgid "Display Name"
-msgstr "Nombre a mostrar"
+msgstr "Nombre mostrado"
+
+#. module: hr_incidents
+#: model:ir.model,name:hr_incidents.model_ir_attachment
+msgid "Document"
+msgstr "Documento"
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__document_ids
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_form
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:109
+#, python-format
+msgid "Documents Incidents"
+msgstr "Documentos de Incidencias"
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.inhability_absenteeism_report_view
@@ -255,6 +297,12 @@ msgid "Es se paga?"
 msgstr "Se paga?"
 
 #. module: hr_incidents
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:228
+#, python-format
+msgid "Está agregando Horas Extras, Es Requerido Indicar la Fecha. Fila %s, Clave %s."
+msgstr ""
+
+#. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.wizard_hr_leave_inhability_absenteeism_wizard
 msgid "Export to Excel"
 msgstr "Exportar a Excel"
@@ -263,6 +311,16 @@ msgstr "Exportar a Excel"
 #: model_terms:ir.ui.view,arch_db:hr_incidents.wizard_hr_leave_inhability_absenteeism_wizard
 msgid "Export to PDF"
 msgstr "Exportar a PDF"
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_4
+msgid "Falta Injustificada"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_5
+msgid "Falta Justificada"
+msgstr ""
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.inhability_absenteeism_report_view
@@ -280,10 +338,22 @@ msgid "Fecha de Ingreso"
 msgstr ""
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:248
+#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:270
 #, python-format
 msgid "Fecha y hora de la generación del Reporte: %s"
 msgstr ""
+
+#. module: hr_incidents
+#: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__file_zip
+msgid "File Content Document"
+msgstr "Archivo ZIP"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:77
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:143
+#, python-format
+msgid "File Content Document is required."
+msgstr "Archivo ZIP es rquerido."
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_incidents_import__file_name
@@ -321,7 +391,12 @@ msgstr "Dorado"
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_inhability_absenteeism_wizard__group_id
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_search
 msgid "Group"
-msgstr "Grupo"
+msgstr "Grupo/Empresa"
+
+#. module: hr_incidents
+#: model:ir.module.category,description:hr_incidents.module_category_hr_holidays_groups
+msgid "Groups for incident management by groups or companies."
+msgstr "Grupos para la gestión de incidencias por grupos o empresas."
 
 #. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__request_unit_half
@@ -332,6 +407,11 @@ msgstr "Medio día"
 #: model:ir.ui.menu,name:hr_incidents.hr_holidays_menu_manager_payroll_to_report
 msgid "Hojas para Imprimir"
 msgstr ""
+
+#. module: hr_incidents
+#: selection:hr.leave.inhability.absenteeism.wizard,contracting_regime:0
+msgid "Honorary Assimilates"
+msgstr "Asimilados honorarios"
 
 #. module: hr_incidents
 #: selection:hr.leave.type,request_unit:0
@@ -367,25 +447,24 @@ msgid "Inabilities & Absenteeism"
 msgstr "Incapacidades y ausentismos"
 
 #. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_18
-msgid "Incap. perm. parc. R.T."
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_19
-msgid "Incap. perm. total R.T."
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_17
-msgid "Incap. temporal R.T."
+#: selection:hr.leave.type,time_type:0
+#: selection:resource.calendar.leaves,time_type:0
+msgid "Incapacidad"
 msgstr ""
 
 #. module: hr_incidents
 #: model:hr.leave.type,name:hr_incidents.leave_type_1
-#: selection:hr.leave.type,time_type:0
-#: selection:resource.calendar.leaves,time_type:0
-msgid "Incapacidad"
+msgid "Incapacidad Por Enfermedad General"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_3
+msgid "Incapacidad Por Maternidad"
+msgstr ""
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_2
+msgid "Incapacidad Por Riesgo de Trabajo"
 msgstr ""
 
 #. module: hr_incidents
@@ -393,6 +472,11 @@ msgstr ""
 #: model:ir.ui.menu,name:hr_incidents.menu_action_inhability_absenteeism_wizard
 msgid "Incapacidades y Ausentismos"
 msgstr ""
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Incident File"
+msgstr "Archivo de incidencias"
 
 #. module: hr_incidents
 #: model:ir.ui.menu,name:hr_incidents.hr_incidents_import
@@ -419,16 +503,10 @@ msgstr ""
 
 #. module: hr_incidents
 #: model:ir.actions.act_window,name:hr_incidents.action_tree_hr_leave_inhability
-#: model:ir.ui.menu,name:hr_incidents.menu_action_tree_hr_leave_inhability
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_inhability_form
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_inhability_tree
 msgid "Inhability"
 msgstr "Incapacidad"
-
-#. module: hr_incidents
-#: model:ir.ui.menu,name:hr_incidents.tag_leave_menu_configuration
-msgid "Inhability Types"
-msgstr "Tipos de incapacidad"
 
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_hr_leave_category
@@ -501,6 +579,7 @@ msgstr "Lavanda"
 
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_hr_leave
+#: model:ir.model.fields,field_description:hr_incidents.field_ir_attachment__leave_id
 #: selection:resource.calendar.leaves,time_type:0
 msgid "Leave"
 msgstr "Ausencia"
@@ -512,10 +591,15 @@ msgid "Leave Type"
 msgstr "Tipo de ausencia"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:134
+#: code:addons/hr_incidents/models/hr_incidents.py:167
 #, python-format
 msgid "Leave request must be confirmed (\"To Approve\") in order to approve it."
 msgstr "La solicitud de licencia debe confirmarse (\"Para aprobar\") para aprobarla."
+
+#. module: hr_incidents
+#: model:ir.module.category,name:hr_incidents.module_category_hr_holidays_groups
+msgid "Leaves (Groups/Company)"
+msgstr "Ausencias (Grupo/Empresa)"
 
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
@@ -526,6 +610,11 @@ msgstr "Resumen de ausencias"
 #: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_incidents_report
 msgid "Leaves."
 msgstr "Ausencias."
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_23
+msgid "Licencia por cuidados médicos de hijos diagnosticados con cáncer."
+msgstr ""
 
 #. module: hr_incidents
 #: selection:hr.leave.type,color_name:0
@@ -568,6 +657,11 @@ msgid "Magenta"
 msgstr ""
 
 #. module: hr_incidents
+#: model:res.groups,name:hr_incidents.group_hr_holidays_manager_groups
+msgid "Manager"
+msgstr "Responsable"
+
+#. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.inhability_absenteeism_report_view
 msgid "Matrícula del trabajador"
 msgstr ""
@@ -591,24 +685,30 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:145
-#: code:addons/hr_incidents/wizard/hr_incidents_import.py:121
+#: code:addons/hr_incidents/models/hr_incidents.py:216
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:264
 #, python-format
 msgid "Negative or empty values ​​are not allowed for the number of days."
 msgstr "No se permiten valores negativos o vacíos para la cantidad de días."
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:150
-#: code:addons/hr_incidents/wizard/hr_incidents_import.py:126
+#: code:addons/hr_incidents/models/hr_incidents.py:221
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:269
 #, python-format
 msgid "No employees found for the key %s."
 msgstr "No se encontraron empleados para la clave %s"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:70
-#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:127
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:203
 #, python-format
-msgid "No se encontraron resultados, para los parámetros dados."
+msgid "No se encontro el archivo con el nombre %s, en el archivo .ZIP en la Fila %s,"
+msgstr ""
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:90
+#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:161
+#, python-format
+msgid "No se encontró información con los datos proporcionados."
 msgstr ""
 
 #. module: hr_incidents
@@ -617,10 +717,53 @@ msgid "Nombre"
 msgstr ""
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:247
+#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:269
 #, python-format
 msgid "Nombre de la Empresa: %s"
 msgstr ""
+
+#. module: hr_incidents
+#: model:ir.actions.server,name:hr_incidents.mail_leave_approve_validate_ir_actions_server
+#: model:ir.cron,cron_name:hr_incidents.mail_leave_approve_validate
+#: model:ir.cron,name:hr_incidents.mail_leave_approve_validate
+msgid "Notification of approval and validation of leave."
+msgstr "Aviso de aprobación y notificacion de ausencias"
+
+#. module: hr_incidents
+#: model:res.groups,name:hr_incidents.group_hr_holidays_user_groups
+msgid "Officer"
+msgstr "Oficial"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:201
+#, python-format
+msgid "Only a Leave Manager can approve its own requests."
+msgstr "Solo un administrador de ausencias puede aprobar sus propias solicitudes"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:190
+#, python-format
+msgid "Only a Leave Manager can reset other people leaves."
+msgstr "Solo un Administrador de permisos puede restablecer los permisos de otras personas"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:194
+#, python-format
+msgid "Only a Leave Officer or Manager can approve or refuse leave requests."
+msgstr "Solo un Oficial o Gerente de Ausencias puede aprobar o rechazar solicitudes de ausencias"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:212
+#, python-format
+msgid "Only an Leave Manager can apply the second approval on leave requests."
+msgstr "Solo un administrador de ausencias puede aplicar la segunda aprobación a las solicitudes de ausencia"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:71
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:138
+#, python-format
+msgid "Only zip files are supported."
+msgstr "Solo se admiten archivos ZIP"
 
 #. module: hr_incidents
 #: selection:hr.leave.type,color_name:0
@@ -635,17 +778,17 @@ msgstr "Otro"
 
 #. module: hr_incidents
 #: selection:hr.leave.inhability.absenteeism.wizard,contracting_regime:0
-msgid "Pensioners"
-msgstr "Pensionados"
+msgid "Other regime"
+msgstr "Otro regímen"
 
 #. module: hr_incidents
 #: model:hr.leave.type,name:hr_incidents.leave_type_20
-msgid "Perm. con gose de sueldo"
+msgid "Permiso con gose de sueldo"
 msgstr ""
 
 #. module: hr_incidents
 #: model:hr.leave.type,name:hr_incidents.leave_type_21
-msgid "Perm. sin gose de sueldo"
+msgid "Permiso sin gose de sueldo"
 msgstr ""
 
 #. module: hr_incidents
@@ -659,7 +802,7 @@ msgid "R.F.C."
 msgstr ""
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:252
+#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:274
 #, python-format
 msgid "R.F.C.: %s"
 msgstr ""
@@ -670,7 +813,7 @@ msgid "Rama"
 msgstr ""
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:251
+#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:273
 #, python-format
 msgid "Razón Social: %s"
 msgstr ""
@@ -681,10 +824,15 @@ msgid "Red"
 msgstr "Rojo"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:250
+#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:272
 #, python-format
 msgid "Registro patronal: %s"
 msgstr ""
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
+msgid "Remove File"
+msgstr "Remover archivo"
 
 #. module: hr_incidents
 #: model:ir.actions.act_window,name:hr_incidents.action_wizard_hr_incidents
@@ -708,11 +856,6 @@ msgstr "Detalle de hojas de recursos"
 #: model:ir.model,name:hr_incidents.model_resource_calendar
 msgid "Resource Working Time"
 msgstr "Rescursos de Tiempo de trabajo"
-
-#. module: hr_incidents
-#: selection:hr.leave.inhability.absenteeism.wizard,contracting_regime:0
-msgid "Senior citizens"
-msgstr "Personas mayores"
 
 #. module: hr_incidents
 #: model:ir.model.fields,help:hr_incidents.field_hr_leave__time_type
@@ -750,7 +893,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:hr_incidents.action_tree_hr_leave_subcategory
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__inhability_subcategory_id
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_category__subcategory_ids
-#: model:ir.ui.menu,name:hr_incidents.menu_action_tree_hr_leave_subcategory
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_category_form
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_subcategory_form
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_hr_leave_subcategory_search
@@ -767,8 +909,8 @@ msgid "The code must be unique"
 msgstr "El código debe ser único."
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:147
-#: code:addons/hr_incidents/wizard/hr_incidents_import.py:123
+#: code:addons/hr_incidents/models/hr_incidents.py:218
+#: code:addons/hr_incidents/wizard/hr_incidents_import.py:266
 #, python-format
 msgid "The employee is required."
 msgstr "Se requiere el empleado."
@@ -800,71 +942,6 @@ msgid "Tipo de Incidencia"
 msgstr ""
 
 #. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_10
-msgid "Tipo de falta 10"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_11
-msgid "Tipo de falta 11"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_12
-msgid "Tipo de falta 12"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_13
-msgid "Tipo de falta 13"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_14
-msgid "Tipo de falta 14"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_15
-msgid "Tipo de falta 15"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_16
-msgid "Tipo de falta 16"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_3
-msgid "Tipo de falta 3"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_4
-msgid "Tipo de falta 4"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_5
-msgid "Tipo de falta 5"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_6
-msgid "Tipo de falta 6"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_7
-msgid "Tipo de falta 7"
-msgstr ""
-
-#. module: hr_incidents
-#: model:hr.leave.type,name:hr_incidents.leave_type_8
-msgid "Tipo de falta 8"
-msgstr ""
-
-#. module: hr_incidents
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave__time_type
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_type__time_type
 msgid "Tipo de licencia"
@@ -876,7 +953,7 @@ msgid "Tomar ausencias en"
 msgstr ""
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:291
+#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:313
 #, python-format
 msgid "Total de trabajadores: %s"
 msgstr ""
@@ -892,7 +969,7 @@ msgid "Type leave:"
 msgstr "Tipo de ausencia:"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:249
+#: code:addons/hr_incidents/wizard/inhabilities_absenteeism_report.py:271
 #, python-format
 msgid "Título de Reporte: %s"
 msgstr ""
@@ -905,7 +982,12 @@ msgstr "Subir archivo"
 #. module: hr_incidents
 #: model_terms:ir.ui.view,arch_db:hr_incidents.view_incidents_import_form
 msgid "Upload the excel file"
-msgstr "Sube el archivo Excel"
+msgstr "Sube el archivo de Excel"
+
+#. module: hr_incidents
+#: model:hr.leave.type,name:hr_incidents.leave_type_22
+msgid "Vacaciones"
+msgstr ""
 
 #. module: hr_incidents
 #: selection:hr.leave.type,color_name:0
@@ -928,7 +1010,13 @@ msgid "Whether this should be computed as a holiday or as work time (eg: formati
 msgstr "Si esto debe calcularse como vacaciones o como tiempo de trabajo (por ejemplo: formación)"
 
 #. module: hr_incidents
-#: code:addons/hr_incidents/models/hr_incidents.py:132
+#: code:addons/hr_incidents/models/hr_incidents.py:207
+#, python-format
+msgid "You must be either %s's manager or Leave manager to approve this leave"
+msgstr "Debe ser el administrador de %s o el administrador de permisos para aprobar este permiso"
+
+#. module: hr_incidents
+#: code:addons/hr_incidents/models/hr_incidents.py:165
 #, python-format
 msgid "You must enter the end date."
 msgstr "Debe ingresar la fecha de finalización."
@@ -948,7 +1036,12 @@ msgstr "Clasificación"
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_category__code
 #: model:ir.model.fields,field_description:hr_incidents.field_hr_leave_subcategory__code
 msgid "code"
-msgstr "clave"
+msgstr "Clave"
+
+#. module: hr_incidents
+#: model_terms:ir.ui.view,arch_db:hr_incidents.hr_leave_inherit_view_form
+msgid "e.g. Report to the next month..."
+msgstr "p.e. Informar el siguiente mes..."
 
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_report_hr_incidents_hr_leave_incidents_report
@@ -958,11 +1051,6 @@ msgstr ""
 #. module: hr_incidents
 #: model:ir.model,name:hr_incidents.model_report_hr_incidents_inhability_absenteeism_report_view
 msgid "report.hr_incidents.inhability_absenteeism_report_view"
-msgstr ""
-
-#. module: hr_incidents
-#: model:ir.model,name:hr_incidents.model_report_hr_incidents_report_inhability_absenteeism_template
-msgid "report.hr_incidents.report_inhability_absenteeism_template"
 msgstr ""
 
 #. module: hr_incidents

@@ -44,8 +44,9 @@
 
     <menuitem
         name="Empleados con credito INFONAVIT" 
-        id="infonavit_employee_menu" 
+        id="infonavit_employee_menu_2" 
         action="action_wizard_infonavit_employee" 
-        parent="payroll_mexico.menu_payroll_line_report_root"/>
+        parent="payroll_mexico.menu_payroll_line_report_root"
+        groups="hr_payroll.group_hr_payroll_user"/>
 
 </odoo>

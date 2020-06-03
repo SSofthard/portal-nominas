@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_input_approve_validate" model="ir.cron">
+        <field name="name">Notification of approval and validation of inputs.</field>
+        <field name="model_id" ref="model_hr_inputs"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="state">code</field>
+        <field name="code">env['hr.inputs'].action_send_email_approve()</field>
+        <field name='interval_number'>1</field>
+        <field name='interval_type'>days</field>
+        <field name="numbercall">-1</field>
+    </record>
+</odoo>

@@ -8,6 +8,7 @@ class ContractType(models.Model):
     _inherit = 'hr.contract.type'
 
     code = fields.Char('Code', required=True)
+    key = fields.Char('Code Layout', required=False, readonly=True)
     report_id = fields.Many2one('ir.actions.report',domain=[('model','=','hr.contract')],string="Report",)
     type = fields.Selection([
         ('with_seniority', 'With Seniority'),
@@ -33,3 +34,15 @@ class ContractType(models.Model):
             name = ct._get_name()
             res.append((ct.id, name))
         return res
+
+    @api.multi
+    def set_key(self):
+        types_ids = self.search([('key','=',False)])
+        for type in types_ids:
+            type.key = self.env['ir.sequence'].next_by_code('hr.contract.type')
+
+    @api.model
+    def create(self, vals):
+        vals['key'] = self.env['ir.sequence'].next_by_code('hr.contract.type')
+        result = super(ContractType, self).create(vals)
+        return result

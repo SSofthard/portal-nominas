@@ -1,0 +1,41 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* portal_mexico
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-30 05:11+0000\n"
+"PO-Revision-Date: 2020-05-30 05:11+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: portal_mexico
+#: model_terms:ir.ui.view,arch_db:portal_mexico.portal_my_home_pentaho
+msgid "Analitica de Nóminas"
+msgstr ""
+
+#. module: portal_mexico
+#: model_terms:ir.ui.view,arch_db:portal_mexico.portal_layout_docs_entry
+msgid "Clientes"
+msgstr ""
+
+#. module: portal_mexico
+#: model_terms:ir.ui.view,arch_db:portal_mexico.portal_my_home_pentaho
+msgid "Sistema de Nómina"
+msgstr ""
+
+#. module: portal_mexico
+#: model_terms:ir.ui.view,arch_db:portal_mexico.portal_my_home_pentaho
+msgid "fas fa-calculator"
+msgstr ""
+
+#. module: portal_mexico
+#: model_terms:ir.ui.view,arch_db:portal_mexico.portal_my_home_pentaho
+msgid "fas fa-chart-area"
+msgstr ""

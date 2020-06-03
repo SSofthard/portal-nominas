@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="helpdesk_ticket_view_form_inherit_mexico" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.form.inherit.mexico</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="before">
+		    <field name="group_id"/>
+                </xpath>
+                <xpath expr="//field[@name='ticket_type_id']" position="replace">
+		    <field name="ticket_type_id" string="Category"/>
+                </xpath>
+		<xpath expr="//field[@name='company_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>      
+	  
+        <record id="helpdesk_stage_view_form_inherit_mexico" model="ir.ui.view">
+            <field name="name">helpdesk.stage.form.inherit.mexico</field>
+            <field name="model">helpdesk.stage</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_stage_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='template_id']" position="after">
+		    <field name="ticket_type_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>        
+	
+        <record id="helpdesk_ticket_type_view_tree_inherit_mexico" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.type.tree.inherit.mexico</field>
+            <field name="model">helpdesk.ticket.type</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_ticket_type_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+		    <field name="parent_id"/>
+                </xpath>
+            </field>
+        </record>
+	
+	<delete model="ir.ui.menu" id="helpdesk.helpdesk_ticket_type_menu"/>
+	<delete model="ir.actions.act_window" id="helpdesk.helpdesk_ticket_type_action"/>
+	
+	<record id="helpdesk_ticket_type_view_form" model="ir.ui.view">
+	    <field name="name">helpdesk.ticket.type.form</field>
+	    <field name="model">helpdesk.ticket.type</field>
+	    <field name="arch" type="xml">
+		<form string="Category">
+		    <sheet>
+			<group>
+			    <group>
+				<field name="complete_name"/>
+				<field name="name"/>
+				<field name="parent_id"/>
+				<field name="parent_path" readonly="1"/>
+			    </group>
+			</group>
+			<field name="child_id" readonly="1"/>
+		    </sheet>
+		</form>
+	    </field>
+	</record>
+	
+	<record id="helpdesk_ticket_type_action2" model="ir.actions.act_window">
+	    <field name="name">Category</field>
+	    <field name="res_model">helpdesk.ticket.type</field>
+	    <field name="view_type">form</field>
+	    <field name="view_mode">tree,form</field>
+	    <field name="help" type="html">
+	      <p class="o_view_nocontent_smiling_face">
+		Create a new ticket type
+	      </p><p>
+		Type allows to organize tickets.
+	      </p>
+	    </field>
+	</record>
+	
+	<record id="helpdesk_team_view_form_inherit_mexico" model="ir.ui.view">
+            <field name="name">helpdesk.team.inherit.mexico</field>
+            <field name="model">helpdesk.team</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_team_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+	<record id="helpdesk.helpdesk_team_view_kanban" model="ir.ui.view" >
+        <field name="name">helpdesk.team.dashboard</field>
+        <field name="model">helpdesk.team</field>
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_helpdesk_kanban" create="0" js_class="helpdesk_dashboard2">
+                <field name="name"/>
+                <field name="color"/>
+                <field name="use_alias"/>
+                <field name="alias_name"/>
+                <field name="alias_domain"/>
+                <field name="alias_id"/>
+                <field name="use_rating"/>
+                <field name="percentage_satisfaction" invisible="1"/>
+                <field name="use_sla"/>
+                <field name="upcoming_sla_fail_tickets"/>
+                <field name="unassigned_tickets"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)}">
+                            <span class="oe_kanban_color_help" t-attf-title="In #{kanban_getcolorname(record.color.raw_value)}" role="img" t-attf-aria-label="In #{kanban_getcolorname(record.color.raw_value)}"/>
+                            <div t-attf-class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><field name="name"/></div>
+                                    <small t-if="record.use_alias.value and record.alias_name.value and record.alias_domain.value"><i class="fa fa-envelope-o" title="Domain alias" role="img" aria-label="Domain alias"></i>&amp;nbsp; <t t-esc="record.alias_id.value"/></small>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6 o_kanban_primary_left">
+                                        <button class="btn btn-primary" name="%(helpdesk_ticket_action_team2)d" type="action">Solicitudes de Servicio</button>
+                                    </div>
+                                    <div class="col-6 o_kanban_primary_right">
+                                        <div class="mb4" groups="helpdesk.group_use_sla" attrs="{'invisible': [('use_sla', '=', False)]}">
+                                            <a name="%(action_upcoming_sla_fail_all_tickets2)d" type="action"  context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.upcoming_sla_fail_tickets.raw_value"/> Solicitudes de servicio para revisar</a>
+                                        </div>
+                                        <div class="mb4">
+                                            <a name="%(helpdesk_ticket_action_unassigned2)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.unassigned_tickets.raw_value"/> Solicitudes de servicio no asignadas</a>
+                                        </div>
+                                        <div class="mb4" t-if="record.use_rating.raw_value">
+                                            <a name="action_view_all_rating" type="object">Ver Solicitudes de Servici0</a>
+                                        </div>
+                                        <div class="mb4" t-if="record.use_sla.raw_value">
+                                            <a name="%(helpdesk.helpdesk_sla_action_main)d" type="action"
+                                                    context="{'search_default_team_id': active_id, 'default_team_id': active_id}">
+                                                See SLAs
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div><!-- Smiley indicator of rating:
+                                <div t-if="record.use_rating.raw_value and record.percentage_satisfaction.raw_value &gt;= 0" class="row text-center">
+                                    <a name="action_view_all_rating" type="object" title="Percentage of happy people about this team" class="float-right">
+                                        <h5 t-attf-class="badge #{record.percentage_satisfaction.raw_value &gt;= 50 ? 'badge-success' : 'badge-warning'}">
+                                            <i t-attf-class="fa #{record.percentage_satisfaction.raw_value &gt;= 50 ? 'fa-smile-o' : 'fa-frown-o'}" role="img" aria-label="Satisfaction rate" title="Satisfaction rate"/> <t t-raw="record.percentage_satisfaction.raw_value"/> %
+                                        </h5>
+                                    </a>
+                                </div> -->
+                            </div><div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                    <div role="menuitem" aria-haspopup="true" class="col-8">
+                                        <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
+                                    </div>
+                                    <div role="menuitem" class="col-4 text-right">
+                                        <a type="edit">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    
+    <record id="helpdesk_team_view_form_inherit_mexico" model="ir.ui.view">
+        <field name="name">helpdesk.team.inherit.mexico</field>
+        <field name="model">helpdesk.team</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_team_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='api_doc']" position="after">
+            
+            <div class="col-lg-6 o_setting_box">
+                <div class="o_setting_right_pane">
+                <label for="reminder_time"/>
+                <div class="text-muted">
+                    Time for automatic sending of reminders
+                </div>
+                <div>
+                    <field name="reminder_time"/> (Normal) <br/>
+                    <field name="reminder_time_low_priority"/> (Low Priority) <br/>
+                    <field name="reminder_time_high_priority"/> (High Priority) <br/>
+                    <field name="reminder_time_urgent"/> (Urgent) <br/>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-6 o_setting_box">
+                <div class="o_setting_right_pane">
+                <label for="reminder_time_escalation"/>
+                <div class="text-muted">
+                    Delivery time for escalation notifications
+                </div>
+                <div>
+                    <field name="reminder_time_escalation"/> (Normal) <br/>
+                    <field name="reminder_time_escalation_low_priority"/> (Low Priority) <br/>
+                    <field name="reminder_time_escalation_high_priority"/> (High Priority) <br/>
+                    <field name="reminder_time_escalation_urgent"/> (Urgent) <br/>
+                </div>
+                </div>
+                <div class="o_setting_right_pane">
+                <label for="users_notification_ids"/>
+                <div class="text-muted">
+		    Users to whom notifications will be sent
+                </div>
+                <div>
+                    <field name="users_notification_ids" widget="many2many_tags"/>
+                </div>
+                </div>
+            </div>
+            </xpath>
+        </field>
+        </record>
+
+    </data>
+</odoo>

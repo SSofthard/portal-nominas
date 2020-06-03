@@ -12,7 +12,224 @@
             print_report_name="'Resumen de Nómina periodo: %s_%s' % (object.payroll_month, object.year)"
             menu="False"
         />
-
+        <!--  Multi Esquema -->
+        <report 
+            id="action_payroll_summary_report_multi"
+            string="Resumén de la Nómina"
+            model="hr.payslip.run" 
+            report_type="qweb-html"
+            file="payroll_mexico.payroll_summary_report_multi_template" 
+            name="payroll_mexico.payroll_summary_report_multi_template"
+            print_report_name="'Resumen de Nómina periodo:'"
+            menu="False"
+        />
+        
+        <template id="payroll_summary_report_multi_template">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div class="page" style="border: 2px solid black; font-size:10px;">
+                        <div>
+                            <strong>
+                                <span class="text-left" >NÓMINA DEL MES DE</span>
+                                <t t-esc="metadata['payroll_month'].upper()"/>
+                                
+                            </strong>
+                        </div>
+                        <div style="color: #4F81BD;">
+                            <strong>
+                                <span class="text-left">NOMBRE</span>
+                            </strong>
+                        </div>
+                        <br/>
+<!--
+                        <t t-foreach="products" t-as="product">
+-->
+                        <table class="table-sm" border="0" style="width:100%;">
+                            <thead>
+                                <tr style="font-style: italic; background-color: #ABAFAF;">
+                                    <th class="text-center" style="color: #ABAFAF;">White Space</th>
+                                    <t t-foreach="data" t-as="s">
+                                        <th class="text-rigth"><t t-esc="s"/></th>
+                                    </t>
+                                    <th class="text-left">TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <td class="text-left">
+                                    <span class="text-left">Sueldo Base (Informativo)</span>
+                                </td>
+                                <t t-set="total_base_salary" t-value="0"/>
+                                <t t-foreach="data" t-as="d">
+                                    <td class="text-rigth">
+                                        <t t-esc="data[d]['base_salary']"
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                        <t t-set="total_base_salary" t-value="total_base_salary + data[d]['base_salary']"/>
+                                    </td>
+                                </t>
+                                <td class="text-rigth">
+                                    <span t-esc="total_base_salary" 
+                                        t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td>
+                                <tr>
+                                    <th class="text-center" style="color: #FFFFFF;">White Space</th>
+                                    <th class="text-left" style="text-decoration: underline;">
+                                        <span>FACTURACIÓN</span>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <span class="text-left">Neto a percibir</span>
+                                    </td>
+                                    <t t-set="total_base_net" t-value="0"/>
+                                    <t t-foreach="data" t-as="d">
+                                        <td class="text-rigth">
+                                            <t t-esc="data[d]['net']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            <t t-set="total_base_net" t-value="total_base_net + data[d]['net']"/>
+                                        </td>
+                                    </t>
+                                    <td class="text-rigth">
+                                        <span t-esc="total_base_net" 
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <span class="text-left">(+) Impuesto Sobre Nóminas</span>
+                                    </td>
+                                    <t t-set="total_base_isn" t-value="0"/>
+                                    <t t-foreach="data" t-as="d">
+                                        <t t-if="'02' in data[d]['regimen']">
+                                            <td class="text-rigth">
+                                                <t t-esc="metadata['isn']"
+                                                    t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td>
+                                                <span>N/A</span>
+                                            </td>
+                                        </t>
+                                    </t>
+                                    <td class="text-rigth">
+                                        <span t-esc="metadata['isn']" 
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <span class="text-left">(+) IMSS, RCV E INFONAVIT</span>
+                                    </td>
+                                    <t t-set="total_imss_rcv_infonavit" t-value="0"/>
+                                    <t t-foreach="data" t-as="d">
+                                        <td class="text-rigth">
+                                            <t t-esc="data[d]['imss_rcv_infonavit']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            <t t-set="total_imss_rcv_infonavit" t-value="total_imss_rcv_infonavit + data[d]['imss_rcv_infonavit']"/>
+                                        </td>
+                                    </t>
+                                    <td class="text-rigth">
+                                        <span t-esc="total_imss_rcv_infonavit" 
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <span class="text-left">(+) Retención ISR</span>
+                                    </td>
+                                    <t t-set="total_isr" t-value="0"/>
+                                    <t t-foreach="data" t-as="d">
+                                        <td class="text-rigth">
+                                            <t t-esc="data[d]['isr']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            <t t-set="total_isr" t-value="total_isr + data[d]['isr']"/>
+                                        </td>
+                                    </t>
+                                    <td class="text-rigth">
+                                        <span t-esc="total_isr" 
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <span class="text-left">(+) Honorarios</span>
+                                    </td>
+                                    <t t-set="total_honorarium" t-value="0"/>
+                                    <t t-foreach="data" t-as="d">
+                                        <td class="text-rigth">
+                                            <t t-esc="data[d]['honorarium']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            <t t-set="total_honorarium" t-value="total_honorarium + data[d]['honorarium']"/>
+                                        </td>
+                                    </t>
+                                    <td class="text-rigth">
+                                        <span t-esc="total_honorarium" 
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <span class="text-left">(=) Subtotal</span>
+                                    </td>
+                                    <t t-set="subtotal" t-value="0"/>
+                                    <t t-foreach="data" t-as="d">
+                                        <td class="text-rigth" style="border-top: 1px solid black;">
+                                            <t t-esc="data[d]['subtotal']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            <t t-set="subtotal" t-value="subtotal + data[d]['subtotal']"/>
+                                        </td>
+                                    </t>
+                                    <td class="text-rigth" style="border-top: 1px solid black;">
+                                        <span t-esc="subtotal" 
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <span class="text-left">(+) IVA</span>
+                                    </td>
+                                    <t t-set="total_iva" t-value="0"/>
+                                    <t t-foreach="data" t-as="d">
+                                        <td class="text-rigth">
+                                            <t t-esc="data[d]['iva']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            <t t-set="total_iva" t-value="total_iva + data[d]['iva']"/>
+                                        </td>
+                                    </t>
+                                    <td class="text-rigth">
+                                        <span t-esc="total_iva" 
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left">
+                                        <span class="text-left">(=) Total</span>
+                                    </th>
+                                    <t t-set="total" t-value="0"/>
+                                    <t t-foreach="data" t-as="d">
+                                        <th class="text-rigth" style="border-top: 1px solid black;">
+                                            <t t-esc="data[d]['total']"
+                                                t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                            <t t-set="total" t-value="total + data[d]['total']"/>
+                                        </th>
+                                    </t>
+                                    <th class="text-rigth" style="border-top: 1px solid black;">
+                                        <span t-esc="total" 
+                                            t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>    
+             </t>
+        </template>
+        
+        
+        
+        
+        
+        
         <template id="payroll_summary_report_template">
             <t t-call="web.html_container">
                 <t t-call="web.internal_layout">

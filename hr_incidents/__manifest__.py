@@ -5,8 +5,9 @@
     "author": "Soluciones SoftHard",
     "category": "Employees",
     "website" : "http://www.solucionesofthard.com",
-    "depends": ['web','hr','hr_holidays','payroll_mexico'],
+    "depends": ['web','hr','hr_holidays','payroll_mexico','hr_public_holiday'],
     "data": [ 
+			'security/hr_holidays_security.xml',
             'security/ir.model.access.csv',
             'report/hr_incidents_report.xml',
             'report/report_inhability_absenteeism_template.xml',
@@ -17,6 +18,7 @@
             'views/hr_incidents.xml',
             'data/incidents_data.xml',
             'data/inhability_data.xml',
+            'data/ir_cron_data.xml',
             
     ],
 }

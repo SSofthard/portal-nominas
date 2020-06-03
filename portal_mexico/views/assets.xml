@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+		<template id="assets_frontend" name="Enterprise Backend Ttheme" inherit_id="web.assets_frontend">
+            <xpath expr=".">
+                <link rel="stylesheet" type="text/css" href="/portal_mexico/static/src/css/style.css"/>
+			</xpath>
+		</template>
+    </data>
+</odoo>
