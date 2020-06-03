@@ -1827,7 +1827,7 @@ class HrPayslip(models.Model):
             if payroll_period:
                 period = payroll_period
             days_off_payroll = 0
-            if (contract.date_start > date_from and contract.date_start < date_to) and (contract.date_end < date_to and contract.date_end > date_from):
+            if (contract.date_start > date_from and contract.date_start < date_to) and (contract.date_end and (contract.date_end < date_to and contract.date_end > date_from)):
                 days_off_payroll = abs(date_from - contract.date_start).days + abs(date_to - contract.date_end).days
             elif contract.date_start > date_from and contract.date_start < date_to:
                 days_off_payroll = abs(date_from - contract.date_start).days

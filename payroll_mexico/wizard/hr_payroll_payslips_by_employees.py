@@ -20,6 +20,7 @@ class HrPayslipEmployees(models.TransientModel):
                                       readonly=True, 
                                       default=lambda self: self._default_estructure())
     
+    select_all_employees = fields.Boolean('Seleccionar todos los empleados')
     
     @api.onchange('estructures_id')
     def onchange_estructure(self):
@@ -28,6 +29,17 @@ class HrPayslipEmployees(models.TransientModel):
                                                         ('state','in',['open']),
                                                         ('structure_type_id','in',self.estructures_id.mapped('structure_type_id').ids),]).mapped('employee_id')
         return {'domain':{'employee_ids':[('id','in',employee_ids.ids)]}}
+    
+    @api.onchange('select_all_employees')
+    def onchange_select_all_employees(self):
+        if self.select_all_employees:
+            payslip_run_id=self.env[self.env.context['active_model']].browse(self.env.context['active_id'])
+            employee_ids = self.env['hr.contract'].search([('group_id','=',payslip_run_id.group_id.id),
+                                                            ('state','in',['open']),
+                                                            ('structure_type_id','in',self.estructures_id.mapped('structure_type_id').ids),]).mapped('employee_id')
+            self.employee_ids = [[6, 0, employee_ids.ids]]
+        else:
+            self.employee_ids = False
         
     # ~ @api.onchange('estructure_id','contracting_regime')
     # ~ def onchange_estructure(self):

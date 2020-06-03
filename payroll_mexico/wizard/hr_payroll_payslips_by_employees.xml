@@ -9,6 +9,7 @@
             <xpath expr="//group" position="after">
                 <group>
                     <field name="estructures_id" widget="many2many_tags" required="1"/>
+                    <field name="select_all_employees"/>
                 </group>
             </xpath>
       </field>
