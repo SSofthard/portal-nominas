@@ -921,7 +921,6 @@ class HrPayslip(models.Model):
                                                         password=csd_company.track, tz=tz, url=url, user=user, password_pac = password, csd_company=csd_company)
         return True 
     
-    
     @api.multi
     def action_cfdi_nomina_cancel(self):
         for payslip in self:
@@ -979,8 +978,6 @@ class HrPayslip(models.Model):
                 
                 try:
                     cliente = zeep.Client(wsdl = 'http://dev33.facturacfdi.mx/WSCancelacionService?wsdl')
-                    accesos_type = cliente.get_type("ns1:accesos")
-                    accesos = accesos_type(usuario=user, password=password)
                     cfdi_cancel = cliente.service.Cancelacion_1(
                                                             folios=[self.UUID_sat],
                                                             fecha=str(date_timbre),
@@ -1017,6 +1014,12 @@ class HrPayslip(models.Model):
                     if not csd_company.company_id.test_cfdi:
                         self.invoice_status = 'problemas_cancelada'
                 else:
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel['mensaje'])
+                    print (cfdi_cancel)
                     raise UserError(_(cfdi_cancel['mensaje']))
         return True    
             

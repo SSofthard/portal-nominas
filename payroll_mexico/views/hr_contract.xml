@@ -74,7 +74,7 @@
                     <attribute name="attrs">{'readonly': [('state', 'not in', ('draft'))]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='struct_id']" position="after">
-					<field name="structure_type_id" required="1" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
+					<field name="structure_type_id" required="0" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
 				</xpath>
 				<xpath expr="//field[@name='struct_id']" position="attributes">
 					<attribute name="required">0</attribute>
